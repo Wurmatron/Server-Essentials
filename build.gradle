@@ -23,6 +23,8 @@ minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run"
     mappings = "snapshot_20161111"
+	replace "@VERSION@", project.version
+    replaceIn "Global.java"
 }
 
 dependencies {}
