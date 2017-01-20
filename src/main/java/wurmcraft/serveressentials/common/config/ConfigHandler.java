@@ -13,8 +13,8 @@ public class ConfigHandler {
     public static File location;
     public static Configuration config;
 
-
     private static Property debug;
+    private static Property default_home_name;
 
     public static void preInit(FMLPreInitializationEvent e) {
         location = e.getSuggestedConfigurationFile();
@@ -26,6 +26,9 @@ public class ConfigHandler {
         LogHandler.info("Loading Config");
         debug = config.get(Configuration.CATEGORY_GENERAL, "debug", Defaults.DEBUG, "Enable debug mode");
         Settings.debug = debug.getBoolean();
+        default_home_name = config.get(Configuration.CATEGORY_GENERAL, "default_home_name", Defaults.DEFAULT_HOME_NAME, "Default home name");
+        Settings.default_home_name = default_home_name.getString();
+
 
         if (config.hasChanged()) {
             LogHandler.info("Saving Config");
