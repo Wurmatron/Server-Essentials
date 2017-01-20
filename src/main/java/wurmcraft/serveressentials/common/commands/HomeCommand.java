@@ -1,0 +1,94 @@
+package wurmcraft.serveressentials.common.commands;
+
+import joptsimple.internal.Strings;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import wurmcraft.serveressentials.common.api.storage.Home;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.utils.DataHelper;
+
+import javax.annotation.Nullable;
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomeCommand implements ICommand {
+
+    @Override
+    public String getCommandName() {
+        return "home";
+    }
+
+    @Override
+    public String getCommandUsage(ICommandSender sender) {
+        return null;
+    }
+
+    @Override
+    public List<String> getCommandAliases() {
+        List<String> aliases = new ArrayList<>();
+        aliases.add("Home");
+        return aliases;
+    }
+
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        if (sender.getEntityWorld().isRemote)
+            return;
+        if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+            if (args.length == 0) {
+                Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(Settings.default_home_name);
+                if (home != null) {
+                    player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
+                    sender.addChatMessage(new TextComponentTranslation("chat.homeTeleported.name"));
+                } else
+                    sender.addChatMessage(new TextComponentTranslation("chat.homeNone.name"));
+            } else if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("list")) {
+                    ArrayList<String> homes = new ArrayList<>();
+                    PlayerData data = DataHelper.getPlayerData(player.getGameProfile().getId());
+                    for (Home h : data.getHomes())
+                        if (h != null)
+                            homes.add(h.getName());
+                    sender.addChatMessage(new TextComponentString(Strings.join(homes.toArray(new String[0]), ", ")));
+                } else {
+                    Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(args[0]);
+                    if (home != null) {
+                        player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
+                        sender.addChatMessage(new TextComponentTranslation("chat.homeTeleported.name"));
+                    } else
+                        sender.addChatMessage(new TextComponentTranslation("chat.homeInvalid.name"));
+                }
+            }
+        } else
+            sender.addChatMessage(new TextComponentString("Command can only be run by players!"));
+    }
+
+    @Override
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+        return true;
+    }
+
+    @Override
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+        return null;
+    }
+
+    @Override
+    public boolean isUsernameIndex(String[] args, int index) {
+        return false;
+    }
+
+    @Override
+    public int compareTo(ICommand o) {
+        return 0;
+    }
+}

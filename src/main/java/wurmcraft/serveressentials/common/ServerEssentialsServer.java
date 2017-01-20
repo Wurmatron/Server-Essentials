@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.Sys;
+import wurmcraft.serveressentials.common.commands.HomeCommand;
 import wurmcraft.serveressentials.common.commands.SetHomeCommand;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.PlayerJoinEvent;
@@ -35,5 +36,6 @@ public class ServerEssentialsServer {
     @Mod.EventHandler
     public void onServerLoading(FMLServerStartingEvent e) {
         e.registerServerCommand(new SetHomeCommand());
+        e.registerServerCommand(new HomeCommand());
     }
 }

@@ -20,9 +20,10 @@ public class PlayerData {
     }
 
     public Home getHome(String name) {
-        for (Home h : homes)
-            if (h.getName().equalsIgnoreCase(name))
-                return h;
+        if (homes != null)
+            for (Home h : homes)
+                if (h != null && h.getName().equalsIgnoreCase(name))
+                    return h;
         return null;
     }
 
