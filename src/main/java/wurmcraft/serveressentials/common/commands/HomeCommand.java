@@ -13,6 +13,7 @@ import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import javax.annotation.Nullable;
 import javax.swing.text.html.parser.Entity;
@@ -53,12 +54,20 @@ public class HomeCommand implements ICommand {
                     sender.addChatMessage(new TextComponentTranslation("chat.homeNone.name"));
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
-                    ArrayList<String> homes = new ArrayList<>();
                     PlayerData data = DataHelper.getPlayerData(player.getGameProfile().getId());
-                    for (Home h : data.getHomes())
-                        if (h != null)
-                            homes.add(h.getName());
-                    sender.addChatMessage(new TextComponentString(Strings.join(homes.toArray(new String[0]), ", ")));
+                    if (data == null)
+                        DataHelper.reloadPlayerData(player.getGameProfile().getId());
+                    if (data.getHomes().length > 0) {
+                        ArrayList<String> homes = new ArrayList<>();
+                        for (Home h : data.getHomes())
+                            if (h != null)
+                                homes.add(h.getName());
+                        if (homes.size() > 0)
+                            sender.addChatMessage(new TextComponentString(Strings.join(homes.toArray(new String[0]), ", ")));
+                        else
+                            sender.addChatMessage(new TextComponentString("chat.homeNonExist.name"));
+                    } else
+                        sender.addChatMessage(new TextComponentString("chat.homeNonExist.name"));
                 } else {
                     Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(args[0]);
                     if (home != null) {

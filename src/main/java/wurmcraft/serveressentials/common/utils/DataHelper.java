@@ -60,20 +60,6 @@ public class DataHelper {
         return loadedPlayers.get(name);
     }
 
-    public static PlayerData forceLoadPlayerData(UUID name, boolean forced) {
-        if (forced && getPlayerData(name) == null) {
-            File playerFileLocation = new File(playerDataLocation + File.separator + name.toString() + ".json");
-            if (playerFileLocation.exists()) {
-                PlayerData data = loadPlayerData(name);
-                if (data != null)
-                    loadedPlayers.put(name, data);
-            } else
-                return null;
-        } else if (!forced)
-            return getPlayerData(name);
-        return null;
-    }
-
     public static PlayerData loadPlayerData(UUID name) {
         File playerFileLocation = new File(playerDataLocation + File.separator + name.toString() + ".json");
         if (playerFileLocation.exists()) {
@@ -98,13 +84,16 @@ public class DataHelper {
     }
 
     public static void unloadPlayerData(UUID name) {
-        if (loadedPlayers.containsKey(name))
+        if (loadedPlayers.containsKey(name)) {
             loadedPlayers.remove(name);
+            LogHandler.info("Reloading");
+        }
     }
 
     public static void reloadPlayerData(UUID name) {
         unloadPlayerData(name);
-        loadPlayerData(name);
+        PlayerData data = loadPlayerData(name);
+        loadedPlayers.put(name, data);
     }
 
     public static String addPlayerHome(UUID name, Home home) {
@@ -123,5 +112,23 @@ public class DataHelper {
             return msg;
         }
         return "chat.homeError.name";
+    }
+
+    public static String deleteHome(UUID name, String home) {
+        PlayerData data = getPlayerData(name);
+        if (data == null)
+            data = loadPlayerData(name);
+        if (data != null) {
+            File playerFileLocation = new File(playerDataLocation + File.separator + name.toString() + ".json");
+            String msg = data.delHome(home);
+            try {
+                Files.write(Paths.get(playerFileLocation.getAbsolutePath()), gson.toJson(data).getBytes());
+                reloadPlayerData(name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return msg;
+        }
+        return "chat.homeDeletionError.name";
     }
 }

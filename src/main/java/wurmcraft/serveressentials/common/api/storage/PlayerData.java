@@ -48,4 +48,16 @@ public class PlayerData {
         }
         return "chat.homeError.name";
     }
+
+    public String delHome(String name) {
+        if (name != null && homes != null) {
+            for (int index = 0; index < homes.length; index++) {
+                if (homes[index] != null && homes[index].getName().equalsIgnoreCase(name)) {
+                    homes[index] = null;
+                    return "chat.homeDeleted.name";
+                }
+            }
+        }
+        return "chat.homeDeletionError.name";
+    }
 }
