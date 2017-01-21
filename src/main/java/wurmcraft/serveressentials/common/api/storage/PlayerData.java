@@ -8,6 +8,7 @@ import wurmcraft.serveressentials.common.utils.LogHandler;
 public class PlayerData {
 
     private int max_homes = 4;
+    private long teleport_timer;
     private Home[] homes = new Home[max_homes];
 
     public PlayerData(Home[] homes) {
@@ -59,5 +60,13 @@ public class PlayerData {
             }
         }
         return "chat.homeDeletionError.name";
+    }
+
+    public long getTeleport_timer() {
+        return teleport_timer;
+    }
+
+    public void setTeleport_timer(long time) {
+        teleport_timer = time;
     }
 }

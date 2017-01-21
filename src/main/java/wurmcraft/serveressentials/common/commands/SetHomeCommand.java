@@ -49,7 +49,7 @@ public class SetHomeCommand extends CommandBase {
             if (args != null && args.length > 0) {
                 sender.addChatMessage(new TextComponentString(DataHelper.addPlayerHome(player.getGameProfile().getId(), new Home(args[0], player.getPosition()))));
             } else
-                sender.addChatMessage(new TextComponentString(DataHelper.addPlayerHome(player.getGameProfile().getId(), new Home(Settings.default_home_name, player.getPosition()))));
+                sender.addChatMessage(new TextComponentString(DataHelper.addPlayerHome(player.getGameProfile().getId(), new Home(Settings.home_name, player.getPosition()))));
         } else
             sender.addChatMessage(new TextComponentString("Command can only be run by players!"));
     }

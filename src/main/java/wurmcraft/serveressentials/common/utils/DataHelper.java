@@ -84,10 +84,8 @@ public class DataHelper {
     }
 
     public static void unloadPlayerData(UUID name) {
-        if (loadedPlayers.containsKey(name)) {
+        if (loadedPlayers.containsKey(name))
             loadedPlayers.remove(name);
-            LogHandler.info("Reloading");
-        }
     }
 
     public static void reloadPlayerData(UUID name) {
@@ -130,5 +128,25 @@ public class DataHelper {
             return msg;
         }
         return "chat.homeDeletionError.name";
+    }
+
+    public static void updateTeleportTimer(UUID name) {
+        PlayerData data = getPlayerData(name);
+        if (data == null)
+            data = loadPlayerData(name);
+        if (data != null) {
+            File playerFileLocation = new File(playerDataLocation + File.separator + name.toString() + ".json");
+            data.setTeleport_timer(System.currentTimeMillis());
+            try {
+                Files.write(Paths.get(playerFileLocation.getAbsolutePath()), gson.toJson(data).getBytes());
+                reloadPlayerData(name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static long getTeleportTimer(UUID name) {
+        return getPlayerData(name).getTeleport_timer();
     }
 }

@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.commands.HomeCommand;
 import wurmcraft.serveressentials.common.commands.SetHomeCommand;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.PlayerJoinEvent;
+import wurmcraft.serveressentials.common.event.PlayerQuitEvent;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.utils.LogHandler;
@@ -32,6 +33,7 @@ public class ServerEssentialsServer {
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(new PlayerJoinEvent());
+        MinecraftForge.EVENT_BUS.register(new PlayerQuitEvent());
     }
 
     @Mod.EventHandler

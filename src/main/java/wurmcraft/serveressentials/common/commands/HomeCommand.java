@@ -13,10 +13,8 @@ import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import javax.annotation.Nullable;
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +44,15 @@ public class HomeCommand implements ICommand {
         if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
             if (args.length == 0) {
-                Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(Settings.default_home_name);
-                if (home != null) {
+                Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(Settings.home_name);
+                long teleport_timer = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeleport_timer();
+                if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
                     player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
+                    DataHelper.updateTeleportTimer(player.getGameProfile().getId());
                     sender.addChatMessage(new TextComponentTranslation("chat.homeTeleported.name"));
-                } else
+                } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
+                    sender.addChatMessage(new TextComponentTranslation("chat.teleportTimer.name"));
+                else
                     sender.addChatMessage(new TextComponentTranslation("chat.homeNone.name"));
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
@@ -70,10 +72,14 @@ public class HomeCommand implements ICommand {
                         sender.addChatMessage(new TextComponentString("chat.homeNonExist.name"));
                 } else {
                     Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(args[0]);
-                    if (home != null) {
+                    long teleport_timer = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeleport_timer();
+                    if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
                         player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
                         sender.addChatMessage(new TextComponentTranslation("chat.homeTeleported.name"));
-                    } else
+                        DataHelper.updateTeleportTimer(player.getGameProfile().getId());
+                    } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
+                        sender.addChatMessage(new TextComponentTranslation("chat.teleportTimer.name"));
+                    else
                         sender.addChatMessage(new TextComponentTranslation("chat.homeInvalid.name"));
                 }
             }

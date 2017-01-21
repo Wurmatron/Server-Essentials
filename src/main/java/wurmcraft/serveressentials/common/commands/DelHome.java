@@ -47,7 +47,7 @@ public class DelHome implements ICommand {
             if(data == null)
                 DataHelper.reloadPlayerData(player.getGameProfile().getId());
             if (args.length == 0)
-                sender.addChatMessage(new TextComponentString(DataHelper.deleteHome(player.getGameProfile().getId(), Settings.default_home_name)));
+                sender.addChatMessage(new TextComponentString(DataHelper.deleteHome(player.getGameProfile().getId(), Settings.home_name)));
              else if (args.length == 1)
                 sender.addChatMessage(new TextComponentString(DataHelper.deleteHome(player.getGameProfile().getId(), args[0])));
         } else
