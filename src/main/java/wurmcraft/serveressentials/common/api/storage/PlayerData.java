@@ -1,5 +1,6 @@
 package wurmcraft.serveressentials.common.api.storage;
 
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
 /**
@@ -39,15 +40,15 @@ public class PlayerData {
             for (int index = 0; index < homes.length; index++) {
                 if (homes[index] != null && homes[index].getName().equalsIgnoreCase(home.getName())) {
                     homes[index] = home;
-                    return "chat.homeReplaced.name";
+                    return Local.HOME_REPLACED.replaceAll("#", home.getName());
                 } else if (homes[index] == null) {
                     homes[index] = home;
-                    return "chat.homeSet.name";
+                    return Local.HOME_SET.replaceAll("#", home.getName());
                 }
             }
-            return "chat.homeMax.name";
+            return Local.HOME_MAX.replaceAll("#", Integer.toString(max_homes));
         }
-        return "chat.homeError.name";
+        return Local.HOME_INVALID;
     }
 
     public String delHome(String name) {
@@ -55,11 +56,11 @@ public class PlayerData {
             for (int index = 0; index < homes.length; index++) {
                 if (homes[index] != null && homes[index].getName().equalsIgnoreCase(name)) {
                     homes[index] = null;
-                    return "chat.homeDeleted.name";
+                    return Local.HOME_DELETED.replaceAll("#", name);
                 }
             }
         }
-        return "chat.homeDeletionError.name";
+        return Local.HOME_ERROR_DELETION.replaceAll("#", name);
     }
 
     public long getTeleport_timer() {

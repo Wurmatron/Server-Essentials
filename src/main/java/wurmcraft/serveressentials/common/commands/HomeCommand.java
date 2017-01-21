@@ -9,9 +9,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -49,11 +51,11 @@ public class HomeCommand implements ICommand {
                 if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
                     player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
                     DataHelper.updateTeleportTimer(player.getGameProfile().getId());
-                    sender.addChatMessage(new TextComponentTranslation("chat.homeTeleported.name"));
+                    sender.addChatMessage(new TextComponentString(Local.HOME_TELEPORTED.replace("#", home.getName())));
                 } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
-                    sender.addChatMessage(new TextComponentTranslation("chat.teleportTimer.name"));
+                    sender.addChatMessage(new TextComponentString(Local.TELEPORT_COOLDOWN.replace("#", Long.toString((System.currentTimeMillis() - teleport_timer)))));
                 else
-                    sender.addChatMessage(new TextComponentTranslation("chat.homeNone.name"));
+                    sender.addChatMessage(new TextComponentString(Local.HOME_NONE));
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
                     PlayerData data = DataHelper.getPlayerData(player.getGameProfile().getId());
@@ -65,22 +67,22 @@ public class HomeCommand implements ICommand {
                             if (h != null)
                                 homes.add(h.getName());
                         if (homes.size() > 0)
-                            sender.addChatMessage(new TextComponentString(Strings.join(homes.toArray(new String[0]), ", ")));
+                            sender.addChatMessage(new TextComponentString(TextFormatting.AQUA + Strings.join(homes.toArray(new String[0]), ", ")));
                         else
-                            sender.addChatMessage(new TextComponentString("chat.homeNonExist.name"));
+                            sender.addChatMessage(new TextComponentString(Local.HOME_NONEXISTENT));
                     } else
-                        sender.addChatMessage(new TextComponentString("chat.homeNonExist.name"));
+                        sender.addChatMessage(new TextComponentString(Local.HOME_NONEXISTENT));
                 } else {
                     Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(args[0]);
                     long teleport_timer = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeleport_timer();
                     if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
                         player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
-                        sender.addChatMessage(new TextComponentTranslation("chat.homeTeleported.name"));
+                        sender.addChatMessage(new TextComponentString(Local.HOME_TELEPORTED.replace("#", home.getName())));
                         DataHelper.updateTeleportTimer(player.getGameProfile().getId());
                     } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
-                        sender.addChatMessage(new TextComponentTranslation("chat.teleportTimer.name"));
+                        sender.addChatMessage(new TextComponentString(Local.TELEPORT_COOLDOWN.replace("#", Long.toString((System.currentTimeMillis() - teleport_timer)))));
                     else
-                        sender.addChatMessage(new TextComponentTranslation("chat.homeInvalid.name"));
+                        sender.addChatMessage(new TextComponentTranslation(Local.HOME_INVALID.replace("#", args[0])));
                 }
             }
         } else

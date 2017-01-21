@@ -10,6 +10,7 @@ import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.reference.Local;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -109,7 +110,7 @@ public class DataHelper {
             }
             return msg;
         }
-        return "chat.homeError.name";
+        return Local.HOME_FAILED;
     }
 
     public static String deleteHome(UUID name, String home) {
@@ -127,7 +128,7 @@ public class DataHelper {
             }
             return msg;
         }
-        return "chat.homeDeletionError.name";
+        return Local.HOME_ERROR_DELETION.replaceAll("#", home);
     }
 
     public static void updateTeleportTimer(UUID name) {
@@ -144,9 +145,5 @@ public class DataHelper {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static long getTeleportTimer(UUID name) {
-        return getPlayerData(name).getTeleport_timer();
     }
 }
