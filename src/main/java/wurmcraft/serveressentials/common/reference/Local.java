@@ -19,7 +19,7 @@ public class Local {
     public static final String WARP_NONE = TextFormatting.RED + "No Warp \"#\" found!";
     public static final String WARP_TELEPORT = TextFormatting.AQUA + "Teleported to warp \"#\"";
     public static final String WARP_DELETE = TextFormatting.RED + "Warp \"#\" deleted!";
-    public static final String SPAWN_SET = TextFormatting.GREEN + "SpawnCommand set for dimension '@'";
+    public static final String SPAWN_SET = TextFormatting.GREEN + "Spawn set in dimension '@'";
     public static final String SPAWN_TELEPORTED = TextFormatting.GREEN + "Teleported to spawn";
     public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
     public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";

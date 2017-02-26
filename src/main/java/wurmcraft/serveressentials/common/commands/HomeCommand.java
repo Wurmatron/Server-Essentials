@@ -53,6 +53,7 @@ public class HomeCommand extends CommandBase {
                 if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
                     DataHelper.updateTeleportTimer(player.getGameProfile().getId());
                     player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), home.getYaw(), home.getPitch());
+                    player.dimension = home.getDimension();
                     TextComponentString text = new TextComponentString(TextFormatting.AQUA + Local.HOME_TELEPORTED.replace("#", home.getName()));
                     text.getStyle().setHoverEvent(hoverEvent(home));
                     sender.addChatMessage(text);
@@ -82,7 +83,7 @@ public class HomeCommand extends CommandBase {
                     if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
                         DataHelper.updateTeleportTimer(player.getGameProfile().getId());
                         player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), home.getYaw(), home.getPitch());
-                        player.setPosition(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ());
+                        player.dimension = home.getDimension();
                         TextComponentString text = new TextComponentString(TextFormatting.AQUA + Local.HOME_TELEPORTED.replace("#", home.getName()));
                         text.getStyle().setHoverEvent(hoverEvent(home));
                         sender.addChatMessage(text);

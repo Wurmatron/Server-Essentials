@@ -8,10 +8,12 @@ public class Home {
     private BlockPos pos;
     private float yaw;
     private float pitch;
+    private int dimension;
 
-    public Home(String name, BlockPos location, float yaw, float pitch) {
+    public Home(String name, BlockPos location,int dimension, float yaw, float pitch) {
         this.name = setName(name);
         this.pos = setPos(location);
+        this.dimension = dimension;
         this.yaw = yaw;
         this.pitch = pitch;
     }
@@ -34,11 +36,6 @@ public class Home {
         return getPos();
     }
 
-    public float setYaw(float yaw) {
-        this.yaw = yaw;
-        return this.yaw;
-    }
-
     public float getYaw() {
         return yaw;
     }
@@ -47,8 +44,7 @@ public class Home {
         return pitch;
     }
 
-    public float setPitch(float pitch) {
-        this.pitch = pitch;
-        return this.pitch;
+    public int getDimension() {
+        return dimension;
     }
 }

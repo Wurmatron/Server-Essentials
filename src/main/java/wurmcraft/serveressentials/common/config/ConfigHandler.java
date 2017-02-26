@@ -16,6 +16,7 @@ public class ConfigHandler {
     private static Property debug;
     private static Property home_name;
     private static Property teleport_cooldown;
+    private static Property respawn_point;
 
     public static void preInit(FMLPreInitializationEvent e) {
         location = e.getSuggestedConfigurationFile();
@@ -31,7 +32,8 @@ public class ConfigHandler {
         Settings.home_name = home_name.getString();
         teleport_cooldown = config.get(Configuration.CATEGORY_GENERAL, "teleport_cooldown", Defaults.TELEPORT_COOLDOWN, "Time between teleportation (in seconds)");
         Settings.teleport_cooldown = teleport_cooldown.getInt();
-
+        respawn_point = config.get(Configuration.CATEGORY_GENERAL, "respawn_point", Defaults.RESPAWN_POINT, "Respawn point (Home, Spawn and Default)");
+        Settings.respawn_point = respawn_point.getString();
         if (config.hasChanged()) {
             LogHandler.info("Saving Config");
             config.save();

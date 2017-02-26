@@ -45,12 +45,12 @@ public class SetHomeCommand extends CommandBase {
         if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
             if (args != null && args.length > 0) {
-                Home home = new Home(args[0], player.getPosition(), player.rotationYaw, player.rotationPitch);
+                Home home = new Home(args[0], player.getPosition(),player.dimension, player.rotationYaw, player.rotationPitch);
                 TextComponentString defaultHome = new TextComponentString(DataHelper.addPlayerHome(player.getGameProfile().getId(), home));
                 defaultHome.getStyle().setHoverEvent(hoverEvent(home));
                 sender.addChatMessage(defaultHome);
             } else {
-                Home home = new Home(Settings.home_name, player.getPosition(), player.rotationYaw, player.rotationPitch);
+                Home home = new Home(Settings.home_name, player.getPosition(),player.dimension, player.rotationYaw, player.rotationPitch);
                 TextComponentString nameHome = new TextComponentString(DataHelper.addPlayerHome(player.getGameProfile().getId(), home));
                 nameHome.getStyle().setHoverEvent(hoverEvent(home));
                 sender.addChatMessage(nameHome);

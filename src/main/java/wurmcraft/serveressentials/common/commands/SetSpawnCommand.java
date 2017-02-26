@@ -40,6 +40,7 @@ public class SetSpawnCommand extends CommandBase {
         if (sender instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) sender;
             DataHelper.globalSettings.setSpawn(new SpawnPoint(player.getPosition(), player.rotationYaw, player.rotationPitch));
+            player.worldObj.setSpawnPoint(player.getPosition());
             TextComponentString text = new TextComponentString(Local.SPAWN_SET.replaceAll("@", "" + DataHelper.globalSettings.getSpawn().dimension));
             text.getStyle().setHoverEvent(hoverEvent(DataHelper.globalSettings.getSpawn()));
             player.addChatComponentMessage(text);

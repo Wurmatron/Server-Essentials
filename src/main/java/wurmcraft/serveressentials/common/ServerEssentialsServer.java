@@ -10,6 +10,7 @@ import wurmcraft.serveressentials.common.commands.*;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.PlayerJoinEvent;
 import wurmcraft.serveressentials.common.event.PlayerQuitEvent;
+import wurmcraft.serveressentials.common.event.PlayerRespawnEvent;
 import wurmcraft.serveressentials.common.event.PlayerTickEvent;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
@@ -34,6 +35,7 @@ public class ServerEssentialsServer {
         MinecraftForge.EVENT_BUS.register(new PlayerJoinEvent());
         MinecraftForge.EVENT_BUS.register(new PlayerQuitEvent());
         MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
+        MinecraftForge.EVENT_BUS.register(new PlayerRespawnEvent());
     }
 
     @Mod.EventHandler
