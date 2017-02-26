@@ -50,6 +50,7 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new SpawnCommand());
         e.registerServerCommand(new InvseeCommand());
         e.registerServerCommand(new EnderChestCommand());
+        e.registerServerCommand(new SudoCommand());
         DataHelper.loadWarps();
         DataHelper.loadGlobal();
     }

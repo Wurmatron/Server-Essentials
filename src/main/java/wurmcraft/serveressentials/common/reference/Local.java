@@ -24,6 +24,9 @@ public class Local {
     public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
     public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
     public static final String PLAYER_INVENTORY_ENDER = TextFormatting.GREEN + "Opening Player \"#\"'s Ender Chest!";
+    public static final String COMMAND_NOT_FOUND = TextFormatting.RED + "Command not found!";
+    public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";
+    public static final String COMMAND_SENDER_FORCED = TextFormatting.GREEN + "Player \"#\" has been forced to run ";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
