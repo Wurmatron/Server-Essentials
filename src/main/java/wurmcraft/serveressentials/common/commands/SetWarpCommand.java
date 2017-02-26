@@ -44,7 +44,7 @@ public class SetWarpCommand extends CommandBase {
                 sender.addChatMessage(new TextComponentString(Local.WARP_NAME));
             else {
                 EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
-                Warp warp = new Warp(args[0],player.getPosition(),player.rotationYaw,player.rotationPitch);
+                Warp warp = new Warp(args[0],player.getPosition(),player.dimension,player.rotationYaw,player.rotationPitch);
                 TextComponentString nameWarp = new TextComponentString(DataHelper.createWarp(warp));
                 DataHelper.createWarp(warp);
                 nameWarp.getStyle().setHoverEvent(hoverEvent(warp));

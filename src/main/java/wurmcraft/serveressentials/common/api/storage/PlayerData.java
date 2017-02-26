@@ -1,7 +1,9 @@
 package wurmcraft.serveressentials.common.api.storage;
 
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.LogHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Used to hold the data about a player
@@ -11,6 +13,7 @@ public class PlayerData {
     private int max_homes = 4;
     private long teleport_timer;
     private Home[] homes = new Home[max_homes];
+    private List<Mail> currentMail = new ArrayList<>();
 
     public PlayerData(Home[] homes) {
         if (homes != null && homes.length > 0)
@@ -69,5 +72,13 @@ public class PlayerData {
 
     public void setTeleport_timer(long time) {
         teleport_timer = time;
+    }
+
+    public List<Mail> getMail() {
+        return currentMail;
+    }
+
+    public void addMail(Mail mail) {
+        currentMail.add(mail);
     }
 }

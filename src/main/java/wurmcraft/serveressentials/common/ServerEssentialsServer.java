@@ -49,6 +49,7 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new SetSpawnCommand());
         e.registerServerCommand(new SpawnCommand());
         e.registerServerCommand(new InvseeCommand());
+        e.registerServerCommand(new EnderChestCommand());
         DataHelper.loadWarps();
         DataHelper.loadGlobal();
     }

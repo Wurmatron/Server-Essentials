@@ -144,6 +144,28 @@ public class DataHelper {
         }
     }
 
+    public static void addMail(Mail mail) {
+        PlayerData data = getPlayerData(mail.getReciver());
+        boolean wasLoaded = true;
+        if (data == null) {
+            data = loadPlayerData(mail.getReciver());
+            wasLoaded = false;
+        }
+        if (data != null) {
+            File playerFileLocation = new File(playerDataLocation + File.separator + mail.getReciver().toString() + ".json");
+            data.addMail(mail);
+            try {
+                Files.write(Paths.get(playerFileLocation.getAbsolutePath()), gson.toJson(data).getBytes());
+                if (wasLoaded)
+                    reloadPlayerData(mail.getReciver());
+                else
+                    unloadPlayerData(mail.getReciver());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static ITextComponent displayLocation(Home home) {
         TextComponentString text = new TextComponentString("X = " + home.getPos().getX() + " Y = " + home.getPos().getY() + " Z = " + home.getPos().getZ());
         text.getStyle().setColor(TextFormatting.GREEN);
