@@ -27,6 +27,7 @@ public class Local {
     public static final String COMMAND_NOT_FOUND = TextFormatting.RED + "Command not found!";
     public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";
     public static final String COMMAND_SENDER_FORCED = TextFormatting.GREEN + "Player \"#\" has been forced to run ";
+    public static final String LAST_SEEN = TextFormatting.GREEN + "Last Seen # ago";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";

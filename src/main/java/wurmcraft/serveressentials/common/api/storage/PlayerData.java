@@ -12,6 +12,7 @@ public class PlayerData {
 
     private int max_homes = 4;
     private long teleport_timer;
+    private long lastseen;
     private Home[] homes = new Home[max_homes];
     private List<Mail> currentMail = new ArrayList<>();
 
@@ -80,5 +81,13 @@ public class PlayerData {
 
     public void addMail(Mail mail) {
         currentMail.add(mail);
+    }
+
+    public long getLastseen() {
+        return lastseen;
+    }
+
+    public void setLastseen(long lastseen) {
+        this.lastseen = lastseen;
     }
 }

@@ -8,6 +8,7 @@ public class PlayerQuitEvent {
 
     @SubscribeEvent
     public void leaveServer(PlayerEvent.PlayerLoggedOutEvent e) {
+        DataHelper.updateLastseen(e.player.getGameProfile().getId());
         DataHelper.unloadPlayerData(e.player.getGameProfile().getId());
     }
 }

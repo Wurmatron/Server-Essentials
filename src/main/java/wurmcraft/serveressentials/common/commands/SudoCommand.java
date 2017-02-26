@@ -59,7 +59,7 @@ public class SudoCommand extends CommandBase {
     @Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
         List<String> list = new ArrayList<>();
-        if (args.length == 0) {
+        if (args.length == 1) {
             if (sender instanceof EntityPlayer)
                 Collections.addAll(list, FMLCommonHandler.instance().getMinecraftServerInstance().getAllUsernames());
         }

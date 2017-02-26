@@ -144,6 +144,22 @@ public class DataHelper {
         }
     }
 
+    public static void updateLastseen(UUID name) {
+        PlayerData data = getPlayerData(name);
+        if (data == null)
+            data = loadPlayerData(name);
+        if (data != null) {
+            File playerFileLocation = new File(playerDataLocation + File.separator + name.toString() + ".json");
+            data.setLastseen(System.currentTimeMillis());
+            try {
+                Files.write(Paths.get(playerFileLocation.getAbsolutePath()), gson.toJson(data).getBytes());
+                reloadPlayerData(name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void addMail(Mail mail) {
         PlayerData data = getPlayerData(mail.getReciver());
         boolean wasLoaded = true;
