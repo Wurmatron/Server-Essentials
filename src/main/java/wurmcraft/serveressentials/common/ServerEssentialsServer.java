@@ -3,18 +3,16 @@ package wurmcraft.serveressentials.common;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.Sys;
-import wurmcraft.serveressentials.common.commands.DelHome;
-import wurmcraft.serveressentials.common.commands.HomeCommand;
-import wurmcraft.serveressentials.common.commands.SetHomeCommand;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import wurmcraft.serveressentials.common.commands.*;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.PlayerJoinEvent;
 import wurmcraft.serveressentials.common.event.PlayerQuitEvent;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
-import wurmcraft.serveressentials.common.utils.LogHandler;
+import wurmcraft.serveressentials.common.utils.DataHelper;
 
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
 public class ServerEssentialsServer {
@@ -41,5 +39,9 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new SetHomeCommand());
         e.registerServerCommand(new HomeCommand());
         e.registerServerCommand(new DelHome());
+        e.registerServerCommand(new SetWarpCommand());
+        e.registerServerCommand(new WarpCommand());
+        e.registerServerCommand(new DelWarp());
+        DataHelper.loadWarps();
     }
 }

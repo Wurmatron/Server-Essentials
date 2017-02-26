@@ -3,32 +3,31 @@ package wurmcraft.serveressentials.common.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.reference.Local;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static wurmcraft.serveressentials.common.config.ConfigHandler.location;
-
 public class DataHelper {
 
     public static final File saveLocation = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getDataDirectory() + File.separator + Global.NAME);
     public static final File playerDataLocation = new File(saveLocation + File.separator + "Player-Data" + File.separator);
+    public static final File warpLocation = new File(saveLocation + File.separator + "Warp" + File.separator);
 
     public static HashMap<UUID, PlayerData> loadedPlayers = new HashMap<>();
+    public static ArrayList<Warp> loadedWarps = new ArrayList<>();
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -145,5 +144,82 @@ public class DataHelper {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static ITextComponent displayLocation(Home home) {
+        TextComponentString text = new TextComponentString("X = " + home.getPos().getX() + " Y = " + home.getPos().getY() + " Z = " + home.getPos().getZ());
+        text.getStyle().setColor(TextFormatting.GREEN);
+        return text;
+    }
+
+    public static ITextComponent displayLocation(Warp warp) {
+        TextComponentString text = new TextComponentString("X = " + warp.getPos().getX() + " Y = " + warp.getPos().getY() + " Z = " + warp.getPos().getZ());
+        text.getStyle().setColor(TextFormatting.GREEN);
+        return text;
+    }
+
+    public static String createWarp(Warp warp) {
+        if (loadedWarps.size() <= 0)
+            loadWarps();
+        if (!warpLocation.exists())
+            warpLocation.mkdirs();
+        File warpFileLocation = new File(warpLocation + File.separator + warp.getName() + ".json");
+        try {
+            warpFileLocation.createNewFile();
+            Files.write(Paths.get(warpFileLocation.getAbsolutePath()), gson.toJson(warp).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Local.WARP_CREATED.replaceAll("#", warp.getName());
+    }
+
+    public static Warp[] getWarps() {
+        if (loadedWarps.size() > 0)
+            return loadedWarps.toArray(new Warp[0]);
+        return new Warp[0];
+    }
+
+    public static void loadWarps() {
+        if (warpLocation.exists()) {
+            for (File file : warpLocation.listFiles())
+                if (file.isFile() && file.getName().endsWith(".json")) {
+                    ArrayList<String> lines = new ArrayList<>();
+                    try {
+                        BufferedReader reader = new BufferedReader(new FileReader(file));
+                        String line;
+                        while ((line = reader.readLine()) != null)
+                            lines.add(line);
+                        reader.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String temp = "";
+                    for (int s = 0; s <= lines.size() - 1; s++)
+                        temp = temp + lines.get(s);
+                    Warp warp = gson.fromJson(temp, Warp.class);
+                    if (warp != null)
+                        loadedWarps.add(warp);
+                }
+        }
+    }
+
+    public static Warp getWarp(String name) {
+        if (loadedWarps.size() <= 0)
+            loadWarps();
+        if (loadedWarps.size() > 0 && name != null && name.length() > 0) {
+            for (Warp warp : loadedWarps)
+                if (warp.getName().equalsIgnoreCase(name))
+                    return warp;
+        }
+        return null;
+    }
+
+    public static void deleteWarp(Warp warp) {
+        loadedWarps.remove(warp);
+        for (File file : warpLocation.listFiles())
+            if (file.isFile() && file.getName().equalsIgnoreCase(warp.getName() + ".json"))
+                file.delete();
     }
 }

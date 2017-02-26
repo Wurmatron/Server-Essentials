@@ -1,12 +1,13 @@
 package wurmcraft.serveressentials.common.commands;
 
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -15,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DelHome implements ICommand {
+public class DelHome extends CommandBase {
 
     @Override
     public String getCommandName() {
@@ -24,7 +25,7 @@ public class DelHome implements ICommand {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return null;
+        return "/delhome <name>";
     }
 
     @Override
@@ -61,16 +62,15 @@ public class DelHome implements ICommand {
 
     @Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
-    @Override
-    public int compareTo(ICommand o) {
-        return 0;
+        List<String> list = new ArrayList<>();
+        if (sender instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) sender;
+            Home[] homes = DataHelper.getPlayerData(player.getGameProfile().getId()).getHomes();
+            if (homes.length > 0)
+                for (Home home : homes)
+                    if (home != null)
+                        list.add(home.getName());
+        }
+        return list;
     }
 }

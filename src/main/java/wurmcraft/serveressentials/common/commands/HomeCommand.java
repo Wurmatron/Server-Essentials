@@ -1,15 +1,17 @@
 package wurmcraft.serveressentials.common.commands;
 
 import joptsimple.internal.Strings;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
@@ -20,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeCommand implements ICommand {
+public class HomeCommand extends CommandBase {
 
     @Override
     public String getCommandName() {
@@ -29,7 +31,7 @@ public class HomeCommand implements ICommand {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return null;
+        return "/home <name>";
     }
 
     @Override
@@ -44,16 +46,18 @@ public class HomeCommand implements ICommand {
         if (sender.getEntityWorld().isRemote)
             return;
         if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+            EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
             if (args.length == 0) {
                 Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(Settings.home_name);
                 long teleport_timer = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeleport_timer();
                 if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
-                    player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
                     DataHelper.updateTeleportTimer(player.getGameProfile().getId());
-                    sender.addChatMessage(new TextComponentString(Local.HOME_TELEPORTED.replace("#", home.getName())));
+                    player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), home.getYaw(), home.getPitch());
+                    TextComponentString text = new TextComponentString(TextFormatting.AQUA + Local.HOME_TELEPORTED.replace("#", home.getName()));
+                    text.getStyle().setHoverEvent(hoverEvent(home));
+                    sender.addChatMessage(text);
                 } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
-                    sender.addChatMessage(new TextComponentString(Local.TELEPORT_COOLDOWN.replace("#", Long.toString((System.currentTimeMillis() - teleport_timer)))));
+                    sender.addChatMessage(new TextComponentString(Local.TELEPORT_COOLDOWN.replace("#", Integer.toString(Math.round((System.currentTimeMillis() - teleport_timer))))));
                 else
                     sender.addChatMessage(new TextComponentString(Local.HOME_NONE));
             } else if (args.length == 1) {
@@ -76,9 +80,12 @@ public class HomeCommand implements ICommand {
                     Home home = DataHelper.getPlayerData(player.getGameProfile().getId()).getHome(args[0]);
                     long teleport_timer = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeleport_timer();
                     if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
-                        player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), player.rotationYaw, player.rotationPitch);
-                        sender.addChatMessage(new TextComponentString(Local.HOME_TELEPORTED.replace("#", home.getName())));
                         DataHelper.updateTeleportTimer(player.getGameProfile().getId());
+                        player.setLocationAndAngles(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ(), home.getYaw(), home.getPitch());
+                        player.setPosition(home.getPos().getX(), home.getPos().getY(), home.getPos().getZ());
+                        TextComponentString text = new TextComponentString(TextFormatting.AQUA + Local.HOME_TELEPORTED.replace("#", home.getName()));
+                        text.getStyle().setHoverEvent(hoverEvent(home));
+                        sender.addChatMessage(text);
                     } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
                         sender.addChatMessage(new TextComponentString(Local.TELEPORT_COOLDOWN.replace("#", Long.toString((System.currentTimeMillis() - teleport_timer)))));
                     else
@@ -90,22 +97,20 @@ public class HomeCommand implements ICommand {
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
-    }
-
-    @Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
-        return null;
+        List<String> list = new ArrayList<>();
+        if (sender instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) sender;
+            Home[] homes = DataHelper.getPlayerData(player.getGameProfile().getId()).getHomes();
+            if (homes.length > 0)
+                for (Home home : homes)
+                    if (home != null)
+                        list.add(home.getName());
+        }
+        return list;
     }
 
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
-    @Override
-    public int compareTo(ICommand o) {
-        return 0;
+    public HoverEvent hoverEvent(Home home) {
+        return new HoverEvent(HoverEvent.Action.SHOW_TEXT, DataHelper.displayLocation(home));
     }
 }

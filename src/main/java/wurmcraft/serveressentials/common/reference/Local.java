@@ -14,6 +14,11 @@ public class Local {
     public static final String HOME_FAILED = TextFormatting.RED + "Failed to set home! Unknown error";
     public static final String HOME_DELETED = TextFormatting.RED + "Home \"#\" deleted!";
     public static final String HOME_ERROR_DELETION = TextFormatting.RED + "Error failed to delete home \"#\"!";
+    public static final String WARP_NAME = TextFormatting.RED + "Invalid Warp Name";
+    public static final String WARP_CREATED = TextFormatting.AQUA + "Warp \"#\" created!";
+    public static final String WARP_NONE = TextFormatting.RED + "No Warp \"#\" found!";
+    public static final String WARP_TELEPORT = TextFormatting.AQUA + "Teleported to warp \"#\"";
+    public static final String WARP_DELETE = TextFormatting.RED + "Warp \"#\" deleted!";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
