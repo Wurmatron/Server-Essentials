@@ -42,6 +42,9 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new SetWarpCommand());
         e.registerServerCommand(new WarpCommand());
         e.registerServerCommand(new DelWarp());
+        e.registerServerCommand(new SetSpawnCommand());
+        e.registerServerCommand(new SpawnCommand());
         DataHelper.loadWarps();
+        DataHelper.loadGlobal();
     }
 }

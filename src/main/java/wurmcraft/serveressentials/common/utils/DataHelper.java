@@ -7,10 +7,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import wurmcraft.serveressentials.common.api.storage.Home;
-import wurmcraft.serveressentials.common.api.storage.PlayerData;
-import wurmcraft.serveressentials.common.api.storage.Warp;
-import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.reference.Local;
 
 import java.io.*;
@@ -22,12 +19,13 @@ import java.util.UUID;
 
 public class DataHelper {
 
-    public static final File saveLocation = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getDataDirectory() + File.separator + Global.NAME);
+    public static final File saveLocation = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getDataDirectory() + File.separator + wurmcraft.serveressentials.common.reference.Global.NAME);
     public static final File playerDataLocation = new File(saveLocation + File.separator + "Player-Data" + File.separator);
     public static final File warpLocation = new File(saveLocation + File.separator + "Warp" + File.separator);
 
     public static HashMap<UUID, PlayerData> loadedPlayers = new HashMap<>();
     public static ArrayList<Warp> loadedWarps = new ArrayList<>();
+    public static Global globalSettings;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -158,6 +156,12 @@ public class DataHelper {
         return text;
     }
 
+    public static ITextComponent displayLocation(SpawnPoint spawn) {
+        TextComponentString text = new TextComponentString("X = " + spawn.location.getX() + " Y = " + spawn.location.getY() + " Z = " + spawn.location.getZ());
+        text.getStyle().setColor(TextFormatting.GREEN);
+        return text;
+    }
+
     public static String createWarp(Warp warp) {
         if (loadedWarps.size() <= 0)
             loadWarps();
@@ -221,5 +225,45 @@ public class DataHelper {
         for (File file : warpLocation.listFiles())
             if (file.isFile() && file.getName().equalsIgnoreCase(warp.getName() + ".json"))
                 file.delete();
+    }
+
+    public static void createGlobal(Global global) {
+        if (!saveLocation.exists())
+            saveLocation.mkdirs();
+        File globalFile = new File(saveLocation + File.separator + "Global.json");
+        try {
+            globalFile.createNewFile();
+            Files.write(Paths.get(globalFile.getAbsolutePath()), gson.toJson(global).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadGlobal() {
+        File globalLocation = new File(saveLocation + File.separator + "Global.json");
+        if (globalLocation.exists()) {
+            ArrayList<String> lines = new ArrayList<>();
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(globalLocation));
+                String line;
+                while ((line = reader.readLine()) != null)
+                    lines.add(line);
+                reader.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String temp = "";
+            for (int s = 0; s <= lines.size() - 1; s++)
+                temp = temp + lines.get(s);
+            globalSettings = gson.fromJson(temp, Global.class);
+        } else
+            createGlobal(new Global(null));
+    }
+
+    public static void overrideGlobal(Global global) {
+        createGlobal(global);
+        loadGlobal();
     }
 }

@@ -19,6 +19,8 @@ public class Local {
     public static final String WARP_NONE = TextFormatting.RED + "No Warp \"#\" found!";
     public static final String WARP_TELEPORT = TextFormatting.AQUA + "Teleported to warp \"#\"";
     public static final String WARP_DELETE = TextFormatting.RED + "Warp \"#\" deleted!";
+    public static final String SPAWN_SET = TextFormatting.GREEN + "SpawnCommand set for dimension '@'";
+    public static final String SPAWN_TELEPORTED = TextFormatting.GREEN + "Teleported to spawn";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
