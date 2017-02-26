@@ -28,6 +28,12 @@ public class Local {
     public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";
     public static final String COMMAND_SENDER_FORCED = TextFormatting.GREEN + "Player \"#\" has been forced to run ";
     public static final String LAST_SEEN = TextFormatting.GREEN + "Last Seen # ago";
+    public static final String HEAL_SELF = TextFormatting.AQUA + "You have healed yourself!";
+    public static final String HEAL_OTHER = TextFormatting.AQUA + "You have been healed";
+    public static final String HEAL_OTHER_SENDER = TextFormatting.AQUA + "'#' has been healed";
+    public static final String MODE_INVALID = TextFormatting.RED + "Invalid \"#\" Gamemode!";
+    public static final String MODE_CHANGED = TextFormatting.GREEN + "Your gamemode has been changed to #";
+    public static final String MODE_CHANGED_OTHER = TextFormatting.GREEN + "You have chanced \"#\"'s Gamemode to $";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";

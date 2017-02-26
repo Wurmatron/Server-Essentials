@@ -3,17 +3,20 @@ package wurmcraft.serveressentials.common.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.Date;
-import java.util.UUID;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class SeenCommand extends CommandBase {
 
@@ -101,5 +104,13 @@ public class SeenCommand extends CommandBase {
             return readable;
         } else
             return "Online";
+    }
+
+    @Override
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+        List<String> list = new ArrayList<>();
+        if (sender instanceof EntityPlayer)
+            Collections.addAll(list, FMLCommonHandler.instance().getMinecraftServerInstance().getAllUsernames());
+        return list;
     }
 }
