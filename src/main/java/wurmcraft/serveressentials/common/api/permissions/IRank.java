@@ -1,6 +1,6 @@
 package wurmcraft.serveressentials.common.api.permissions;
 
-public interface IGroup {
+public interface IRank {
 
     String getName();
 
@@ -10,7 +10,7 @@ public interface IGroup {
 
     String getSuffix();
 
-    IGroup[] getInheritance();
+    String[] getInheritance();
 
     String[] getPermissions();
 }

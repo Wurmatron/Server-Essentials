@@ -8,10 +8,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import wurmcraft.serveressentials.common.commands.*;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
-import wurmcraft.serveressentials.common.event.PlayerJoinEvent;
-import wurmcraft.serveressentials.common.event.PlayerQuitEvent;
-import wurmcraft.serveressentials.common.event.PlayerRespawnEvent;
-import wurmcraft.serveressentials.common.event.PlayerTickEvent;
+import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -36,6 +33,7 @@ public class ServerEssentialsServer {
         MinecraftForge.EVENT_BUS.register(new PlayerQuitEvent());
         MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
         MinecraftForge.EVENT_BUS.register(new PlayerRespawnEvent());
+        MinecraftForge.EVENT_BUS.register(new PlayerChatEvent());
     }
 
     @Mod.EventHandler
@@ -60,7 +58,9 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new MotdCommand());
         e.registerServerCommand(new AddMotdCommand());
         e.registerServerCommand(new DeleteMotdCommand());
+        DataHelper.createDefaultRank();
         DataHelper.loadWarps();
         DataHelper.loadGlobal();
+        DataHelper.loadRanks();
     }
 }

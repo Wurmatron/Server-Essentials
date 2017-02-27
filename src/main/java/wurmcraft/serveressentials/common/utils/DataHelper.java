@@ -7,6 +7,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.api.permissions.Rank;
+import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -22,6 +24,7 @@ public class DataHelper {
     public static final File saveLocation = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getDataDirectory() + File.separator + wurmcraft.serveressentials.common.reference.Global.NAME);
     public static final File playerDataLocation = new File(saveLocation + File.separator + "Player-Data" + File.separator);
     public static final File warpLocation = new File(saveLocation + File.separator + "Warp" + File.separator);
+    public static final File groupLocation = new File(saveLocation + File.separator + "Rank" + File.separator);
 
     public static HashMap<UUID, PlayerData> loadedPlayers = new HashMap<>();
     public static ArrayList<Warp> loadedWarps = new ArrayList<>();
@@ -35,7 +38,7 @@ public class DataHelper {
             if (data != null)
                 loadedPlayers.put(player.getGameProfile().getId(), data);
             else {
-                PlayerData newData = new PlayerData(null);
+                PlayerData newData = new PlayerData(RankManager.getDefaultRank());
                 createPlayerFile(player.getGameProfile().getId(), newData);
                 loadedPlayers.put(player.getGameProfile().getId(), newData);
             }
@@ -305,5 +308,62 @@ public class DataHelper {
     public static void overrideGlobal(Global global) {
         createGlobal(global);
         loadGlobal();
+    }
+
+    public static void loadRanks() {
+        if (groupLocation.exists()) {
+            if (groupLocation.listFiles().length <= 0)
+                createDefaultRank();
+            for (File file : groupLocation.listFiles())
+                if (file.isFile() && file.getName().endsWith(".json")) {
+                    ArrayList<String> lines = new ArrayList<>();
+                    try {
+                        BufferedReader reader = new BufferedReader(new FileReader(file));
+                        String line;
+                        while ((line = reader.readLine()) != null)
+                            lines.add(line);
+                        reader.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String temp = "";
+                    for (int s = 0; s <= lines.size() - 1; s++)
+                        temp = temp + lines.get(s);
+                    Rank group = gson.fromJson(temp, Rank.class);
+                    if (group != null)
+                        RankManager.registerRank(group);
+                }
+        }
+    }
+
+    public static void createGroup(IRank group) {
+        if (RankManager.getRanks().size() <= 0)
+            loadRanks();
+        if (!groupLocation.exists())
+            groupLocation.mkdirs();
+        File groupFileLocation = new File(groupLocation + File.separator + group.getName() + ".json");
+        try {
+            groupFileLocation.createNewFile();
+            Files.write(Paths.get(groupFileLocation.getAbsolutePath()), gson.toJson(group).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void reloadRanks() {
+        RankManager.clearAllRanks();
+        loadRanks();
+    }
+
+    public static void createDefaultRank() {
+        if (!groupLocation.exists() || groupLocation.listFiles().length <= 0) {
+            Rank defaultGroup = new Rank("Default", true, "[Default] ", "", null, new String[]{});
+            Rank adminGroup = new Rank("Admin", false, "[Admin] ", "", new String[]{defaultGroup.getName()}, new String[]{});
+            createGroup(defaultGroup);
+            createGroup(adminGroup);
+            loadRanks();
+        }
     }
 }
