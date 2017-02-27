@@ -54,6 +54,12 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new SeenCommand());
         e.registerServerCommand(new HealCommand());
         e.registerServerCommand(new GameModeCommand());
+        e.registerServerCommand(new RulesCommand());
+        e.registerServerCommand(new AddRuleCommand());
+        e.registerServerCommand(new DeleteRuleCommand());
+        e.registerServerCommand(new MotdCommand());
+        e.registerServerCommand(new AddMotdCommand());
+        e.registerServerCommand(new DeleteMotdCommand());
         DataHelper.loadWarps();
         DataHelper.loadGlobal();
     }

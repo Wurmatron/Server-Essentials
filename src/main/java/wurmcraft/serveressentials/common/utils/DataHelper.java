@@ -296,8 +296,10 @@ public class DataHelper {
             for (int s = 0; s <= lines.size() - 1; s++)
                 temp = temp + lines.get(s);
             globalSettings = gson.fromJson(temp, Global.class);
-        } else
-            createGlobal(new Global(null));
+        } else {
+            createGlobal(new Global(null, new String[]{}, new String[]{}));
+            loadGlobal();
+        }
     }
 
     public static void overrideGlobal(Global global) {

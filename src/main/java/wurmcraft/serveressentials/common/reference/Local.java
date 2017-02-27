@@ -34,6 +34,15 @@ public class Local {
     public static final String MODE_INVALID = TextFormatting.RED + "Invalid \"#\" Gamemode!";
     public static final String MODE_CHANGED = TextFormatting.GREEN + "Your gamemode has been changed to #";
     public static final String MODE_CHANGED_OTHER = TextFormatting.GREEN + "You have chanced \"#\"'s Gamemode to $";
+    public static final String NO_RULES = TextFormatting.RED + "No Rules have been specified!";
+    public static final String PAGE_NONE = TextFormatting.RED + "Page '#' does not exist, the max page number is \"$\"";
+    public static final String RULE_CREATED = TextFormatting.BLUE + "Rule \"#\" created!";
+    public static final String RULE_REMOVED = TextFormatting.RED + "Rule \"#\" removed!";
+    public static final String RULE_INVALID_INDEX = TextFormatting.RED + "Rule \"#\" not found!";
+    public static final String MOTD_CREATED = TextFormatting.BLUE + "Motd \"#\" created!";
+    public static final String MOTD_REMOVED = TextFormatting.RED + "Motd \"#\" removed!";
+    public static final String MOTD_INVALID_INDEX = TextFormatting.RED + "Motd \"#\" not found!";
+    public static final String NO_MOTD = TextFormatting.RED + "No MOTD have been specified!";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
