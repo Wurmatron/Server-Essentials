@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
+import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.HashMap;
 
@@ -21,9 +23,12 @@ public class PlayerTickEvent {
 
     @SubscribeEvent
     public void tickStart(TickEvent.PlayerTickEvent e) {
-        if (openInv.size() > 0) {
+        if (openInv.size() > 0)
             if (openInv.containsKey(e.player))
                 openInv.get(e.player).update();
-        }
+        if (DataHelper.activeRequests.size() > 0 && e.player.worldObj.getWorldTime() % 20 == 0)
+            for (long time : DataHelper.activeRequests.keySet())
+                if ((time + (Settings.tpa_timeout * 1000)) <= System.currentTimeMillis())
+                    DataHelper.activeRequests.remove(time);
     }
 }

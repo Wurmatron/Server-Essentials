@@ -43,6 +43,13 @@ public class Local {
     public static final String MOTD_REMOVED = TextFormatting.RED + "Motd \"#\" removed!";
     public static final String MOTD_INVALID_INDEX = TextFormatting.RED + "Motd \"#\" not found!";
     public static final String NO_MOTD = TextFormatting.RED + "No MOTD have been specified!";
+    public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
+    public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
+    public static final String TPA_REQUEST_SENT = TextFormatting.AQUA + "Tpa request sent to \"#\"";
+    public static final String TPA_REQUEST = TextFormatting.AQUA + "# has sent you a tpa request type /tpaccept to accept";
+    public static final String TPA_DENY = TextFormatting.RED + "Tpa request canceled";
+    public static final String TPA_ACCEPED_OTHER = TextFormatting.AQUA + "\"#\" has been teleported to your location";
+    public static final String TPA_ACCEPTED = TextFormatting.AQUA + "# has accepted your tpa request";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";

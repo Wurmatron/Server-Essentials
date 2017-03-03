@@ -58,6 +58,9 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new MotdCommand());
         e.registerServerCommand(new AddMotdCommand());
         e.registerServerCommand(new DeleteMotdCommand());
+        e.registerServerCommand(new TpaCommand());
+        e.registerServerCommand(new TpacceptCommand());
+        e.registerServerCommand(new TpdenyCommand());
         DataHelper.createDefaultRank();
         DataHelper.loadWarps();
         DataHelper.loadGlobal();

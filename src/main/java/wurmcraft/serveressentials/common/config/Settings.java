@@ -5,4 +5,5 @@ public class Settings {
     public static String home_name;
     public static int teleport_cooldown;
     public static String respawn_point;
+    public static int tpa_timeout;
 }

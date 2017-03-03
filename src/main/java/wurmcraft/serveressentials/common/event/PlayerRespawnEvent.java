@@ -11,7 +11,6 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class PlayerRespawnEvent {
 
-
     @SubscribeEvent
     public void constructEvent(PlayerEvent.Clone e) {
         if (e.isWasDeath() && !e.isCanceled()) {

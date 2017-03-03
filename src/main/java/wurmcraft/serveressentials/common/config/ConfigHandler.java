@@ -17,6 +17,7 @@ public class ConfigHandler {
     private static Property home_name;
     private static Property teleport_cooldown;
     private static Property respawn_point;
+    private static Property tpa_timeout;
 
     public static void preInit(FMLPreInitializationEvent e) {
         location = e.getSuggestedConfigurationFile();
@@ -34,6 +35,8 @@ public class ConfigHandler {
         Settings.teleport_cooldown = teleport_cooldown.getInt();
         respawn_point = config.get(Configuration.CATEGORY_GENERAL, "respawn_point", Defaults.RESPAWN_POINT, "Respawn point (Home, Spawn and Default)");
         Settings.respawn_point = respawn_point.getString();
+        tpa_timeout = config.get(Configuration.CATEGORY_GENERAL, "tpa_timeout", Defaults.TPA_TIMEOUT, "Time for Tpa request timeout");
+        Settings.tpa_timeout = tpa_timeout.getInt();
         if (config.hasChanged()) {
             LogHandler.info("Saving Config");
             config.save();

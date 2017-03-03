@@ -7,8 +7,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import wurmcraft.serveressentials.common.api.permissions.Rank;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.api.permissions.Rank;
 import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -28,6 +28,7 @@ public class DataHelper {
 
     public static HashMap<UUID, PlayerData> loadedPlayers = new HashMap<>();
     public static ArrayList<Warp> loadedWarps = new ArrayList<>();
+    public static HashMap<Long, EntityPlayer[]> activeRequests = new HashMap<>();
     public static Global globalSettings;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -359,8 +360,8 @@ public class DataHelper {
 
     public static void createDefaultRank() {
         if (!groupLocation.exists() || groupLocation.listFiles().length <= 0) {
-            Rank defaultGroup = new Rank("Default", true, "[Default] ", "", null, new String[]{});
-            Rank adminGroup = new Rank("Admin", false, "[Admin] ", "", new String[]{defaultGroup.getName()}, new String[]{});
+            Rank defaultGroup = new Rank("Default", true, "[Default]", "", null, new String[]{});
+            Rank adminGroup = new Rank("Admin", false, "[Admin]", "", new String[]{defaultGroup.getName()}, new String[]{});
             createGroup(defaultGroup);
             createGroup(adminGroup);
             loadRanks();
