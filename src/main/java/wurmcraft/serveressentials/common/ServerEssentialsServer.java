@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
@@ -38,29 +39,29 @@ public class ServerEssentialsServer {
 
     @Mod.EventHandler
     public void onServerLoading(FMLServerStartingEvent e) {
-        e.registerServerCommand(new SetHomeCommand());
-        e.registerServerCommand(new HomeCommand());
-        e.registerServerCommand(new DelHome());
-        e.registerServerCommand(new SetWarpCommand());
-        e.registerServerCommand(new WarpCommand());
-        e.registerServerCommand(new DelWarp());
-        e.registerServerCommand(new SetSpawnCommand());
-        e.registerServerCommand(new SpawnCommand());
-        e.registerServerCommand(new InvseeCommand());
-        e.registerServerCommand(new EnderChestCommand());
-        e.registerServerCommand(new SudoCommand());
-        e.registerServerCommand(new SeenCommand());
-        e.registerServerCommand(new HealCommand());
-        e.registerServerCommand(new GameModeCommand());
-        e.registerServerCommand(new RulesCommand());
-        e.registerServerCommand(new AddRuleCommand());
-        e.registerServerCommand(new DeleteRuleCommand());
-        e.registerServerCommand(new MotdCommand());
-        e.registerServerCommand(new AddMotdCommand());
-        e.registerServerCommand(new DeleteMotdCommand());
-        e.registerServerCommand(new TpaCommand());
-        e.registerServerCommand(new TpacceptCommand());
-        e.registerServerCommand(new TpdenyCommand());
+        e.registerServerCommand(new SetHomeCommand(Perm.COMMAND_SET_HOME));
+        e.registerServerCommand(new HomeCommand(Perm.COMMAND_HOME));
+        e.registerServerCommand(new DelHome(Perm.COMMAND_DELETE_HOME));
+        e.registerServerCommand(new SetWarpCommand(Perm.COMMAND_SET_WARP));
+        e.registerServerCommand(new WarpCommand(Perm.COMMAND_WARP));
+        e.registerServerCommand(new DelWarp(Perm.COMMAND_DELETE_WARP));
+        e.registerServerCommand(new SetSpawnCommand(Perm.COMMAND_SETSPAWN));
+        e.registerServerCommand(new SpawnCommand(Perm.COMMAND_SPAWN));
+        e.registerServerCommand(new InvseeCommand(Perm.COMMAND_INVSEE));
+        e.registerServerCommand(new EnderChestCommand(Perm.COMMAND_ENDER_CHEST));
+        e.registerServerCommand(new SudoCommand(Perm.COMMAND_SUDO));
+        e.registerServerCommand(new SeenCommand(Perm.COMMAND_SEEN));
+        e.registerServerCommand(new HealCommand(Perm.COMMAND_HEAL));
+        e.registerServerCommand(new GameModeCommand(Perm.COMMAND_GAMEMODE));
+        e.registerServerCommand(new RulesCommand(Perm.COMMAND_RULES));
+        e.registerServerCommand(new AddRuleCommand(Perm.COMMAND_ADD_RULES));
+        e.registerServerCommand(new DeleteRuleCommand(Perm.COMMAND_DELETE_RULE));
+        e.registerServerCommand(new MotdCommand(Perm.COMMAND_MOTD));
+        e.registerServerCommand(new AddMotdCommand(Perm.COMMAND_ADD_MOTD));
+        e.registerServerCommand(new DeleteMotdCommand(Perm.COMMAND_DELETE_MOTD));
+        e.registerServerCommand(new TpaCommand(Perm.COMMAND_TPA));
+        e.registerServerCommand(new TpacceptCommand(Perm.COMMAND_TPA_ACCEPT));
+        e.registerServerCommand(new TpdenyCommand(Perm.COMMAND_TPA_DENY));
         DataHelper.createDefaultRank();
         DataHelper.loadWarps();
         DataHelper.loadGlobal();

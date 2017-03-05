@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +8,11 @@ import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-public class TpdenyCommand extends CommandBase {
+public class TpdenyCommand extends EssentialsCommand {
+
+    public TpdenyCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

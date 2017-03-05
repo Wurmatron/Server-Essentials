@@ -1,7 +1,6 @@
 package wurmcraft.serveressentials.common.commands;
 
 import joptsimple.internal.Strings;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -12,7 +11,12 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddRuleCommand extends CommandBase {
+public class AddRuleCommand extends EssentialsCommand {
+
+
+    public AddRuleCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

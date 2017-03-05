@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +15,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetHomeCommand extends CommandBase {
+public class SetHomeCommand extends EssentialsCommand {
+
+    public SetHomeCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {
@@ -57,11 +60,6 @@ public class SetHomeCommand extends CommandBase {
             }
         } else
             sender.addChatMessage(new TextComponentString("Command can only be run by players!"));
-    }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
     }
 
     @Override

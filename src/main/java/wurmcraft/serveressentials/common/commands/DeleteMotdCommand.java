@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -11,7 +10,11 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteMotdCommand extends CommandBase {
+public class DeleteMotdCommand extends EssentialsCommand {
+
+    public DeleteMotdCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

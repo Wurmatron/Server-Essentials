@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,11 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class SeenCommand extends CommandBase {
+public class SeenCommand extends EssentialsCommand {
+
+    public SeenCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

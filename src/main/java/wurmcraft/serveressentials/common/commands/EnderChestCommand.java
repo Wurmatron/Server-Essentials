@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EnderChestCommand extends CommandBase {
+public class EnderChestCommand extends EssentialsCommand {
+
+    public EnderChestCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

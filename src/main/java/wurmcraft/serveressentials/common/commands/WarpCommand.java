@@ -1,7 +1,6 @@
 package wurmcraft.serveressentials.common.commands;
 
 import joptsimple.internal.Strings;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,11 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarpCommand extends CommandBase {
+public class WarpCommand extends EssentialsCommand {
+
+    public WarpCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {
@@ -63,10 +66,5 @@ public class WarpCommand extends CommandBase {
 
     public HoverEvent hoverEvent(Warp warp) {
         return new HoverEvent(HoverEvent.Action.SHOW_TEXT, DataHelper.displayLocation(warp));
-    }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
     }
 }

@@ -345,11 +345,13 @@ public class DataHelper {
         if (!groupLocation.exists())
             groupLocation.mkdirs();
         File groupFileLocation = new File(groupLocation + File.separator + group.getName() + ".json");
-        try {
-            groupFileLocation.createNewFile();
-            Files.write(Paths.get(groupFileLocation.getAbsolutePath()), gson.toJson(group).getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!groupFileLocation.exists()) {
+            try {
+                groupFileLocation.createNewFile();
+                Files.write(Paths.get(groupFileLocation.getAbsolutePath()), gson.toJson(group).getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -360,8 +362,8 @@ public class DataHelper {
 
     public static void createDefaultRank() {
         if (!groupLocation.exists() || groupLocation.listFiles().length <= 0) {
-            Rank defaultGroup = new Rank("Default", true, "[Default]", "", null, new String[]{});
-            Rank adminGroup = new Rank("Admin", false, "[Admin]", "", new String[]{defaultGroup.getName()}, new String[]{});
+            Rank defaultGroup = new Rank("Default", true, "[Default]", "", null, new String[]{"common.*", "teleport.*"});
+            Rank adminGroup = new Rank("Admin", false, "[Admin]", "", new String[]{defaultGroup.getName()}, new String[]{"*"});
             createGroup(defaultGroup);
             createGroup(adminGroup);
             loadRanks();

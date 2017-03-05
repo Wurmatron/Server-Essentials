@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -11,9 +10,13 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.Arrays;
 
-public class RulesCommand extends CommandBase {
+public class RulesCommand extends EssentialsCommand {
 
     private int LIST_SIZE = 7;
+
+    public RulesCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {
@@ -49,11 +52,5 @@ public class RulesCommand extends CommandBase {
                     sender.addChatMessage(new TextComponentString(rule));
         } else
             sender.addChatMessage(new TextComponentString(Local.NO_RULES));
-    }
-
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
     }
 }

@@ -1,7 +1,6 @@
 package wurmcraft.serveressentials.common.commands;
 
 import joptsimple.internal.Strings;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +21,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeCommand extends CommandBase {
+public class HomeCommand extends EssentialsCommand {
+
+    public HomeCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

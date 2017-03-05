@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +11,12 @@ import wurmcraft.serveressentials.common.reference.Local;
 
 import static wurmcraft.serveressentials.common.utils.DataHelper.activeRequests;
 
-public class TpaCommand extends CommandBase {
+public class TpaCommand extends EssentialsCommand {
+
+    public TpaCommand(String perm) {
+        super(perm);
+    }
+
     @Override
     public String getCommandName() {
         return "tpa";
@@ -46,10 +50,5 @@ public class TpaCommand extends CommandBase {
             } else
                 ((EntityPlayer) sender).addChatComponentMessage(new TextComponentString(Local.TPA_USERNAME_NONE));
         }
-    }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
     }
 }

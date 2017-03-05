@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameModeCommand extends CommandBase {
+public class GameModeCommand extends EssentialsCommand {
+
+    public GameModeCommand(String perm) {
+        super(perm);
+    }
 
     private static String[] CREATIVE = new String[]{"creative", "c", "1"};
     private static String[] SURVIVAL = new String[]{"survival", "s", "0"};

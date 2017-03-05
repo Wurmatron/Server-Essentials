@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HealCommand extends CommandBase {
+public class HealCommand extends EssentialsCommand {
+
+    public HealCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +14,11 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetWarpCommand extends CommandBase {
+public class SetWarpCommand extends EssentialsCommand {
+
+    public SetWarpCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

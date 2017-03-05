@@ -1,7 +1,6 @@
 package wurmcraft.serveressentials.common.commands;
 
 import joptsimple.internal.Strings;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +18,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SudoCommand extends CommandBase {
+public class SudoCommand extends EssentialsCommand {
+
+    public SudoCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

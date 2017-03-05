@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -13,7 +12,11 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DelWarp extends CommandBase {
+public class DelWarp extends EssentialsCommand {
+
+    public DelWarp(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {

@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +13,11 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetSpawnCommand extends CommandBase {
+public class SetSpawnCommand extends EssentialsCommand {
+
+    public SetSpawnCommand(String perm) {
+        super(perm);
+    }
 
     @Override
     public String getCommandName() {
