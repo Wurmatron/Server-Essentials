@@ -24,4 +24,5 @@ public class Perm {
     public static final String COMMAND_TPA = "teleport.tpa";
     public static final String COMMAND_TPA_ACCEPT = "teleport.tpaAccept";
     public static final String COMMAND_TPA_DENY = "teleport.tpaDeny";
+    public static final String COMMAND_TEAM = "common.team";
 }

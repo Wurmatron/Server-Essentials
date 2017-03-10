@@ -50,6 +50,15 @@ public class Local {
     public static final String TPA_DENY = TextFormatting.RED + "Tpa request canceled";
     public static final String TPA_ACCEPED_OTHER = TextFormatting.AQUA + "\"#\" has been teleported to your location";
     public static final String TPA_ACCEPTED = TextFormatting.AQUA + "# has accepted your tpa request";
+    public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
+    public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";
+    public static final String TEAM_INVALID = TextFormatting.RED + "No Team found with the name \"#\"";
+    public static final String TEAM_JOINED = TextFormatting.GREEN + "You have just joined the \"#\" team";
+    public static final String TEAM_LEFT = TextFormatting.AQUA + "You have just left the \"#\" team";
+    public static final String TEAM_LEADER_PERM = TextFormatting.RED + "You are not the leader for this team.";
+    public static final String TEAM_MISSING_NAME = TextFormatting.RED + "Missing player Name";
+    public static final String TEAM_INVITED = TextFormatting.AQUA + "Player \"#\" invited";
+    public static final String TEAM_INVITED_OTHER = TextFormatting.AQUA + "You have been invited to join the \"#\" team";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
