@@ -15,42 +15,39 @@ import java.util.List;
 
 public class SetSpawnCommand extends EssentialsCommand {
 
-    public SetSpawnCommand(String perm) {
-        super(perm);
-    }
+		public SetSpawnCommand(String perm) {
+				super(perm);
+		}
 
-    @Override
-    public String getCommandName() {
-        return "setSpawn";
-    }
+		@Override
+		public String getCommandName() {
+				return "setSpawn";
+		}
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/setSpawn";
-    }
+		@Override
+		public String getCommandUsage(ICommandSender sender) {
+				return "/setSpawn";
+		}
 
-    @Override
-    public List<String> getCommandAliases() {
-        List<String> aliases = new ArrayList<>();
-        aliases.add("setspawn");
-        aliases.add("sspawn");
-        aliases.add("setSpawn");
-        return aliases;
-    }
+		@Override
+		public List<String> getCommandAliases() {
+				List<String> aliases = new ArrayList<>(); aliases.add("setspawn"); aliases.add("sspawn"); aliases.add("setSpawn");
+				return aliases;
+		}
 
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (sender instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) sender;
-            DataHelper.globalSettings.setSpawn(new SpawnPoint(player.getPosition(), player.rotationYaw, player.rotationPitch));
-            player.worldObj.setSpawnPoint(player.getPosition());
-            TextComponentString text = new TextComponentString(Local.SPAWN_SET.replaceAll("@", "" + DataHelper.globalSettings.getSpawn().dimension));
-            text.getStyle().setHoverEvent(hoverEvent(DataHelper.globalSettings.getSpawn()));
-            player.addChatComponentMessage(text);
-        }
-    }
+		@Override
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+				if (sender instanceof EntityPlayer) {
+						EntityPlayer player = (EntityPlayer) sender;
+						DataHelper.globalSettings.setSpawn(new SpawnPoint(player.getPosition(), player.rotationYaw, player.rotationPitch));
+						player.worldObj.setSpawnPoint(player.getPosition());
+						TextComponentString text = new TextComponentString(Local.SPAWN_SET.replaceAll("@", "" + DataHelper.globalSettings.getSpawn().dimension));
+						text.getStyle().setHoverEvent(hoverEvent(DataHelper.globalSettings.getSpawn()));
+						player.addChatComponentMessage(text);
+				}
+		}
 
-    public HoverEvent hoverEvent(SpawnPoint home) {
-        return new HoverEvent(HoverEvent.Action.SHOW_TEXT, DataHelper.displayLocation(home));
-    }
+		public HoverEvent hoverEvent(SpawnPoint home) {
+				return new HoverEvent(HoverEvent.Action.SHOW_TEXT, DataHelper.displayLocation(home));
+		}
 }

@@ -16,47 +16,40 @@ import java.util.List;
 
 public class SetWarpCommand extends EssentialsCommand {
 
-    public SetWarpCommand(String perm) {
-        super(perm);
-    }
+		public SetWarpCommand(String perm) {
+				super(perm);
+		}
 
-    @Override
-    public String getCommandName() {
-        return "setwarp";
-    }
+		@Override
+		public String getCommandName() {
+				return "setwarp";
+		}
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/setwarp <name>";
-    }
+		@Override
+		public String getCommandUsage(ICommandSender sender) {
+				return "/setwarp <name>";
+		}
 
-    @Override
-    public List<String> getCommandAliases() {
-        List<String> aliases = new ArrayList<>();
-        aliases.add("[sS]etWarp");
-        aliases.add("SWarp");
-        return aliases;
-    }
+		@Override
+		public List<String> getCommandAliases() {
+				List<String> aliases = new ArrayList<>(); aliases.add("[sS]etWarp"); aliases.add("SWarp"); return aliases;
+		}
 
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (sender.getEntityWorld().isRemote)
-            return;
-        if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-            if (args.length != 1)
-                sender.addChatMessage(new TextComponentString(Local.WARP_NAME));
-            else {
-                EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
-                Warp warp = new Warp(args[0],player.getPosition(),player.dimension,player.rotationYaw,player.rotationPitch);
-                TextComponentString nameWarp = new TextComponentString(DataHelper.createWarp(warp));
-                DataHelper.createWarp(warp);
-                nameWarp.getStyle().setHoverEvent(hoverEvent(warp));
-                sender.addChatMessage(nameWarp);
-            }
-        }
-    }
+		@Override
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+				if (sender.getEntityWorld().isRemote) return; if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+						if (args.length != 1) sender.addChatMessage(new TextComponentString(Local.WARP_NAME));
+						else {
+								EntityPlayerMP      player   = (EntityPlayerMP) sender.getCommandSenderEntity();
+								Warp                warp     = new Warp(args[0], player.getPosition(), player.dimension, player.rotationYaw, player.rotationPitch);
+								TextComponentString nameWarp = new TextComponentString(DataHelper.createWarp(warp));
+								DataHelper.createWarp(warp); nameWarp.getStyle().setHoverEvent(hoverEvent(warp));
+								sender.addChatMessage(nameWarp);
+						}
+				}
+		}
 
-    public HoverEvent hoverEvent(Warp home) {
-        return new HoverEvent(HoverEvent.Action.SHOW_TEXT, DataHelper.displayLocation(home));
-    }
+		public HoverEvent hoverEvent(Warp home) {
+				return new HoverEvent(HoverEvent.Action.SHOW_TEXT, DataHelper.displayLocation(home));
+		}
 }

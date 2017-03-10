@@ -18,43 +18,38 @@ import java.util.List;
 
 public class HealCommand extends EssentialsCommand {
 
-    public HealCommand(String perm) {
-        super(perm);
-    }
+		public HealCommand(String perm) {
+				super(perm);
+		}
 
-    @Override
-    public String getCommandName() {
-        return "heal";
-    }
+		@Override
+		public String getCommandName() {
+				return "heal";
+		}
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/heal <name>";
-    }
+		@Override
+		public String getCommandUsage(ICommandSender sender) {
+				return "/heal <name>";
+		}
 
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (args.length == 1) {
-            PlayerList players = server.getServer().getPlayerList();
-            if (players.getPlayerList().size() > 0)
-                for (EntityPlayerMP user : players.getPlayerList())
-                    if (user.getGameProfile().getId().equals(server.getServer().getPlayerProfileCache().getGameProfileForUsername(args[0]).getId())) {
-                        user.setHealth(user.getMaxHealth());
-                        user.addChatComponentMessage(new TextComponentString(Local.HEAL_OTHER));
-                        sender.addChatMessage(new TextComponentString(Local.HEAL_OTHER_SENDER.replaceAll("#", user.getDisplayName().getUnformattedText())));
-                    }
-        } else if (sender instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) sender;
-            player.setHealth(player.getMaxHealth());
-            player.addChatComponentMessage(new TextComponentString(Local.HEAL_SELF));
-        }
-    }
+		@Override
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+				if (args.length == 1) {
+						PlayerList players = server.getServer().getPlayerList();
+						if (players.getPlayerList().size() > 0) for (EntityPlayerMP user : players.getPlayerList())
+								if (user.getGameProfile().getId().equals(server.getServer().getPlayerProfileCache().getGameProfileForUsername(args[0]).getId())) {
+										user.setHealth(user.getMaxHealth()); user.addChatComponentMessage(new TextComponentString(Local.HEAL_OTHER));
+										sender.addChatMessage(new TextComponentString(Local.HEAL_OTHER_SENDER.replaceAll("#", user.getDisplayName().getUnformattedText())));
+								}
+				} else if (sender instanceof EntityPlayer) {
+						EntityPlayer player = (EntityPlayer) sender; player.setHealth(player.getMaxHealth());
+						player.addChatComponentMessage(new TextComponentString(Local.HEAL_SELF));
+				}
+		}
 
-    @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
-        List<String> list = new ArrayList<>();
-        if (sender instanceof EntityPlayer)
-            Collections.addAll(list, FMLCommonHandler.instance().getMinecraftServerInstance().getAllUsernames());
-        return list;
-    }
+		@Override
+		public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+				List<String> list = new ArrayList<>(); if (sender instanceof EntityPlayer)
+						Collections.addAll(list, FMLCommonHandler.instance().getMinecraftServerInstance().getAllUsernames()); return list;
+		}
 }

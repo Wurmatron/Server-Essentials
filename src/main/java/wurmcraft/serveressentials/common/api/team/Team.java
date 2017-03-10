@@ -1,11 +1,12 @@
-package wurmcraft.serveressentials.common.api.storage;
-
-import wurmcraft.serveressentials.common.api.team.ITeam;
+package wurmcraft.serveressentials.common.api.team;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+	* @see ITeam
+	*/
 public class Team implements ITeam {
 
 		private String  teamName;

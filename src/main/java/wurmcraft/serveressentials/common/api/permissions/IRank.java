@@ -1,16 +1,40 @@
 package wurmcraft.serveressentials.common.api.permissions;
 
+/**
+	* Interface used for creation of ranks
+	*/
 public interface IRank {
 
-    String getName();
+		/**
+			* Name of this rank
+			* (Used for storage)
+			*/
+		String getName();
 
-    boolean isDefault();
+		/**
+			* Is default rank?
+			* more than 1 result in the one with the lower name when sorted alphabetical
+			*/
+		boolean isDefault();
 
-    String getPrefix();
+		/**
+			* Displayed before the players name
+			*/
+		String getPrefix();
 
-    String getSuffix();
+		/**
+			* Displayed after the players name
+			*/
+		String getSuffix();
 
-    String[] getInheritance();
+		/**
+			* Used for power and permissions
+			* takes everything from its inheritanced groups
+			*/
+		String[] getInheritance();
 
-    String[] getPermissions();
+		/**
+			* Permissions / Commands this group is sable to run
+			*/
+		String[] getPermissions();
 }

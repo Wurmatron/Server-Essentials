@@ -11,27 +11,25 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class PlayerRespawnEvent {
 
-    @SubscribeEvent
-    public void constructEvent(PlayerEvent.Clone e) {
-        if (e.isWasDeath() && !e.isCanceled()) {
-            if (Settings.respawn_point.equalsIgnoreCase("spawn")) {
-                teleportToSpawn(e.getEntityPlayer());
-            } else if (Settings.respawn_point.equalsIgnoreCase("home")) {
-                PlayerData playerData = DataHelper.getPlayerData(e.getEntityPlayer().getGameProfile().getId());
-                Home defaultHome = playerData.getHome(Settings.home_name);
-                if (defaultHome != null) {
-                    e.getEntityPlayer().setLocationAndAngles(defaultHome.getPos().getX(), defaultHome.getPos().getY(), defaultHome.getPos().getZ(), defaultHome.getYaw(), defaultHome.getPitch());
-                    e.getEntityPlayer().dimension = defaultHome.getDimension();
-                }
-            }
-        }
-    }
+		@SubscribeEvent
+		public void constructEvent(PlayerEvent.Clone e) {
+				if (e.isWasDeath() && !e.isCanceled()) {
+						if (Settings.respawn_point.equalsIgnoreCase("spawn")) {
+								teleportToSpawn(e.getEntityPlayer());
+						} else if (Settings.respawn_point.equalsIgnoreCase("home")) {
+								PlayerData playerData  = DataHelper.getPlayerData(e.getEntityPlayer().getGameProfile().getId());
+								Home       defaultHome = playerData.getHome(Settings.home_name); if (defaultHome != null) {
+										e.getEntityPlayer().setLocationAndAngles(defaultHome.getPos().getX(), defaultHome.getPos().getY(), defaultHome.getPos().getZ(), defaultHome.getYaw(), defaultHome.getPitch());
+										e.getEntityPlayer().dimension = defaultHome.getDimension();
+								}
+						}
+				}
+		}
 
-    private void teleportToSpawn(EntityPlayer player) {
-        SpawnPoint spawn = DataHelper.globalSettings.getSpawn();
-        if (spawn != null) {
-            player.setLocationAndAngles(spawn.location.getX(), spawn.location.getY(), spawn.location.getZ(), spawn.yaw, spawn.pitch);
-            player.dimension = spawn.dimension;
-        }
-    }
+		private void teleportToSpawn(EntityPlayer player) {
+				SpawnPoint spawn = DataHelper.globalSettings.getSpawn(); if (spawn != null) {
+						player.setLocationAndAngles(spawn.location.getX(), spawn.location.getY(), spawn.location.getZ(), spawn.yaw, spawn.pitch);
+						player.dimension = spawn.dimension;
+				}
+		}
 }

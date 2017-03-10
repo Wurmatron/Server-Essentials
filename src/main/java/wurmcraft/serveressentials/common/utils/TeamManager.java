@@ -1,6 +1,6 @@
 package wurmcraft.serveressentials.common.utils;
 
-import wurmcraft.serveressentials.common.api.storage.Team;
+import wurmcraft.serveressentials.common.api.team.Team;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,11 +13,8 @@ public class TeamManager {
 		public static boolean register(Team team) {
 				if (!teams.contains(team)) {
 						for (Team name : teams)
-								if (name.getName().equalsIgnoreCase(team.getName()))
-										return false;
-						teams.add(team);
-						DataHelper.createTeam(team,false);
-						return true;
+								if (name.getName().equalsIgnoreCase(team.getName())) return false; teams.add(team);
+						DataHelper.createTeam(team, false); return true;
 				} return false;
 		}
 
@@ -31,7 +28,6 @@ public class TeamManager {
 		}
 
 		public static void removeTeam(Team team) {
-				teams.remove(team);
-				DataHelper.deleteTeam(team);
+				teams.remove(team); DataHelper.deleteTeam(team);
 		}
 }
