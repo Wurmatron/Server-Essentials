@@ -59,6 +59,9 @@ public class Local {
     public static final String TEAM_MISSING_NAME = TextFormatting.RED + "Missing player Name";
     public static final String TEAM_INVITED = TextFormatting.AQUA + "Player \"#\" invited";
     public static final String TEAM_INVITED_OTHER = TextFormatting.AQUA + "You have been invited to join the \"#\" team";
+    public static final String TEAM_KICKED = TextFormatting.RED + "You have been forfully kicked from your team";
+    public static final String TEAM_KICKED_OTHER = TextFormatting.RED + "You have forfully kicked \"#\" from your team";
+    public static final String TEAMADMIN_DISBAND = TextFormatting.DARK_RED + "You have disbanded the \"#\" team!";
 
     // Teleport
     public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";

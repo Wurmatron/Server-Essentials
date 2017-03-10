@@ -29,4 +29,9 @@ public class TeamManager {
 		public static List<Team> getTeams() {
 				return Collections.unmodifiableList(teams);
 		}
+
+		public static void removeTeam(Team team) {
+				teams.remove(team);
+				DataHelper.deleteTeam(team);
+		}
 }

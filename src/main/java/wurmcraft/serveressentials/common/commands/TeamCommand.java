@@ -8,6 +8,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.UsernameCache;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.api.storage.Team;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -16,6 +18,7 @@ import wurmcraft.serveressentials.common.utils.TeamManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class TeamCommand extends EssentialsCommand {
 
@@ -35,7 +38,7 @@ public class TeamCommand extends EssentialsCommand {
 
 		@Override
 		public String getCommandUsage(ICommandSender sender) {
-				return "/team join | leave | create | invite";
+				return "/team join | leave | create | invite | kick";
 		}
 
 		@Override
@@ -80,6 +83,21 @@ public class TeamCommand extends EssentialsCommand {
 																		team.addPossibleMember(user.getGameProfile().getId()); DataHelper.saveTeam(team);
 																}
 												} else player.addChatComponentMessage(new TextComponentString(Local.TEAM_MISSING_NAME));
+										} else if (team != null) player.addChatComponentMessage(new TextComponentString(Local.TEAM_LEADER_PERM));
+								} else if (args[0].equalsIgnoreCase("kick")) {
+										Team team = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeam();
+										if (team != null && team.getLeader().equals(player.getGameProfile().getId())) {
+												if (args.length == 1 && args[1] != null) {
+														for (UUID key : UsernameCache.getMap().keySet())
+																if (UsernameCache.getLastKnownUsername(key).equalsIgnoreCase(args[1])) {
+																		PlayerData data = DataHelper.getPlayerData(key); if (data == null) DataHelper.loadPlayerData(key);
+																		DataHelper.setTeam(key, null); PlayerList players = server.getServer().getPlayerList();
+																		if (players.getPlayerList().size() > 0) for (EntityPlayerMP user : players.getPlayerList())
+																				if (user.getGameProfile().getId().equals(server.getServer().getPlayerProfileCache().getGameProfileForUsername(args[1]).getId()))
+																						user.addChatComponentMessage(new TextComponentString(Local.TEAM_KICKED));
+																		player.addChatComponentMessage(new TextComponentString(Local.TEAM_KICKED_OTHER.replaceAll("#", UsernameCache.getLastKnownUsername(key))));
+																}
+												}
 										} else if (team != null) player.addChatComponentMessage(new TextComponentString(Local.TEAM_LEADER_PERM));
 								}
 						} else player.addChatComponentMessage(new TextComponentString(getCommandUsage(sender)));

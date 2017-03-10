@@ -63,6 +63,7 @@ public class ServerEssentialsServer {
         e.registerServerCommand(new TpacceptCommand(Perm.COMMAND_TPA_ACCEPT));
         e.registerServerCommand(new TpdenyCommand(Perm.COMMAND_TPA_DENY));
         e.registerServerCommand(new TeamCommand(Perm.COMMAND_TEAM));
+        e.registerServerCommand(new TeamAdminCommand(Perm.COMMAND_TEAMADMIN));
         DataHelper.createDefaultRank();
         DataHelper.loadWarps();
         DataHelper.loadGlobal();

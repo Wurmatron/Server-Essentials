@@ -324,4 +324,9 @@ public class DataHelper {
 				File teamFileLoction = new File(teamLoction + File.separator + team.getName() + ".json");
 				if (teamFileLoction.exists()) createTeam(team, true);
 		}
+
+		public static void deleteTeam(Team team) {
+				File teamFileLoction = new File(teamLoction + File.separator + team.getName() + ".json");
+				if (teamFileLoction.exists()) teamFileLoction.delete();
+		}
 }
