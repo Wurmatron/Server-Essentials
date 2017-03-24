@@ -46,7 +46,7 @@ public class Team implements ITeam {
 
 		@Override
 		public boolean canJoin(UUID name) {
-				if (isPublic() || requetedPlayers.contains(name)) return true; return false;
+				return isPublic() || requetedPlayers.contains(name);
 		}
 
 		@Override

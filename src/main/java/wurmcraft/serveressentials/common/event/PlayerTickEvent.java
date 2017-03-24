@@ -23,7 +23,7 @@ public class PlayerTickEvent {
 
 		@SubscribeEvent
 		public void tickStart(TickEvent.PlayerTickEvent e) {
-				if (openInv.size() > 0) if (openInv.containsKey(e.player)) openInv.get(e.player).update();
+				if (openInv.size() > 0 && openInv.containsKey(e.player)) openInv.get(e.player).update();
 				if (DataHelper.activeRequests.size() > 0 && e.player.worldObj.getWorldTime() % 20 == 0)
 						for (long time : DataHelper.activeRequests.keySet())
 								if ((time + (Settings.tpa_timeout * 1000)) <= System.currentTimeMillis())

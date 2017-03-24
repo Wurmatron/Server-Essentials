@@ -19,14 +19,14 @@ import java.util.List;
 
 public class GameModeCommand extends EssentialsCommand {
 
-		public GameModeCommand(String perm) {
-				super(perm);
-		}
-
 		private static String[] CREATIVE  = new String[]{"creative", "c", "1"};
 		private static String[] SURVIVAL  = new String[]{"survival", "s", "0"};
 		private static String[] ADVENTURE = new String[]{"adventure", "a", "2"};
 		private static String[] SPECTATOR = new String[]{"spectator", "sp", "3"};
+
+		public GameModeCommand(String perm) {
+				super(perm);
+		}
 
 		@Override
 		public String getCommandName() {
