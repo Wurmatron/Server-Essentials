@@ -22,6 +22,7 @@ public class ClaimManager {
 				File saveLocation = new File(claimLocation + File.separator + Byte.toString(dimensionID));
 				if (!saveLocation.exists()) saveLocation.mkdirs(); try {
 						File regionFile = new File(saveLocation + File.separator + ChunkHelper.getSaveNameForRegion(locationInside));
+						LogHandler.info("A: " + ChunkHelper.getSaveNameForRegion(locationInside));
 						Files.write(Paths.get(regionFile.getAbsolutePath()), gson.toJson(claim).getBytes());
 				} catch (IOException e) {
 						e.printStackTrace();
@@ -45,9 +46,11 @@ public class ClaimManager {
 		}
 
 		public static Claim getClaim(int dimensionID, BlockPos pos) {
-				for (Location loc : loadedClaims.keySet()) {
-						Location location = ChunkHelper.getRegionLocation(loc);
-						if(loc.getX() == location.getX() && loc.getZ() == location.getZ()) {
+				if (loadedClaims.size() > 0)
+						for (Location loc : loadedClaims.keySet()) {
+						Location location = ChunkHelper.getRegionLocation(pos);
+						if (loc.getX() == location.getX() && loc.getZ() == location.getZ()) {
+								LogHandler.info(location.toString());
 								RegionClaim regionClaim = loadedClaims.get(loc);
 								return regionClaim.getClaim(pos);
 						}

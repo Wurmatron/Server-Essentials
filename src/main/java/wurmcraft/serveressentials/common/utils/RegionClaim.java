@@ -15,12 +15,16 @@ public class RegionClaim {
 		}
 
 		public Claim getClaim(BlockPos loc) {
-				if (ChunkHelper.getChunkIndexWithinRegion(ChunkHelper.getChunkFromCords(loc)) >= 0)
-						return chunks[ChunkHelper.getChunkIndexWithinRegion(ChunkHelper.getChunkFromCords(loc))]; return null;
+				int index = Math.abs(ChunkHelper.getChunkIndexWithinRegion(ChunkHelper.getChunkFromCords(loc)));
+				if (index >= 0 && index < 1024)
+						return chunks[index];
+				return null;
 		}
 
 		public Claim getClaim(Location loc) {
-				return chunks[ChunkHelper.getChunkIndexWithinRegion(ChunkHelper.getChunkFromCords(loc))];
+				int index = Math.abs(ChunkHelper.getChunkIndexWithinRegion(ChunkHelper.getChunkFromCords(loc)));
+				if (index > 0 && chunks.length > index) return chunks[index];
+				return null;
 		}
 
 		public void deleteClaim(int index) {

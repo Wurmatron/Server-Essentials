@@ -16,9 +16,7 @@ import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.ClaimManager;
-import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.RegionClaim;
+import wurmcraft.serveressentials.common.utils.*;
 
 import java.util.UUID;
 
@@ -42,7 +40,7 @@ public class ServerEssentialsServer {
 				MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
 				MinecraftForge.EVENT_BUS.register(new PlayerRespawnEvent());
 				MinecraftForge.EVENT_BUS.register(new PlayerChatEvent());
-				MinecraftForge.EVENT_BUS.register(new BreakBlockEvent());
+				MinecraftForge.EVENT_BUS.register(new ClaimEvent());
 		}
 
 		@Mod.EventHandler
@@ -80,5 +78,11 @@ public class ServerEssentialsServer {
 								claim.addClaim(new Location(x, z), new Claim(new Team("test", UUID.randomUUID(), false), UUID.randomUUID()));
 				ClaimManager.saveRegionClaim((byte) 0, new BlockPos(0, 200, 0), claim);
 				ClaimManager.loadedClaims.put(new Location(0,0), claim);
+				RegionClaim claim2 = new RegionClaim();
+				for (int x = 0; x < 32; x++)
+						for (int z = 0; z < 32; z++)
+								claim2.addClaim(new Location(x, z), new Claim(new Team("test2", UUID.randomUUID(), false), UUID.randomUUID()));
+				ClaimManager.saveRegionClaim((byte) 0, new BlockPos(-1, 200, -1), claim2);
+				ClaimManager.loadedClaims.put(new Location(-1,-1), claim2);
 		}
 }
