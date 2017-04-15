@@ -18,8 +18,8 @@ public class ClaimManager {
 		private static final Gson                           gson          = new GsonBuilder().setPrettyPrinting().create();
 		public static        HashMap<Location, RegionClaim> loadedClaims  = new HashMap<>();
 
-		public static void saveRegionClaim(byte dimensionID, BlockPos locationInside, RegionClaim claim) {
-				File saveLocation = new File(claimLocation + File.separator + Byte.toString(dimensionID));
+		public static void saveRegionClaim(int dimensionID, BlockPos locationInside, RegionClaim claim) {
+				File saveLocation = new File(claimLocation + File.separator + dimensionID);
 				if (!saveLocation.exists()) saveLocation.mkdirs(); try {
 						File regionFile = new File(saveLocation + File.separator + ChunkHelper.getSaveNameForRegion(locationInside));
 						LogHandler.info("A: " + ChunkHelper.getSaveNameForRegion(locationInside));
