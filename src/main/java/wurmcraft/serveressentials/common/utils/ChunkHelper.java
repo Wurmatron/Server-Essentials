@@ -42,6 +42,6 @@ public class ChunkHelper {
 		}
 
 		public static int getChunkIndexWithinRegion(Location loc) {
-					return (loc.getX() * 32) + loc.getZ();
+					return (loc.getX() * 32) + (loc.getZ() / 16);
 		}
 }

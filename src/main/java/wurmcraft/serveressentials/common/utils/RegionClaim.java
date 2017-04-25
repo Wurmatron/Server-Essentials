@@ -32,6 +32,6 @@ public class RegionClaim {
 		}
 
 		public void addClaim(Location loc, Claim claim) {
-				chunks[ChunkHelper.getChunkIndexWithinRegion(loc)] = claim;
+				chunks[ChunkHelper.getChunkIndexWithinRegion(ChunkHelper.getChunkFromCords(loc))] = claim;
 		}
 }

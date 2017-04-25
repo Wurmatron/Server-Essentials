@@ -41,6 +41,7 @@ public class ClaimCommand extends EssentialsCommand {
 												regionClaim.addClaim(ChunkHelper.getChunkFromCords(player.getPosition()), new Claim(new Team("test", UUID.randomUUID(), false), player.getGameProfile().getId()));
 												player.addChatComponentMessage(new TextComponentString("Chunk Claimed"));
 												ClaimManager.saveRegionClaim(player.dimension, player.getPosition(), regionClaim);
+												ClaimManager.loadRegionClaim(player.dimension,ChunkHelper.getRegionLocation(player.getPosition()));
 										} else
 												player.addChatComponentMessage(new TextComponentString("Chunk Already Claimed"));
 								} else {

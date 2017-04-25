@@ -27,4 +27,5 @@ public class Perm {
 		public static final String COMMAND_TEAM        = "common.team";
 		public static final String COMMAND_TEAMADMIN   = "admin.teamAdmin";
 		public static final String COMMAND_CLAIM       = "claim.claim";
+		public static final String COMMAND_REM_CLAIM   = "claim.removeClaim";
 }
