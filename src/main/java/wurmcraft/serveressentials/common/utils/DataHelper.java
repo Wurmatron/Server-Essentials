@@ -32,6 +32,7 @@ public class DataHelper {
 		public static HashMap<UUID, PlayerData>     loadedPlayers  = new HashMap<>();
 		public static ArrayList<Warp>               loadedWarps    = new ArrayList<>();
 		public static HashMap<Long, EntityPlayer[]> activeRequests = new HashMap<>();
+		public static ArrayList<UUID>               afkPlayers     = new ArrayList<>();
 		public static Global globalSettings;
 
 		private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -329,5 +330,17 @@ public class DataHelper {
 		public static void deleteTeam(Team team) {
 				File teamFileLoction = new File(teamLoction + File.separator + team.getName() + ".json");
 				if (teamFileLoction.exists()) teamFileLoction.delete();
+		}
+
+		public static void addAfkPlayer(EntityPlayer player) {
+				if (!afkPlayers.contains(player.getGameProfile().getId())) afkPlayers.add(player.getGameProfile().getId());
+		}
+
+		public static void removeAfkPlayer(EntityPlayer player) {
+				if (afkPlayers.contains(player.getGameProfile().getId())) afkPlayers.remove(player.getGameProfile().getId());
+		}
+
+		public static boolean isAfk(UUID uuid) {
+				return afkPlayers.contains(uuid);
 		}
 }

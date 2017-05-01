@@ -19,6 +19,7 @@ public class PlayerData {
 		private int max_homes = 4;
 		private long teleport_timer;
 		private long lastseen;
+		private int money;
 		private Home[]     homes       = new Home[max_homes];
 		private List<Mail> currentMail = new ArrayList<>();
 		private String team;

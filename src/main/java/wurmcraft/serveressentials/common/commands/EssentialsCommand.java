@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 
 public class EssentialsCommand extends CommandBase {
 
@@ -38,9 +37,9 @@ public class EssentialsCommand extends CommandBase {
 						IRank        rank   = DataHelper.getPlayerData(player.getGameProfile().getId()).getRank();
 						if (rank.getPermissions().length > 0) for (String perm : rank.getPermissions())
 								if (perm != null) if (perm.equalsIgnoreCase(this.perm)) {
-										LogHandler.info("A"); return true;
+										return true;
 								} else if (perm.startsWith("*")) {
-										LogHandler.info("B"); return true;
+										return true;
 								} else if (perm.endsWith("*") && this.perm.startsWith(perm.substring(0, perm.indexOf("*")))) return true;
 				} return false;
 		}

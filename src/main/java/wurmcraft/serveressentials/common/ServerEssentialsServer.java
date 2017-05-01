@@ -68,8 +68,13 @@ public class ServerEssentialsServer {
 				e.registerServerCommand(new TeamAdminCommand(Perm.COMMAND_TEAMADMIN));
 				e.registerServerCommand(new ClaimCommand(Perm.COMMAND_CLAIM));
 				e.registerServerCommand(new RemoveClaimCommand(Perm.COMMAND_REM_CLAIM));
-				DataHelper.createDefaultRank();
-				DataHelper.loadWarps(); DataHelper.loadGlobal(); DataHelper.loadRanks(); DataHelper.loadAllTeams();
+				e.registerServerCommand(new FlyCommand(Perm.COMMAND_FLY));
+				e.registerServerCommand(new AfkCommand(Perm.COMMAND_AFK));
+				e.registerServerCommand(new BroadcastCommand(Perm.COMMAND_BROADCAST));
+				e.registerServerCommand(new PingCommand(Perm.COMMAND_PING));
+				e.registerServerCommand(new SkullCommand(Perm.COMMAND_SKULL));
+				DataHelper.createDefaultRank(); DataHelper.loadWarps();
+				DataHelper.loadGlobal(); DataHelper.loadRanks(); DataHelper.loadAllTeams();
 				// TODO Remember to remove when done testing
 //				RegionData regionData1 = new RegionData(); for (int x = 0; x < 32; x++)
 //						for (int z = 0; z < 32; z++)

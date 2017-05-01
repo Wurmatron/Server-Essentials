@@ -28,4 +28,9 @@ public class Perm {
 		public static final String COMMAND_TEAMADMIN   = "admin.teamAdmin";
 		public static final String COMMAND_CLAIM       = "claim.claim";
 		public static final String COMMAND_REM_CLAIM   = "claim.removeClaim";
+		public static final String COMMAND_FLY         = "admin.fly";
+		public static final String COMMAND_AFK         = "common.afk";
+		public static final String COMMAND_BROADCAST   = "admin.broadcast";
+		public static final String COMMAND_PING        = "common.ping";
+		public static final String COMMAND_SKULL       = "admin.skull";
 }
