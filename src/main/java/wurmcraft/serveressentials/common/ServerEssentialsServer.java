@@ -6,11 +6,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import wurmcraft.serveressentials.common.api.storage.Claim;
-import wurmcraft.serveressentials.common.api.storage.Location;
-import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
-import wurmcraft.serveressentials.common.api.storage.RegionData;
 import wurmcraft.serveressentials.common.commands.*;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
@@ -20,8 +16,6 @@ import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-
-import java.util.UUID;
 
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
 public class ServerEssentialsServer {
@@ -77,10 +71,11 @@ public class ServerEssentialsServer {
 				DataHelper.createDefaultRank();
 				DataHelper.loadWarps(); DataHelper.loadGlobal(); DataHelper.loadRanks(); DataHelper.loadAllTeams();
 				// TODO Remember to remove when done testing
-				RegionData regionData1 = new RegionData(); for (int x = 0; x < 32; x++)
-						for (int z = 0; z < 32; z++)
-								regionData1.addClaim(new Location(x, z), new Claim(new Team("test", UUID.randomUUID(), false), UUID.randomUUID()));
-				ChunkManager.handleRegionUpdate(new Location(0, 0), regionData1);
-				ChunkManager.loadRegion(new Location(0,0));
+//				RegionData regionData1 = new RegionData(); for (int x = 0; x < 32; x++)
+//						for (int z = 0; z < 32; z++)
+//								regionData1.addClaim(new Location(x, z), new Claim(new Team("test", UUID.randomUUID(), false), UUID.randomUUID()));
+//				ChunkManager.handleRegionUpdate(new Location(0, 0), regionData1);
+//				ChunkManager.loadRegion(new Location(0,0));
+				ChunkManager.loadAllClaims();
 		}
 }

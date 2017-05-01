@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import wurmcraft.serveressentials.common.api.storage.Claim;
 import wurmcraft.serveressentials.common.api.storage.Location;
 import wurmcraft.serveressentials.common.api.storage.RegionData;
+import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
 	* Utility class used for Claiming
@@ -139,7 +141,8 @@ public class ChunkManager {
 			* @see RegionData
 			*/
 		public static void loadRegion(Location loc) {
-				File regionFile = getFileForRegion(loc); try {
+				File regionFile = getFileForRegion(loc);
+				try {
 						RegionData data = gson.fromJson(Strings.join(IOUtils.readLines(new FileInputStream(regionFile)), ""), RegionData.class);
 						addLoadedRegion(loc, data);
 				} catch (FileNotFoundException e) {} catch (IOException e) {}
@@ -216,5 +219,41 @@ public class ChunkManager {
 		public static void forceSaveAll() {
 				for (Location loc : claimData.keySet())
 						saveRegion(loc, claimData.get(loc));
+		}
+
+		public static boolean canDestroy(Claim claim, UUID uuid) {
+				if(claim != null && uuid != null) {
+					Team team = claim.getTeam();
+					if(team != null) {
+							if(team.getMembers().size() > 0) {
+									for(UUID member : team.getMembers().keySet())
+											if(member.equals(uuid))
+													return true;
+									return claim.getOwner().equals(uuid);
+							} else return claim.getOwner().equals(uuid);
+					} else return claim.getOwner().equals(uuid);
+				}
+				return false;
+//				if (claim != null && uuid != null) {
+//						Team team = claim.getTeam(); if (team != null) {
+//								if (team.getMembers().size() > 0) for (UUID members : team.getMembers().keySet())
+//										if (members.equals(uuid)) return true; return claim.getOwner().equals(uuid);
+//						} return claim.getOwner().equals(uuid);
+//				} return false;
+		}
+
+		public static void loadAllClaims() {
+				if (SAVE_LOCATION.exists() && SAVE_LOCATION.listFiles().length > 0) for (File file : SAVE_LOCATION.listFiles()) {
+						loadRegion(convertClaimFileNameToLocation(file));
+				}
+		}
+
+		public static Location convertClaimFileNameToLocation(File file) {
+				if(file != null && file.getName().length() > 0) {
+						int x =  Integer.valueOf(file.getName().substring(2, file.getName().indexOf(".", 3)));
+						int z = Integer.valueOf(file.getName().substring(file.getName().indexOf(".", 3)+1,file.getName().indexOf(".", file.getName().indexOf(".", 3)+1)));
+						return new Location(x, z);
+				}
+				return null;
 		}
 }

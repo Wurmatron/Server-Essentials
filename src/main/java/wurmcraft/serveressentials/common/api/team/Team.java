@@ -46,17 +46,21 @@ public class Team implements ITeam {
 
 		@Override
 		public boolean canJoin(UUID name) {
-				return isPublic() || requetedPlayers.contains(name);
+				for (UUID player : requetedPlayers)
+						if (player.equals(name)) return true; return isPublic();
 		}
 
 		@Override
 		public void addMember(UUID name) {
-				if (!members.keySet().contains(name)) members.put(name, "default");
+				if (!members.keySet().contains(name)) {
+						members.put(name, "default"); requetedPlayers.remove(name);
+				}
 		}
 
 		@Override
 		public void removeMember(UUID name) {
-				members.remove(name);
+				for (UUID mem : members.keySet())
+						if (mem.equals(name)) members.remove(mem);
 		}
 
 		@Override

@@ -54,7 +54,7 @@ public class TeamCommand extends EssentialsCommand {
 												}
 										} else player.addChatComponentMessage(new TextComponentString(Local.TEAM_CREATE_MISSING_NAME));
 								} else if (args[0].equalsIgnoreCase("join")) {
-										if (args.length <= 1) {
+										if (args.length >= 1) {
 												Team team = TeamManager.getTeamFromName(Strings.join(Arrays.copyOfRange(args, 1, args.length), " "));
 												if (team != null) {
 														if (team.canJoin(player.getGameProfile().getId())) {
@@ -69,7 +69,7 @@ public class TeamCommand extends EssentialsCommand {
 										Team team = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeam(); if (team != null) {
 												player.addChatComponentMessage(new TextComponentString(Local.TEAM_LEFT.replaceAll("#", team.getName())));
 												DataHelper.setTeam(player.getGameProfile().getId(), null);
-												team.removeMember(player.getGameProfile().getId());
+												team.removeMember(player.getGameProfile().getId()); DataHelper.saveTeam(team);
 										}
 								} else if (args[0].equalsIgnoreCase("invite")) {
 										Team team = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeam();
@@ -91,7 +91,8 @@ public class TeamCommand extends EssentialsCommand {
 														for (UUID key : UsernameCache.getMap().keySet())
 																if (UsernameCache.getLastKnownUsername(key).equalsIgnoreCase(args[1])) {
 																		PlayerData data = DataHelper.getPlayerData(key); if (data == null) DataHelper.loadPlayerData(key);
-																		DataHelper.setTeam(key, null); PlayerList players = server.getServer().getPlayerList();
+																		DataHelper.setTeam(key, null); team.removeMember(key); DataHelper.saveTeam(team);
+																		PlayerList players = server.getServer().getPlayerList();
 																		if (players.getPlayerList().size() > 0) for (EntityPlayerMP user : players.getPlayerList())
 																				if (user.getGameProfile().getId().equals(server.getServer().getPlayerProfileCache().getGameProfileForUsername(args[1]).getId()))
 																						user.addChatComponentMessage(new TextComponentString(Local.TEAM_KICKED));
