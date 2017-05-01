@@ -13,6 +13,7 @@ import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.api.storage.RegionData;
 import wurmcraft.serveressentials.common.commands.*;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
+import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
@@ -71,7 +72,9 @@ public class ServerEssentialsServer {
 				e.registerServerCommand(new TpdenyCommand(Perm.COMMAND_TPA_DENY));
 				e.registerServerCommand(new TeamCommand(Perm.COMMAND_TEAM));
 				e.registerServerCommand(new TeamAdminCommand(Perm.COMMAND_TEAMADMIN));
-				e.registerServerCommand(new ClaimCommand(Perm.COMMAND_CLAIM)); DataHelper.createDefaultRank();
+				e.registerServerCommand(new ClaimCommand(Perm.COMMAND_CLAIM));
+				e.registerServerCommand(new RemoveClaimCommand(Perm.COMMAND_REM_CLAIM));
+				DataHelper.createDefaultRank();
 				DataHelper.loadWarps(); DataHelper.loadGlobal(); DataHelper.loadRanks(); DataHelper.loadAllTeams();
 				// TODO Remember to remove when done testing
 				RegionData regionData1 = new RegionData(); for (int x = 0; x < 32; x++)
