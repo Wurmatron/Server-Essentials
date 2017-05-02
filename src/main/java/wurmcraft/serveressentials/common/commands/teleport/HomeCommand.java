@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.teleport;
 
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
@@ -13,6 +13,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;

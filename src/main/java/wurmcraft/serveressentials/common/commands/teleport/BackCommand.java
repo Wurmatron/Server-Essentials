@@ -1,13 +1,18 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BackCommand extends EssentialsCommand {
 
@@ -26,6 +31,14 @@ public class BackCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("Back");
+		aliases.add ("BACK");
+		return aliases;
+	}
+
+	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
@@ -34,7 +47,7 @@ public class BackCommand extends EssentialsCommand {
 				BlockPos lastLocation = data.getLastLocation ();
 				player.setPosition (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());
 				DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
-				player.addChatComponentMessage (new TextComponentString ("You have been sent to your last location"));
+				ChatManager.sendMessage (player,Local.TELEPORT_BACK);
 			}
 		}
 	}

@@ -35,6 +35,9 @@ public class TeamCommand extends EssentialsCommand {
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
 		aliases.add ("t");
+		aliases.add ("Team");
+		aliases.add ("T");
+		aliases.add ("TEAM");
 		return aliases;
 	}
 

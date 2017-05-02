@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 

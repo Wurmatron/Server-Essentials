@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.player;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
 import javax.annotation.Nullable;

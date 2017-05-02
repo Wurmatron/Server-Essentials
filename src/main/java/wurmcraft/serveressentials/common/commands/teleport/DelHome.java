@@ -1,14 +1,16 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -51,11 +53,11 @@ public class DelHome extends EssentialsCommand {
 			if (data == null)
 				DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
 			if (args.length == 0)
-				sender.addChatMessage (new TextComponentString (DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name)));
+				ChatManager.sendMessage (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name));
 			else if (args.length == 1)
-				sender.addChatMessage (new TextComponentString (DataHelper.deleteHome (player.getGameProfile ().getId (),args[0])));
+				ChatManager.sendMessage (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),args[0]));
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatManager.sendMessage (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override

@@ -4,8 +4,8 @@ import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -31,7 +31,10 @@ public class AddRuleCommand extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
-		aliases.add ("arule");
+		aliases.add ("AddRule");
+		aliases.add ("addrule");
+		aliases.add ("AddRule");
+		aliases.add ("ADDRULE");
 		return aliases;
 	}
 
@@ -41,8 +44,8 @@ public class AddRuleCommand extends EssentialsCommand {
 		if (args.length > 0) {
 			String rule = Strings.join (args," ");
 			DataHelper.globalSettings.addRule (rule);
-			sender.addChatMessage (new TextComponentString (Local.RULE_CREATED.replaceAll ("#",rule)));
+			ChatManager.sendMessage (sender,Local.RULE_CREATED.replaceAll ("#",rule));
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatManager.sendMessage (sender,getCommandUsage (sender));
 	}
 }

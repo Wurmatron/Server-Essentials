@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.ChatManager;
 

@@ -5,6 +5,8 @@ import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.*;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
+import wurmcraft.serveressentials.common.commands.player.*;
+import wurmcraft.serveressentials.common.commands.teleport.*;
 import wurmcraft.serveressentials.common.reference.Perm;
 
 public class LoadHelper {
@@ -48,6 +50,7 @@ public class LoadHelper {
 		e.registerServerCommand (new TpCommand (Perm.COMMAND_TELEPORT));
 		e.registerServerCommand (new FreezeCommand (Perm.COMMAND_FREEZE));
 		e.registerServerCommand (new TopCommand (Perm.COMMAND_TOP));
+		e.registerServerCommand (new SuicideCommand (Perm.COMMAND_SUICIDE));
 	}
 
 	public static void loadData() {

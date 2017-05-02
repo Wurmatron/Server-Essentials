@@ -1,13 +1,14 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.Warp;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -48,18 +49,18 @@ public class DelWarp extends EssentialsCommand {
 			if (DataHelper.getWarp (args[0]) != null) {
 				Warp warp = DataHelper.getWarp (args[0]);
 				DataHelper.deleteWarp (DataHelper.getWarp (args[0]));
-				sender.addChatMessage (new TextComponentString (Local.WARP_DELETE.replaceAll ("#",warp.getName ())));
+				ChatManager.sendMessage (sender,Local.WARP_DELETE.replaceAll ("#",warp.getName ()));
 			}
 		} else
-			sender.addChatMessage (new TextComponentString (Local.WARP_NONE));
+			ChatManager.sendMessage (sender,Local.WARPS_NONE);
 	}
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
 		if (sender instanceof EntityPlayer)
-			for(Warp warp : DataHelper.getWarps ())
-				if(warp != null && warp.getName ().length () > 0)
+			for (Warp warp : DataHelper.getWarps ())
+				if (warp != null && warp.getName ().length () > 0)
 					list.add (warp.getName ());
 		return list;
 	}

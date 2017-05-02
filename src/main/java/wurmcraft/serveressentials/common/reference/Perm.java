@@ -40,4 +40,5 @@ public class Perm {
 	public static final String COMMAND_TELEPORT = "admin.teleport";
 	public static final String COMMAND_FREEZE = "admin.freeze";
 	public static final String COMMAND_TOP = "admin.top";
+	public static final String COMMAND_SUICIDE = "common.suicide";
 }

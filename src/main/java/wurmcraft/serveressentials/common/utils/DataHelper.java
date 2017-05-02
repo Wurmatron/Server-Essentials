@@ -29,6 +29,7 @@ public class DataHelper {
 	public static final File warpLocation = new File (saveLocation + File.separator + "Warp" + File.separator);
 	public static final File groupLocation = new File (saveLocation + File.separator + "Group" + File.separator);
 	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
+	public static final File ticketLocation = new File (saveLocation + File.separator + "Tickets" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 	public static HashMap <UUID, PlayerData> loadedPlayers = new HashMap <> ();
 	public static ArrayList <Warp> loadedWarps = new ArrayList <> ();

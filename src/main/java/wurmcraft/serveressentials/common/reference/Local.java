@@ -41,6 +41,8 @@ public class Local {
 	public static final String TOP = TextFormatting.GREEN + "You have been teleport to the top";
 	public static final String SKULL = TextFormatting.AQUA + "#'s head has been placed in your inventory!";
 	public static final String PLAYER_ONLY = TextFormatting.RED + "Command can only be run by players!";
+	public static final String AFK_NOW = TextFormatting.RED + "# is not afk!";
+	public static final String AFK_OFF = TextFormatting.RED + "# is no longer afk!";
 	// Player
 	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
 	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
@@ -72,6 +74,7 @@ public class Local {
 	public static final String TPA_ACCEPTED = TextFormatting.AQUA + "# has accepted your tpa request";
 	public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
 	public static final String TPA_NONE = TextFormatting.RED + "No active TPA request!";
+	public static final String TELEPORT_BACK = TextFormatting.AQUA + "You have been sent to your last location!";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";

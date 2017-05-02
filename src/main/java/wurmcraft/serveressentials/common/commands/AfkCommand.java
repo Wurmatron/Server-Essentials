@@ -6,7 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AfkCommand extends EssentialsCommand {
 
@@ -24,16 +28,23 @@ public class AfkCommand extends EssentialsCommand {
 		return "/afk";
 	}
 
+	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("Afk");
+		aliases.add ("AFK");
+		return aliases;
+	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (!DataHelper.isAfk (player.getGameProfile ().getId ())) {
-				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString ("# is now afk!".replaceAll ("#",player.getDisplayNameString ())));
+				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_NOW.replaceAll ("#",player.getDisplayNameString ())));
 				DataHelper.addAfkPlayer (player);
 			} else {
-				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString ("# is no longer afk!".replaceAll ("#",player.getDisplayNameString ())));
+				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_OFF.replaceAll ("#",player.getDisplayNameString ())));
 				DataHelper.addAfkPlayer (player);
 				DataHelper.removeAfkPlayer (player);
 			}

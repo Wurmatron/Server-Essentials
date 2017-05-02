@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.player;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -9,6 +9,7 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -17,32 +18,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EnderChestCommand extends EssentialsCommand {
+public class InvseeCommand extends EssentialsCommand {
 
-	public EnderChestCommand (String perm) {
+	public InvseeCommand (String perm) {
 		super (perm);
 	}
 
 	@Override
 	public String getCommandName () {
-		return "echest";
-	}
-
-	@Override
-	public String getCommandUsage (ICommandSender sender) {
-		return "/echest <name>";
+		return "invsee";
 	}
 
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
-		aliases.add ("enderChest");
-		aliases.add ("enderchest");
-		aliases.add ("EnderChest");
-		aliases.add ("eChest");
-		aliases.add ("ECHEST");
-		aliases.add ("ENDERCHEST");
+		aliases.add ("Invsee");
+		aliases.add ("InvSee");
+		aliases.add ("INVSEE");
 		return aliases;
+	}
+
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/invsee <username>";
 	}
 
 	@Override
@@ -59,8 +57,8 @@ public class EnderChestCommand extends EssentialsCommand {
 						if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
 							if (player.openContainer != player.inventoryContainer)
 								player.closeScreen ();
-							player.displayGUIChest (new PlayerInventory (victim,player,true));
-							player.addChatComponentMessage (new TextComponentString (Local.PLAYER_INVENTORY_ENDER.replaceAll ("#",victim.getDisplayName ().getUnformattedText ())));
+							player.displayGUIChest (new PlayerInventory (victim,player));
+							player.addChatComponentMessage (new TextComponentString (Local.PLAYER_INVENTORY.replaceAll ("#",victim.getDisplayName ().getUnformattedText ())));
 							open = true;
 						}
 					if (!open)
