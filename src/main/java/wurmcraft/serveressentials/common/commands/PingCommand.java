@@ -7,22 +7,22 @@ import net.minecraft.util.text.TextComponentString;
 
 public class PingCommand extends EssentialsCommand {
 
-		public PingCommand(String perm) {
-				super(perm);
-		}
+	public PingCommand (String perm) {
+		super (perm);
+	}
 
-		@Override
-		public String getCommandName() {
-				return "ping";
-		}
+	@Override
+	public String getCommandName () {
+		return "ping";
+	}
 
-		@Override
-		public String getCommandUsage(ICommandSender sender) {
-				return "/ping";
-		}
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/ping";
+	}
 
-		@Override
-		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-				sender.addChatMessage(new TextComponentString("pongy!"));
-		}
+	@Override
+	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		sender.addChatMessage (new TextComponentString ("pongy!"));
+	}
 }

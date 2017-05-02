@@ -1,3 +1,5 @@
 package wurmcraft.serveressentials.common.proxy;
 
-public class CommonProxy {}
+public class CommonProxy {
+
+}

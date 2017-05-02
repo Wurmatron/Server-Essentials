@@ -1,3 +1,5 @@
 package wurmcraft.serveressentials.common.commands;
 
-public class ListCommand {}
+public class ListCommand {
+
+}

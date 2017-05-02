@@ -10,32 +10,36 @@ import java.io.File;
 
 public class ConfigHandler {
 
-		public static File          location;
-		public static Configuration config;
+	public static File location;
+	public static Configuration config;
 
-		private static Property debug;
-		private static Property home_name;
-		private static Property teleport_cooldown;
-		private static Property respawn_point;
-		private static Property tpa_timeout;
+	private static Property debug;
+	private static Property home_name;
+	private static Property teleport_cooldown;
+	private static Property respawn_point;
+	private static Property tpa_timeout;
 
-		public static void preInit(FMLPreInitializationEvent e) {
-				location = e.getSuggestedConfigurationFile(); config = new Configuration(location); loadConfig();
+	public static void preInit (FMLPreInitializationEvent e) {
+		location = e.getSuggestedConfigurationFile ();
+		config = new Configuration (location);
+		loadConfig ();
+	}
+
+	public static void loadConfig () {
+		LogHandler.info ("Loading Config");
+		debug = config.get (Configuration.CATEGORY_GENERAL,"debug",Defaults.DEBUG,"Enable debug mode");
+		Settings.debug = debug.getBoolean ();
+		home_name = config.get (Configuration.CATEGORY_GENERAL,"home_name",Defaults.DEFAULT_HOME_NAME,"Default home name");
+		Settings.home_name = home_name.getString ();
+		teleport_cooldown = config.get (Configuration.CATEGORY_GENERAL,"teleport_cooldown",Defaults.TELEPORT_COOLDOWN,"Time between teleportation (in seconds)");
+		Settings.teleport_cooldown = teleport_cooldown.getInt ();
+		respawn_point = config.get (Configuration.CATEGORY_GENERAL,"respawn_point",Defaults.RESPAWN_POINT,"Respawn point (Home, Spawn and Default)");
+		Settings.respawn_point = respawn_point.getString ();
+		tpa_timeout = config.get (Configuration.CATEGORY_GENERAL,"tpa_timeout",Defaults.TPA_TIMEOUT,"Time for Tpa request timeout");
+		Settings.tpa_timeout = tpa_timeout.getInt ();
+		if (config.hasChanged ()) {
+			LogHandler.info ("Saving Config");
+			config.save ();
 		}
-
-		public static void loadConfig() {
-				LogHandler.info("Loading Config");
-				debug = config.get(Configuration.CATEGORY_GENERAL, "debug", Defaults.DEBUG, "Enable debug mode");
-				Settings.debug = debug.getBoolean();
-				home_name = config.get(Configuration.CATEGORY_GENERAL, "home_name", Defaults.DEFAULT_HOME_NAME, "Default home name");
-				Settings.home_name = home_name.getString();
-				teleport_cooldown = config.get(Configuration.CATEGORY_GENERAL, "teleport_cooldown", Defaults.TELEPORT_COOLDOWN, "Time between teleportation (in seconds)");
-				Settings.teleport_cooldown = teleport_cooldown.getInt();
-				respawn_point = config.get(Configuration.CATEGORY_GENERAL, "respawn_point", Defaults.RESPAWN_POINT, "Respawn point (Home, Spawn and Default)");
-				Settings.respawn_point = respawn_point.getString();
-				tpa_timeout = config.get(Configuration.CATEGORY_GENERAL, "tpa_timeout", Defaults.TPA_TIMEOUT, "Time for Tpa request timeout");
-				Settings.tpa_timeout = tpa_timeout.getInt(); if (config.hasChanged()) {
-						LogHandler.info("Saving Config"); config.save();
-				}
-		}
+	}
 }

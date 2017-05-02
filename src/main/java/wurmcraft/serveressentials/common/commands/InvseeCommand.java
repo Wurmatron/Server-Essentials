@@ -19,49 +19,57 @@ import java.util.List;
 
 public class InvseeCommand extends EssentialsCommand {
 
-		public InvseeCommand(String perm) {
-				super(perm);
-		}
+	public InvseeCommand (String perm) {
+		super (perm);
+	}
 
-		@Override
-		public String getCommandName() {
-				return "invsee";
-		}
+	@Override
+	public String getCommandName () {
+		return "invsee";
+	}
 
-		@Override
-		public List<String> getCommandAliases() {
-				List<String> aliases = new ArrayList<>(); aliases.add("isee"); return aliases;
-		}
+	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("isee");
+		return aliases;
+	}
 
-		@Override
-		public String getCommandUsage(ICommandSender sender) {
-				return "/invsee <username>";
-		}
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/invsee <username>";
+	}
 
-		@Override
-		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-				if (sender instanceof EntityPlayer) {
-						if (args.length == 0)
-								((EntityPlayer) sender).addChatComponentMessage(new TextComponentString(getCommandUsage(sender)));
-						if (args.length == 1) {
-								EntityPlayerMP player = (EntityPlayerMP) sender; PlayerList players = server.getServer().getPlayerList();
-								if (players.getPlayerList().size() > 0) {
-										boolean open = false; for (EntityPlayerMP victim : players.getPlayerList())
-												if (victim.getGameProfile().getId().equals(server.getServer().getPlayerProfileCache().getGameProfileForUsername(args[0]).getId())) {
-														if (player.openContainer != player.inventoryContainer) player.closeScreen();
-														player.displayGUIChest(new PlayerInventory(victim, player));
-														player.addChatComponentMessage(new TextComponentString(Local.PLAYER_INVENTORY.replaceAll("#", victim.getDisplayName().getUnformattedText())));
-														open = true;
-												} if (!open)
-												player.addChatComponentMessage(new TextComponentString(Local.PLAYER_NOT_FOUND.replaceAll("#", args[0])));
-								}
+	@Override
+	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		if (sender instanceof EntityPlayer) {
+			if (args.length == 0)
+				((EntityPlayer) sender).addChatComponentMessage (new TextComponentString (getCommandUsage (sender)));
+			if (args.length == 1) {
+				EntityPlayerMP player = (EntityPlayerMP) sender;
+				PlayerList players = server.getServer ().getPlayerList ();
+				if (players.getPlayerList ().size () > 0) {
+					boolean open = false;
+					for (EntityPlayerMP victim : players.getPlayerList ())
+						if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
+							if (player.openContainer != player.inventoryContainer)
+								player.closeScreen ();
+							player.displayGUIChest (new PlayerInventory (victim,player));
+							player.addChatComponentMessage (new TextComponentString (Local.PLAYER_INVENTORY.replaceAll ("#",victim.getDisplayName ().getUnformattedText ())));
+							open = true;
 						}
+					if (!open)
+						player.addChatComponentMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
 				}
+			}
 		}
+	}
 
-		@Override
-		public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
-				List<String> list = new ArrayList<>(); if (sender instanceof EntityPlayer)
-						Collections.addAll(list, FMLCommonHandler.instance().getMinecraftServerInstance().getAllUsernames()); return list;
-		}
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList <> ();
+		if (sender instanceof EntityPlayer)
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+		return list;
+	}
 }

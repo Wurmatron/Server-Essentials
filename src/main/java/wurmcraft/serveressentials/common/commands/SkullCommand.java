@@ -12,29 +12,31 @@ import net.minecraft.util.text.TextComponentString;
 
 public class SkullCommand extends EssentialsCommand {
 
-		public SkullCommand(String perm) {
-				super(perm);
-		}
+	public SkullCommand (String perm) {
+		super (perm);
+	}
 
-		@Override
-		public String getCommandName() {
-				return "skull";
-		}
+	@Override
+	public String getCommandName () {
+		return "skull";
+	}
 
-		@Override
-		public String getCommandUsage(ICommandSender sender) {
-				return "/skull <username>";
-		}
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/skull <username>";
+	}
 
-		@Override
-		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-				if (sender instanceof EntityPlayer && args.length == 1) {
-						EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity(); if (player != null) {
-								ItemStack stack = new ItemStack(Items.SKULL, 1, 3); stack.setTagCompound(new NBTTagCompound());
-								stack.getTagCompound().setTag("SkullOwner", new NBTTagString(args[0]));
-								player.inventory.addItemStackToInventory(stack);
-								player.addChatComponentMessage(new TextComponentString("Player \"#\" head created!".replaceAll("#", args[0])));
-						}
-				}
+	@Override
+	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		if (sender instanceof EntityPlayer && args.length == 1) {
+			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			if (player != null) {
+				ItemStack stack = new ItemStack (Items.SKULL,1,3);
+				stack.setTagCompound (new NBTTagCompound ());
+				stack.getTagCompound ().setTag ("SkullOwner",new NBTTagString (args[0]));
+				player.inventory.addItemStackToInventory (stack);
+				player.addChatComponentMessage (new TextComponentString ("Player \"#\" head created!".replaceAll ("#",args[0])));
+			}
 		}
+	}
 }

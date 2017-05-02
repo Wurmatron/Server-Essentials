@@ -5,54 +5,54 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
-	* interface used for creation of a team
-	*/
+ interface used for creation of a team
+ */
 public interface ITeam {
 
-		/**
-			* Name of the team
-			*/
-		String getName();
+	/**
+	 Name of the team
+	 */
+	String getName ();
 
-		/**
-			* Members within the team
-			*
-			* @return uuid is playerName, String is the players rank within the team
-			*/
-		HashMap<UUID, String> getMembers();
+	/**
+	 Members within the team
 
-		/**
-			* Leader of this group
-			*/
-		UUID getLeader();
+	 @return uuid is playerName, String is the players rank within the team
+	 */
+	HashMap <UUID, String> getMembers ();
 
-		/**
-			* Can anyone join
-			*/
-		boolean isPublic();
+	/**
+	 Leader of this group
+	 */
+	UUID getLeader ();
 
-		/**
-			* Players that have been requested to join the team
-			*/
-		ArrayList<UUID> requestedPlayers();
+	/**
+	 Can anyone join
+	 */
+	boolean isPublic ();
 
-		/**
-			* Checks if the player is able to join the team
-			*/
-		boolean canJoin(UUID name);
+	/**
+	 Players that have been requested to join the team
+	 */
+	ArrayList <UUID> requestedPlayers ();
 
-		/**
-			* Adds a member with the default group to the team
-			*/
-		void addMember(UUID name);
+	/**
+	 Checks if the player is able to join the team
+	 */
+	boolean canJoin (UUID name);
 
-		/**
-			* Removes a member from the team
-			*/
-		void removeMember(UUID name);
+	/**
+	 Adds a member with the default group to the team
+	 */
+	void addMember (UUID name);
 
-		/**
-			* Adds a player to the requested list
-			*/
-		void addPossibleMember(UUID name);
+	/**
+	 Removes a member from the team
+	 */
+	void removeMember (UUID name);
+
+	/**
+	 Adds a player to the requested list
+	 */
+	void addPossibleMember (UUID name);
 }

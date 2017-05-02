@@ -1,3 +1,5 @@
 package wurmcraft.serveressentials.common.utils;
 
-public class AutoRankController {}
+public class AutoRankController {
+
+}

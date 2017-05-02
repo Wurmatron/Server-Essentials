@@ -15,40 +15,40 @@ import java.util.List;
 
 public class SpawnCommand extends EssentialsCommand {
 
-    public SpawnCommand(String perm) {
-        super(perm);
-    }
+	public SpawnCommand (String perm) {
+		super (perm);
+	}
 
-    @Override
-    public String getCommandName() {
-        return "spawn";
-    }
+	@Override
+	public String getCommandName () {
+		return "spawn";
+	}
 
-    @Override
-    public List<String> getCommandAliases() {
-        List<String> aliases = new ArrayList<>();
-        aliases.add("SpawnCommand");
-        return aliases;
-    }
+	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("SpawnCommand");
+		return aliases;
+	}
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/spawn";
-    }
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/spawn";
+	}
 
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (sender instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) sender;
-            long teleport_timer = DataHelper.getPlayerData(player.getGameProfile().getId()).getTeleport_timer();
-            if (DataHelper.globalSettings.getSpawn() != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis()) {
-                SpawnPoint spawn = DataHelper.globalSettings.getSpawn();
-                player.setLocationAndAngles(spawn.location.getX(), spawn.location.getY(), spawn.location.getZ(), spawn.yaw, spawn.pitch);
-                player.dimension = spawn.dimension;
-                player.addChatComponentMessage(new TextComponentString(Local.SPAWN_TELEPORTED));
-            } else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis())
-                sender.addChatMessage(new TextComponentString(Local.TELEPORT_COOLDOWN.replace("#", Integer.toString(Math.round((System.currentTimeMillis() - teleport_timer))))));
+	@Override
+	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		if (sender instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) sender;
+			long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
+			if (DataHelper.globalSettings.getSpawn () != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+				SpawnPoint spawn = DataHelper.globalSettings.getSpawn ();
+				player.setLocationAndAngles (spawn.location.getX (),spawn.location.getY (),spawn.location.getZ (),spawn.yaw,spawn.pitch);
+				player.dimension = spawn.dimension;
+				player.addChatComponentMessage (new TextComponentString (Local.SPAWN_TELEPORTED));
+			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+				sender.addChatMessage (new TextComponentString (Local.TELEPORT_COOLDOWN.replace ("#",Integer.toString (Math.round ((System.currentTimeMillis () - teleport_timer))))));
 
-        }
-    }
+		}
+	}
 }

@@ -10,10 +10,10 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class PlayerChatEvent {
 
-		@SubscribeEvent
-		public void onChat(ServerChatEvent e) {
-				IRank          rank = DataHelper.getPlayerData(e.getPlayer().getGameProfile().getId()).getRank();
-				ITextComponent comp = new TextComponentTranslation("chat.type.text", rank.getPrefix()).appendSibling(e.getPlayer().getDisplayName()).appendSibling(new TextComponentTranslation(" ")).appendSibling(ForgeHooks.newChatWithLinks(e.getMessage()));
-				e.setComponent(comp);
-		}
+	@SubscribeEvent
+	public void onChat (ServerChatEvent e) {
+		IRank rank = DataHelper.getPlayerData (e.getPlayer ().getGameProfile ().getId ()).getRank ();
+		ITextComponent comp = new TextComponentTranslation ("chat.type.text",rank.getPrefix ()).appendSibling (e.getPlayer ().getDisplayName ()).appendSibling (new TextComponentTranslation (" ")).appendSibling (ForgeHooks.newChatWithLinks (e.getMessage ()));
+		e.setComponent (comp);
+	}
 }

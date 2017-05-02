@@ -6,9 +6,9 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class PlayerQuitEvent {
 
-		@SubscribeEvent
-		public void leaveServer(PlayerEvent.PlayerLoggedOutEvent e) {
-				DataHelper.updateLastseen(e.player.getGameProfile().getId());
-				DataHelper.unloadPlayerData(e.player.getGameProfile().getId());
-		}
+	@SubscribeEvent
+	public void leaveServer (PlayerEvent.PlayerLoggedOutEvent e) {
+		DataHelper.updateLastseen (e.player.getGameProfile ().getId ());
+		DataHelper.unloadPlayerData (e.player.getGameProfile ().getId ());
+	}
 }

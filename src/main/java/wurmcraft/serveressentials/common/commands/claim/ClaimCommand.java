@@ -14,44 +14,46 @@ import wurmcraft.serveressentials.common.utils.TeamManager;
 
 public class ClaimCommand extends EssentialsCommand {
 
-		public ClaimCommand(String perm) {
-				super(perm);
-		}
+	public ClaimCommand (String perm) {
+		super (perm);
+	}
 
-		@Override
-		public String getCommandName() {
-				return "claim";
-		}
+	@Override
+	public String getCommandName () {
+		return "claim";
+	}
 
-		@Override
-		public String getCommandUsage(ICommandSender sender) {
-				return "/claim";
-		}
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/claim";
+	}
 
-		@Override
-		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-				if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-						EntityPlayer player     = (EntityPlayer) sender.getCommandSenderEntity();
-						RegionData   regionData = ChunkManager.getRegion(player.getPosition()); if (regionData != null) {
-								Claim claim = regionData.getClaim(ChunkManager.getIndexForClaim(player.getPosition()));
-								if (claim == null) {
-										Team team = TeamManager.getTeamFromLeader(player.getGameProfile().getId());
-										regionData.addClaim(player.getPosition(), new Claim(team, player.getGameProfile().getId()));
-										ChunkManager.handleRegionUpdate(ChunkManager.getRegionLocation(player.getPosition()), regionData);
-										player.addChatComponentMessage(new TextComponentString("Chunk Claimed"));
-								} else player.addChatComponentMessage(new TextComponentString("Chunk Already Claimed"));
-						} else {
-								RegionData regionDataNew = new RegionData();
-								Team team = TeamManager.getTeamFromLeader(player.getGameProfile().getId());
-								regionDataNew.addClaim(player.getPosition(), new Claim(team, player.getGameProfile().getId()));
-								ChunkManager.handleRegionUpdate(ChunkManager.getRegionLocation(player.getPosition()), regionDataNew);
-								player.addChatComponentMessage(new TextComponentString("Chunk Claimed"));
-						}
-				}
+	@Override
+	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			RegionData regionData = ChunkManager.getRegion (player.getPosition ());
+			if (regionData != null) {
+				Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
+				if (claim == null) {
+					Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
+					regionData.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
+					ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
+					player.addChatComponentMessage (new TextComponentString ("Chunk Claimed"));
+				} else
+					player.addChatComponentMessage (new TextComponentString ("Chunk Already Claimed"));
+			} else {
+				RegionData regionDataNew = new RegionData ();
+				Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
+				regionDataNew.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
+				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionDataNew);
+				player.addChatComponentMessage (new TextComponentString ("Chunk Claimed"));
+			}
 		}
+	}
 
-		@Override
-		public boolean checkPermission(final MinecraftServer server, final ICommandSender sender) {
-				return true;
-		}
+	@Override
+	public boolean checkPermission (final MinecraftServer server,final ICommandSender sender) {
+		return true;
+	}
 }
