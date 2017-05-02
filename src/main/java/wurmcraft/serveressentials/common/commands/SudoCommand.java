@@ -35,6 +35,16 @@ public class SudoCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("su");
+		aliases.add ("SU");
+		aliases.add ("Sudo");
+		aliases.add ("SUDO");
+		return aliases;
+	}
+
+	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0) {
 			PlayerList players = server.getServer ().getPlayerList ();

@@ -31,7 +31,9 @@ public class InvseeCommand extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
-		aliases.add ("isee");
+		aliases.add ("Invsee");
+		aliases.add ("InvSee");
+		aliases.add ("INVSEE");
 		return aliases;
 	}
 
@@ -62,7 +64,8 @@ public class InvseeCommand extends EssentialsCommand {
 						player.addChatComponentMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
 				}
 			}
-		}
+		} else
+			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
 	}
 
 	@Override

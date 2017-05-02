@@ -34,17 +34,17 @@ public class DelHome extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		ArrayList <String> aliases = new ArrayList <> ();
-		aliases.add ("delhome");
-		aliases.add ("dhome");
-		aliases.add ("dHome");
-		aliases.add ("DHome");
+		aliases.add ("deletehome");
+		aliases.add ("DeleteHome");
+		aliases.add ("deletehome");
+		aliases.add ("DelHome");
+		aliases.add ("DELETEHOME");
+		aliases.add ("DELHOME");
 		return aliases;
 	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getEntityWorld ().isRemote)
-			return;
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());

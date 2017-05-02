@@ -6,14 +6,16 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
-import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +36,18 @@ public class WarpCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("Warp");
+		aliases.add ("WARP");
+		aliases.add ("warps");
+		aliases.add ("Warps");
+		aliases.add ("WARPS");
+		return aliases;
+	}
+
+	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getEntityWorld ().isRemote)
-			return;
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			if (args.length == 0)
 				execute (server,sender,new String[] {"list"});
@@ -45,26 +56,38 @@ public class WarpCommand extends EssentialsCommand {
 					List <String> warps = new ArrayList <> ();
 					for (Warp warp : DataHelper.getWarps ())
 						warps.add (warp.getName ());
-					sender.addChatMessage (new TextComponentString (TextFormatting.AQUA + Strings.join (warps,", ")));
+					if (warps.size () > 0)
+						ChatManager.sendMessage (sender,TextFormatting.AQUA + Strings.join (warps,", "));
+					else
+						ChatManager.sendMessage (sender,Local.WARPS_NONE);
 				} else if (DataHelper.getWarp (args[0]) != null) {
 					Warp warp = DataHelper.getWarp (args[0]);
 					EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
-					long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
-					if (teleport_timer + (Settings.teleport_cooldown * 1000) <= System.currentTimeMillis ()) {
-						DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
-						TextComponentString text = new TextComponentString (Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()));
-						text.getStyle ().setHoverEvent (hoverEvent (warp));
-						player.addChatComponentMessage (text);
-						player.setLocationAndAngles (warp.getPos ().getX (),warp.getPos ().getY (),warp.getPos ().getZ (),warp.getYaw (),warp.getPitch ());
-					} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
-						sender.addChatMessage (new TextComponentString (Local.TELEPORT_COOLDOWN.replace ("#",Integer.toString (Math.round ((System.currentTimeMillis () - teleport_timer))))));
+					if (TeleportUtils.canTeleport (player.getGameProfile ().getId ())) {
+						player.setPositionAndRotation (warp.getPos ().getX (),warp.getPos ().getY (),warp.getPos ().getZ (),warp.getYaw (),warp.getPitch ());
+						DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
+						TeleportUtils.teleportTo (player,warp.getPos (),warp.getDimension (),true);
+						ChatManager.sendMessage (player,Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()),hoverEvent (warp));
+					} else if (!TeleportUtils.canTeleport (player.getGameProfile ().getId ()))
+						ChatManager.sendMessage (player,Local.TELEPORT_COOLDOWN.replaceAll ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
 				} else
-					sender.addChatMessage (new TextComponentString (Local.WARP_NONE.replaceAll ("#",args[0])));
+					ChatManager.sendMessage (sender,Local.WARP_NONE.replaceAll ("#",args[0]));
 			}
-		}
+		} else
+			ChatManager.sendMessage (sender,Local.PLAYER_ONLY);
 	}
 
-	public HoverEvent hoverEvent (Warp warp) {
+	private HoverEvent hoverEvent (Warp warp) {
 		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (warp));
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList <> ();
+		if (sender instanceof EntityPlayer)
+			for (Warp warp : DataHelper.getWarps ())
+				if (warp != null && warp.getName ().length () > 0)
+					list.add (warp.getName ());
+		return list;
 	}
 }

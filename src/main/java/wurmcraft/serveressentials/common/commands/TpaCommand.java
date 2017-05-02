@@ -6,8 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 
 import static wurmcraft.serveressentials.common.utils.DataHelper.activeRequests;
 
@@ -40,15 +40,16 @@ public class TpaCommand extends EssentialsCommand {
 							found = true;
 							if (!activeRequests.values ().contains (new EntityPlayer[] {player,otherPlayer})) {
 								activeRequests.put (System.currentTimeMillis (),new EntityPlayer[] {player,otherPlayer});
-								player.addChatComponentMessage (new TextComponentString (Local.TPA_REQUEST_SENT.replaceAll ("#",otherPlayer.getDisplayName ().getUnformattedText ())));
-								otherPlayer.addChatComponentMessage (new TextComponentString (Local.TPA_REQUEST.replaceAll ("#",player.getDisplayName ().getUnformattedText ())));
+								ChatManager.sendMessage (player,Local.TPA_REQUEST_SENT.replaceAll ("#",otherPlayer.getDisplayName ().getUnformattedText ()));
+								ChatManager.sendMessage (otherPlayer,Local.TPA_REQUEST.replaceAll ("#",player.getDisplayName ().getUnformattedText ()));
 							}
 						}
 					if (!found)
-						((EntityPlayer) sender).addChatComponentMessage (new TextComponentString (Local.TPA_USER_NOTFOUND));
+						ChatManager.sendMessage (sender,Local.TPA_USER_NOTFOUND);
 				}
 			} else
-				((EntityPlayer) sender).addChatComponentMessage (new TextComponentString (Local.TPA_USERNAME_NONE));
-		}
+				ChatManager.sendMessage (sender,Local.TPA_USERNAME_NONE);
+		} else
+			ChatManager.sendMessage (sender,Local.PLAYER_ONLY);
 	}
 }

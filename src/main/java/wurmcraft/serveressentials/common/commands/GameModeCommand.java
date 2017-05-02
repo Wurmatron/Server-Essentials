@@ -37,7 +37,13 @@ public class GameModeCommand extends EssentialsCommand {
 	public List <String> getCommandAliases () {
 		ArrayList <String> aliases = new ArrayList <> ();
 		aliases.add ("gm");
+		aliases.add ("GM");
 		aliases.add ("mode");
+		aliases.add ("Mode");
+		aliases.add ("MODE");
+		aliases.add ("GameMode");
+		aliases.add ("gameMode");
+		aliases.add ("Gamemode");
 		return aliases;
 	}
 

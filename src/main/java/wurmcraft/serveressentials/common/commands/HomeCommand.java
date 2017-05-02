@@ -16,6 +16,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -41,22 +42,25 @@ public class HomeCommand extends EssentialsCommand {
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Home");
+		aliases.add ("HOME");
+		aliases.add ("h");
+		aliases.add ("H");
 		return aliases;
 	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getEntityWorld ().isRemote)
-			return;
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 			if (args.length == 0) {
 				Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (Settings.home_name);
 				long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
 				if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-					DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
+					DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 					player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
-					player.dimension = home.getDimension ();
+					TeleportUtils.teleportTo (player,home.getPos (),true);
+					if (player.dimension != home.getDimension ())
+						player.changeDimension (home.getDimension ());
 					TextComponentString text = new TextComponentString (TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()));
 					text.getStyle ().setHoverEvent (hoverEvent (home));
 					sender.addChatMessage (text);
@@ -84,9 +88,11 @@ public class HomeCommand extends EssentialsCommand {
 					Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
 					long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
 					if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-						DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
+						DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 						player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
-						player.dimension = home.getDimension ();
+						TeleportUtils.teleportTo (player,home.getPos (),true);
+						if (player.dimension != home.getDimension ())
+							player.changeDimension (home.getDimension ());
 						TextComponentString text = new TextComponentString (TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()));
 						text.getStyle ().setHoverEvent (hoverEvent (home));
 						sender.addChatMessage (text);

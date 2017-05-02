@@ -36,7 +36,12 @@ public class EnderChestCommand extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
+		aliases.add ("enderChest");
 		aliases.add ("enderchest");
+		aliases.add ("EnderChest");
+		aliases.add ("eChest");
+		aliases.add ("ECHEST");
+		aliases.add ("ENDERCHEST");
 		return aliases;
 	}
 
@@ -62,7 +67,8 @@ public class EnderChestCommand extends EssentialsCommand {
 						player.addChatComponentMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
 				}
 			}
-		}
+		} else
+			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
 	}
 
 	@Override

@@ -33,15 +33,15 @@ public class SetWarpCommand extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
-		aliases.add ("[sS]etWarp");
-		aliases.add ("SWarp");
+		aliases.add ("SetWarp");
+		aliases.add ("setWarp");
+		aliases.add ("Setwarp");
+		aliases.add ("SETWARP");
 		return aliases;
 	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getEntityWorld ().isRemote)
-			return;
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			if (args.length != 1)
 				sender.addChatMessage (new TextComponentString (Local.WARP_NAME));
@@ -53,7 +53,8 @@ public class SetWarpCommand extends EssentialsCommand {
 				nameWarp.getStyle ().setHoverEvent (hoverEvent (warp));
 				sender.addChatMessage (nameWarp);
 			}
-		}
+		} else
+			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
 	}
 
 	public HoverEvent hoverEvent (Warp home) {

@@ -3,16 +3,20 @@ package wurmcraft.serveressentials.common.commands;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.Global;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MotdCommand extends EssentialsCommand {
 
-	private int LIST_SIZE = 7;
+	private static final int LIST_SIZE = 7;
 
 	public MotdCommand (String perm) {
 		super (perm);
@@ -26,6 +30,14 @@ public class MotdCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "motd";
+	}
+
+	@Override
+	public List<String> getCommandAliases () {
+		List <String> aliases = new ArrayList<> ();
+		aliases.add ("Motd");
+		aliases.add ("MOTD");
+		return aliases;
 	}
 
 	@Override
@@ -52,5 +64,13 @@ public class MotdCommand extends EssentialsCommand {
 					sender.addChatMessage (new TextComponentString (rule));
 		} else
 			sender.addChatMessage (new TextComponentString (Local.NO_MOTD));
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList <> ();
+		for(int no = 0; no < DataHelper.globalSettings.getMotd ().length/7; no++)
+			list.add ("" + no);
+		return list;
 	}
 }

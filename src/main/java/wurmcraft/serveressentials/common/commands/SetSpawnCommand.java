@@ -32,9 +32,10 @@ public class SetSpawnCommand extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
+		aliases.add ("SetSpawn");
 		aliases.add ("setspawn");
-		aliases.add ("sspawn");
-		aliases.add ("setSpawn");
+		aliases.add ("Setspawn");
+		aliases.add ("SETSPAWN");
 		return aliases;
 	}
 
@@ -47,7 +48,8 @@ public class SetSpawnCommand extends EssentialsCommand {
 			TextComponentString text = new TextComponentString (Local.SPAWN_SET.replaceAll ("@","" + DataHelper.globalSettings.getSpawn ().dimension));
 			text.getStyle ().setHoverEvent (hoverEvent (DataHelper.globalSettings.getSpawn ()));
 			player.addChatComponentMessage (text);
-		}
+		} else
+			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
 	}
 
 	public HoverEvent hoverEvent (SpawnPoint home) {

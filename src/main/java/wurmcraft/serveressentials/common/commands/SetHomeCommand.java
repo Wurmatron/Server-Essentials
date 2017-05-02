@@ -34,17 +34,14 @@ public class SetHomeCommand extends EssentialsCommand {
 	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
-		aliases.add ("sethome");
-		aliases.add ("sHome");
 		aliases.add ("SetHome");
-		aliases.add ("shome");
+		aliases.add ("setHome");
+		aliases.add ("SETHOME");
 		return aliases;
 	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getEntityWorld ().isRemote)
-			return;
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (args != null && args.length > 0) {

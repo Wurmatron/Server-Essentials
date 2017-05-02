@@ -25,7 +25,7 @@ public class ConfigHandler {
 		loadConfig ();
 	}
 
-	public static void loadConfig () {
+	private static void loadConfig () {
 		LogHandler.info ("Loading Config");
 		debug = config.get (Configuration.CATEGORY_GENERAL,"debug",Defaults.DEBUG,"Enable debug mode");
 		Settings.debug = debug.getBoolean ();

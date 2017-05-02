@@ -4,8 +4,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class TpdenyCommand extends EssentialsCommand {
@@ -33,10 +33,12 @@ public class TpdenyCommand extends EssentialsCommand {
 					EntityPlayer[] otherPlayer = DataHelper.activeRequests.get (time);
 					if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
 						DataHelper.activeRequests.remove (time);
-						player.addChatComponentMessage (new TextComponentString (Local.TPA_DENY));
+						ChatManager.sendMessage (player,Local.TPA_DENY);
 					}
 				}
-			}
-		}
+			} else
+				ChatManager.sendMessage (player,Local.TPA_NONE);
+		}  else
+			ChatManager.sendMessage (sender,Local.PLAYER_ONLY);
 	}
 }

@@ -33,6 +33,14 @@ public class HealCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("Heal");
+		aliases.add ("HEAL");
+		return aliases;
+	}
+
+	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length == 1) {
 			PlayerList players = server.getServer ().getPlayerList ();
@@ -47,7 +55,8 @@ public class HealCommand extends EssentialsCommand {
 			EntityPlayer player = (EntityPlayer) sender;
 			player.setHealth (player.getMaxHealth ());
 			player.addChatComponentMessage (new TextComponentString (Local.HEAL_SELF));
-		}
+		} else
+			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
 	}
 
 	@Override

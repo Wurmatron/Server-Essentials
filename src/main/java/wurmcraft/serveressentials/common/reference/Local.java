@@ -15,26 +15,20 @@ public class Local {
 	public static final String HOME_FAILED = TextFormatting.RED + "Failed to set home! Unknown error";
 	public static final String HOME_DELETED = TextFormatting.RED + "Home \"#\" deleted!";
 	public static final String HOME_ERROR_DELETION = TextFormatting.RED + "Error failed to delete home \"#\"!";
+	// Warp
 	public static final String WARP_NAME = TextFormatting.RED + "Invalid Warp Name";
 	public static final String WARP_CREATED = TextFormatting.AQUA + "Warp \"#\" created!";
 	public static final String WARP_NONE = TextFormatting.RED + "No Warp \"#\" found!";
 	public static final String WARP_TELEPORT = TextFormatting.AQUA + "Teleported to warp \"#\"";
 	public static final String WARP_DELETE = TextFormatting.RED + "Warp \"#\" deleted!";
+	public static final String WARPS_NONE = TextFormatting.RED + "No warps set!";
+	// Global
 	public static final String SPAWN_SET = TextFormatting.GREEN + "Spawn set in dimension '@'";
 	public static final String SPAWN_TELEPORTED = TextFormatting.GREEN + "Teleported to spawn";
-	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
-	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
-	public static final String PLAYER_INVENTORY_ENDER = TextFormatting.GREEN + "Opening Player \"#\"'s Ender Chest!";
-	public static final String COMMAND_NOT_FOUND = TextFormatting.RED + "Command not found!";
 	public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";
 	public static final String COMMAND_SENDER_FORCED = TextFormatting.GREEN + "Player \"#\" has been forced to run ";
 	public static final String LAST_SEEN = TextFormatting.GREEN + "Last Seen # ago";
-	public static final String HEAL_SELF = TextFormatting.AQUA + "You have healed yourself!";
-	public static final String HEAL_OTHER = TextFormatting.AQUA + "You have been healed";
-	public static final String HEAL_OTHER_SENDER = TextFormatting.AQUA + "'#' has been healed";
-	public static final String MODE_INVALID = TextFormatting.RED + "Invalid \"#\" Gamemode!";
-	public static final String MODE_CHANGED = TextFormatting.GREEN + "Your gamemode has been changed to #";
-	public static final String MODE_CHANGED_OTHER = TextFormatting.GREEN + "You have chanced \"#\"'s Gamemode to $";
+	public static final String COMMAND_NOT_FOUND = TextFormatting.RED + "Command not found!";
 	public static final String NO_RULES = TextFormatting.RED + "No Rules have been specified!";
 	public static final String PAGE_NONE = TextFormatting.RED + "Page '#' does not exist, the max page number is \"$\"";
 	public static final String RULE_CREATED = TextFormatting.BLUE + "Rule \"#\" created!";
@@ -44,6 +38,31 @@ public class Local {
 	public static final String MOTD_REMOVED = TextFormatting.RED + "Motd \"#\" removed!";
 	public static final String MOTD_INVALID_INDEX = TextFormatting.RED + "Motd \"#\" not found!";
 	public static final String NO_MOTD = TextFormatting.RED + "No MOTD have been specified!";
+	public static final String TOP = TextFormatting.GREEN + "You have been teleport to the top";
+	public static final String SKULL = TextFormatting.AQUA + "#'s head has been placed in your inventory!";
+	public static final String PLAYER_ONLY = TextFormatting.RED + "Command can only be run by players!";
+	// Player
+	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
+	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
+	public static final String PLAYER_INVENTORY_ENDER = TextFormatting.GREEN + "Opening Player \"#\"'s Ender Chest!";
+	public static final String MODE_INVALID = TextFormatting.RED + "Invalid \"#\" Gamemode!";
+	public static final String MODE_CHANGED = TextFormatting.GREEN + "Your gamemode has been changed to #";
+	public static final String MODE_CHANGED_OTHER = TextFormatting.GREEN + "You have chanced \"#\"'s Gamemode to $";
+	public static final String DATA_RELOADED = TextFormatting.GOLD + "Your PlayerData has been reloaded!";
+	public static final String DATA_RELOADED_OTHER = TextFormatting.GOLD + "#'s PlayerData has been reloaded";
+	public static final String FROZEN = TextFormatting.DARK_RED + "You have been frozen";
+	public static final String FROZEN_OTHER = TextFormatting.RED + "You have frozen #";
+	public static final String UNFROZEN = TextFormatting.DARK_RED + "You have been unfrozen";
+	public static final String UNFROZEN_OTHER = TextFormatting.RED + "# has been unfrozen";
+	public static final String HEAL_SELF = TextFormatting.AQUA + "You have healed yourself!";
+	public static final String HEAL_OTHER = TextFormatting.AQUA + "You have been healed";
+	public static final String HEAL_OTHER_SENDER = TextFormatting.AQUA + "'#' has been healed";
+	public static final  String FLY_ENABLED = TextFormatting.GREEN + "Fly Mode Enabled!";
+	public static final String FLY_DISABLED = TextFormatting.RED + "Fly Mode Disabled!";
+	public static final String FLY_ENABLED_OTHER = TextFormatting.GREEN + "Fly Mode Enabled for #";
+	public static final String FLY_DISABLED_OTHER = TextFormatting.RED + "Fly Mode Disabled for #";
+	public static final String PLAYER_FILE_DELETE = TextFormatting.GOLD + "Your Player File has been deleted!";
+	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
 	public static final String TPA_REQUEST_SENT = TextFormatting.AQUA + "Tpa request sent to \"#\"";
@@ -51,6 +70,9 @@ public class Local {
 	public static final String TPA_DENY = TextFormatting.RED + "Tpa request canceled";
 	public static final String TPA_ACCEPED_OTHER = TextFormatting.AQUA + "\"#\" has been teleported to your location";
 	public static final String TPA_ACCEPTED = TextFormatting.AQUA + "# has accepted your tpa request";
+	public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
+	public static final String TPA_NONE = TextFormatting.RED + "No active TPA request!";
+	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";
 	public static final String TEAM_INVALID = TextFormatting.RED + "No Team found with the name \"#\"";
@@ -63,7 +85,10 @@ public class Local {
 	public static final String TEAM_KICKED = TextFormatting.RED + "You have been forfully kicked from your team";
 	public static final String TEAM_KICKED_OTHER = TextFormatting.RED + "You have forfully kicked \"#\" from your team";
 	public static final String TEAMADMIN_DISBAND = TextFormatting.DARK_RED + "You have disbanded the \"#\" team!";
+	// Protection
+	public static final String CLAIM_BREAK = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to break this!";
+	public static final String CLAIM_PLACE = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to place a block here!";
 
-	// Teleport
-	public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
+
+
 }

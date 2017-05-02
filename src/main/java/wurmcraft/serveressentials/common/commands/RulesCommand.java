@@ -8,11 +8,13 @@ import wurmcraft.serveressentials.common.api.storage.Global;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class RulesCommand extends EssentialsCommand {
 
-	private int LIST_SIZE = 7;
+	private static final int LIST_SIZE = 7;
 
 	public RulesCommand (String perm) {
 		super (perm);
@@ -26,6 +28,14 @@ public class RulesCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "rules";
+	}
+
+	@Override
+	public List<String> getCommandAliases () {
+		List <String> aliases = new ArrayList<> ();
+		aliases.add ("Rules");
+		aliases.add ("RULES");
+		return aliases;
 	}
 
 	@Override

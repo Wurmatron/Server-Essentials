@@ -48,6 +48,7 @@ public class TeamAdminCommand extends EssentialsCommand {
 				} else
 					sender.addChatMessage (new TextComponentString (Local.TEAM_CREATE_MISSING_NAME));
 			}
-		}
+		} else
+			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
 	}
 }
