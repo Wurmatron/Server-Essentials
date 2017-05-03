@@ -9,7 +9,7 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -38,11 +38,11 @@ public class ListCommand extends EssentialsCommand {
 		List <UUID> pList = new ArrayList <> ();
 		for (EntityPlayerMP player : players)
 			pList.add (player.getGameProfile ().getId ());
-		ChatManager.sendMessage (sender,TextFormatting.RED + Local.SPACER);
+		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 		for (UUID name : pList) {
 			IRank rank = DataHelper.getPlayerData (name).getRank ();
-			ChatManager.sendMessage (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName ());
+			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName ());
 		}
-		ChatManager.sendMessage (sender,TextFormatting.RED + Local.SPACER);
+		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 	}
 }

@@ -13,6 +13,9 @@ import wurmcraft.serveressentials.common.api.permissions.Rank;
 import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.api.team.ITeam;
 import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.chat.ChannelManager;
+import wurmcraft.serveressentials.common.config.Defaults;
+import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 
 import java.io.*;
@@ -29,7 +32,7 @@ public class DataHelper {
 	public static final File warpLocation = new File (saveLocation + File.separator + "Warp" + File.separator);
 	public static final File groupLocation = new File (saveLocation + File.separator + "Group" + File.separator);
 	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
-	public static final File ticketLocation = new File (saveLocation + File.separator + "Tickets" + File.separator);
+	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 	public static HashMap <UUID, PlayerData> loadedPlayers = new HashMap <> ();
 	public static ArrayList <Warp> loadedWarps = new ArrayList <> ();
@@ -479,6 +482,100 @@ public class DataHelper {
 		if (data != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
 			data.setMoney (money);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+	public static void saveChannel (Channel channel) {
+		if (channel != null) {
+			File channelFile = new File (channelLocation + File.separator + channel.getName () + ".json");
+			try {
+				channelFile.createNewFile ();
+				Files.write (Paths.get (channelFile.getAbsolutePath ()),gson.toJson (channel).getBytes ());
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+	public static void loadAllChannels () {
+		if (!channelLocation.exists ())
+			channelLocation.mkdirs ();
+		for (File channel : channelLocation.listFiles ()) {
+			ArrayList <String> lines = new ArrayList <> ();
+			try {
+				BufferedReader reader = new BufferedReader (new FileReader (channel));
+				String line;
+				while ((line = reader.readLine ()) != null)
+					lines.add (line);
+				reader.close ();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace ();
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+			String temp = "";
+			for (int s = 0; s <= lines.size () - 1; s++)
+				temp = temp + lines.get (s);
+			ChannelManager.addChannel (gson.fromJson (temp,Channel.class));
+		}
+	}
+
+	public static void createDefaultChannels () {
+		Channel globalChannel = new Channel (Defaults.DEFAULT_CHANNEL,"&9[G]",true,false,Channel.Type.PUBLIC,"");
+		Channel staffChannel = new Channel ("Staff","&4[S]",false,false,Channel.Type.RANK,"Admin");
+		saveChannel (globalChannel);
+		saveChannel (staffChannel);
+	}
+
+	public static void setChannel (UUID uuid,Channel channel) {
+		PlayerData data = getPlayerData (uuid);
+		if (data != null) {
+			ChannelManager.removePlayerChannel (uuid,ChannelManager.getFromName (data.getCurrentChannel ()));
+			data.setCurrentChannel (channel);
+			ChannelManager.setPlayerChannel (uuid,channel);
+		}
+	}
+
+	public static Channel getChannel (UUID uuid) {
+		Channel channel = ChannelManager.getPlayerChannel (uuid);
+		if (channel != null)
+			return channel;
+		else {
+			PlayerData data = getPlayerData (uuid);
+			if (data != null) {
+				if (data.getCurrentChannel () != null) {
+					ChannelManager.setPlayerChannel (uuid,ChannelManager.getFromName (data.getCurrentChannel ()));
+					return ChannelManager.getPlayerChannel (uuid);
+				} else {
+					setChannel (uuid,ChannelManager.getFromName (Settings.default_channel));
+					ChannelManager.setPlayerChannel (uuid,ChannelManager.getFromName (Settings.default_channel));
+				}
+			}
+		}
+		return null;
+	}
+
+	public static boolean isMuted (UUID uuid) {
+		PlayerData data = getPlayerData (uuid);
+		if (data != null) {
+			return data.isMuted ();
+		}
+		return false;
+	}
+
+	public static void setMute (UUID name, boolean mute) {
+		PlayerData data = getPlayerData (name);
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+			data.setMuted (mute);
 			try {
 				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
 				reloadPlayerData (name);

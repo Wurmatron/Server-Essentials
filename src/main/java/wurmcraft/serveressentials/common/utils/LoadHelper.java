@@ -2,9 +2,11 @@ package wurmcraft.serveressentials.common.utils;
 
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
-import wurmcraft.serveressentials.common.commands.*;
+import wurmcraft.serveressentials.common.commands.chat.MuteCommand;
+import wurmcraft.serveressentials.common.commands.player.TeamCommand;
 import wurmcraft.serveressentials.common.commands.admin.*;
 import wurmcraft.serveressentials.common.commands.chat.BroadcastCommand;
+import wurmcraft.serveressentials.common.commands.chat.ChannelCommand;
 import wurmcraft.serveressentials.common.commands.chat.ListCommand;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
@@ -17,7 +19,7 @@ import wurmcraft.serveressentials.common.reference.Perm;
 
 public class LoadHelper {
 
-	public static void registerCommands(FMLServerStartingEvent e) {
+	public static void registerCommands (FMLServerStartingEvent e) {
 		e.registerServerCommand (new SetHomeCommand (Perm.COMMAND_SET_HOME));
 		e.registerServerCommand (new HomeCommand (Perm.COMMAND_HOME));
 		e.registerServerCommand (new DelHome (Perm.COMMAND_DELETE_HOME));
@@ -59,14 +61,18 @@ public class LoadHelper {
 		e.registerServerCommand (new SuicideCommand (Perm.COMMAND_SUICIDE));
 		e.registerServerCommand (new ListCommand (Perm.COMMAND_LIST));
 		e.registerServerCommand (new RenameCommand (Perm.COMMAND_RENAME));
+		e.registerServerCommand (new ChannelCommand (Perm.COMMAND_CHANNEL));
+		e.registerServerCommand (new MuteCommand (Perm.COMMAND_MUTE));
 	}
 
-	public static void loadData() {
+	public static void loadData () {
 		DataHelper.createDefaultRank ();
 		DataHelper.loadWarps ();
 		DataHelper.loadGlobal ();
 		DataHelper.loadRanks ();
 		DataHelper.loadAllTeams ();
 		ChunkManager.loadAllClaims ();
+		DataHelper.createDefaultChannels ();
+		DataHelper.loadAllChannels ();
 	}
 }

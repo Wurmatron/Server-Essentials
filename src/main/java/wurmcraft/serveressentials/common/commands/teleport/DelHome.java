@@ -10,7 +10,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -53,11 +53,11 @@ public class DelHome extends EssentialsCommand {
 			if (data == null)
 				DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
 			if (args.length == 0)
-				ChatManager.sendMessage (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name));
+				ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name));
 			else if (args.length == 1)
-				ChatManager.sendMessage (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),args[0]));
+				ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),args[0]));
 		} else
-			ChatManager.sendMessage (sender,Local.PLAYER_ONLY);
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override

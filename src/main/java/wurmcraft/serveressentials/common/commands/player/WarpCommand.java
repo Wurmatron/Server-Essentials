@@ -12,7 +12,7 @@ import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
@@ -58,9 +58,9 @@ public class WarpCommand extends EssentialsCommand {
 					for (Warp warp : DataHelper.getWarps ())
 						warps.add (warp.getName ());
 					if (warps.size () > 0)
-						ChatManager.sendMessage (sender,TextFormatting.AQUA + Strings.join (warps,", "));
+						ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + Strings.join (warps,", "));
 					else
-						ChatManager.sendMessage (sender,Local.WARPS_NONE);
+						ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
 				} else if (DataHelper.getWarp (args[0]) != null) {
 					Warp warp = DataHelper.getWarp (args[0]);
 					EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
@@ -68,14 +68,14 @@ public class WarpCommand extends EssentialsCommand {
 						player.setPositionAndRotation (warp.getPos ().getX (),warp.getPos ().getY (),warp.getPos ().getZ (),warp.getYaw (),warp.getPitch ());
 						DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 						TeleportUtils.teleportTo (player,warp.getPos (),warp.getDimension (),true);
-						ChatManager.sendMessage (player,Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()),hoverEvent (warp));
+						ChatHelper.sendMessageTo (player,Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()),hoverEvent (warp));
 					} else if (!TeleportUtils.canTeleport (player.getGameProfile ().getId ()))
-						ChatManager.sendMessage (player,Local.TELEPORT_COOLDOWN.replaceAll ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
+						ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replaceAll ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
 				} else
-					ChatManager.sendMessage (sender,Local.WARP_NONE.replaceAll ("#",args[0]));
+					ChatHelper.sendMessageTo (sender,Local.WARP_NONE.replaceAll ("#",args[0]));
 			}
 		} else
-			ChatManager.sendMessage (sender,Local.PLAYER_ONLY);
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	private HoverEvent hoverEvent (Warp warp) {

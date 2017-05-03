@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.player;
 
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
@@ -12,8 +12,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
@@ -58,10 +59,10 @@ public class TeamCommand extends EssentialsCommand {
 						Team team = new Team (Strings.join (Arrays.copyOfRange (args,1,args.length)," "),player.getGameProfile ().getId (),false);
 						if (TeamManager.register (team)) {
 							DataHelper.setTeam (player.getGameProfile ().getId (),team);
-							player.addChatComponentMessage (new TextComponentString (Local.TEAM_CREATED.replaceAll ("#",Strings.join (Arrays.copyOfRange (args,1,args.length)," "))));
+							ChatHelper.sendMessageTo (player,Local.TEAM_CREATED.replaceAll ("#",Strings.join (Arrays.copyOfRange (args,1,args.length)," ")));
 						}
 					} else
-						player.addChatComponentMessage (new TextComponentString (Local.TEAM_CREATE_MISSING_NAME));
+						ChatHelper.sendMessageTo (player,Local.TEAM_CREATE_MISSING_NAME);
 				} else if (args[0].equalsIgnoreCase ("join")) {
 					if (args.length >= 1) {
 						Team team = TeamManager.getTeamFromName (Strings.join (Arrays.copyOfRange (args,1,args.length)," "));
@@ -70,10 +71,10 @@ public class TeamCommand extends EssentialsCommand {
 								team.addMember (player.getGameProfile ().getId ());
 								DataHelper.saveTeam (team);
 								DataHelper.setTeam (player.getGameProfile ().getId (),team);
-								player.addChatComponentMessage (new TextComponentString (Local.TEAM_JOINED.replaceAll ("#",team.getName ())));
+								ChatHelper.sendMessageTo (player,Local.TEAM_JOINED.replaceAll ("#",team.getName ()));
 							}
 						} else
-							player.addChatComponentMessage (new TextComponentString (Local.TEAM_INVALID.replaceAll ("#",Strings.join (Arrays.copyOfRange (args,1,args.length)," "))));
+							ChatHelper.sendMessageTo (player,Local.TEAM_INVALID.replaceAll ("#",Strings.join (Arrays.copyOfRange (args,1,args.length)," ")));
 					}
 				} else if (args[0].equalsIgnoreCase ("leave")) {
 					Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
@@ -125,17 +126,17 @@ public class TeamCommand extends EssentialsCommand {
 				} else if (args[0].equalsIgnoreCase ("info")) {
 					Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
 					if (team != null) {
-						ChatManager.sendMessage (player, TextFormatting.RED + Local.SPACER);
-						ChatManager.sendMessage (player,TextFormatting.AQUA + "Name: " + team.getName ());
-						ChatManager.sendMessage (player,TextFormatting.AQUA + "Owner: " + UsernameCache.getLastKnownUsername (team.getLeader ()));
-						ChatManager.sendMessage (player,TextFormatting.AQUA + "Open: " + team.isPublic ());
+						ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.SPACER);
+						ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Name: " + team.getName ());
+						ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Owner: " + UsernameCache.getLastKnownUsername (team.getLeader ()));
+						ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Open: " + team.isPublic ());
 						if (team.getMembers ().size () > 0) {
 							List <String> members = new ArrayList <> ();
 							for (UUID mem : team.getMembers ().keySet ())
 								members.add (UsernameCache.getLastKnownUsername (mem));
-							ChatManager.sendMessage (player,TextFormatting.AQUA + "Members: " + Strings.join (members,", "));
+							ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Members: " + Strings.join (members,", "));
 						}
-						ChatManager.sendMessage (player, TextFormatting.RED + Local.SPACER);
+						ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.SPACER);
 					}
 				}
 			} else

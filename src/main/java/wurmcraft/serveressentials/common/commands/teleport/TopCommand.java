@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class TopCommand extends EssentialsCommand {
 			for (int y = 256; y >= player.posY; y--) {
 				if (player.worldObj.getBlockState (new BlockPos (player.posX,y,player.posZ)).getBlock () != Blocks.AIR) {
 					TeleportUtils.teleportTo (player,new BlockPos (player.posX,y + 2,player.posZ),false);
-					ChatManager.sendMessage (player,Local.TOP);
+					ChatHelper.sendMessageTo (player,Local.TOP);
 					return;
 				}
 			}

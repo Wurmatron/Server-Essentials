@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -49,10 +49,10 @@ public class DelWarp extends EssentialsCommand {
 			if (DataHelper.getWarp (args[0]) != null) {
 				Warp warp = DataHelper.getWarp (args[0]);
 				DataHelper.deleteWarp (DataHelper.getWarp (args[0]));
-				ChatManager.sendMessage (sender,Local.WARP_DELETE.replaceAll ("#",warp.getName ()));
+				ChatHelper.sendMessageTo (sender,Local.WARP_DELETE.replaceAll ("#",warp.getName ()));
 			}
 		} else
-			ChatManager.sendMessage (sender,Local.WARPS_NONE);
+			ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
 	}
 
 	@Override

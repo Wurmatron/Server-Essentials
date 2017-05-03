@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,6 @@ public class BroadcastCommand extends EssentialsCommand {
 		if (args.length > 0)
 			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Strings.join (args," ")));
 		else
-			ChatManager.sendMessage (sender, getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
 	}
 }

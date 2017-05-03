@@ -7,4 +7,7 @@ public class Settings {
 	public static int teleport_cooldown;
 	public static String respawn_point;
 	public static int tpa_timeout;
+	public static String default_channel;
+	public static boolean forceChannelOnJoin;
+	public static String chatFormat;
 }

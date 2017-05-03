@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +48,12 @@ public class RenameCommand extends EssentialsCommand {
 				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 				if (player.getHeldItemMainhand () != null) {
 					player.getHeldItemMainhand ().setStackDisplayName (Strings.join (args," ").replaceAll ("&", "\u00A7"));
-					ChatManager.sendMessage (player,Local.NAME_CHANGED.replaceAll ("#", Strings.join (args," ").replaceAll ("&", "\u00A7")));
+					ChatHelper.sendMessageTo (player,Local.NAME_CHANGED.replaceAll ("#", Strings.join (args," ").replaceAll ("&", "\u00A7")));
 				} else
-					ChatManager.sendMessage (player,Local.NO_ITEM);
+					ChatHelper.sendMessageTo (player,Local.NO_ITEM);
 			} else
-				ChatManager.sendMessage (sender,getCommandUsage (sender));
+				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 		} else
-			ChatManager.sendMessage (sender, Local.PLAYER_ONLY);
+			ChatHelper.sendMessageTo (sender, Local.PLAYER_ONLY);
 	}
 }

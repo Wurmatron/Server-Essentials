@@ -10,7 +10,7 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wurmcraft.serveressentials.common.api.storage.Claim;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 
 public class ClaimEvent {
 
@@ -20,7 +20,7 @@ public class ClaimEvent {
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getPlayer ().getGameProfile ().getId ())) {
 			e.setCanceled (true);
 			e.getPlayer ().worldObj.notifyBlockUpdate (e.getPos (),e.getState (),e.getState (),2);
-			ChatManager.sendMessage (e.getPlayer (),Local.CLAIM_BREAK.replaceAll ("#",getOwner (claim)));
+			ChatHelper.sendMessageTo (e.getPlayer (),Local.CLAIM_BREAK.replaceAll ("#",getOwner (claim)));
 		}
 	}
 
@@ -31,7 +31,7 @@ public class ClaimEvent {
 			e.setCanceled (true);
 			e.getPlayer ().worldObj.notifyBlockUpdate (e.getPos (),e.getState (),e.getState (),2);
 			e.getPlayer ().inventory.markDirty ();
-			ChatManager.sendMessage (e.getPlayer (),Local.CLAIM_PLACE.replaceAll ("#",getOwner (claim)));
+			ChatHelper.sendMessageTo (e.getPlayer (),Local.CLAIM_PLACE.replaceAll ("#",getOwner (claim)));
 		}
 	}
 
@@ -41,7 +41,7 @@ public class ClaimEvent {
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
 			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
 				e.setCanceled (true);
-				ChatManager.sendMessage (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
+				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 			}
 		}
 	}
@@ -52,7 +52,7 @@ public class ClaimEvent {
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
 			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
 				e.setCanceled (true);
-				ChatManager.sendMessage (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
+				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 			}
 		}
 	}
@@ -63,7 +63,7 @@ public class ClaimEvent {
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
 			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
 				e.setCanceled (true);
-				ChatManager.sendMessage (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
+				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 			}
 		}
 	}
@@ -74,7 +74,7 @@ public class ClaimEvent {
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
 			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
 				e.setCanceled (true);
-				ChatManager.sendMessage (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
+				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class ClaimEvent {
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
 			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
 				e.setCanceled (true);
-				ChatManager.sendMessage (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
+				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 			}
 		}
 	}
@@ -99,7 +99,7 @@ public class ClaimEvent {
 					if (e.getExplosion ().getExplosivePlacedBy () instanceof EntityPlayer) {
 						EntityPlayer player = (EntityPlayer) e.getExplosion ().getExplosivePlacedBy ();
 						if (!ChunkManager.canDestroy (claim,player.getGameProfile ().getId ())) {
-							ChatManager.sendMessage (player,Local.CLAIM_EXPLOSION.replaceAll ("#",getOwner (claim)));
+							ChatHelper.sendMessageTo (player,Local.CLAIM_EXPLOSION.replaceAll ("#",getOwner (claim)));
 							e.setCanceled (true);
 						}
 					} else
@@ -113,7 +113,7 @@ public class ClaimEvent {
 				if (e.getExplosion ().getExplosivePlacedBy () instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) e.getExplosion ().getExplosivePlacedBy ();
 					if (!ChunkManager.canDestroy (claim,player.getGameProfile ().getId ())) {
-						ChatManager.sendMessage (player,Local.CLAIM_EXPLOSION.replaceAll ("#",getOwner (claim)));
+						ChatHelper.sendMessageTo (player,Local.CLAIM_EXPLOSION.replaceAll ("#",getOwner (claim)));
 						e.setCanceled (true);
 					}
 				} else

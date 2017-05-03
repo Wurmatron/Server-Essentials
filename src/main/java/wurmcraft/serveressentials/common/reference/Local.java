@@ -63,6 +63,11 @@ public class Local {
 	public static final String FLY_ENABLED_OTHER = TextFormatting.GREEN + "Fly Mode Enabled for #";
 	public static final String FLY_DISABLED_OTHER = TextFormatting.RED + "Fly Mode Disabled for #";
 	public static final String PLAYER_FILE_DELETE = TextFormatting.GOLD + "Your Player File has been deleted!";
+	public static final String MUTED = TextFormatting.DARK_RED + "You have been muted!";
+	public static final String UNMUTED = TextFormatting.DARK_RED + "You have been unmuted!";
+	public static final String MUTED_OTHER = TextFormatting.RED + "You have muted #";
+	public static final String UNMUTED_OTHER = TextFormatting.RED + "You have unmuted #";
+	public static final String NOTIFY_MUTED = TextFormatting.DARK_RED + "You cannot talk in chat you have been muted!";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
@@ -94,6 +99,7 @@ public class Local {
 	public static final String CLAIM_EXPLOSION = TextFormatting.DARK_RED + "You are not allowed to blow up " + TextFormatting.GOLD + "#'s" + TextFormatting.DARK_RED + " claim!";
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+	public static final String CHANNEL_CHANGED = TextFormatting.RED + "You channel has been changed to #";
 	// Item
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";

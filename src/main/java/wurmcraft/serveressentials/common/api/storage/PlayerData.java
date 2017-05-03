@@ -4,6 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.team.ITeam;
 import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.TeamManager;
@@ -25,6 +26,8 @@ public class PlayerData {
 	private Home[] homes = new Home[max_homes];
 	private List <Mail> currentMail = new ArrayList <> ();
 	private String team;
+	public String currentChannel;
+	public boolean muted;
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -155,5 +158,24 @@ public class PlayerData {
 
 	public void setMoney (int money) {
 		this.money = money;
+	}
+
+	public void setCurrentChannel (Channel channel) {
+		if (channel != null)
+			this.currentChannel = channel.getName ();
+		else
+			this.currentChannel = ChannelManager.getDefaultChannel ().getName ();
+	}
+
+	public String getCurrentChannel () {
+		return currentChannel;
+	}
+
+	public boolean isMuted () {
+		return muted;
+	}
+
+	public void setMuted (boolean muted) {
+		this.muted = muted;
 	}
 }

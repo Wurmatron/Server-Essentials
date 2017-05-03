@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -57,11 +57,11 @@ public class DeleteRuleCommand extends EssentialsCommand {
 			Integer ruleIndex = Integer.parseInt (args[0]);
 			if (ruleIndex >= 0) {
 				DataHelper.globalSettings.removeRule (ruleIndex);
-				ChatManager.sendMessage (sender,Local.RULE_REMOVED.replaceAll ("#",args[0]));
+				ChatHelper.sendMessageTo (sender,Local.RULE_REMOVED.replaceAll ("#",args[0]));
 			} else
-				ChatManager.sendMessage (sender,Local.RULE_INVALID_INDEX.replaceAll ("#",args[0]));
+				ChatHelper.sendMessageTo (sender,Local.RULE_INVALID_INDEX.replaceAll ("#",args[0]));
 		} else
-			ChatManager.sendMessage (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

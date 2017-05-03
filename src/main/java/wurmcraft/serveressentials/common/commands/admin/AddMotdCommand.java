@@ -6,7 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -42,8 +42,8 @@ public class AddMotdCommand extends EssentialsCommand {
 		if (args.length > 0) {
 			String rule = Strings.join (args," ");
 			DataHelper.globalSettings.addMotd (rule);
-			ChatManager.sendMessage (sender,Local.MOTD_CREATED.replaceAll ("#",rule));
+			ChatHelper.sendMessageTo (sender,Local.MOTD_CREATED.replaceAll ("#",rule));
 		} else
-			ChatManager.sendMessage (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 }

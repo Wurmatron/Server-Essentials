@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class BackCommand extends EssentialsCommand {
 				BlockPos lastLocation = data.getLastLocation ();
 				player.setPosition (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());
 				DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
-				ChatManager.sendMessage (player,Local.TELEPORT_BACK);
+				ChatHelper.sendMessageTo (player,Local.TELEPORT_BACK);
 			}
 		}
 	}

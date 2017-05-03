@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ChatManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -41,6 +41,7 @@ public class DeleteMotdCommand extends EssentialsCommand {
 		aliases.add ("Delmotd");
 		aliases.add ("DelMotd");
 		aliases.add ("DELMOTD");
+		aliases.add ("delMotd");
 		return aliases;
 	}
 
@@ -50,11 +51,11 @@ public class DeleteMotdCommand extends EssentialsCommand {
 			Integer motdIndex = Integer.parseInt (args[0]);
 			if (motdIndex >= 0) {
 				DataHelper.globalSettings.removeMotd (motdIndex);
-				ChatManager.sendMessage (sender,Local.MOTD_REMOVED.replaceAll ("#",args[0]));
+				ChatHelper.sendMessageTo (sender,Local.MOTD_REMOVED.replaceAll ("#",args[0]));
 			} else
-				ChatManager.sendMessage (sender,Local.MOTD_INVALID_INDEX.replaceAll ("#",args[0]));
+				ChatHelper.sendMessageTo (sender,Local.MOTD_INVALID_INDEX.replaceAll ("#",args[0]));
 		} else
-			ChatManager.sendMessage (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override
