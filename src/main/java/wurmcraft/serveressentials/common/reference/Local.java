@@ -91,6 +91,7 @@ public class Local {
 	public static final String CLAIM_BREAK = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to break this!";
 	public static final String CLAIM_PLACE = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to place a block here!";
 	public static final String CLAIM_INTERACT = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to interact on that block";
+	public static final String CLAIM_EXPLOSION = TextFormatting.DARK_RED + "You are not allowed to blow up " + TextFormatting.GOLD + "#'s" + TextFormatting.DARK_RED + " claim!";
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 }
