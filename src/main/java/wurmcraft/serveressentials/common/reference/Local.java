@@ -94,4 +94,7 @@ public class Local {
 	public static final String CLAIM_EXPLOSION = TextFormatting.DARK_RED + "You are not allowed to blow up " + TextFormatting.GOLD + "#'s" + TextFormatting.DARK_RED + " claim!";
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+	// Item
+	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
+	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
 }

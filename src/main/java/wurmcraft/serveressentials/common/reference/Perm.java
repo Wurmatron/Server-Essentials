@@ -42,4 +42,5 @@ public class Perm {
 	public static final String COMMAND_TOP = "admin.top";
 	public static final String COMMAND_SUICIDE = "common.suicide";
 	public static final String COMMAND_LIST = "common.list";
+	public static final String COMMAND_RENAME = "admin.rename";
 }
