@@ -11,6 +11,11 @@ import java.util.UUID;
 
 public class TeleportUtils {
 
+	private final static long ONE_SECOND = 1000;
+	private final static long ONE_MINUTE = ONE_SECOND * 60;
+	private final static long ONE_HOUR = ONE_MINUTE * 60;
+	private final static long ONE_DAY = ONE_HOUR * 24;
+
 	public static void teleportTo (MinecraftServer server,UUID uuid,BlockPos pos,boolean timer) {
 		PlayerList players = server.getPlayerList ();
 		if (players.getCurrentPlayerCount () > 0) {
@@ -64,5 +69,45 @@ public class TeleportUtils {
 			return teleport_timer + (Settings.teleport_cooldown * 1000) <= System.currentTimeMillis ();
 		}
 		return false;
+	}
+
+	public static String convertToHumanReadable (long duration) {
+		String readable = "";
+		long temp = 0;
+		if (duration >= ONE_SECOND) {
+			temp = duration / ONE_DAY;
+			if (temp > 0) {
+				duration -= temp * ONE_DAY;
+				readable = temp + " day";
+				if (temp > 0)
+					readable = readable + "s";
+				if (duration >= ONE_MINUTE)
+					readable = readable + ", ";
+			}
+			temp = duration / ONE_HOUR;
+			if (temp > 0) {
+				duration -= temp * ONE_HOUR;
+				readable = readable + temp + " hour";
+				if (temp > 1)
+					readable = readable + "s";
+				if (duration >= ONE_MINUTE)
+					readable = readable + ", ";
+			}
+			temp = duration / ONE_MINUTE;
+			if (temp > 0)
+				duration -= temp * ONE_MINUTE;
+			readable = readable + temp + " minute";
+			if (temp > 1)
+				readable = readable + "s";
+			if (!readable.equals ("") && duration >= ONE_SECOND)
+				readable = readable + " and ";
+			temp = duration / ONE_SECOND;
+			if (temp > 0)
+				readable = readable + temp + " second";
+			if (temp > 1)
+				readable = readable + "s";
+			return readable;
+		} else
+			return "Online";
 	}
 }

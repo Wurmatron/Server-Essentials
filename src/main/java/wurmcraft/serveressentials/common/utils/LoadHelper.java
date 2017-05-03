@@ -3,8 +3,12 @@ package wurmcraft.serveressentials.common.utils;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.*;
+import wurmcraft.serveressentials.common.commands.admin.*;
+import wurmcraft.serveressentials.common.commands.chat.BroadcastCommand;
+import wurmcraft.serveressentials.common.commands.chat.ListCommand;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
+import wurmcraft.serveressentials.common.commands.info.*;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -51,6 +55,7 @@ public class LoadHelper {
 		e.registerServerCommand (new FreezeCommand (Perm.COMMAND_FREEZE));
 		e.registerServerCommand (new TopCommand (Perm.COMMAND_TOP));
 		e.registerServerCommand (new SuicideCommand (Perm.COMMAND_SUICIDE));
+		e.registerServerCommand (new ListCommand (Perm.COMMAND_LIST));
 	}
 
 	public static void loadData() {

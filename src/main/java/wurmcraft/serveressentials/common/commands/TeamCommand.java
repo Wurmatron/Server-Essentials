@@ -8,10 +8,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ChatManager;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
@@ -120,6 +122,21 @@ public class TeamCommand extends EssentialsCommand {
 						}
 					} else if (team != null)
 						player.addChatComponentMessage (new TextComponentString (Local.TEAM_LEADER_PERM));
+				} else if (args[0].equalsIgnoreCase ("info")) {
+					Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
+					if (team != null) {
+						ChatManager.sendMessage (player, TextFormatting.RED + Local.SPACER);
+						ChatManager.sendMessage (player,TextFormatting.AQUA + "Name: " + team.getName ());
+						ChatManager.sendMessage (player,TextFormatting.AQUA + "Owner: " + UsernameCache.getLastKnownUsername (team.getLeader ()));
+						ChatManager.sendMessage (player,TextFormatting.AQUA + "Open: " + team.isPublic ());
+						if (team.getMembers ().size () > 0) {
+							List <String> members = new ArrayList <> ();
+							for (UUID mem : team.getMembers ().keySet ())
+								members.add (UsernameCache.getLastKnownUsername (mem));
+							ChatManager.sendMessage (player,TextFormatting.AQUA + "Members: " + Strings.join (members,", "));
+						}
+						ChatManager.sendMessage (player, TextFormatting.RED + Local.SPACER);
+					}
 				}
 			} else
 				player.addChatComponentMessage (new TextComponentString (getCommandUsage (sender)));

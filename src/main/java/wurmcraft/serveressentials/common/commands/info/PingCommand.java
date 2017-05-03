@@ -1,9 +1,10 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.info;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 
 import java.util.ArrayList;
 import java.util.List;

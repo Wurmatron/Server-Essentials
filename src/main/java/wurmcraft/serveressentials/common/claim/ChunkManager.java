@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.istack.internal.Nullable;
 import joptsimple.internal.Strings;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -276,5 +278,9 @@ public class ChunkManager {
 			return new Location (x,z);
 		}
 		return null;
+	}
+
+	public static boolean isItemSafe (ItemStack stack) {
+	return stack != null && stack.getItem () instanceof ItemFood;
 	}
 }

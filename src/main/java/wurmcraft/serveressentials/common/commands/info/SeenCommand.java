@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands;
+package wurmcraft.serveressentials.common.commands.info;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -11,18 +11,15 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class SeenCommand extends EssentialsCommand {
-
-	private final static long ONE_SECOND = 1000;
-	private final static long ONE_MINUTE = ONE_SECOND * 60;
-	private final static long ONE_HOUR = ONE_MINUTE * 60;
-	private final static long ONE_DAY = ONE_HOUR * 24;
 
 	public SeenCommand (String perm) {
 		super (perm);
@@ -83,46 +80,6 @@ public class SeenCommand extends EssentialsCommand {
 	}
 
 	private static String convert (long lastSeen) {
-		return "" + convertToHumanReadable (new Date ().getTime () - lastSeen);
-	}
-
-	public static String convertToHumanReadable (long duration) {
-		String readable = "";
-		long temp = 0;
-		if (duration >= ONE_SECOND) {
-			temp = duration / ONE_DAY;
-			if (temp > 0) {
-				duration -= temp * ONE_DAY;
-				readable = temp + " day";
-				if (temp > 0)
-					readable = readable + "s";
-				if (duration >= ONE_MINUTE)
-					readable = readable + ", ";
-			}
-			temp = duration / ONE_HOUR;
-			if (temp > 0) {
-				duration -= temp * ONE_HOUR;
-				readable = readable + temp + " hour";
-				if (temp > 1)
-					readable = readable + "s";
-				if (duration >= ONE_MINUTE)
-					readable = readable + ", ";
-			}
-			temp = duration / ONE_MINUTE;
-			if (temp > 0)
-				duration -= temp * ONE_MINUTE;
-			readable = readable + temp + " minute";
-			if (temp > 1)
-				readable = readable + "s";
-			if (!readable.equals ("") && duration >= ONE_SECOND)
-				readable = readable + " and ";
-			temp = duration / ONE_SECOND;
-			if (temp > 0)
-				readable = readable + temp + " second";
-			if (temp > 1)
-				readable = readable + "s";
-			return readable;
-		} else
-			return "Online";
+		return "" + TeleportUtils.convertToHumanReadable (new Date ().getTime () - lastSeen);
 	}
 }

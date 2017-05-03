@@ -3,7 +3,6 @@ package wurmcraft.serveressentials.common.reference;
 import net.minecraft.util.text.TextFormatting;
 
 public class Local {
-
 	// Home
 	public static final String HOME_TELEPORTED = TextFormatting.AQUA + "Teleported to home \"#\"";
 	public static final String HOME_NONE = TextFormatting.BLUE + "No default home set!";
@@ -91,7 +90,7 @@ public class Local {
 	// Protection
 	public static final String CLAIM_BREAK = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to break this!";
 	public static final String CLAIM_PLACE = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to place a block here!";
-
-
-
+	public static final String CLAIM_INTERACT = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to interact on that block";
+	// Chat
+	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 }
