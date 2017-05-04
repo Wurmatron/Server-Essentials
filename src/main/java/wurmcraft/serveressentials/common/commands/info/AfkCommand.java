@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -49,6 +50,7 @@ public class AfkCommand extends EssentialsCommand {
 				DataHelper.addAfkPlayer (player);
 				DataHelper.removeAfkPlayer (player);
 			}
-		}
+		} else
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 }

@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -49,15 +49,15 @@ public class HealCommand extends EssentialsCommand {
 				for (EntityPlayerMP user : players.getPlayerList ())
 					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
 						user.setHealth (user.getMaxHealth ());
-						user.addChatComponentMessage (new TextComponentString (Local.HEAL_OTHER));
-						sender.addChatMessage (new TextComponentString (Local.HEAL_OTHER_SENDER.replaceAll ("#",user.getDisplayName ().getUnformattedText ())));
+						ChatHelper.sendMessageTo (user,Local.HEAL_OTHER);
+						ChatHelper.sendMessageTo (sender,Local.HEAL_OTHER_SENDER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()));
 					}
 		} else if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			player.setHealth (player.getMaxHealth ());
-			player.addChatComponentMessage (new TextComponentString (Local.HEAL_SELF));
+			ChatHelper.sendMessageTo (player,Local.HEAL_SELF);
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

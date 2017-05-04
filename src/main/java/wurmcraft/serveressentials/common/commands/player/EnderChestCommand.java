@@ -9,6 +9,7 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.reference.Local;
@@ -61,15 +62,15 @@ public class EnderChestCommand extends EssentialsCommand {
 							if (player.openContainer != player.inventoryContainer)
 								player.closeScreen ();
 							player.displayGUIChest (new PlayerInventory (victim,player,true));
-							player.addChatComponentMessage (new TextComponentString (Local.PLAYER_INVENTORY_ENDER.replaceAll ("#",victim.getDisplayName ().getUnformattedText ())));
+							ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_ENDER.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
 							open = true;
 						}
 					if (!open)
-						player.addChatComponentMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
+						ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 				}
 			}
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override

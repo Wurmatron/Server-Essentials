@@ -3,8 +3,9 @@ package wurmcraft.serveressentials.common.commands.info;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Local;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,6 @@ public class PingCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		sender.addChatMessage (new TextComponentString ("pongy!"));
+		ChatHelper.sendMessageTo (sender, Local.PING_REPLY);
 	}
 }

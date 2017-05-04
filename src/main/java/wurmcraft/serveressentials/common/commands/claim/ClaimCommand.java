@@ -4,12 +4,13 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.Claim;
 import wurmcraft.serveressentials.common.api.storage.RegionData;
 import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
 public class ClaimCommand extends EssentialsCommand {
@@ -39,21 +40,17 @@ public class ClaimCommand extends EssentialsCommand {
 					Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
 					regionData.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
 					ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
-					player.addChatComponentMessage (new TextComponentString ("Chunk Claimed"));
+					ChatHelper.sendMessageTo (sender,Local.CHUNK_CLAIMED);
 				} else
-					player.addChatComponentMessage (new TextComponentString ("Chunk Already Claimed"));
+					ChatHelper.sendMessageTo (sender,Local.CHUNK_ALREADY_CLAIMED);
 			} else {
 				RegionData regionDataNew = new RegionData ();
 				Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
 				regionDataNew.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
 				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionDataNew);
-				player.addChatComponentMessage (new TextComponentString ("Chunk Claimed"));
+				ChatHelper.sendMessageTo (sender,Local.CHUNK_CLAIMED);
 			}
-		}
-	}
-
-	@Override
-	public boolean checkPermission (final MinecraftServer server,final ICommandSender sender) {
-		return true;
+		} else
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 }

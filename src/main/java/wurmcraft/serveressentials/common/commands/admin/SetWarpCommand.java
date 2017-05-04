@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands.teleport;
+package wurmcraft.serveressentials.common.commands.admin;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -49,13 +50,10 @@ public class SetWarpCommand extends EssentialsCommand {
 			else {
 				EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 				Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
-				TextComponentString nameWarp = new TextComponentString (DataHelper.createWarp (warp));
-				DataHelper.createWarp (warp);
-				nameWarp.getStyle ().setHoverEvent (hoverEvent (warp));
-				sender.addChatMessage (nameWarp);
+				ChatHelper.sendMessageTo (player,DataHelper.createWarp (warp),hoverEvent (warp));
 			}
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	public HoverEvent hoverEvent (Warp home) {

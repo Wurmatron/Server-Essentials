@@ -9,6 +9,7 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -53,17 +54,23 @@ public class DPFCommand extends EssentialsCommand {
 		if (args.length == 1) {
 			PlayerList players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ();
 			if (players.getCurrentPlayerCount () > 0) {
+				boolean playerFound = false;
 				for (EntityPlayerMP player : players.getPlayerList ()) {
 					if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
+						playerFound = true;
 						DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 						player.onKillCommand ();
 						player.connection.kickPlayerFromServer (Local.PLAYER_FILE_DELETE);
 						File playerFile = new File (server.getDataDirectory (),File.separator + server.getFolderName () + File.separator + "playerdata" + File.separator + player.getGameProfile ().getId ().toString () + ".dat");
 						LogHandler.info ("Deleting " + playerFile.getName ());
+						ChatHelper.sendMessageTo (sender,Local.PLAYER_FILE_DELETE_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
 					}
 				}
+				if (!playerFound)
+					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			}
-		}
+		} else
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

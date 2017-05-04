@@ -7,9 +7,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -56,15 +56,15 @@ public class ReloadPlayerDataCommand extends EssentialsCommand {
 					if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()) != null && UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
 						DataHelper.unloadPlayerData (player.getGameProfile ().getId ());
 						DataHelper.loadPlayerData (player.getGameProfile ().getId ());
-						player.addChatComponentMessage (new TextComponentString (Local.DATA_RELOADED));
-						sender.addChatMessage (new TextComponentString (Local.DATA_RELOADED_OTHER.replaceAll ("#",player.getDisplayNameString ())));
+						ChatHelper.sendMessageTo (player,Local.DATA_RELOADED);
+						ChatHelper.sendMessageTo (sender,Local.DATA_RELOADED_OTHER.replaceAll ("#",player.getDisplayNameString ()));
 						found = true;
 					}
 			}
 			if (!found)
-				sender.addChatMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

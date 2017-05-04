@@ -5,8 +5,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.event.PlayerTickEvent;
 import wurmcraft.serveressentials.common.reference.Local;
@@ -50,16 +50,16 @@ public class FreezeCommand extends EssentialsCommand {
 			if (player != null) {
 				PlayerTickEvent.toggleFrozen (player,player.getPosition ());
 				if (PlayerTickEvent.isFrozen (player)) {
-					sender.addChatMessage (new TextComponentString (Local.FROZEN_OTHER.replaceAll ("#",player.getDisplayNameString ())));
-					player.addChatComponentMessage (new TextComponentString (Local.FROZEN));
+					ChatHelper.sendMessageTo (sender,Local.FROZEN_OTHER.replaceAll ("#",player.getDisplayNameString ()));
+					ChatHelper.sendMessageTo (player,Local.FROZEN);
 				} else {
-					sender.addChatMessage (new TextComponentString (Local.UNFROZEN_OTHER.replaceAll ("#",player.getDisplayNameString ())));
-					player.addChatComponentMessage (new TextComponentString (Local.UNFROZEN));
+					ChatHelper.sendMessageTo (sender,Local.UNFROZEN_OTHER.replaceAll ("#",player.getDisplayNameString ()));
+					ChatHelper.sendMessageTo (player,Local.UNFROZEN);
 				}
 			} else
-				sender.addChatMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#", args[0])));
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

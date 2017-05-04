@@ -4,7 +4,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -34,10 +34,10 @@ public class TpacceptCommand extends EssentialsCommand {
 				for (long time : DataHelper.activeRequests.keySet ()) {
 					EntityPlayer[] otherPlayer = DataHelper.activeRequests.get (time);
 					if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
-						DataHelper.setLastLocation (otherPlayer[0].getGameProfile ().getId (), otherPlayer[0].getPosition ());
-						TeleportUtils.teleportTo (otherPlayer[0], player.getPosition (), true);
-						otherPlayer[1].addChatComponentMessage (new TextComponentString (Local.TPA_ACCEPED_OTHER));
-						otherPlayer[0].addChatComponentMessage (new TextComponentString (Local.TPA_ACCEPTED.replaceAll ("#",otherPlayer[1].getDisplayName ().getUnformattedText ())));
+						DataHelper.setLastLocation (otherPlayer[0].getGameProfile ().getId (),otherPlayer[0].getPosition ());
+						TeleportUtils.teleportTo (otherPlayer[0],player.getPosition (),true);
+						ChatHelper.sendMessageTo (otherPlayer[1],Local.TPA_ACCEPED_OTHER);
+						ChatHelper.sendMessageTo (otherPlayer[0],Local.TPA_ACCEPTED.replaceAll ("#",otherPlayer[1].getDisplayName ().getUnformattedText ()));
 						DataHelper.activeRequests.remove (time);
 					}
 				}

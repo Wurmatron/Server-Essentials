@@ -4,8 +4,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.Global;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -34,8 +34,8 @@ public class MotdCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List<String> getCommandAliases () {
-		List <String> aliases = new ArrayList<> ();
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Motd");
 		aliases.add ("MOTD");
 		return aliases;
@@ -49,28 +49,28 @@ public class MotdCommand extends EssentialsCommand {
 				if (args.length == 0) {
 					String[] temp = Arrays.copyOfRange (globalSettings.getMotd (),0,LIST_SIZE);
 					for (String rule : temp)
-						sender.addChatMessage (new TextComponentString (rule));
+						ChatHelper.sendMessageTo (sender,rule.replaceAll ("&","\u00A7"));
 				} else {
 					int pageNo = Integer.valueOf (args[0]);
 					if (pageNo <= (globalSettings.getMotd ().length / LIST_SIZE)) {
 						String[] temp = Arrays.copyOfRange (globalSettings.getMotd (),(pageNo * LIST_SIZE),(pageNo * LIST_SIZE) + LIST_SIZE);
 						for (String rule : temp)
 							if (rule != null && rule.length () > 0)
-								sender.addChatMessage (new TextComponentString (rule));
+								ChatHelper.sendMessageTo (sender,rule.replaceAll ("&","\u00A7"));
 					} else
-						sender.addChatMessage (new TextComponentString (Local.PAGE_NONE.replaceAll ("#",args[0]).replaceAll ("$",(globalSettings.getMotd ().length / LIST_SIZE) + "")));
+						ChatHelper.sendMessageTo (sender,Local.PAGE_NONE.replaceAll ("#",args[0]).replaceAll ("$",(globalSettings.getMotd ().length / LIST_SIZE) + ""));
 				}
 			} else
 				for (String rule : globalSettings.getMotd ())
-					sender.addChatMessage (new TextComponentString (rule));
+					ChatHelper.sendMessageTo (sender,rule.replaceAll ("&","\u00A7"));
 		} else
-			sender.addChatMessage (new TextComponentString (Local.NO_MOTD));
+			ChatHelper.sendMessageTo (sender,Local.NO_MOTD);
 	}
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
-		for(int no = 0; no < DataHelper.globalSettings.getMotd ().length/7; no++)
+		for (int no = 0; no < DataHelper.globalSettings.getMotd ().length / 7; no++)
 			list.add ("" + no);
 		return list;
 	}

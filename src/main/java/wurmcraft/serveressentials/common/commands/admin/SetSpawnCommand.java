@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands.teleport;
+package wurmcraft.serveressentials.common.commands.admin;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

@@ -9,8 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -36,8 +36,8 @@ public class SkullCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List<String> getCommandAliases () {
-		List <String> aliases = new ArrayList<> ();
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Skull");
 		aliases.add ("SKULL");
 		return aliases;
@@ -45,16 +45,20 @@ public class SkullCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer && args.length == 1) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (player != null) {
-				ItemStack stack = new ItemStack (Items.SKULL,1,3);
-				stack.setTagCompound (new NBTTagCompound ());
-				stack.getTagCompound ().setTag ("SkullOwner",new NBTTagString (args[0]));
-				player.inventory.addItemStackToInventory (stack);
-				player.addChatComponentMessage (new TextComponentString (Local.SKULL.replaceAll ("#", args[0])));
-			}
-		} else sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+		if (sender instanceof EntityPlayer) {
+			if (args.length == 1) {
+				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+				if (player != null) {
+					ItemStack stack = new ItemStack (Items.SKULL,1,3);
+					stack.setTagCompound (new NBTTagCompound ());
+					stack.getTagCompound ().setTag ("SkullOwner",new NBTTagString (args[0]));
+					player.inventory.addItemStackToInventory (stack);
+					ChatHelper.sendMessageTo (player,Local.SKULL.replaceAll ("#",args[0]));
+				}
+			} else
+				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+		} else
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override

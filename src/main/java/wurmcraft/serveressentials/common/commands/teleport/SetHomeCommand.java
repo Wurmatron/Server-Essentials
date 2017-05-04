@@ -5,11 +5,12 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Home;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -38,6 +39,12 @@ public class SetHomeCommand extends EssentialsCommand {
 		aliases.add ("SetHome");
 		aliases.add ("setHome");
 		aliases.add ("SETHOME");
+		aliases.add ("sethome");
+		aliases.add ("shome");
+		aliases.add ("sHome");
+		aliases.add ("Shome");
+		aliases.add ("SHome");
+		aliases.add ("SHOME");
 		return aliases;
 	}
 
@@ -47,17 +54,13 @@ public class SetHomeCommand extends EssentialsCommand {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (args != null && args.length > 0) {
 				Home home = new Home (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
-				TextComponentString defaultHome = new TextComponentString (DataHelper.addPlayerHome (player.getGameProfile ().getId (),home));
-				defaultHome.getStyle ().setHoverEvent (hoverEvent (home));
-				sender.addChatMessage (defaultHome);
+				ChatHelper.sendMessageTo (player,DataHelper.addPlayerHome (player.getGameProfile ().getId (),home),hoverEvent (home));
 			} else {
 				Home home = new Home (Settings.home_name,player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
-				TextComponentString nameHome = new TextComponentString (DataHelper.addPlayerHome (player.getGameProfile ().getId (),home));
-				nameHome.getStyle ().setHoverEvent (hoverEvent (home));
-				sender.addChatMessage (nameHome);
+				ChatHelper.sendMessageTo (player,DataHelper.addPlayerHome (player.getGameProfile ().getId (),home),hoverEvent (home));
 			}
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override

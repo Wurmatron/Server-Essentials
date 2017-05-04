@@ -40,6 +40,7 @@ public class DelHome extends EssentialsCommand {
 		aliases.add ("DeleteHome");
 		aliases.add ("deletehome");
 		aliases.add ("DelHome");
+		aliases.add ("delhome");
 		aliases.add ("DELETEHOME");
 		aliases.add ("DELHOME");
 		return aliases;

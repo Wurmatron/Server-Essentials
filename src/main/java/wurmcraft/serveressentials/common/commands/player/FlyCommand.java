@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -47,31 +47,31 @@ public class FlyCommand extends EssentialsCommand {
 							if (!user.capabilities.allowFlying) {
 								user.capabilities.allowFlying = true;
 								user.capabilities.isFlying = true;
-								user.addChatComponentMessage (new TextComponentString (Local.FLY_ENABLED));
-								player.addChatComponentMessage (new TextComponentString (Local.FLY_ENABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ())));
+								ChatHelper.sendMessageTo (user,Local.FLY_ENABLED);
+								ChatHelper.sendMessageTo (player,Local.FLY_ENABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
 								user.sendPlayerAbilities ();
 							} else {
 								user.capabilities.allowFlying = false;
-								user.addChatComponentMessage (new TextComponentString (Local.FLY_DISABLED));
-								player.addChatComponentMessage (new TextComponentString (Local.FLY_DISABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ())));
+								ChatHelper.sendMessageTo (user,Local.FLY_DISABLED);
+								ChatHelper.sendMessageTo (player,Local.FLY_DISABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
 								user.sendPlayerAbilities ();
 							}
 						}
 				if (!playerFound)
-					player.addChatComponentMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
+					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			} else {
 				if (!player.capabilities.allowFlying) {
 					player.capabilities.allowFlying = true;
-					player.addChatComponentMessage (new TextComponentString (Local.FLY_ENABLED));
+					ChatHelper.sendMessageTo (player,Local.FLY_ENABLED);
 					player.sendPlayerAbilities ();
 				} else {
 					player.capabilities.allowFlying = false;
-					player.addChatComponentMessage (new TextComponentString (Local.FLY_DISABLED));
+					ChatHelper.sendMessageTo (player,Local.FLY_DISABLED);
 					player.sendPlayerAbilities ();
 				}
 			}
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override

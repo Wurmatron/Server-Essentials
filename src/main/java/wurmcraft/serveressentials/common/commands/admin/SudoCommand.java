@@ -10,6 +10,7 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -58,25 +59,24 @@ public class SudoCommand extends EssentialsCommand {
 							victim.addChatComponentMessage (new TextComponentString (Local.COMMAND_FORCED));
 							String command = Strings.join (Arrays.copyOfRange (args,1,args.length)," ");
 							FMLCommonHandler.instance ().getMinecraftServerInstance ().getCommandManager ().executeCommand (victim,command);
-							sender.addChatMessage (new TextComponentString (Local.COMMAND_SENDER_FORCED.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()) + "/" + command));
+							ChatHelper.sendMessageTo (sender,Local.COMMAND_SENDER_FORCED.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()) + "/" + command);
 						} else
-							sender.addChatMessage (new TextComponentString (Local.COMMAND_NOT_FOUND));
+							ChatHelper.sendMessageTo (sender,Local.COMMAND_NOT_FOUND);
 					}
 				}
 				if (!found)
-					sender.addChatMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
+					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			}
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
-		if (args.length == 1) {
+		if (args.length == 1)
 			if (sender instanceof EntityPlayer)
 				Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		}
 		return list;
 	}
 }

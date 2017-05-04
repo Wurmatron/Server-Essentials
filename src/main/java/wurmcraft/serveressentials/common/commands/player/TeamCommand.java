@@ -79,7 +79,7 @@ public class TeamCommand extends EssentialsCommand {
 				} else if (args[0].equalsIgnoreCase ("leave")) {
 					Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
 					if (team != null) {
-						player.addChatComponentMessage (new TextComponentString (Local.TEAM_LEFT.replaceAll ("#",team.getName ())));
+						ChatHelper.sendMessageTo (player,Local.TEAM_LEFT.replaceAll ("#",team.getName ()));
 						DataHelper.setTeam (player.getGameProfile ().getId (),null);
 						team.removeMember (player.getGameProfile ().getId ());
 						DataHelper.saveTeam (team);
@@ -92,15 +92,15 @@ public class TeamCommand extends EssentialsCommand {
 							if (players.getPlayerList ().size () > 0)
 								for (EntityPlayerMP user : players.getPlayerList ())
 									if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ())) {
-										player.addChatComponentMessage (new TextComponentString (Local.TEAM_INVITED.replaceAll ("#",user.getDisplayName ().getUnformattedText ())));
-										user.addChatComponentMessage (new TextComponentString (Local.TEAM_INVITED_OTHER.replaceAll ("#",team.getName ())));
+										ChatHelper.sendMessageTo (player,Local.TEAM_INVITED.replaceAll ("#",user.getDisplayName ().getUnformattedText ()));
+										ChatHelper.sendMessageTo (user,Local.TEAM_INVITED_OTHER.replaceAll ("#",team.getName ()));
 										team.addPossibleMember (user.getGameProfile ().getId ());
 										DataHelper.saveTeam (team);
 									}
 						} else
-							player.addChatComponentMessage (new TextComponentString (Local.TEAM_MISSING_NAME));
+							ChatHelper.sendMessageTo (player,Local.TEAM_MISSING_NAME);
 					} else if (team != null)
-						player.addChatComponentMessage (new TextComponentString (Local.TEAM_LEADER_PERM));
+						ChatHelper.sendMessageTo (player,Local.TEAM_LEADER_PERM);
 				} else if (args[0].equalsIgnoreCase ("kick")) {
 					Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
 					if (team != null && team.getLeader ().equals (player.getGameProfile ().getId ())) {
@@ -117,8 +117,8 @@ public class TeamCommand extends EssentialsCommand {
 									if (players.getPlayerList ().size () > 0)
 										for (EntityPlayerMP user : players.getPlayerList ())
 											if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ()))
-												user.addChatComponentMessage (new TextComponentString (Local.TEAM_KICKED));
-									player.addChatComponentMessage (new TextComponentString (Local.TEAM_KICKED_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (key))));
+												ChatHelper.sendMessageTo (user,Local.TEAM_KICKED);
+									ChatHelper.sendMessageTo (player,Local.TEAM_KICKED_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (key)));
 								}
 						}
 					} else if (team != null)
@@ -140,7 +140,7 @@ public class TeamCommand extends EssentialsCommand {
 					}
 				}
 			} else
-				player.addChatComponentMessage (new TextComponentString (getCommandUsage (sender)));
+				ChatHelper.sendMessageTo (player,getCommandUsage (player));
 		}
 	}
 }

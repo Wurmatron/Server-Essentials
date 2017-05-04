@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands.teleport;
+package wurmcraft.serveressentials.common.commands.admin;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.Warp;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -37,9 +37,18 @@ public class DelWarp extends EssentialsCommand {
 		aliases.add ("deleteWarp");
 		aliases.add ("DeleteWarp");
 		aliases.add ("DelWarp");
+		aliases.add ("delwarp");
 		aliases.add ("Delwarp");
 		aliases.add ("DELETEWARP");
 		aliases.add ("DELWARP");
+		aliases.add ("removeWarp");
+		aliases.add ("remWarp");
+		aliases.add ("RemWarp");
+		aliases.add ("RemoveWarp");
+		aliases.add ("removewarp");
+		aliases.add ("remwarp");
+		aliases.add ("REMOVEWARP");
+		aliases.add ("REMWARP");
 		return aliases;
 	}
 
@@ -50,7 +59,8 @@ public class DelWarp extends EssentialsCommand {
 				Warp warp = DataHelper.getWarp (args[0]);
 				DataHelper.deleteWarp (DataHelper.getWarp (args[0]));
 				ChatHelper.sendMessageTo (sender,Local.WARP_DELETE.replaceAll ("#",warp.getName ()));
-			}
+			} else
+				ChatHelper.sendMessageTo (sender, Local.WARP_NAME);
 		} else
 			ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
 	}

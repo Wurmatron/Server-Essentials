@@ -8,8 +8,16 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TpCommand extends EssentialsCommand {
 
@@ -47,7 +55,7 @@ public class TpCommand extends EssentialsCommand {
 				sender.addChatMessage (new TextComponentString ("Player # has been teleported to %".replaceAll ("#",from.getDisplayNameString ()).replaceAll ("%",to.getDisplayNameString ())));
 				from.addChatComponentMessage (new TextComponentString ("You have been teleported to #".replaceAll ("#",to.getDisplayNameString ())));
 			} else
-				sender.addChatMessage (new TextComponentString ("Player(s) do not exist!"));
+				ChatHelper.sendMessageTo (sender, Local.PLAYER_NOT_FOUND);
 		} else if (args.length == 3 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			try {
@@ -56,7 +64,7 @@ public class TpCommand extends EssentialsCommand {
 				int z = Integer.parseInt (args[2]);
 				if (x != -1 && y != -1 & z != -1) {
 					TeleportUtils.teleportTo (player,new BlockPos (x,y,z),false);
-					player.addChatComponentMessage (new TextComponentString ("You have teleported"));
+					ChatHelper.sendMessageTo (player,Local.TELEPORTED);
 				}
 			} catch (NumberFormatException e) {
 			}
@@ -69,12 +77,20 @@ public class TpCommand extends EssentialsCommand {
 					int z = Integer.parseInt (args[2]);
 					if (x != -1 && y != -1 & z != -1) {
 						TeleportUtils.teleportTo (player,new BlockPos (x,y,z),false);
-						player.addChatComponentMessage (new TextComponentString ("You have been teleported"));
+						ChatHelper.sendMessageTo (player,Local.TELEPORTED);
 					}
 				} catch (NumberFormatException e) {
 				}
 			}
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
+	}
+
+	@Override
+	public List<String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList<> ();
+		if (sender instanceof EntityPlayer)
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+		return list;
 	}
 }

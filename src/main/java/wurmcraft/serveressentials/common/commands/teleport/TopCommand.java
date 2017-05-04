@@ -6,10 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 import java.util.ArrayList;
@@ -51,6 +50,6 @@ public class TopCommand extends EssentialsCommand {
 				}
 			}
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 }

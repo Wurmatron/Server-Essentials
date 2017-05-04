@@ -58,7 +58,7 @@ public class WarpCommand extends EssentialsCommand {
 					for (Warp warp : DataHelper.getWarps ())
 						warps.add (warp.getName ());
 					if (warps.size () > 0)
-						ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + Strings.join (warps,", "));
+						ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Warps: " + TextFormatting.AQUA + Strings.join (warps,", "));
 					else
 						ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
 				} else if (DataHelper.getWarp (args[0]) != null) {

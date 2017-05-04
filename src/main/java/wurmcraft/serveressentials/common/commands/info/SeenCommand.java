@@ -7,10 +7,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -51,7 +51,7 @@ public class SeenCommand extends EssentialsCommand {
 			if (players.getPlayerList ().size () > 0)
 				for (EntityPlayerMP user : players.getPlayerList ())
 					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-						sender.addChatMessage (new TextComponentString (Local.LAST_SEEN.replaceAll ("#","Online")));
+						ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#","Online"));
 						displayed = true;
 					}
 			if (!displayed && UsernameCache.getMap ().values ().contains (args[0])) {
@@ -59,16 +59,15 @@ public class SeenCommand extends EssentialsCommand {
 					if (UsernameCache.getLastKnownUsername (username).equals (args[0])) {
 						PlayerData data = DataHelper.loadPlayerData (username);
 						if (data != null) {
-							long timestamp = data.getLastseen ();
-							sender.addChatMessage (new TextComponentString (Local.LAST_SEEN.replaceAll ("#",convert (timestamp))));
+							ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#",convert (data.getLastseen ())));
 							displayed = true;
 						}
 						DataHelper.unloadPlayerData (username);
 					}
 			} else if (!displayed)
-				sender.addChatMessage (new TextComponentString (Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0])));
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override
@@ -80,6 +79,6 @@ public class SeenCommand extends EssentialsCommand {
 	}
 
 	private static String convert (long lastSeen) {
-		return "" + TeleportUtils.convertToHumanReadable (new Date ().getTime () - lastSeen);
+		return TeleportUtils.convertToHumanReadable (new Date ().getTime () - lastSeen);
 	}
 }

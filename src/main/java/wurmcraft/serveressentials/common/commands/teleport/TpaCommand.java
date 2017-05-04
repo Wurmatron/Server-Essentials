@@ -6,9 +6,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static wurmcraft.serveressentials.common.utils.DataHelper.activeRequests;
 
@@ -52,5 +59,13 @@ public class TpaCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (sender,Local.TPA_USERNAME_NONE);
 		} else
 			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+	}
+
+	@Override
+	public List<String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList<> ();
+		if (sender instanceof EntityPlayer)
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+		return list;
 	}
 }

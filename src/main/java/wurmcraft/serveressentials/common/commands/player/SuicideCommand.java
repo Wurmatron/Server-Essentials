@@ -5,8 +5,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.event.PlayerRespawnEvent;
+import wurmcraft.serveressentials.common.reference.Local;
 
 public class SuicideCommand extends EssentialsCommand {
 
@@ -26,11 +28,12 @@ public class SuicideCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if(sender.getCommandSenderEntity () instanceof EntityPlayer) {
+		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			PlayerRespawnEvent.add (player.getGameProfile ().getId (), new ItemStack[][]{player.inventory.mainInventory.clone (), player.inventory.armorInventory.clone (), player.inventory.offHandInventory.clone ()});
+			PlayerRespawnEvent.add (player.getGameProfile ().getId (),new ItemStack[][] {player.inventory.mainInventory.clone (),player.inventory.armorInventory.clone (),player.inventory.offHandInventory.clone ()});
 			player.inventory.clear ();
 			player.onKillCommand ();
-		}
+		} else
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 }

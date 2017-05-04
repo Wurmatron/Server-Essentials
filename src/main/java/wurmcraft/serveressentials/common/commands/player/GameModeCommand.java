@@ -7,9 +7,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
@@ -20,10 +20,10 @@ import java.util.List;
 
 public class GameModeCommand extends EssentialsCommand {
 
-	private static String[] CREATIVE = new String[] {"creative","c","1"};
-	private static String[] SURVIVAL = new String[] {"survival","s","0"};
-	private static String[] ADVENTURE = new String[] {"adventure","a","2"};
-	private static String[] SPECTATOR = new String[] {"spectator","sp","3"};
+	private static final String[] CREATIVE = new String[] {"creative","c","1"};
+	private static final String[] SURVIVAL = new String[] {"survival","s","0"};
+	private static final String[] ADVENTURE = new String[] {"adventure","a","2"};
+	private static final String[] SPECTATOR = new String[] {"spectator","sp","3"};
 
 	public GameModeCommand (String perm) {
 		super (perm);
@@ -64,18 +64,19 @@ public class GameModeCommand extends EssentialsCommand {
 						for (EntityPlayerMP user : players.getPlayerList ())
 							if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ())) {
 								user.setGameType (GameType.getByID (mode));
-								user.addChatComponentMessage (new TextComponentString (Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ())));
-								sender.addChatMessage (new TextComponentString (Local.MODE_CHANGED_OTHER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()).replaceAll ("$",GameType.getByID (mode).getName ())));
+								ChatHelper.sendMessageTo (user,Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ()));
+								ChatHelper.sendMessageTo (sender,Local.MODE_CHANGED_OTHER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()).replaceAll ("$",GameType.getByID (mode).getName ()));
 							}
 				} else if (sender instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) sender;
 					player.setGameType (GameType.getByID (mode));
-					player.addChatComponentMessage (new TextComponentString (Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ())));
-				}
+					ChatHelper.sendMessageTo (player,Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ()));
+				} else
+					ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 			} else
-				sender.addChatMessage (new TextComponentString (Local.MODE_INVALID.replaceAll ("#",args[0])));
+				ChatHelper.sendMessageTo (sender,Local.MODE_INVALID.replaceAll ("#",args[0]));
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

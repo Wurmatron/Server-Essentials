@@ -236,6 +236,7 @@ public class DataHelper {
 		try {
 			warpFileLocation.createNewFile ();
 			Files.write (Paths.get (warpFileLocation.getAbsolutePath ()),gson.toJson (warp).getBytes ());
+			loadedWarps.add (warp);
 		} catch (IOException e) {
 			e.printStackTrace ();
 		}
@@ -569,7 +570,7 @@ public class DataHelper {
 		return false;
 	}
 
-	public static void setMute (UUID name, boolean mute) {
+	public static void setMute (UUID name,boolean mute) {
 		PlayerData data = getPlayerData (name);
 		if (data == null)
 			data = loadPlayerData (name);

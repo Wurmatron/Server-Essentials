@@ -4,8 +4,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.SpawnPoint;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
@@ -30,6 +30,7 @@ public class SpawnCommand extends EssentialsCommand {
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Spawn");
+		aliases.add ("SPAWN");
 		return aliases;
 	}
 
@@ -47,12 +48,11 @@ public class SpawnCommand extends EssentialsCommand {
 				SpawnPoint spawn = DataHelper.globalSettings.getSpawn ();
 				DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 				player.setLocationAndAngles (spawn.location.getX (),spawn.location.getY (),spawn.location.getZ (),spawn.yaw,spawn.pitch);
-				TeleportUtils.teleportTo (player,spawn.location,true);
-				player.dimension = spawn.dimension;
-				player.addChatComponentMessage (new TextComponentString (Local.SPAWN_TELEPORTED));
+				TeleportUtils.teleportTo (player,spawn.location,spawn.dimension,true);
+				ChatHelper.sendMessageTo (player,Local.SPAWN_TELEPORTED);
 			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
-				sender.addChatMessage (new TextComponentString (Local.TELEPORT_COOLDOWN.replace ("#",Integer.toString (Math.round ((System.currentTimeMillis () - teleport_timer))))));
+				ChatHelper.sendMessageTo (player,TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ()));
 		} else
-			sender.addChatMessage (new TextComponentString ("Command can only be run by players!"));
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 }

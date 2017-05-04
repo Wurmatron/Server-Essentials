@@ -4,11 +4,12 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.storage.Claim;
 import wurmcraft.serveressentials.common.api.storage.RegionData;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Local;
 
 public class RemoveClaimCommand extends EssentialsCommand {
 
@@ -33,17 +34,13 @@ public class RemoveClaimCommand extends EssentialsCommand {
 			RegionData regionData = ChunkManager.getRegion (player.getPosition ());
 			if (regionData != null) {
 				Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
-				if (claim != null) {
+				if (claim != null && ChunkManager.isOwnerOrLeader(player.getGameProfile ().getId (), claim)) {
 					regionData.setClaim (ChunkManager.getIndexForClaim (player.getPosition ()),null);
 					ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
-					player.addChatComponentMessage (new TextComponentString ("Claim Removed"));
+					ChatHelper.sendMessageTo (player, Local.CLAIM_REMOVED);
 				}
 			}
-		}
-	}
-
-	@Override
-	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
-		return true;
+		} else
+			ChatHelper.sendMessageTo (sender, Local.PLAYER_ONLY);
 	}
 }

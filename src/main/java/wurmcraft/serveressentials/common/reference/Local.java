@@ -3,6 +3,7 @@ package wurmcraft.serveressentials.common.reference;
 import net.minecraft.util.text.TextFormatting;
 
 public class Local {
+
 	// Home
 	public static final String HOME_TELEPORTED = TextFormatting.AQUA + "Teleported to home \"#\"";
 	public static final String HOME_NONE = TextFormatting.BLUE + "No default home set!";
@@ -42,6 +43,7 @@ public class Local {
 	public static final String PLAYER_ONLY = TextFormatting.RED + "Command can only be run by players!";
 	public static final String AFK_NOW = TextFormatting.RED + "# is not afk!";
 	public static final String AFK_OFF = TextFormatting.RED + "# is no longer afk!";
+	public static final String PING_REPLY = TextFormatting.AQUA + "NepNep NepNep Nep?";
 	// Player
 	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
 	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
@@ -58,11 +60,12 @@ public class Local {
 	public static final String HEAL_SELF = TextFormatting.AQUA + "You have healed yourself!";
 	public static final String HEAL_OTHER = TextFormatting.AQUA + "You have been healed";
 	public static final String HEAL_OTHER_SENDER = TextFormatting.AQUA + "'#' has been healed";
-	public static final  String FLY_ENABLED = TextFormatting.GREEN + "Fly Mode Enabled!";
+	public static final String FLY_ENABLED = TextFormatting.GREEN + "Fly Mode Enabled!";
 	public static final String FLY_DISABLED = TextFormatting.RED + "Fly Mode Disabled!";
 	public static final String FLY_ENABLED_OTHER = TextFormatting.GREEN + "Fly Mode Enabled for #";
 	public static final String FLY_DISABLED_OTHER = TextFormatting.RED + "Fly Mode Disabled for #";
 	public static final String PLAYER_FILE_DELETE = TextFormatting.GOLD + "Your Player File has been deleted!";
+	public static final String PLAYER_FILE_DELETE_OTHER = TextFormatting.GOLD + "#'s " + TextFormatting.AQUA + "player file has been deleted!";
 	public static final String MUTED = TextFormatting.DARK_RED + "You have been muted!";
 	public static final String UNMUTED = TextFormatting.DARK_RED + "You have been unmuted!";
 	public static final String MUTED_OTHER = TextFormatting.RED + "You have muted #";
@@ -79,6 +82,7 @@ public class Local {
 	public static final String TELEPORT_COOLDOWN = TextFormatting.RED + "Please wait another '#' seconds!";
 	public static final String TPA_NONE = TextFormatting.RED + "No active TPA request!";
 	public static final String TELEPORT_BACK = TextFormatting.AQUA + "You have been sent to your last location!";
+	public static final String TELEPORTED = TextFormatting.AQUA + "You have teleported!";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";
@@ -93,10 +97,13 @@ public class Local {
 	public static final String TEAM_KICKED_OTHER = TextFormatting.RED + "You have forfully kicked \"#\" from your team";
 	public static final String TEAMADMIN_DISBAND = TextFormatting.DARK_RED + "You have disbanded the \"#\" team!";
 	// Protection
-	public static final String CLAIM_BREAK = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to break this!";
-	public static final String CLAIM_PLACE = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED +" permission to place a block here!";
+	public static final String CLAIM_BREAK = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to break this!";
+	public static final String CLAIM_PLACE = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to place a block here!";
 	public static final String CLAIM_INTERACT = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to interact on that block";
 	public static final String CLAIM_EXPLOSION = TextFormatting.DARK_RED + "You are not allowed to blow up " + TextFormatting.GOLD + "#'s" + TextFormatting.DARK_RED + " claim!";
+	public static final String CHUNK_CLAIMED = TextFormatting.AQUA + "This chunk has been claimed!";
+	public static final String CHUNK_ALREADY_CLAIMED = TextFormatting.RED + "This chunk has already been claimed!";
+	public static final String CLAIM_REMOVED = TextFormatting.RED + "This claim has been removed!";
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 	public static final String CHANNEL_CHANGED = TextFormatting.RED + "You channel has been changed to #";

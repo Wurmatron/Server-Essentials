@@ -281,6 +281,19 @@ public class ChunkManager {
 	}
 
 	public static boolean isItemSafe (ItemStack stack) {
-	return stack != null && stack.getItem () instanceof ItemFood;
+		return stack != null && stack.getItem () instanceof ItemFood;
+	}
+
+	public static boolean isOwnerOrLeader (UUID uuid,Claim claim) {
+		if (uuid != null && claim != null) {
+			if (claim.getOwner ().equals (uuid))
+				return true;
+			Team team = claim.getTeam ();
+			if (team != null) {
+				if (team.getLeader ().equals (uuid))
+					return true;
+			}
+		}
+		return false;
 	}
 }
