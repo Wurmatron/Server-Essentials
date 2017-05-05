@@ -5,7 +5,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -46,7 +45,7 @@ public class SetWarpCommand extends EssentialsCommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			if (args.length != 1)
-				sender.addChatMessage (new TextComponentString (Local.WARP_NAME));
+				ChatHelper.sendMessageTo (sender,Local.WARP_NAME);
 			else {
 				EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 				Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);

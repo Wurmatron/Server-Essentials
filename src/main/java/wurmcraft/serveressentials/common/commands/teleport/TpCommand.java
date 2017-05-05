@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -44,7 +43,7 @@ public class TpCommand extends EssentialsCommand {
 				for (EntityPlayer p : players.getPlayerList ())
 					if (UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ()) != null && UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
 						TeleportUtils.teleportTo (player,new BlockPos (p.posX,p.posY,p.posZ),false);
-						player.addChatComponentMessage (new TextComponentString ("You have been teleported to #".replaceAll ("#",p.getDisplayNameString ())));
+						ChatHelper.sendMessageTo (player,Local.TELEPORTED);
 					}
 			}
 		} else if (args.length == 2) {
@@ -52,10 +51,10 @@ public class TpCommand extends EssentialsCommand {
 			EntityPlayer to = TeleportUtils.getPlayerFromUsername (server,args[1]);
 			if (from != null && to != null) {
 				TeleportUtils.teleportTo (from,new BlockPos (to.posX,to.posY,to.posZ),false);
-				sender.addChatMessage (new TextComponentString ("Player # has been teleported to %".replaceAll ("#",from.getDisplayNameString ()).replaceAll ("%",to.getDisplayNameString ())));
-				from.addChatComponentMessage (new TextComponentString ("You have been teleported to #".replaceAll ("#",to.getDisplayNameString ())));
+				ChatHelper.sendMessageTo (sender,Local.TELEPORTED_FROM.replaceAll ("#",from.getDisplayNameString ()).replaceAll ("%",to.getDisplayNameString ()));
+				ChatHelper.sendMessageTo (from,Local.TELEPORT_TO.replaceAll ("#",to.getDisplayNameString ()));
 			} else
-				ChatHelper.sendMessageTo (sender, Local.PLAYER_NOT_FOUND);
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND);
 		} else if (args.length == 3 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			try {
@@ -83,12 +82,12 @@ public class TpCommand extends EssentialsCommand {
 				}
 			}
 		} else
-			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList<> ();
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList <> ();
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;

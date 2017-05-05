@@ -3,8 +3,8 @@ package wurmcraft.serveressentials.common.commands.admin;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.TeamManager;
@@ -43,13 +43,13 @@ public class TeamAdminCommand extends EssentialsCommand {
 					Team team = TeamManager.getTeamFromName (args[1]);
 					if (team != null) {
 						TeamManager.removeTeam (team);
-						sender.addChatMessage (new TextComponentString (Local.TEAMADMIN_DISBAND.replaceAll ("#",team.getName ())));
+						ChatHelper.sendMessageTo (sender,Local.TEAMADMIN_DISBAND.replaceAll ("#",team.getName ()));
 					} else
-						sender.addChatMessage (new TextComponentString (Local.TEAM_INVALID.replaceAll ("#",args[1])));
+						ChatHelper.sendMessageTo (sender,Local.TEAM_INVALID.replaceAll ("#",args[1]));
 				} else
-					sender.addChatMessage (new TextComponentString (Local.TEAM_CREATE_MISSING_NAME));
+					ChatHelper.sendMessageTo (sender,Local.TEAM_CREATE_MISSING_NAME);
 			}
 		} else
-			sender.addChatMessage (new TextComponentString (getCommandUsage (sender)));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 }
