@@ -1,21 +1,28 @@
 package wurmcraft.serveressentials.common.utils;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import wurmcraft.serveressentials.common.api.storage.Vault;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
-import wurmcraft.serveressentials.common.commands.chat.MuteCommand;
-import wurmcraft.serveressentials.common.commands.player.TeamCommand;
 import wurmcraft.serveressentials.common.commands.admin.*;
 import wurmcraft.serveressentials.common.commands.chat.BroadcastCommand;
 import wurmcraft.serveressentials.common.commands.chat.ChannelCommand;
 import wurmcraft.serveressentials.common.commands.chat.ListCommand;
+import wurmcraft.serveressentials.common.commands.chat.MuteCommand;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
+import wurmcraft.serveressentials.common.commands.eco.MarketCommand;
+import wurmcraft.serveressentials.common.commands.eco.MoneyCommand;
+import wurmcraft.serveressentials.common.commands.eco.PayCommand;
 import wurmcraft.serveressentials.common.commands.info.*;
 import wurmcraft.serveressentials.common.commands.item.RenameCommand;
 import wurmcraft.serveressentials.common.commands.item.SkullCommand;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
 import wurmcraft.serveressentials.common.reference.Perm;
+
+import java.util.UUID;
 
 public class LoadHelper {
 
@@ -63,6 +70,10 @@ public class LoadHelper {
 		e.registerServerCommand (new RenameCommand (Perm.COMMAND_RENAME));
 		e.registerServerCommand (new ChannelCommand (Perm.COMMAND_CHANNEL));
 		e.registerServerCommand (new MuteCommand (Perm.COMMAND_MUTE));
+		e.registerServerCommand (new MoneyCommand (Perm.COMMAND_MONEY));
+		e.registerServerCommand (new PayCommand (Perm.COMMAND_PAY));
+		e.registerServerCommand (new MarketCommand (Perm.COMMAND_MARKET));
+		e.registerServerCommand (new VaultCommand (Perm.COMMAND_VAULT));
 	}
 
 	public static void loadData () {
@@ -74,5 +85,7 @@ public class LoadHelper {
 		ChunkManager.loadAllClaims ();
 		DataHelper.createDefaultChannels ();
 		DataHelper.loadAllChannels ();
+		Vault testVault = new Vault ("Test", new ItemStack[] {new ItemStack (Items.DIAMOND,32), new ItemStack (Items.IRON_INGOT,64)});
+		DataHelper.saveVault (UUID.randomUUID (),new Vault[] {testVault});
 	}
 }

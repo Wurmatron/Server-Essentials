@@ -21,6 +21,7 @@ public class ConfigHandler {
 	private static Property default_channel;
 	private static Property forceChannelOnJoin;
 	private static Property chatFormat;
+	private static Property currencySymbol;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -40,12 +41,14 @@ public class ConfigHandler {
 		Settings.respawn_point = respawn_point.getString ();
 		tpa_timeout = config.get (Configuration.CATEGORY_GENERAL,"tpa_timeout",Defaults.TPA_TIMEOUT,"Time for Tpa request timeout");
 		Settings.tpa_timeout = tpa_timeout.getInt ();
-		default_channel = config.get (Configuration.CATEGORY_GENERAL,"defaultChannel",Defaults.DEFAULT_CHANNEL, "Default channels players startout in");
+		default_channel = config.get (Configuration.CATEGORY_GENERAL,"defaultChannel",Defaults.DEFAULT_CHANNEL,"Default channels players startout in");
 		Settings.default_channel = default_channel.getString ();
-		forceChannelOnJoin = config.get (Configuration.CATEGORY_GENERAL,"forceDefaultChannelOnJoin",Defaults.FORCECHANNELONJOIN, "Shouuldplayer be played in this channel on join?");
+		forceChannelOnJoin = config.get (Configuration.CATEGORY_GENERAL,"forceDefaultChannelOnJoin",Defaults.FORCECHANNELONJOIN,"Shouuldplayer be played in this channel on join?");
 		Settings.forceChannelOnJoin = forceChannelOnJoin.getBoolean ();
-		chatFormat = config.get (Configuration.CATEGORY_GENERAL, "chatFormat", Defaults.CHATFORMAT, "Formatting for how the chat is displayed");
+		chatFormat = config.get (Configuration.CATEGORY_GENERAL,"chatFormat",Defaults.CHATFORMAT,"Formatting for how the chat is displayed");
 		Settings.chatFormat = chatFormat.getString ();
+		currencySymbol = config.get (Configuration.CATEGORY_GENERAL,"currencySymbol",Defaults.CURRENCY_SYMBOL,"Symbol used for the server currency");
+		Settings.currencySymbol = currencySymbol.getString ();
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");
 			config.save ();

@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.reference;
 
 import net.minecraft.util.text.TextFormatting;
+import wurmcraft.serveressentials.common.config.Settings;
 
 public class Local {
 
@@ -71,6 +72,9 @@ public class Local {
 	public static final String MUTED_OTHER = TextFormatting.RED + "You have muted #";
 	public static final String UNMUTED_OTHER = TextFormatting.RED + "You have unmuted #";
 	public static final String NOTIFY_MUTED = TextFormatting.DARK_RED + "You cannot talk in chat you have been muted!";
+	public static final String NO_VAULTS= TextFormatting.RED + "You currently do not have any vaults";
+	public static final String VAULT_NOT_FOUND  = TextFormatting.RED + "Vault # not found!";
+	public static final String VAULT_CREATED= TextFormatting.AQUA + "Vault  # created!";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
@@ -112,4 +116,11 @@ public class Local {
 	// Item
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
+	// Eco
+	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#" ;
+	public static final String CURRENT_MONEY_OTHER = TextFormatting.AQUA + "# currently has " + Settings.currencySymbol + "%";
+	public static final String NEGATIVE_MONEY  = TextFormatting.DARK_RED + "You cannot pay someone a negative amount";
+	public static final String MISSING_MONEY = TextFormatting.RED + "You don't have " + Settings.currencySymbol + "#";
+	public static final String MONEY_SENT = TextFormatting.GOLD + "You have sent " + Settings.currencySymbol + "% to #";
+	public static final String MONEY_SENT_RECEIVER = TextFormatting.GOLD + "# has payed you " + Settings.currencySymbol + "%";
 }

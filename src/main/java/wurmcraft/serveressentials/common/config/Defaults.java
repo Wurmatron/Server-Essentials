@@ -10,4 +10,5 @@ public class Defaults {
 	public static final String DEFAULT_CHANNEL = "Global";
 	public static final boolean FORCECHANNELONJOIN = true;
 	public static final String CHATFORMAT = "%channel% " + "%rankPrefix% " + "%username% " + "%rankSuffix% " + "%message%";
+	public static final String CURRENCY_SYMBOL = "$";
 }

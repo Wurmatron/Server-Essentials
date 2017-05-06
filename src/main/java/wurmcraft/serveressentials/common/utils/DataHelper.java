@@ -33,12 +33,14 @@ public class DataHelper {
 	public static final File groupLocation = new File (saveLocation + File.separator + "Group" + File.separator);
 	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
 	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
+	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 	public static HashMap <UUID, PlayerData> loadedPlayers = new HashMap <> ();
 	public static ArrayList <Warp> loadedWarps = new ArrayList <> ();
 	public static HashMap <Long, EntityPlayer[]> activeRequests = new HashMap <> ();
 	public static ArrayList <UUID> afkPlayers = new ArrayList <> ();
 	public static Global globalSettings;
+	public static HashMap <UUID, Vault[]> playerVaults = new HashMap <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {
@@ -584,5 +586,53 @@ public class DataHelper {
 				e.printStackTrace ();
 			}
 		}
+	}
+
+	public static Vault[] loadVault (UUID uuid) {
+		File vaultFileLocation = new File (vaultLocation + File.separator + uuid.toString () + ".json");
+		if (vaultFileLocation.exists ()) {
+			ArrayList <String> lines = new ArrayList <> ();
+			try {
+				BufferedReader reader = new BufferedReader (new FileReader (vaultFileLocation));
+				String line;
+				while ((line = reader.readLine ()) != null)
+					lines.add (line);
+				reader.close ();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace ();
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+			String temp = "";
+			for (int s = 0; s <= lines.size () - 1; s++)
+				temp = temp + lines.get (s);
+			Vault[] vaults = gson.fromJson (temp,Vault[].class);
+			playerVaults.put (uuid,vaults);
+			return vaults;
+		}
+		return null;
+	}
+
+	public static void saveVault (UUID uuid,Vault[] vaults) {
+		if (!vaultLocation.exists ())
+			vaultLocation.mkdirs ();
+		File vaultFile = new File (vaultLocation + File.separator + uuid.toString () + ".json");
+		if (vaultLocation.exists ()) {
+			try {
+				vaultFile.createNewFile ();
+				Files.write (Paths.get (vaultFile.getAbsolutePath ()),gson.toJson (vaults).getBytes ());
+				loadVault (uuid);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+	public static void saveVault (UUID uuid,Vault vault) {
+		Vault[] uuidVaults = playerVaults.get (uuid);
+		for (int index = 0; index < uuidVaults.length; index++)
+			if (uuidVaults[index].getName ().equals (vault.getName ()))
+				uuidVaults[index] = vault;
+		saveVault (uuid,uuidVaults);
 	}
 }

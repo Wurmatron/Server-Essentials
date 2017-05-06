@@ -45,4 +45,8 @@ public class Perm {
 	public static final String COMMAND_RENAME = "admin.rename";
 	public static final String COMMAND_CHANNEL = "common.channel";
 	public static final String COMMAND_MUTE = "admin.mute";
+	public static final String COMMAND_MONEY = "common.money";
+	public static final String COMMAND_PAY = "common.pay";
+	public static final String COMMAND_MARKET = "common.market";
+	public static final String COMMAND_VAULT = "common.vault";
 }
