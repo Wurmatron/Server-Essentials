@@ -34,6 +34,7 @@ public class DataHelper {
 	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
 	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
 	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
+	public static final File marketLocation = new File (saveLocation + File.separator + "Markets" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 	public static HashMap <UUID, PlayerData> loadedPlayers = new HashMap <> ();
 	public static ArrayList <Warp> loadedWarps = new ArrayList <> ();
@@ -41,6 +42,7 @@ public class DataHelper {
 	public static ArrayList <UUID> afkPlayers = new ArrayList <> ();
 	public static Global globalSettings;
 	public static HashMap <UUID, Vault[]> playerVaults = new HashMap <> ();
+	public static HashMap <UUID, ShopData> playerShops = new HashMap <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {
@@ -589,6 +591,8 @@ public class DataHelper {
 	}
 
 	public static Vault[] loadVault (UUID uuid) {
+		if (playerVaults.containsKey (uuid))
+			playerVaults.remove (uuid);
 		File vaultFileLocation = new File (vaultLocation + File.separator + uuid.toString () + ".json");
 		if (vaultFileLocation.exists ()) {
 			ArrayList <String> lines = new ArrayList <> ();
@@ -630,9 +634,62 @@ public class DataHelper {
 
 	public static void saveVault (UUID uuid,Vault vault) {
 		Vault[] uuidVaults = playerVaults.get (uuid);
-		for (int index = 0; index < uuidVaults.length; index++)
-			if (uuidVaults[index].getName ().equals (vault.getName ()))
-				uuidVaults[index] = vault;
-		saveVault (uuid,uuidVaults);
+		if (uuidVaults != null && uuidVaults.length > 0) {
+			boolean exists = false;
+			for (int index = 0; index < uuidVaults.length; index++)
+				if (uuidVaults[index].getName ().equalsIgnoreCase (vault.getName ())) {
+					exists = true;
+					uuidVaults[index] = vault;
+				}
+			if (!exists) {
+				Vault[] newVaults = new Vault[uuidVaults.length + 1];
+				for (int index = 0; index < uuidVaults.length; index++)
+					newVaults[index] = uuidVaults[index];
+				newVaults[uuidVaults.length] = vault;
+				saveVault (uuid,newVaults);
+			} else
+				saveVault (uuid,uuidVaults);
+		} else
+			saveVault (uuid,new Vault[] {vault});
+	}
+
+	public static void createMarket (UUID name,ShopData data) {
+		if (!marketLocation.exists ())
+			marketLocation.mkdirs ();
+		File marketFile = new File (marketLocation + File.separator + name.toString () + ".json");
+		try {
+			marketFile.createNewFile ();
+			Files.write (Paths.get (marketFile.getAbsolutePath ()),gson.toJson (data).getBytes ());
+		} catch (IOException e) {
+			e.printStackTrace ();
+		}
+	}
+
+	public static ShopData loadMarket (UUID name) {
+		if (!playerShops.containsKey (name)) {
+			File marketFile = new File (marketLocation + File.separator + name.toString () + ".json");
+			if (marketFile.exists ()) {
+				ArrayList <String> lines = new ArrayList <> ();
+				try {
+					BufferedReader reader = new BufferedReader (new FileReader (marketFile));
+					String line;
+					while ((line = reader.readLine ()) != null)
+						lines.add (line);
+					reader.close ();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace ();
+				} catch (IOException e) {
+					e.printStackTrace ();
+				}
+				String temp = "";
+				for (int s = 0; s <= lines.size () - 1; s++)
+					temp = temp + lines.get (s);
+				ShopData data = gson.fromJson (temp,ShopData.class);
+				playerShops.put (name,data);
+				return data;
+			}
+			return null;
+		} else
+			return playerShops.get (name);
 	}
 }

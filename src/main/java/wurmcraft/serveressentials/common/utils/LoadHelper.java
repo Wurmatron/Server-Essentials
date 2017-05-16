@@ -3,7 +3,7 @@ package wurmcraft.serveressentials.common.utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import wurmcraft.serveressentials.common.api.storage.Vault;
+import wurmcraft.serveressentials.common.api.storage.ShopData;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.admin.*;
 import wurmcraft.serveressentials.common.commands.chat.BroadcastCommand;
@@ -85,7 +85,8 @@ public class LoadHelper {
 		ChunkManager.loadAllClaims ();
 		DataHelper.createDefaultChannels ();
 		DataHelper.loadAllChannels ();
-		Vault testVault = new Vault ("Test", new ItemStack[] {new ItemStack (Items.DIAMOND,32), new ItemStack (Items.IRON_INGOT,64)});
-		DataHelper.saveVault (UUID.randomUUID (),new Vault[] {testVault});
+
+		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND), new ItemStack (Items.IRON_INGOT,16)}, new int[] {512,64}, new boolean[] {true,false});
+		DataHelper.createMarket(UUID.randomUUID (),data);
 	}
 }

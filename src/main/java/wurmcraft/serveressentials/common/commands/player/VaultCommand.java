@@ -45,26 +45,37 @@ public class VaultCommand extends EssentialsCommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (DataHelper.playerVaults.get (player.getGameProfile ().getId ()) == null)
-				DataHelper.loadVault (player.getGameProfile ().getId ());
-			Vault[] vaults = DataHelper.playerVaults.get (player.getGameProfile ().getId ());
-			if (vaults != null && vaults.length > 0 || args.length == 2) {
-				if (args.length == 1) {
-					boolean found = false;
-					for (Vault vault : vaults)
-						if (vault.getName ().equalsIgnoreCase (args[0])) {
-							player.displayGUIChest (new VaultInventory ((EntityPlayerMP) player,player.getGameProfile ().getId (),vault));
-							found = true;
+			int maxVaults = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getVaultSlots ();
+			if (maxVaults > 0) {
+				if (DataHelper.playerVaults.get (player.getGameProfile ().getId ()) == null)
+					DataHelper.loadVault (player.getGameProfile ().getId ());
+				Vault[] vaults = DataHelper.playerVaults.get (player.getGameProfile ().getId ());
+				if (vaults != null && vaults.length > 0 || args.length == 2) {
+					if (args.length == 1) {
+						boolean found = false;
+						for (Vault vault : vaults)
+							if (vault.getName ().equalsIgnoreCase (args[0])) {
+								player.displayGUIChest (new VaultInventory ((EntityPlayerMP) player,player.getGameProfile ().getId (),vault));
+								found = true;
+							}
+						if (!found)
+							ChatHelper.sendMessageTo (player,Local.VAULT_NOT_FOUND.replaceAll ("#",args[0]));
+					} else if (args.length == 2) {
+						if (args[0].equalsIgnoreCase ("new") || args[0].equalsIgnoreCase ("create")) {
+							if (vaults != null && vaults.length > 0)
+								for (Vault v : vaults)
+									maxVaults--;
+							if (maxVaults > 0) {
+								DataHelper.saveVault (player.getGameProfile ().getId (),new Vault (args[1],null));
+								DataHelper.loadVault (player.getGameProfile ().getId ());
+								ChatHelper.sendMessageTo (player,Local.VAULT_CREATED.replaceAll ("#",args[1]));
+							} else
+								ChatHelper.sendMessageTo (player,Local.VAULT_MAX_HIT);
 						}
-					if (!found)
-						ChatHelper.sendMessageTo (player,Local.VAULT_NOT_FOUND.replaceAll ("#",args[0]));
-				} else if (args.length == 2) {
-					if (args[0].equalsIgnoreCase ("new") || args[0].equalsIgnoreCase ("create")) {
-						DataHelper.saveVault (player.getGameProfile ().getId (),new Vault (args[0],null));
-						DataHelper.loadVault (player.getGameProfile ().getId ());
-						ChatHelper.sendMessageTo (player,Local.VAULT_CREATED.replaceAll ("#",args[0]));
-					}
-				}
+					} else
+						ChatHelper.sendMessageTo (player,getCommandUsage (sender));
+				} else
+					ChatHelper.sendMessageTo (player,Local.NO_VAULTS);
 			} else
 				ChatHelper.sendMessageTo (player,Local.NO_VAULTS);
 		} else

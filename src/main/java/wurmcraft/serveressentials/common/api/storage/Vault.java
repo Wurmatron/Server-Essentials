@@ -17,16 +17,19 @@ public class Vault {
 		ItemStack[] outputStacks = new ItemStack[54];
 		for (int index = 0; index < items.length; index++)
 			outputStacks[index] = StackConverter.convertToStack (items[index]);
-		if(outputStacks != null)
+		if (outputStacks != null)
 			return outputStacks;
 		return null;
 	}
 
 	public void setItems (ItemStack[] stacks) {
-		String[] outputStacks = new String[54];
-		for (int index = 0; index < stacks.length; index++)
-			outputStacks[index] = StackConverter.convertToString (stacks[index]);
-		items = outputStacks;
+		if (stacks != null) {
+			String[] outputStacks = new String[54];
+			for (int index = 0; index < stacks.length; index++)
+				outputStacks[index] = StackConverter.convertToString (stacks[index]);
+			items = outputStacks;
+		} else
+			items = new String[54];
 	}
 
 	public String getName () {

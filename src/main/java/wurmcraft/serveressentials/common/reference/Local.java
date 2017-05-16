@@ -74,7 +74,8 @@ public class Local {
 	public static final String NOTIFY_MUTED = TextFormatting.DARK_RED + "You cannot talk in chat you have been muted!";
 	public static final String NO_VAULTS= TextFormatting.RED + "You currently do not have any vaults";
 	public static final String VAULT_NOT_FOUND  = TextFormatting.RED + "Vault # not found!";
-	public static final String VAULT_CREATED= TextFormatting.AQUA + "Vault  # created!";
+	public static final String VAULT_CREATED= TextFormatting.AQUA + "Vault # created!";
+	public static final String VAULT_MAX_HIT = TextFormatting.RED + "Max Amount of Vaults Reached!";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
@@ -123,4 +124,5 @@ public class Local {
 	public static final String MISSING_MONEY = TextFormatting.RED + "You don't have " + Settings.currencySymbol + "#";
 	public static final String MONEY_SENT = TextFormatting.GOLD + "You have sent " + Settings.currencySymbol + "% to #";
 	public static final String MONEY_SENT_RECEIVER = TextFormatting.GOLD + "# has payed you " + Settings.currencySymbol + "%";
+	public static final String PURCHASE= TextFormatting.AQUA + "You have purcahsed # for %";
 }

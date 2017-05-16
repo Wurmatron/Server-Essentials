@@ -11,6 +11,7 @@ public class PlayerQuitEvent {
 	public void leaveServer (PlayerEvent.PlayerLoggedOutEvent e) {
 		DataHelper.updateLastseen (e.player.getGameProfile ().getId ());
 		DataHelper.unloadPlayerData (e.player.getGameProfile ().getId ());
-		ChannelManager.removePlayerChannel (e.player.getGameProfile ().getId (), ChannelManager.getPlayerChannel (e.player.getGameProfile ().getId ()));
+		ChannelManager.removePlayerChannel (e.player.getGameProfile ().getId (),ChannelManager.getPlayerChannel (e.player.getGameProfile ().getId ()));
+		DataHelper.playerVaults.remove (e.player.getGameProfile ().getId ());
 	}
 }

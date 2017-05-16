@@ -36,6 +36,7 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PlayerChatEvent ());
 		MinecraftForge.EVENT_BUS.register (new ClaimEvent ());
 		MinecraftForge.EVENT_BUS.register (new PlayerDeathEvent ());
+		MinecraftForge.EVENT_BUS.register (new MarketEvent ());
 	}
 
 	@Mod.EventHandler

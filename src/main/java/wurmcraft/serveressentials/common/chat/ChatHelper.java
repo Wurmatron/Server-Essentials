@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +46,7 @@ public class ChatHelper {
 	}
 
 	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,String message) {
+		LogHandler.chat (format (displayName,rank,channel,dimension,message));
 		sendChannelMessage (channel,displayName,rank,dimension,message);
 	}
 

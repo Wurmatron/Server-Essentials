@@ -28,6 +28,8 @@ public class PlayerData {
 	private String team;
 	public String currentChannel;
 	public boolean muted;
+	public int vaultSlots;
+	public int marketSlots;
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -177,5 +179,21 @@ public class PlayerData {
 
 	public void setMuted (boolean muted) {
 		this.muted = muted;
+	}
+
+	public int getVaultSlots () {
+		return vaultSlots;
+	}
+
+	public void setVaultSlots (int vaultSlots) {
+		this.vaultSlots = vaultSlots;
+	}
+
+	public int getMarketSlots () {
+		return marketSlots;
+	}
+
+	public void setMarketSlots (int marketSlots) {
+		this.marketSlots = marketSlots;
 	}
 }

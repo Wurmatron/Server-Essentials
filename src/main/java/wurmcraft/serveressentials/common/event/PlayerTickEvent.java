@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import wurmcraft.serveressentials.common.commands.utils.MarketInventory;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -14,6 +15,7 @@ public class PlayerTickEvent {
 
 	private static HashMap <EntityPlayer, PlayerInventory> openInv = new HashMap <> ();
 	private static HashMap <EntityPlayer, BlockPos> frozenPlayers = new HashMap <> ();
+	private static HashMap <EntityPlayer, MarketInventory> openMarkets = new HashMap <> ();
 
 	public static void register (PlayerInventory inv) {
 		openInv.put (inv.owner,inv);
@@ -48,6 +50,15 @@ public class PlayerTickEvent {
 		return frozenPlayers.keySet ().contains (player);
 	}
 
+	public static void addMarket (EntityPlayer player,MarketInventory inv) {
+		if (!openMarkets.keySet ().contains (player))
+			openMarkets.put (player,inv);
+	}
+
+	public static void removeMarket (EntityPlayer player) {
+		openMarkets.remove (player);
+	}
+
 	@SubscribeEvent
 	public void tickStart (TickEvent.PlayerTickEvent e) {
 		if (openInv.size () > 0 && openInv.containsKey (e.player))
@@ -61,5 +72,7 @@ public class PlayerTickEvent {
 			if (e.player.getPosition () != lockedPos)
 				e.player.setPositionAndUpdate (lockedPos.getX (),lockedPos.getY (),lockedPos.getZ ());
 		}
+		if (openMarkets.size () > 0 && openMarkets.keySet ().contains (e.player))
+			openMarkets.get (e.player).handleUpdate ();
 	}
 }

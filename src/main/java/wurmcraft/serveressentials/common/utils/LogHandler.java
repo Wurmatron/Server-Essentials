@@ -8,6 +8,7 @@ import wurmcraft.serveressentials.common.reference.Global;
 public class LogHandler {
 
 	public static final Logger logger = LogManager.getLogger (Global.NAME);
+	private static final Logger chat = LogManager.getLogger ("Chat");
 
 	public static void log (Level level,String msg) {
 		logger.log (level,msg);
@@ -31,5 +32,9 @@ public class LogHandler {
 
 	public static void debug (String msg) {
 		log (Level.INFO,msg);
+	}
+
+	public static void chat (String msg) {
+		chat.log (Level.INFO,msg);
 	}
 }

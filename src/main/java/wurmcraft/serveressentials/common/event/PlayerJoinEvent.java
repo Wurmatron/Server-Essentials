@@ -20,5 +20,6 @@ public class PlayerJoinEvent {
 		if(Settings.forceChannelOnJoin)
 			DataHelper.setChannel (e.player.getGameProfile ().getId (),ChannelManager.getFromName (Settings.default_channel));
 		ChannelManager.setPlayerChannel (e.player.getGameProfile ().getId (), DataHelper.getChannel (e.player.getGameProfile ().getId ()));
+		DataHelper.loadVault (e.player.getGameProfile ().getId ());
 	}
 }
