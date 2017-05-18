@@ -124,5 +124,7 @@ public class Local {
 	public static final String MISSING_MONEY = TextFormatting.RED + "You don't have " + Settings.currencySymbol + "#";
 	public static final String MONEY_SENT = TextFormatting.GOLD + "You have sent " + Settings.currencySymbol + "% to #";
 	public static final String MONEY_SENT_RECEIVER = TextFormatting.GOLD + "# has payed you " + Settings.currencySymbol + "%";
-	public static final String PURCHASE= TextFormatting.AQUA + "You have purcahsed # for %";
+	public static final String PURCHASE= TextFormatting.AQUA + "You have purchased # for @";
+	public static final String MISSING_STACK = TextFormatting.RED + "You don't have a #";
+	public static final String SELL_STACK = TextFormatting.AQUA + "# has been sold to @ for &";
 }

@@ -48,7 +48,7 @@ public class ConfigHandler {
 		chatFormat = config.get (Configuration.CATEGORY_GENERAL,"chatFormat",Defaults.CHATFORMAT,"Formatting for how the chat is displayed");
 		Settings.chatFormat = chatFormat.getString ();
 		currencySymbol = config.get (Configuration.CATEGORY_GENERAL,"currencySymbol",Defaults.CURRENCY_SYMBOL,"Symbol used for the server currency");
-		Settings.currencySymbol = currencySymbol.getString ();
+		Settings.currencySymbol = "\\" + currencySymbol.getString ();
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");
 			config.save ();

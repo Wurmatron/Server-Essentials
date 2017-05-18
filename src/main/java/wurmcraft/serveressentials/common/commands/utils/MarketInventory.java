@@ -6,6 +6,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -13,8 +16,10 @@ import wurmcraft.serveressentials.common.api.storage.ShopData;
 import wurmcraft.serveressentials.common.api.storage.Vault;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.eco.MarketCommand;
+import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.event.MarketEvent;
 import wurmcraft.serveressentials.common.event.PlayerTickEvent;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
@@ -61,6 +66,14 @@ public class MarketInventory extends InventoryBasic {
 	}
 
 	private ItemStack addShopData (ItemStack stack) {
+		try {
+			NBTTagCompound nbt = JsonToNBT.getTagFromJson ("{display:{Name:\"name here\",color:,Lore:[\"lore here\", \"lore here\"]}}");
+			stack.setTagCompound (nbt);
+			LogHandler.info ("NBT: " + stack.getTagCompound ().toString ());
+			return stack;
+		} catch (NBTException e) {
+			e.printStackTrace ();
+		}
 		return stack;
 	}
 
@@ -86,10 +99,10 @@ public class MarketInventory extends InventoryBasic {
 				handleShopClick (index);
 			if (getStackInSlot (9 + index) == null && shopData.getMarketItems ()[index] != null || getStackInSlot (9 + index).stackSize != shopData.getMarketItems ()[index].stackSize) {
 				viewer.connection.sendPacket (new SPacketSetSlot (-1,-1,null));
-				for (ItemStack stack : viewer.inventory.mainInventory)
-					if (stack != null)
-						if (stack.isItemEqual (shopData.getMarketItems ()[index]))
-							viewer.inventory.deleteStack (stack);
+				//				for (ItemStack stack : viewer.inventory.mainInventory)
+				//					if (stack != null)
+				//						if (stack.isItemEqual (shopData.getMarketItems ()[index]))
+				//							viewer.inventory.deleteStack (stack);
 			}
 			setInventorySlotContents (9 + index,shopData.getMarketItems ()[index]);
 		}
@@ -106,25 +119,25 @@ public class MarketInventory extends InventoryBasic {
 		if (shopData.getBuy ()[index] && data.getMoney () >= shopData.getAmount ()[index]) {
 			viewer.inventory.addItemStackToInventory (shopStack);
 			DataHelper.setMoney (viewer.getGameProfile ().getId (),data.getMoney () - shopData.getAmount ()[index]);
-			ChatHelper.sendMessageTo (viewer,"PURCHASE");
-			//			ChatHelper.sendMessageTo (viewer,Local.PURCHASE.replaceAll ("#",shopStack.getDisplayName ()).replaceAll ("%",Settings.currencySymbol + "" + shopData.getAmount ()[index]));
+			ChatHelper.sendMessageTo (viewer,Local.PURCHASE.replaceAll ("#",shopData.getMarketItems ()[index].stackSize + "x " + shopStack.getDisplayName ()).replaceAll ("@",Settings.currencySymbol + shopData.getAmount ()[index] + ""));
 			addOutput (shopData.getMarketItems ()[index]);
 		} else if (!shopData.getBuy ()[index]) {
-			// Sell
+			if (hasStack (shopData.getMarketItems ()[index])) {
+				deleteStack (shopData.getMarketItems ()[index]);
+				data.setMoney (data.getMoney () + shopData.getAmount ()[index]);
+				ChatHelper.sendMessageTo (viewer,Local.SELL_STACK.replaceAll ("#",shopData.getMarketItems ()[index].stackSize + "x " + shopData.getMarketItems ()[index].getDisplayName ()).replaceAll ("@",UsernameCache.getLastKnownUsername (marketOwner)).replaceAll ("&",Settings.currencySymbol + shopData.getAmount ()[index]));
+			} else
+				ChatHelper.sendMessageTo (viewer,Local.MISSING_STACK.replaceAll ("#",shopData.getMarketItems ()[index].getDisplayName ()));
 		}
 	}
 
 	private boolean addOutput (ItemStack stack) {
 		boolean added = false;
 		Vault[] vaults = DataHelper.playerVaults.get (viewer.getGameProfile ().getId ());
-		LogHandler.info ("Add Output " + vaults);
-
-		if (vaults !=  null && vaults.length > 0) {
+		if (vaults != null && vaults.length > 0) {
 			Vault vault = vaults[0];
-			LogHandler.info ("Vault Found: " + vault.getName ());
 			for (int id = 0; id < vault.getItems ().length; id++) {
 				if (!added) {
-					LogHandler.info ("!Added");
 					ItemStack item = vault.getItems ()[id];
 					if (item == null) {
 						added = true;
@@ -133,19 +146,50 @@ public class MarketInventory extends InventoryBasic {
 						vault.setItems (vaultItems);
 						DataHelper.saveVault (viewer.getGameProfile ().getId (),vault);
 						DataHelper.loadVault (viewer.getGameProfile ().getId ());
-//						LogHandler.info ("Added");
-//						ItemStack[] items = vault.getItems ();
-//						items[id] = stack;
-//						vault.setItems (items);
-//						DataHelper.saveVault (viewer.getGameProfile ().getId (),vault);
-//						DataHelper.loadVault (viewer.getGameProfile ().getId ());
-//						added = true;
 					}
-
 				}
 			}
 		}
 		return added;
+	}
+
+	private boolean hasStack (ItemStack stack) {
+		for (ItemStack item : viewer.inventory.mainInventory)
+			if (stack.isItemEqual (item) && stack.getTagCompound () == null && item.getTagCompound () == null || stack.isItemEqual (item) && stack.getTagCompound () != null && item.getTagCompound () != null && stack.getTagCompound ().equals (item.getTagCompound ()))
+				return true;
+		return false;
+	}
+
+	private void deleteStack (ItemStack stack) {
+		if (stack != null) {
+			int amountNeeeded = stack.stackSize;
+			for (ItemStack item : viewer.inventory.mainInventory) {
+				if (item != null) {
+					if (stack.isItemEqual (item) && stack.getItemDamage () == item.getItemDamage ()) {
+						if (stack.getTagCompound () == null && item.getTagCompound () == null || stack.getTagCompound () != null && item.getTagCompound () != null && stack.getTagCompound ().equals (item.getTagCompound ())) {
+							if (item.stackSize >= stack.stackSize) {
+								item.stackSize -= stack.stackSize;
+								if (item.stackSize <= 0)
+									viewer.inventory.deleteStack (item);
+								return;
+							} else if (item.stackSize < stack.stackSize) {
+								if (amountNeeeded >= item.stackSize) {
+									amountNeeeded -= item.stackSize;
+									item.stackSize = 0;
+									viewer.inventory.deleteStack (item);
+								} else if (amountNeeeded < item.stackSize) {
+									item.stackSize -= amountNeeeded;
+									if (item.stackSize <= 0)
+										viewer.inventory.deleteStack (item);
+								}
+								if (amountNeeeded <= 0)
+									return;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 }
