@@ -49,4 +49,5 @@ public class Perm {
 	public static final String COMMAND_PAY = "common.pay";
 	public static final String COMMAND_MARKET = "common.market";
 	public static final String COMMAND_VAULT = "common.vault";
+	public static final String HELP_COMMAND = "common.help";
 }

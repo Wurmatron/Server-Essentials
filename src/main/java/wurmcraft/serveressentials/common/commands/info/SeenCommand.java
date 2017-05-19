@@ -81,4 +81,9 @@ public class SeenCommand extends EssentialsCommand {
 	private static String convert (long lastSeen) {
 		return TeleportUtils.convertToHumanReadable (new Date ().getTime () - lastSeen);
 	}
+
+	@Override
+	public String getDescription () {
+		return "Finds when a player was last on the server";
+	}
 }

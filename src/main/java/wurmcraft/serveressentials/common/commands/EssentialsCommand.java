@@ -48,4 +48,8 @@ public class EssentialsCommand extends CommandBase {
 			return true;
 		return false;
 	}
+
+	public String getDescription () {
+		return getCommandUsage (null);
+	}
 }

@@ -31,6 +31,11 @@ public class AfkCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public String getDescription () {
+		return "Used to tell if a person is AFK";
+	}
+
+	@Override
 	public List <String> getCommandAliases () {
 		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Afk");

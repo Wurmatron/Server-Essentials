@@ -74,6 +74,7 @@ public class LoadHelper {
 		e.registerServerCommand (new PayCommand (Perm.COMMAND_PAY));
 		e.registerServerCommand (new MarketCommand (Perm.COMMAND_MARKET));
 		e.registerServerCommand (new VaultCommand (Perm.COMMAND_VAULT));
+		e.registerServerCommand (new HelpCommand (Perm.HELP_COMMAND));
 	}
 
 	public static void loadData () {

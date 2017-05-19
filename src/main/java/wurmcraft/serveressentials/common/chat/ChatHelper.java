@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,13 @@ public class ChatHelper {
 
 	public static String format (String username,IRank rank,Channel channel,int dimension,String message) {
 		return StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,TextFormatting.RESET + message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+	}
+
+	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent, int index) {
+		TextComponentString msg = new TextComponentString (message);
+		if (clickEvent != null)
+			msg.getStyle ().setClickEvent (clickEvent);
+		sender.addChatMessage (msg);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message,HoverEvent hoverEvent) {
