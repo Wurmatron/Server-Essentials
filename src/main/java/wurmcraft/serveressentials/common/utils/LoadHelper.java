@@ -6,10 +6,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import wurmcraft.serveressentials.common.api.storage.ShopData;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.admin.*;
-import wurmcraft.serveressentials.common.commands.chat.BroadcastCommand;
-import wurmcraft.serveressentials.common.commands.chat.ChannelCommand;
-import wurmcraft.serveressentials.common.commands.chat.ListCommand;
-import wurmcraft.serveressentials.common.commands.chat.MuteCommand;
+import wurmcraft.serveressentials.common.commands.chat.*;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
 import wurmcraft.serveressentials.common.commands.eco.MarketCommand;
@@ -77,6 +74,7 @@ public class LoadHelper {
 		e.registerServerCommand (new HelpCommand (Perm.COMMAND_HELP));
 		e.registerServerCommand (new WebsiteCommand (Perm.COMMAND_WEBSITE));
 		e.registerServerCommand (new SpeedCommand (Perm.COMMAND_SPEED));
+		e.registerServerCommand (new MsgCommand (Perm.COMMAND_MESSAGE));
 	}
 
 	public static void loadData () {

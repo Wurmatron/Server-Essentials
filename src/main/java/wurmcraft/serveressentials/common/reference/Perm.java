@@ -52,4 +52,5 @@ public class Perm {
 	public static final String COMMAND_HELP = "common.help";
 	public static final String COMMAND_WEBSITE = "common.website";
 	public static final String COMMAND_SPEED = "admin.speed";
+	public static final String COMMAND_MESSAGE = "common.message";
 }

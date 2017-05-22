@@ -77,6 +77,7 @@ public class Local {
 	public static final String VAULT_CREATED= TextFormatting.AQUA + "Vault # created!";
 	public static final String VAULT_MAX_HIT = TextFormatting.RED + "Max Amount of Vaults Reached!";
 	public static final String SPEED_CHANGED = TextFormatting.GREEN + "Your movement speed has changed to #";
+	public static final String MESSAGE_SENT = TextFormatting.RED + "Message sent to #";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";

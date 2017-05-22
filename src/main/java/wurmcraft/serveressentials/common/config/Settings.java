@@ -11,4 +11,5 @@ public class Settings {
 	public static boolean forceChannelOnJoin;
 	public static String chatFormat;
 	public static String currencySymbol;
+	public static String messageFormat;
 }

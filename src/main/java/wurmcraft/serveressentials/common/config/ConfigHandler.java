@@ -22,6 +22,7 @@ public class ConfigHandler {
 	private static Property forceChannelOnJoin;
 	private static Property chatFormat;
 	private static Property currencySymbol;
+	private static Property messageFormat;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -49,6 +50,8 @@ public class ConfigHandler {
 		Settings.chatFormat = chatFormat.getString ();
 		currencySymbol = config.get (Configuration.CATEGORY_GENERAL,"currencySymbol",Defaults.CURRENCY_SYMBOL,"Symbol used for the server currency");
 		Settings.currencySymbol = "\\" + currencySymbol.getString ();
+		messageFormat = config.get (Configuration.CATEGORY_GENERAL,"messageFormat",Defaults.MESSAGEFORMAT,"Formatting for how a message is displayed");
+		Settings.messageFormat = messageFormat.getString ();
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");
 			config.save ();

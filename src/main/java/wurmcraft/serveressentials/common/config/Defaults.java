@@ -11,4 +11,5 @@ public class Defaults {
 	public static final boolean FORCECHANNELONJOIN = true;
 	public static final String CHATFORMAT = "%channel% " + "%rankPrefix% " + "%username% " + "%rankSuffix% " + "%message%";
 	public static final String CURRENCY_SYMBOL = "$";
+	public static final String MESSAGEFORMAT = "%username% -> %message%";
 }
