@@ -42,6 +42,14 @@ public class MailCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("Mail");
+		aliases.add ("MAIL");
+		return aliases;
+	}
+
+	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();

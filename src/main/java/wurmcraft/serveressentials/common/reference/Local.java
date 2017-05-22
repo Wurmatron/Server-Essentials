@@ -125,6 +125,7 @@ public class Local {
 	// Item
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
+	public static final String ITEM_SENT = TextFormatting.AQUA + "Item # sent to @";
 	// Eco
 	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#";
 	public static final String CURRENT_MONEY_OTHER = TextFormatting.AQUA + "# currently has " + Settings.currencySymbol + "%";

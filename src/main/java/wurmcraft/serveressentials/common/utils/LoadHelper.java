@@ -14,6 +14,7 @@ import wurmcraft.serveressentials.common.commands.eco.MoneyCommand;
 import wurmcraft.serveressentials.common.commands.eco.PayCommand;
 import wurmcraft.serveressentials.common.commands.info.*;
 import wurmcraft.serveressentials.common.commands.item.RenameCommand;
+import wurmcraft.serveressentials.common.commands.item.SendItem;
 import wurmcraft.serveressentials.common.commands.item.SkullCommand;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
@@ -76,6 +77,7 @@ public class LoadHelper {
 		e.registerServerCommand (new SpeedCommand (Perm.COMMAND_SPEED));
 		e.registerServerCommand (new MsgCommand (Perm.COMMAND_MESSAGE));
 		e.registerServerCommand (new MailCommand (Perm.COMMAND_MAIL));
+		e.registerServerCommand (new SendItem (Perm.COMMAND_ITEMSEND));
 	}
 
 	public static void loadData () {
