@@ -45,20 +45,18 @@ public class SkullCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			if (args.length == 1) {
-				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-				if (player != null) {
-					ItemStack stack = new ItemStack (Items.SKULL,1,3);
-					stack.setTagCompound (new NBTTagCompound ());
-					stack.getTagCompound ().setTag ("SkullOwner",new NBTTagString (args[0]));
-					player.inventory.addItemStackToInventory (stack);
-					ChatHelper.sendMessageTo (player,Local.SKULL.replaceAll ("#",args[0]));
-				}
-			} else
-				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+		super.execute (server,sender,args);
+		if (args.length == 1) {
+			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			if (player != null) {
+				ItemStack stack = new ItemStack (Items.SKULL,1,3);
+				stack.setTagCompound (new NBTTagCompound ());
+				stack.getTagCompound ().setTag ("SkullOwner",new NBTTagString (args[0]));
+				player.inventory.addItemStackToInventory (stack);
+				ChatHelper.sendMessageTo (player,Local.SKULL.replaceAll ("#",args[0]));
+			}
 		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override
@@ -67,5 +65,15 @@ public class SkullCommand extends EssentialsCommand {
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Creates a players head";
 	}
 }

@@ -28,20 +28,29 @@ public class TpacceptCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			if (DataHelper.activeRequests.size () > 0) {
-				for (long time : DataHelper.activeRequests.keySet ()) {
-					EntityPlayer[] otherPlayer = DataHelper.activeRequests.get (time);
-					if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
-						DataHelper.setLastLocation (otherPlayer[0].getGameProfile ().getId (),otherPlayer[0].getPosition ());
-						TeleportUtils.teleportTo (otherPlayer[0],player.getPosition (),true);
-						ChatHelper.sendMessageTo (otherPlayer[1],Local.TPA_ACCEPED_OTHER);
-						ChatHelper.sendMessageTo (otherPlayer[0],Local.TPA_ACCEPTED.replaceAll ("#",otherPlayer[1].getDisplayName ().getUnformattedText ()));
-						DataHelper.activeRequests.remove (time);
-					}
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender;
+		if (DataHelper.activeRequests.size () > 0) {
+			for (long time : DataHelper.activeRequests.keySet ()) {
+				EntityPlayer[] otherPlayer = DataHelper.activeRequests.get (time);
+				if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
+					DataHelper.setLastLocation (otherPlayer[0].getGameProfile ().getId (),otherPlayer[0].getPosition ());
+					TeleportUtils.teleportTo (otherPlayer[0],player.getPosition (),true);
+					ChatHelper.sendMessageTo (otherPlayer[1],Local.TPA_ACCEPED_OTHER);
+					ChatHelper.sendMessageTo (otherPlayer[0],Local.TPA_ACCEPTED.replaceAll ("#",otherPlayer[1].getDisplayName ().getUnformattedText ()));
+					DataHelper.activeRequests.remove (time);
 				}
 			}
 		}
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Accept a teleport request";
 	}
 }

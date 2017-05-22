@@ -41,18 +41,26 @@ public class SpawnCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
-			if (DataHelper.globalSettings.getSpawn () != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-				SpawnPoint spawn = DataHelper.globalSettings.getSpawn ();
-				DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
-				player.setLocationAndAngles (spawn.location.getX (),spawn.location.getY (),spawn.location.getZ (),spawn.yaw,spawn.pitch);
-				TeleportUtils.teleportTo (player,spawn.location,spawn.dimension,true);
-				ChatHelper.sendMessageTo (player,Local.SPAWN_TELEPORTED);
-			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
-				ChatHelper.sendMessageTo (player,TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ()));
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender;
+		long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
+		if (DataHelper.globalSettings.getSpawn () != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+			SpawnPoint spawn = DataHelper.globalSettings.getSpawn ();
+			DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
+			player.setLocationAndAngles (spawn.location.getX (),spawn.location.getY (),spawn.location.getZ (),spawn.yaw,spawn.pitch);
+			TeleportUtils.teleportTo (player,spawn.location,spawn.dimension,true);
+			ChatHelper.sendMessageTo (player,Local.SPAWN_TELEPORTED);
+		} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+			ChatHelper.sendMessageTo (player,TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ()));
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Teleport to the server's spawn";
 	}
 }

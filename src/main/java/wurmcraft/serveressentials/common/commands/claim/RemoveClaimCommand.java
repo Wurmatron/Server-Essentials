@@ -29,18 +29,26 @@ public class RemoveClaimCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			RegionData regionData = ChunkManager.getRegion (player.getPosition ());
-			if (regionData != null) {
-				Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
-				if (claim != null && ChunkManager.isOwnerOrLeader(player.getGameProfile ().getId (), claim)) {
-					regionData.setClaim (ChunkManager.getIndexForClaim (player.getPosition ()),null);
-					ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
-					ChatHelper.sendMessageTo (player, Local.CLAIM_REMOVED);
-				}
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		RegionData regionData = ChunkManager.getRegion (player.getPosition ());
+		if (regionData != null) {
+			Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
+			if (claim != null && ChunkManager.isOwnerOrLeader (player.getGameProfile ().getId (),claim)) {
+				regionData.setClaim (ChunkManager.getIndexForClaim (player.getPosition ()),null);
+				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
+				ChatHelper.sendMessageTo (player,Local.CLAIM_REMOVED);
 			}
-		} else
-			ChatHelper.sendMessageTo (sender, Local.PLAYER_ONLY);
+		}
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Deletes a claim in a the chunk you are standing in";
 	}
 }

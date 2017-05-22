@@ -45,4 +45,9 @@ public class BroadcastCommand extends EssentialsCommand {
 		else
 			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
 	}
+
+	@Override
+	public String getDescription () {
+		return "Broadcast a message to everyone on the server";
+	}
 }

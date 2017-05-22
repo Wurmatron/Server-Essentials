@@ -54,4 +54,9 @@ public class SetSpawnCommand extends EssentialsCommand {
 	public HoverEvent hoverEvent (SpawnPoint home) {
 		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
 	}
+
+	@Override
+	public String getDescription () {
+		return "Sets the worlds spawn point";
+	}
 }

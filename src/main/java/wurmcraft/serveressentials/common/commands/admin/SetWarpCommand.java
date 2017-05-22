@@ -2,7 +2,6 @@ package wurmcraft.serveressentials.common.commands.admin;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.event.HoverEvent;
@@ -43,19 +42,27 @@ public class SetWarpCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			if (args.length != 1)
-				ChatHelper.sendMessageTo (sender,Local.WARP_NAME);
-			else {
-				EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
-				Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
-				ChatHelper.sendMessageTo (player,DataHelper.createWarp (warp),hoverEvent (warp));
-			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		super.execute (server,sender,args);
+		if (args.length != 1)
+			ChatHelper.sendMessageTo (sender,Local.WARP_NAME);
+		else {
+			EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
+			Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
+			ChatHelper.sendMessageTo (player,DataHelper.createWarp (warp),hoverEvent (warp));
+		}
 	}
 
 	public HoverEvent hoverEvent (Warp home) {
 		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Create a warp at the players location";
 	}
 }

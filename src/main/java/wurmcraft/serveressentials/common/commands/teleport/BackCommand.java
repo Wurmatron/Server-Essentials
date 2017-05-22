@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -40,15 +40,24 @@ public class BackCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-			if (data != null && data.getLastLocation () != null) {
-				BlockPos lastLocation = data.getLastLocation ();
-				player.setPosition (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());
-				DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
-				ChatHelper.sendMessageTo (player,Local.TELEPORT_BACK);
-			}
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+		if (data != null && data.getLastLocation () != null) {
+			BlockPos lastLocation = data.getLastLocation ();
+			player.setPosition (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());
+			DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
+			ChatHelper.sendMessageTo (player,Local.TELEPORT_BACK);
 		}
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Teleport to last known location";
 	}
 }

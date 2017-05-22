@@ -74,4 +74,9 @@ public class DelWarp extends EssentialsCommand {
 					list.add (warp.getName ());
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Removes a Warp";
+	}
 }

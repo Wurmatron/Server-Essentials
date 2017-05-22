@@ -31,26 +31,34 @@ public class ClaimCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			RegionData regionData = ChunkManager.getRegion (player.getPosition ());
-			if (regionData != null) {
-				Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
-				if (claim == null) {
-					Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
-					regionData.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
-					ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
-					ChatHelper.sendMessageTo (sender,Local.CHUNK_CLAIMED);
-				} else
-					ChatHelper.sendMessageTo (sender,Local.CHUNK_ALREADY_CLAIMED);
-			} else {
-				RegionData regionDataNew = new RegionData ();
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		RegionData regionData = ChunkManager.getRegion (player.getPosition ());
+		if (regionData != null) {
+			Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
+			if (claim == null) {
 				Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
-				regionDataNew.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
-				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionDataNew);
+				regionData.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
+				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
 				ChatHelper.sendMessageTo (sender,Local.CHUNK_CLAIMED);
-			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+			} else
+				ChatHelper.sendMessageTo (sender,Local.CHUNK_ALREADY_CLAIMED);
+		} else {
+			RegionData regionDataNew = new RegionData ();
+			Team team = TeamManager.getTeamFromLeader (player.getGameProfile ().getId ());
+			regionDataNew.addClaim (player.getPosition (),new Claim (team,player.getGameProfile ().getId ()));
+			ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionDataNew);
+			ChatHelper.sendMessageTo (sender,Local.CHUNK_CLAIMED);
+		}
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Claims a chunk the player is standing in";
 	}
 }

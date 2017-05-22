@@ -77,4 +77,8 @@ public class MuteCommand extends EssentialsCommand {
 		return list;
 	}
 
+	@Override
+	public String getDescription () {
+		return "Disables someone from talking in chat";
+	}
 }

@@ -6,6 +6,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class EssentialsCommand extends CommandBase {
@@ -28,6 +30,10 @@ public class EssentialsCommand extends CommandBase {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		if (isPlayerOnly () && sender.getCommandSenderEntity () instanceof EntityPlayer) {
+
+		} else if (!isPlayerOnly ())
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
 	@Override
@@ -51,5 +57,9 @@ public class EssentialsCommand extends CommandBase {
 
 	public String getDescription () {
 		return getCommandUsage (null);
+	}
+
+	public Boolean isPlayerOnly () {
+		return null;
 	}
 }

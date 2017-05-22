@@ -74,4 +74,9 @@ public class ReloadPlayerDataCommand extends EssentialsCommand {
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Reloads a certain player's PlayerData";
+	}
 }

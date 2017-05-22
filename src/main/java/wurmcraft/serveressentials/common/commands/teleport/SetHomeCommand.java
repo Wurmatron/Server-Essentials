@@ -50,17 +50,17 @@ public class SetHomeCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (args != null && args.length > 0) {
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		if (args != null && args.length > 0) {
+			if (!args[0].equalsIgnoreCase ("list")) {
 				Home home = new Home (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
 				ChatHelper.sendMessageTo (player,DataHelper.addPlayerHome (player.getGameProfile ().getId (),home),hoverEvent (home));
-			} else {
-				Home home = new Home (Settings.home_name,player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
-				ChatHelper.sendMessageTo (player,DataHelper.addPlayerHome (player.getGameProfile ().getId (),home),hoverEvent (home));
-			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+			} else
+				ChatHelper.sendMessageTo (player,Local.INVALID_HOME_NAME.replaceAll ("#",args[0]));
+		} else {
+			Home home = new Home (Settings.home_name,player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
+			ChatHelper.sendMessageTo (player,DataHelper.addPlayerHome (player.getGameProfile ().getId (),home),hoverEvent (home));
+		}
 	}
 
 	@Override
@@ -71,7 +71,17 @@ public class SetHomeCommand extends EssentialsCommand {
 		return list;
 	}
 
-	public HoverEvent hoverEvent (Home home) {
+	private HoverEvent hoverEvent (Home home) {
 		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
+	}
+
+	@Override
+	public String getDescription () {
+		return "Allows you to set a home to be used via /home <name>";
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }

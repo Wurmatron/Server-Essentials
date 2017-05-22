@@ -71,4 +71,9 @@ public class DeleteRuleCommand extends EssentialsCommand {
 			for (int i = 0; i > DataHelper.globalSettings.getRules ().length; i++)
 				list.add (Integer.toString (i)); return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return  "Removes a line from the Rules";
+	}
 }

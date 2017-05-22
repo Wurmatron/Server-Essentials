@@ -329,7 +329,7 @@ public class DataHelper {
 				temp = temp + lines.get (s);
 			globalSettings = gson.fromJson (temp,Global.class);
 		} else {
-			createGlobal (new Global (null,new String[] {},new String[] {}));
+			createGlobal (new Global (null,new String[] {},new String[] {},"https://github.com/Wurmcraft/Server-Essentials"));
 			loadGlobal ();
 		}
 	}
@@ -692,4 +692,7 @@ public class DataHelper {
 		} else
 			return playerShops.get (name);
 	}
+
+
+
 }

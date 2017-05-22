@@ -7,9 +7,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -44,5 +44,10 @@ public class ListCommand extends EssentialsCommand {
 			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName ());
 		}
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
+	}
+
+	@Override
+	public String getDescription () {
+		return "Lists all the players on the server";
 	}
 }

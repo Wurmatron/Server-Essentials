@@ -49,28 +49,26 @@ public class EnderChestCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			if (args.length == 0)
-				((EntityPlayer) sender).addChatComponentMessage (new TextComponentString (getCommandUsage (sender)));
-			if (args.length == 1) {
-				EntityPlayerMP player = (EntityPlayerMP) sender;
-				PlayerList players = server.getServer ().getPlayerList ();
-				if (players.getPlayerList ().size () > 0) {
-					boolean open = false;
-					for (EntityPlayerMP victim : players.getPlayerList ())
-						if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-							if (player.openContainer != player.inventoryContainer)
-								player.closeScreen ();
-							player.displayGUIChest (new PlayerInventory (victim,player,true));
-							ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_ENDER.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
-							open = true;
-						}
-					if (!open)
-						ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
-				}
+		super.execute (server,sender,args);
+		if (args.length == 0)
+			((EntityPlayer) sender).addChatComponentMessage (new TextComponentString (getCommandUsage (sender)));
+		if (args.length == 1) {
+			EntityPlayerMP player = (EntityPlayerMP) sender;
+			PlayerList players = server.getServer ().getPlayerList ();
+			if (players.getPlayerList ().size () > 0) {
+				boolean open = false;
+				for (EntityPlayerMP victim : players.getPlayerList ())
+					if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
+						if (player.openContainer != player.inventoryContainer)
+							player.closeScreen ();
+						player.displayGUIChest (new PlayerInventory (victim,player,true));
+						ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_ENDER.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
+						open = true;
+					}
+				if (!open)
+					ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		}
 	}
 
 	@Override
@@ -79,5 +77,10 @@ public class EnderChestCommand extends EssentialsCommand {
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Opens the Ender Chest GUI";
 	}
 }

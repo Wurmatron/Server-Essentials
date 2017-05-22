@@ -4,9 +4,9 @@ import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -45,5 +45,10 @@ public class AddMotdCommand extends EssentialsCommand {
 			ChatHelper.sendMessageTo (sender,Local.MOTD_CREATED.replaceAll ("#",rule));
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+	}
+
+	@Override
+	public String getDescription () {
+		return "Adds a line to the MOTD";
 	}
 }

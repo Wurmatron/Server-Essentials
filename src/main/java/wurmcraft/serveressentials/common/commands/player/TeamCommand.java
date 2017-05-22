@@ -143,4 +143,9 @@ public class TeamCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (player,getCommandUsage (player));
 		}
 	}
+
+	@Override
+	public String getDescription () {
+		return "Handles anything to do with joining, creating,leaving and showing info about teams";
+	}
 }

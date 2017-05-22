@@ -64,4 +64,9 @@ public class RulesCommand extends EssentialsCommand {
 		} else
 			ChatHelper.sendMessageTo (sender,Local.NO_RULES);
 	}
+
+	@Override
+	public String getDescription () {
+		return "Displays the server's Rules";
+	}
 }

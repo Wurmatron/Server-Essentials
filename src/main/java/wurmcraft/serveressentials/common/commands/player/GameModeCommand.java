@@ -103,4 +103,9 @@ public class GameModeCommand extends EssentialsCommand {
 				return 3;
 		return -1;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Changes a player's GameMode";
+	}
 }

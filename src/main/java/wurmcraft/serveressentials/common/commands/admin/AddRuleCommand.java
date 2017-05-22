@@ -49,4 +49,9 @@ public class AddRuleCommand extends EssentialsCommand {
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
+
+	@Override
+	public String getDescription () {
+		return "Add a Rule to the list";
+	}
 }

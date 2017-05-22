@@ -79,4 +79,9 @@ public class SudoCommand extends EssentialsCommand {
 				Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Runs a command as someone else";
+	}
 }

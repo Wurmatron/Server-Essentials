@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
@@ -32,14 +33,14 @@ public class ChatHelper {
 	}
 
 	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent, int index) {
-		TextComponentString msg = new TextComponentString (message);
+		TextComponentTranslation msg = new TextComponentTranslation (message);
 		if (clickEvent != null)
 			msg.getStyle ().setClickEvent (clickEvent);
 		sender.addChatMessage (msg);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message,HoverEvent hoverEvent) {
-		TextComponentString msg = new TextComponentString (message);
+		TextComponentTranslation msg = new TextComponentTranslation (message);
 		if (hoverEvent != null)
 			msg.getStyle ().setHoverEvent (hoverEvent);
 		player.addChatComponentMessage (msg);

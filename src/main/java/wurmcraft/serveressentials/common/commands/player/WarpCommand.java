@@ -10,9 +10,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
@@ -49,33 +49,31 @@ public class WarpCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			if (args.length == 0)
-				execute (server,sender,new String[] {"list"});
-			else {
-				if (args[0].equalsIgnoreCase ("list")) {
-					List <String> warps = new ArrayList <> ();
-					for (Warp warp : DataHelper.getWarps ())
-						warps.add (warp.getName ());
-					if (warps.size () > 0)
-						ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Warps: " + TextFormatting.AQUA + Strings.join (warps,", "));
-					else
-						ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
-				} else if (DataHelper.getWarp (args[0]) != null) {
-					Warp warp = DataHelper.getWarp (args[0]);
-					EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
-					if (TeleportUtils.canTeleport (player.getGameProfile ().getId ())) {
-						player.setPositionAndRotation (warp.getPos ().getX (),warp.getPos ().getY (),warp.getPos ().getZ (),warp.getYaw (),warp.getPitch ());
-						DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
-						TeleportUtils.teleportTo (player,warp.getPos (),warp.getDimension (),true);
-						ChatHelper.sendMessageTo (player,Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()),hoverEvent (warp));
-					} else if (!TeleportUtils.canTeleport (player.getGameProfile ().getId ()))
-						ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replaceAll ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
-				} else
-					ChatHelper.sendMessageTo (sender,Local.WARP_NONE.replaceAll ("#",args[0]));
-			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		super.execute (server,sender,args);
+		if (args.length == 0)
+			execute (server,sender,new String[] {"list"});
+		else {
+			if (args[0].equalsIgnoreCase ("list")) {
+				List <String> warps = new ArrayList <> ();
+				for (Warp warp : DataHelper.getWarps ())
+					warps.add (warp.getName ());
+				if (warps.size () > 0)
+					ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Warps: " + TextFormatting.AQUA + Strings.join (warps,", "));
+				else
+					ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
+			} else if (DataHelper.getWarp (args[0]) != null) {
+				Warp warp = DataHelper.getWarp (args[0]);
+				EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
+				if (TeleportUtils.canTeleport (player.getGameProfile ().getId ())) {
+					player.setPositionAndRotation (warp.getPos ().getX (),warp.getPos ().getY (),warp.getPos ().getZ (),warp.getYaw (),warp.getPitch ());
+					DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
+					TeleportUtils.teleportTo (player,warp.getPos (),warp.getDimension (),true);
+					ChatHelper.sendMessageTo (player,Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()),hoverEvent (warp));
+				} else if (!TeleportUtils.canTeleport (player.getGameProfile ().getId ()))
+					ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replaceAll ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
+			} else
+				ChatHelper.sendMessageTo (sender,Local.WARP_NONE.replaceAll ("#",args[0]));
+		}
 	}
 
 	private HoverEvent hoverEvent (Warp warp) {
@@ -90,5 +88,15 @@ public class WarpCommand extends EssentialsCommand {
 				if (warp != null && warp.getName ().length () > 0)
 					list.add (warp.getName ());
 		return list;
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Teleport to a set warp location";
 	}
 }

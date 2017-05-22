@@ -36,7 +36,8 @@ public class TpCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer && args.length == 1) {
+		super.execute (server,sender,args);
+		if (args.length == 1) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			PlayerList players = server.getPlayerList ();
 			if (players.getCurrentPlayerCount () > 0) {
@@ -91,5 +92,15 @@ public class TpCommand extends EssentialsCommand {
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Teleport to another player";
 	}
 }

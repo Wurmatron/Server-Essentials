@@ -84,4 +84,9 @@ public class MoneyCommand extends EssentialsCommand {
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Checks a players balance";
+	}
 }

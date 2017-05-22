@@ -45,28 +45,26 @@ public class InvseeCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			if (args.length == 0)
-				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
-			if (args.length == 1) {
-				EntityPlayerMP player = (EntityPlayerMP) sender;
-				PlayerList players = server.getServer ().getPlayerList ();
-				if (players.getPlayerList ().size () > 0) {
-					boolean open = false;
-					for (EntityPlayerMP victim : players.getPlayerList ())
-						if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-							if (player.openContainer != player.inventoryContainer)
-								player.closeScreen ();
-							player.displayGUIChest (new PlayerInventory (victim,player));
-							ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
-							open = true;
-						}
-					if (!open)
-						ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
-				}
+		super.execute (server,sender,args);
+		if (args.length == 0)
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+		if (args.length == 1) {
+			EntityPlayerMP player = (EntityPlayerMP) sender;
+			PlayerList players = server.getServer ().getPlayerList ();
+			if (players.getPlayerList ().size () > 0) {
+				boolean open = false;
+				for (EntityPlayerMP victim : players.getPlayerList ())
+					if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
+						if (player.openContainer != player.inventoryContainer)
+							player.closeScreen ();
+						player.displayGUIChest (new PlayerInventory (victim,player));
+						ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
+						open = true;
+					}
+				if (!open)
+					ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		}
 	}
 
 	@Override
@@ -75,5 +73,15 @@ public class InvseeCommand extends EssentialsCommand {
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "View another players inventory";
 	}
 }

@@ -90,6 +90,7 @@ public class Local {
 	public static final String TELEPORTED = TextFormatting.AQUA + "You have teleported!";
 	public static final String TELEPORT_TO = TextFormatting.GREEN + "You have been teleported to #";
 	public static final String TELEPORTED_FROM = TextFormatting.AQUA + "# has been teleported to %";
+	public static final String INVALID_HOME_NAME = TextFormatting.RED + "Home Name \"#\" invalid!";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";

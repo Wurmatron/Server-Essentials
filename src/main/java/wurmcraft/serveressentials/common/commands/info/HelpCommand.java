@@ -61,4 +61,9 @@ public class HelpCommand extends EssentialsCommand {
 	private ClickEvent clickEvent (int index) {
 		return new ClickEvent (ClickEvent.Action.RUN_COMMAND,"/help #".replaceAll ("#","" + index));
 	}
+
+	@Override
+	public String getDescription () {
+		return "List of available commands";
+	}
 }

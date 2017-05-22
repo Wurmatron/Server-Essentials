@@ -5,9 +5,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -63,6 +63,12 @@ public class DeleteMotdCommand extends EssentialsCommand {
 		List <String> list = new ArrayList <> ();
 		if (sender instanceof EntityPlayer)
 			for (int i = 0; i > DataHelper.globalSettings.getMotd ().length; i++)
-				list.add (Integer.toString (i)); return list;
+				list.add (Integer.toString (i));
+		return list;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Deletes a Line from the MOTD";
 	}
 }

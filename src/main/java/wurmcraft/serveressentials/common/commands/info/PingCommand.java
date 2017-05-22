@@ -22,8 +22,8 @@ public class PingCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List<String> getCommandAliases () {
-		List <String> aliases = new ArrayList<> ();
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Ping");
 		aliases.add ("PING");
 		return aliases;
@@ -36,6 +36,11 @@ public class PingCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		ChatHelper.sendMessageTo (sender, Local.PING_REPLY);
+		ChatHelper.sendMessageTo (sender,Local.PING_REPLY);
+	}
+
+	@Override
+	public String getDescription () {
+		return "Displays a message from the server";
 	}
 }

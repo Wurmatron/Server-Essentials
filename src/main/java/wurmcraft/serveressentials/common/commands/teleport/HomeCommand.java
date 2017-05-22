@@ -50,10 +50,38 @@ public class HomeCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
-			if (args.length == 0) {
-				Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (Settings.home_name);
+		super.execute (server,sender,args);
+		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
+		if (args.length == 0) {
+			Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (Settings.home_name);
+			long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
+			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+				DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
+				player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
+				TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
+				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
+			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+				ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
+			else
+				ChatHelper.sendMessageTo (sender,Local.HOME_NONE);
+		} else if (args.length == 1) {
+			if (args[0].equalsIgnoreCase ("list")) {
+				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+				if (data == null)
+					DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
+				if (data.getHomes ().length > 0) {
+					ArrayList <String> homes = new ArrayList <> ();
+					for (Home h : data.getHomes ())
+						if (h != null)
+							homes.add (h.getName ());
+					if (homes.size () > 0)
+						ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Homes: " + TextFormatting.AQUA + Strings.join (homes.toArray (new String[0]),", "));
+					else
+						ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
+				} else
+					ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
+			} else {
+				Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
 				long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
 				if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
 					DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
@@ -63,39 +91,9 @@ public class HomeCommand extends EssentialsCommand {
 				} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
 					ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
 				else
-					ChatHelper.sendMessageTo (sender,Local.HOME_NONE);
-			} else if (args.length == 1) {
-				if (args[0].equalsIgnoreCase ("list")) {
-					PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-					if (data == null)
-						DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
-					if (data.getHomes ().length > 0) {
-						ArrayList <String> homes = new ArrayList <> ();
-						for (Home h : data.getHomes ())
-							if (h != null)
-								homes.add (h.getName ());
-						if (homes.size () > 0)
-							ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Homes: " + TextFormatting.AQUA + Strings.join (homes.toArray (new String[0]),", "));
-						else
-							ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
-					} else
-						ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
-				} else {
-					Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
-					long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
-					if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-						DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
-						player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
-						TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
-						ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
-					} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
-						ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
-					else
-						ChatHelper.sendMessageTo (sender,Local.HOME_INVALID.replaceAll ("#",args[0]));
-				}
+					ChatHelper.sendMessageTo (sender,Local.HOME_INVALID.replaceAll ("#",args[0]));
 			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		}
 	}
 
 	@Override
@@ -114,5 +112,15 @@ public class HomeCommand extends EssentialsCommand {
 
 	private HoverEvent hoverEvent (Home home) {
 		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
+	}
+
+	@Override
+	public String getDescription () {
+		return "Allows you to set a \"home\" and teleport to it later.";
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }

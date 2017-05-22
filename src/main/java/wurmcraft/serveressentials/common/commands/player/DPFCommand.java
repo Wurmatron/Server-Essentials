@@ -80,4 +80,9 @@ public class DPFCommand extends EssentialsCommand {
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Deletes a certain players player file";
+	}
 }

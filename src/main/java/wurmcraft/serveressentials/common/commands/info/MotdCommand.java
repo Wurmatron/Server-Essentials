@@ -74,4 +74,9 @@ public class MotdCommand extends EssentialsCommand {
 			list.add ("" + no);
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Displays the server's MOTD";
+	}
 }

@@ -40,16 +40,24 @@ public class TopCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			for (int y = 256; y >= player.posY; y--) {
-				if (player.worldObj.getBlockState (new BlockPos (player.posX,y,player.posZ)).getBlock () != Blocks.AIR) {
-					TeleportUtils.teleportTo (player,new BlockPos (player.posX,y + 2,player.posZ),false);
-					ChatHelper.sendMessageTo (player,Local.TOP);
-					return;
-				}
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		for (int y = 256; y >= player.posY; y--) {
+			if (player.worldObj.getBlockState (new BlockPos (player.posX,y,player.posZ)).getBlock () != Blocks.AIR) {
+				TeleportUtils.teleportTo (player,new BlockPos (player.posX,y + 2,player.posZ),false);
+				ChatHelper.sendMessageTo (player,Local.TOP);
+				return;
 			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		}
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Teleports you to the highest location above your current position.";
 	}
 }

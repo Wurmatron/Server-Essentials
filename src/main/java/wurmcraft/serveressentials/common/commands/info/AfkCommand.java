@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -45,17 +44,20 @@ public class AfkCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (!DataHelper.isAfk (player.getGameProfile ().getId ())) {
-				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_NOW.replaceAll ("#",player.getDisplayNameString ())));
-				DataHelper.addAfkPlayer (player);
-			} else {
-				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_OFF.replaceAll ("#",player.getDisplayNameString ())));
-				DataHelper.addAfkPlayer (player);
-				DataHelper.removeAfkPlayer (player);
-			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		if (!DataHelper.isAfk (player.getGameProfile ().getId ())) {
+			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_NOW.replaceAll ("#",player.getDisplayNameString ())));
+			DataHelper.addAfkPlayer (player);
+		} else {
+			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_OFF.replaceAll ("#",player.getDisplayNameString ())));
+			DataHelper.addAfkPlayer (player);
+			DataHelper.removeAfkPlayer (player);
+		}
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }

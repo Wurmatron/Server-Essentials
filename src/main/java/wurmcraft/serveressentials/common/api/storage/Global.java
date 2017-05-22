@@ -14,11 +14,13 @@ public class Global {
 	private SpawnPoint spawn;
 	private String[] rules;
 	private String[] motd;
+	private String website;
 
-	public Global (SpawnPoint spawn,String[] rules,String[] motd) {
+	public Global (SpawnPoint spawn,String[] rules,String[] motd,String website) {
 		this.spawn = spawn;
 		this.rules = rules;
 		this.motd = motd;
+		this.website = website;
 	}
 
 	public SpawnPoint getSpawn () {
@@ -92,5 +94,13 @@ public class Global {
 			setMotd (listmotd.toArray (new String[0]));
 		} else
 			setMotd (new String[] {motd});
+	}
+
+	public void setWebsite (String website) {
+		this.website = website;
+	}
+
+	public String getWebsite () {
+		return website;
 	}
 }

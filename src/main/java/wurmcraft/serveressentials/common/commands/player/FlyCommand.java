@@ -35,43 +35,41 @@ public class FlyCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			boolean playerFound = false;
-			if (args.length > 0) {
-				PlayerList players = server.getServer ().getPlayerList ();
-				if (players.getPlayerList ().size () > 0)
-					for (EntityPlayerMP user : players.getPlayerList ())
-						if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-							playerFound = true;
-							if (!user.capabilities.allowFlying) {
-								user.capabilities.allowFlying = true;
-								user.capabilities.isFlying = true;
-								ChatHelper.sendMessageTo (user,Local.FLY_ENABLED);
-								ChatHelper.sendMessageTo (player,Local.FLY_ENABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
-								user.sendPlayerAbilities ();
-							} else {
-								user.capabilities.allowFlying = false;
-								ChatHelper.sendMessageTo (user,Local.FLY_DISABLED);
-								ChatHelper.sendMessageTo (player,Local.FLY_DISABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
-								user.sendPlayerAbilities ();
-							}
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		boolean playerFound = false;
+		if (args.length > 0) {
+			PlayerList players = server.getServer ().getPlayerList ();
+			if (players.getPlayerList ().size () > 0)
+				for (EntityPlayerMP user : players.getPlayerList ())
+					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
+						playerFound = true;
+						if (!user.capabilities.allowFlying) {
+							user.capabilities.allowFlying = true;
+							user.capabilities.isFlying = true;
+							ChatHelper.sendMessageTo (user,Local.FLY_ENABLED);
+							ChatHelper.sendMessageTo (player,Local.FLY_ENABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
+							user.sendPlayerAbilities ();
+						} else {
+							user.capabilities.allowFlying = false;
+							ChatHelper.sendMessageTo (user,Local.FLY_DISABLED);
+							ChatHelper.sendMessageTo (player,Local.FLY_DISABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
+							user.sendPlayerAbilities ();
 						}
-				if (!playerFound)
-					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
+					}
+			if (!playerFound)
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
+		} else {
+			if (!player.capabilities.allowFlying) {
+				player.capabilities.allowFlying = true;
+				ChatHelper.sendMessageTo (player,Local.FLY_ENABLED);
+				player.sendPlayerAbilities ();
 			} else {
-				if (!player.capabilities.allowFlying) {
-					player.capabilities.allowFlying = true;
-					ChatHelper.sendMessageTo (player,Local.FLY_ENABLED);
-					player.sendPlayerAbilities ();
-				} else {
-					player.capabilities.allowFlying = false;
-					ChatHelper.sendMessageTo (player,Local.FLY_DISABLED);
-					player.sendPlayerAbilities ();
-				}
+				player.capabilities.allowFlying = false;
+				ChatHelper.sendMessageTo (player,Local.FLY_DISABLED);
+				player.sendPlayerAbilities ();
 			}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		}
 	}
 
 	@Override
@@ -80,5 +78,15 @@ public class FlyCommand extends EssentialsCommand {
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Allows a player to fly";
 	}
 }

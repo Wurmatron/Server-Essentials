@@ -75,6 +75,7 @@ public class LoadHelper {
 		e.registerServerCommand (new MarketCommand (Perm.COMMAND_MARKET));
 		e.registerServerCommand (new VaultCommand (Perm.COMMAND_VAULT));
 		e.registerServerCommand (new HelpCommand (Perm.HELP_COMMAND));
+		e.registerServerCommand (new WebsiteCommand (Perm.COMMAND_WEBSITE));
 	}
 
 	public static void loadData () {
@@ -87,7 +88,7 @@ public class LoadHelper {
 		DataHelper.createDefaultChannels ();
 		DataHelper.loadAllChannels ();
 
-		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND), new ItemStack (Items.IRON_INGOT,16)}, new int[] {512,64}, new boolean[] {true,false});
-		DataHelper.createMarket(UUID.randomUUID (),data);
+		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND),new ItemStack (Items.IRON_INGOT,16)},new int[] {512,64},new boolean[] {true,false});
+		DataHelper.createMarket (UUID.randomUUID (),data);
 	}
 }

@@ -69,4 +69,9 @@ public class FreezeCommand extends EssentialsCommand {
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
 	}
+
+	@Override
+	public String getDescription () {
+		return "Disables a player's movement";
+	}
 }

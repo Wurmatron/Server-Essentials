@@ -4,9 +4,9 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class TpdenyCommand extends EssentialsCommand {
@@ -27,19 +27,27 @@ public class TpdenyCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			if (DataHelper.activeRequests.size () > 0) {
-				for (long time : DataHelper.activeRequests.keySet ()) {
-					EntityPlayer[] otherPlayer = DataHelper.activeRequests.get (time);
-					if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
-						DataHelper.activeRequests.remove (time);
-						ChatHelper.sendMessageTo (player,Local.TPA_DENY);
-					}
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender;
+		if (DataHelper.activeRequests.size () > 0) {
+			for (long time : DataHelper.activeRequests.keySet ()) {
+				EntityPlayer[] otherPlayer = DataHelper.activeRequests.get (time);
+				if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
+					DataHelper.activeRequests.remove (time);
+					ChatHelper.sendMessageTo (player,Local.TPA_DENY);
 				}
-			} else
-				ChatHelper.sendMessageTo (player,Local.TPA_NONE);
-		}  else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+			}
+		} else
+			ChatHelper.sendMessageTo (player,Local.TPA_NONE);
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Deny a teleport request";
 	}
 }

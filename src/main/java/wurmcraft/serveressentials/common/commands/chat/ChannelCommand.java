@@ -78,4 +78,8 @@ public class ChannelCommand extends EssentialsCommand {
 		return list;
 	}
 
+	@Override
+	public String getDescription () {
+		return "Handles changing of channels";
+	}
 }
