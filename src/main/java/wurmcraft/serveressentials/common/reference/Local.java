@@ -72,12 +72,17 @@ public class Local {
 	public static final String MUTED_OTHER = TextFormatting.RED + "You have muted #";
 	public static final String UNMUTED_OTHER = TextFormatting.RED + "You have unmuted #";
 	public static final String NOTIFY_MUTED = TextFormatting.DARK_RED + "You cannot talk in chat you have been muted!";
-	public static final String NO_VAULTS= TextFormatting.RED + "You currently do not have any vaults";
-	public static final String VAULT_NOT_FOUND  = TextFormatting.RED + "Vault # not found!";
-	public static final String VAULT_CREATED= TextFormatting.AQUA + "Vault # created!";
+	public static final String NO_VAULTS = TextFormatting.RED + "You currently do not have any vaults";
+	public static final String VAULT_NOT_FOUND = TextFormatting.RED + "Vault # not found!";
+	public static final String VAULT_CREATED = TextFormatting.AQUA + "Vault # created!";
 	public static final String VAULT_MAX_HIT = TextFormatting.RED + "Max Amount of Vaults Reached!";
 	public static final String SPEED_CHANGED = TextFormatting.GREEN + "Your movement speed has changed to #";
 	public static final String MESSAGE_SENT = TextFormatting.RED + "Message sent to #";
+	public static final String MISSING_MESSAGE = TextFormatting.AQUA + "Missing Message";
+	public static final String MAIL_SENT = TextFormatting.AQUA + "Mail Sent!";
+	public static final String NO_MAIL = TextFormatting.RED + "No Mail!";
+	public static final String MAIL_REMOVED = TextFormatting.AQUA + "Mail Deleted!";
+	public static final String HAS_MAIL = TextFormatting.AQUA + "You have Mail!";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
@@ -121,13 +126,13 @@ public class Local {
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
 	// Eco
-	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#" ;
+	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#";
 	public static final String CURRENT_MONEY_OTHER = TextFormatting.AQUA + "# currently has " + Settings.currencySymbol + "%";
-	public static final String NEGATIVE_MONEY  = TextFormatting.DARK_RED + "You cannot pay someone a negative amount";
+	public static final String NEGATIVE_MONEY = TextFormatting.DARK_RED + "You cannot pay someone a negative amount";
 	public static final String MISSING_MONEY = TextFormatting.RED + "You don't have " + Settings.currencySymbol + "#";
 	public static final String MONEY_SENT = TextFormatting.GOLD + "You have sent " + Settings.currencySymbol + "% to #";
 	public static final String MONEY_SENT_RECEIVER = TextFormatting.GOLD + "# has payed you " + Settings.currencySymbol + "%";
-	public static final String PURCHASE= TextFormatting.AQUA + "You have purchased # for @";
+	public static final String PURCHASE = TextFormatting.AQUA + "You have purchased # for @";
 	public static final String MISSING_STACK = TextFormatting.RED + "You don't have a #";
 	public static final String SELL_STACK = TextFormatting.AQUA + "# has been sold to @ for &";
 }

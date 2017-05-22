@@ -213,6 +213,28 @@ public class DataHelper {
 		}
 	}
 
+	public static void removeMail(UUID uuid,int index) {
+		PlayerData data = getPlayerData (uuid);
+		boolean wasLoaded = true;
+		if (data == null) {
+			data = loadPlayerData (uuid);
+			wasLoaded = false;
+		}
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + uuid.toString () + ".json");
+			data.removeMail (index);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				if (wasLoaded)
+					reloadPlayerData (uuid);
+				else
+					unloadPlayerData (uuid);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
 	public static ITextComponent displayLocation (Home home) {
 		TextComponentString text = new TextComponentString ("X = " + home.getPos ().getX () + " Y = " + home.getPos ().getY () + " Z = " + home.getPos ().getZ ());
 		text.getStyle ().setColor (TextFormatting.GREEN);

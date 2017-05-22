@@ -97,6 +97,10 @@ public class PlayerData {
 		currentMail.add (mail);
 	}
 
+	public void removeMail (int index) {
+		currentMail.remove (index);
+	}
+
 	public long getLastseen () {
 		return lastseen;
 	}

@@ -43,7 +43,10 @@ public class HelpCommand extends EssentialsCommand {
 		if (args.length == 1 && Integer.parseInt (args[0]) != -1)
 			start = 8 * Integer.parseInt (args[0]);
 		if (start <= server.commandManager.getCommands ().size ()) {
-			ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER.substring (0,19) + " Page # ".replaceAll ("#","" + start / 8) + Local.SPACER.substring (22,49));
+			if (start / 8 == 0)
+				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER.substring (0,19) + " Page # ".replaceAll ("#","" + start / 8) + Local.SPACER.substring (22,49));
+			else
+				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER.substring (0,19) + " Page # ".replaceAll ("#","" + start / 8) + Local.SPACER.substring (22,49),clickEvent ((start / 8) - 1),0);
 			for (int index = start; index < (start + 8); index++)
 				if (index < server.commandManager.getCommands ().size ())
 					ChatHelper.sendMessageTo (sender,formatCommand (sender,(ICommand) server.commandManager.getCommands ().values ().toArray ()[index]));

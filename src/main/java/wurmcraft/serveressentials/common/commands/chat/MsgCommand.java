@@ -6,6 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -13,6 +14,7 @@ import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,5 +70,16 @@ public class MsgCommand extends EssentialsCommand {
 	@Override
 	public Boolean isPlayerOnly () {
 		return true;
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		if (args.length == 1) {
+			List <String> usernames = new ArrayList <> ();
+			for (EntityPlayer player : server.getPlayerList ().getPlayerList ())
+				usernames.add (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()));
+			return usernames;
+		}
+		return null;
 	}
 }

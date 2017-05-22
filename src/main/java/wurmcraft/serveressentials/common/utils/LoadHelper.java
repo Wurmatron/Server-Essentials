@@ -75,6 +75,7 @@ public class LoadHelper {
 		e.registerServerCommand (new WebsiteCommand (Perm.COMMAND_WEBSITE));
 		e.registerServerCommand (new SpeedCommand (Perm.COMMAND_SPEED));
 		e.registerServerCommand (new MsgCommand (Perm.COMMAND_MESSAGE));
+		e.registerServerCommand (new MailCommand (Perm.COMMAND_MAIL));
 	}
 
 	public static void loadData () {

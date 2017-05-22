@@ -65,7 +65,7 @@ public class GameModeCommand extends EssentialsCommand {
 							if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ())) {
 								user.setGameType (GameType.getByID (mode));
 								ChatHelper.sendMessageTo (user,Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ()));
-								ChatHelper.sendMessageTo (sender,Local.MODE_CHANGED_OTHER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()).replaceAll ("$",GameType.getByID (mode).getName ()));
+								ChatHelper.sendMessageTo (sender,Local.MODE_CHANGED_OTHER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()).replaceAll ("\\$",GameType.getByID (mode).getName ()));
 							}
 				} else if (sender instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) sender;
