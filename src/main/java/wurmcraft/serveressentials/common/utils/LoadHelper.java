@@ -13,8 +13,9 @@ import wurmcraft.serveressentials.common.commands.eco.MarketCommand;
 import wurmcraft.serveressentials.common.commands.eco.MoneyCommand;
 import wurmcraft.serveressentials.common.commands.eco.PayCommand;
 import wurmcraft.serveressentials.common.commands.info.*;
+import wurmcraft.serveressentials.common.commands.item.KitCommand;
 import wurmcraft.serveressentials.common.commands.item.RenameCommand;
-import wurmcraft.serveressentials.common.commands.item.SendItem;
+import wurmcraft.serveressentials.common.commands.item.SendItemCommand;
 import wurmcraft.serveressentials.common.commands.item.SkullCommand;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
@@ -77,7 +78,9 @@ public class LoadHelper {
 		e.registerServerCommand (new SpeedCommand (Perm.COMMAND_SPEED));
 		e.registerServerCommand (new MsgCommand (Perm.COMMAND_MESSAGE));
 		e.registerServerCommand (new MailCommand (Perm.COMMAND_MAIL));
-		e.registerServerCommand (new SendItem (Perm.COMMAND_ITEMSEND));
+		e.registerServerCommand (new SendItemCommand (Perm.COMMAND_ITEMSEND));
+		e.registerServerCommand (new KitAdminCommand (Perm.COMMAND_KITADMIN));
+		e.registerServerCommand (new KitCommand (Perm.COMMAND_KIT));
 	}
 
 	public static void loadData () {
@@ -89,7 +92,7 @@ public class LoadHelper {
 		ChunkManager.loadAllClaims ();
 		DataHelper.createDefaultChannels ();
 		DataHelper.loadAllChannels ();
-
+		DataHelper.loadAllKits ();
 		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND),new ItemStack (Items.IRON_INGOT,16)},new int[] {512,64},new boolean[] {true,false});
 		DataHelper.createMarket (UUID.randomUUID (),data);
 	}

@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SendItem extends EssentialsCommand {
+public class SendItemCommand extends EssentialsCommand {
 
-	public SendItem (String perm) {
+	public SendItemCommand (String perm) {
 		super (perm);
 	}
 
@@ -59,9 +59,9 @@ public class SendItem extends EssentialsCommand {
 									ItemStack[] items = vaults[0].getItems ();
 									items[index] = player.getHeldItemMainhand ();
 									vaults[0].setItems (items);
-									DataHelper.saveVault (uuid,vaults[0]);
-									player.inventory.deleteStack (player.getHeldItemMainhand ());
+									DataHelper.saveVault (uuid,vaults);
 									ChatHelper.sendMessageTo (player,Local.ITEM_SENT.replaceAll ("#",player.getHeldItemMainhand ().getDisplayName ()).replaceAll ("@",UsernameCache.getLastKnownUsername (uuid)));
+									player.inventory.deleteStack (player.getHeldItemMainhand ());
 									break;
 								}
 							}
@@ -73,11 +73,11 @@ public class SendItem extends EssentialsCommand {
 	}
 
 	@Override
-	public List<String> getCommandAliases () {
-		List<String> aliases = new ArrayList <> ();
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
 		aliases.add ("senditem");
 		aliases.add ("SENDITEM");
-		aliases.add ("SendItem");
+		aliases.add ("SendItemCommand");
 		return aliases;
 	}
 }

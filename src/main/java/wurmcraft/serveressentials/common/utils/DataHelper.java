@@ -35,6 +35,7 @@ public class DataHelper {
 	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
 	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
 	public static final File marketLocation = new File (saveLocation + File.separator + "Markets" + File.separator);
+	public static final File kitLocation = new File (saveLocation + File.separator + "Kits" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 	public static HashMap <UUID, PlayerData> loadedPlayers = new HashMap <> ();
 	public static ArrayList <Warp> loadedWarps = new ArrayList <> ();
@@ -43,6 +44,7 @@ public class DataHelper {
 	public static Global globalSettings;
 	public static HashMap <UUID, Vault[]> playerVaults = new HashMap <> ();
 	public static HashMap <UUID, ShopData> playerShops = new HashMap <> ();
+	public static ArrayList <Kit> loadedKits = new ArrayList <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {
@@ -213,7 +215,7 @@ public class DataHelper {
 		}
 	}
 
-	public static void removeMail(UUID uuid,int index) {
+	public static void removeMail (UUID uuid,int index) {
 		PlayerData data = getPlayerData (uuid);
 		boolean wasLoaded = true;
 		if (data == null) {
@@ -715,6 +717,40 @@ public class DataHelper {
 			return playerShops.get (name);
 	}
 
+	public static void saveKit (Kit kit) {
+		if (!kitLocation.exists ())
+			kitLocation.mkdirs ();
+		File kitFile = new File (kitLocation + File.separator + kit.getName () + ".json");
+		try {
+			kitFile.createNewFile ();
+			Files.write (Paths.get (kitFile.getAbsolutePath ()),gson.toJson (kit).getBytes ());
+			loadAllKits ();
+		} catch (IOException e) {
+			e.printStackTrace ();
+		}
+	}
 
-
+	public static void loadAllKits () {
+		if (kitLocation.exists ())
+			for (File file : kitLocation.listFiles ()) {
+				ArrayList <String> lines = new ArrayList <> ();
+				try {
+					BufferedReader reader = new BufferedReader (new FileReader (file));
+					String line;
+					while ((line = reader.readLine ()) != null)
+						lines.add (line);
+					reader.close ();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace ();
+				} catch (IOException e) {
+					e.printStackTrace ();
+				}
+				String temp = "";
+				for (int s = 0; s <= lines.size () - 1; s++)
+					temp = temp + lines.get (s);
+				Kit kit = gson.fromJson (temp,Kit.class);
+				if (kit != null && !loadedKits.contains (kit))
+					loadedKits.add (kit);
+			}
+	}
 }

@@ -83,6 +83,13 @@ public class Local {
 	public static final String NO_MAIL = TextFormatting.RED + "No Mail!";
 	public static final String MAIL_REMOVED = TextFormatting.AQUA + "Mail Deleted!";
 	public static final String HAS_MAIL = TextFormatting.AQUA + "You have Mail!";
+	public static final String INVALID_KIT_NAME = TextFormatting.RED + "Invalid Kit Name \"#\"";
+	public static final String KIT_CREATED = TextFormatting.GOLD + "Kit \"#\" created!";
+	public static final String KIT_NOTFOUND = TextFormatting.RED + "Kit \"#\" not found!";
+	public static final String KIT_REMOVED = TextFormatting.AQUA + "Kit \"#\" removed!";
+	public static final String NO_KITS = TextFormatting.RED + "No Kits";
+	public static final String FULL_INV = TextFormatting.RED + "Inventory full dropping items in the world.";
+	public static final String KIT= TextFormatting.AQUA + "Kit \"#\" placed in your inventory!";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";

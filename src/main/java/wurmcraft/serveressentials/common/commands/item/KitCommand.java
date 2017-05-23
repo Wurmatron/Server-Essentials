@@ -1,6 +1,109 @@
 package wurmcraft.serveressentials.common.commands.item;
 
-// TODO
-public class KitCommand {
+import joptsimple.internal.Strings;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextFormatting;
+import wurmcraft.serveressentials.common.api.storage.Kit;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.DataHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class KitCommand extends EssentialsCommand {
+
+	public KitCommand (String perm) {
+		super (perm);
+	}
+
+	@Override
+	public String getCommandName () {
+		return "kit";
+	}
+
+	@Override
+	public String getCommandUsage (ICommandSender sender) {
+		return "/kit <name>";
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
+
+	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("Kit");
+		aliases.add ("KIT");
+		return aliases;
+	}
+
+	@Override
+	public String getDescription () {
+		return "Gives a certain kit of items";
+	}
+
+	@Override
+	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		if (args.length == 1) {
+			if (args[0].equalsIgnoreCase ("list")) {
+				List <String> kitNames = new ArrayList <> ();
+				for (Kit kit : DataHelper.loadedKits)
+					kitNames.add (kit.getName ());
+				ChatHelper.sendMessageTo (player,TextFormatting.DARK_AQUA + "Kit: " + TextFormatting.AQUA + Strings.join (kitNames," "));
+			} else {
+				if (DataHelper.loadedKits.size () > 0) {
+					for (Kit kit : DataHelper.loadedKits)
+						if (kit != null && kit.getName ().equalsIgnoreCase (args[0]))
+							for (ItemStack stack : kit.getItems ())
+								addStack (player,stack);
+					ChatHelper.sendMessageTo (player,Local.KIT.replaceAll ("#",args[0]));
+				} else
+					ChatHelper.sendMessageTo (player,Local.NO_KITS);
+			}
+		} else
+			ChatHelper.sendMessageTo (player,getCommandUsage (sender));
+	}
+
+	private boolean addStack (EntityPlayer player,ItemStack stack) {
+		if (stack.getItem () instanceof ItemArmor) {
+			ItemArmor armor = (ItemArmor) stack.getItem ();
+			if (armor.armorType.equals (EntityEquipmentSlot.HEAD) && player.inventory.getStackInSlot (100) == null) {
+				player.inventory.armorInventory[3] = stack;
+				return true;
+			} else if (armor.armorType.equals (EntityEquipmentSlot.CHEST) && player.inventory.getStackInSlot (101) == null) {
+				player.inventory.armorInventory[2] = stack;
+				return true;
+			} else if (armor.armorType.equals (EntityEquipmentSlot.LEGS) && player.inventory.getStackInSlot (102) == null) {
+				player.inventory.armorInventory[1] = stack;
+				return true;
+			} else if (armor.armorType.equals (EntityEquipmentSlot.FEET) && player.inventory.getStackInSlot (103) == null) {
+				player.inventory.armorInventory[0] = stack;
+				return true;
+			}
+		} else {
+			for (int index = 0; index < 36; index++)
+				if (player.inventory.getStackInSlot (index) == null) {
+					player.inventory.setInventorySlotContents (index,stack);
+					return true;
+				}
+			EntityItem entityItem = new EntityItem (player.worldObj,player.posX,player.posY,player.posZ,stack);
+			player.worldObj.spawnEntityInWorld (entityItem);
+			ChatHelper.sendMessageTo (player,Local.FULL_INV);
+			return true;
+		}
+		return false;
+	}
 }
