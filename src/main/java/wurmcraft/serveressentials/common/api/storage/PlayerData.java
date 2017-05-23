@@ -26,10 +26,11 @@ public class PlayerData {
 	private Home[] homes = new Home[max_homes];
 	private List <Mail> currentMail = new ArrayList <> ();
 	private String team;
-	public String currentChannel;
-	public boolean muted;
-	public int vaultSlots;
-	public int marketSlots;
+	private String currentChannel;
+	private boolean muted;
+	private int vaultSlots;
+	private int marketSlots;
+	private boolean spy;
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -199,5 +200,13 @@ public class PlayerData {
 
 	public void setMarketSlots (int marketSlots) {
 		this.marketSlots = marketSlots;
+	}
+
+	public boolean isSpy () {
+		return spy;
+	}
+
+	public void setSpy (boolean spy) {
+		this.spy = spy;
 	}
 }

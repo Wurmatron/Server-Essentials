@@ -62,9 +62,12 @@ public class MsgCommand extends EssentialsCommand {
 					for (int index = 1; index < args.length; index++)
 						lines[index - 1] = args[index];
 					String message = Strings.join (lines," ");
-					ChatHelper.sendMessageTo (player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getDisplayName ().getUnformattedText ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
 					ChatHelper.sendMessageTo (sender,Local.MESSAGE_SENT.replaceAll ("#",player.getDisplayNameString ()));
-					DataHelper.lastMessage.put (player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId ());
+					if (senderPlayer != null) {
+						DataHelper.lastMessage.put (player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId ());
+						ChatHelper.sendMessageTo (senderPlayer,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getDisplayName ().getUnformattedText ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
+					} else
+						ChatHelper.sendMessageTo (sender,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getDisplayName ().getUnformattedText ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
 				}
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));

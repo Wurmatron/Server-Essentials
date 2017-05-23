@@ -19,5 +19,6 @@ public class PlayerQuitEvent {
 			for (UUID uuid : DataHelper.lastMessage.keySet ())
 				if (DataHelper.lastMessage.get (uuid).equals (e.player.getGameProfile ().getId ()))
 					DataHelper.lastMessage.remove (uuid);
+		DataHelper.spys.remove (e.player.getGameProfile ().getId ());
 	}
 }

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.util.List;
@@ -43,6 +44,24 @@ public class ChatHelper {
 		if (hoverEvent != null)
 			msg.getStyle ().setHoverEvent (hoverEvent);
 		player.addChatComponentMessage (msg);
+	}
+
+	public static void sendMessageTo (ICommandSender sender,EntityPlayer reciver,String message) {
+		sendMessageTo (reciver,message);
+		if (DataHelper.spys.size () > 0)
+			for (UUID uuid : DataHelper.spys)
+				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayerList ())
+					if (spy.getGameProfile ().getId ().equals (uuid))
+						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
+	}
+
+	public static void sendMessageTo (EntityPlayer sender,EntityPlayer reciver,String message) {
+		sendMessageTo (reciver,message);
+		if (DataHelper.spys.size () > 0)
+			for (UUID uuid : DataHelper.spys)
+				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayerList ())
+					if (spy.getGameProfile ().getId ().equals (uuid))
+						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getDisplayNameString () + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message) {

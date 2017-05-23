@@ -26,5 +26,7 @@ public class PlayerJoinEvent {
 		PlayerData data = DataHelper.getPlayerData (e.player.getGameProfile ().getId ());
 		if (data != null && data.getMail () != null && data.getMail ().size () > 0)
 			ChatHelper.sendMessageTo (e.player,Local.HAS_MAIL);
+		if (data.isSpy ())
+			DataHelper.spys.add (e.player.getGameProfile ().getId ());
 	}
 }

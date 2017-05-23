@@ -45,7 +45,8 @@ public class DataHelper {
 	public static HashMap <UUID, Vault[]> playerVaults = new HashMap <> ();
 	public static HashMap <UUID, ShopData> playerShops = new HashMap <> ();
 	public static ArrayList <Kit> loadedKits = new ArrayList <> ();
-	public static HashMap<UUID, UUID> lastMessage = new HashMap <> ();
+	public static HashMap <UUID, UUID> lastMessage = new HashMap <> ();
+	public static ArrayList <UUID> spys = new ArrayList <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {
@@ -753,5 +754,25 @@ public class DataHelper {
 				if (kit != null && !loadedKits.contains (kit))
 					loadedKits.add (kit);
 			}
+	}
+
+	public static void setSpy (UUID name,boolean spy) {
+		PlayerData data = getPlayerData (name);
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+			data.setSpy (spy);
+			if (spy)
+				spys.add (name);
+			else
+				spys.remove (name);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
 	}
 }
