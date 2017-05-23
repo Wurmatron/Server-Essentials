@@ -110,4 +110,8 @@ public class TeleportUtils {
 		} else
 			return "Online";
 	}
+
+	public static EntityPlayer getPlayerFromName (String name) {
+		return null;
+	}
 }

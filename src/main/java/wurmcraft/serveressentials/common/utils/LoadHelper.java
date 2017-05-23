@@ -83,6 +83,7 @@ public class LoadHelper {
 		e.registerServerCommand (new KitCommand (Perm.COMMAND_KIT));
 		e.registerServerCommand (new ReplyCommand (Perm.COMMAND_REPLY));
 		e.registerServerCommand (new SpyCommand (Perm.COMMAND_SPY));
+		e.registerServerCommand (new NickCommand (Perm.COMMAND_NICK));
 	}
 
 	public static void loadData () {

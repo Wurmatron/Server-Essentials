@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Channel;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LogHandler;
@@ -56,12 +57,14 @@ public class ChatHelper {
 	}
 
 	public static void sendMessageTo (EntityPlayer sender,EntityPlayer reciver,String message) {
+		PlayerData reciverData = DataHelper.getPlayerData (reciver.getGameProfile ().getId ());
+		String reciverName = reciverData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + reciverData.getNickname ().replaceAll ("&","\u00A7") : reciver.getDisplayNameString ();
 		sendMessageTo (reciver,message);
 		if (DataHelper.spys.size () > 0)
 			for (UUID uuid : DataHelper.spys)
 				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayerList ())
 					if (spy.getGameProfile ().getId ().equals (uuid))
-						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getDisplayNameString () + TextFormatting.GREEN + " <- " + message);
+						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciverName + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message) {

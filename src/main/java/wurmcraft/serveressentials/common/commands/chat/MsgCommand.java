@@ -9,6 +9,7 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
@@ -62,12 +63,17 @@ public class MsgCommand extends EssentialsCommand {
 					for (int index = 1; index < args.length; index++)
 						lines[index - 1] = args[index];
 					String message = Strings.join (lines," ");
-					ChatHelper.sendMessageTo (sender,Local.MESSAGE_SENT.replaceAll ("#",player.getDisplayNameString ()));
+					PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+					String dataName = data.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : player.getDisplayNameString ();
+					ChatHelper.sendMessageTo (sender,Local.MESSAGE_SENT.replaceAll ("#",dataName));
 					if (senderPlayer != null) {
+						PlayerData senderData = DataHelper.getPlayerData (senderPlayer.getGameProfile ().getId ());
+						String senderName = senderData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + senderData.getNickname ().replaceAll ("&","\u00A7") : senderPlayer.getDisplayNameString ();
 						DataHelper.lastMessage.put (player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId ());
-						ChatHelper.sendMessageTo (senderPlayer,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getDisplayName ().getUnformattedText ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
-					} else
-						ChatHelper.sendMessageTo (sender,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getDisplayName ().getUnformattedText ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
+						ChatHelper.sendMessageTo (senderPlayer,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + senderName).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
+					} else {
+						ChatHelper.sendMessageTo (sender,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getName ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
+					}
 				}
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));

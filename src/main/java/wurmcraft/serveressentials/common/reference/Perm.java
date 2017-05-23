@@ -59,4 +59,5 @@ public class Perm {
 	public static final String COMMAND_KIT = "common.kit";
 	public static final String COMMAND_REPLY = "common.reply";
 	public static final String COMMAND_SPY = "admin.spy";
+	public static final String COMMAND_NICK = "admin.nick";
 }

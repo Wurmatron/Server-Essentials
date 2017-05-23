@@ -775,4 +775,20 @@ public class DataHelper {
 			}
 		}
 	}
+
+	public static void setNickname (UUID name,String nick) {
+		PlayerData data = getPlayerData (name);
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+			data.setNickname (nick);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
 }

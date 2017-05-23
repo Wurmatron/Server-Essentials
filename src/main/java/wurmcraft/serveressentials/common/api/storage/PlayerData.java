@@ -18,6 +18,7 @@ import java.util.List;
 public class PlayerData {
 
 	private String rank;
+	private String nickname;
 	private int max_homes = 4;
 	private long teleport_timer;
 	private long lastseen;
@@ -208,5 +209,13 @@ public class PlayerData {
 
 	public void setSpy (boolean spy) {
 		this.spy = spy;
+	}
+
+	public String getNickname () {
+		return nickname;
+	}
+
+	public void setNickname (String nickname) {
+		this.nickname = nickname;
 	}
 }
