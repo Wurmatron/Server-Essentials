@@ -55,6 +55,7 @@ public class Perm {
 	public static final String COMMAND_MESSAGE = "common.message";
 	public static final String COMMAND_MAIL = "common.mail";
 	public static final String COMMAND_ITEMSEND = "common.sendItem";
-	public static final String COMMAND_KITADMIN= "admin.kit";
+	public static final String COMMAND_KITADMIN = "admin.kit";
 	public static final String COMMAND_KIT = "common.kit";
+	public static final String COMMAND_REPLY = "common.reply";
 }

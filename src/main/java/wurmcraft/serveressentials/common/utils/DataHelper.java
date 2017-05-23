@@ -45,6 +45,7 @@ public class DataHelper {
 	public static HashMap <UUID, Vault[]> playerVaults = new HashMap <> ();
 	public static HashMap <UUID, ShopData> playerShops = new HashMap <> ();
 	public static ArrayList <Kit> loadedKits = new ArrayList <> ();
+	public static HashMap<UUID, UUID> lastMessage = new HashMap <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {

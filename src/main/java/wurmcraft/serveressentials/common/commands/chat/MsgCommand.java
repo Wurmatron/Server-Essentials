@@ -13,6 +13,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class MsgCommand extends EssentialsCommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
+		EntityPlayer senderPlayer = (EntityPlayer) sender.getCommandSenderEntity ();
 		if (args.length >= 2) {
 			PlayerList players = server.getPlayerList ();
 			for (EntityPlayer player : players.getPlayerList ())
@@ -62,6 +64,7 @@ public class MsgCommand extends EssentialsCommand {
 					String message = Strings.join (lines," ");
 					ChatHelper.sendMessageTo (player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getDisplayName ().getUnformattedText ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
 					ChatHelper.sendMessageTo (sender,Local.MESSAGE_SENT.replaceAll ("#",player.getDisplayNameString ()));
+					DataHelper.lastMessage.put (player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId ());
 				}
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
