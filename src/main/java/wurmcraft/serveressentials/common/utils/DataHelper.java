@@ -3,6 +3,8 @@ package wurmcraft.serveressentials.common.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -14,6 +16,7 @@ import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.api.team.ITeam;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChannelManager;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.config.Defaults;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
@@ -23,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class DataHelper {
@@ -791,4 +795,26 @@ public class DataHelper {
 			}
 		}
 	}
+
+	public static void setRank (UUID name,IRank rank) {
+		PlayerData data = getPlayerData (name);
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+			data.setRank (rank);
+			List< EntityPlayerMP> onlinePlayers = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
+			for(EntityPlayerMP player : onlinePlayers)
+				if(player.getGameProfile ().getId ().equals (name)) {
+					ChatHelper.sendMessageTo (player,Local.RANK_CHANGED.replaceAll ("#", rank.getName ()));
+				}
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
 }

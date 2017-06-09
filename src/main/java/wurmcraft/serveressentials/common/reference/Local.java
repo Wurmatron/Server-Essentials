@@ -94,6 +94,8 @@ public class Local {
 	public static final String SPY_OTHER = TextFormatting.AQUA + "Chat Spy # for &";
 	public static final String NICKNAME = TextFormatting.AQUA + "Nickname changed to #";
 	public static final String NICKNAME_OTHER = TextFormatting.AQUA + "Nickname for # changed to &";
+	public static final String RANK_NOT_FOUND = TextFormatting.RED + "Rank \"#\" not found!";
+	public static final String RANK_CHANGED = TextFormatting.AQUA + "Your rank has been changed to \"#\"";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
