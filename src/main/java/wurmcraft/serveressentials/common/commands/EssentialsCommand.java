@@ -9,6 +9,7 @@ import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.RankManager;
 
 public class EssentialsCommand extends CommandBase {
 
@@ -50,6 +51,21 @@ public class EssentialsCommand extends CommandBase {
 							return true;
 						} else if (perm.endsWith ("*") && this.perm.startsWith (perm.substring (0,perm.indexOf ("*"))))
 							return true;
+			if (rank.getInheritance () != null && rank.getInheritance ().length > 0) {
+				for (String preRank : rank.getInheritance ())
+					if (RankManager.getRankFromName (preRank) != null) {
+						IRank tempRank = RankManager.getRankFromName (preRank);
+						if (tempRank.getPermissions ().length > 0)
+							for (String perm : tempRank.getPermissions ())
+								if (perm != null)
+									if (perm.equalsIgnoreCase (this.perm)) {
+										return true;
+									} else if (perm.startsWith ("*")) {
+										return true;
+									} else if (perm.endsWith ("*") && this.perm.startsWith (perm.substring (0,perm.indexOf ("*"))))
+										return true;
+					}
+			}
 		} else if (sender.getCommandSenderEntity () == null)
 			return true;
 		return false;

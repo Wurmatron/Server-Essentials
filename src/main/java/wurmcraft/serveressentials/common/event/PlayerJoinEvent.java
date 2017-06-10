@@ -30,5 +30,6 @@ public class PlayerJoinEvent {
 			DataHelper.spys.add (e.player.getGameProfile ().getId ());
 		if (!DataHelper.joinTime.containsKey (e.player.getGameProfile ().getId ()))
 			DataHelper.joinTime.put (e.player.getGameProfile ().getId (),System.currentTimeMillis ());
+		DataHelper.handleAndUpdatePlayTime ();
 	}
 }

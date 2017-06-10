@@ -2,6 +2,7 @@ package wurmcraft.serveressentials.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import joptsimple.internal.Strings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -9,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.permissions.Rank;
@@ -40,6 +42,7 @@ public class DataHelper {
 	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
 	public static final File marketLocation = new File (saveLocation + File.separator + "Markets" + File.separator);
 	public static final File kitLocation = new File (saveLocation + File.separator + "Kits" + File.separator);
+	public static final File autoRankLocation = new File (saveLocation + File.separator + "AutoRank" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 	public static HashMap <UUID, PlayerData> loadedPlayers = new HashMap <> ();
 	public static ArrayList <Warp> loadedWarps = new ArrayList <> ();
@@ -52,6 +55,7 @@ public class DataHelper {
 	public static HashMap <UUID, UUID> lastMessage = new HashMap <> ();
 	public static ArrayList <UUID> spys = new ArrayList <> ();
 	public static HashMap <UUID, Long> joinTime = new HashMap <> ();
+	public static ArrayList <AutoRank> loadedAutoRanks = new ArrayList <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {
@@ -423,9 +427,11 @@ public class DataHelper {
 	public static void createDefaultRank () {
 		if (!groupLocation.exists () || groupLocation.listFiles ().length <= 0) {
 			Rank defaultGroup = new Rank ("Default",true,"[Default]","",null,new String[] {"common.*","teleport.*"});
+			Rank memberGroup = new Rank ("Member",false,"[Member]","",new String[] {"Default"},new String[] {});
 			Rank adminGroup = new Rank ("Admin",false,"[Admin]","",new String[] {defaultGroup.getName ()},new String[] {"*"});
 			createGroup (defaultGroup);
 			createGroup (adminGroup);
+			createGroup (memberGroup);
 			loadRanks ();
 		}
 	}
@@ -818,7 +824,7 @@ public class DataHelper {
 		PlayerData data = getPlayerData (name);
 		if (data == null)
 			data = loadPlayerData (name);
-		if (data != null) {
+		if (data != null && rank != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
 			data.setRank (rank);
 			List <EntityPlayerMP> onlinePlayers = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
@@ -843,14 +849,78 @@ public class DataHelper {
 			DataHelper.addTime (player.getGameProfile ().getId (),timeGained);
 			DataHelper.joinTime.put (player.getGameProfile ().getId (),System.currentTimeMillis ());
 		}
+		checkAndHandleAutoRank ();
 	}
 
-	public static void handleAndUpdatePlayTime(EntityPlayer player) {
+	public static void handleAndUpdatePlayTime (EntityPlayer player) {
 		long timeSinceLastUpdate = DataHelper.joinTime.get (player.getGameProfile ().getId ());
 		long timeSinceUpdate = System.currentTimeMillis () - timeSinceLastUpdate;
 		int timeGained = (int) (timeSinceUpdate / 60000);
 		DataHelper.addTime (player.getGameProfile ().getId (),timeGained);
 		DataHelper.joinTime.put (player.getGameProfile ().getId (),System.currentTimeMillis ());
+		checkAndHandleAutoRank (player);
 	}
 
+	public static void saveAutoRank (AutoRank autoRank) {
+		if (!autoRankLocation.exists ())
+			autoRankLocation.mkdirs ();
+		File kitFile = new File (autoRankLocation + File.separator + autoRank.getNextRank () + ".json");
+		try {
+			kitFile.createNewFile ();
+			Files.write (Paths.get (kitFile.getAbsolutePath ()),gson.toJson (autoRank).getBytes ());
+			loadAllKits ();
+		} catch (IOException e) {
+			e.printStackTrace ();
+		}
+	}
+
+	public static void loadAllAutoRanks () {
+		if (autoRankLocation.exists ())
+			for (File file : autoRankLocation.listFiles ()) {
+				ArrayList <String> lines = new ArrayList <> ();
+				try {
+					BufferedReader reader = new BufferedReader (new FileReader (file));
+					String line;
+					while ((line = reader.readLine ()) != null)
+						lines.add (line);
+					reader.close ();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace ();
+				} catch (IOException e) {
+					e.printStackTrace ();
+				}
+				String temp = "";
+				for (int s = 0; s <= lines.size () - 1; s++)
+					temp = temp + lines.get (s);
+				AutoRank autoRank = gson.fromJson (temp,AutoRank.class);
+				if (autoRank != null && !loadedAutoRanks.contains (autoRank))
+					loadedAutoRanks.add (autoRank);
+			}
+	}
+
+	public static void createDefaultAutoRank () {
+		if (!autoRankLocation.exists () || autoRankLocation.listFiles ().length <= 0) {
+			AutoRank defaultToMember = new AutoRank (30,0,10,"Default","Member");
+			saveAutoRank (defaultToMember);
+			loadRanks ();
+		}
+	}
+
+	public static void checkAndHandleAutoRank (EntityPlayer player) {
+		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+		if (loadedAutoRanks.size () > 0)
+			for (AutoRank autoRank : loadedAutoRanks)
+				if (autoRank.getRank ().equalsIgnoreCase (data.getRank ().getName ())) {
+					if (autoRank.getPlayTime () <= data.getOnlineTime () && autoRank.getBalance () <= data.getMoney () && autoRank.getExp () <= player.experienceLevel) {
+						setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (autoRank.getNextRank ()));
+						ChatHelper.sendMessageTo (player,Local.RANK_UP.replaceAll ("#",RankManager.getRankFromName (autoRank.getNextRank ()).getName ()));
+						FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.RANK_UP_NOTIFY.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("~",RankManager.getRankFromName (autoRank.getNextRank ()).getName ())));
+					}
+				}
+	}
+
+	public static void checkAndHandleAutoRank () {
+		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ())
+			checkAndHandleAutoRank (player);
+	}
 }

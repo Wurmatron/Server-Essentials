@@ -21,6 +21,7 @@ import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
 import wurmcraft.serveressentials.common.reference.Perm;
 
+import javax.xml.crypto.Data;
 import java.util.UUID;
 
 public class LoadHelper {
@@ -100,5 +101,7 @@ public class LoadHelper {
 		DataHelper.loadAllKits ();
 		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND),new ItemStack (Items.IRON_INGOT,16)},new int[] {512,64},new boolean[] {true,false});
 		DataHelper.createMarket (UUID.randomUUID (),data);
+		DataHelper.loadAllAutoRanks();
+		DataHelper.createDefaultAutoRank ();
 	}
 }
