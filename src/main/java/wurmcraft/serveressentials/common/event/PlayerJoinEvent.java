@@ -28,5 +28,7 @@ public class PlayerJoinEvent {
 			ChatHelper.sendMessageTo (e.player,Local.HAS_MAIL);
 		if (data.isSpy ())
 			DataHelper.spys.add (e.player.getGameProfile ().getId ());
+		if (!DataHelper.joinTime.containsKey (e.player.getGameProfile ().getId ()))
+			DataHelper.joinTime.put (e.player.getGameProfile ().getId (),System.currentTimeMillis ());
 	}
 }

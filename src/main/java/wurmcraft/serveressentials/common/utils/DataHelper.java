@@ -51,6 +51,7 @@ public class DataHelper {
 	public static ArrayList <Kit> loadedKits = new ArrayList <> ();
 	public static HashMap <UUID, UUID> lastMessage = new HashMap <> ();
 	public static ArrayList <UUID> spys = new ArrayList <> ();
+	public static HashMap <UUID, Long> joinTime = new HashMap <> ();
 
 	public static void registerPlayer (EntityPlayer player) {
 		if (!loadedPlayers.containsKey (player.getGameProfile ().getId ())) {
@@ -59,6 +60,7 @@ public class DataHelper {
 				loadedPlayers.put (player.getGameProfile ().getId (),data);
 			else {
 				PlayerData newData = new PlayerData (RankManager.getDefaultRank ());
+				newData.setFirstJoin ();
 				createPlayerFile (player.getGameProfile ().getId (),newData);
 				loadedPlayers.put (player.getGameProfile ().getId (),newData);
 			}
@@ -796,6 +798,22 @@ public class DataHelper {
 		}
 	}
 
+	public static void addTime (UUID name,int time) {
+		PlayerData data = getPlayerData (name);
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+			data.setOnlineTime (data.getOnlineTime () + time);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
 	public static void setRank (UUID name,IRank rank) {
 		PlayerData data = getPlayerData (name);
 		if (data == null)
@@ -803,10 +821,10 @@ public class DataHelper {
 		if (data != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
 			data.setRank (rank);
-			List< EntityPlayerMP> onlinePlayers = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
-			for(EntityPlayerMP player : onlinePlayers)
-				if(player.getGameProfile ().getId ().equals (name)) {
-					ChatHelper.sendMessageTo (player,Local.RANK_CHANGED.replaceAll ("#", rank.getName ()));
+			List <EntityPlayerMP> onlinePlayers = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
+			for (EntityPlayerMP player : onlinePlayers)
+				if (player.getGameProfile ().getId ().equals (name)) {
+					ChatHelper.sendMessageTo (player,Local.RANK_CHANGED.replaceAll ("#",rank.getName ()));
 				}
 			try {
 				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
@@ -815,6 +833,24 @@ public class DataHelper {
 				e.printStackTrace ();
 			}
 		}
+	}
+
+	public static void handleAndUpdatePlayTime () {
+		for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ()) {
+			long timeSinceLastUpdate = DataHelper.joinTime.get (player.getGameProfile ().getId ());
+			long timeSinceUpdate = System.currentTimeMillis () - timeSinceLastUpdate;
+			int timeGained = (int) (timeSinceUpdate / 60000);
+			DataHelper.addTime (player.getGameProfile ().getId (),timeGained);
+			DataHelper.joinTime.put (player.getGameProfile ().getId (),System.currentTimeMillis ());
+		}
+	}
+
+	public static void handleAndUpdatePlayTime(EntityPlayer player) {
+		long timeSinceLastUpdate = DataHelper.joinTime.get (player.getGameProfile ().getId ());
+		long timeSinceUpdate = System.currentTimeMillis () - timeSinceLastUpdate;
+		int timeGained = (int) (timeSinceUpdate / 60000);
+		DataHelper.addTime (player.getGameProfile ().getId (),timeGained);
+		DataHelper.joinTime.put (player.getGameProfile ().getId (),System.currentTimeMillis ());
 	}
 
 }

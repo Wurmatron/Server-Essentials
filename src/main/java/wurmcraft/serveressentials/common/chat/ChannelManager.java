@@ -2,6 +2,8 @@ package wurmcraft.serveressentials.common.chat;
 
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.LoadHelper;
 
 import java.util.*;
 
@@ -31,8 +33,12 @@ public class ChannelManager {
 		Channel defaultChannel = getFromName (Settings.default_channel);
 		if (defaultChannel != null)
 			return defaultChannel;
-		else
+		else if (channels.size () > 0)
 			return channels.get (0);
+		else {
+			DataHelper.createDefaultChannels ();
+			return getDefaultChannel ();
+		}
 	}
 
 	public static void setPlayerChannel (UUID uuid,Channel channel) {

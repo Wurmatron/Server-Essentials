@@ -20,5 +20,9 @@ public class PlayerQuitEvent {
 				if (DataHelper.lastMessage.get (uuid).equals (e.player.getGameProfile ().getId ()))
 					DataHelper.lastMessage.remove (uuid);
 		DataHelper.spys.remove (e.player.getGameProfile ().getId ());
+		if (DataHelper.joinTime.containsKey (e.player.getGameProfile ().getId ())) {
+			DataHelper.handleAndUpdatePlayTime (e.player);
+			DataHelper.joinTime.remove (e.player.getGameProfile ().getId ());
+		}
 	}
 }

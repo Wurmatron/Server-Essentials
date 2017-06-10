@@ -32,6 +32,8 @@ public class PlayerData {
 	private int vaultSlots;
 	private int marketSlots;
 	private boolean spy;
+	private long firstJoin;
+	private int onlineTime;
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -217,5 +219,21 @@ public class PlayerData {
 
 	public void setNickname (String nickname) {
 		this.nickname = nickname;
+	}
+
+	public void setFirstJoin() {
+		this.firstJoin = System.currentTimeMillis ();
+	}
+
+	public long getFirstJoin() {
+		return this.firstJoin;
+	}
+
+	public int getOnlineTime () {
+		return onlineTime;
+	}
+
+	public void setOnlineTime (int onlineTime) {
+		this.onlineTime = onlineTime;
 	}
 }
