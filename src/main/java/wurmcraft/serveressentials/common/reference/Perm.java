@@ -62,4 +62,5 @@ public class Perm {
 	public static final String COMMAND_NICK = "admin.nick";
 	public static final String COMMAND_SETGROUP = "admin.setGroup";
 	public static final String COMMAND_ONLINETIME = "common.onlineTime";
+	public static final String COMMAND_AUTORANK = "common.autoRank";
 }

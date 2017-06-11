@@ -87,6 +87,7 @@ public class LoadHelper {
 		e.registerServerCommand (new NickCommand (Perm.COMMAND_NICK));
 		e.registerServerCommand (new SetGroup (Perm.COMMAND_SETGROUP));
 		e.registerServerCommand (new OnlineTimeCommand (Perm.COMMAND_ONLINETIME));
+		e.registerServerCommand (new AutoRankCommand (Perm.COMMAND_AUTORANK));
 	}
 
 	public static void loadData () {
@@ -101,7 +102,7 @@ public class LoadHelper {
 		DataHelper.loadAllKits ();
 		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND),new ItemStack (Items.IRON_INGOT,16)},new int[] {512,64},new boolean[] {true,false});
 		DataHelper.createMarket (UUID.randomUUID (),data);
-		DataHelper.loadAllAutoRanks();
+		DataHelper.loadAllAutoRanks ();
 		DataHelper.createDefaultAutoRank ();
 	}
 }
