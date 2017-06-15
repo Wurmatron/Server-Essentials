@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
 
 @Mod (modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
@@ -42,6 +43,7 @@ public class ServerEssentialsServer {
 
 	@Mod.EventHandler
 	public void onServerLoading (FMLServerStartingEvent e) {
+		SecurityUtils.loadTrustedStaff ();
 		LoadHelper.registerCommands (e);
 		LoadHelper.loadData ();
 	}

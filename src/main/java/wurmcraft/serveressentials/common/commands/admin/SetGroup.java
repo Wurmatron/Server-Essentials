@@ -3,6 +3,7 @@ package wurmcraft.serveressentials.common.commands.admin;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -12,14 +13,18 @@ import wurmcraft.serveressentials.common.api.permissions.Rank;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class SetGroup extends EssentialsCommand {
 
@@ -50,7 +55,18 @@ public class SetGroup extends EssentialsCommand {
 						DataHelper.setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (args[1]));
 						PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
 						String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : player.getDisplayNameString ();
-						ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#", RankManager.getRankFromName (args[1]).getName ()));
+						ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
+					}
+			if (!found)
+				for (UUID id : UsernameCache.getMap ().keySet ())
+					if (UsernameCache.getMap ().get (id).equalsIgnoreCase (args[0])) {
+						if (RankManager.getRankFromName (args[1]) != null) {
+							found = true;
+							DataHelper.setRank (id,RankManager.getRankFromName (args[1]));
+							PlayerData data = DataHelper.getPlayerData (id);
+							String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : UsernameCache.getLastKnownUsername (id);
+							ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
+						}
 					}
 			if (!found)
 				ChatHelper.sendMessageTo (sender,Local.RANK_NOT_FOUND.replaceAll ("#",args[1]));
@@ -74,6 +90,11 @@ public class SetGroup extends EssentialsCommand {
 		aliases.add ("setgroup");
 		aliases.add ("SETGROUP");
 		aliases.add ("Setgroup");
+		aliases.add ("SetRank");
+		aliases.add ("Setrank");
+		aliases.add ("setrank");
+		aliases.add ("setRank");
+		aliases.add ("SETRANK");
 		return aliases;
 	}
 
@@ -92,5 +113,20 @@ public class SetGroup extends EssentialsCommand {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
+		if (Settings.securityModule) {
+			LogHandler.info ("SM");
+			if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+				LogHandler.info ("T: " + super.checkPermission (server,sender));
+				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+				LogHandler.info ("S: " + SecurityUtils.isTrustedMember (player));
+				return super.checkPermission (server,sender) && SecurityUtils.isTrustedMember (player);
+			} else
+				return false;
+		} else
+			return super.checkPermission (server,sender);
 	}
 }

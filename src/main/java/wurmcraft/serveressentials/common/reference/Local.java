@@ -100,6 +100,7 @@ public class Local {
 	public static final String RANK_UP_NOTIFY = TextFormatting.RED + "# is now \"~\"";
 	public static final String NEXT_RANK = TextFormatting.GREEN + "Next Rank is \"#\"";
 	public static final String RANK_MAX = TextFormatting.RED + "Max Rank Already Reached";
+	public static final String SECURITY_MODE_PLAYER_ONLY = TextFormatting.RED + "Command can only be run by a Trusted Player";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
@@ -139,6 +140,7 @@ public class Local {
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 	public static final String CHANNEL_CHANGED = TextFormatting.RED + "You channel has been changed to #";
+	public static final String INVALID_NUMBER = TextFormatting.RED + "\"#\" is not a valid number!";
 	// Item
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";

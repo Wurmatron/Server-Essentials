@@ -12,7 +12,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.security.SecurityUtils;
+import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -83,5 +86,20 @@ public class SudoCommand extends EssentialsCommand {
 	@Override
 	public String getDescription () {
 		return "Runs a command as someone else";
+	}
+
+	@Override
+	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
+		if (Settings.securityModule) {
+			LogHandler.info ("SM");
+			if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+				LogHandler.info ("T: " + super.checkPermission (server,sender));
+				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+				LogHandler.info ("S: " + SecurityUtils.isTrustedMember (player));
+				return super.checkPermission (server,sender) && SecurityUtils.isTrustedMember (player);
+			} else
+				return false;
+		} else
+			return super.checkPermission (server,sender);
 	}
 }

@@ -535,6 +535,8 @@ public class DataHelper {
 	}
 
 	public static void saveChannel (Channel channel) {
+		if (!channelLocation.exists ())
+			channelLocation.mkdirs ();
 		if (channel != null) {
 			File channelFile = new File (channelLocation + File.separator + channel.getName () + ".json");
 			try {

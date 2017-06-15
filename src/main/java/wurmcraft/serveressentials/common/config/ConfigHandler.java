@@ -23,6 +23,8 @@ public class ConfigHandler {
 	private static Property chatFormat;
 	private static Property currencySymbol;
 	private static Property messageFormat;
+	private static Property securityModule;
+	private static Property trustedStaff;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -49,9 +51,14 @@ public class ConfigHandler {
 		chatFormat = config.get (Configuration.CATEGORY_GENERAL,"chatFormat",Defaults.CHATFORMAT,"Formatting for how the chat is displayed");
 		Settings.chatFormat = chatFormat.getString ();
 		currencySymbol = config.get (Configuration.CATEGORY_GENERAL,"currencySymbol",Defaults.CURRENCY_SYMBOL,"Symbol used for the server currency");
-		Settings.currencySymbol = "\\" + currencySymbol.getString ();
+		Settings.currencySymbol = currencySymbol.getString ();
 		messageFormat = config.get (Configuration.CATEGORY_GENERAL,"messageFormat",Defaults.MESSAGEFORMAT,"Formatting for how a message is displayed");
 		Settings.messageFormat = messageFormat.getString ();
+		trustedStaff = config.get (Configuration.CATEGORY_GENERAL,"trustedStaff","","Security protection against unauthorized \"things\"");
+		Settings.trustedStaff = trustedStaff.getString ();
+		securityModule = config.get (Configuration.CATEGORY_GENERAL,"securityModule",false,"Enable the Server-Essentials Security");
+		Settings.securityModule = securityModule.getBoolean ();
+
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");
 			config.save ();

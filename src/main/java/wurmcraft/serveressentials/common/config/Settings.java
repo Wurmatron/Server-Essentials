@@ -12,4 +12,6 @@ public class Settings {
 	public static String chatFormat;
 	public static String currencySymbol;
 	public static String messageFormat;
+	public static boolean securityModule;
+	public static String trustedStaff;
 }

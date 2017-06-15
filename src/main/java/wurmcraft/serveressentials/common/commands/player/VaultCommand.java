@@ -63,8 +63,7 @@ public class VaultCommand extends EssentialsCommand {
 				} else if (args.length == 2) {
 					if (args[0].equalsIgnoreCase ("new") || args[0].equalsIgnoreCase ("create")) {
 						if (vaults != null && vaults.length > 0)
-							for (Vault v : vaults)
-								maxVaults--;
+							maxVaults -= vaults.length;
 						if (maxVaults > 0) {
 							DataHelper.saveVault (player.getGameProfile ().getId (),new Vault (args[1],null));
 							DataHelper.loadVault (player.getGameProfile ().getId ());
