@@ -155,4 +155,6 @@ public class Local {
 	public static final String PURCHASE = TextFormatting.AQUA + "You have purchased # for @";
 	public static final String MISSING_STACK = TextFormatting.RED + "You don't have a #";
 	public static final String SELL_STACK = TextFormatting.AQUA + "# has been sold to @ for &";
+	// Security
+	public static final String SECURITY_CREATIVE_KICK = TextFormatting.RED + "You are not allowed to be in creative";
 }
