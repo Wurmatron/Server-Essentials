@@ -5,16 +5,20 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
+import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Kit;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.RankManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +70,7 @@ public class KitCommand extends EssentialsCommand {
 			} else {
 				if (DataHelper.loadedKits.size () > 0) {
 					for (Kit kit : DataHelper.loadedKits)
-						if (kit != null && kit.getName ().equalsIgnoreCase (args[0]))
+						if (kit != null && kit.getName ().equalsIgnoreCase (args[0]) && hasPerm (player,kit))
 							for (ItemStack stack : kit.getItems ())
 								addStack (player,stack);
 					ChatHelper.sendMessageTo (player,Local.KIT.replaceAll ("#",args[0]));
@@ -103,6 +107,36 @@ public class KitCommand extends EssentialsCommand {
 			player.worldObj.spawnEntityInWorld (entityItem);
 			ChatHelper.sendMessageTo (player,Local.FULL_INV);
 			return true;
+		}
+		return false;
+	}
+
+	private boolean hasPerm (EntityPlayer player,Kit kit) {
+		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+		IRank rank = data.getRank ();
+		if (rank.getPermissions ().length > 0)
+			for (String perm : rank.getPermissions ())
+				if (perm != null)
+					if (perm.equalsIgnoreCase ("kit." + kit.getName ())) {
+						return true;
+					} else if (perm.startsWith ("*")) {
+						return true;
+					} else if (perm.endsWith ("*") && ("kit." + kit.getName ()).startsWith (perm.substring (0,perm.indexOf ("*"))))
+						return true;
+		if (rank.getInheritance () != null && rank.getInheritance ().length > 0) {
+			for (String preRank : rank.getInheritance ())
+				if (RankManager.getRankFromName (preRank) != null) {
+					IRank tempRank = RankManager.getRankFromName (preRank);
+					if (tempRank.getPermissions ().length > 0)
+						for (String perm : tempRank.getPermissions ())
+							if (perm != null)
+								if (perm.equalsIgnoreCase ("kit." + kit.getName ())) {
+									return true;
+								} else if (perm.startsWith ("*")) {
+									return true;
+								} else if (perm.endsWith ("*") && ("kit." + kit.getName ()).startsWith (perm.substring (0,perm.indexOf ("*"))))
+									return true;
+				}
 		}
 		return false;
 	}

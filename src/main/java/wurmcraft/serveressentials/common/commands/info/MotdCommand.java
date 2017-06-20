@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- TODO Fix Deleting all Bug
- */
 public class MotdCommand extends EssentialsCommand {
 
 	private static final int LIST_SIZE = 7;
