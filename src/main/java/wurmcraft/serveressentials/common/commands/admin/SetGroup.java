@@ -118,11 +118,8 @@ public class SetGroup extends EssentialsCommand {
 	@Override
 	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
 		if (Settings.securityModule) {
-			LogHandler.info ("SM");
 			if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-				LogHandler.info ("T: " + super.checkPermission (server,sender));
 				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-				LogHandler.info ("S: " + SecurityUtils.isTrustedMember (player));
 				return super.checkPermission (server,sender) && SecurityUtils.isTrustedMember (player);
 			} else
 				return false;
