@@ -44,6 +44,6 @@ public class WebsiteCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		ChatHelper.sendMessageTo (sender, "Website: " + DataHelper.globalSettings.getWebsite ());
+		ChatHelper.sendMessageTo (sender,"Website: " + DataHelper.globalSettings.getWebsite ());
 	}
 }

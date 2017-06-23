@@ -89,7 +89,7 @@ public class Local {
 	public static final String KIT_REMOVED = TextFormatting.AQUA + "Kit \"#\" removed!";
 	public static final String NO_KITS = TextFormatting.RED + "No Kits";
 	public static final String FULL_INV = TextFormatting.RED + "Inventory full dropping items in the world.";
-	public static final String KIT= TextFormatting.AQUA + "Kit \"#\" placed in your inventory!";
+	public static final String KIT = TextFormatting.AQUA + "Kit \"#\" placed in your inventory!";
 	public static final String SPY = TextFormatting.AQUA + "Chat Spy #";
 	public static final String SPY_OTHER = TextFormatting.AQUA + "Chat Spy # for &";
 	public static final String NICKNAME = TextFormatting.AQUA + "Nickname changed to #";

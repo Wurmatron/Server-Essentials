@@ -58,7 +58,6 @@ public class PlayerData {
 
 	public String addHome (Home home) {
 		if (home != null && homes != null && home.getName () != null) {
-			boolean temp = false;
 			for (int index = 0; index < homes.length; index++) {
 				if (homes[index] != null && homes[index].getName ().equalsIgnoreCase (home.getName ())) {
 					homes[index] = home;
@@ -85,11 +84,11 @@ public class PlayerData {
 		return Local.HOME_ERROR_DELETION.replaceAll ("#",name);
 	}
 
-	public long getTeleport_timer () {
+	public long getTeleportTimer () {
 		return teleport_timer;
 	}
 
-	public void setTeleport_timer (long time) {
+	public void setTeleportTimer (long time) {
 		teleport_timer = time;
 	}
 
@@ -221,11 +220,11 @@ public class PlayerData {
 		this.nickname = nickname;
 	}
 
-	public void setFirstJoin() {
+	public void setFirstJoin () {
 		this.firstJoin = System.currentTimeMillis ();
 	}
 
-	public long getFirstJoin() {
+	public long getFirstJoin () {
 		return this.firstJoin;
 	}
 

@@ -9,8 +9,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wurmcraft.serveressentials.common.api.storage.Claim;
-import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.reference.Local;
 
 public class ClaimEvent {
 
@@ -38,33 +38,27 @@ public class ClaimEvent {
 	@SubscribeEvent
 	public void onRightClickBlock (PlayerInteractEvent.RightClickBlock e) {
 		Claim claim = ChunkManager.getClaim (e.getPos ());
-		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
-			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
-				e.setCanceled (true);
-				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
-			}
+		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ()) && !ChunkManager.isItemSafe (e.getItemStack ())) {
+			e.setCanceled (true);
+			ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 		}
 	}
 
 	@SubscribeEvent
 	public void onLeftClickBlock (PlayerInteractEvent.LeftClickBlock e) {
 		Claim claim = ChunkManager.getClaim (e.getPos ());
-		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
-			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
-				e.setCanceled (true);
-				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
-			}
+		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ()) && !ChunkManager.isItemSafe (e.getItemStack ())) {
+			e.setCanceled (true);
+			ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 		}
 	}
 
 	@SubscribeEvent
 	public void onRightClickItem (PlayerInteractEvent.RightClickItem e) {
 		Claim claim = ChunkManager.getClaim (e.getPos ());
-		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
-			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
-				e.setCanceled (true);
-				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
-			}
+		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ()) && !ChunkManager.isItemSafe (e.getItemStack ())) {
+			e.setCanceled (true);
+			ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 		}
 	}
 

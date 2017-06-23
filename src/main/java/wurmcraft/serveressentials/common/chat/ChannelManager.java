@@ -3,7 +3,6 @@ package wurmcraft.serveressentials.common.chat;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.LoadHelper;
 
 import java.util.*;
 

@@ -68,7 +68,7 @@ public class MoneyCommand extends EssentialsCommand {
 					if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
 						found = true;
 						PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-						ChatHelper.sendMessageTo (sender,Local.CURRENT_MONEY_OTHER.replaceAll ("#","" + UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%", "" + data.getMoney ()));
+						ChatHelper.sendMessageTo (sender,Local.CURRENT_MONEY_OTHER.replaceAll ("#","" + UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%","" + data.getMoney ()));
 					}
 				if (!found)
 					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));

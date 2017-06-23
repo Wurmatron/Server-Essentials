@@ -82,9 +82,8 @@ public class GameModeCommand extends EssentialsCommand {
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
-		if (args.length == 2)
-			if (sender instanceof EntityPlayer)
-				Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+		if (args.length == 2 && sender instanceof EntityPlayer)
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
 	}
 

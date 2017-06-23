@@ -6,8 +6,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class BroadcastCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List<String> getCommandAliases () {
-		List <String> aliases = new ArrayList<> ();
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
 		aliases.add ("Broadcast");
 		aliases.add ("BROADCAST");
 		aliases.add ("bc");
@@ -43,7 +43,7 @@ public class BroadcastCommand extends EssentialsCommand {
 		if (args.length > 0)
 			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Strings.join (args," ")));
 		else
-			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

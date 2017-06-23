@@ -13,7 +13,6 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
 import java.util.ArrayList;
@@ -55,8 +54,8 @@ public class AutoRankCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (player,Local.RANK_MAX);
 		} else if (args.length == 1) {
 			boolean hasNext = false;
-			for(EntityPlayer player : server.getPlayerList ().getPlayerList ())
-				if(UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
+			for (EntityPlayer player : server.getPlayerList ().getPlayerList ())
+				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
 					PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
 					for (AutoRank autoRank : DataHelper.loadedAutoRanks)
 						if (autoRank.getRank ().equalsIgnoreCase (data.getRank ().getName ())) {

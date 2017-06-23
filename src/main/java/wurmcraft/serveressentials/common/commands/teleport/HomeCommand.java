@@ -54,7 +54,7 @@ public class HomeCommand extends EssentialsCommand {
 		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 		if (args.length == 0) {
 			Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (Settings.home_name);
-			long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
+			long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleportTimer ();
 			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
 				DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 				player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
@@ -82,7 +82,7 @@ public class HomeCommand extends EssentialsCommand {
 					ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
 			} else {
 				Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
-				long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
+				long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleportTimer ();
 				if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
 					DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 					player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());

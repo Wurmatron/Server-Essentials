@@ -60,7 +60,7 @@ public class DelWarp extends EssentialsCommand {
 				DataHelper.deleteWarp (DataHelper.getWarp (args[0]));
 				ChatHelper.sendMessageTo (sender,Local.WARP_DELETE.replaceAll ("#",warp.getName ()));
 			} else
-				ChatHelper.sendMessageTo (sender, Local.WARP_NAME);
+				ChatHelper.sendMessageTo (sender,Local.WARP_NAME);
 		} else
 			ChatHelper.sendMessageTo (sender,Local.WARPS_NONE);
 	}

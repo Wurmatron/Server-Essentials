@@ -56,7 +56,7 @@ public class TeleportUtils {
 	}
 
 	public static String getRemainingCooldown (UUID uuid) {
-		return getRemainingCooldown (DataHelper.getPlayerData (uuid).getTeleport_timer ());
+		return getRemainingCooldown (DataHelper.getPlayerData (uuid).getTeleportTimer ());
 	}
 
 	public static String getRemainingCooldown (long playerTimer) {
@@ -65,7 +65,7 @@ public class TeleportUtils {
 
 	public static boolean canTeleport (UUID uuid) {
 		if (uuid != null && DataHelper.getPlayerData (uuid) != null) {
-			long teleport_timer = DataHelper.getPlayerData (uuid).getTeleport_timer ();
+			long teleport_timer = DataHelper.getPlayerData (uuid).getTeleportTimer ();
 			return teleport_timer + (Settings.teleport_cooldown * 1000) <= System.currentTimeMillis ();
 		}
 		return false;
@@ -99,7 +99,7 @@ public class TeleportUtils {
 			readable = readable + temp + " minute";
 			if (temp > 1)
 				readable = readable + "s";
-			if (!readable.equals ("") && duration >= ONE_SECOND)
+			if (!"".equalsIgnoreCase (readable) && ONE_SECOND <= duration)
 				readable = readable + " and ";
 			temp = duration / ONE_SECOND;
 			if (temp > 0)

@@ -43,7 +43,7 @@ public class SpawnCommand extends EssentialsCommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender;
-		long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleport_timer ();
+		long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleportTimer ();
 		if (DataHelper.globalSettings.getSpawn () != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
 			SpawnPoint spawn = DataHelper.globalSettings.getSpawn ();
 			DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());

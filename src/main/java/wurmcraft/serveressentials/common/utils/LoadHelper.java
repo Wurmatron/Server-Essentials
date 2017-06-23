@@ -21,7 +21,6 @@ import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
 import wurmcraft.serveressentials.common.reference.Perm;
 
-import javax.xml.crypto.Data;
 import java.util.UUID;
 
 public class LoadHelper {

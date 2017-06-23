@@ -2,10 +2,8 @@ package wurmcraft.serveressentials.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import joptsimple.internal.Strings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -163,7 +161,7 @@ public class DataHelper {
 			data = loadPlayerData (name);
 		if (data != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
-			data.setTeleport_timer (System.currentTimeMillis ());
+			data.setTeleportTimer (System.currentTimeMillis ());
 			try {
 				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
 				reloadPlayerData (name);
@@ -912,12 +910,10 @@ public class DataHelper {
 		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
 		if (loadedAutoRanks.size () > 0)
 			for (AutoRank autoRank : loadedAutoRanks)
-				if (autoRank.getRank ().equalsIgnoreCase (data.getRank ().getName ())) {
-					if (autoRank.getPlayTime () <= data.getOnlineTime () && autoRank.getBalance () <= data.getMoney () && autoRank.getExp () <= player.experienceLevel) {
-						setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (autoRank.getNextRank ()));
-						ChatHelper.sendMessageTo (player,Local.RANK_UP.replaceAll ("#",RankManager.getRankFromName (autoRank.getNextRank ()).getName ()));
-						FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.RANK_UP_NOTIFY.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("~",RankManager.getRankFromName (autoRank.getNextRank ()).getName ())));
-					}
+				if (autoRank.getRank ().equalsIgnoreCase (data.getRank ().getName ()) && autoRank.getPlayTime () <= data.getOnlineTime () && autoRank.getBalance () <= data.getMoney () && autoRank.getExp () <= player.experienceLevel) {
+					setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (autoRank.getNextRank ()));
+					ChatHelper.sendMessageTo (player,Local.RANK_UP.replaceAll ("#",RankManager.getRankFromName (autoRank.getNextRank ()).getName ()));
+					FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.RANK_UP_NOTIFY.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("~",RankManager.getRankFromName (autoRank.getNextRank ()).getName ())));
 				}
 	}
 

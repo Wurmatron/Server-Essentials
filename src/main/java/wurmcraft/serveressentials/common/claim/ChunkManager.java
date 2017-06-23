@@ -256,19 +256,12 @@ public class ChunkManager {
 				return claim.getOwner ().equals (uuid);
 		}
 		return false;
-		//				if (claim != null && uuid != null) {
-		//						Team team = claim.getTeam(); if (team != null) {
-		//								if (team.getMembers().size() > 0) for (UUID members : team.getMembers().keySet())
-		//										if (members.equals(uuid)) return true; return claim.getOwner().equals(uuid);
-		//						} return claim.getOwner().equals(uuid);
-		//				} return false;
 	}
 
 	public static void loadAllClaims () {
 		if (SAVE_LOCATION.exists () && SAVE_LOCATION.listFiles ().length > 0)
-			for (File file : SAVE_LOCATION.listFiles ()) {
+			for (File file : SAVE_LOCATION.listFiles ())
 				loadRegion (convertClaimFileNameToLocation (file));
-			}
 	}
 
 	public static Location convertClaimFileNameToLocation (File file) {
@@ -289,10 +282,7 @@ public class ChunkManager {
 			if (claim.getOwner ().equals (uuid))
 				return true;
 			Team team = claim.getTeam ();
-			if (team != null) {
-				if (team.getLeader ().equals (uuid))
-					return true;
-			}
+			return team != null && team.getLeader ().equals (uuid);
 		}
 		return false;
 	}
