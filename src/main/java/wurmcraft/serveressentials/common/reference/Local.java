@@ -116,6 +116,8 @@ public class Local {
 	public static final String TELEPORT_TO = TextFormatting.GREEN + "You have been teleported to #";
 	public static final String TELEPORTED_FROM = TextFormatting.AQUA + "# has been teleported to %";
 	public static final String INVALID_HOME_NAME = TextFormatting.RED + "Home Name \"#\" invalid!";
+	public static final String NO_TPA = TextFormatting.AQUA + "No pending TPA Requests";
+	public static final String TPA_SELF = TextFormatting.RED + "You cannot send a request to yourself";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";

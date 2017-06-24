@@ -41,7 +41,8 @@ public class TpacceptCommand extends EssentialsCommand {
 					DataHelper.activeRequests.remove (time);
 				}
 			}
-		}
+		} else
+			ChatHelper.sendMessageTo (sender,Local.NO_TPA);
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
-import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -43,13 +42,12 @@ public class SetWarpCommand extends EssentialsCommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
-		if (args.length != 1)
-			ChatHelper.sendMessageTo (sender,Local.WARP_NAME);
-		else {
+		if (args.length == 1) {
 			EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 			Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
 			ChatHelper.sendMessageTo (player,DataHelper.createWarp (warp),hoverEvent (warp));
-		}
+		} else
+			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
 	}
 
 	public HoverEvent hoverEvent (Warp home) {

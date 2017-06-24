@@ -68,11 +68,17 @@ public class KitCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (player,TextFormatting.DARK_AQUA + "Kit: " + TextFormatting.AQUA + Strings.join (kitNames," "));
 			} else {
 				if (DataHelper.loadedKits.size () > 0) {
+					boolean found = false;
 					for (Kit kit : DataHelper.loadedKits)
-						if (kit != null && kit.getName ().equalsIgnoreCase (args[0]) && hasPerm (player,kit))
+						if (kit != null && kit.getName ().equalsIgnoreCase (args[0]) && hasPerm (player,kit)) {
+							found = true;
 							for (ItemStack stack : kit.getItems ())
 								addStack (player,stack);
-					ChatHelper.sendMessageTo (player,Local.KIT.replaceAll ("#",args[0]));
+						}
+					if (!found)
+						ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.KIT_NOTFOUND.replaceAll ("#",args[0]));
+					else
+						ChatHelper.sendMessageTo (player,Local.KIT.replaceAll ("#",args[0]));
 				} else
 					ChatHelper.sendMessageTo (player,Local.NO_KITS);
 			}

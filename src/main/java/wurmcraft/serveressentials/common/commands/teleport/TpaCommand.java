@@ -40,6 +40,10 @@ public class TpaCommand extends EssentialsCommand {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender;
 		if (args.length == 1) {
+			if(args[0].equalsIgnoreCase (player.getDisplayNameString ())) {
+				ChatHelper.sendMessageTo (player, Local.TPA_SELF);
+				return;
+			}
 			PlayerList players = server.getServer ().getPlayerList ();
 			if (players.getPlayerList ().size () > 0) {
 				boolean found = false;

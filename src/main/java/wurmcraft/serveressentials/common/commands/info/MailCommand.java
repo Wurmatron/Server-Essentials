@@ -92,7 +92,8 @@ public class MailCommand extends EssentialsCommand {
 					ChatHelper.sendMessageTo (player,Local.MAIL_REMOVED);
 				} else
 					ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
-			}
+			} else
+				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
