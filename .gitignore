@@ -12,6 +12,8 @@ out
 *.iws
 *.iml
 .idea
+classes/
+*intellij.xml*
 
 # gradle
 build
