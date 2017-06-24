@@ -33,7 +33,7 @@ public class ChatHelper {
 		return StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,TextFormatting.RESET + message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
 	}
 
-	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent,int index) {
+	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent, Void differentiator) {
 		TextComponentString msg = new TextComponentString (message);
 		if (clickEvent != null)
 			msg.getStyle ().setClickEvent (clickEvent);

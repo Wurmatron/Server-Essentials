@@ -71,14 +71,14 @@ public class HelpCommand extends EssentialsCommand {
 				b.append(Local.SPACER.substring(0, startPos-1) + nPage);
 				b.append(Local.SPACER.substring(0, chatWidth-b.length()));
 				if (start/8==0) ChatHelper.sendMessageTo(sender, TextFormatting.RED + b.toString());
-				else ChatHelper.sendMessageTo(sender, TextFormatting.RED + b.toString(), clickEvent((start/8)-1));
+				else ChatHelper.sendMessageTo(sender, TextFormatting.RED + b.toString(), clickEvent((start/8)-1), null);
 				for (int index = start; index < (start + 8); index++)
 					if (index < prunedAliases.size()) {
 						TextComponentTranslation temp = new TextComponentTranslation (formatCommand (sender,(ICommand) prunedAliases.values().toArray()[index]));
 						temp.setStyle (new Style ().setColor (TextFormatting.DARK_AQUA));
 						sender.addChatMessage (temp);
 					}
-				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER,clickEvent ((start / 8) + 1));
+				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER,clickEvent ((start / 8) + 1), null);
 			}
 		} catch (NumberFormatException e) {
 			ChatHelper.sendMessageTo (sender,Local.INVALID_NUMBER.replaceAll ("#",args[0]));
