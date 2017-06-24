@@ -4,6 +4,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -13,9 +15,6 @@ import wurmcraft.serveressentials.common.reference.Local;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- TODO FIX Localization of Vanilla Commands
- */
 public class HelpCommand extends EssentialsCommand {
 
 	public HelpCommand (String perm) {
@@ -52,8 +51,11 @@ public class HelpCommand extends EssentialsCommand {
 				else
 					ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER.substring (0,19) + " Page # ".replaceAll ("#","" + start / 8) + Local.SPACER.substring (22,49),clickEvent ((start / 8) - 1),0);
 				for (int index = start; index < (start + 8); index++)
-					if (index < server.commandManager.getCommands ().size ())
-						ChatHelper.sendMessageTo (sender,formatCommand (sender,(ICommand) server.commandManager.getCommands ().values ().toArray ()[index]));
+					if (index < server.commandManager.getCommands ().size ()) {
+						TextComponentTranslation temp = new TextComponentTranslation (formatCommand (sender,(ICommand) server.commandManager.getCommands ().values ().toArray ()[index]));
+						temp.setStyle (new Style ().setColor (TextFormatting.DARK_AQUA));
+						sender.addChatMessage (temp);
+					}
 				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER,clickEvent ((start / 8) + 1),0);
 			}
 		} catch (NumberFormatException e) {
@@ -65,7 +67,7 @@ public class HelpCommand extends EssentialsCommand {
 		if (command instanceof EssentialsCommand)
 			return TextFormatting.AQUA + "/" + command.getCommandName () + " | " + TextFormatting.DARK_AQUA + ((EssentialsCommand) command).getDescription ();
 		else
-			return TextFormatting.AQUA + "/" + command.getCommandName () + " | " + TextFormatting.DARK_AQUA + command.getCommandUsage (sender);
+			return command.getCommandUsage (sender);
 	}
 
 	private ClickEvent clickEvent (int index) {
