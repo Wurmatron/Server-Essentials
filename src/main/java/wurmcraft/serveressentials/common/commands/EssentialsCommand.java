@@ -37,16 +37,17 @@ public class EssentialsCommand extends CommandBase {
 			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
-	private static boolean checkPerms(IRank rank, String perm) {
-		if (rank.getPermissions ().length > 0)
-			for (String rPerm : rank.getPermissions ())
-				if (rPerm != null)
-					if (rPerm.equalsIgnoreCase (perm)) {
-						return true;
-					} else if (rPerm.startsWith ("*")) {
-						return true;
-					} else if (rPerm.endsWith ("*") && perm.startsWith (rPerm.substring (0,rPerm.indexOf ("*"))))
-						return true;
+	public static boolean checkPerms (IRank rank,String perm) {
+		if (rank != null)
+			if (rank.getPermissions ().length > 0)
+				for (String rPerm : rank.getPermissions ())
+					if (rPerm != null)
+						if (rPerm.equalsIgnoreCase (perm)) {
+							return true;
+						} else if (rPerm.startsWith ("*")) {
+							return true;
+						} else if (rPerm.endsWith ("*") && perm.startsWith (rPerm.substring (0,rPerm.indexOf ("*"))))
+							return true;
 		return false;
 	}
 
@@ -55,12 +56,14 @@ public class EssentialsCommand extends CommandBase {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			IRank rank = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getRank ();
-			if (checkPerms(rank, this.perm)) return true;
+			if (checkPerms (rank,this.perm))
+				return true;
 			if (rank.getInheritance () != null && rank.getInheritance ().length > 0) {
 				for (String preRank : rank.getInheritance ())
 					if (RankManager.getRankFromName (preRank) != null) {
 						IRank tempRank = RankManager.getRankFromName (preRank);
-						if (checkPerms(tempRank, this.perm)) return true;
+						if (checkPerms (tempRank,this.perm))
+							return true;
 					}
 			}
 		} else if (sender.getCommandSenderEntity () == null)

@@ -41,7 +41,7 @@ public class BroadcastCommand extends EssentialsCommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0)
-			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Strings.join (args," ")));
+			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Strings.join (args," ").replaceAll ("&","\u00A7")));
 		else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}

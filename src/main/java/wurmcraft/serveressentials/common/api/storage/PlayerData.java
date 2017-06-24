@@ -101,7 +101,8 @@ public class PlayerData {
 	}
 
 	public void removeMail (int index) {
-		currentMail.remove (index);
+		if (index < currentMail.size ())
+			currentMail.remove (index);
 	}
 
 	public long getLastseen () {

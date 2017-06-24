@@ -5,14 +5,18 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.Mail;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MailCommand extends EssentialsCommand {
@@ -65,6 +69,7 @@ public class MailCommand extends EssentialsCommand {
 								Mail mail = new Mail (player.getGameProfile ().getId (),p.getGameProfile ().getId (),Strings.join (messageLines," "));
 								DataHelper.addMail (mail);
 								ChatHelper.sendMessageTo (player,Local.MAIL_SENT);
+								ChatHelper.sendMessageTo (p,Local.HAS_MAIL);
 							} else
 								ChatHelper.sendMessageTo (player,Local.MISSING_MESSAGE);
 						}
@@ -75,13 +80,14 @@ public class MailCommand extends EssentialsCommand {
 				if (playerMail.size () > 0) {
 					ChatHelper.sendMessageTo (player,Local.SPACER);
 					for (int index = 0; index < playerMail.size (); index++)
-						ChatHelper.sendMessageTo (player,"[" + index + "] " + UsernameCache.getLastKnownUsername (playerMail.get (index).getSender ()) + " " + playerMail.get (index).getMessage ());
+						ChatHelper.sendMessageTo (player,"[" + index + "] " + UsernameCache.getLastKnownUsername (playerMail.get (index).getSender ()) + " " + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7"));
 					ChatHelper.sendMessageTo (player,Local.SPACER);
 				} else
 					ChatHelper.sendMessageTo (player,Local.NO_MAIL);
 			} else if (args[0].equalsIgnoreCase ("delete") || args[0].equalsIgnoreCase ("del")) {
 				if (args.length >= 2) {
 					Integer mailNo = Integer.valueOf (args[1]);
+
 					DataHelper.removeMail (player.getGameProfile ().getId (),mailNo);
 					ChatHelper.sendMessageTo (player,Local.MAIL_REMOVED);
 				} else
@@ -89,5 +95,14 @@ public class MailCommand extends EssentialsCommand {
 			}
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+	}
+
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		List <String> list = new ArrayList <> ();
+		if (sender instanceof EntityPlayer)
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+		return list;
 	}
 }

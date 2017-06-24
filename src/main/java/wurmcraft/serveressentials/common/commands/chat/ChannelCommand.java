@@ -57,12 +57,16 @@ public class ChannelCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (player,Strings.join (channelNames,", "));
 			} else {
 				Channel channel = ChannelManager.getFromName (args[0]);
-				if (channel != null) {
+				if (channel != null && EssentialsCommand.checkPerms (DataHelper.getPlayerData (player.getGameProfile ().getId ()).getRank (),"channel." + channel.getName ())) {
 					DataHelper.setChannel (player.getGameProfile ().getId (),channel);
 					ChatHelper.sendMessageTo (player,Local.CHANNEL_CHANGED.replaceAll ("#",channel.getName ()));
-				}
+				} else if (channel != null)
+					ChatHelper.sendMessageTo (player,Local.CHANNEL_PERMS.replaceAll ("#",channel.getName ()));
+				else
+					ChatHelper.sendMessageTo (player,Local.CHANNEL_INVALID.replaceAll ("#",channel.getName ()));
 			}
-		}
+		} else
+			ChatHelper.sendMessageTo (player,getCommandUsage (sender));
 	}
 
 	@Override

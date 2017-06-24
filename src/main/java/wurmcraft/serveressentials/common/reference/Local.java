@@ -42,7 +42,7 @@ public class Local {
 	public static final String TOP = TextFormatting.GREEN + "You have been teleport to the top";
 	public static final String SKULL = TextFormatting.AQUA + "#'s head has been placed in your inventory!";
 	public static final String PLAYER_ONLY = TextFormatting.RED + "Command can only be run by players!";
-	public static final String AFK_NOW = TextFormatting.RED + "# is not afk!";
+	public static final String AFK_NOW = TextFormatting.RED + "# is now afk!";
 	public static final String AFK_OFF = TextFormatting.RED + "# is no longer afk!";
 	public static final String PING_REPLY = TextFormatting.AQUA + "NepNep NepNep Nep?";
 	// Player
@@ -141,6 +141,8 @@ public class Local {
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 	public static final String CHANNEL_CHANGED = TextFormatting.RED + "You channel has been changed to #";
+	public static final String CHANNEL_PERMS = TextFormatting.RED + "You dont have permission to join \"#\"";
+	public static final String CHANNEL_INVALID = TextFormatting.RED + "Channel \"#\" does not exist!";
 	public static final String INVALID_NUMBER = TextFormatting.RED + "\"#\" is not a valid number!";
 	// Item
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
