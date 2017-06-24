@@ -1,5 +1,6 @@
 package wurmcraft.serveressentials.common.event;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -31,5 +32,7 @@ public class PlayerJoinEvent {
 		if (!DataHelper.joinTime.containsKey (e.player.getGameProfile ().getId ()))
 			DataHelper.joinTime.put (e.player.getGameProfile ().getId (),System.currentTimeMillis ());
 		DataHelper.handleAndUpdatePlayTime ();
+		if (DataHelper.getPlayerData (e.player.getGameProfile ().getId ()).isFrozen ())
+			PlayerTickEvent.addFrozen (e.player,new BlockPos (e.player.posX,e.player.posY,e.player.posZ));
 	}
 }

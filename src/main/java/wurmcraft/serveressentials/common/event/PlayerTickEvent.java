@@ -29,6 +29,7 @@ public class PlayerTickEvent {
 		if (!frozenPlayers.keySet ().contains (player)) {
 			player.capabilities.disableDamage = true;
 			frozenPlayers.put (player,pos);
+			DataHelper.setFrozen (player.getGameProfile ().getId (),true);
 		}
 	}
 
@@ -36,6 +37,7 @@ public class PlayerTickEvent {
 		if (frozenPlayers.size () > 0 && frozenPlayers.keySet ().contains (player)) {
 			frozenPlayers.remove (player);
 			player.capabilities.disableDamage = false;
+			DataHelper.setFrozen (player.getGameProfile ().getId (),false);
 		}
 	}
 

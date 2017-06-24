@@ -34,6 +34,7 @@ public class PlayerData {
 	private boolean spy;
 	private long firstJoin;
 	private int onlineTime;
+	private boolean isFrozen;
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -235,5 +236,13 @@ public class PlayerData {
 
 	public void setOnlineTime (int onlineTime) {
 		this.onlineTime = onlineTime;
+	}
+
+	public boolean isFrozen () {
+		return isFrozen;
+	}
+
+	public void setFrozen (boolean frozen) {
+		isFrozen = frozen;
 	}
 }

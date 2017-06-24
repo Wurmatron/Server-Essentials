@@ -24,5 +24,7 @@ public class PlayerQuitEvent {
 			DataHelper.handleAndUpdatePlayTime (e.player);
 			DataHelper.joinTime.remove (e.player.getGameProfile ().getId ());
 		}
+		if (PlayerTickEvent.isFrozen (e.player))
+			PlayerTickEvent.removeFrozen (e.player);
 	}
 }

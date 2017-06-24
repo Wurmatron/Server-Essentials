@@ -203,6 +203,22 @@ public class DataHelper {
 		}
 	}
 
+	public static void setFrozen (UUID name,boolean frozen) {
+		PlayerData data = getPlayerData (name);
+		File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			data.setFrozen (frozen);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
 	public static void addMail (Mail mail) {
 		PlayerData data = getPlayerData (mail.getReciver ());
 		boolean wasLoaded = true;
