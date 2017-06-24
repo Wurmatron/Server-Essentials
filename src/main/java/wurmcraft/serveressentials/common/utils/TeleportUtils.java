@@ -19,15 +19,6 @@ public class TeleportUtils {
 	private final static long ONE_HOUR = ONE_MINUTE * 60;
 	private final static long ONE_DAY = ONE_HOUR * 24;
 
-	public static void teleportTo (MinecraftServer server,UUID uuid,BlockPos pos,boolean timer) {
-		PlayerList players = server.getPlayerList ();
-		if (players.getCurrentPlayerCount () > 0) {
-			for (EntityPlayer player : players.getPlayerList ())
-				if (player.getGameProfile ().getId ().equals (uuid))
-					teleportTo (player,pos,timer);
-		}
-	}
-
 	public static void teleportTo (EntityPlayer player,BlockPos pos,boolean timer) {
 		if (player != null && pos != null) {
 			DataHelper.setLastLocation (player.getGameProfile ().getId (),new BlockPos (player.posX,player.posY,player.posZ));

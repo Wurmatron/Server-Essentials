@@ -33,7 +33,7 @@ public class ChatHelper {
 		return StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,TextFormatting.RESET + message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
 	}
 
-	public static void sendMessageTo(ICommandSender sender, String message, ClickEvent clickEvent) {
+	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent,int index) {
 		TextComponentString msg = new TextComponentString (message);
 		if (clickEvent != null)
 			msg.getStyle ().setClickEvent (clickEvent);
@@ -68,7 +68,7 @@ public class ChatHelper {
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message) {
-		sendMessageTo (player,message);
+		sendMessageTo (player,message,null);
 	}
 
 	public static void sendMessageTo (ICommandSender sender,String message) {
