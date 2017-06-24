@@ -39,7 +39,8 @@ public class RemoveClaimCommand extends EssentialsCommand {
 				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
 				ChatHelper.sendMessageTo (player,Local.CLAIM_REMOVED);
 			}
-		}
+		} else
+			ChatHelper.sendMessageTo (player, Local.MISSING_CLAIM);
 	}
 
 	@Override

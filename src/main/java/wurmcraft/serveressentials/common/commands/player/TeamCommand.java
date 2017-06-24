@@ -51,7 +51,6 @@ public class TeamCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (args.length > 0) {
 				if (args[0].equalsIgnoreCase ("create")) {
@@ -141,11 +140,15 @@ public class TeamCommand extends EssentialsCommand {
 				}
 			} else
 				ChatHelper.sendMessageTo (player,getCommandUsage (player));
-		}
 	}
 
 	@Override
 	public String getDescription () {
 		return "Handles anything to do with joining, creating,leaving and showing info about teams";
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }

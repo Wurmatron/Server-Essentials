@@ -45,23 +45,21 @@ public class ChannelCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (args.length == 0)
-				execute (server,sender,new String[] {"list"});
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase ("list")) {
-					List <Channel> channels = ChannelManager.getChannels ();
-					List <String> channelNames = new ArrayList <> ();
-					for (Channel channel : channels)
-						channelNames.add (channel.getName ());
-					ChatHelper.sendMessageTo (player,Strings.join (channelNames,", "));
-				} else {
-					Channel channel = ChannelManager.getFromName (args[0]);
-					if (channel != null) {
-						DataHelper.setChannel (player.getGameProfile ().getId (),channel);
-						ChatHelper.sendMessageTo (player,Local.CHANNEL_CHANGED.replaceAll ("#",channel.getName ()));
-					}
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		if (args.length == 0)
+			execute (server,sender,new String[] {"list"});
+		if (args.length == 1) {
+			if (args[0].equalsIgnoreCase ("list")) {
+				List <Channel> channels = ChannelManager.getChannels ();
+				List <String> channelNames = new ArrayList <> ();
+				for (Channel channel : channels)
+					channelNames.add (channel.getName ());
+				ChatHelper.sendMessageTo (player,Strings.join (channelNames,", "));
+			} else {
+				Channel channel = ChannelManager.getFromName (args[0]);
+				if (channel != null) {
+					DataHelper.setChannel (player.getGameProfile ().getId (),channel);
+					ChatHelper.sendMessageTo (player,Local.CHANNEL_CHANGED.replaceAll ("#",channel.getName ()));
 				}
 			}
 		}
@@ -81,5 +79,10 @@ public class ChannelCommand extends EssentialsCommand {
 	@Override
 	public String getDescription () {
 		return "Handles changing of channels";
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }

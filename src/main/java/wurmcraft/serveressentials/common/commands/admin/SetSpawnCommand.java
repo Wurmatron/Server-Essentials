@@ -42,13 +42,10 @@ public class SetSpawnCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			DataHelper.globalSettings.setSpawn (new SpawnPoint (player.getPosition (),player.rotationYaw,player.rotationPitch));
-			player.worldObj.setSpawnPoint (player.getPosition ());
-			ChatHelper.sendMessageTo (player,Local.SPAWN_SET.replaceAll ("@","" + DataHelper.globalSettings.getSpawn ().dimension),hoverEvent (DataHelper.globalSettings.getSpawn ()));
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		EntityPlayer player = (EntityPlayer) sender;
+		DataHelper.globalSettings.setSpawn (new SpawnPoint (player.getPosition (),player.rotationYaw,player.rotationPitch));
+		player.worldObj.setSpawnPoint (player.getPosition ());
+		ChatHelper.sendMessageTo (player,Local.SPAWN_SET.replaceAll ("@","" + DataHelper.globalSettings.getSpawn ().dimension),hoverEvent (DataHelper.globalSettings.getSpawn ()));
 	}
 
 	public HoverEvent hoverEvent (SpawnPoint home) {
@@ -58,5 +55,10 @@ public class SetSpawnCommand extends EssentialsCommand {
 	@Override
 	public String getDescription () {
 		return "Sets the worlds spawn point";
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }

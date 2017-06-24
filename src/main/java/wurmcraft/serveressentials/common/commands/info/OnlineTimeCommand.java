@@ -47,7 +47,8 @@ public class OnlineTimeCommand extends EssentialsCommand {
 			for (EntityPlayerMP player : server.getPlayerList ().getPlayerList ())
 				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0]))
 					ChatHelper.sendMessageTo (player,TeleportUtils.convertToHumanReadable (DataHelper.getPlayerData (player.getGameProfile ().getId ()).getOnlineTime () * 60000));
-		}
+		} else
+			ChatHelper.sendMessageTo (sender ,getCommandUsage (sender));
 	}
 
 	@Override

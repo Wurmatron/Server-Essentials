@@ -137,6 +137,7 @@ public class Local {
 	public static final String CHUNK_CLAIMED = TextFormatting.AQUA + "This chunk has been claimed!";
 	public static final String CHUNK_ALREADY_CLAIMED = TextFormatting.RED + "This chunk has already been claimed!";
 	public static final String CLAIM_REMOVED = TextFormatting.RED + "This claim has been removed!";
+	public static final String MISSING_CLAIM = TextFormatting.RED + "No Claim Found!";
 	// Chat
 	public static final String SPACER = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 	public static final String CHANNEL_CHANGED = TextFormatting.RED + "You channel has been changed to #";

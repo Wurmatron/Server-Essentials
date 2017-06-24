@@ -39,15 +39,14 @@ public class SpeedCommand extends EssentialsCommand {
 			player.capabilities.readCapabilitiesFromNBT (tagCompound);
 			player.sendPlayerAbilities ();
 			ChatHelper.sendMessageTo (sender,Local.SPEED_CHANGED.replaceAll ("#","" + speed));
-		} else if (args.length == 0) {
+		} else  {
 			NBTTagCompound tagCompound = new NBTTagCompound ();
 			player.capabilities.writeCapabilitiesToNBT (tagCompound);
 			tagCompound.getCompoundTag ("abilities").setTag ("flySpeed",new NBTTagFloat (0.05F));
 			tagCompound.getCompoundTag ("abilities").setTag ("walkSpeed",new NBTTagFloat (0.1f));
 			player.capabilities.readCapabilitiesFromNBT (tagCompound);
 			player.sendPlayerAbilities ();
-		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+		}
 	}
 
 	@Override

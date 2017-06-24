@@ -36,7 +36,8 @@ public class AutoRankCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (args.length == 0 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
+		super.execute (server,sender,args);
+		if (args.length == 0) {
 			boolean hasNext = false;
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
@@ -70,8 +71,7 @@ public class AutoRankCommand extends EssentialsCommand {
 					if (!hasNext)
 						ChatHelper.sendMessageTo (player,Local.RANK_MAX);
 				}
-		} else
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
+		}
 	}
 
 	@Override
@@ -109,5 +109,10 @@ public class AutoRankCommand extends EssentialsCommand {
 			return TextFormatting.AQUA + "Balance: " + TextFormatting.GREEN + rank.getBalance ();
 		else
 			return TextFormatting.AQUA + "Balance: " + TextFormatting.RED + rank.getBalance ();
+	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
 	}
 }
