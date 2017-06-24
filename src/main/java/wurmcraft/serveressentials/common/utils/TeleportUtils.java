@@ -1,12 +1,15 @@
 package wurmcraft.serveressentials.common.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.config.Settings;
 
+import java.util.List;
 import java.util.UUID;
 
 public class TeleportUtils {
@@ -112,6 +115,12 @@ public class TeleportUtils {
 	}
 
 	public static EntityPlayer getPlayerFromName (String name) {
+		if (name != null) {
+			List <EntityPlayerMP> players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
+			for (EntityPlayerMP player : players)
+				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (name))
+					return player;
+		}
 		return null;
 	}
 }

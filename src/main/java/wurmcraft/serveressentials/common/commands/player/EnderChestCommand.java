@@ -83,4 +83,9 @@ public class EnderChestCommand extends EssentialsCommand {
 	public String getDescription () {
 		return "Opens the Ender Chest GUI";
 	}
+
+	@Override
+	public Boolean isPlayerOnly () {
+		return true;
+	}
 }
