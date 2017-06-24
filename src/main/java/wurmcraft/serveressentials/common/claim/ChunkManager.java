@@ -2,7 +2,6 @@ package wurmcraft.serveressentials.common.claim;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.istack.internal.Nullable;
 import joptsimple.internal.Strings;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -78,7 +77,6 @@ public class ChunkManager {
 
 	 @see RegionData
 	 */
-	@Nullable
 	public static final RegionData getRegion (Location loc) {
 		for (Location l : claimData.keySet ())
 			if (l.getX () == loc.getX () && l.getZ () == loc.getZ ())
@@ -134,7 +132,6 @@ public class ChunkManager {
 
 	 @see Claim
 	 */
-	@Nullable
 	public static final Claim getClaim (BlockPos pos) {
 		RegionData regionData = getRegion (pos);
 		if (regionData != null)
