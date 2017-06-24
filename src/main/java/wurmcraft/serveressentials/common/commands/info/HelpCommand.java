@@ -2,6 +2,7 @@ package wurmcraft.serveressentials.common.commands.info;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.Style;
@@ -12,8 +13,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class HelpCommand extends EssentialsCommand {
 
@@ -41,13 +41,30 @@ public class HelpCommand extends EssentialsCommand {
 		return aliases;
 	}
 
+	private static Map<String, ICommand> pruneAliases(final ICommandManager manager) {
+		return new HashMap<String, ICommand>() {
+			{
+				final Map<String, ICommand> commands = manager.getCommands();
+				Set<String> keySet = commands.keySet();
+				keySet.forEach((final String k1) -> {
+					keySet.forEach((final String k2) -> {
+						if (!k1.equalsIgnoreCase(k2) && !values().contains(commands.get(k1))) {
+							put(k1, commands.get(k1));
+						}
+					});
+				});
+			}
+		};
+	}
+
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		int start = 0;
+		final Map<String, ICommand> prunedAliases = pruneAliases(server.commandManager);
 		try {
 			if (args.length == 1 && Integer.parseInt (args[0]) != -1)
 				start = 8 * Integer.parseInt (args[0]);
-			if (start <= server.commandManager.getCommands ().size ()) {
+			if (start <= prunedAliases.size()) {
 				String nPage = " Page # ".replaceAll("#", "" + start / 8);
 				StringBuilder b = new StringBuilder();
 				int startPos = (int)Math.floor((chatWidth-nPage.length())/2);
@@ -56,8 +73,8 @@ public class HelpCommand extends EssentialsCommand {
 				if (start/8==0) ChatHelper.sendMessageTo(sender, TextFormatting.RED + b.toString());
 				else ChatHelper.sendMessageTo(sender, TextFormatting.RED + b.toString(), clickEvent((start/8)-1));
 				for (int index = start; index < (start + 8); index++)
-					if (index < server.commandManager.getCommands ().size ()) {
-						TextComponentTranslation temp = new TextComponentTranslation (formatCommand (sender,(ICommand) server.commandManager.getCommands ().values ().toArray ()[index]));
+					if (index < prunedAliases.size()) {
+						TextComponentTranslation temp = new TextComponentTranslation (formatCommand (sender,(ICommand) prunedAliases.values().toArray()[index]));
 						temp.setStyle (new Style ().setColor (TextFormatting.DARK_AQUA));
 						sender.addChatMessage (temp);
 					}
