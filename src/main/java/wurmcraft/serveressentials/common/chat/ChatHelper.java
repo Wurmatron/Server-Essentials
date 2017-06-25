@@ -30,10 +30,15 @@ public class ChatHelper {
 	public static final String RANK_SUFFIX_KEY = "%rankSuffix%";
 
 	public static String format (String username,IRank rank,Channel channel,int dimension,String message) {
-		return StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,TextFormatting.RESET + message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+		String format;
+		if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
+			format = StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+		else
+			format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+		return format;
 	}
 
-	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent, Void differentiator) {
+	public static void sendMessageTo (ICommandSender sender,String message,ClickEvent clickEvent,Void differentiator) {
 		TextComponentString msg = new TextComponentString (message);
 		if (clickEvent != null)
 			msg.getStyle ().setClickEvent (clickEvent);

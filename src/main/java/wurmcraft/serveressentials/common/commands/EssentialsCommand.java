@@ -40,7 +40,7 @@ public class EssentialsCommand extends CommandBase {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (isPlayerOnly () && sender.getCommandSenderEntity () instanceof EntityPlayer) {
 
-		} else if (!isPlayerOnly () && !(sender.getCommandSenderEntity () instanceof EntityPlayer))
+		} else if (isPlayerOnly () && !(sender.getCommandSenderEntity () instanceof EntityPlayer))
 			ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 	}
 
