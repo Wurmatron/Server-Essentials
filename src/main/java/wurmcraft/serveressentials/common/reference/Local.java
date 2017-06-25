@@ -72,10 +72,14 @@ public class Local {
 	public static final String MUTED_OTHER = TextFormatting.RED + "You have muted #";
 	public static final String UNMUTED_OTHER = TextFormatting.RED + "You have unmuted #";
 	public static final String NOTIFY_MUTED = TextFormatting.DARK_RED + "You cannot talk in chat you have been muted!";
-	public static final String NO_VAULTS = TextFormatting.RED + "You currently do not have any vaults";
+	public static final String NO_VAULTS = TextFormatting.RED + "You currently do not have any vaults and you cannot make any";
 	public static final String VAULT_NOT_FOUND = TextFormatting.RED + "Vault # not found!";
 	public static final String VAULT_CREATED = TextFormatting.AQUA + "Vault # created!";
 	public static final String VAULT_MAX_HIT = TextFormatting.RED + "Max Amount of Vaults Reached!";
+	public static final String VAULT_CREATE = TextFormatting.AQUA + "You must first create a vault";
+	public static final String VAULT_ITEMS = TextFormatting.AQUA + "You cannot delete a vault that still has items within";
+	public static final String VAULT_DELETED = TextFormatting.RED + "Vault \"#\" deleted!";
+	public static final String VAULT_NAME= TextFormatting.RED + "Invalid Vault Name \"#\"";
 	public static final String SPEED_CHANGED = TextFormatting.GREEN + "Your movement speed has changed to #";
 	public static final String MESSAGE_SENT = TextFormatting.RED + "Message sent to #";
 	public static final String MISSING_MESSAGE = TextFormatting.AQUA + "Missing Message";
