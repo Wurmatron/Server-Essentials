@@ -6,6 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -48,13 +49,13 @@ public class ChannelCommand extends EssentialsCommand {
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		if (args.length == 0)
 			execute (server,sender,new String[] {"list"});
-		if (args.length == 1) {
+		else if (args.length == 1) {
 			if (args[0].equalsIgnoreCase ("list")) {
 				List <Channel> channels = ChannelManager.getChannels ();
 				List <String> channelNames = new ArrayList <> ();
 				for (Channel channel : channels)
 					channelNames.add (channel.getName ());
-				ChatHelper.sendMessageTo (player,Strings.join (channelNames,", "));
+				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Channels: " + TextFormatting.GOLD + Strings.join (channelNames,", "));
 			} else {
 				Channel channel = ChannelManager.getFromName (args[0]);
 				if (channel != null && EssentialsCommand.checkPerms (DataHelper.getPlayerData (player.getGameProfile ().getId ()).getRank (),"channel." + channel.getName ())) {

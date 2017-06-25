@@ -94,6 +94,10 @@ public class MailCommand extends EssentialsCommand {
 						ChatHelper.sendMessageTo (player,Local.MAIL_INVALID);
 				} else
 					ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			} else if (args[0].equalsIgnoreCase ("deleteAll") || args[0].equalsIgnoreCase ("delAll")) {
+				for (int index = 0; index < DataHelper.getPlayerData (player.getGameProfile ().getId ()).getMail ().size (); index++)
+					DataHelper.removeMail (player.getGameProfile ().getId (),index);
+				ChatHelper.sendMessageTo (player,Local.MAIL_REMOVED_ALL);
 			} else
 				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 		} else
