@@ -14,12 +14,15 @@ import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LogHandler;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.Date;
 
 public class ChatHelper {
 
@@ -29,6 +32,7 @@ public class ChatHelper {
 	public static final String DIMENSION_KEY = "%dimension%";
 	public static final String RANK_PREFIX_KEY = "%rankPrefix%";
 	public static final String RANK_SUFFIX_KEY = "%rankSuffix%";
+	public static HashMap <String, String[]> lastChat = new HashMap <> ();
 
 	public static String format (String username,IRank rank,Channel channel,int dimension,String message) {
 		String format;
@@ -82,12 +86,18 @@ public class ChatHelper {
 	}
 
 	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,String message) {
-		LogHandler.chat (format (displayName,rank,channel,dimension,message));
 		if (Settings.logChat) {
-			LogHelper.addChat (channel, "[" + new Date (System.currentTimeMillis ()).toString () + "] " + displayName + " " + message);
+			LogHelper.addChat (channel,"[" + new Date (System.currentTimeMillis ()).toString () + "] " + displayName + " " + message);
 			LogHelper.checkAndSave ();
 		}
-		sendChannelMessage (channel,displayName,rank,dimension,message);
+		if (handleMessage (displayName,message)) {
+			sendChannelMessage (channel,displayName,rank,dimension,message);
+			LogHandler.chat (format (displayName,rank,channel,dimension,message));
+		} else {
+			EntityPlayer player = UsernameResolver.getPlayer (displayName);
+			if (player != null)
+				sendMessageTo (player,Local.SPAM);
+		}
 	}
 
 	public static void sendChannelMessage (Channel channel,String displayName,IRank rank,int dimension,String message) {
@@ -97,5 +107,32 @@ public class ChatHelper {
 			if (recivers.contains (player.getGameProfile ().getId ()))
 				player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,message)));
 		}
+	}
+
+	private static boolean handleMessage (String name,String message) {
+		if (lastChat.containsKey (name)) {
+			String[] chat = lastChat.get (name);
+			if (chat[0].equalsIgnoreCase (message)) {
+				int count = 0;
+				for (int index = 0; index < chat.length; index++)
+					if (message.equalsIgnoreCase (chat[index]))
+						count++;
+					else if (chat[index] == null) {
+						chat[index] = message;
+						count++;
+						break;
+					}
+				if (count >= Settings.spamLimit)
+					return false;
+			} else {
+				lastChat.remove (name);
+				return true;
+			}
+		} else {
+			String[] chat = new String[Settings.spamLimit];
+			chat[0] = message;
+			lastChat.put (name,chat);
+		}
+		return true;
 	}
 }

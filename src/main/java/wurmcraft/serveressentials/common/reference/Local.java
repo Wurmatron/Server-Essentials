@@ -107,6 +107,7 @@ public class Local {
 	public static final String NEXT_RANK = TextFormatting.GREEN + "Next Rank is \"#\"";
 	public static final String RANK_MAX = TextFormatting.RED + "Max Rank Already Reached";
 	public static final String SECURITY_MODE_PLAYER_ONLY = TextFormatting.RED + "Command can only be run by a Trusted Player";
+	public static final String SPAM = TextFormatting.DARK_RED + "Don't Spam!";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";

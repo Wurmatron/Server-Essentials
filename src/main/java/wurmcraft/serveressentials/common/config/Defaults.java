@@ -15,4 +15,5 @@ public class Defaults {
 	public static final int ONLINETIMEMAXPRINT = 20;
 	public static final boolean LOGCHAT = true;
 	public static final int LOGINTERVAL = 30;
+	public static final int SPAMLIMIT = 3;
 }

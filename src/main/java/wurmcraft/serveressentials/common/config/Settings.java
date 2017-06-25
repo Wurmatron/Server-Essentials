@@ -17,4 +17,5 @@ public class Settings {
 	public static int onlineTimeMaxPrint;
 	public static boolean logChat;
 	public static int logInterval;
+	public static int spamLimit;
 }

@@ -28,6 +28,7 @@ public class ConfigHandler {
 	private static Property onlineTimeMaxPrint;
 	private static Property logChat;
 	private static Property logInterval;
+	private static Property spamLimit;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -67,6 +68,8 @@ public class ConfigHandler {
 		Settings.logChat = logChat.getBoolean ();
 		logInterval = config.get (Configuration.CATEGORY_GENERAL,"logInterval",Defaults.LOGINTERVAL,"How long before saving chat? (Seconds)");
 		Settings.logInterval = logInterval.getInt ();
+		spamLimit = config.get (Configuration.CATEGORY_GENERAL,"spamLimit",Defaults.SPAMLIMIT,"How many times a player can type the same message");
+		Settings.spamLimit = spamLimit.getInt ();
 
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");
