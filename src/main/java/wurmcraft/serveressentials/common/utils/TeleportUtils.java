@@ -65,13 +65,4 @@ public class TeleportUtils {
 		return false;
 	}
 
-	public static EntityPlayer getPlayerFromName (String name) {
-		if (name != null) {
-			List <EntityPlayerMP> players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
-			for (EntityPlayerMP player : players)
-				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (name))
-					return player;
-		}
-		return null;
-	}
 }

@@ -12,11 +12,9 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.*;
 
 public class OnlineTimeCommand extends EssentialsCommand {
@@ -35,47 +33,6 @@ public class OnlineTimeCommand extends EssentialsCommand {
 		return "/onlineTime | /onlineTime <username>";
 	}
 
-	private static final class AbstractUsernameCollection<T extends String> extends AbstractCollection<T> {
-		List<T> names;
-		{
-			names = new LinkedList<>();
-		}
-		public AbstractUsernameCollection(Collection<T> values) {
-			for (T value : values) add(value);
-		}
-		@Override
-		public boolean contains(Object s) {
-			Iterator<T> itr = this.iterator();
-			if(s == null) {
-				while(itr.hasNext()) {
-					if(itr.next() == null) {
-						return true;
-					}
-				}
-			} else {
-				while(itr.hasNext()) {
-					if(((String)s).equalsIgnoreCase(itr.next())) {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		@Override
-		public Iterator<T> iterator() {return names.iterator();}
-		@Override
-		public boolean add(T s) {
-			if (!contains(s)) {
-				names.add(s);
-				return true;
-			} else return false;
-		}
-		@Override
-		public int size() {
-			return 0;
-		}
-	}
-
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
@@ -85,7 +42,7 @@ public class OnlineTimeCommand extends EssentialsCommand {
 				if (args.length==0) {
 					UsernameCache.getMap().forEach((uuid, s) -> put(uuid, DataHelper.loadPlayerData(uuid)));
 				} else {
-					AbstractUsernameCollection<String> usernames = new AbstractUsernameCollection<String>(UsernameCache.getMap().values());
+					UsernameResolver.AbstractUsernameCollection<String> usernames = new UsernameResolver.AbstractUsernameCollection<String>(UsernameCache.getMap().values());
 					for (String arg : args) {
 						UsernameCache.getMap().forEach((uuid, s) -> {
 							if (s.equalsIgnoreCase(arg)) put(uuid, DataHelper.loadPlayerData(uuid));
