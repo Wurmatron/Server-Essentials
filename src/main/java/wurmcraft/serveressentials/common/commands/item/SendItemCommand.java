@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.Vault;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -12,10 +13,12 @@ import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+// TODO Username lookup
 public class SendItemCommand extends EssentialsCommand {
 
 	public SendItemCommand (String perm) {
@@ -81,5 +84,10 @@ public class SendItemCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (player,Local.MISSING_STACK);
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		return autoCompleteUsername (args,0);
 	}
 }

@@ -8,7 +8,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
@@ -16,9 +15,8 @@ import wurmcraft.serveressentials.common.reference.Local;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
+// TODO Username lookup
 public class EnderChestCommand extends EssentialsCommand {
 
 	public EnderChestCommand (String perm) {
@@ -73,10 +71,7 @@ public class EnderChestCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		return list;
+		return autoCompleteUsername (args,0);
 	}
 
 	@Override

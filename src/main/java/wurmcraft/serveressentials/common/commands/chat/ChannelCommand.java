@@ -72,13 +72,7 @@ public class ChannelCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer) {
-			List <Channel> channels = ChannelManager.getChannels ();
-			for (Channel ch : channels)
-				list.add (ch.getName ());
-		}
-		return list;
+		return autoCompleteChannel (args,ChannelManager.getChannels ());
 	}
 
 	@Override

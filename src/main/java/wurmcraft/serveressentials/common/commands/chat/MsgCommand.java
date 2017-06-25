@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO Username lookup
 public class MsgCommand extends EssentialsCommand {
 
 	public MsgCommand (String perm) {
@@ -86,12 +87,6 @@ public class MsgCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		if (args.length == 1) {
-			List <String> usernames = new ArrayList <> ();
-			for (EntityPlayer player : server.getPlayerList ().getPlayerList ())
-				usernames.add (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()));
-			return usernames;
-		}
-		return null;
+		return autoCompleteUsername (args,0);
 	}
 }

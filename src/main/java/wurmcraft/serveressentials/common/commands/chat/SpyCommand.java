@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO Username lookup
 public class SpyCommand extends EssentialsCommand {
 
 	public SpyCommand (String perm) {
@@ -67,9 +68,6 @@ public class SpyCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> players = new ArrayList <> ();
-		for (EntityPlayer player : server.getServer ().getPlayerList ().getPlayerList ())
-			players.add (player.getDisplayNameString ());
-		return players;
+		return autoCompleteUsername (args,0);
 	}
 }

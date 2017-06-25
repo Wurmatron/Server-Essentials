@@ -2,7 +2,6 @@ package wurmcraft.serveressentials.common.commands.player;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
@@ -18,9 +17,8 @@ import wurmcraft.serveressentials.common.utils.LogHandler;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
+// TODO Username lookup
 public class DPFCommand extends EssentialsCommand {
 
 	public DPFCommand (String perm) {
@@ -75,10 +73,7 @@ public class DPFCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		return list;
+		return autoCompleteUsername (args,0);
 	}
 
 	@Override

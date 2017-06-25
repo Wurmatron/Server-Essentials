@@ -98,16 +98,11 @@ public class HomeCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			Home[] homes = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ();
-			if (homes.length > 0)
-				for (Home home : homes)
-					if (home != null)
-						list.add (home.getName ());
+		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			return autoCompleteHomes(args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
 		}
-		return list;
+		return null;
 	}
 
 	private HoverEvent hoverEvent (Home home) {

@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.Vault;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
@@ -12,6 +13,7 @@ import wurmcraft.serveressentials.common.commands.utils.VaultInventory;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,5 +89,14 @@ public class VaultCommand extends EssentialsCommand {
 	@Override
 	public String getDescription () {
 		return "Opens a inventory used for storing items without a chest";
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			return autoCompleteVaults (args,DataHelper.playerVaults.get (player.getGameProfile ().getId ()));
+		}
+		return null;
 	}
 }

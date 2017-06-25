@@ -5,7 +5,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.event.PlayerTickEvent;
@@ -14,9 +13,9 @@ import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+// TODO Username lookup
 public class FreezeCommand extends EssentialsCommand {
 
 	public FreezeCommand (String perm) {
@@ -64,10 +63,7 @@ public class FreezeCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		return list;
+		return autoCompleteUsername (args,0);
 	}
 
 	@Override

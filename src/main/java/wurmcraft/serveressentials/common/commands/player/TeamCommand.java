@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+// TODO Username lookup
 public class TeamCommand extends EssentialsCommand {
 
 	public TeamCommand (String perm) {

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO Username lookup
 public class SkullCommand extends EssentialsCommand {
 
 	public SkullCommand (String perm) {
@@ -61,10 +62,7 @@ public class SkullCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		return list;
+		return autoCompleteUsername (args,0);
 	}
 
 	@Override

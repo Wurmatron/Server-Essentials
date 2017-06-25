@@ -19,6 +19,7 @@ import java.util.List;
 
 import static wurmcraft.serveressentials.common.utils.DataHelper.activeRequests;
 
+// TODO Username lookup
 public class TpaCommand extends EssentialsCommand {
 
 	public TpaCommand (String perm) {
@@ -65,10 +66,7 @@ public class TpaCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		return list;
+		return autoCompleteUsername(args,0);
 	}
 
 	@Override

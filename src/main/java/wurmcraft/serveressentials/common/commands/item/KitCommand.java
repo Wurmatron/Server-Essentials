@@ -9,6 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Kit;
@@ -19,6 +20,7 @@ import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,5 +146,10 @@ public class KitCommand extends EssentialsCommand {
 				}
 		}
 		return false;
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		return autoCompleteKits (args,DataHelper.loadedKits,0);
 	}
 }

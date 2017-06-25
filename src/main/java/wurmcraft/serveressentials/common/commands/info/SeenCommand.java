@@ -2,24 +2,26 @@ package wurmcraft.serveressentials.common.commands.info;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
+
+// TODO Username lookup
 public class SeenCommand extends EssentialsCommand {
 
 	public SeenCommand (String perm) {
@@ -52,8 +54,7 @@ public class SeenCommand extends EssentialsCommand {
 			if (players.getPlayerList ().size () > 0)
 				for (EntityPlayerMP user : players.getPlayerList ())
 					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-						ChatHelper.sendMessageTo(sender, (TextFormatting.GREEN + "Player: '" +
-								UsernameCache.getLastKnownUsername(user.getGameProfile().getId()) + "' is currently online!"));
+						ChatHelper.sendMessageTo (sender,(TextFormatting.GREEN + "Player: '" + UsernameCache.getLastKnownUsername (user.getGameProfile ().getId ()) + "' is currently online!"));
 						displayed = true;
 					}
 			if (!displayed && UsernameCache.getMap ().values ().contains (args[0])) {
@@ -61,7 +62,7 @@ public class SeenCommand extends EssentialsCommand {
 					if (UsernameCache.getLastKnownUsername (username).equals (args[0])) {
 						PlayerData data = DataHelper.loadPlayerData (username);
 						if (data != null) {
-							ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#", TextFormatting.DARK_AQUA + new Date(data.getLastseen()).toString()));
+							ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#",TextFormatting.DARK_AQUA + new Date (data.getLastseen ()).toString ()));
 							displayed = true;
 						}
 						DataHelper.unloadPlayerData (username);
@@ -74,10 +75,7 @@ public class SeenCommand extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
-		return list;
+		return autoCompleteUsername (args,0);
 	}
 
 	@Override

@@ -3,12 +3,14 @@ package wurmcraft.serveressentials.common.commands.admin;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,5 +53,10 @@ public class TeamAdminCommand extends EssentialsCommand {
 			}
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+	}
+
+	@Override
+	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+		return autoCompleteTeam (args,TeamManager.getTeams ());
 	}
 }

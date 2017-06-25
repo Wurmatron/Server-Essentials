@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO Username lookup
 public class InvseeCommand extends EssentialsCommand {
 
 	public InvseeCommand (String perm) {

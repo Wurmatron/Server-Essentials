@@ -20,10 +20,10 @@ import wurmcraft.serveressentials.common.utils.RankManager;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+// TODO Username lookup
 public class SetGroup extends EssentialsCommand {
 
 	public SetGroup (String perm) {
@@ -97,19 +97,7 @@ public class SetGroup extends EssentialsCommand {
 
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		if (args.length == 1) {
-			if (args[0] == null || args[0].length () == 0) {
-				List <String> usernames = new ArrayList <> ();
-				Collections.addAll (usernames,server.getAllUsernames ());
-				return usernames;
-			} else {
-				List <String> usernames = new ArrayList <> ();
-				for (String name : server.getAllUsernames ())
-					if (name.startsWith (args[0]))
-						usernames.add (name);
-			}
-		}
-		return null;
+		return autoCompleteUsername (args,0);
 	}
 
 	@Override
