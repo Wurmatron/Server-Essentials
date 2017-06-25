@@ -73,7 +73,7 @@ public class UsernameResolver {
             });
             for (UUID unloadedUUID : unloadedUUIDs) DataHelper.getPlayerData(unloadedUUID);
             for (UUID uuid : DataHelper.loadedPlayers.keySet()) {
-                if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username)) return getUsername(username);
+                if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username)) return getUsername(uuid);
             }
             return null;
         } else return username;
