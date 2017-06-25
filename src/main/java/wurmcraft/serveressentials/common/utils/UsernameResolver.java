@@ -1,6 +1,8 @@
 package wurmcraft.serveressentials.common.utils;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 
@@ -51,6 +53,18 @@ public class UsernameResolver {
         }
     }
 
+    public static boolean isValidPlayer(String username) {
+        return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username);
+    }
+
+    public static boolean isNickname(String username) {
+        return username.equalsIgnoreCase(getNickname(getPlayerUUID(username)));
+    }
+
+    public static String getNickname(UUID uuid) {
+        return DataHelper.loadPlayerData(uuid).getNickname();
+    }
+
     public static PlayerData getPlayerData(UUID uniqueID) {
         return DataHelper.loadedPlayers.get(uniqueID);
     }
@@ -70,5 +84,13 @@ public class UsernameResolver {
 
     public static String getUsername(UUID uniqueID) {
         return UsernameCache.getMap().get(uniqueID);
+    }
+
+    public static EntityPlayer getPlayer(MinecraftServer server, String username) {
+        return isValidPlayer(username) ? server.getPlayerList().getPlayerByUsername(username) : null;
+    }
+
+    public static EntityPlayer getPlayer(MinecraftServer server, UUID uuid){
+        return server.getPlayerList().getPlayerByUUID(uuid);
     }
 }

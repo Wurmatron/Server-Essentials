@@ -39,16 +39,6 @@ public class TeleportUtils {
 		}
 	}
 
-	public static EntityPlayer getPlayerFromUsername (MinecraftServer server,String username) {
-		PlayerList players = server.getPlayerList ();
-		if (players.getCurrentPlayerCount () > 0) {
-			for (EntityPlayer player : players.getPlayerList ())
-				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (username))
-					return player;
-		}
-		return null;
-	}
-
 	public static String getRemainingCooldown (UUID uuid) {
 		return getRemainingCooldown (DataHelper.getPlayerData (uuid).getTeleportTimer ());
 	}

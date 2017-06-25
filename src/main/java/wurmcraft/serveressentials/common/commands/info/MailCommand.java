@@ -12,6 +12,7 @@ import wurmcraft.serveressentials.common.api.storage.Mail;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.ArrayUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MailCommand extends EssentialsCommand {
+	public static final String usage = "/mail send <name> <message> | /mail list | /mail read | /mail delete <#>";
 
 	public MailCommand (String perm) {
 		super (perm);
@@ -32,7 +34,7 @@ public class MailCommand extends EssentialsCommand {
 
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
-		return "/mail send <name> <message> | /mail read | /mail delete <#>";
+		return "/mail send <name> <message> | /mail list | /mail read | /mail delete <#>";
 	}
 
 	@Override
@@ -53,10 +55,31 @@ public class MailCommand extends EssentialsCommand {
 		return aliases;
 	}
 
+	private static void printUsage(ICommandSender sender) {
+		ChatHelper.sendMessageTo (sender, usage);
+	}
+
+	private static String[] getArgsAfterCommand(int argPos, String[] args) {
+		return ArrayUtils.splice(args, argPos, args.length-1);
+	}
+
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		if (args.length > 0) {
+			String[] trailingArgs = getArgsAfterCommand(1, args);
+			switch (args[1]) {
+				case "send": {
+
+				}
+				case "read": {}
+				case "delete": {}
+				case "list": {}
+				default: printUsage(sender);
+			}
+		} else printUsage(sender);
+
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase ("send")) {
 				if (args.length >= 2) {
