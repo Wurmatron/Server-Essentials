@@ -6,7 +6,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -18,6 +17,7 @@ import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeamManager;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-// TODO Username lookup
 public class TeamCommand extends EssentialsCommand {
 
 	public TeamCommand (String perm) {
@@ -90,15 +89,13 @@ public class TeamCommand extends EssentialsCommand {
 				Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
 				if (team != null && team.getLeader ().equals (player.getGameProfile ().getId ())) {
 					if (args.length == 2) {
-						PlayerList players = server.getServer ().getPlayerList ();
-						if (players.getPlayerList ().size () > 0)
-							for (EntityPlayerMP user : players.getPlayerList ())
-								if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ())) {
-									ChatHelper.sendMessageTo (player,Local.TEAM_INVITED.replaceAll ("#",user.getDisplayName ().getUnformattedText ()));
-									ChatHelper.sendMessageTo (user,Local.TEAM_INVITED_OTHER.replaceAll ("#",team.getName ()));
-									team.addPossibleMember (user.getGameProfile ().getId ());
-									DataHelper.saveTeam (team);
-								}
+						EntityPlayer user = UsernameResolver.getPlayer (args[1]);
+						if (user != null) {
+							ChatHelper.sendMessageTo (player,Local.TEAM_INVITED.replaceAll ("#",user.getDisplayName ().getUnformattedText ()));
+							ChatHelper.sendMessageTo (user,Local.TEAM_INVITED_OTHER.replaceAll ("#",team.getName ()));
+							team.addPossibleMember (user.getGameProfile ().getId ());
+							DataHelper.saveTeam (team);
+						}
 					} else
 						ChatHelper.sendMessageTo (player,Local.TEAM_MISSING_NAME);
 				} else if (team != null)
@@ -106,7 +103,7 @@ public class TeamCommand extends EssentialsCommand {
 			} else if (args[0].equalsIgnoreCase ("kick")) {
 				Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
 				if (team != null && team.getLeader ().equals (player.getGameProfile ().getId ())) {
-					if (args.length == 1 && args[1] != null) {
+					if (args.length == 2 && args[1] != null) {
 						for (UUID key : UsernameCache.getMap ().keySet ())
 							if (UsernameCache.getLastKnownUsername (key).equalsIgnoreCase (args[1])) {
 								PlayerData data = DataHelper.getPlayerData (key);
@@ -115,11 +112,8 @@ public class TeamCommand extends EssentialsCommand {
 								DataHelper.setTeam (key,null);
 								team.removeMember (key);
 								DataHelper.saveTeam (team);
-								PlayerList players = server.getServer ().getPlayerList ();
-								if (players.getPlayerList ().size () > 0)
-									for (EntityPlayerMP user : players.getPlayerList ())
-										if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ()))
-											ChatHelper.sendMessageTo (user,Local.TEAM_KICKED);
+								EntityPlayer user = UsernameResolver.getPlayer (args[1]);
+								ChatHelper.sendMessageTo (user,Local.TEAM_KICKED);
 								ChatHelper.sendMessageTo (player,Local.TEAM_KICKED_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (key)));
 							}
 					}
@@ -156,7 +150,9 @@ public class TeamCommand extends EssentialsCommand {
 					ChatHelper.sendMessageTo (player,getCommandUsage (sender));
 			}
 		} else
-			ChatHelper.sendMessageTo (player,getCommandUsage (player));
+			ChatHelper.sendMessageTo (player,
+
+				getCommandUsage (player));
 	}
 
 	@Override

@@ -20,8 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-
-// TODO Username lookup
 public class SeenCommand extends EssentialsCommand {
 
 	public SeenCommand (String perm) {
@@ -57,7 +55,7 @@ public class SeenCommand extends EssentialsCommand {
 						ChatHelper.sendMessageTo (sender,(TextFormatting.GREEN + "Player: '" + UsernameCache.getLastKnownUsername (user.getGameProfile ().getId ()) + "' is currently online!"));
 						displayed = true;
 					}
-			if (!displayed && UsernameCache.getMap ().values ().contains (args[0])) {
+			if (!displayed) {
 				for (UUID username : UsernameCache.getMap ().keySet ())
 					if (UsernameCache.getLastKnownUsername (username).equals (args[0])) {
 						PlayerData data = DataHelper.loadPlayerData (username);

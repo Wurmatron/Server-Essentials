@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// TODO Username lookup
 public class SkullCommand extends EssentialsCommand {
 
 	public SkullCommand (String perm) {

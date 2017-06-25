@@ -12,13 +12,13 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-// TODO Username lookup
 public class SendItemCommand extends EssentialsCommand {
 
 	public SendItemCommand (String perm) {
@@ -61,22 +61,20 @@ public class SendItemCommand extends EssentialsCommand {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (player.getHeldItemMainhand () != null) {
 				boolean found = false;
-				for (UUID uuid : UsernameCache.getMap ().keySet ())
-					if (UsernameCache.getLastKnownUsername (uuid).equalsIgnoreCase (args[0])) {
-						Vault[] vaults = DataHelper.playerVaults.get (uuid);
-						if (vaults != null)
-							for (int index = 0; index < vaults[0].getItems ().length; index++) {
-								if (vaults[0].getItems ()[index] == null) {
-									ItemStack[] items = vaults[0].getItems ();
-									items[index] = player.getHeldItemMainhand ();
-									vaults[0].setItems (items);
-									DataHelper.saveVault (uuid,vaults);
-									ChatHelper.sendMessageTo (player,Local.ITEM_SENT.replaceAll ("#",player.getHeldItemMainhand ().getDisplayName ()).replaceAll ("@",UsernameCache.getLastKnownUsername (uuid)));
-									player.inventory.deleteStack (player.getHeldItemMainhand ());
-									found = true;
-									break;
-								}
-							}
+				UUID uuid = UsernameResolver.getPlayerUUID (args[0]);
+				Vault[] vaults = DataHelper.playerVaults.get (uuid);
+				if (vaults != null)
+					for (int index = 0; index < vaults[0].getItems ().length; index++) {
+						if (vaults[0].getItems ()[index] == null) {
+							ItemStack[] items = vaults[0].getItems ();
+							items[index] = player.getHeldItemMainhand ();
+							vaults[0].setItems (items);
+							DataHelper.saveVault (uuid,vaults);
+							ChatHelper.sendMessageTo (player,Local.ITEM_SENT.replaceAll ("#",player.getHeldItemMainhand ().getDisplayName ()).replaceAll ("@",UsernameCache.getLastKnownUsername (uuid)));
+							player.inventory.deleteStack (player.getHeldItemMainhand ());
+							found = true;
+							break;
+						}
 					}
 				if (!found)
 					ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));

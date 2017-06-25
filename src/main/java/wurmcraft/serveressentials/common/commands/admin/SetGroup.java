@@ -4,7 +4,6 @@ package wurmcraft.serveressentials.common.commands.admin;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -17,13 +16,13 @@ import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-// TODO Username lookup
 public class SetGroup extends EssentialsCommand {
 
 	public SetGroup (String perm) {
@@ -44,16 +43,15 @@ public class SetGroup extends EssentialsCommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		if (args.length > 1) {
-			List <EntityPlayerMP> onlinePlayers = server.getPlayerList ().getPlayerList ();
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			boolean found = false;
-			for (EntityPlayerMP player : onlinePlayers)
-				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equals (args[0]) && RankManager.getRankFromName (args[1]) != null) {
-					found = true;
-					DataHelper.setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (args[1]));
-					PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-					String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : player.getDisplayNameString ();
-					ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
-				}
+			if (player != null && RankManager.getRankFromName (args[1]) != null) {
+				found = true;
+				DataHelper.setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (args[1]));
+				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+				String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : player.getDisplayNameString ();
+				ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
+			}
 			if (!found)
 				for (UUID id : UsernameCache.getMap ().keySet ())
 					if (UsernameCache.getMap ().get (id).equalsIgnoreCase (args[0])) {

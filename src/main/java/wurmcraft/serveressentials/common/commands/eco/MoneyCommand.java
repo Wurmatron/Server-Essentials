@@ -3,9 +3,7 @@ package wurmcraft.serveressentials.common.commands.eco;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -13,12 +11,12 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Username lookup
 public class MoneyCommand extends EssentialsCommand {
 
 	public MoneyCommand (String perm) {
@@ -60,17 +58,10 @@ public class MoneyCommand extends EssentialsCommand {
 				ChatHelper.sendMessageTo (player,Local.CURRENT_MONEY.replaceAll ("#","" + data.getMoney ()));
 			}
 		} else if (args.length == 1) {
-			PlayerList players = server.getPlayerList ();
-			if (players.getCurrentPlayerCount () > 0) {
-				boolean found = false;
-				for (EntityPlayerMP player : players.getPlayerList ())
-					if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
-						found = true;
-						PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-						ChatHelper.sendMessageTo (sender,Local.CURRENT_MONEY_OTHER.replaceAll ("#","" + UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%","" + data.getMoney ()));
-					}
-				if (!found)
-					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			if (player != null) {
+				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+				ChatHelper.sendMessageTo (sender,Local.CURRENT_MONEY_OTHER.replaceAll ("#","" + UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%","" + data.getMoney ()));
 			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		}

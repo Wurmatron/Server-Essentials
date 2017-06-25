@@ -5,17 +5,16 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Username lookup
 public class NickCommand extends EssentialsCommand {
 
 	public NickCommand (String perm) {
@@ -52,12 +51,12 @@ public class NickCommand extends EssentialsCommand {
 			DataHelper.setNickname (player.getGameProfile ().getId (),args[0]);
 			ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[0]));
 		} else if (args.length == 2) {
-			for (EntityPlayer player : server.getPlayerList ().getPlayerList ())
-				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
-					DataHelper.setNickname (player.getGameProfile ().getId (),args[1]);
-					ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[1]));
-					ChatHelper.sendMessageTo (sender,Local.NICKNAME_OTHER.replaceAll ("#",args[0]).replaceAll ("&",args[1]));
-				}
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			if (player != null) {
+				DataHelper.setNickname (player.getGameProfile ().getId (),args[1]);
+				ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[1]));
+				ChatHelper.sendMessageTo (sender,Local.NICKNAME_OTHER.replaceAll ("#",args[0]).replaceAll ("&",args[1]));
+			}
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}

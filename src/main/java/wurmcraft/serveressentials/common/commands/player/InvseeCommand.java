@@ -12,13 +12,13 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// TODO Username lookup
 public class InvseeCommand extends EssentialsCommand {
 
 	public InvseeCommand (String perm) {
@@ -54,14 +54,14 @@ public class InvseeCommand extends EssentialsCommand {
 			PlayerList players = server.getServer ().getPlayerList ();
 			if (players.getPlayerList ().size () > 0) {
 				boolean open = false;
-				for (EntityPlayerMP victim : players.getPlayerList ())
-					if (victim.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-						if (player.openContainer != player.inventoryContainer)
-							player.closeScreen ();
-						player.displayGUIChest (new PlayerInventory (victim,player));
-						ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
-						open = true;
-					}
+				EntityPlayer victim = UsernameResolver.getPlayer (args[0]);
+				if (victim != null) {
+					if (player.openContainer != player.inventoryContainer)
+						player.closeScreen ();
+					player.displayGUIChest (new PlayerInventory ((EntityPlayerMP) victim,player));
+					ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()));
+					open = true;
+				}
 				if (!open)
 					ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			}

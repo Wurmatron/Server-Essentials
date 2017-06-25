@@ -10,12 +10,12 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Username lookup
 public class SpyCommand extends EssentialsCommand {
 
 	public SpyCommand (String perm) {
@@ -52,15 +52,12 @@ public class SpyCommand extends EssentialsCommand {
 			DataHelper.setSpy (player.getGameProfile ().getId (),!DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ());
 			ChatHelper.sendMessageTo (player,Local.SPY.replaceAll ("#","" + DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ()));
 		} else if (args.length == 1) {
-			boolean found = false;
-			for (EntityPlayer player : server.getPlayerList ().getPlayerList ())
-				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
-					found = true;
-					DataHelper.setSpy (player.getGameProfile ().getId (),!DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ());
-					ChatHelper.sendMessageTo (player,Local.SPY.replaceAll ("#","" + DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ()));
-					ChatHelper.sendMessageTo (sender,Local.SPY_OTHER.replaceAll ("#","" + DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ()).replaceAll ("&",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
-				}
-			if (!found)
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			if (player != null) {
+				DataHelper.setSpy (player.getGameProfile ().getId (),!DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ());
+				ChatHelper.sendMessageTo (player,Local.SPY.replaceAll ("#","" + DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ()));
+				ChatHelper.sendMessageTo (sender,Local.SPY_OTHER.replaceAll ("#","" + DataHelper.getPlayerData (player.getGameProfile ().getId ()).isSpy ()).replaceAll ("&",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
+			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));

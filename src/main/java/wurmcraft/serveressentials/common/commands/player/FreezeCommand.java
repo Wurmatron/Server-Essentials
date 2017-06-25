@@ -15,7 +15,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Username lookup
 public class FreezeCommand extends EssentialsCommand {
 
 	public FreezeCommand (String perm) {

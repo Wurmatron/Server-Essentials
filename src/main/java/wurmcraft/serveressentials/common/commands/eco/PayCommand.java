@@ -3,9 +3,7 @@ package wurmcraft.serveressentials.common.commands.eco;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -13,12 +11,12 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Username lookup
 public class PayCommand extends EssentialsCommand {
 
 	public PayCommand (String perm) {
@@ -52,20 +50,13 @@ public class PayCommand extends EssentialsCommand {
 			int money = Integer.valueOf (args[1]);
 			if (money > 0) {
 				if (playerData.getMoney () >= money) {
-					PlayerList players = server.getPlayerList ();
-					if (players.getCurrentPlayerCount () > 0) {
-						boolean found = false;
-						for (EntityPlayerMP p : players.getPlayerList ())
-							if (UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
-								found = true;
-								PlayerData receiverData = DataHelper.getPlayerData (p.getGameProfile ().getId ());
-								ChatHelper.sendMessageTo (player,Local.MONEY_SENT.replaceAll ("#",UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ())).replaceAll ("%","" + money));
-								ChatHelper.sendMessageTo (p,Local.MONEY_SENT_RECEIVER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%","" + money));
-								DataHelper.setMoney (player.getGameProfile ().getId (),playerData.getMoney () - money);
-								DataHelper.setMoney (p.getGameProfile ().getId (),receiverData.getMoney () + money);
-							}
-						if (!found)
-							ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
+					EntityPlayer p = UsernameResolver.getPlayer (args[0]);
+					if (p != null) {
+						PlayerData receiverData = DataHelper.getPlayerData (p.getGameProfile ().getId ());
+						ChatHelper.sendMessageTo (player,Local.MONEY_SENT.replaceAll ("#",UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ())).replaceAll ("%","" + money));
+						ChatHelper.sendMessageTo (p,Local.MONEY_SENT_RECEIVER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%","" + money));
+						DataHelper.setMoney (player.getGameProfile ().getId (),playerData.getMoney () - money);
+						DataHelper.setMoney (p.getGameProfile ().getId (),receiverData.getMoney () + money);
 					} else
 						ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 				} else

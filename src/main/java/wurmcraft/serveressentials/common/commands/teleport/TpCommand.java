@@ -4,9 +4,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
@@ -16,7 +14,6 @@ import wurmcraft.serveressentials.common.utils.UsernameResolver;
 import javax.annotation.Nullable;
 import java.util.List;
 
-// TODO Username lookup
 public class TpCommand extends EssentialsCommand {
 
 	public TpCommand (String perm) {
@@ -38,17 +35,14 @@ public class TpCommand extends EssentialsCommand {
 		super.execute (server,sender,args);
 		if (args.length == 1) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			PlayerList players = server.getPlayerList ();
-			if (players.getCurrentPlayerCount () > 0) {
-				for (EntityPlayer p : players.getPlayerList ())
-					if (UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ()) != null && UsernameCache.getLastKnownUsername (p.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
-						TeleportUtils.teleportTo (player,new BlockPos (p.posX,p.posY,p.posZ),false);
-						ChatHelper.sendMessageTo (player,Local.TELEPORTED);
-					}
+			if (UsernameResolver.isValidPlayer (args[0])) {
+				EntityPlayer p = UsernameResolver.getPlayer (args[0]);
+				TeleportUtils.teleportTo (player,new BlockPos (p.posX,p.posY,p.posZ),false);
+				ChatHelper.sendMessageTo (player,Local.TELEPORTED);
 			}
 		} else if (args.length == 2) {
-			EntityPlayer from = UsernameResolver.getPlayer(args[0]);
-			EntityPlayer to = UsernameResolver.getPlayer(args[1]);
+			EntityPlayer from = UsernameResolver.getPlayer (args[0]);
+			EntityPlayer to = UsernameResolver.getPlayer (args[1]);
 			if (from != null && to != null) {
 				TeleportUtils.teleportTo (from,new BlockPos (to.posX,to.posY,to.posZ),false);
 				ChatHelper.sendMessageTo (sender,Local.TELEPORTED_FROM.replaceAll ("#",from.getDisplayNameString ()).replaceAll ("%",to.getDisplayNameString ()));
@@ -68,7 +62,7 @@ public class TpCommand extends EssentialsCommand {
 			} catch (NumberFormatException e) {
 			}
 		} else if (args.length == 4) {
-			EntityPlayer player = UsernameResolver.getPlayer(args[0]);
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			if (player != null) {
 				try {
 					int x = Integer.parseInt (args[0]);
@@ -88,8 +82,11 @@ public class TpCommand extends EssentialsCommand {
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> args0 = autoCompleteUsername (args,0);
-		List <String> args1 = autoCompleteUsername (args,1);
-		return null;
+		if (UsernameResolver.getPlayer (args[0]) != null) {
+			List <String> args1 = autoCompleteUsername (args,1);
+			return args1;
+		}
+		return args0;
 	}
 
 	@Override

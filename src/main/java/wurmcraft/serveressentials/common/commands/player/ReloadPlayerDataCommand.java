@@ -2,21 +2,19 @@ package wurmcraft.serveressentials.common.commands.player;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Username lookup
 public class ReloadPlayerDataCommand extends EssentialsCommand {
 
 	public ReloadPlayerDataCommand (String perm) {
@@ -47,19 +45,14 @@ public class ReloadPlayerDataCommand extends EssentialsCommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length == 1 && args[0] != null) {
-			boolean found = false;
-			PlayerList players = server.getPlayerList ();
-			if (players.getCurrentPlayerCount () > 0) {
-				for (EntityPlayerMP player : players.getPlayerList ())
-					if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()) != null && UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
-						DataHelper.unloadPlayerData (player.getGameProfile ().getId ());
-						DataHelper.loadPlayerData (player.getGameProfile ().getId ());
-						ChatHelper.sendMessageTo (player,Local.DATA_RELOADED);
-						ChatHelper.sendMessageTo (sender,Local.DATA_RELOADED_OTHER.replaceAll ("#",player.getDisplayNameString ()));
-						found = true;
-					}
-			}
-			if (!found)
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			if (player != null) {
+				DataHelper.unloadPlayerData (player.getGameProfile ().getId ());
+				DataHelper.loadPlayerData (player.getGameProfile ().getId ());
+				ChatHelper.sendMessageTo (player,Local.DATA_RELOADED);
+				ChatHelper.sendMessageTo (sender,Local.DATA_RELOADED_OTHER.replaceAll ("#",player.getDisplayNameString ()));
+
+			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));

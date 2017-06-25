@@ -3,22 +3,18 @@ package wurmcraft.serveressentials.common.commands.player;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameType;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-// TODO Username lookup
 public class GameModeCommand extends EssentialsCommand {
 
 	private static final String[] CREATIVE = new String[] {"creative","c","1"};
@@ -60,14 +56,13 @@ public class GameModeCommand extends EssentialsCommand {
 			int mode = getMode (args[0]);
 			if (mode != -1) {
 				if (args.length > 1) {
-					PlayerList players = server.getServer ().getPlayerList ();
-					if (players.getPlayerList ().size () > 0)
-						for (EntityPlayerMP user : players.getPlayerList ())
-							if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[1]).getId ())) {
-								user.setGameType (GameType.getByID (mode));
-								ChatHelper.sendMessageTo (user,Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ()));
-								ChatHelper.sendMessageTo (sender,Local.MODE_CHANGED_OTHER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()).replaceAll ("\\$",GameType.getByID (mode).getName ()));
-							}
+					EntityPlayer user = UsernameResolver.getPlayer (args[1]);
+					if (user != null) {
+						user.setGameType (GameType.getByID (mode));
+						ChatHelper.sendMessageTo (user,Local.MODE_CHANGED.replaceAll ("#",GameType.getByID (mode).getName ()));
+						ChatHelper.sendMessageTo (sender,Local.MODE_CHANGED_OTHER.replaceAll ("#",user.getDisplayName ().getUnformattedText ()).replaceAll ("\\$",GameType.getByID (mode).getName ()));
+					} else
+						ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[1]));
 				} else if (sender instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) sender;
 					player.setGameType (GameType.getByID (mode));

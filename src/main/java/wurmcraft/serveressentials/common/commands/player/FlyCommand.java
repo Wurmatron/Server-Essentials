@@ -3,18 +3,16 @@ package wurmcraft.serveressentials.common.commands.player;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-// TODO Username lookup
 public class FlyCommand extends EssentialsCommand {
 
 	public FlyCommand (String perm) {
@@ -37,24 +35,22 @@ public class FlyCommand extends EssentialsCommand {
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		boolean playerFound = false;
 		if (args.length > 0) {
-			PlayerList players = server.getServer ().getPlayerList ();
-			if (players.getPlayerList ().size () > 0)
-				for (EntityPlayerMP user : players.getPlayerList ())
-					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-						playerFound = true;
-						if (!user.capabilities.allowFlying) {
-							user.capabilities.allowFlying = true;
-							user.capabilities.isFlying = true;
-							ChatHelper.sendMessageTo (user,Local.FLY_ENABLED);
-							ChatHelper.sendMessageTo (player,Local.FLY_ENABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
-							user.sendPlayerAbilities ();
-						} else {
-							user.capabilities.allowFlying = false;
-							ChatHelper.sendMessageTo (user,Local.FLY_DISABLED);
-							ChatHelper.sendMessageTo (player,Local.FLY_DISABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
-							user.sendPlayerAbilities ();
-						}
-					}
+			EntityPlayer user = UsernameResolver.getPlayer (args[0]);
+			if (user != null) {
+				playerFound = true;
+				if (!user.capabilities.allowFlying) {
+					user.capabilities.allowFlying = true;
+					user.capabilities.isFlying = true;
+					ChatHelper.sendMessageTo (user,Local.FLY_ENABLED);
+					ChatHelper.sendMessageTo (player,Local.FLY_ENABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
+					user.sendPlayerAbilities ();
+				} else {
+					user.capabilities.allowFlying = false;
+					ChatHelper.sendMessageTo (user,Local.FLY_DISABLED);
+					ChatHelper.sendMessageTo (player,Local.FLY_DISABLED_OTHER.replaceFirst ("#",user.getDisplayName ().getUnformattedText ()));
+					user.sendPlayerAbilities ();
+				}
+			}
 			if (!playerFound)
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else {
