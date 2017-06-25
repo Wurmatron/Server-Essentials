@@ -67,15 +67,17 @@ public class UsernameResolver {
     }
 
     public static String usernameFromNickname(String username) {
-        if (!isValidPlayer(username)) {
+        if (new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username)) return username;
+        else {
             UsernameCache.getMap().forEach((uid, user) -> {
                 if (!DataHelper.loadedPlayers.keySet().contains(uid)) DataHelper.getPlayerData(uid);
             });
             for (UUID uuid : DataHelper.loadedPlayers.keySet()) {
-                if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username)) return getUsername(uuid);
+                if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username))
+                    return getUsername(uuid);
             }
             return null;
-        } else return username;
+        }
     }
 
     public static String getNickname(UUID uuid) {
