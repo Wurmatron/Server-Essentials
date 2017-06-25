@@ -28,7 +28,7 @@ public class Local {
 	public static final String SPAWN_TELEPORTED = TextFormatting.GREEN + "Teleported to spawn";
 	public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";
 	public static final String COMMAND_SENDER_FORCED = TextFormatting.GREEN + "Player \"#\" has been forced to run ";
-	public static final String LAST_SEEN = TextFormatting.GREEN + "Last Seen # ago";
+	public static final String LAST_SEEN = TextFormatting.GREEN + "Last Seen: #";
 	public static final String COMMAND_NOT_FOUND = TextFormatting.RED + "Command not found!";
 	public static final String NO_RULES = TextFormatting.RED + "No Rules have been specified!";
 	public static final String PAGE_NONE = TextFormatting.RED + "Page '#' does not exist, the max page number is \"$\"";

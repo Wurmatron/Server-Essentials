@@ -24,10 +24,8 @@ import wurmcraft.serveressentials.common.reference.Local;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.time.Instant;
+import java.util.*;
 
 public class DataHelper {
 
@@ -87,25 +85,25 @@ public class DataHelper {
 
 	public static PlayerData loadPlayerData (UUID name) {
 		File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
-		if (playerFileLocation.exists ()) {
-			ArrayList <String> lines = new ArrayList <> ();
-			try {
-				BufferedReader reader = new BufferedReader (new FileReader (playerFileLocation));
-				String line;
-				while ((line = reader.readLine ()) != null)
-					lines.add (line);
-				reader.close ();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace ();
-			} catch (IOException e) {
-				e.printStackTrace ();
+		if (loadedPlayers.containsKey(name)) return loadedPlayers.get(name);
+		else {
+			if (playerFileLocation.exists()) {
+				ArrayList<String> lines = new ArrayList<>();
+				try {
+					BufferedReader reader = new BufferedReader(new FileReader(playerFileLocation));
+					String line;
+					while ((line = reader.readLine()) != null) lines.add(line);
+					reader.close();
+				} catch (IOException e) { e.printStackTrace(); }
+				String temp = "";
+				for (int s = 0; s <= lines.size() - 1; s++)
+					temp = temp + lines.get(s);
+				PlayerData data = gson.fromJson(temp, PlayerData.class);
+				loadedPlayers.put(name, data);
+				return data;
 			}
-			String temp = "";
-			for (int s = 0; s <= lines.size () - 1; s++)
-				temp = temp + lines.get (s);
-			return gson.fromJson (temp,PlayerData.class);
+			return null;
 		}
-		return null;
 	}
 
 	public static void unloadPlayerData (UUID name) {
@@ -177,7 +175,7 @@ public class DataHelper {
 			data = loadPlayerData (name);
 		if (data != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
-			data.setLastseen (System.currentTimeMillis ());
+			data.setLastseen (Instant.now().toEpochMilli());
 			try {
 				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
 				reloadPlayerData (name);

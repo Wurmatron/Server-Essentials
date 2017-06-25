@@ -65,46 +65,6 @@ public class TeleportUtils {
 		return false;
 	}
 
-	public static String convertToHumanReadable (long duration) {
-		String readable = "";
-		long temp = 0;
-		if (duration >= ONE_SECOND) {
-			temp = duration / ONE_DAY;
-			if (temp > 0) {
-				duration -= temp * ONE_DAY;
-				readable = temp + " day";
-				if (temp > 0)
-					readable = readable + "s";
-				if (duration >= ONE_MINUTE)
-					readable = readable + ", ";
-			}
-			temp = duration / ONE_HOUR;
-			if (temp > 0) {
-				duration -= temp * ONE_HOUR;
-				readable = readable + temp + " hour";
-				if (temp > 1)
-					readable = readable + "s";
-				if (duration >= ONE_MINUTE)
-					readable = readable + ", ";
-			}
-			temp = duration / ONE_MINUTE;
-			if (temp > 0)
-				duration -= temp * ONE_MINUTE;
-			readable = readable + temp + " minute";
-			if (temp > 1)
-				readable = readable + "s";
-			if (!"".equalsIgnoreCase (readable) && ONE_SECOND <= duration)
-				readable = readable + " and ";
-			temp = duration / ONE_SECOND;
-			if (temp > 0)
-				readable = readable + temp + " second";
-			if (temp > 1)
-				readable = readable + "s";
-			return readable;
-		} else
-			return "Online";
-	}
-
 	public static EntityPlayer getPlayerFromName (String name) {
 		if (name != null) {
 			List <EntityPlayerMP> players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();

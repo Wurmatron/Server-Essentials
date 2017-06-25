@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -51,7 +52,8 @@ public class SeenCommand extends EssentialsCommand {
 			if (players.getPlayerList ().size () > 0)
 				for (EntityPlayerMP user : players.getPlayerList ())
 					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
-						ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#","Online"));
+						ChatHelper.sendMessageTo(sender, (TextFormatting.GREEN + "Player: '" +
+								UsernameCache.getLastKnownUsername(user.getGameProfile().getId()) + "' is currently online!"));
 						displayed = true;
 					}
 			if (!displayed && UsernameCache.getMap ().values ().contains (args[0])) {
@@ -59,7 +61,7 @@ public class SeenCommand extends EssentialsCommand {
 					if (UsernameCache.getLastKnownUsername (username).equals (args[0])) {
 						PlayerData data = DataHelper.loadPlayerData (username);
 						if (data != null) {
-							ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#",convert (data.getLastseen ())));
+							ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#", TextFormatting.DARK_AQUA + new Date(data.getLastseen()).toString()));
 							displayed = true;
 						}
 						DataHelper.unloadPlayerData (username);
@@ -76,10 +78,6 @@ public class SeenCommand extends EssentialsCommand {
 		if (sender instanceof EntityPlayer)
 			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
 		return list;
-	}
-
-	private static String convert (long lastSeen) {
-		return TeleportUtils.convertToHumanReadable (new Date ().getTime () - lastSeen);
 	}
 
 	@Override
