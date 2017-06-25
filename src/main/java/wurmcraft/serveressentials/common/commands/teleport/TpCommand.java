@@ -47,8 +47,8 @@ public class TpCommand extends EssentialsCommand {
 					}
 			}
 		} else if (args.length == 2) {
-			EntityPlayer from = UsernameResolver.getPlayer(server, args[0]);
-			EntityPlayer to = UsernameResolver.getPlayer(server,args[1]);
+			EntityPlayer from = UsernameResolver.getPlayer(args[0]);
+			EntityPlayer to = UsernameResolver.getPlayer(args[1]);
 			if (from != null && to != null) {
 				TeleportUtils.teleportTo (from,new BlockPos (to.posX,to.posY,to.posZ),false);
 				ChatHelper.sendMessageTo (sender,Local.TELEPORTED_FROM.replaceAll ("#",from.getDisplayNameString ()).replaceAll ("%",to.getDisplayNameString ()));
@@ -68,7 +68,7 @@ public class TpCommand extends EssentialsCommand {
 			} catch (NumberFormatException e) {
 			}
 		} else if (args.length == 4) {
-			EntityPlayer player = UsernameResolver.getPlayer(server,args[0]);
+			EntityPlayer player = UsernameResolver.getPlayer(args[0]);
 			if (player != null) {
 				try {
 					int x = Integer.parseInt (args[0]);

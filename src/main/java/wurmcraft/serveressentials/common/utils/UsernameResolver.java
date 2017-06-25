@@ -2,8 +2,8 @@ package wurmcraft.serveressentials.common.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 
 import java.util.*;
@@ -53,12 +53,30 @@ public class UsernameResolver {
         }
     }
 
+    private static MinecraftServer getServer() {
+        return FMLCommonHandler.instance().getMinecraftServerInstance();
+    }
+
     public static boolean isValidPlayer(String username) {
         return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username);
     }
 
     public static boolean isNickname(String username) {
-        return username.equalsIgnoreCase(getNickname(getPlayerUUID(username)));
+        return !(usernameFromNickname(username)==username);
+    }
+
+    public static String usernameFromNickname(String username) {
+        if (!isValidPlayer(username)) {
+            List<UUID> unloadedUUIDs = new ArrayList<UUID>();
+            UsernameCache.getMap().forEach((uid, user) -> {
+                if (!DataHelper.loadedPlayers.keySet().contains(uid)) unloadedUUIDs.add(uid);
+            });
+            for (UUID unloadedUUID : unloadedUUIDs) DataHelper.getPlayerData(unloadedUUID);
+            for (UUID uuid : DataHelper.loadedPlayers.keySet()) {
+                if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username)) return getUsername(username);
+            }
+            return null;
+        } else return username;
     }
 
     public static String getNickname(UUID uuid) {
@@ -70,6 +88,8 @@ public class UsernameResolver {
     }
 
     public static PlayerData getPlayerData(String username) {
+        String nick=usernameFromNickname(username);
+        if (!nick.equalsIgnoreCase(username)) username=usernameFromNickname(username);
         Set<UUID> uuids = UsernameCache.getMap().keySet();
         for (UUID uuid : uuids) if (UsernameCache.getMap().get(uuid).equalsIgnoreCase(username))
             return DataHelper.loadedPlayers.get(uuid);
@@ -77,6 +97,8 @@ public class UsernameResolver {
     }
 
     public static UUID getPlayerUUID(String username) {
+        String nick=usernameFromNickname(username);
+        if (!nick.equalsIgnoreCase(username)) username=usernameFromNickname(username);
         Set<UUID> uuids = UsernameCache.getMap().keySet();
         for (UUID uuid : uuids) if (UsernameCache.getMap().get(uuid).equalsIgnoreCase(username)) return uuid;
         return null;
@@ -86,11 +108,13 @@ public class UsernameResolver {
         return UsernameCache.getMap().get(uniqueID);
     }
 
-    public static EntityPlayer getPlayer(MinecraftServer server, String username) {
-        return isValidPlayer(username) ? server.getPlayerList().getPlayerByUsername(username) : null;
+    public static EntityPlayer getPlayer(String username) {
+        String nick=usernameFromNickname(username);
+        if (!nick.equalsIgnoreCase(username)) return getServer().getPlayerList().getPlayerByUsername(usernameFromNickname(username));
+        else return (isValidPlayer(username)) ? getServer().getPlayerList().getPlayerByUsername(username) : null;
     }
 
-    public static EntityPlayer getPlayer(MinecraftServer server, UUID uuid){
-        return server.getPlayerList().getPlayerByUUID(uuid);
+    public static EntityPlayer getPlayer(UUID uuid){
+        return getServer().getPlayerList().getPlayerByUUID(uuid);
     }
 }
