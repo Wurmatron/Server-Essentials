@@ -75,28 +75,42 @@ public class MailCommand extends EssentialsCommand {
 						}
 				} else
 					ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#","None"));
-			} else if (args[0].equalsIgnoreCase ("read")) {
+			} else if (args[0].equalsIgnoreCase ("read") || args[0].equalsIgnoreCase ("list")) {
 				List <Mail> playerMail = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getMail ();
 				if (playerMail.size () > 0) {
 					ChatHelper.sendMessageTo (player,Local.SPACER);
 					for (int index = 0; index < playerMail.size (); index++)
-						ChatHelper.sendMessageTo (player,"[" + index + "] " + UsernameCache.getLastKnownUsername (playerMail.get (index).getSender ()) + " " + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7"));
+						ChatHelper.sendMessageTo (player,"[" + (index  + 1)+ "] " + UsernameCache.getLastKnownUsername (playerMail.get (index).getSender ()) + " " + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7"));
 					ChatHelper.sendMessageTo (player,Local.SPACER);
 				} else
 					ChatHelper.sendMessageTo (player,Local.NO_MAIL);
 			} else if (args[0].equalsIgnoreCase ("delete") || args[0].equalsIgnoreCase ("del")) {
-				if (args.length >= 2) {
-					Integer mailNo = Integer.valueOf (args[1]);
+				if (args.length == 2) {
+					Integer mailNo = Integer.valueOf (args[1]) - 1;
 					if (DataHelper.getPlayerData (player.getGameProfile ().getId ()).getMail ().size () >= mailNo) {
 						DataHelper.removeMail (player.getGameProfile ().getId (),mailNo);
 						ChatHelper.sendMessageTo (player,Local.MAIL_REMOVED);
 					} else
-						ChatHelper.sendMessageTo (player,Local.MAIL_INVALID);
+						ChatHelper.sendMessageTo (player,Local.MAIL_INVALID.replaceAll ("#",args[1]));
+				} else if (args.length > 2) {
+					for (int a = 1; a < args.length; a++) {
+						String arg = args[a];
+						try {
+							int index = Integer.parseInt (arg) - 1;
+							if (index < DataHelper.getPlayerData (player.getGameProfile ().getId ()).getMail ().size ()) {
+								DataHelper.removeMail (player.getGameProfile ().getId (), index);
+							} else
+								ChatHelper.sendMessageTo (player,Local.MAIL_INVALID.replaceAll ("#",arg));
+						} catch (NumberFormatException e) {
+							ChatHelper.sendMessageTo (player,Local.INVALID_NUMBER.replaceAll ("#",arg));
+						}
+					}
+					ChatHelper.sendMessageTo (player,Local.MAIL_REMOVED);
 				} else
 					ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 			} else if (args[0].equalsIgnoreCase ("deleteAll") || args[0].equalsIgnoreCase ("delAll")) {
 				for (int index = 0; index < DataHelper.getPlayerData (player.getGameProfile ().getId ()).getMail ().size (); index++)
-					DataHelper.removeMail (player.getGameProfile ().getId (),index);
+					DataHelper.removeMail (player.getGameProfile ().getId (),index-1);
 				ChatHelper.sendMessageTo (player,Local.MAIL_REMOVED_ALL);
 			} else
 				ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
