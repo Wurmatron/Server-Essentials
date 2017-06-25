@@ -11,7 +11,6 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +43,24 @@ public class SendItemCommand extends EssentialsCommand {
 	}
 
 	@Override
+	public List <String> getCommandAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("senditem");
+		aliases.add ("SENDITEM");
+		aliases.add ("SendItemCommand");
+		return aliases;
+	}
+
+	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		if (args.length == 1) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (player.getHeldItemMainhand () != null) {
+				boolean found = false;
 				for (UUID uuid : UsernameCache.getMap ().keySet ())
 					if (UsernameCache.getLastKnownUsername (uuid).equalsIgnoreCase (args[0])) {
 						Vault[] vaults = DataHelper.playerVaults.get (uuid);
-						LogHandler.info ("Player Found");
 						if (vaults != null)
 							for (int index = 0; index < vaults[0].getItems ().length; index++) {
 								if (vaults[0].getItems ()[index] == null) {
@@ -62,22 +70,16 @@ public class SendItemCommand extends EssentialsCommand {
 									DataHelper.saveVault (uuid,vaults);
 									ChatHelper.sendMessageTo (player,Local.ITEM_SENT.replaceAll ("#",player.getHeldItemMainhand ().getDisplayName ()).replaceAll ("@",UsernameCache.getLastKnownUsername (uuid)));
 									player.inventory.deleteStack (player.getHeldItemMainhand ());
+									found = true;
 									break;
 								}
 							}
 					}
+				if (!found)
+					ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 			} else
 				ChatHelper.sendMessageTo (player,Local.MISSING_STACK);
 		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("senditem");
-		aliases.add ("SENDITEM");
-		aliases.add ("SendItemCommand");
-		return aliases;
 	}
 }

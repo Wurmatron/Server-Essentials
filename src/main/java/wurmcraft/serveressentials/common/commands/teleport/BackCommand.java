@@ -45,10 +45,11 @@ public class BackCommand extends EssentialsCommand {
 		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
 		if (data != null && data.getLastLocation () != null) {
 			BlockPos lastLocation = data.getLastLocation ();
-			player.setPosition (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());
+			player.setPositionAndUpdate (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());
 			DataHelper.updateTeleportTimer (player.getGameProfile ().getId ());
 			ChatHelper.sendMessageTo (player,Local.TELEPORT_BACK);
-		}
+		} else
+			ChatHelper.sendMessageTo (player,Local.INVALID_LASTLOCATION);
 	}
 
 	@Override

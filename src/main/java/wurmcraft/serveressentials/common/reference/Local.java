@@ -44,7 +44,7 @@ public class Local {
 	public static final String PLAYER_ONLY = TextFormatting.RED + "Command can only be run by players!";
 	public static final String AFK_NOW = TextFormatting.RED + "# is now afk!";
 	public static final String AFK_OFF = TextFormatting.RED + "# is no longer afk!";
-	public static final String PING_REPLY = TextFormatting.AQUA + "NepNep NepNep Nep?";
+	public static final String PING_REPLY = TextFormatting.AQUA + "Nep NepNep Nep Nep Nep";
 	// Player
 	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
 	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
@@ -83,7 +83,8 @@ public class Local {
 	public static final String NO_MAIL = TextFormatting.RED + "No Mail!";
 	public static final String MAIL_REMOVED = TextFormatting.AQUA + "Mail Deleted!";
 	public static final String HAS_MAIL = TextFormatting.AQUA + "You have Mail!";
-	public static final String MAIL_INVALID = TextFormatting.RED + "Invalid Mail No.";
+	public static final String MAIL_INVALID = TextFormatting.RED + "Invalid Mail No. (#)";
+	public static final String MAIL_REMOVED_ALL = TextFormatting.GREEN + "All your mail has been deleted";
 	public static final String INVALID_KIT_NAME = TextFormatting.RED + "Invalid Kit Name \"#\"";
 	public static final String KIT_CREATED = TextFormatting.GOLD + "Kit \"#\" created!";
 	public static final String KIT_NOTFOUND = TextFormatting.RED + "Kit \"#\" not found!";
@@ -119,6 +120,7 @@ public class Local {
 	public static final String INVALID_HOME_NAME = TextFormatting.RED + "Home Name \"#\" invalid!";
 	public static final String NO_TPA = TextFormatting.AQUA + "No pending TPA Requests";
 	public static final String TPA_SELF = TextFormatting.RED + "You cannot send a request to yourself";
+	public static final String INVALID_LASTLOCATION = TextFormatting.RED + "Last Location Invalid";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";
