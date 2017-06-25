@@ -87,7 +87,7 @@ public class Local {
 	public static final String NO_MAIL = TextFormatting.RED + "No Mail!";
 	public static final String MAIL_REMOVED = TextFormatting.AQUA + "Mail Deleted!";
 	public static final String HAS_MAIL = TextFormatting.AQUA + "You have Mail!";
-	public static final String MAIL_INVALID = TextFormatting.RED + "Invalid Mail No. (#)";
+	public static final String MAIL_INVALID = TextFormatting.RED + "Invalid Mail Number: #";
 	public static final String MAIL_REMOVED_ALL = TextFormatting.GREEN + "All your mail has been deleted";
 	public static final String INVALID_KIT_NAME = TextFormatting.RED + "Invalid Kit Name \"#\"";
 	public static final String KIT_CREATED = TextFormatting.GOLD + "Kit \"#\" created!";

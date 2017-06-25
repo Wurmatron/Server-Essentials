@@ -63,18 +63,18 @@ public class UsernameResolver {
     }
 
     public static boolean isNickname(String username) {
-        return !(usernameFromNickname(username)==username);
+        String resolvedName = usernameFromNickname(username);
+        return (resolvedName!=username) && (resolvedName!=null);
     }
 
     public static String usernameFromNickname(String username) {
         if (new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username)) return username;
         else {
-            UsernameCache.getMap().forEach((uid, user) -> {
-                if (!DataHelper.loadedPlayers.keySet().contains(uid)) DataHelper.getPlayerData(uid);
-            });
-            for (UUID uuid : DataHelper.loadedPlayers.keySet()) {
-                if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username))
-                    return getUsername(uuid);
+            for (UUID uid : UsernameCache.getMap().keySet()){
+                if (!DataHelper.loadedPlayers.keySet().contains(uid)) {
+                    String nick=DataHelper.loadPlayerData(uid).getNickname();
+                    if (nick!=null) if(nick.equalsIgnoreCase(username)) return getUsername(uid);
+                }
             }
             return null;
         }

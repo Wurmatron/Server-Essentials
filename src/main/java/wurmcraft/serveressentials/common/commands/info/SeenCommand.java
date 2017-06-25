@@ -13,6 +13,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -46,12 +47,14 @@ public class SeenCommand extends EssentialsCommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		String resolvedUsername=UsernameResolver.usernameFromNickname(args[0]);
+		if (resolvedUsername==null) {ChatHelper.sendMessageTo(sender, Local.PLAYER_NOT_FOUND.replaceAll("\"#\"", args[0])); return;}
 		if (args.length > 0) {
 			PlayerList players = server.getServer ().getPlayerList ();
 			boolean displayed = false;
 			if (players.getPlayerList ().size () > 0)
 				for (EntityPlayerMP user : players.getPlayerList ())
-					if (user.getGameProfile ().getId ().equals (server.getServer ().getPlayerProfileCache ().getGameProfileForUsername (args[0]).getId ())) {
+					if (user.getGameProfile ().getId ().equals(UsernameResolver.getPlayerUUID(resolvedUsername))) {
 						ChatHelper.sendMessageTo (sender,(TextFormatting.GREEN + "Player: '" + UsernameCache.getLastKnownUsername (user.getGameProfile ().getId ()) + "' is currently online!"));
 						displayed = true;
 					}

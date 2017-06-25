@@ -6,6 +6,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import wurmcraft.serveressentials.common.claim.ClaimEvent;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.config.Settings;
@@ -15,6 +17,7 @@ import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.security.SecurityEvents;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
+import wurmcraft.serveressentials.common.utils.ServerUtils;
 
 @Mod (modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
 public class ServerEssentialsServer {
@@ -46,9 +49,11 @@ public class ServerEssentialsServer {
 	}
 
 	@Mod.EventHandler
+	@SideOnly(Side.SERVER)
 	public void onServerLoading (FMLServerStartingEvent e) {
 		SecurityUtils.loadTrustedStaff ();
 		LoadHelper.registerCommands (e);
 		LoadHelper.loadData ();
+		ServerUtils.customizeShutdownMessage("Test message");
 	}
 }

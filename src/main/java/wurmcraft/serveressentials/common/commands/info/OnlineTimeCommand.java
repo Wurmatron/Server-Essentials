@@ -58,7 +58,7 @@ public class OnlineTimeCommand extends EssentialsCommand {
 			}
 		};
 		UUID[] keys = dataMap.keySet ().toArray (new UUID[0]);
-		for (int i = 0; i < Settings.onlineTimeMaxPrint; i++) {
+		for (int i = 0; i < Settings.onlineTimeMaxPrint && i < keys.length; i++) {
 			unknownPlayers.forEach (s -> ChatHelper.sendMessageTo (sender,TextFormatting.RED + "Unknown Player: '" + s + "'"));
 			String formatted = DurationFormatUtils.formatDuration (dataMap.get (keys[i]).getOnlineTime () * 60000,"d%:H$:m#:s@").replace ('%','D').replace ('$','H').replace ('#','M').replace ('@','S').replaceAll (":",", ");
 			ChatHelper.sendMessageTo (sender,TextFormatting.GREEN + UsernameCache.getLastKnownUsername (keys[i]) + TextFormatting.DARK_AQUA + " : " + formatted);
