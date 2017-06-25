@@ -13,4 +13,6 @@ public class Defaults {
 	public static final String CURRENCY_SYMBOL = "$";
 	public static final String MESSAGEFORMAT = "%username% -> %message%";
 	public static final int ONLINETIMEMAXPRINT = 20;
+	public static final boolean LOGCHAT = true;
+	public static final int LOGINTERVAL = 30;
 }

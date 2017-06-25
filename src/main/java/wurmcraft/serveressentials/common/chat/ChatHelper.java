@@ -19,6 +19,7 @@ import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Date;
 
 public class ChatHelper {
 
@@ -82,6 +83,10 @@ public class ChatHelper {
 
 	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,String message) {
 		LogHandler.chat (format (displayName,rank,channel,dimension,message));
+		if (Settings.logChat) {
+			LogHelper.addChat (channel, "[" + new Date (System.currentTimeMillis ()).toString () + "] " + displayName + " " + message);
+			LogHelper.checkAndSave ();
+		}
 		sendChannelMessage (channel,displayName,rank,dimension,message);
 	}
 

@@ -64,7 +64,7 @@ public class ChannelCommand extends EssentialsCommand {
 				} else if (channel != null)
 					ChatHelper.sendMessageTo (player,Local.CHANNEL_PERMS.replaceAll ("#",channel.getName ()));
 				else
-					ChatHelper.sendMessageTo (player,Local.CHANNEL_INVALID.replaceAll ("#",channel.getName ()));
+					ChatHelper.sendMessageTo (player,Local.CHANNEL_INVALID.replaceAll ("#",args[0]));
 			}
 		} else
 			ChatHelper.sendMessageTo (player,getCommandUsage (sender));

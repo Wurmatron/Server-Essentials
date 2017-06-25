@@ -15,4 +15,6 @@ public class Settings {
 	public static boolean securityModule;
 	public static String trustedStaff;
 	public static int onlineTimeMaxPrint;
+	public static boolean logChat;
+	public static int logInterval;
 }
