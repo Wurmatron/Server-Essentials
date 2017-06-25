@@ -25,6 +25,7 @@ public class ConfigHandler {
 	private static Property messageFormat;
 	private static Property securityModule;
 	private static Property trustedStaff;
+	private static Property onlineTimeMaxPrint;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -58,6 +59,8 @@ public class ConfigHandler {
 		Settings.trustedStaff = trustedStaff.getString ();
 		securityModule = config.get (Configuration.CATEGORY_GENERAL,"securityModule",false,"Enable the Server-Essentials Security");
 		Settings.securityModule = securityModule.getBoolean ();
+		onlineTimeMaxPrint = config.get(Configuration.CATEGORY_GENERAL, "onlineTimeMaxPrint", Defaults.ONLINETIMEMAXPRINT, "Maximum number of usernames to be printed for 'onlinetime' command" ,1 ,30);
+		Settings.onlineTimeMaxPrint = onlineTimeMaxPrint.getInt();
 
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");

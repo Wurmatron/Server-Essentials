@@ -10,6 +10,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -78,34 +79,35 @@ public class OnlineTimeCommand extends EssentialsCommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
-			List<String> unknownPlayers = new ArrayList<>();
-			new HashMap<UUID, PlayerData>() {
-				{
-					if (args.length==0) {
-						UsernameCache.getMap().forEach((uuid, s) -> put(uuid, DataHelper.loadPlayerData(uuid)));
-					} else {
-						AbstractUsernameCollection<String> usernames = new AbstractUsernameCollection<String>(UsernameCache.getMap().values());
-						for (String arg : args) {
-							UsernameCache.getMap().forEach((uuid, s) -> {
-								if (s.equalsIgnoreCase(arg)) put(uuid, DataHelper.loadPlayerData(uuid));
-								else if (!usernames.contains(s)) unknownPlayers.add(s);
-							});
-						}
+		List<String> unknownPlayers = new ArrayList<>();
+		HashMap<UUID, PlayerData> dataMap = new HashMap<UUID, PlayerData>() {
+			{
+				if (args.length==0) {
+					UsernameCache.getMap().forEach((uuid, s) -> put(uuid, DataHelper.loadPlayerData(uuid)));
+				} else {
+					AbstractUsernameCollection<String> usernames = new AbstractUsernameCollection<String>(UsernameCache.getMap().values());
+					for (String arg : args) {
+						UsernameCache.getMap().forEach((uuid, s) -> {
+							if (s.equalsIgnoreCase(arg)) put(uuid, DataHelper.loadPlayerData(uuid));
+							else if (!usernames.contains(s)) unknownPlayers.add(s);
+						});
 					}
 				}
-			}.forEach((uuid, pd) -> {
-				unknownPlayers.forEach(s -> ChatHelper.sendMessageTo(sender, TextFormatting.RED + "Unknown Player: '" + s + "'"));
-				String formatted = DurationFormatUtils
-						.formatDuration(pd.getOnlineTime()*60000, "d%:H$:m#:s@")
-						.replace('%', 'D')
-						.replace('$', 'H')
-						.replace('#', 'M')
-						.replace('@', 'S')
-						.replaceAll(":", ", ");
-				ChatHelper.sendMessageTo(sender, TextFormatting.GREEN + UsernameCache.getLastKnownUsername(uuid) +
-				TextFormatting.DARK_AQUA + " : " + formatted);
-			});
-
+			}
+		};
+		UUID[] keys = dataMap.keySet().toArray(new UUID[0]);
+		for (int i = 0; i < Settings.onlineTimeMaxPrint; i++) {
+			unknownPlayers.forEach(s -> ChatHelper.sendMessageTo(sender, TextFormatting.RED + "Unknown Player: '" + s + "'"));
+			String formatted = DurationFormatUtils
+					.formatDuration(dataMap.get(keys[i]).getOnlineTime()*60000, "d%:H$:m#:s@")
+					.replace('%', 'D')
+					.replace('$', 'H')
+					.replace('#', 'M')
+					.replace('@', 'S')
+					.replaceAll(":", ", ");
+			ChatHelper.sendMessageTo(sender, TextFormatting.GREEN + UsernameCache.getLastKnownUsername(keys[i]) +
+					TextFormatting.DARK_AQUA + " : " + formatted);
+		}
 	}
 
 	@Override
