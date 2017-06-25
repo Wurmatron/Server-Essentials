@@ -58,7 +58,8 @@ public class UsernameResolver {
     }
 
     public static boolean isValidPlayer(String username) {
-        return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username);
+        return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username) ||
+                isNickname(username);
     }
 
     public static boolean isNickname(String username) {
@@ -67,11 +68,9 @@ public class UsernameResolver {
 
     public static String usernameFromNickname(String username) {
         if (!isValidPlayer(username)) {
-            List<UUID> unloadedUUIDs = new ArrayList<UUID>();
             UsernameCache.getMap().forEach((uid, user) -> {
-                if (!DataHelper.loadedPlayers.keySet().contains(uid)) unloadedUUIDs.add(uid);
+                if (!DataHelper.loadedPlayers.keySet().contains(uid)) DataHelper.getPlayerData(uid);
             });
-            for (UUID unloadedUUID : unloadedUUIDs) DataHelper.getPlayerData(unloadedUUID);
             for (UUID uuid : DataHelper.loadedPlayers.keySet()) {
                 if (DataHelper.loadedPlayers.get(uuid).getNickname().equalsIgnoreCase(username)) return getUsername(uuid);
             }
