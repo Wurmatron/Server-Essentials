@@ -24,19 +24,8 @@ public class UsernameResolver {
         @Override
         public boolean contains(Object s) {
             Iterator<T> itr = this.iterator();
-            if(s == null) {
-                while(itr.hasNext()) {
-                    if(itr.next() == null) {
-                        return true;
-                    }
-                }
-            } else {
-                while(itr.hasNext()) {
-                    if(((String)s).equalsIgnoreCase(itr.next())) {
-                        return true;
-                    }
-                }
-            }
+            if(s == null) return false;
+            else while(itr.hasNext()) if(((String)s).equalsIgnoreCase(itr.next())) return true;
             return false;
         }
         @Override
@@ -50,7 +39,7 @@ public class UsernameResolver {
         }
         @Override
         public int size() {
-            return 0;
+            return names.size();
         }
     }
 
@@ -73,14 +62,12 @@ public class UsernameResolver {
     }
 
     public static String usernameFromNickname(String username) {
-        username=TextFormatting.getTextWithoutFormattingCodes(username).replaceAll("\\*", "");
-        if (new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username)) return username;
+        String unFormattedName=TextFormatting.getTextWithoutFormattingCodes(username).replaceAll("\\*", "");
+        if (new AbstractUsernameCollection(UsernameCache.getMap().values()).contains(unFormattedName)) return unFormattedName;
         else {
             for (UUID uid : UsernameCache.getMap().keySet()){
-                if (!DataHelper.loadedPlayers.keySet().contains(uid)) {
-                    String nick=DataHelper.loadPlayerData(uid).getNickname();
-                    if (nick!=null) if(nick.equalsIgnoreCase(username)) return getUsername(uid);
-                }
+                String nick=DataHelper.loadPlayerData(uid).getNickname();
+                if (nick!=null) if(nick.equalsIgnoreCase(unFormattedName)) return getUsername(uid);
             }
             return null;
         }

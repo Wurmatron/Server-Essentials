@@ -45,6 +45,9 @@ public class NickCommand extends EssentialsCommand {
 		return "Changes a players name";
 	}
 
+	//TODO filter non: A-z0-9\-\_\+\=\&
+	//TODO config for max length
+	//TODO
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length == 1 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
