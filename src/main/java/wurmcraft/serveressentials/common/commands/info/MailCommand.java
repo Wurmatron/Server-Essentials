@@ -129,12 +129,12 @@ public class MailCommand extends EssentialsCommand {
 					if (trailingArgs.length==0) {printUsage(sender); break;}
 					else {
 						String username=player.getGameProfile().getName();
-						Mail[] playerMail=UsernameResolver.getPlayerData(username).getMail().toArray(new Mail[0]);
 						if (trailingArgs.length==1&&trailingArgs[0].equalsIgnoreCase("all")) {
-							for (int i=0;i<playerMail.length;i++) DataHelper.loadPlayerData(player.getGameProfile().getId()).removeMail(i);
+							DataHelper.loadPlayerData(player.getGameProfile().getId()).getMail().clear();
 							ChatHelper.sendMessageTo(player, TextFormatting.DARK_AQUA+"All mail deleted!");
 						}
 						else {
+							Mail[] playerMail=UsernameResolver.getPlayerData(username).getMail().toArray(new Mail[0]);
 							for (int index : parseMailIndices(player, trailingArgs, playerMail)) {
 								DataHelper.loadPlayerData(player.getGameProfile().getId()).removeMail(index);
 								ChatHelper.sendMessageTo(player, TextFormatting.DARK_AQUA+"Mail ["+index+"] deleted!");

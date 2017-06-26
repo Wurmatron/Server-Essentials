@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
@@ -48,10 +49,14 @@ public class NickCommand extends EssentialsCommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length == 1 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			if (UsernameResolver.isValidNickname(args[0])) {ChatHelper.sendMessageTo(player,
+					TextFormatting.RED+"Nickname: '"+TextFormatting.DARK_AQUA+args[0]+TextFormatting.RED+"' already taken!");return;}
 			DataHelper.setNickname (player.getGameProfile ().getId (),args[0]);
 			ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[0]));
 		} else if (args.length == 2) {
 			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			if (UsernameResolver.isValidNickname(args[1])) {ChatHelper.sendMessageTo(player,
+					TextFormatting.RED+"Nickname: '"+TextFormatting.DARK_AQUA+args[0]+TextFormatting.RED+"' already taken!");return;}
 			if (player != null) {
 				DataHelper.setNickname (player.getGameProfile ().getId (),args[1]);
 				ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[1]));
