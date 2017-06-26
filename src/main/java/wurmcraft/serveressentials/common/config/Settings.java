@@ -18,4 +18,5 @@ public class Settings {
 	public static boolean logChat;
 	public static int logInterval;
 	public static int spamLimit;
+	public static String mailFormat;
 }

@@ -87,7 +87,7 @@ public class ChatHelper {
 
 	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,String message) {
 		if (Settings.logChat) {
-			LogHelper.addChat (channel,"[" + new Date (System.currentTimeMillis ()).toString () + "] " + displayName + " " + message);
+			LogHelper.addChat (channel,"[" + new Date (System.currentTimeMillis ()).toString () + "] " + TextFormatting.getTextWithoutFormattingCodes (displayName) + " " + message);
 			LogHelper.checkAndSave ();
 		}
 		if (handleMessage (displayName,message)) {
@@ -135,4 +135,5 @@ public class ChatHelper {
 		}
 		return true;
 	}
+
 }

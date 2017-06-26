@@ -29,6 +29,7 @@ public class ConfigHandler {
 	private static Property logChat;
 	private static Property logInterval;
 	private static Property spamLimit;
+	private static Property mailFormat;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -50,7 +51,7 @@ public class ConfigHandler {
 		Settings.tpa_timeout = tpa_timeout.getInt ();
 		default_channel = config.get (Configuration.CATEGORY_GENERAL,"defaultChannel",Defaults.DEFAULT_CHANNEL,"Default channels players startout in");
 		Settings.default_channel = default_channel.getString ();
-		forceChannelOnJoin = config.get (Configuration.CATEGORY_GENERAL,"forceDefaultChannelOnJoin",Defaults.FORCECHANNELONJOIN,"Shouuldplayer be played in this channel on join?");
+		forceChannelOnJoin = config.get (Configuration.CATEGORY_GENERAL,"forceDefaultChannelOnJoin",Defaults.FORCECHANNELONJOIN,"Should player be played in this channel on join?");
 		Settings.forceChannelOnJoin = forceChannelOnJoin.getBoolean ();
 		chatFormat = config.get (Configuration.CATEGORY_GENERAL,"chatFormat",Defaults.CHATFORMAT,"Formatting for how the chat is displayed");
 		Settings.chatFormat = chatFormat.getString ();
@@ -70,6 +71,8 @@ public class ConfigHandler {
 		Settings.logInterval = logInterval.getInt ();
 		spamLimit = config.get (Configuration.CATEGORY_GENERAL,"spamLimit",Defaults.SPAMLIMIT,"How many times a player can type the same message");
 		Settings.spamLimit = spamLimit.getInt ();
+		mailFormat = config.get (Configuration.CATEGORY_GENERAL,"mailFormat", Defaults.MAILFORMAT, "How mail is displayed");
+		Settings.mailFormat = mailFormat.getString ();
 
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");

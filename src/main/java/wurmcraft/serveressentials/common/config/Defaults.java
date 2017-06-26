@@ -16,4 +16,5 @@ public class Defaults {
 	public static final boolean LOGCHAT = true;
 	public static final int LOGINTERVAL = 30;
 	public static final int SPAMLIMIT = 3;
+	public static final String MAILFORMAT = "%username% -> %message%";
 }
