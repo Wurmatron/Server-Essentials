@@ -111,8 +111,8 @@ public class UsernameResolver {
 
     public static EntityPlayer getPlayer(String username) {
         String nick=usernameFromNickname(username);
-        if (!nick.equalsIgnoreCase(username)) return getServer().getPlayerList().getPlayerByUsername(usernameFromNickname(username));
-        else return (isValidPlayer(username)) ? getServer().getPlayerList().getPlayerByUsername(username) : null;
+        if (isValidPlayer(username)) return getServer().getPlayerList().getPlayerByUsername((nick==null) ? username : nick);
+        else return null;
     }
 
     public static EntityPlayer getPlayer(UUID uuid){
