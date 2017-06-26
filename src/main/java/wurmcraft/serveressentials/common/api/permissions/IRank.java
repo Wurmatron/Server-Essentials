@@ -1,5 +1,7 @@
 package wurmcraft.serveressentials.common.api.permissions;
 
+import wurmcraft.serveressentials.common.reference.Perm;
+
 /**
  Interface used for creation of ranks
  */
@@ -37,4 +39,15 @@ public interface IRank {
 	 Permissions / Commands this group is sable to run
 	 */
 	String[] getPermissions ();
+
+	/**Checks for whether or not the given player has the supplied permission.
+	 *
+	 * @return <code>true</code> if player has permission, <code>false</code> if not.
+	 */
+	default boolean hasPermission(String perm) {
+		if (Perm.isValidPermission(perm)) {
+			for (String permission : getPermissions()) if (perm.equalsIgnoreCase(permission)) return true;
+		}
+		return false;
+	}
 }

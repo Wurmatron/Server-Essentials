@@ -6,6 +6,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.reference.Local;
 
 import java.util.*;
 
@@ -50,6 +52,15 @@ public class UsernameResolver {
     public static boolean isValidPlayer(String username) {
         return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username) ||
                 isValidNickname(username);
+    }
+
+    public static boolean printIsValidPlayer(EntityPlayer sender, String username) {
+        String rUsername = usernameFromNickname(username);
+        if (rUsername == null) {
+            ChatHelper.sendMessageTo(sender, Local.PLAYER_NOT_FOUND.replaceAll(((username == null) ? "\"#\" " : "\"#\""), ((username == null) ? "" : username)));
+            return false;
+        }
+        return true;
     }
 
     public static boolean isValidNickname(String username) {

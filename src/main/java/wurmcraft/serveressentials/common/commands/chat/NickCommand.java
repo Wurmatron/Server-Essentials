@@ -6,17 +6,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
+import static wurmcraft.serveressentials.common.utils.CommandUtils.*;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class NickCommand extends EssentialsCommand {
+	public static final String usage = "/nick | /nick help | /nick set <nick> | /nick set <user> <nick> | /nick del " +
+			"| /nick del <user> | /nick show | /nick show <user>";
 
 	public NickCommand (String perm) {
 		super (perm);
@@ -29,7 +35,7 @@ public class NickCommand extends EssentialsCommand {
 
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
-		return "/nick <nick> | /nick <name> <nick>";
+		return usage;
 	}
 
 	@Override
@@ -45,28 +51,102 @@ public class NickCommand extends EssentialsCommand {
 		return "Changes a players name";
 	}
 
+	private static void printUsage(ICommandSender sender) {ChatHelper.sendMessageTo(sender, usage);}
+
+	public static boolean printIsCorrectNicknameFormatting(EntityPlayer player, String nick) {
+		if (nick.matches("[^\\W.&\\-()]+")) {
+			if (UsernameResolver.isValidNickname(nick)) {
+				ChatHelper.sendMessageTo(player, TextFormatting.RED + "Nickname: '" +
+						TextFormatting.AQUA + nick + TextFormatting.RED + "' already taken!");
+				return false;
+			}
+			ChatHelper.sendMessageTo(player, TextFormatting.RED+"Incorrect nickname formatting! Allowed " +
+					"characters: [A-Aa-z0-9_.&-()]");
+			return false;
+		}
+		return true;
+	}
+
 	//TODO filter non: A-z0-9\-\_\+\=\&
 	//TODO config for max length
-	//TODO
+	//TODO config for perm level required for: (nick set), (nick set user), (nick unset), (nick unset user), (nick show), (nick show user)
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (args.length == 1 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (UsernameResolver.isValidNickname(args[0])) {ChatHelper.sendMessageTo(player,
-					TextFormatting.RED+"Nickname: '"+TextFormatting.DARK_AQUA+args[0]+TextFormatting.RED+"' already taken!");return;}
-			DataHelper.setNickname (player.getGameProfile ().getId (),args[0]);
-			ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[0]));
-		} else if (args.length == 2) {
-			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
-			if (UsernameResolver.isValidNickname(args[1])) {ChatHelper.sendMessageTo(player,
-					TextFormatting.RED+"Nickname: '"+TextFormatting.DARK_AQUA+args[0]+TextFormatting.RED+"' already taken!");return;}
-			if (player != null) {
-				DataHelper.setNickname (player.getGameProfile ().getId (),args[1]);
-				ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[1]));
-				ChatHelper.sendMessageTo (sender,Local.NICKNAME_OTHER.replaceAll ("#",args[0]).replaceAll ("&",args[1]));
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		String[] trailingArgs = getArgsAfterCommand(0, args);
+		if (args.length > 0) {
+			switch (args[0]) {
+				case "help": {printUsage(sender);break;}
+				case "set": {
+					if (trailingArgs.length >= 2 &&
+							DataHelper.loadPlayerData(player.getGameProfile().getId()).getRank().hasPermission(Perm.COMMAND_NICK)) {
+						String rUser = trailingArgs[0];
+						System.out.println(rUser);
+						System.out.println(trailingArgs[1]);
+						if (UsernameResolver.printIsValidPlayer(player, rUser) && printIsCorrectNicknameFormatting(player, trailingArgs[1])) {
+							UsernameResolver.getPlayerData(rUser).setNickname(trailingArgs[1]);
+							ChatHelper.sendMessageTo(sender, Local.NICKNAME_SET.replaceAll("#", rUser));
+							ChatHelper.sendMessageTo(server.getPlayerList().getPlayerByUsername(rUser), TextFormatting.RED+
+									"Your nickname has been set by: "+TextFormatting.DARK_RED+
+									DataHelper.getPlayerData(player.getGameProfile().getId()).getNickname()+TextFormatting.RED+"!");
+						} else break;
+					} else if (trailingArgs.length==1) {
+
+						if (printIsCorrectNicknameFormatting(player, trailingArgs[0])) {
+							UsernameResolver.getPlayerData(player.getGameProfile().getId()).setNickname(trailingArgs[0]);
+							ChatHelper.sendMessageTo(sender, Local.NICKNAME_SET.replaceAll("#'s n", "N"));
+						} else break;
+					} else {printUsage(sender);break;}
+				}
+				case "unset": {
+					if (trailingArgs.length >= 2 &&
+							DataHelper.loadPlayerData(player.getGameProfile().getId()).getRank().hasPermission(Perm.COMMAND_NICK)) {
+						String rUser = trailingArgs[0];
+						if (UsernameResolver.printIsValidPlayer(player, rUser)) {
+							UsernameResolver.getPlayerData(rUser).setNickname("");
+							ChatHelper.sendMessageTo(sender, TextFormatting.GREEN+rUser+"'s nickname has been cleared!");
+							ChatHelper.sendMessageTo(server.getPlayerList().getPlayerByUsername(rUser), TextFormatting.RED+
+									"Your nickname has been cleared by: "+TextFormatting.DARK_RED+
+									DataHelper.getPlayerData(player.getGameProfile().getId()).getNickname()+TextFormatting.RED+"!");
+						} else break;
+					} else if (trailingArgs.length==1) {
+						UsernameResolver.getPlayerData(player.getGameProfile().getId()).setNickname("");
+						ChatHelper.sendMessageTo(player, TextFormatting.GREEN+ "Nickname cleared!");
+					} else {printUsage(sender);break;}
+				}
+				case "show": {
+					if (trailingArgs.length>=1) {
+						String user = trailingArgs[0];
+						if (UsernameResolver.printIsValidPlayer(player, user)) {
+							ChatHelper.sendMessageTo(sender, TextFormatting.GREEN+user+TextFormatting.AQUA+"'s nickname is: "+
+								UsernameResolver.getPlayerData(user).getNickname());
+						} else break;
+					} else {
+						UsernameCache.getMap().forEach((uid, usern) -> {
+							ChatHelper.sendMessageTo(sender, TextFormatting.GREEN+usern+TextFormatting.AQUA+"'s nickname is: "+
+								UsernameResolver.getPlayerData(uid).getNickname());
+						});
+					}
+				}
+				default: {printUsage(sender);break;}
 			}
-		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+		} else {printUsage(sender);}
+//		if (args.length == 1 && sender.getCommandSenderEntity () instanceof EntityPlayer) {
+////			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+//
+//			DataHelper.setNickname (player.getGameProfile ().getId (),args[0]);
+//			ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[0]));
+//		} else if (args.length == 2) {
+////			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+//			if (UsernameResolver.isValidNickname(args[1])) {ChatHelper.sendMessageTo(player,
+//					TextFormatting.RED+"Nickname: '"+TextFormatting.DARK_AQUA+args[0]+TextFormatting.RED+"' already taken!");return;}
+//			if (player != null) {
+//				DataHelper.setNickname (player.getGameProfile ().getId (),args[1]);
+//				ChatHelper.sendMessageTo (player,Local.NICKNAME.replaceAll ("#",args[1]));
+//				ChatHelper.sendMessageTo (sender,Local.NICKNAME_OTHER.replaceAll ("#",args[0]).replaceAll ("&",args[1]));
+//			}
+//		} else
+//			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	@Override

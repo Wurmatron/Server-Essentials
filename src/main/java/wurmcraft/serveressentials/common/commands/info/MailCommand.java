@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static wurmcraft.serveressentials.common.utils.CommandUtils.getArgsAfterCommand;
+
 public class MailCommand extends EssentialsCommand {
 
 	public static final String usage = "/mail send <name> <message> | /mail list | /mail read | /mail delete <#>";
@@ -38,7 +40,7 @@ public class MailCommand extends EssentialsCommand {
 
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
-		return "/mail send <name> <message> | /mail list | /mail read | /mail delete <# OR all>";
+		return usage;
 	}
 
 	@Override
@@ -63,9 +65,7 @@ public class MailCommand extends EssentialsCommand {
 		ChatHelper.sendMessageTo (sender,usage);
 	}
 
-	private static String[] getArgsAfterCommand (int argPos,String[] args) {
-		return ArrayUtils.splice (args,argPos,args.length - 1);
-	}
+
 
 	private static void listMail (ICommandSender sender) {
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();

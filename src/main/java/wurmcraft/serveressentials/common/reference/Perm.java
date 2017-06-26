@@ -1,5 +1,7 @@
 package wurmcraft.serveressentials.common.reference;
 
+import java.lang.reflect.Field;
+
 public class Perm {
 
 	public static final String COMMAND_SET_HOME = "teleport.setHome";
@@ -65,4 +67,14 @@ public class Perm {
 	public static final String COMMAND_AUTORANK = "common.autoRank";
 
 	public static final String CREATIVE = "security.creative";
+
+	public static boolean isValidPermission(String perm) {
+		for (Field f : Perm.class.getDeclaredFields()) {
+			f.setAccessible(true);
+			try {
+				if (((String)f.get(null)).equalsIgnoreCase(perm)) return true;
+			} catch (IllegalAccessException e) {/**Impossible*/}
+		}
+		return false;
+	}
 }

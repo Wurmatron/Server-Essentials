@@ -100,6 +100,7 @@ public class Local {
 	public static final String SPY_OTHER = TextFormatting.AQUA + "Chat Spy # for &";
 	public static final String NICKNAME = TextFormatting.AQUA + "Nickname changed to #";
 	public static final String NICKNAME_OTHER = TextFormatting.AQUA + "Nickname for # changed to &";
+	public static final String NICKNAME_SET = TextFormatting.GREEN+"#'s nickname has been set!";
 	public static final String RANK_NOT_FOUND = TextFormatting.RED + "Rank \"#\" not found!";
 	public static final String RANK_CHANGED = TextFormatting.AQUA + "Your rank has been changed to \"#\"";
 	public static final String RANK_UP = TextFormatting.RED + "You have ranked up to \"#\"";
