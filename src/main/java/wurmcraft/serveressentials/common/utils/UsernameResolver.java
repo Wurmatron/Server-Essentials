@@ -2,6 +2,7 @@ package wurmcraft.serveressentials.common.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -59,15 +60,20 @@ public class UsernameResolver {
 
     public static boolean isValidPlayer(String username) {
         return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username) ||
-                isNickname(username);
+                isValidNickname(username);
     }
 
-    public static boolean isNickname(String username) {
+    public static boolean isValidNickname(String username) {
         String resolvedName = usernameFromNickname(username);
         return (resolvedName!=username) && (resolvedName!=null);
     }
 
+    public static boolean isNickname(String username) {
+        return TextFormatting.getTextWithoutFormattingCodes(username).startsWith("*");
+    }
+
     public static String usernameFromNickname(String username) {
+        username=TextFormatting.getTextWithoutFormattingCodes(username).replaceAll("\\*", "");
         if (new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username)) return username;
         else {
             for (UUID uid : UsernameCache.getMap().keySet()){
