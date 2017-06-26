@@ -49,7 +49,7 @@ public class DeleteMotdCommand extends EssentialsCommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0) {
 			Integer motdIndex = Integer.parseInt (args[0]);
-			if (motdIndex >= 0) {
+			if (motdIndex >= 0 && DataHelper.globalSettings.getMotd ().length > motdIndex) {
 				DataHelper.globalSettings.removeMotd (motdIndex);
 				ChatHelper.sendMessageTo (sender,Local.MOTD_REMOVED.replaceAll ("#",args[0]));
 			} else

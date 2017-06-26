@@ -44,7 +44,7 @@ public class TeleportUtils {
 	}
 
 	public static String getRemainingCooldown (long playerTimer) {
-		return Integer.toString (Math.round ((System.currentTimeMillis () - playerTimer)));
+		return Integer.toString (Math.round ((System.currentTimeMillis () - playerTimer)) / 1000);
 	}
 
 	public static boolean canTeleport (UUID uuid) {

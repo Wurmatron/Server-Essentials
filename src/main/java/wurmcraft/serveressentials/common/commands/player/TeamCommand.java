@@ -133,6 +133,8 @@ public class TeamCommand extends EssentialsCommand {
 						ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Members: " + Strings.join (members,", "));
 					}
 					ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.SPACER);
+				} else if (team == null) {
+					ChatHelper.sendMessageTo (player,Local.TEAM_NONE);
 				} else if (args.length == 2 && TeamManager.getTeamFromName (args[1]) != null) {
 					team = TeamManager.getTeamFromName (args[1]);
 					ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.SPACER);

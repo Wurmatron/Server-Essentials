@@ -65,13 +65,16 @@ public class KitAdminCommand extends EssentialsCommand {
 						if (stack != null)
 							kitItems.add (stack);
 					if (kitItems.size () > 0) {
-						int time = Integer.valueOf (args[2]);
-						if (time > 0 && args.length == 3) {
-							Kit kit = new Kit (args[1],kitItems.toArray (new ItemStack[0]),time);
-							DataHelper.saveKit (kit);
-							ChatHelper.sendMessageTo (player,Local.KIT_CREATED.replaceAll ("#",kit.getName ()));
-						} else
-							ChatHelper.sendMessageTo (player,getCommandUsage (player));
+						try {
+							int time = Integer.valueOf (args[2]);
+							if (time > 0 && args.length == 3) {
+								Kit kit = new Kit (args[1],kitItems.toArray (new ItemStack[0]),time);
+								DataHelper.saveKit (kit);
+								ChatHelper.sendMessageTo (player,Local.KIT_CREATED.replaceAll ("#",kit.getName ()));
+							}
+						} catch (NumberFormatException e) {
+							ChatHelper.sendMessageTo (player,Local.INVALID_NUMBER.replaceAll ("#",args[2]));
+						}
 					}
 				} else
 					ChatHelper.sendMessageTo (player,Local.INVALID_KIT_NAME.replaceAll ("#",args[1]));

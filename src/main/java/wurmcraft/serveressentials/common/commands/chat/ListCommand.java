@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -41,7 +42,7 @@ public class ListCommand extends EssentialsCommand {
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 		for (UUID name : pList) {
 			IRank rank = DataHelper.getPlayerData (name).getRank ();
-			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName ());
+			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName (), clickEvent(UsernameCache.getLastKnownUsername (name)),null);
 		}
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 	}
@@ -49,5 +50,9 @@ public class ListCommand extends EssentialsCommand {
 	@Override
 	public String getDescription () {
 		return "Lists all the players on the server";
+	}
+
+	private static ClickEvent clickEvent (String name) {
+		return new ClickEvent (ClickEvent.Action.SUGGEST_COMMAND,"/msg # ".replaceAll ("#","" + name));
 	}
 }

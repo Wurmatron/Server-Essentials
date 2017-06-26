@@ -139,6 +139,7 @@ public class Local {
 	public static final String TEAM_KICKED = TextFormatting.RED + "You have been forfully kicked from your team";
 	public static final String TEAM_KICKED_OTHER = TextFormatting.RED + "You have forfully kicked \"#\" from your team";
 	public static final String TEAMADMIN_DISBAND = TextFormatting.DARK_RED + "You have disbanded the \"#\" team!";
+	public static final String TEAM_NONE = TextFormatting.RED + "No Team";
 	// Protection
 	public static final String CLAIM_BREAK = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to break this!";
 	public static final String CLAIM_PLACE = TextFormatting.RED + "You do not have " + TextFormatting.GOLD + "#'s" + TextFormatting.RED + " permission to place a block here!";
