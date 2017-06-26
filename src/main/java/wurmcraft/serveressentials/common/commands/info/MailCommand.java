@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.storage.Mail;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -72,7 +73,7 @@ public class MailCommand extends EssentialsCommand {
 		if (playerMail.size () > 0) {
 			ChatHelper.sendMessageTo (sender.getCommandSenderEntity (),Local.SPACER);
 			for (int index = 0; index < playerMail.size (); index++)
-				ChatHelper.sendMessageTo (player,TextFormatting.GREEN + "[" + (index + 1) + "]: " + StringUtils.replaceEach (Settings.mailFormat,new String[] {"%username%","%message%"},new String[] {TextFormatting.AQUA + UsernameResolver.getUsername (playerMail.get (index).getSender ()),TextFormatting.GOLD + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7")}));
+				ChatHelper.sendMessageTo (player,TextFormatting.GREEN + "[" + (index + 1) + "]: " + StringUtils.replaceEach (Settings.mailFormat,new String[] {"%username%","%message%"},new String[] {TextFormatting.AQUA + UsernameResolver.getUsername (playerMail.get (index).getSender ()),TextFormatting.GOLD + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7")}), clickEvent(index + 1),null);
 			ChatHelper.sendMessageTo (player,Local.SPACER);
 		} else
 			ChatHelper.sendMessageTo (player,Local.NO_MAIL);
@@ -173,5 +174,9 @@ public class MailCommand extends EssentialsCommand {
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,1);
+	}
+
+	private static ClickEvent clickEvent (int index) {
+		return new ClickEvent (ClickEvent.Action.RUN_COMMAND,"/mail read #".replaceAll ("#","" + index));
 	}
 }
