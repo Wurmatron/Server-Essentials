@@ -87,6 +87,7 @@ public class LoadHelper {
 		e.registerServerCommand (new SetGroup (Perm.COMMAND_SETGROUP));
 		e.registerServerCommand (new OnlineTimeCommand (Perm.COMMAND_ONLINETIME));
 		e.registerServerCommand (new AutoRankCommand (Perm.COMMAND_AUTORANK));
+		e.registerServerCommand (new TpHereCommand (Perm.COMMAND_TPHERE));
 	}
 
 	public static void loadData () {

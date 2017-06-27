@@ -65,14 +65,16 @@ public class Perm {
 	public static final String COMMAND_SETGROUP = "admin.setGroup";
 	public static final String COMMAND_ONLINETIME = "common.onlineTime";
 	public static final String COMMAND_AUTORANK = "common.autoRank";
+	public static final String COMMAND_TPHERE = "admin.tphere";
 
 	public static final String CREATIVE = "security.creative";
 
-	public static boolean isValidPermission(String perm) {
-		for (Field f : Perm.class.getDeclaredFields()) {
-			f.setAccessible(true);
+	public static boolean isValidPermission (String perm) {
+		for (Field f : Perm.class.getDeclaredFields ()) {
+			f.setAccessible (true);
 			try {
-				if (((String)f.get(null)).equalsIgnoreCase(perm)) return true;
+				if (((String) f.get (null)).equalsIgnoreCase (perm))
+					return true;
 			} catch (IllegalAccessException e) {/**Impossible*/}
 		}
 		return false;
