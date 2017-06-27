@@ -11,11 +11,12 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
 public class ClaimCommand extends EssentialsCommand {
 
-	public ClaimCommand (String perm) {
+	public ClaimCommand (Perm perm) {
 		super (perm);
 	}
 

@@ -9,6 +9,7 @@ import net.minecraft.world.GameType;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -22,7 +23,7 @@ public class GameModeCommand extends EssentialsCommand {
 	private static final String[] ADVENTURE = new String[] {"adventure","a","2"};
 	private static final String[] SPECTATOR = new String[] {"spectator","sp","3"};
 
-	public GameModeCommand (String perm) {
+	public GameModeCommand (Perm perm) {
 		super (perm);
 	}
 

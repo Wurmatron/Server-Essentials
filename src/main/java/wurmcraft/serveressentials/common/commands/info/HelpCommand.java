@@ -12,6 +12,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class HelpCommand extends EssentialsCommand {
 
 	public static final int chatWidth = 54;
 
-	public HelpCommand (String perm) {
+	public HelpCommand (Perm perm) {
 		super (perm);
 	}
 

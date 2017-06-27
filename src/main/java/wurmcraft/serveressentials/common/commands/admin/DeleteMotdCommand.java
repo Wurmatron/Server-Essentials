@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class DeleteMotdCommand extends EssentialsCommand {
 
-	public DeleteMotdCommand (String perm) {
+	public DeleteMotdCommand (Perm perm) {
 		super (perm);
 	}
 

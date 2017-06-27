@@ -8,13 +8,14 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BroadcastCommand extends EssentialsCommand {
 
-	public BroadcastCommand (String perm) {
+	public BroadcastCommand (Perm perm) {
 		super (perm);
 	}
 

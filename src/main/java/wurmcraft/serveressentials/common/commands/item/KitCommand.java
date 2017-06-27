@@ -17,6 +17,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class KitCommand extends EssentialsCommand {
 
-	public KitCommand (String perm) {
+	public KitCommand (Perm perm) {
 		super (perm);
 	}
 

@@ -439,7 +439,7 @@ public class DataHelper {
 	public static void createDefaultRank () {
 		if (!groupLocation.exists () || groupLocation.listFiles ().length <= 0) {
 			Rank defaultGroup = new Rank ("Default",true,"[Default]","",null,new String[] {"common.*","teleport.*"});
-			Rank memberGroup = new Rank ("Member",false,"[Member]","",new String[] {"Default"},new String[] {});
+			Rank memberGroup = new Rank ("Member",false,"[Member]","",new String[] {"Default"},new String[] {"perk.*"});
 			Rank adminGroup = new Rank ("Admin",false,"[Admin]","",new String[] {defaultGroup.getName ()},new String[] {"*"});
 			createGroup (defaultGroup);
 			createGroup (adminGroup);

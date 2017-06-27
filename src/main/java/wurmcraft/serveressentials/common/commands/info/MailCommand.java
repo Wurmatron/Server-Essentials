@@ -14,7 +14,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.ArrayUtils;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -29,7 +29,7 @@ public class MailCommand extends EssentialsCommand {
 
 	public static final String usage = "/mail send <name> <message> | /mail list | /mail read | /mail delete <#>";
 
-	public MailCommand (String perm) {
+	public MailCommand (Perm perm) {
 		super (perm);
 	}
 

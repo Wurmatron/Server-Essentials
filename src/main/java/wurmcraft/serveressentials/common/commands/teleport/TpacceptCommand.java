@@ -7,12 +7,13 @@ import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
 public class TpacceptCommand extends EssentialsCommand {
 
-	public TpacceptCommand (String perm) {
+	public TpacceptCommand (Perm perm) {
 		super (perm);
 	}
 

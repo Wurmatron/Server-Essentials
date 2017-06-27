@@ -10,6 +10,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MoneyCommand extends EssentialsCommand {
 
-	public MoneyCommand (String perm) {
+	public MoneyCommand (Perm perm) {
 		super (perm);
 	}
 

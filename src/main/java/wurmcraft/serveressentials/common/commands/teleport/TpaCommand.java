@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -18,7 +19,7 @@ import static wurmcraft.serveressentials.common.utils.DataHelper.activeRequests;
 
 public class TpaCommand extends EssentialsCommand {
 
-	public TpaCommand (String perm) {
+	public TpaCommand (Perm perm) {
 		super (perm);
 	}
 

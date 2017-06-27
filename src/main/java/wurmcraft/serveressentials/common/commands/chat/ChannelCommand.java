@@ -12,6 +12,7 @@ import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class ChannelCommand extends EssentialsCommand {
 
-	public ChannelCommand (String perm) {
+	public ChannelCommand (Perm perm) {
 		super (perm);
 	}
 

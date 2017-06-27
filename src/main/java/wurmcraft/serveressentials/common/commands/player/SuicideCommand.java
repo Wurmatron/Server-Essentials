@@ -7,10 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.event.PlayerRespawnEvent;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 public class SuicideCommand extends EssentialsCommand {
 
-	public SuicideCommand (String perm) {
+	public SuicideCommand (Perm perm) {
 		super (perm);
 	}
 

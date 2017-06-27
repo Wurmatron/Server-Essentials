@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.commands.utils.MarketInventory;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class MarketCommand extends EssentialsCommand {
 
 	public static final int MAX_PER_PAGE = 45;
 
-	public MarketCommand (String perm) {
+	public MarketCommand (Perm perm) {
 		super (perm);
 	}
 

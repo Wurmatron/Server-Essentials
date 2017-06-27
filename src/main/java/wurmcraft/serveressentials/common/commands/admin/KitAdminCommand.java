@@ -10,6 +10,7 @@ import wurmcraft.serveressentials.common.api.storage.Kit;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class KitAdminCommand extends EssentialsCommand {
 
-	public KitAdminCommand (String perm) {
+	public KitAdminCommand (Perm perm) {
 		super (perm);
 	}
 

@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class HealCommand extends EssentialsCommand {
 
-	public HealCommand (String perm) {
+	public HealCommand (Perm perm) {
 		super (perm);
 	}
 

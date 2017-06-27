@@ -9,10 +9,11 @@ import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 public class SpeedCommand extends EssentialsCommand {
 
-	public SpeedCommand (String perm) {
+	public SpeedCommand (Perm perm) {
 		super (perm);
 	}
 

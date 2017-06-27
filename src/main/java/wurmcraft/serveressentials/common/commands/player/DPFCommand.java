@@ -10,6 +10,7 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class DPFCommand extends EssentialsCommand {
 
-	public DPFCommand (String perm) {
+	public DPFCommand (Perm perm) {
 		super (perm);
 	}
 

@@ -8,13 +8,14 @@ import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RenameCommand extends EssentialsCommand {
 
-	public RenameCommand (String perm) {
+	public RenameCommand (Perm perm) {
 		super (perm);
 	}
 

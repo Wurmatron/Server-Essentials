@@ -10,10 +10,11 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 public class RemoveClaimCommand extends EssentialsCommand {
 
-	public RemoveClaimCommand (String perm) {
+	public RemoveClaimCommand (Perm perm) {
 		super (perm);
 	}
 

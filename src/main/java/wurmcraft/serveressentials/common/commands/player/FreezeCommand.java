@@ -9,6 +9,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.event.PlayerTickEvent;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class FreezeCommand extends EssentialsCommand {
 
-	public FreezeCommand (String perm) {
+	public FreezeCommand (Perm perm) {
 		super (perm);
 	}
 

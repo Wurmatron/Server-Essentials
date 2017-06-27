@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class SetHomeCommand extends EssentialsCommand {
 
-	public SetHomeCommand (String perm) {
+	public SetHomeCommand (Perm perm) {
 		super (perm);
 	}
 

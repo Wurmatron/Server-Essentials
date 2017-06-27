@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class ReloadPlayerDataCommand extends EssentialsCommand {
 
-	public ReloadPlayerDataCommand (String perm) {
+	public ReloadPlayerDataCommand (Perm perm) {
 		super (perm);
 	}
 

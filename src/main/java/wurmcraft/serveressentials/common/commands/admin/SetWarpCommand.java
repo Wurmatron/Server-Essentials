@@ -8,6 +8,7 @@ import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class SetWarpCommand extends EssentialsCommand {
 
-	public SetWarpCommand (String perm) {
+	public SetWarpCommand (Perm perm) {
 		super (perm);
 	}
 

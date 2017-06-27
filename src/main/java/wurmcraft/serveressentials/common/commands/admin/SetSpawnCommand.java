@@ -9,6 +9,7 @@ import wurmcraft.serveressentials.common.api.storage.SpawnPoint;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class SetSpawnCommand extends EssentialsCommand {
 
-	public SetSpawnCommand (String perm) {
+	public SetSpawnCommand (Perm perm) {
 		super (perm);
 	}
 

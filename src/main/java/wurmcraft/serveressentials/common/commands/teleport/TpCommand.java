@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class TpCommand extends EssentialsCommand {
 
-	public TpCommand (String perm) {
+	public TpCommand (Perm perm) {
 		super (perm);
 	}
 

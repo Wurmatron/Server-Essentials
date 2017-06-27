@@ -12,6 +12,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class MsgCommand extends EssentialsCommand {
 
-	public MsgCommand (String perm) {
+	public MsgCommand (Perm perm) {
 		super (perm);
 	}
 

@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 public class ListCommand extends EssentialsCommand {
 
-	public ListCommand (String perm) {
+	public ListCommand (Perm perm) {
 		super (perm);
 	}
 

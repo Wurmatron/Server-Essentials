@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class EnderChestCommand extends EssentialsCommand {
 
-	public EnderChestCommand (String perm) {
+	public EnderChestCommand (Perm perm) {
 		super (perm);
 	}
 

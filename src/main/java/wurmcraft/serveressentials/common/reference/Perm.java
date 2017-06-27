@@ -1,82 +1,95 @@
 package wurmcraft.serveressentials.common.reference;
 
-import java.lang.reflect.Field;
+public enum Perm {
 
-public class Perm {
+	// Teleport
+	SET_HOME("teleport.setHome"),
+	HOME("teleport.home"),
+	DEL_HOME("teleport.deleteHome"),
+	WARP("teleport.warp"),
+	SPAWN("teleport.spawn"),
+	TPA("teleport.tpa"),
+	TPA_ACCEPT("teleport.tpaAccept"),
+	TPA_DENY("teleport.tpaDeny"),
 
-	public static final String COMMAND_SET_HOME = "teleport.setHome";
-	public static final String COMMAND_HOME = "teleport.home";
-	public static final String COMMAND_DELETE_HOME = "teleport.deleteHome";
-	public static final String COMMAND_SET_WARP = "admin.setWarp";
-	public static final String COMMAND_WARP = "teleport.warp";
-	public static final String COMMAND_DELETE_WARP = "admin.deleteWarp";
-	public static final String COMMAND_SETSPAWN = "admin.setSpawn";
-	public static final String COMMAND_SPAWN = "teleport.spawn";
-	public static final String COMMAND_INVSEE = "admin.invsee";
-	public static final String COMMAND_ENDER_CHEST = "admin.enderChest";
-	public static final String COMMAND_SUDO = "admin.sudo";
-	public static final String COMMAND_SEEN = "common.seen";
-	public static final String COMMAND_HEAL = "admin.heal";
-	public static final String COMMAND_GAMEMODE = "admin.gamemode";
-	public static final String COMMAND_RULES = "common.rules";
-	public static final String COMMAND_ADD_RULES = "admin.addRules";
-	public static final String COMMAND_DELETE_RULE = "admin.removeRules";
-	public static final String COMMAND_MOTD = "common.motd";
-	public static final String COMMAND_ADD_MOTD = "admin.addMotd";
-	public static final String COMMAND_DELETE_MOTD = "admin.deleteMotd";
-	public static final String COMMAND_TPA = "teleport.tpa";
-	public static final String COMMAND_TPA_ACCEPT = "teleport.tpaAccept";
-	public static final String COMMAND_TPA_DENY = "teleport.tpaDeny";
-	public static final String COMMAND_TEAM = "common.team";
-	public static final String COMMAND_TEAMADMIN = "admin.teamAdmin";
-	public static final String COMMAND_CLAIM = "claim.claim";
-	public static final String COMMAND_REM_CLAIM = "claim.removeClaim";
-	public static final String COMMAND_FLY = "admin.fly";
-	public static final String COMMAND_AFK = "common.afk";
-	public static final String COMMAND_BROADCAST = "admin.broadcast";
-	public static final String COMMAND_PING = "common.ping";
-	public static final String COMMAND_SKULL = "admin.skull";
-	public static final String COMMAND_BACK = "teleport.back";
-	public static final String COMMAND_DELETE_PLAYER_DATA = "admin.deletePlayerFile";
-	public static final String COMMAND_RELOAD_PLAYER_DATA = "admin.reloadPlayerData";
-	public static final String COMMAND_TELEPORT = "admin.teleport";
-	public static final String COMMAND_FREEZE = "admin.freeze";
-	public static final String COMMAND_TOP = "admin.top";
-	public static final String COMMAND_SUICIDE = "common.suicide";
-	public static final String COMMAND_LIST = "common.list";
-	public static final String COMMAND_RENAME = "admin.rename";
-	public static final String COMMAND_CHANNEL = "common.channel";
-	public static final String COMMAND_MUTE = "admin.mute";
-	public static final String COMMAND_MONEY = "common.money";
-	public static final String COMMAND_PAY = "common.pay";
-	public static final String COMMAND_MARKET = "common.market";
-	public static final String COMMAND_VAULT = "common.vault";
-	public static final String COMMAND_HELP = "common.help";
-	public static final String COMMAND_WEBSITE = "common.website";
-	public static final String COMMAND_SPEED = "admin.speed";
-	public static final String COMMAND_MESSAGE = "common.message";
-	public static final String COMMAND_MAIL = "common.mail";
-	public static final String COMMAND_ITEMSEND = "common.sendItem";
-	public static final String COMMAND_KITADMIN = "admin.kit";
-	public static final String COMMAND_KIT = "common.kit";
-	public static final String COMMAND_REPLY = "common.reply";
-	public static final String COMMAND_SPY = "admin.spy";
-	public static final String COMMAND_NICK = "admin.nick";
-	public static final String COMMAND_SETGROUP = "admin.setGroup";
-	public static final String COMMAND_ONLINETIME = "common.onlineTime";
-	public static final String COMMAND_AUTORANK = "common.autoRank";
-	public static final String COMMAND_TPHERE = "admin.tphere";
+	// Admin
+	SET_WARP("admin.setWarp"),
+	DEL_WARP("admin.delWarp"),
+	SET_SPAWN("admin.setSpawn"),
+	INVSEE("admin.invsee"),
+	SUDO("admin.sudo"),
+	HEAL("admin.heal"),
+	GAMEMODE("admin.gameMode"),
+	ADD_RULE("admin.addRule"),
+	DEL_RULE("admin.delRule"),
+	ADD_MOTD("admin.addMotd"),
+	DEL_MOTD("admin.delMotd"),
+	TEAM_ADMIN("admin.teamAdmin"),
+	BROADCAST("admin.broadcast"),
+	SKULL("admin.skull"),
+	DEL_PLAYER_FILE("admin.delPlayerFile"),
+	RELOAD_PLAYER_DATA("admin.reloadPlayerData"),
+	TELEPORT("admin.teleport"),
+	FREEZE("admin.freeze"),
+	TOP("admin.top"),
+	RENAME("admin.rename"),
+	MUTE("admin.mute"),
+	SPEED("admin.speed"),
+	SPY("admin.spy"),
+	SET_GROUP("admin.setGroup"),
+	TP_HERE("admin.tpHere"),
+	KIT_ADMIN("admin.kitAdmin"),
 
-	public static final String CREATIVE = "security.creative";
+	// Perk
+	ENDER_CHEST("perk.enderChest"),
+	FLY("perm.fly"),
+	BACK("perm.back"),
+	VAULT("perm.vault"),
+	NICK("perm.nick"),
 
-	public static boolean isValidPermission (String perm) {
-		for (Field f : Perm.class.getDeclaredFields ()) {
-			f.setAccessible (true);
-			try {
-				if (((String) f.get (null)).equalsIgnoreCase (perm))
-					return true;
-			} catch (IllegalAccessException e) {/**Impossible*/}
-		}
-		return false;
+	// Common
+	SEEN("common.seen"),
+	RULES("common.rules"),
+	MOTD("common.motd"),
+	TEAM("common.team"),
+	AFK("common.afk"),
+	PING("common.ping"),
+	SUICIDE("common.suiside"),
+	LIST("common.list"),
+	CHANNEL("common.channel"),
+	MONEY("common.money"),
+	PAY("common.pay"),
+	MARKET("common.market"),
+	HELP("common.help"),
+	WEBSITE("common.website"),
+	MESSAGE ("common.message"),
+	MAIL("common.mail"),
+	SEND_ITEM("common.sendItem"),
+	KIT("common.kit"),
+	REPLY("common.reply"),
+	ONLINE_TIME("common.onlineTime"),
+	AUTORANK("common.autorank"),
+
+	// Claim
+	CLAIM("claim.claim"),
+	DEL_CLAIM("claim.delClaim"),
+
+	// Security
+	CREATIVE("security.creative");
+
+	private String name;
+
+	Perm (String name) {
+		this.name = name;
+	}
+
+
+	@Override
+	public String toString () {
+		return name;
+	}
+
+	public static boolean isValidPerm(String perm) {
+		return Perm.valueOf (perm) != null;
 	}
 }

@@ -17,17 +17,15 @@ public class SecurityEvents {
 		if (e.player.worldObj.getWorldTime () % 100 == 0) {
 			IRank rank = DataHelper.getPlayerData (e.player.getGameProfile ().getId ()).getRank ();
 			boolean validInCreative = false;
-			if (rank.getPermissions () != null && rank.getPermissions ().length > 0) {
-				for (String perm : rank.getPermissions ())
-					if (perm.equalsIgnoreCase (Perm.CREATIVE))
-						validInCreative = true;
-				if (!validInCreative && !SecurityUtils.isTrustedMember (e.player)) {
-					EntityPlayerMP player = (EntityPlayerMP) e.player;
-					player.setGameType (GameType.SURVIVAL);
-					player.connection.kickPlayerFromServer (Local.SECURITY_CREATIVE_KICK);
-					LogHandler.info ("# was kicked from the server for being in creative!".replaceAll ("#",player.getDisplayNameString ()));
-				}
+			if (rank.hasPermission (Perm.CREATIVE))
+				validInCreative = true;
+			if (!validInCreative && !SecurityUtils.isTrustedMember (e.player)) {
+				EntityPlayerMP player = (EntityPlayerMP) e.player;
+				player.setGameType (GameType.SURVIVAL);
+				player.connection.kickPlayerFromServer (Local.SECURITY_CREATIVE_KICK);
+				LogHandler.info ("# was kicked from the server for being in creative!".replaceAll ("#",player.getDisplayNameString ()));
 			}
+
 		}
 	}
 }

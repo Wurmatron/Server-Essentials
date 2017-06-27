@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class FlyCommand extends EssentialsCommand {
 
-	public FlyCommand (String perm) {
+	public FlyCommand (Perm perm) {
 		super (perm);
 	}
 

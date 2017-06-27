@@ -12,6 +12,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class SudoCommand extends EssentialsCommand {
 
-	public SudoCommand (String perm) {
+	public SudoCommand (Perm perm) {
 		super (perm);
 	}
 

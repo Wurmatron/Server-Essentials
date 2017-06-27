@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.api.storage.Vault;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 public class SendItemCommand extends EssentialsCommand {
 
-	public SendItemCommand (String perm) {
+	public SendItemCommand (Perm perm) {
 		super (perm);
 	}
 

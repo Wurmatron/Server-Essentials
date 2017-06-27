@@ -9,12 +9,13 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 public class TpHereCommand extends EssentialsCommand {
 
-	public TpHereCommand (String perm) {
+	public TpHereCommand (Perm perm) {
 		super (perm);
 	}
 

@@ -9,6 +9,7 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class MuteCommand extends EssentialsCommand {
 
-	public MuteCommand (String perm) {
+	public MuteCommand (Perm perm) {
 		super (perm);
 	}
 

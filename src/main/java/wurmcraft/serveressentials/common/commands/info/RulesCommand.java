@@ -7,6 +7,7 @@ import wurmcraft.serveressentials.common.api.storage.Global;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class RulesCommand extends EssentialsCommand {
 
 	private static final int LIST_SIZE = 7;
 
-	public RulesCommand (String perm) {
+	public RulesCommand (Perm perm) {
 		super (perm);
 	}
 

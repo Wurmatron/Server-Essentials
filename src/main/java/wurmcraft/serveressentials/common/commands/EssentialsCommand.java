@@ -12,6 +12,7 @@ import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
@@ -22,8 +23,8 @@ public class EssentialsCommand extends CommandBase {
 
 	public final String perm;
 
-	public EssentialsCommand (String perm) {
-		this.perm = perm;
+	public EssentialsCommand (Perm perm) {
+		this.perm = perm.toString ();
 	}
 
 	@Override

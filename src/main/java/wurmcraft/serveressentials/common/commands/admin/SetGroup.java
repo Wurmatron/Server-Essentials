@@ -13,6 +13,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
@@ -25,7 +26,7 @@ import java.util.UUID;
 
 public class SetGroup extends EssentialsCommand {
 
-	public SetGroup (String perm) {
+	public SetGroup (Perm perm) {
 		super (perm);
 	}
 

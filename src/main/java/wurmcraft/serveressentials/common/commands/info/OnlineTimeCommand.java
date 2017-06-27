@@ -11,6 +11,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -22,7 +23,7 @@ import java.util.UUID;
 
 public class OnlineTimeCommand extends EssentialsCommand {
 
-	public OnlineTimeCommand (String perm) {
+	public OnlineTimeCommand (Perm perm) {
 		super (perm);
 	}
 

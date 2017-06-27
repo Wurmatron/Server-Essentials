@@ -1,5 +1,6 @@
 package wurmcraft.serveressentials.common.api.permissions;
 
+
 import wurmcraft.serveressentials.common.reference.Perm;
 
 /**
@@ -44,10 +45,10 @@ public interface IRank {
 	 *
 	 * @return <code>true</code> if player has permission, <code>false</code> if not.
 	 */
-	default boolean hasPermission(String perm) {
-		if (Perm.isValidPermission(perm)) {
-			for (String permission : getPermissions()) if (perm.equalsIgnoreCase(permission)) return true;
-		}
+	default boolean hasPermission(Perm perm) {
+		if (Perm.isValidPerm (perm.toString ()))
+			for (String permission : getPermissions())
+				if (permission.equalsIgnoreCase (perm.toString ())) return true;
 		return false;
 	}
 }

@@ -15,6 +15,7 @@ import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -27,7 +28,7 @@ import java.util.UUID;
 
 public class TeamCommand extends EssentialsCommand {
 
-	public TeamCommand (String perm) {
+	public TeamCommand (Perm perm) {
 		super (perm);
 	}
 
