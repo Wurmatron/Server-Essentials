@@ -44,7 +44,7 @@ public class Local {
 	public static final String PLAYER_ONLY = TextFormatting.RED + "Command can only be run by players!";
 	public static final String AFK_NOW = TextFormatting.RED + "# is now afk!";
 	public static final String AFK_OFF = TextFormatting.RED + "# is no longer afk!";
-	public static final String PING_REPLY = TextFormatting.AQUA + "Nep NepNep Nep Nep Nep";
+	public static final String PING_REPLY = TextFormatting.LIGHT_PURPLE + "Nep NepNep Nep Nep Nep";
 	// Player
 	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
 	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";

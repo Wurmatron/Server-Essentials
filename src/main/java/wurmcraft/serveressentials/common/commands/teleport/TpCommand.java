@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
@@ -15,7 +15,7 @@ import wurmcraft.serveressentials.common.utils.UsernameResolver;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TpCommand extends EssentialsCommand {
+public class TpCommand extends SECommand {
 
 	public TpCommand (Perm perm) {
 		super (perm);
@@ -36,11 +36,12 @@ public class TpCommand extends EssentialsCommand {
 		super.execute (server,sender,args);
 		if (args.length == 1) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			if (UsernameResolver.isValidPlayer (args[0])) {
+			if (player != null && UsernameResolver.isValidPlayer (args[0])) {
 				EntityPlayer p = UsernameResolver.getPlayer (args[0]);
 				TeleportUtils.teleportTo (player,new BlockPos (p.posX,p.posY,p.posZ),false);
 				ChatHelper.sendMessageTo (player,Local.TELEPORTED);
-			}
+			} else
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_ONLY);
 		} else if (args.length == 2) {
 			EntityPlayer from = UsernameResolver.getPlayer (args[0]);
 			EntityPlayer to = UsernameResolver.getPlayer (args[1]);
@@ -83,15 +84,13 @@ public class TpCommand extends EssentialsCommand {
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> args0 = autoCompleteUsername (args,0);
-		if (UsernameResolver.getPlayer (args[0]) != null) {
-			List <String> args1 = autoCompleteUsername (args,1);
-			return args1;
-		}
+		if (UsernameResolver.getPlayer (args[0]) != null)
+			return autoCompleteUsername (args,1);
 		return args0;
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
+	public boolean canConsoleRun () {
 		return true;
 	}
 

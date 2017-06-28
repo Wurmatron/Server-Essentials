@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.storage.Mail;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SubCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -178,5 +179,15 @@ public class MailCommand extends EssentialsCommand {
 
 	private static ClickEvent clickEvent (int index) {
 		return new ClickEvent (ClickEvent.Action.RUN_COMMAND,"/mail read #".replaceAll ("#","" + index));
+	}
+
+	@SubCommand
+	public void send(ICommandSender sender,String[] args) {
+		ChatHelper.sendMessageTo (sender, "Sent Run");
+	}
+
+	@Override
+	public boolean hasSubCommand () {
+		return true;
 	}
 }

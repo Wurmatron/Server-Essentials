@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.utils;
 
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.reference.Perm;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,5 +91,16 @@ public class RankManager {
 		if (ranks.size () > 0)
 			return ranks.toArray (new IRank[0]);
 		return null;
+	}
+
+	public static boolean hasPermission (IRank rank,Perm perm) {
+		if (rank.hasPermission (perm))
+			return true;
+		else if (rank.getInheritance ().length > 0) {
+			for (String inheritance : rank.getInheritance ())
+				if (getRankFromName (inheritance) != null)
+					return getRankFromName (inheritance).hasPermission (perm);
+		}
+		return false;
 	}
 }

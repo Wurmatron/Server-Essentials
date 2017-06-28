@@ -11,14 +11,18 @@ import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.commands.test.SubCommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class EssentialsCommand extends CommandBase {
 
 	public final String perm;
@@ -39,6 +43,17 @@ public class EssentialsCommand extends CommandBase {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+		if (hasSubCommand ()) {
+			LogHandler.info ("SubCommand " + getCommandName ());
+			try {
+				for (Method method : getClass ().getMethods ()) {
+					if (method != null && method.getAnnotation (SubCommand.class) != null)
+						LogHandler.info ("Found: " + method.getName ());
+				}
+			} catch (SecurityException e) {
+				e.printStackTrace ();
+			}
+		}
 		if (isPlayerOnly () && sender.getCommandSenderEntity () instanceof EntityPlayer) {
 
 		} else if (isPlayerOnly () && !(sender.getCommandSenderEntity () instanceof EntityPlayer))
@@ -212,5 +227,9 @@ public class EssentialsCommand extends CommandBase {
 			}
 		}
 		return null;
+	}
+
+	public boolean hasSubCommand () {
+		return false;
 	}
 }

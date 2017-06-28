@@ -41,14 +41,15 @@ public interface IRank {
 	 */
 	String[] getPermissions ();
 
-	/**Checks for whether or not the given player has the supplied permission.
-	 *
-	 * @return <code>true</code> if player has permission, <code>false</code> if not.
+	/**
+	 Checks for whether or not the given player has the supplied permission.
+
+	 @return <code>true</code> if player has permission, <code>false</code> if not.
 	 */
-	default boolean hasPermission(Perm perm) {
-		if (Perm.isValidPerm (perm.toString ()))
-			for (String permission : getPermissions())
-				if (permission.equalsIgnoreCase (perm.toString ())) return true;
+	default boolean hasPermission (Perm perm) {
+		for (String permission : getPermissions ())
+			if (permission.equalsIgnoreCase ("*") || permission.endsWith ("*") && permission.startsWith (perm.toString ().substring (0,perm.toString ().indexOf ("."))) || permission.equalsIgnoreCase (perm.toString ()))
+				return true;
 		return false;
 	}
 }

@@ -19,6 +19,7 @@ import wurmcraft.serveressentials.common.commands.item.SendItemCommand;
 import wurmcraft.serveressentials.common.commands.item.SkullCommand;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
+import wurmcraft.serveressentials.common.commands.test.TestCommand;
 import wurmcraft.serveressentials.common.reference.Perm;
 
 import java.util.UUID;
@@ -88,6 +89,7 @@ public class LoadHelper {
 		e.registerServerCommand (new OnlineTimeCommand (Perm.ONLINE_TIME));
 		e.registerServerCommand (new AutoRankCommand (Perm.AUTORANK));
 		e.registerServerCommand (new TpHereCommand (Perm.TP_HERE));
+		e.registerServerCommand (new TestCommand (Perm.NICK));
 	}
 
 	public static void loadData () {

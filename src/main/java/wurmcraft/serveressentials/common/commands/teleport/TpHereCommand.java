@@ -7,13 +7,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
-public class TpHereCommand extends EssentialsCommand {
+public class TpHereCommand extends SECommand {
 
 	public TpHereCommand (Perm perm) {
 		super (perm);
@@ -50,12 +50,12 @@ public class TpHereCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public String getDescription () {
+		return "Deny a teleport request";
 	}
 
 	@Override
-	public String getDescription () {
-		return "Deny a teleport request";
+	public boolean canConsoleRun () {
+		return false;
 	}
 }

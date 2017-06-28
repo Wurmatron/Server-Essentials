@@ -7,16 +7,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DelHome extends EssentialsCommand {
+public class DelHome extends SECommand {
 
 	public DelHome (Perm perm) {
 		super (perm);
@@ -33,16 +32,8 @@ public class DelHome extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		ArrayList <String> aliases = new ArrayList <> ();
-		aliases.add ("deletehome");
-		aliases.add ("DeleteHome");
-		aliases.add ("deletehome");
-		aliases.add ("DelHome");
-		aliases.add ("delhome");
-		aliases.add ("DELETEHOME");
-		aliases.add ("DELHOME");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"deleteHome"};
 	}
 
 	@Override
@@ -68,8 +59,8 @@ public class DelHome extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

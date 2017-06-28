@@ -12,7 +12,8 @@ import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
+import wurmcraft.serveressentials.common.commands.test.SubCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -23,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeCommand extends EssentialsCommand {
+public class HomeCommand extends SECommand {
 
 	public HomeCommand (Perm perm) {
 		super (perm);
@@ -40,13 +41,8 @@ public class HomeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Home");
-		aliases.add ("HOME");
-		aliases.add ("h");
-		aliases.add ("H");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"h"};
 	}
 
 	@Override
@@ -66,22 +62,7 @@ public class HomeCommand extends EssentialsCommand {
 			else
 				ChatHelper.sendMessageTo (sender,Local.HOME_NONE);
 		} else if (args.length == 1) {
-			if (args[0].equalsIgnoreCase ("list")) {
-				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-				if (data == null)
-					DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
-				if (data.getHomes ().length > 0) {
-					ArrayList <String> homes = new ArrayList <> ();
-					for (Home h : data.getHomes ())
-						if (h != null)
-							homes.add (h.getName ());
-					if (homes.size () > 0)
-						ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Homes: " + TextFormatting.AQUA + Strings.join (homes.toArray (new String[0]),", "));
-					else
-						ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
-				} else
-					ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
-			} else {
+			if (!args[0].equalsIgnoreCase ("list")) {
 				Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
 				long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleportTimer ();
 				if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
@@ -97,11 +78,30 @@ public class HomeCommand extends EssentialsCommand {
 		}
 	}
 
+	@SubCommand
+	public void list (ICommandSender sender,String[] args) {
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+		if (data == null)
+			DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
+		if (data.getHomes ().length > 0) {
+			ArrayList <String> homes = new ArrayList <> ();
+			for (Home h : data.getHomes ())
+				if (h != null)
+					homes.add (h.getName ());
+			if (homes.size () > 0)
+				ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Homes: " + TextFormatting.AQUA + Strings.join (homes.toArray (new String[0]),", "));
+			else
+				ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
+		} else
+			ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
+	}
+
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			return autoCompleteHomes(args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
+			return autoCompleteHomes (args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
 		}
 		return null;
 	}
@@ -116,7 +116,12 @@ public class HomeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
+	public boolean canConsoleRun () {
+		return false;
+	}
+
+	@Override
+	public boolean hasSubCommand () {
 		return true;
 	}
 }

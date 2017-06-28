@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static wurmcraft.serveressentials.common.utils.DataHelper.activeRequests;
 
-public class TpaCommand extends EssentialsCommand {
+public class TpaCommand extends SECommand {
 
 	public TpaCommand (Perm perm) {
 		super (perm);
@@ -67,8 +67,8 @@ public class TpaCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

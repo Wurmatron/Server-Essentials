@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetHomeCommand extends EssentialsCommand {
+public class SetHomeCommand extends SECommand {
 
 	public SetHomeCommand (Perm perm) {
 		super (perm);
@@ -32,21 +32,6 @@ public class SetHomeCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "/sethome <name>";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("SetHome");
-		aliases.add ("setHome");
-		aliases.add ("SETHOME");
-		aliases.add ("sethome");
-		aliases.add ("shome");
-		aliases.add ("sHome");
-		aliases.add ("Shome");
-		aliases.add ("SHome");
-		aliases.add ("SHOME");
-		return aliases;
 	}
 
 	@Override
@@ -82,7 +67,7 @@ public class SetHomeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 }

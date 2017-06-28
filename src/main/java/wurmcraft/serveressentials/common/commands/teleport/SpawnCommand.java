@@ -6,17 +6,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.api.storage.SpawnPoint;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SpawnCommand extends EssentialsCommand {
+public class SpawnCommand extends SECommand {
 
 	public SpawnCommand (Perm perm) {
 		super (perm);
@@ -27,13 +24,6 @@ public class SpawnCommand extends EssentialsCommand {
 		return "spawn";
 	}
 
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Spawn");
-		aliases.add ("SPAWN");
-		return aliases;
-	}
 
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
@@ -56,8 +46,8 @@ public class SpawnCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override
