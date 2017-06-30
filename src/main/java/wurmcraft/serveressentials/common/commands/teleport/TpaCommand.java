@@ -10,6 +10,8 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
+import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.TeleportUtils;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -49,9 +51,11 @@ public class TpaCommand extends SECommand {
 				if (otherPlayer != null) {
 					found = true;
 					if (!activeRequests.values ().contains (new EntityPlayer[] {player,otherPlayer})) {
-						activeRequests.put (System.currentTimeMillis (),new EntityPlayer[] {player,otherPlayer});
+						if (!DataHelper.getPlayerData (otherPlayer.getGameProfile ().getId ()).isTpLock ()) {
+							ChatHelper.sendMessageTo (otherPlayer,Local.TPA_REQUEST.replaceAll ("#",player.getDisplayName ().getUnformattedText ()));
+							TeleportUtils.addTeleport (player,otherPlayer);
+						}
 						ChatHelper.sendMessageTo (player,Local.TPA_REQUEST_SENT.replaceAll ("#",otherPlayer.getDisplayName ().getUnformattedText ()));
-						ChatHelper.sendMessageTo (otherPlayer,Local.TPA_REQUEST.replaceAll ("#",player.getDisplayName ().getUnformattedText ()));
 					}
 				}
 				if (!found)

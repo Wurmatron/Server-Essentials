@@ -35,6 +35,7 @@ public class PlayerData {
 	private long firstJoin;
 	private int onlineTime;
 	private boolean isFrozen;
+	private boolean tpLock;
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -244,5 +245,13 @@ public class PlayerData {
 
 	public void setFrozen (boolean frozen) {
 		isFrozen = frozen;
+	}
+
+	public boolean isTpLock () {
+		return tpLock;
+	}
+
+	public void setTpLock (boolean tpLock) {
+		this.tpLock = tpLock;
 	}
 }

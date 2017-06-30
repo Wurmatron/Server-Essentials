@@ -1,15 +1,9 @@
 package wurmcraft.serveressentials.common.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.config.Settings;
 
-import java.util.List;
 import java.util.UUID;
 
 public class TeleportUtils {
@@ -51,6 +45,20 @@ public class TeleportUtils {
 		if (uuid != null && DataHelper.getPlayerData (uuid) != null) {
 			long teleport_timer = DataHelper.getPlayerData (uuid).getTeleportTimer ();
 			return teleport_timer + (Settings.teleport_cooldown * 1000) <= System.currentTimeMillis ();
+		}
+		return false;
+	}
+
+	public static boolean addTeleport (EntityPlayer player,EntityPlayer other) {
+		if (DataHelper.activeRequests.size () > 0) {
+			for (EntityPlayer[] players : DataHelper.activeRequests.values ())
+				if (!players[0].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
+					DataHelper.activeRequests.put (System.currentTimeMillis (),new EntityPlayer[] {player,other});
+					return true;
+				}
+		} else {
+			DataHelper.activeRequests.put (System.currentTimeMillis (),new EntityPlayer[] {player,other});
+			return true;
 		}
 		return false;
 	}

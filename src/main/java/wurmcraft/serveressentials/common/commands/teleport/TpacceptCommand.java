@@ -40,6 +40,7 @@ public class TpacceptCommand extends SECommand {
 					ChatHelper.sendMessageTo (otherPlayer[1],Local.TPA_ACCEPED_OTHER.replaceAll ("#",otherPlayer[0].getDisplayName ().getUnformattedText ()));
 					ChatHelper.sendMessageTo (otherPlayer[0],Local.TPA_ACCEPTED.replaceAll ("#",otherPlayer[1].getDisplayName ().getUnformattedText ()));
 					DataHelper.activeRequests.remove (time);
+					return;
 				}
 			}
 		} else

@@ -8,7 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.Kit;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KitAdminCommand extends EssentialsCommand {
+public class KitAdminCommand extends SECommand {
 
 	public KitAdminCommand (Perm perm) {
 		super (perm);
@@ -35,8 +35,8 @@ public class KitAdminCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

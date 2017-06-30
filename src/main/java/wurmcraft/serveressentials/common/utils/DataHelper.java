@@ -818,6 +818,22 @@ public class DataHelper {
 		}
 	}
 
+	public static void setTpLock (UUID name,boolean lock) {
+		PlayerData data = getPlayerData (name);
+		if (data == null)
+			data = loadPlayerData (name);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
+			data.setTpLock (lock);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (name);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
 	public static void addTime (UUID name,int time) {
 		PlayerData data = getPlayerData (name);
 		if (data == null)

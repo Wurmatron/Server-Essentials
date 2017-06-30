@@ -128,6 +128,7 @@ public class Local {
 	public static final String NO_TPA = TextFormatting.AQUA + "No pending TPA Requests";
 	public static final String TPA_SELF = TextFormatting.RED + "You cannot send a request to yourself";
 	public static final String INVALID_LASTLOCATION = TextFormatting.RED + "Last Location Invalid";
+	public static final String TPLOCK = TextFormatting.AQUA + "Tp Lock #";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";
