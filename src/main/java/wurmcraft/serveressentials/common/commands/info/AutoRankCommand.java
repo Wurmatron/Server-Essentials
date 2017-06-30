@@ -10,16 +10,13 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.AutoRank;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AutoRankCommand extends EssentialsCommand {
+public class AutoRankCommand extends SECommand {
 
 	public AutoRankCommand (Perm perm) {
 		super (perm);
@@ -33,6 +30,11 @@ public class AutoRankCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "/autoRank | /autoRank <user>";
+	}
+
+	@Override
+	public String[] getAliases () {
+		return new String[] {"ar"};
 	}
 
 	@Override
@@ -80,16 +82,6 @@ public class AutoRankCommand extends EssentialsCommand {
 		return "Checks the status of a player's Rank Up";
 	}
 
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("autorank");
-		aliases.add ("AutoRank");
-		aliases.add ("AR");
-		aliases.add ("ar");
-		aliases.add ("Ar");
-		return aliases;
-	}
 
 	private String checkAndFormatOnlineTime (PlayerData data,AutoRank rank) {
 		if (data.getOnlineTime () >= rank.getPlayTime ())
@@ -112,8 +104,9 @@ public class AutoRankCommand extends EssentialsCommand {
 			return TextFormatting.AQUA + "Balance: " + TextFormatting.RED + rank.getBalance ();
 	}
 
+
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 }

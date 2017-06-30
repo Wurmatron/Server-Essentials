@@ -10,13 +10,15 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-public class HelpCommand extends EssentialsCommand {
+public class HelpCommand extends SECommand {
 
 	public static final int chatWidth = 54;
 
@@ -32,14 +34,6 @@ public class HelpCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "/help <#>";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Help");
-		aliases.add ("HELP");
-		return aliases;
 	}
 
 	private static Map<String, ICommand> pruneAliases(final ICommandManager manager) {
@@ -87,8 +81,8 @@ public class HelpCommand extends EssentialsCommand {
 	}
 
 	private String formatCommand (ICommandSender sender,ICommand command) {
-		if (command instanceof EssentialsCommand)
-			return TextFormatting.AQUA + "/" + command.getCommandName () + " | " + TextFormatting.DARK_AQUA + ((EssentialsCommand) command).getDescription ();
+		if (command instanceof SECommand)
+			return TextFormatting.AQUA + "/" + command.getCommandName () + " | " + TextFormatting.DARK_AQUA + ((SECommand) command).getDescription ();
 		else
 			return command.getCommandUsage (sender);
 	}

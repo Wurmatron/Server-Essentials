@@ -5,14 +5,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class WebsiteCommand extends EssentialsCommand {
+public class WebsiteCommand extends SECommand {
 
 	public WebsiteCommand (Perm perm) {
 		super (perm);
@@ -29,14 +26,8 @@ public class WebsiteCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Website");
-		aliases.add ("WEBSITE");
-		aliases.add ("web");
-		aliases.add ("Web");
-		aliases.add ("WEB");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"web"};
 	}
 
 	@Override
@@ -47,5 +38,10 @@ public class WebsiteCommand extends EssentialsCommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + "Website: " + TextFormatting.GOLD + DataHelper.globalSettings.getWebsite ());
+	}
+
+	@Override
+	public boolean canConsoleRun () {
+		return true;
 	}
 }

@@ -24,6 +24,7 @@ public class Local {
 	public static final String WARP_DELETE = TextFormatting.RED + "Warp \"#\" deleted!";
 	public static final String WARPS_NONE = TextFormatting.RED + "No warps set!";
 	// Global
+	// Global
 	public static final String SPAWN_SET = TextFormatting.GREEN + "Spawn set in dimension '@'";
 	public static final String SPAWN_TELEPORTED = TextFormatting.GREEN + "Teleported to spawn";
 	public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";

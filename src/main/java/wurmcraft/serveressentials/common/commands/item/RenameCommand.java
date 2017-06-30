@@ -6,14 +6,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RenameCommand extends EssentialsCommand {
+public class RenameCommand extends SECommand {
 
 	public RenameCommand (Perm perm) {
 		super (perm);
@@ -29,17 +26,10 @@ public class RenameCommand extends EssentialsCommand {
 		return "/rename <name>";
 	}
 
+
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Rename");
-		aliases.add ("ReName");
-		aliases.add ("reName");
-		aliases.add ("RENAME");
-		aliases.add ("name");
-		aliases.add ("Name");
-		aliases.add ("NAME");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"name"};
 	}
 
 	@Override
@@ -57,8 +47,8 @@ public class RenameCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

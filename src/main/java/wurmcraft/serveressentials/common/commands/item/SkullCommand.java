@@ -10,15 +10,14 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SkullCommand extends EssentialsCommand {
+public class SkullCommand extends SECommand {
 
 	public SkullCommand (Perm perm) {
 		super (perm);
@@ -32,14 +31,6 @@ public class SkullCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "/skull <username>";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Skull");
-		aliases.add ("SKULL");
-		return aliases;
 	}
 
 	@Override
@@ -64,8 +55,8 @@ public class SkullCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

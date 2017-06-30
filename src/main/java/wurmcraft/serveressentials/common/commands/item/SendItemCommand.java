@@ -9,18 +9,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.Vault;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SendItemCommand extends EssentialsCommand {
+public class SendItemCommand extends SECommand {
 
 	public SendItemCommand (Perm perm) {
 		super (perm);
@@ -42,17 +41,8 @@ public class SendItemCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("senditem");
-		aliases.add ("SENDITEM");
-		aliases.add ("SendItemCommand");
-		return aliases;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

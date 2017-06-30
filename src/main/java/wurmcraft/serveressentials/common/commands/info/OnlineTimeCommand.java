@@ -9,7 +9,7 @@ import net.minecraftforge.common.UsernameCache;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class OnlineTimeCommand extends EssentialsCommand {
+public class OnlineTimeCommand extends SECommand {
 
 	public OnlineTimeCommand (Perm perm) {
 		super (perm);
@@ -66,9 +66,10 @@ public class OnlineTimeCommand extends EssentialsCommand {
 		}
 	}
 
+
 	@Override
-	public Boolean isPlayerOnly () {
-		return false;
+	public boolean canConsoleRun () {
+		return true;
 	}
 
 	@Override
@@ -77,14 +78,8 @@ public class OnlineTimeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("onlinetime");
-		aliases.add ("OnlineTime");
-		aliases.add ("ONLINETIME");
-		aliases.add ("OT");
-		aliases.add ("ot");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"ot"};
 	}
 
 	@Override

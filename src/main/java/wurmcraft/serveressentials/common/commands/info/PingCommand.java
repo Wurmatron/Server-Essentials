@@ -4,14 +4,11 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class PingCommand extends EssentialsCommand {
+public class PingCommand extends SECommand {
 
 	public PingCommand (Perm perm) {
 		super (perm);
@@ -20,14 +17,6 @@ public class PingCommand extends EssentialsCommand {
 	@Override
 	public String getCommandName () {
 		return "ping";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Ping");
-		aliases.add ("PING");
-		return aliases;
 	}
 
 	@Override

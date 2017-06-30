@@ -15,7 +15,7 @@ import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Kit;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KitCommand extends EssentialsCommand {
+public class KitCommand extends SECommand {
 
 	public KitCommand (Perm perm) {
 		super (perm);
@@ -42,16 +42,8 @@ public class KitCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Kit");
-		aliases.add ("KIT");
-		return aliases;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

@@ -10,19 +10,18 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class SeenCommand extends EssentialsCommand {
+public class SeenCommand extends SECommand {
 
 	public SeenCommand (Perm perm) {
 		super (perm);
@@ -31,14 +30,6 @@ public class SeenCommand extends EssentialsCommand {
 	@Override
 	public String getCommandName () {
 		return "seen";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Seen");
-		aliases.add ("SEEN");
-		return aliases;
 	}
 
 	@Override

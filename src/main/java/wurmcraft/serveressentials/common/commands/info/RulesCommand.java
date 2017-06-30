@@ -5,16 +5,14 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.api.storage.Global;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class RulesCommand extends EssentialsCommand {
+public class RulesCommand extends SECommand {
 
 	private static final int LIST_SIZE = 7;
 
@@ -30,14 +28,6 @@ public class RulesCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "rules";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Rules");
-		aliases.add ("RULES");
-		return aliases;
 	}
 
 	@Override

@@ -16,7 +16,6 @@ import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.CommandUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
 import java.lang.reflect.Method;
@@ -52,15 +51,14 @@ public abstract class SECommand extends CommandBase {
 			for (Method method : methods)
 				if (method.getAnnotation (SubCommand.class) != null && method.getName ().equalsIgnoreCase (args[0])) {
 					try {
-						LogHandler.info ("Found!");
 						method.invoke (this,sender,CommandUtils.getArgsAfterCommand (1,args));
-					} catch (Exception e) {}
+					} catch (Exception e) {
+					}
 				}
 		} else if (!hasSubCommand ()) {
 			// Run Non Sub Command
-		} else {
+		} else
 			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
-		}
 	}
 
 	@Override

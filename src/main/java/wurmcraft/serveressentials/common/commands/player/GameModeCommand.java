@@ -7,21 +7,20 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameType;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class GameModeCommand extends EssentialsCommand {
+public class GameModeCommand extends SECommand {
 
-	private static final String[] CREATIVE = new String[] {"creative","c","1"};
-	private static final String[] SURVIVAL = new String[] {"survival","s","0"};
-	private static final String[] ADVENTURE = new String[] {"adventure","a","2"};
-	private static final String[] SPECTATOR = new String[] {"spectator","sp","3"};
+	private static final String[] CREATIVE = new String[] {"Creative","c","1"};
+	private static final String[] SURVIVAL = new String[] {"Survival","s","0"};
+	private static final String[] ADVENTURE = new String[] {"Adventure","a","2"};
+	private static final String[] SPECTATOR = new String[] {"Spectator","sp","3"};
 
 	public GameModeCommand (Perm perm) {
 		super (perm);
@@ -33,17 +32,8 @@ public class GameModeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		ArrayList <String> aliases = new ArrayList <> ();
-		aliases.add ("gm");
-		aliases.add ("GM");
-		aliases.add ("mode");
-		aliases.add ("Mode");
-		aliases.add ("MODE");
-		aliases.add ("GameMode");
-		aliases.add ("gameMode");
-		aliases.add ("Gamemode");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"gm"};
 	}
 
 	@Override

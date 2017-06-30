@@ -7,11 +7,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 
-public class SpeedCommand extends EssentialsCommand {
+public class SpeedCommand extends SECommand {
 
 	public SpeedCommand (Perm perm) {
 		super (perm);
@@ -51,8 +51,8 @@ public class SpeedCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

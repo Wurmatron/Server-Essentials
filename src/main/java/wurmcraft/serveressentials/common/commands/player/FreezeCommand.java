@@ -6,17 +6,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.event.PlayerTickEvent;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class FreezeCommand extends EssentialsCommand {
+public class FreezeCommand extends SECommand {
 
 	public FreezeCommand (Perm perm) {
 		super (perm);
@@ -33,13 +32,8 @@ public class FreezeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		ArrayList <String> aliases = new ArrayList <> ();
-		aliases.add ("Freeze");
-		aliases.add ("F");
-		aliases.add ("f");
-		aliases.add ("FREEZE");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"f"};
 	}
 
 	@Override

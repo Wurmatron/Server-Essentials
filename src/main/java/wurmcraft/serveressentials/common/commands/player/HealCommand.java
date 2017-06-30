@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HealCommand extends EssentialsCommand {
+public class HealCommand extends SECommand {
 
 	public HealCommand (Perm perm) {
 		super (perm);
@@ -31,14 +31,6 @@ public class HealCommand extends EssentialsCommand {
 	@Override
 	public String getCommandUsage (ICommandSender sender) {
 		return "/heal <name>";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Heal");
-		aliases.add ("HEAL");
-		return aliases;
 	}
 
 	@Override

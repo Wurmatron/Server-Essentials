@@ -8,7 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -17,10 +17,9 @@ import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DPFCommand extends EssentialsCommand {
+public class DPFCommand extends SECommand {
 
 	public DPFCommand (Perm perm) {
 		super (perm);
@@ -37,15 +36,8 @@ public class DPFCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		ArrayList <String> aliases = new ArrayList <> ();
-		aliases.add ("deleteplayerfile");
-		aliases.add ("Deleteplayerfile");
-		aliases.add ("DeletePlayerfile");
-		aliases.add ("DELETEPLAYERFILE");
-		aliases.add ("dpf");
-		aliases.add ("DPF");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"dpf"};
 	}
 
 	@Override

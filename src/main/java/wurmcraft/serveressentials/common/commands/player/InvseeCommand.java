@@ -9,7 +9,7 @@ import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.test.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InvseeCommand extends EssentialsCommand {
+public class InvseeCommand extends SECommand {
 
 	public InvseeCommand (Perm perm) {
 		super (perm);
@@ -29,15 +29,6 @@ public class InvseeCommand extends EssentialsCommand {
 	@Override
 	public String getCommandName () {
 		return "invsee";
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Invsee");
-		aliases.add ("InvSee");
-		aliases.add ("INVSEE");
-		return aliases;
 	}
 
 	@Override
@@ -78,8 +69,8 @@ public class InvseeCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override
