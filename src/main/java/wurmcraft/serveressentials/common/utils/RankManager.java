@@ -95,7 +95,7 @@ public class RankManager {
 	public static boolean hasPermission (IRank rank,String perm) {
 		if (rank.hasPermission (perm))
 			return true;
-		else if (rank.getInheritance ().length > 0) {
+		else if (rank.getInheritance () != null && rank.getInheritance ().length > 0) {
 			for (String inheritance : rank.getInheritance ())
 				if (getRankFromName (inheritance) != null)
 					return getRankFromName (inheritance).hasPermission (perm);

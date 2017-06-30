@@ -45,8 +45,10 @@ public class WarpCommand extends SECommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
-		if (args.length == 0)
+		if (args.length == 0) {
 			list (sender,args);
+			return;
+		}
 		if (!args[0].equalsIgnoreCase ("list") && DataHelper.getWarp (args[0]) != null) {
 			Warp warp = DataHelper.getWarp (args[0]);
 			EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
