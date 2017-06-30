@@ -6,16 +6,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DelWarp extends EssentialsCommand {
+public class DelWarp extends SECommand {
 
 	public DelWarp (Perm perm) {
 		super (perm);
@@ -32,24 +31,8 @@ public class DelWarp extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		ArrayList <String> aliases = new ArrayList <> ();
-		aliases.add ("deleteWarp");
-		aliases.add ("DeleteWarp");
-		aliases.add ("DelWarp");
-		aliases.add ("delwarp");
-		aliases.add ("Delwarp");
-		aliases.add ("DELETEWARP");
-		aliases.add ("DELWARP");
-		aliases.add ("removeWarp");
-		aliases.add ("remWarp");
-		aliases.add ("RemWarp");
-		aliases.add ("RemoveWarp");
-		aliases.add ("removewarp");
-		aliases.add ("remwarp");
-		aliases.add ("REMOVEWARP");
-		aliases.add ("REMWARP");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"deleteWarp", "removeWarp", "remWarp"};
 	}
 
 	@Override
@@ -68,6 +51,11 @@ public class DelWarp extends EssentialsCommand {
 	@Override
 	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteWarps (args,DataHelper.getWarps ());
+	}
+
+	@Override
+	public boolean canConsoleRun () {
+		return true;
 	}
 
 	@Override

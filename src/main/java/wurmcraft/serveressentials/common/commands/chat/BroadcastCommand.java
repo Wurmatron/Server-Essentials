@@ -7,13 +7,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Perm;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class BroadcastCommand extends EssentialsCommand {
+public class BroadcastCommand extends SECommand {
 
 	public BroadcastCommand (Perm perm) {
 		super (perm);
@@ -30,13 +27,8 @@ public class BroadcastCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Broadcast");
-		aliases.add ("BROADCAST");
-		aliases.add ("bc");
-		aliases.add ("BC");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"bc"};
 	}
 
 	@Override

@@ -7,14 +7,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SetWarpCommand extends EssentialsCommand {
+public class SetWarpCommand extends SECommand {
 
 	public SetWarpCommand (Perm perm) {
 		super (perm);
@@ -31,16 +28,6 @@ public class SetWarpCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("SetWarp");
-		aliases.add ("setWarp");
-		aliases.add ("Setwarp");
-		aliases.add ("SETWARP");
-		return aliases;
-	}
-
-	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		if (args.length == 1) {
@@ -48,7 +35,7 @@ public class SetWarpCommand extends EssentialsCommand {
 			Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
 			ChatHelper.sendMessageTo (player,DataHelper.createWarp (warp),hoverEvent (warp));
 		} else
-			ChatHelper.sendMessageTo (sender, getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
 	}
 
 	public HoverEvent hoverEvent (Warp home) {
@@ -56,8 +43,8 @@ public class SetWarpCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

@@ -5,15 +5,12 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AddMotdCommand extends EssentialsCommand {
+public class AddMotdCommand extends SECommand {
 
 	public AddMotdCommand (Perm perm) {
 		super (perm);
@@ -30,15 +27,6 @@ public class AddMotdCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("AddMotd");
-		aliases.add ("ADDMOTD");
-		aliases.add ("addmotd");
-		return aliases;
-	}
-
-	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0) {
 			String rule = Strings.join (args," ");
@@ -51,5 +39,11 @@ public class AddMotdCommand extends EssentialsCommand {
 	@Override
 	public String getDescription () {
 		return "Adds a line to the MOTD";
+	}
+
+
+	@Override
+	public boolean canConsoleRun () {
+		return true;
 	}
 }

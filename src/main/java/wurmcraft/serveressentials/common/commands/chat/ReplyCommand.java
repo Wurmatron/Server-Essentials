@@ -7,14 +7,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ReplyCommand extends EssentialsCommand {
+public class ReplyCommand extends SECommand {
 
 	public ReplyCommand (Perm perm) {
 		super (perm);
@@ -31,23 +28,13 @@ public class ReplyCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
-	}
-
-	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("r");
-		aliases.add ("R");
-		aliases.add ("Reply");
-		aliases.add ("REPLY");
-		return aliases;
-	}
-
-	@Override
 	public String getDescription () {
 		return "Sends a message to the last known person";
+	}
+
+	@Override
+	public String[] getAliases () {
+		return new String[] {"r"};
 	}
 
 	@Override

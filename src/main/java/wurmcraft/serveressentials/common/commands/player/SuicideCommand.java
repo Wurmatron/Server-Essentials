@@ -5,7 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import wurmcraft.serveressentials.common.commands.test.SECommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.event.PlayerRespawnEvent;
 import wurmcraft.serveressentials.common.reference.Perm;
 

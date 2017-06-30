@@ -4,15 +4,12 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.MarketInventory;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MarketCommand extends EssentialsCommand {
+public class MarketCommand extends SECommand {
 
 	public static final int MAX_PER_PAGE = 45;
 
@@ -31,16 +28,8 @@ public class MarketCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Market");
-		aliases.add ("MARKET");
-		aliases.add ("M");
-		aliases.add ("m");
-		aliases.add ("Shop");
-		aliases.add ("shop");
-		aliases.add ("SHOP");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"shop","shops","m"};
 	}
 
 	@Override
@@ -51,8 +40,8 @@ public class MarketCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

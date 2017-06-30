@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -17,10 +17,9 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MsgCommand extends EssentialsCommand {
+public class MsgCommand extends SECommand {
 
 	public MsgCommand (Perm perm) {
 		super (perm);
@@ -37,13 +36,8 @@ public class MsgCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("MSG");
-		aliases.add ("Msg");
-		aliases.add ("pm");
-		aliases.add ("PM");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"pm"};
 	}
 
 	@Override
@@ -79,7 +73,7 @@ public class MsgCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
+	public boolean canConsoleRun () {
 		return true;
 	}
 

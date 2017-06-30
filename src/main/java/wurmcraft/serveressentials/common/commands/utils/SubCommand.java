@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands.test;
+package wurmcraft.serveressentials.common.commands.utils;
 
 import java.lang.annotation.*;
 

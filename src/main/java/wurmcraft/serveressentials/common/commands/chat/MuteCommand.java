@@ -7,17 +7,16 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MuteCommand extends EssentialsCommand {
+public class MuteCommand extends SECommand {
 
 	public MuteCommand (Perm perm) {
 		super (perm);
@@ -34,13 +33,8 @@ public class MuteCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("Mute");
-		aliases.add ("mu");
-		aliases.add ("MUTE");
-		aliases.add ("MU");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"m", "mu"};
 	}
 
 	@Override

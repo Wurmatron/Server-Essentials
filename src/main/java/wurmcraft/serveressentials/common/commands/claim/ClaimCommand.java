@@ -9,12 +9,12 @@ import wurmcraft.serveressentials.common.api.storage.RegionData;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
-public class ClaimCommand extends EssentialsCommand {
+public class ClaimCommand extends SECommand {
 
 	public ClaimCommand (Perm perm) {
 		super (perm);
@@ -54,8 +54,8 @@ public class ClaimCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return true;
+	public boolean canConsoleRun () {
+		return false;
 	}
 
 	@Override

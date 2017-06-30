@@ -9,19 +9,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudoCommand extends EssentialsCommand {
+public class SudoCommand extends SECommand {
 
 	public SudoCommand (Perm perm) {
 		super (perm);
@@ -38,13 +35,8 @@ public class SudoCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("su");
-		aliases.add ("SU");
-		aliases.add ("Sudo");
-		aliases.add ("SUDO");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"su","s"};
 	}
 
 	@Override
@@ -76,11 +68,7 @@ public class SudoCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
-		if (Settings.securityModule && sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			return super.checkPermission (server,sender) && SecurityUtils.isTrustedMember (player);
-		}
-		return super.checkPermission (server,sender);
+	public boolean requiresTrusted () {
+		return true;
 	}
 }

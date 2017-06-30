@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteRuleCommand extends EssentialsCommand {
+public class DeleteRuleCommand extends SECommand {
 
 	public DeleteRuleCommand (Perm perm) {
 		super (perm);
@@ -32,24 +32,8 @@ public class DeleteRuleCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("RemoveRule");
-		aliases.add ("REMOVERULE");
-		aliases.add ("remrule");
-		aliases.add ("Remrule");
-		aliases.add ("RemRule");
-		aliases.add ("REMRULE");
-		aliases.add ("DeleteRule");
-		aliases.add ("deleterule");
-		aliases.add ("deleteRule");
-		aliases.add ("Deleterule");
-		aliases.add ("DELETERULE");
-		aliases.add ("DelRule");
-		aliases.add ("delrule");
-		aliases.add ("Delrule");
-		aliases.add ("DELRULE");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"delRule", "removeRule", "remRule"};
 	}
 
 	@Override
@@ -72,6 +56,11 @@ public class DeleteRuleCommand extends EssentialsCommand {
 			for (int i = 0; i > DataHelper.globalSettings.getRules ().length; i++)
 				list.add (Integer.toString (i));
 		return list;
+	}
+
+	@Override
+	public boolean canConsoleRun () {
+		return true;
 	}
 
 	@Override

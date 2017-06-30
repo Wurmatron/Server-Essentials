@@ -45,16 +45,6 @@ public class KitAdminCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("kitadmin");
-		aliases.add ("Kitadmin");
-		aliases.add ("KITADMIN");
-		aliases.add ("KitAdmin");
-		return aliases;
-	}
-
-	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();

@@ -10,21 +10,19 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SetGroup extends EssentialsCommand {
+public class SetGroup extends SECommand {
 
 	public SetGroup (Perm perm) {
 		super (perm);
@@ -71,27 +69,18 @@ public class SetGroup extends EssentialsCommand {
 	}
 
 	@Override
-	public Boolean isPlayerOnly () {
-		return false;
-	}
-
-	@Override
 	public String getDescription () {
 		return "Set a player's group";
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("setgroup");
-		aliases.add ("SETGROUP");
-		aliases.add ("Setgroup");
-		aliases.add ("SetRank");
-		aliases.add ("Setrank");
-		aliases.add ("setrank");
-		aliases.add ("setRank");
-		aliases.add ("SETRANK");
-		return aliases;
+	public boolean canConsoleRun () {
+		return !Settings.securityModule;
+	}
+
+	@Override
+	public String[] getAliases () {
+		return new String[] {"setrank"};
 	}
 
 	@Override
@@ -100,14 +89,7 @@ public class SetGroup extends EssentialsCommand {
 	}
 
 	@Override
-	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
-		if (Settings.securityModule) {
-			if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-				return super.checkPermission (server,sender) && SecurityUtils.isTrustedMember (player);
-			} else
-				return false;
-		} else
-			return super.checkPermission (server,sender);
+	public boolean requiresTrusted () {
+		return true;
 	}
 }

@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands.test;
+package wurmcraft.serveressentials.common.commands.utils;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -20,6 +20,7 @@ import wurmcraft.serveressentials.common.utils.RankManager;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class SECommand extends CommandBase {
@@ -68,6 +69,7 @@ public abstract class SECommand extends CommandBase {
 			List <String> allAliases = new ArrayList <> ();
 			String command = getCommandName ();
 			// TODO Generate List of all Aliases
+			Collections.addAll (allAliases,aliases);
 			return allAliases;
 		}
 		return super.getCommandAliases ();
@@ -93,9 +95,9 @@ public abstract class SECommand extends CommandBase {
 	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
 		if (Settings.securityModule && requiresTrusted ()) {
 			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
-				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),perm);
+				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),perm.toString ());
 		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)
-			return RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),perm);
+			return RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),perm.toString ());
 		else
 			return canConsoleRun ();
 		return false;
@@ -230,5 +232,16 @@ public abstract class SECommand extends CommandBase {
 			}
 			return usernames;
 		}
+	}
+
+	protected boolean hasPerm (ICommandSender sender,String thePerm) {
+		if (Settings.securityModule && requiresTrusted ()) {
+			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
+				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),thePerm);
+		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)
+			return RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),thePerm);
+		else
+			return canConsoleRun ();
+		return false;
 	}
 }

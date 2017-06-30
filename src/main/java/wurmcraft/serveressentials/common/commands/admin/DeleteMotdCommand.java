@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.EssentialsCommand;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteMotdCommand extends EssentialsCommand {
+public class DeleteMotdCommand extends SECommand {
 
 	public DeleteMotdCommand (Perm perm) {
 		super (perm);
@@ -32,18 +32,8 @@ public class DeleteMotdCommand extends EssentialsCommand {
 	}
 
 	@Override
-	public List <String> getCommandAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("DeleteMotd");
-		aliases.add ("DeleteMOTD");
-		aliases.add ("deletemotd");
-		aliases.add ("DELETEMOTD");
-		aliases.add ("delmotd");
-		aliases.add ("Delmotd");
-		aliases.add ("DelMotd");
-		aliases.add ("DELMOTD");
-		aliases.add ("delMotd");
-		return aliases;
+	public String[] getAliases () {
+		return new String[] {"delMotd", "removeMotd", "remMotd"};
 	}
 
 	@Override
@@ -66,6 +56,11 @@ public class DeleteMotdCommand extends EssentialsCommand {
 			for (int i = 0; i > DataHelper.globalSettings.getMotd ().length; i++)
 				list.add (Integer.toString (i));
 		return list;
+	}
+
+	@Override
+	public boolean canConsoleRun () {
+		return true;
 	}
 
 	@Override
