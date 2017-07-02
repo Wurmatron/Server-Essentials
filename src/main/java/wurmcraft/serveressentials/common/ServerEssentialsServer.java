@@ -9,11 +9,13 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wurmcraft.serveressentials.common.claim.ClaimEvent;
+import wurmcraft.serveressentials.common.commands.admin.PreGenCommand;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityEvents;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
@@ -44,6 +46,7 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PlayerDeathEvent ());
 		MinecraftForge.EVENT_BUS.register (new MarketEvent ());
 		MinecraftForge.EVENT_BUS.register (new WorldEvent ());
+		MinecraftForge.EVENT_BUS.register (new PreGenCommand (Perm.PREGEN));
 		if (Settings.securityModule)
 			MinecraftForge.EVENT_BUS.register (new SecurityEvents ());
 	}

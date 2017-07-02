@@ -89,6 +89,7 @@ public class LoadHelper {
 		e.registerServerCommand (new AutoRankCommand (Perm.AUTORANK));
 		e.registerServerCommand (new TpHereCommand (Perm.TP_HERE));
 		e.registerServerCommand (new TpLockCommand (Perm.TPLOCK));
+		e.registerServerCommand (new PreGenCommand (Perm.PREGEN));
 	}
 
 	public static void loadData () {

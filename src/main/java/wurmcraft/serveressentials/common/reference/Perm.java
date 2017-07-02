@@ -40,6 +40,7 @@ public enum Perm {
 	SET_GROUP("admin.setGroup"),
 	TP_HERE("admin.tpHere"),
 	KIT_ADMIN("admin.kitAdmin"),
+	PREGEN("admin.pregen"),
 
 	// Perk
 	ENDER_CHEST("perk.enderChest"),
