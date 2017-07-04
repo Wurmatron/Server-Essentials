@@ -90,6 +90,7 @@ public class LoadHelper {
 		e.registerServerCommand (new TpHereCommand (Perm.TP_HERE));
 		e.registerServerCommand (new TpLockCommand (Perm.TPLOCK));
 		e.registerServerCommand (new PreGenCommand (Perm.PREGEN));
+		e.registerServerCommand (new RandomTeleportCommand (Perm.RTP));
 	}
 
 	public static void loadData () {

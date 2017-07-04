@@ -1,7 +1,10 @@
 package wurmcraft.serveressentials.common.utils;
 
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import wurmcraft.serveressentials.common.config.Settings;
 
 import java.util.UUID;
@@ -58,6 +61,13 @@ public class TeleportUtils {
 				}
 		} else {
 			DataHelper.activeRequests.put (System.currentTimeMillis (),new EntityPlayer[] {player,other});
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean safeLocation (World world,BlockPos pos) {
+		if (world.getBlockState (pos.down ()).getBlock () != Blocks.AIR && !(world.getBlockState (pos.down ()).getBlock () instanceof BlockLiquid) && world.getBlockState (pos).getBlock () == Blocks.AIR) {
 			return true;
 		}
 		return false;

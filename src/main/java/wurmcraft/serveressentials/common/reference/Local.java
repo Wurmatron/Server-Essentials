@@ -24,7 +24,6 @@ public class Local {
 	public static final String WARP_DELETE = TextFormatting.RED + "Warp \"#\" deleted!";
 	public static final String WARPS_NONE = TextFormatting.RED + "No warps set!";
 	// Global
-	// Global
 	public static final String SPAWN_SET = TextFormatting.GREEN + "Spawn set in dimension '@'";
 	public static final String SPAWN_TELEPORTED = TextFormatting.GREEN + "Teleported to spawn";
 	public static final String COMMAND_FORCED = TextFormatting.BLUE + "You have been forced to run a command!";
@@ -129,6 +128,8 @@ public class Local {
 	public static final String TPA_SELF = TextFormatting.RED + "You cannot send a request to yourself";
 	public static final String INVALID_LASTLOCATION = TextFormatting.RED + "Last Location Invalid";
 	public static final String TPLOCK = TextFormatting.AQUA + "Tp Lock #";
+	public static final String RAND_TP = TextFormatting.AQUA + "You have randomly teleported!";
+	public static final String RTP_FAIL = TextFormatting.RED + "RTP failed to find a safe location, try again!";
 	// Team
 	public static final String TEAM_CREATE_MISSING_NAME = TextFormatting.RED + "Team name missing or invalid";
 	public static final String TEAM_CREATED = TextFormatting.GREEN + "Team \"#\" created!";

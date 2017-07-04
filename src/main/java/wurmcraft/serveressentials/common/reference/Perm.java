@@ -12,6 +12,7 @@ public enum Perm {
 	TPA_ACCEPT("teleport.tpaAccept"),
 	TPA_DENY("teleport.tpaDeny"),
 	TPLOCK("teleport.lock"),
+	RTP("teleport.rtp"),
 
 	// Admin
 	SET_WARP("admin.setWarp"),
