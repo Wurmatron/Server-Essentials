@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper;
@@ -32,14 +33,25 @@ public class ChatHelper {
 	public static final String DIMENSION_KEY = "%dimension%";
 	public static final String RANK_PREFIX_KEY = "%rankPrefix%";
 	public static final String RANK_SUFFIX_KEY = "%rankSuffix%";
+	public static final String TEAM_KEY = "%team%";
+
 	public static HashMap <String, String[]> lastChat = new HashMap <> ();
 
-	public static String format (String username,IRank rank,Channel channel,int dimension,String message) {
+	// TODO FIX Bug with no team name leaving a space in chat format
+	public static String format (String username,IRank rank,Channel channel,int dimension,Team team,String message) {
 		String format;
-		if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
-			format = StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
-		else
-			format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+		if(team != null) {
+			if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
+				format = StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY, TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET, team.getName () + TextFormatting.RESET});
+			else
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY ,TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,team.getName () + TextFormatting.RESET});
+		} else {
+			if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY, ""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+			else
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY, "").replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+
+		}
 		return format;
 	}
 
@@ -85,14 +97,14 @@ public class ChatHelper {
 		sender.addChatMessage (new TextComponentString (message));
 	}
 
-	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,String message) {
+	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,Team team,String message) {
 		if (Settings.logChat) {
 			LogHelper.addChat (channel,"[" + new Date (System.currentTimeMillis ()).toString () + "] " + TextFormatting.getTextWithoutFormattingCodes (displayName) + " " + message);
 			LogHelper.checkAndSave ();
 		}
 		if (handleMessage (displayName,message)) {
-			sendChannelMessage (channel,displayName,rank,dimension,message);
-			LogHandler.chat (format (displayName,rank,channel,dimension,message));
+			sendChannelMessage (channel,displayName,rank,dimension,team,message);
+			LogHandler.chat (format (displayName,rank,channel,dimension,team,message));
 		} else {
 			EntityPlayer player = UsernameResolver.getPlayer (displayName);
 			if (player != null)
@@ -100,12 +112,12 @@ public class ChatHelper {
 		}
 	}
 
-	public static void sendChannelMessage (Channel channel,String displayName,IRank rank,int dimension,String message) {
+	public static void sendChannelMessage (Channel channel,String displayName,IRank rank,int dimension,Team team,String message) {
 		PlayerList players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ();
 		List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
 		for (EntityPlayerMP player : players.getPlayerList ()) {
 			if (recivers.contains (player.getGameProfile ().getId ()))
-				player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,message)));
+				player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
 		}
 	}
 
