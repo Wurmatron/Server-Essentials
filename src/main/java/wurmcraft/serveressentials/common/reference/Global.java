@@ -9,4 +9,6 @@ public class Global {
 	// Proxy
 	public static final String COMMON_PROXY = "wurmcraft.serveressentials.common.proxy.CommonProxy";
 	public static final String CLIENT_PROXY = "wurmcraft.serveressentials.client.proxy.ClientProxy";
+	// Config
+	public static final String CATEGORY_ECO = "economy";
 }

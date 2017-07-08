@@ -9,6 +9,7 @@ import wurmcraft.serveressentials.common.commands.utils.MarketInventory;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
+@Deprecated
 public class MarketCommand extends SECommand {
 
 	public static final int MAX_PER_PAGE = 45;
@@ -34,9 +35,9 @@ public class MarketCommand extends SECommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		super.execute (server,sender,args);
-		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
-		player.displayGUIChest (new MarketInventory (player,player.getGameProfile ().getId (),0,DataHelper.loadMarket (player.getGameProfile ().getId ())));
+//		super.execute (server,sender,args);
+//		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
+//		player.displayGUIChest (new MarketInventory (player,player.getGameProfile ().getId (),0,DataHelper.loadMarket (player.getGameProfile ().getId ())));
 	}
 
 	@Override

@@ -19,4 +19,8 @@ public class Settings {
 	public static int logInterval;
 	public static int spamLimit;
 	public static String mailFormat;
+	public static boolean buySign;
+	public static boolean sellSign;
+	public static boolean colorSign;
+	public static boolean commandSign;
 }

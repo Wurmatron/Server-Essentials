@@ -19,7 +19,9 @@ public class WorldUtils {
 				for (int index = 0; index < 4; index++)
 					if (sign.length > index)
 						text[index] = new TextComponentString (sign[index]);
-				Field field = setFinalStatic (signTile.getClass (),"signText",text);
+					else
+						text[index] = new TextComponentString ("");
+						Field field = setFinalStatic (signTile.getClass (),"signText",text);
 				field.set (signTile,text);
 				signTile.markDirty ();
 				world.notifyBlockUpdate (pos,world.getBlockState (pos),world.getBlockState (pos),3);

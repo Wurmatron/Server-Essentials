@@ -4,6 +4,7 @@ package wurmcraft.serveressentials.common.config;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.io.File;
@@ -30,6 +31,10 @@ public class ConfigHandler {
 	private static Property logInterval;
 	private static Property spamLimit;
 	private static Property mailFormat;
+	private static Property buySign;
+	private static Property sellSign;
+	private static Property colorSign;
+	private static Property commandSign;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -71,8 +76,16 @@ public class ConfigHandler {
 		Settings.logInterval = logInterval.getInt ();
 		spamLimit = config.get (Configuration.CATEGORY_GENERAL,"spamLimit",Defaults.SPAMLIMIT,"How many times a player can type the same message");
 		Settings.spamLimit = spamLimit.getInt ();
-		mailFormat = config.get (Configuration.CATEGORY_GENERAL,"mailFormat", Defaults.MAILFORMAT, "How mail is displayed");
+		mailFormat = config.get (Configuration.CATEGORY_GENERAL,"mailFormat",Defaults.MAILFORMAT,"How mail is displayed");
 		Settings.mailFormat = mailFormat.getString ();
+		buySign = config.get (Global.CATEGORY_ECO,"buySign",true,"Buy Sign Enabled?");
+		Settings.buySign = buySign.getBoolean ();
+		sellSign = config.get (Global.CATEGORY_ECO,"sellSign",true,"Sell Sign Enabled?");
+		Settings.sellSign = sellSign.getBoolean ();
+		colorSign = config.get (Global.CATEGORY_ECO,"colorSign",true,"Color Sign Enabled?");
+		Settings.colorSign = colorSign.getBoolean ();
+		commandSign = config.get (Global.CATEGORY_ECO,"commandSign",true,"Command Sign Enabled?");
+		Settings.commandSign = commandSign.getBoolean ();
 
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");
