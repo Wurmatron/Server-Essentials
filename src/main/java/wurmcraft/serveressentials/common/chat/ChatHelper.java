@@ -20,10 +20,7 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ChatHelper {
 
@@ -40,16 +37,16 @@ public class ChatHelper {
 	// TODO FIX Bug with no team name leaving a space in chat format
 	public static String format (String username,IRank rank,Channel channel,int dimension,Team team,String message) {
 		String format;
-		if(team != null) {
+		if (team != null) {
 			if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
-				format = StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY, TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET, team.getName () + TextFormatting.RESET});
+				format = StringUtils.replaceEach (Settings.chatFormat,new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY,TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,team.getName () + TextFormatting.RESET});
 			else
-				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY ,TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,team.getName () + TextFormatting.RESET});
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,team.getName () + TextFormatting.RESET});
 		} else {
 			if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
-				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY, ""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
 			else
-				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY, "").replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY,"").replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
 
 		}
 		return format;
@@ -114,10 +111,27 @@ public class ChatHelper {
 
 	public static void sendChannelMessage (Channel channel,String displayName,IRank rank,int dimension,Team team,String message) {
 		PlayerList players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ();
-		List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
-		for (EntityPlayerMP player : players.getPlayerList ()) {
-			if (recivers.contains (player.getGameProfile ().getId ()))
-				player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+		if (!channel.getName ().equalsIgnoreCase ("Team")) {
+			List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
+			for (EntityPlayerMP player : players.getPlayerList ()) {
+				if (recivers.contains (player.getGameProfile ().getId ()))
+					player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+			}
+		} else {
+			if (team != null) {
+				List <UUID> teamMembers = new ArrayList <> ();
+				if (team.getMembers ().size () > 0)
+					Collections.addAll (teamMembers,team.getMembers ().keySet ().toArray (new UUID[0]));
+				teamMembers.add (team.getLeader ());
+				for (EntityPlayerMP player : players.getPlayerList ())
+					if (teamMembers.contains (player.getGameProfile ().getId ()))
+						player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+			} else {
+				List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
+				for (EntityPlayerMP player : players.getPlayerList ())
+					if (recivers.contains (player.getGameProfile ().getId ()) && DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam () == null)
+						player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+			}
 		}
 	}
 

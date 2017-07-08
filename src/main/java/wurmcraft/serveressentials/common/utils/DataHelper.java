@@ -25,7 +25,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class DataHelper {
 
@@ -85,21 +88,25 @@ public class DataHelper {
 
 	public static PlayerData loadPlayerData (UUID name) {
 		File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
-		if (loadedPlayers.containsKey(name)) return loadedPlayers.get(name);
+		if (loadedPlayers.containsKey (name))
+			return loadedPlayers.get (name);
 		else {
-			if (playerFileLocation.exists()) {
-				ArrayList<String> lines = new ArrayList<>();
+			if (playerFileLocation.exists ()) {
+				ArrayList <String> lines = new ArrayList <> ();
 				try {
-					BufferedReader reader = new BufferedReader(new FileReader(playerFileLocation));
+					BufferedReader reader = new BufferedReader (new FileReader (playerFileLocation));
 					String line;
-					while ((line = reader.readLine()) != null) lines.add(line);
-					reader.close();
-				} catch (IOException e) { e.printStackTrace(); }
+					while ((line = reader.readLine ()) != null)
+						lines.add (line);
+					reader.close ();
+				} catch (IOException e) {
+					e.printStackTrace ();
+				}
 				String temp = "";
-				for (int s = 0; s <= lines.size() - 1; s++)
-					temp = temp + lines.get(s);
-				PlayerData data = gson.fromJson(temp, PlayerData.class);
-				loadedPlayers.put(name, data);
+				for (int s = 0; s <= lines.size () - 1; s++)
+					temp = temp + lines.get (s);
+				PlayerData data = gson.fromJson (temp,PlayerData.class);
+				loadedPlayers.put (name,data);
 				return data;
 			}
 			return null;
@@ -175,7 +182,7 @@ public class DataHelper {
 			data = loadPlayerData (name);
 		if (data != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
-			data.setLastseen (Instant.now().toEpochMilli());
+			data.setLastseen (Instant.now ().toEpochMilli ());
 			try {
 				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
 				reloadPlayerData (name);
@@ -586,8 +593,10 @@ public class DataHelper {
 	public static void createDefaultChannels () {
 		Channel globalChannel = new Channel (Defaults.DEFAULT_CHANNEL,"&9[G]",true,false,Channel.Type.PUBLIC,"");
 		Channel staffChannel = new Channel ("Staff","&4[S]",false,false,Channel.Type.RANK,"Admin");
+		Channel teamChannel = new Channel ("Team","&a[T]",true,false,Channel.Type.TEAM,"");
 		saveChannel (globalChannel);
 		saveChannel (staffChannel);
+		saveChannel (teamChannel);
 	}
 
 	public static void setChannel (UUID uuid,Channel channel) {
