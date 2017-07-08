@@ -163,6 +163,7 @@ public class Local {
 	public static final String NO_ITEM = TextFormatting.RED + "No Held Item Found";
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
 	public static final String ITEM_SENT = TextFormatting.AQUA + "Item # sent to @";
+	public static final String ITEM_NONE = TextFormatting.RED + "You dont have a #";
 	// Eco
 	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#";
 	public static final String CURRENT_MONEY_OTHER = TextFormatting.AQUA + "# currently has " + Settings.currencySymbol + "%";
@@ -173,6 +174,10 @@ public class Local {
 	public static final String PURCHASE = TextFormatting.AQUA + "You have purchased # for @";
 	public static final String MISSING_STACK = TextFormatting.RED + "You don't have a #";
 	public static final String SELL_STACK = TextFormatting.AQUA + "# has been sold to @ for &";
+	public static final String SIGN_INVALID = TextFormatting.RED + "Sign Invalid / Inactive";
+	public static final String MONEY_NONE = TextFormatting.RED + "You don't have enough money!";
+	public static final String PLAYER_INVENTORY_FULL = TextFormatting.AQUA + "Your inventory is full!";
+	public static final String ITEM_SOLD = TextFormatting.GREEN + "You have just sold # for @";
 	// Security
 	public static final String SECURITY_CREATIVE_KICK = TextFormatting.RED + "You are not allowed to be in creative";
 }

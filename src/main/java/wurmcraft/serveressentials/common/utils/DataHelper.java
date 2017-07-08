@@ -960,4 +960,8 @@ public class DataHelper {
 		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ())
 			checkAndHandleAutoRank (player);
 	}
+
+	public static int getMoney(UUID uuid) {
+		return getPlayerData (uuid).getMoney ();
+	}
 }
