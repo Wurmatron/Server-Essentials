@@ -962,6 +962,8 @@ public class DataHelper {
 	}
 
 	public static int getMoney(UUID uuid) {
+		if(getPlayerData (uuid) == null)
+			loadPlayerData (uuid);
 		return getPlayerData (uuid).getMoney ();
 	}
 }

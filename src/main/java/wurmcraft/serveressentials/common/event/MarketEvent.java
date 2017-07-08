@@ -40,7 +40,7 @@ public class MarketEvent {
 	public void onInteract (PlayerInteractEvent e) {
 		if (e.getWorld ().getTileEntity (e.getPos ()) != null && e.getWorld ().getTileEntity (e.getPos ()) instanceof TileEntitySign) {
 			String[] signText = getLines (e.getWorld (),e.getPos ());
-			if (signText[0].equalsIgnoreCase ("[IBuy]")) {
+			if (signText[0].equalsIgnoreCase ("[IBuy]") && Settings.buySign) {
 				if (isValid (e.getWorld (),e.getPos ())) {
 					if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
 						if (addStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
@@ -54,7 +54,7 @@ public class MarketEvent {
 					setShopBuy (e.getWorld (),e.getPos (),e.getEntityPlayer ().getHeldItemMainhand ());
 				} else
 					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
-			} else if (signText[0].equalsIgnoreCase ("[ISell]")) {
+			} else if (signText[0].equalsIgnoreCase ("[ISell]") && Settings.sellSign) {
 				if (isValid (e.getWorld (),e.getPos ())) {
 					if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
 						if (hasStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
@@ -69,13 +69,14 @@ public class MarketEvent {
 					setShopBuy (e.getWorld (),e.getPos (),e.getEntityPlayer ().getHeldItemMainhand ());
 				} else
 					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
-			} else if (signText[0].equalsIgnoreCase ("[Buy]")) {
+			} else if (signText[0].equalsIgnoreCase ("[Buy]") && Settings.buySign) {
 				if (isValid (e.getWorld (),e.getPos ()) && hasValidLink (e.getWorld (),e.getPos ())) {
 					if (canBuy (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()))) {
 						if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
 							if (addStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
-								consumeStack (e.getWorld (),getChest (e.getWorld (), e.getPos ()),getStack (e.getWorld (),e.getPos ()));
+								consumeStack (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()));
 								DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) - getPrice (e.getWorld (),e.getPos ()));
+								DataHelper.setMoney (getOwner (e.getWorld (),e.getPos ()),DataHelper.getMoney (getOwner (e.getWorld (),e.getPos ())) + getPrice (e.getWorld (),e.getPos ()));
 								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).stackSize + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
 							} else
 								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PLAYER_INVENTORY_FULL);
@@ -88,13 +89,26 @@ public class MarketEvent {
 					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.LINK_CHEST);
 				} else
 					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
+			} else if (signText[0].equalsIgnoreCase ("[Sell]") && Settings.sellSign) {
+				if (isValid (e.getWorld (),e.getPos ()) && hasValidLink (e.getWorld (),e.getPos ()) && canSell (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()))) {
+					if (hasStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
+						consumeStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()));
+						addStack (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()));
+						DataHelper.setMoney (getOwner (e.getWorld (),e.getPos ()),DataHelper.getMoney (getOwner (e.getWorld (),e.getPos ())) + getPrice (e.getWorld (),e.getPos ()));
+					} else
+						ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_NONE.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
+				} else if (getPrice (e.getWorld (),e.getPos ()) >= 0 && e.getEntityPlayer ().getHeldItemMainhand () != null && e.getEntityPlayer ().getHeldItemMainhand ().isItemEqual (linkStack)) {
+					shops.put (e.getEntityPlayer ().getGameProfile ().getId (),e.getPos ());
+					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.LINK_CHEST);
+				} else
+					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
 			}
 		} else if (e.getWorld ().getTileEntity (e.getPos ()) != null && isInventory (e.getWorld (),e.getPos ())) {
 			if (shops.containsKey (e.getEntityPlayer ().getGameProfile ().getId ())) {
 				if (getStackForSign (e.getWorld (),e.getPos ()) != null) {
 					setShopBuy (e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()),getStackForSign (e.getWorld (),e.getPos ()));
 					setOwner (e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()),e.getEntityPlayer ().getGameProfile ().getId ());
-					setChest(e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()), e.getPos ());
+					setChest (e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()),e.getPos ());
 					shops.remove (e.getEntityPlayer ().getGameProfile ().getId ());
 					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.LINKED);
 				} else
@@ -114,6 +128,8 @@ public class MarketEvent {
 			text[0] = TextFormatting.GOLD + "[" + TextFormatting.DARK_RED + TextFormatting.BOLD + "ISell" + TextFormatting.RESET + TextFormatting.GOLD + "]";
 		else if (text[0].equalsIgnoreCase ("[Buy]"))
 			text[0] = TextFormatting.GOLD + "[" + TextFormatting.AQUA + "Buy" + TextFormatting.GOLD + "]";
+		else if (text[0].equalsIgnoreCase ("[Sell]"))
+			text[0] = TextFormatting.GOLD + "[" + TextFormatting.AQUA + "Sell" + TextFormatting.GOLD + "]";
 		text[3] = TextFormatting.AQUA + text[3];
 		WorldUtils.setSignText (world,pos,text);
 	}
@@ -210,6 +226,13 @@ public class MarketEvent {
 		return false;
 	}
 
+	private boolean canSell (World world,BlockPos pos,ItemStack stack) {
+		IInventory inv = (IInventory) world.getTileEntity (pos);
+		for (int index = 0; index < inv.getSizeInventory (); index++)
+			return inv.getStackInSlot (index) == null || inv.getStackInSlot (index) != null && inv.getStackInSlot (index).isItemEqual (stack);
+		return false;
+	}
+
 	private void consumeStack (World world,BlockPos pos,ItemStack stack) {
 		IInventory inv = (IInventory) world.getTileEntity (pos);
 		int amountLeft = stack.stackSize;
@@ -238,5 +261,17 @@ public class MarketEvent {
 		TileEntitySign sign = (TileEntitySign) world.getTileEntity (pos);
 		int[] data = sign.getTileData ().getIntArray ("pos");
 		return new BlockPos (data[0],data[1],data[2]);
+	}
+
+	private void addStack (World world,BlockPos pos,ItemStack stack) {
+		IInventory inv = (IInventory) world.getTileEntity (pos);
+		for (int index = 0; index < inv.getSizeInventory (); index++)
+			if (inv.getStackInSlot (index) != null && inv.getStackInSlot (index).isItemEqual (stack)) {
+				inv.getStackInSlot (index).stackSize += stack.stackSize;
+				break;
+			} else if (inv.getStackInSlot (index) == null) {
+				inv.setInventorySlotContents (index,stack);
+				break;
+			}
 	}
 }
