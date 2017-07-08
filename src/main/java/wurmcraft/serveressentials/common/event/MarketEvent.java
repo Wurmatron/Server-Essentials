@@ -110,10 +110,12 @@ public class MarketEvent {
 	}
 
 	private boolean hasStack (EntityPlayer player,ItemStack stack) {
-		return player.inventory.hasItemStack (stack);
+		for(ItemStack item : player.inventory.mainInventory)
+			if(item != null && item.isItemEqual (stack) && item.stackSize > 0)
+				return true;
+		return false;
 	}
 
-	// TODO Fix the possible dupe glitch with offhand / armor slots
 	private void consumeStack (EntityPlayer player,ItemStack stack) {
 		int amountLeft = stack.stackSize;
 		for (int index = 0; index < player.inventory.mainInventory.length; index++)
@@ -126,7 +128,7 @@ public class MarketEvent {
 				}
 				else if (stack.stackSize > player.inventory.mainInventory[index].stackSize) {
 					amountLeft -= player.inventory.mainInventory[index].stackSize;
-					player.inventory.mainInventory[index] = null;
+					player.inventory.setInventorySlotContents (index,null);
 				}
 			}
 	}
