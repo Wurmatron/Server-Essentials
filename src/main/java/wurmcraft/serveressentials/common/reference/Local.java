@@ -79,7 +79,7 @@ public class Local {
 	public static final String VAULT_CREATE = TextFormatting.AQUA + "You must first create a vault";
 	public static final String VAULT_ITEMS = TextFormatting.AQUA + "You cannot delete a vault that still has items within";
 	public static final String VAULT_DELETED = TextFormatting.RED + "Vault \"#\" deleted!";
-	public static final String VAULT_NAME= TextFormatting.RED + "Invalid Vault Name \"#\"";
+	public static final String VAULT_NAME = TextFormatting.RED + "Invalid Vault Name \"#\"";
 	public static final String SPEED_CHANGED = TextFormatting.GREEN + "Your movement speed has changed to #";
 	public static final String MESSAGE_SENT = TextFormatting.RED + "Message sent to #";
 	public static final String MISSING_MESSAGE = TextFormatting.AQUA + "Missing Message";
@@ -100,7 +100,7 @@ public class Local {
 	public static final String SPY_OTHER = TextFormatting.AQUA + "Chat Spy # for &";
 	public static final String NICKNAME = TextFormatting.AQUA + "Nickname changed to #";
 	public static final String NICKNAME_OTHER = TextFormatting.AQUA + "Nickname for # changed to &";
-	public static final String NICKNAME_SET = TextFormatting.GREEN+"#'s nickname has been set!";
+	public static final String NICKNAME_SET = TextFormatting.GREEN + "#'s nickname has been set!";
 	public static final String RANK_NOT_FOUND = TextFormatting.RED + "Rank \"#\" not found!";
 	public static final String RANK_CHANGED = TextFormatting.AQUA + "Your rank has been changed to \"#\"";
 	public static final String RANK_UP = TextFormatting.RED + "You have ranked up to \"#\"";
@@ -164,6 +164,7 @@ public class Local {
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
 	public static final String ITEM_SENT = TextFormatting.AQUA + "Item # sent to @";
 	public static final String ITEM_NONE = TextFormatting.RED + "You dont have a #";
+	public static final String ITEM_MISSING= TextFormatting.RED + "Selected Inventory has not item";
 	// Eco
 	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#";
 	public static final String CURRENT_MONEY_OTHER = TextFormatting.AQUA + "# currently has " + Settings.currencySymbol + "%";
@@ -178,6 +179,9 @@ public class Local {
 	public static final String MONEY_NONE = TextFormatting.RED + "You don't have enough money!";
 	public static final String PLAYER_INVENTORY_FULL = TextFormatting.AQUA + "Your inventory is full!";
 	public static final String ITEM_SOLD = TextFormatting.GREEN + "You have just sold # for @";
+	public static final String LINK_CHEST = TextFormatting.AQUA + "Select a chest to link this sign too";
+	public static final String SIGN_FIRST = TextFormatting.RED + "You must first select a sign to start the linking process!";
+	public static final String LINKED = TextFormatting.GREEN + "Chest linked to sign";
 	// Security
 	public static final String SECURITY_CREATIVE_KICK = TextFormatting.RED + "You are not allowed to be in creative";
 }
