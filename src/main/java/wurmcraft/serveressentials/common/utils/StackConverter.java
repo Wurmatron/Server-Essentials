@@ -32,8 +32,7 @@ public class StackConverter {
 
 	// Copied from WurmTweaks 2
 	public static ItemStack convertToStack (String stringStack) {
-		if (stringStack != null && stringStack.length () > 0) {
-			if (stringStack.startsWith ("[") && stringStack.contains ("]") && stringStack.contains (":") && stringStack.indexOf ("]x") != -1) {
+		if (stringStack != null && stringStack.length () > 0 && stringStack.startsWith ("[") && stringStack.contains ("]") && stringStack.contains (":") && stringStack.indexOf ("]x") != -1) {
 				String modid = stringStack.substring (stringStack.indexOf ("[") + 1,stringStack.indexOf (":"));
 				String unlocalizedName = stringStack.substring (stringStack.indexOf (":") + 1,stringStack.indexOf ("]"));
 				int stackSize = Integer.parseInt (stringStack.substring (stringStack.indexOf ("]") + 2,stringStack.indexOf ("@")));
@@ -52,7 +51,6 @@ public class StackConverter {
 					int meta = Integer.parseInt (stringStack.substring (stringStack.indexOf ("@") + 1,stringStack.length ()));
 					return GameRegistry.makeItemStack (modid + ":" + unlocalizedName,meta,stackSize,"");
 				}
-			}
 		}
 		return null;
 	}

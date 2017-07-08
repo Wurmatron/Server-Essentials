@@ -61,20 +61,18 @@ public class HomeCommand extends SECommand {
 				ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
 			else
 				ChatHelper.sendMessageTo (sender,Local.HOME_NONE);
-		} else if (args.length == 1) {
-			if (!args[0].equalsIgnoreCase ("list")) {
-				Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
-				long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleportTimer ();
-				if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-					DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
-					player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
-					TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
-					ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
-				} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
-					ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
-				else
-					ChatHelper.sendMessageTo (sender,Local.HOME_INVALID.replaceAll ("#",args[0]));
-			}
+		} else if (args.length == 1 && !args[0].equalsIgnoreCase ("list")) {
+			Home home = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHome (args[0]);
+			long teleport_timer = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeleportTimer ();
+			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+				DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
+				player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
+				TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
+				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
+			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+				ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
+			else
+				ChatHelper.sendMessageTo (sender,Local.HOME_INVALID.replaceAll ("#",args[0]));
 		}
 	}
 

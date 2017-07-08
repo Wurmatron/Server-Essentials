@@ -164,7 +164,6 @@ public class MailCommand extends SECommand {
 		DataHelper.addMail (new Mail (player.getGameProfile ().getId (),uuidReceiver,Strings.join (getArgsAfterCommand (1,trailingArgs)," ")));
 		ChatHelper.sendMessageTo (player,Local.MAIL_SENT);
 		ChatHelper.sendMessageTo (UsernameResolver.getPlayer (uuidReceiver),Local.HAS_MAIL);
-		return;
 	}
 
 	@Override

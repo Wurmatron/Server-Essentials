@@ -12,114 +12,138 @@ import wurmcraft.serveressentials.common.reference.Local;
 import java.util.*;
 
 /**
- * Created by matthew on 6/24/17.
+ Created by matthew on 6/24/17.
  */
 public class UsernameResolver {
-    public static final class AbstractUsernameCollection<T extends String> extends AbstractCollection<T> {
-        List<T> names;
-        {
-            names = new LinkedList<>();
-        }
-        public AbstractUsernameCollection(Collection<T> values) {
-            for (T value : values) add(value);
-        }
-        @Override
-        public boolean contains(Object s) {
-            Iterator<T> itr = this.iterator();
-            if(s == null) return false;
-            else while(itr.hasNext()) if(((String)s).equalsIgnoreCase(itr.next())) return true;
-            return false;
-        }
-        @Override
-        public Iterator<T> iterator() {return names.iterator();}
-        @Override
-        public boolean add(T s) {
-            if (!contains(s)) {
-                names.add(s);
-                return true;
-            } else return false;
-        }
-        @Override
-        public int size() {
-            return names.size();
-        }
-    }
 
-    private static MinecraftServer getServer() {
-        return FMLCommonHandler.instance().getMinecraftServerInstance();
-    }
+	public static final class AbstractUsernameCollection <T extends String> extends AbstractCollection <T> {
 
-    public static boolean isValidPlayer(String username) {
-        return new AbstractUsernameCollection<String>(UsernameCache.getMap().values()).contains(username) ||
-                isValidNickname(username);
-    }
+		List <T> names;
 
-    public static boolean printIsValidPlayer(EntityPlayer sender, String username) {
-        String rUsername = usernameFromNickname(username);
-        if (rUsername == null) {
-            ChatHelper.sendMessageTo(sender, Local.PLAYER_NOT_FOUND.replaceAll(((username == null) ? "\"#\" " : "\"#\""), ((username == null) ? "" : username)));
-            return false;
-        }
-        return true;
-    }
+		{
+			names = new LinkedList <> ();
+		}
 
-    public static boolean isValidNickname(String username) {
-        String resolvedName = usernameFromNickname(username);
-        return (resolvedName!=username) && (resolvedName!=null);
-    }
+		public AbstractUsernameCollection (Collection <T> values) {
+			for (T value : values)
+				add (value);
+		}
 
-    public static boolean isNickname(String username) {
-        return TextFormatting.getTextWithoutFormattingCodes(username).startsWith("*");
-    }
+		@Override
+		public boolean contains (Object s) {
+			Iterator <T> itr = this.iterator ();
+			if (s == null)
+				return false;
+			else
+				while (itr.hasNext ())
+					if (((String) s).equalsIgnoreCase (itr.next ()))
+						return true;
+			return false;
+		}
 
-    public static String usernameFromNickname(String username) {
-        String unFormattedName=TextFormatting.getTextWithoutFormattingCodes(username).replaceAll("\\*", "");
-        if (new AbstractUsernameCollection(UsernameCache.getMap().values()).contains(unFormattedName)) return unFormattedName;
-        else {
-            for (UUID uid : UsernameCache.getMap().keySet()){
-                String nick=DataHelper.loadPlayerData(uid).getNickname();
-                if (nick!=null) if(nick.equalsIgnoreCase(unFormattedName)) return getUsername(uid);
-            }
-            return null;
-        }
-    }
+		@Override
+		public Iterator <T> iterator () {
+			return names.iterator ();
+		}
 
-    public static String getNickname(UUID uuid) {
-        return DataHelper.loadPlayerData(uuid).getNickname();
-    }
+		@Override
+		public boolean add (T s) {
+			if (!contains (s)) {
+				names.add (s);
+				return true;
+			} else
+				return false;
+		}
 
-    public static PlayerData getPlayerData(UUID uniqueID) {
-        return DataHelper.loadedPlayers.get(uniqueID);
-    }
+		@Override
+		public int size () {
+			return names.size ();
+		}
+	}
 
-    public static PlayerData getPlayerData(String username) {
-        String nick=usernameFromNickname(username);
-        if (!nick.equalsIgnoreCase(username)) username=usernameFromNickname(username);
-        Set<UUID> uuids = UsernameCache.getMap().keySet();
-        for (UUID uuid : uuids) if (UsernameCache.getMap().get(uuid).equalsIgnoreCase(username))
-            return DataHelper.loadedPlayers.get(uuid);
-        return null;
-    }
+	private static MinecraftServer getServer () {
+		return FMLCommonHandler.instance ().getMinecraftServerInstance ();
+	}
 
-    public static UUID getPlayerUUID(String username) {
-        String nick=usernameFromNickname(username);
-        if (!nick.equalsIgnoreCase(username)) username=usernameFromNickname(username);
-        Set<UUID> uuids = UsernameCache.getMap().keySet();
-        for (UUID uuid : uuids) if (UsernameCache.getMap().get(uuid).equalsIgnoreCase(username)) return uuid;
-        return null;
-    }
+	public static boolean isValidPlayer (String username) {
+		return new AbstractUsernameCollection <String> (UsernameCache.getMap ().values ()).contains (username) || isValidNickname (username);
+	}
 
-    public static String getUsername(UUID uniqueID) {
-        return UsernameCache.getMap().get(uniqueID);
-    }
+	public static boolean printIsValidPlayer (EntityPlayer sender,String username) {
+		String rUsername = usernameFromNickname (username);
+		if (rUsername == null) {
+			ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll (((username == null) ? "\"#\" " : "\"#\""),((username == null) ? "" : username)));
+			return false;
+		}
+		return true;
+	}
 
-    public static EntityPlayer getPlayer(String username) {
-        String nick=usernameFromNickname(username);
-        if (isValidPlayer(username)) return getServer().getPlayerList().getPlayerByUsername((nick==null) ? username : nick);
-        else return null;
-    }
+	public static boolean isValidNickname (String username) {
+		String resolvedName = usernameFromNickname (username);
+		return (resolvedName != username) && (resolvedName != null);
+	}
 
-    public static EntityPlayer getPlayer(UUID uuid){
-        return getServer().getPlayerList().getPlayerByUUID(uuid);
-    }
+	public static boolean isNickname (String username) {
+		return TextFormatting.getTextWithoutFormattingCodes (username).startsWith ("*");
+	}
+
+	public static String usernameFromNickname (String username) {
+		String unFormattedName = TextFormatting.getTextWithoutFormattingCodes (username).replaceAll ("\\*","");
+		if (new AbstractUsernameCollection (UsernameCache.getMap ().values ()).contains (unFormattedName))
+			return unFormattedName;
+		else {
+			for (UUID uid : UsernameCache.getMap ().keySet ()) {
+				String nick = DataHelper.loadPlayerData (uid).getNickname ();
+				if (nick != null && nick.equalsIgnoreCase (unFormattedName))
+					return getUsername (uid);
+			}
+			return null;
+		}
+	}
+
+	public static String getNickname (UUID uuid) {
+		return DataHelper.loadPlayerData (uuid).getNickname ();
+	}
+
+	public static PlayerData getPlayerData (UUID uniqueID) {
+		return DataHelper.loadedPlayers.get (uniqueID);
+	}
+
+	public static PlayerData getPlayerData (String username) {
+		String nick = usernameFromNickname (username);
+		if (!nick.equalsIgnoreCase (username))
+			username = usernameFromNickname (username);
+		Set <UUID> uuids = UsernameCache.getMap ().keySet ();
+		for (UUID uuid : uuids)
+			if (UsernameCache.getMap ().get (uuid).equalsIgnoreCase (username))
+				return DataHelper.loadedPlayers.get (uuid);
+		return null;
+	}
+
+	public static UUID getPlayerUUID (String username) {
+		String nick = usernameFromNickname (username);
+		if (!nick.equalsIgnoreCase (username))
+			username = usernameFromNickname (username);
+		Set <UUID> uuids = UsernameCache.getMap ().keySet ();
+		for (UUID uuid : uuids)
+			if (UsernameCache.getMap ().get (uuid).equalsIgnoreCase (username))
+				return uuid;
+		return null;
+	}
+
+	public static String getUsername (UUID uniqueID) {
+		return UsernameCache.getMap ().get (uniqueID);
+	}
+
+	public static EntityPlayer getPlayer (String username) {
+		String nick = usernameFromNickname (username);
+		if (isValidPlayer (username))
+			return getServer ().getPlayerList ().getPlayerByUsername ((nick == null) ? username : nick);
+		else
+			return null;
+	}
+
+	public static EntityPlayer getPlayer (UUID uuid) {
+		return getServer ().getPlayerList ().getPlayerByUUID (uuid);
+	}
 }

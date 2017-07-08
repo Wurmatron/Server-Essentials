@@ -48,9 +48,8 @@ public class VaultCommand extends SECommand {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		int maxVaults = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getVaultSlots ();
-		if (maxVaults > 0)
-			if (DataHelper.playerVaults.get (player.getGameProfile ().getId ()) == null)
-				DataHelper.loadVault (player.getGameProfile ().getId ());
+		if (maxVaults > 0 && DataHelper.playerVaults.get (player.getGameProfile ().getId ()) == null)
+			DataHelper.loadVault (player.getGameProfile ().getId ());
 		if (maxVaults == 0)
 			ChatHelper.sendMessageTo (player,Local.NO_VAULTS);
 		if (args.length == 1 && !args[0].equalsIgnoreCase ("list") && !args[0].equalsIgnoreCase ("del") && !args[0].equalsIgnoreCase ("delete") && args[0].equalsIgnoreCase ("create")) {

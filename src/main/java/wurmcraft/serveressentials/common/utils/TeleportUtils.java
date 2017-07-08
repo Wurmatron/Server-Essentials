@@ -11,11 +11,6 @@ import java.util.UUID;
 
 public class TeleportUtils {
 
-	private final static long ONE_SECOND = 1000;
-	private final static long ONE_MINUTE = ONE_SECOND * 60;
-	private final static long ONE_HOUR = ONE_MINUTE * 60;
-	private final static long ONE_DAY = ONE_HOUR * 24;
-
 	public static void teleportTo (EntityPlayer player,BlockPos pos,boolean timer) {
 		if (player != null && pos != null) {
 			DataHelper.setLastLocation (player.getGameProfile ().getId (),new BlockPos (player.posX,player.posY,player.posZ));
@@ -67,10 +62,6 @@ public class TeleportUtils {
 	}
 
 	public static boolean safeLocation (World world,BlockPos pos) {
-		if (world.getBlockState (pos.down ()).getBlock () != Blocks.AIR && !(world.getBlockState (pos.down ()).getBlock () instanceof BlockLiquid) && world.getBlockState (pos).getBlock () == Blocks.AIR) {
-			return true;
-		}
-		return false;
+		return world.getBlockState (pos.down ()).getBlock () != Blocks.AIR && !(world.getBlockState (pos.down ()).getBlock () instanceof BlockLiquid) && world.getBlockState (pos).getBlock () == Blocks.AIR;
 	}
-
 }

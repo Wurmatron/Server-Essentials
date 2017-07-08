@@ -65,11 +65,9 @@ public class ClaimEvent {
 	@SubscribeEvent
 	public void onRightClickEmpty (PlayerInteractEvent.RightClickEmpty e) {
 		Claim claim = ChunkManager.getClaim (e.getPos ());
-		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ())) {
-			if (!ChunkManager.isItemSafe (e.getItemStack ())) {
-				e.setCanceled (true);
-				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
-			}
+		if (claim != null && !ChunkManager.canDestroy (claim,e.getEntityPlayer ().getGameProfile ().getId ()) && !ChunkManager.isItemSafe (e.getItemStack ())) {
+			e.setCanceled (true);
+			ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.CLAIM_INTERACT.replaceAll ("#",getOwner (claim)));
 		}
 	}
 
