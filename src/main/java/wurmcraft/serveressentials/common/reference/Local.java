@@ -98,9 +98,8 @@ public class Local {
 	public static final String KIT = TextFormatting.AQUA + "Kit \"#\" placed in your inventory!";
 	public static final String SPY = TextFormatting.AQUA + "Chat Spy #";
 	public static final String SPY_OTHER = TextFormatting.AQUA + "Chat Spy # for &";
-	public static final String NICKNAME = TextFormatting.AQUA + "Nickname changed to #";
 	public static final String NICKNAME_OTHER = TextFormatting.AQUA + "Nickname for # changed to &";
-	public static final String NICKNAME_SET = TextFormatting.GREEN + "#'s nickname has been set!";
+	public static final String NICKNAME_SET = TextFormatting.GREEN + "Username set to #";
 	public static final String RANK_NOT_FOUND = TextFormatting.RED + "Rank \"#\" not found!";
 	public static final String RANK_CHANGED = TextFormatting.AQUA + "Your rank has been changed to \"#\"";
 	public static final String RANK_UP = TextFormatting.RED + "You have ranked up to \"#\"";
@@ -109,6 +108,7 @@ public class Local {
 	public static final String RANK_MAX = TextFormatting.RED + "Max Rank Already Reached";
 	public static final String SECURITY_MODE_PLAYER_ONLY = TextFormatting.RED + "Command can only be run by a Trusted Player";
 	public static final String SPAM = TextFormatting.DARK_RED + "Don't Spam!";
+	public static final String NICK_NONE = TextFormatting.RED + "# does not have a nickname";
 	// Teleport
 	public static final String TPA_USERNAME_NONE = TextFormatting.RED + "No Username Found!";
 	public static final String TPA_USER_NOTFOUND = TextFormatting.RED + "Player Not Found";
