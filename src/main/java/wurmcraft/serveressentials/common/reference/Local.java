@@ -45,6 +45,12 @@ public class Local {
 	public static final String AFK_NOW = TextFormatting.RED + "# is now afk!";
 	public static final String AFK_OFF = TextFormatting.RED + "# is no longer afk!";
 	public static final String PING_REPLY = TextFormatting.LIGHT_PURPLE + "Nep NepNep Nep Nep Nep";
+	public static final String PREGEN_NOTIFY = TextFormatting.BLUE + "[Pre-Gen]: " + TextFormatting.RED + "# chunks generated, (&%)";
+	public static final String PREGEN_FINISHED = TextFormatting.GREEN + "[Pre-Gen]: Finished with # chunks";
+	public static final String PREGEN_WARN = TextFormatting.RED + "[Pre-Gen]: Border size is large (>100k), Warning: this will take a long time to complete!";
+	public static final String PREGEN_STARTED = TextFormatting.AQUA + "[Pre-Gen] Started";
+	public static final String PREGEN = TextFormatting.AQUA + "[Pre-Gen] #";
+	public static final String PREGEN_STOP = TextFormatting.AQUA + "[Pre-Gen] Stoping!";
 	// Player
 	public static final String PLAYER_NOT_FOUND = TextFormatting.RED + "Player \"#\" not found!";
 	public static final String PLAYER_INVENTORY = TextFormatting.GREEN + "Opening Player \"#\"'s Inventory!";
@@ -164,7 +170,7 @@ public class Local {
 	public static final String NAME_CHANGED = TextFormatting.AQUA + "Held name changed to " + TextFormatting.GOLD + "#";
 	public static final String ITEM_SENT = TextFormatting.AQUA + "Item # sent to @";
 	public static final String ITEM_NONE = TextFormatting.RED + "You dont have a #";
-	public static final String ITEM_MISSING= TextFormatting.RED + "Selected Inventory has not item";
+	public static final String ITEM_MISSING = TextFormatting.RED + "Selected Inventory has not item";
 	// Eco
 	public static final String CURRENT_MONEY = TextFormatting.AQUA + "You currently have " + Settings.currencySymbol + "#";
 	public static final String CURRENT_MONEY_OTHER = TextFormatting.AQUA + "# currently has " + Settings.currencySymbol + "%";

@@ -86,6 +86,10 @@ public class DataHelper {
 		return loadedPlayers.get (name);
 	}
 
+	public static PlayerData getPlayerData(EntityPlayer player) {
+		return getPlayerData (player.getGameProfile ().getId ());
+	}
+
 	public static PlayerData loadPlayerData (UUID name) {
 		File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
 		if (loadedPlayers.containsKey (name))
