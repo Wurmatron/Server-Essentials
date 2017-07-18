@@ -69,7 +69,7 @@ public abstract class SECommand extends CommandBase {
 			List <String> allAliases = new ArrayList <> ();
 			String command = getCommandName ();
 			// TODO Generate List of all Aliases
-//			Collections.addAll (allAliases,CommandUtils.permute (command));
+			Collections.addAll (allAliases,CommandUtils.permute (command));
 			for(String str : aliases) {
 				Collections.addAll (allAliases,CommandUtils.permute (str));
 			}

@@ -35,6 +35,7 @@ public class ConfigHandler {
 	private static Property sellSign;
 	private static Property colorSign;
 	private static Property commandSign;
+	private static Property lang;
 
 	public static void preInit (FMLPreInitializationEvent e) {
 		location = e.getSuggestedConfigurationFile ();
@@ -86,6 +87,8 @@ public class ConfigHandler {
 		Settings.colorSign = colorSign.getBoolean ();
 		commandSign = config.get (Global.CATEGORY_ECO,"commandSign",true,"Command Sign Enabled?");
 		Settings.commandSign = commandSign.getBoolean ();
+		lang = config.get (Configuration.CATEGORY_GENERAL,"lang","en_us","Language used for commands");
+		Settings.lang = lang.getString ();
 
 		if (config.hasChanged ()) {
 			LogHandler.info ("Saving Config");

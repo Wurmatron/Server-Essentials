@@ -70,7 +70,7 @@ public class HelpCommand extends SECommand {
 				for (int index = start; index < (start + 8); index++)
 					if (index < prunedAliases.size ()) {
 						TextComponentTranslation temp = new TextComponentTranslation (formatCommand (sender,(ICommand) prunedAliases.values ().toArray ()[index]));
-						temp.setStyle (new Style ().setColor (TextFormatting.DARK_AQUA));
+						temp.setStyle (new Style ().setColor (TextFormatting.DARK_AQUA).setClickEvent (commandInteract ((ICommand) prunedAliases.values ().toArray ()[index])));
 						sender.addChatMessage (temp);
 					}
 				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER,clickEvent ((start / 8) + 1),null);
@@ -90,6 +90,10 @@ public class HelpCommand extends SECommand {
 
 	private ClickEvent clickEvent (int index) {
 		return new ClickEvent (ClickEvent.Action.RUN_COMMAND,"/help #".replaceAll ("#","" + index));
+	}
+
+	private ClickEvent commandInteract(ICommand command) {
+		return new ClickEvent (ClickEvent.Action.SUGGEST_COMMAND, "/" + command.getCommandName () + " ");
 	}
 
 	@Override

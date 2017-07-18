@@ -15,11 +15,16 @@ import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.event.*;
 import wurmcraft.serveressentials.common.proxy.CommonProxy;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityEvents;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
+import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
 import wurmcraft.serveressentials.common.utils.ServerUtils;
+import wurmcraft.serveressentials.common.utils.lang.DownloadHelper;
+
+import java.io.File;
 
 @Mod (modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
 public class ServerEssentialsServer {
@@ -49,14 +54,16 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PreGenCommand (Perm.PREGEN));
 		if (Settings.securityModule)
 			MinecraftForge.EVENT_BUS.register (new SecurityEvents ());
+		new DownloadHelper (Global.LOCAL_WEB + Settings.lang + ".lang",new File (DataHelper.saveLocation + File.separator + "Language" + Settings.lang),true);
 	}
 
 	@Mod.EventHandler
-	@SideOnly(Side.SERVER)
+	@SideOnly (Side.SERVER)
 	public void onServerLoading (FMLServerStartingEvent e) {
 		SecurityUtils.loadTrustedStaff ();
 		LoadHelper.registerCommands (e);
 		LoadHelper.loadData ();
-		ServerUtils.customizeShutdownMessage("Test message");
+		ServerUtils.customizeShutdownMessage ("Test message");
+		Local.load ();
 	}
 }

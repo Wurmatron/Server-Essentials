@@ -23,4 +23,5 @@ public class Settings {
 	public static boolean sellSign;
 	public static boolean colorSign;
 	public static boolean commandSign;
+	public static String lang;
 }
