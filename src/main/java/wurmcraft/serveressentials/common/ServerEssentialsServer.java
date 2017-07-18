@@ -54,7 +54,7 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PreGenCommand (Perm.PREGEN));
 		if (Settings.securityModule)
 			MinecraftForge.EVENT_BUS.register (new SecurityEvents ());
-		new DownloadHelper (Global.LOCAL_WEB + Settings.lang + ".lang",new File (DataHelper.saveLocation + File.separator + "Language" + Settings.lang),true);
+		new DownloadHelper (Global.LOCAL_WEB + Settings.lang + ".lang",new File (DataHelper.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang"),true);
 	}
 
 	@Mod.EventHandler

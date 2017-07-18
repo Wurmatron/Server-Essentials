@@ -197,12 +197,11 @@ public class Local {
 
 	public static void load () {
 		Gson gson = new GsonBuilder ().excludeFieldsWithModifiers (Modifier.TRANSIENT).setPrettyPrinting ().create ();
-		new File (DataHelper.saveLocation + File.separator + "Localization").mkdirs ();
 		File lang = new File (DataHelper.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang");
 		if (lang.exists ()) {
 			try {
 				BufferedReader reader = new BufferedReader (new FileReader (lang));
-				gson.fromJson (reader,Local.class);
+				Local local = gson.fromJson (reader,Local.class);
 			} catch (Exception e) {
 				e.printStackTrace ();
 			}

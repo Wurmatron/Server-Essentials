@@ -12,5 +12,5 @@ public class Global {
 	// Config
 	public static final String CATEGORY_ECO = "economy";
 	// Local
-	public static final String LOCAL_WEB = "https://github.com/Wurmcraft/Server-Essentials/tree/master/lang/";
+	public static final String LOCAL_WEB = "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/master/lang/";
 }
