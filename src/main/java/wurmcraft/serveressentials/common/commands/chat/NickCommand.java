@@ -18,12 +18,12 @@ public class NickCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "nick";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/nick <username> <name> /nick <username>";
 	}
 
@@ -54,13 +54,13 @@ public class NickCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"n"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"n"};
+//	}
 
 	@Override
 	public boolean canConsoleRun () {

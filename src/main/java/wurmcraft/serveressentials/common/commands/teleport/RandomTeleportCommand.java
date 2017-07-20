@@ -13,6 +13,8 @@ import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RandomTeleportCommand extends SECommand {
@@ -24,18 +26,20 @@ public class RandomTeleportCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "randomtp";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/rtp";
 	}
 
 	@Override
-	public String[] getAliases () {
-		return new String[] {"rtp"};
+	public List<String> getAliases () {
+		List<String> aliases = new ArrayList <> ();
+		aliases.add ("rtp");
+		return aliases;
 	}
 
 	@Override
@@ -54,14 +58,14 @@ public class RandomTeleportCommand extends SECommand {
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		if (TeleportUtils.canTeleport (player.getGameProfile ().getId ())) {
 			BlockPos randPos = getRandomPos (player);
-			if (TeleportUtils.safeLocation (player.worldObj,randPos)) {
+			if (TeleportUtils.safeLocation (player.world,randPos)) {
 				TeleportUtils.teleportTo (player,randPos,false);
 				ChatHelper.sendMessageTo (player,Local.RAND_TP);
 			} else {
 				for (int tries = 0; tries < 5; tries++) {
 					BlockPos tempPos = getRandomPos (player);
 					LogHandler.info ("Test: ");
-					if (TeleportUtils.safeLocation (player.worldObj,randPos)) {
+					if (TeleportUtils.safeLocation (player.world,randPos)) {
 						TeleportUtils.teleportTo (player,tempPos,false);
 						ChatHelper.sendMessageTo (player,Local.RAND_TP);
 						return;
@@ -81,11 +85,11 @@ public class RandomTeleportCommand extends SECommand {
 	}
 
 	private BlockPos getRandomPos (EntityPlayer player) {
-		WorldBorder border = player.worldObj.getWorldBorder ();
+		WorldBorder border = player.world.getWorldBorder ();
 		double maxLocationX = (border.getDiameter () / 2) + border.getCenterX ();
 		double maxLocationZ = (border.getDiameter () / 2) + border.getCenterZ ();
 		int x = rand.nextInt ((int) maxLocationX);
 		int z = rand.nextInt ((int) maxLocationZ);
-		return player.worldObj.getTopSolidOrLiquidBlock (new BlockPos (chance (x),64,chance (z)));
+		return player.world.getTopSolidOrLiquidBlock (new BlockPos (chance (x),64,chance (z)));
 	}
 }

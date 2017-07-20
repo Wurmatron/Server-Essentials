@@ -14,7 +14,7 @@ public class StackConverter {
 			String item = "";
 			String unlocalizedName = stack.getItem ().getRegistryName ().getResourceDomain () + ":" + stack.getItem ().getRegistryName ().getResourcePath ();
 			if (unlocalizedName.length () > 0) {
-				int stackSize = stack.stackSize;
+				int stackSize = stack.getCount();
 				int meta = stack.getItemDamage ();
 				String nbt = "";
 				if (stack.getTagCompound () != null)

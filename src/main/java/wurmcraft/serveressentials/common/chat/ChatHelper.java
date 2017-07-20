@@ -56,21 +56,21 @@ public class ChatHelper {
 		TextComponentString msg = new TextComponentString (message);
 		if (clickEvent != null)
 			msg.getStyle ().setClickEvent (clickEvent);
-		sender.addChatMessage (msg);
+		sender.sendMessage (msg);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message,HoverEvent hoverEvent) {
 		TextComponentString msg = new TextComponentString (message);
 		if (hoverEvent != null)
 			msg.getStyle ().setHoverEvent (hoverEvent);
-		player.addChatComponentMessage (msg);
+		player.sendMessage (msg);
 	}
 
 	public static void sendMessageTo (ICommandSender sender,EntityPlayer reciver,String message) {
 		sendMessageTo (reciver,message);
 		if (DataHelper.spys.size () > 0)
 			for (UUID uuid : DataHelper.spys)
-				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayerList ())
+				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
 					if (spy.getGameProfile ().getId ().equals (uuid))
 						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
 	}
@@ -81,7 +81,7 @@ public class ChatHelper {
 		sendMessageTo (reciver,message);
 		if (DataHelper.spys.size () > 0)
 			for (UUID uuid : DataHelper.spys)
-				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayerList ())
+				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
 					if (spy.getGameProfile ().getId ().equals (uuid))
 						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciverName + TextFormatting.GREEN + " <- " + message);
 	}
@@ -91,7 +91,7 @@ public class ChatHelper {
 	}
 
 	public static void sendMessageTo (ICommandSender sender,String message) {
-		sender.addChatMessage (new TextComponentString (message));
+		sender.sendMessage (new TextComponentString (message));
 	}
 
 	public static void sendMessage (String displayName,IRank rank,Channel channel,int dimension,Team team,String message) {
@@ -113,9 +113,9 @@ public class ChatHelper {
 		PlayerList players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ();
 		if (!channel.getName ().equalsIgnoreCase ("Team")) {
 			List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
-			for (EntityPlayerMP player : players.getPlayerList ()) {
+			for (EntityPlayerMP player : players.getPlayers ()) {
 				if (recivers.contains (player.getGameProfile ().getId ()))
-					player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+					player.sendMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
 			}
 		} else {
 			if (team != null) {
@@ -123,14 +123,14 @@ public class ChatHelper {
 				if (team.getMembers ().size () > 0)
 					Collections.addAll (teamMembers,team.getMembers ().keySet ().toArray (new UUID[0]));
 				teamMembers.add (team.getLeader ());
-				for (EntityPlayerMP player : players.getPlayerList ())
+				for (EntityPlayerMP player : players.getPlayers ())
 					if (teamMembers.contains (player.getGameProfile ().getId ()))
-						player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+						player.sendMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
 			} else {
 				List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
-				for (EntityPlayerMP player : players.getPlayerList ())
+				for (EntityPlayerMP player : players.getPlayers ())
 					if (recivers.contains (player.getGameProfile ().getId ()) && DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam () == null)
-						player.addChatMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
+						player.sendMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
 			}
 		}
 	}

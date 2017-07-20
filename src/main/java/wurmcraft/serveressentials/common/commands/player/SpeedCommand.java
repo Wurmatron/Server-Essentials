@@ -18,12 +18,12 @@ public class SpeedCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "speed";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/speed <speed>";
 	}
 

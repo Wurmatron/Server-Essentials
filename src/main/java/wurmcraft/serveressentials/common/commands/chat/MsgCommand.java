@@ -26,19 +26,19 @@ public class MsgCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "msg";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/msg <user> <message>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"pm"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"pm"};
+//	}
 
 	@Override
 	public String getDescription () {
@@ -69,7 +69,7 @@ public class MsgCommand extends SECommand {
 				}
 			}
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class MsgCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 }

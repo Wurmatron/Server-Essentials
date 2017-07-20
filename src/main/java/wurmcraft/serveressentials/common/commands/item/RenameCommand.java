@@ -17,20 +17,20 @@ public class RenameCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "rename";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/rename <name>";
 	}
 
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"name"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"name"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -43,7 +43,7 @@ public class RenameCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (player,Local.NO_ITEM);
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override

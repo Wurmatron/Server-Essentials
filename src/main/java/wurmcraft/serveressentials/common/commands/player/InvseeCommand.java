@@ -27,12 +27,12 @@ public class InvseeCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "invsee";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/invsee <username>";
 	}
 
@@ -40,11 +40,11 @@ public class InvseeCommand extends SECommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		if (args.length == 0)
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 		if (args.length == 1) {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
 			PlayerList players = server.getServer ().getPlayerList ();
-			if (players.getPlayerList ().size () > 0) {
+			if (players.getPlayers ().size () > 0) {
 				boolean open = false;
 				EntityPlayer victim = UsernameResolver.getPlayer (args[0]);
 				if (victim != null) {
@@ -61,10 +61,10 @@ public class InvseeCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
 		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getOnlinePlayerNames ());
 		return list;
 	}
 

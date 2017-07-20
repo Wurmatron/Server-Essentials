@@ -24,12 +24,12 @@ public class PayCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "pay";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/pay <username> <amount>";
 	}
 
@@ -56,11 +56,11 @@ public class PayCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (player,Local.NEGATIVE_MONEY);
 		} else
-			ChatHelper.sendMessageTo (player,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (player,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

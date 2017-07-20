@@ -19,19 +19,19 @@ public class MarketCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "market";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/market <username>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"shop","shops","m"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"shop","shops","m"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

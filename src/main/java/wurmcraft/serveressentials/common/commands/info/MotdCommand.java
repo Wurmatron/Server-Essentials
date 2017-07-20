@@ -25,12 +25,12 @@ public class MotdCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "motd";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "motd";
 	}
 
@@ -61,7 +61,7 @@ public class MotdCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
 		for (int no = 0; no < DataHelper.globalSettings.getMotd ().length / 7; no++)
 			list.add ("" + no);

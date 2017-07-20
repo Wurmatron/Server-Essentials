@@ -17,19 +17,19 @@ public class AddRuleCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "addRule";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/addRule <rule>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"addRule","aRule"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"addRule","aRule"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -38,7 +38,7 @@ public class AddRuleCommand extends SECommand {
 			DataHelper.globalSettings.addRule (rule);
 			ChatHelper.sendMessageTo (sender,Local.RULE_CREATED.replaceAll ("#",rule));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override

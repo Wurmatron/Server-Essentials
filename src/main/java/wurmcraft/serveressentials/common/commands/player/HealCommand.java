@@ -24,12 +24,12 @@ public class HealCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "heal";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/heal <name>";
 	}
 
@@ -48,14 +48,14 @@ public class HealCommand extends SECommand {
 			player.setHealth (player.getMaxHealth ());
 			ChatHelper.sendMessageTo (player,Local.HEAL_SELF);
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
 		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getAllUsernames ());
+			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getOnlinePlayerNames ());
 		return list;
 	}
 

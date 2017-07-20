@@ -32,12 +32,12 @@ public class KitCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "kit";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/kit <name>";
 	}
 
@@ -78,23 +78,23 @@ public class KitCommand extends SECommand {
 					ChatHelper.sendMessageTo (player,Local.NO_KITS);
 			}
 		} else
-			ChatHelper.sendMessageTo (player,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (player,getUsage (sender));
 	}
 
 	private boolean addStack (EntityPlayer player,ItemStack stack) {
 		if (stack.getItem () instanceof ItemArmor) {
 			ItemArmor armor = (ItemArmor) stack.getItem ();
 			if (armor.armorType.equals (EntityEquipmentSlot.HEAD) && player.inventory.getStackInSlot (100) == null) {
-				player.inventory.armorInventory[3] = stack;
+				player.inventory.armorInventory.set (3, stack);
 				return true;
 			} else if (armor.armorType.equals (EntityEquipmentSlot.CHEST) && player.inventory.getStackInSlot (101) == null) {
-				player.inventory.armorInventory[2] = stack;
+				player.inventory.armorInventory.set (2, stack);
 				return true;
 			} else if (armor.armorType.equals (EntityEquipmentSlot.LEGS) && player.inventory.getStackInSlot (102) == null) {
-				player.inventory.armorInventory[1] = stack;
+				player.inventory.armorInventory.set (1, stack);
 				return true;
 			} else if (armor.armorType.equals (EntityEquipmentSlot.FEET) && player.inventory.getStackInSlot (103) == null) {
-				player.inventory.armorInventory[0] = stack;
+				player.inventory.armorInventory.set (0, stack);
 				return true;
 			}
 		} else {
@@ -103,8 +103,8 @@ public class KitCommand extends SECommand {
 					player.inventory.setInventorySlotContents (index,stack);
 					return true;
 				}
-			EntityItem entityItem = new EntityItem (player.worldObj,player.posX,player.posY,player.posZ,stack);
-			player.worldObj.spawnEntityInWorld (entityItem);
+			EntityItem entityItem = new EntityItem (player.world,player.posX,player.posY,player.posZ,stack);
+			player.world.spawnEntity (entityItem);
 			ChatHelper.sendMessageTo (player,Local.FULL_INV);
 			return true;
 		}
@@ -142,7 +142,7 @@ public class KitCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteKits (args,DataHelper.loadedKits,0);
 	}
 }

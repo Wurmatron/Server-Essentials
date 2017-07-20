@@ -19,12 +19,12 @@ public class TopCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "top";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/top";
 	}
 
@@ -35,7 +35,7 @@ public class TopCommand extends SECommand {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		for (int y = 256; y >= player.posY; y--) {
-			if (player.worldObj.getBlockState (new BlockPos (player.posX,y,player.posZ)).getBlock () != Blocks.AIR) {
+			if (player.world.getBlockState (new BlockPos (player.posX,y,player.posZ)).getBlock () != Blocks.AIR) {
 				TeleportUtils.teleportTo (player,new BlockPos (player.posX,y + 2,player.posZ),false);
 				ChatHelper.sendMessageTo (player,Local.TOP);
 				return;

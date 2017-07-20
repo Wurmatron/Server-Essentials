@@ -34,17 +34,19 @@ public class TeamCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "team";
 	}
 
 	@Override
-	public String[] getAliases () {
-		return new String[] {"t"};
+	public List<String> getAliases () {
+		List<String> aliases = new ArrayList <> ();
+		aliases.add ("t");
+		return aliases;
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/team join | leave | create | invite | kick | info";
 	}
 
@@ -69,10 +71,10 @@ public class TeamCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		if (args.length == 2 && args[0].equalsIgnoreCase ("invite")) {
 			List <String> players = new ArrayList <> ();
-			for (EntityPlayerMP player : server.getPlayerList ().getPlayerList ())
+			for (EntityPlayerMP player : server.getPlayerList ().getPlayers ())
 				players.add (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()));
 			return players;
 		}
@@ -160,7 +162,7 @@ public class TeamCommand extends SECommand {
 					}
 			}
 		} else if (team != null)
-			player.addChatComponentMessage (new TextComponentString (Local.TEAM_LEADER_PERM));
+			player.sendMessage (new TextComponentString (Local.TEAM_LEADER_PERM));
 	}
 
 	@SubCommand
@@ -195,6 +197,6 @@ public class TeamCommand extends SECommand {
 			}
 			ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.SPACER);
 		} else
-			ChatHelper.sendMessageTo (player,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (player,getUsage (sender));
 	}
 }

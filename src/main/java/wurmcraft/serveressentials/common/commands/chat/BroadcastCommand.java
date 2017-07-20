@@ -17,26 +17,21 @@ public class BroadcastCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "broadcast";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/broadcast <message>";
-	}
-
-	@Override
-	public String[] getAliases () {
-		return new String[] {"bc"};
 	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0)
-			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Strings.join (args," ").replaceAll ("&","\u00A7")));
+			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Strings.join (args," ").replaceAll ("&","\u00A7")));
 		else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override

@@ -28,12 +28,12 @@ public class OnlineTimeCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "onlineTime";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/onlineTime | /onlineTime <username>";
 	}
 
@@ -77,13 +77,13 @@ public class OnlineTimeCommand extends SECommand {
 		return "Find out how long you have played on the server.";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"ot"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"ot"};
+//	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 }

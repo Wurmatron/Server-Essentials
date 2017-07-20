@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
@@ -26,19 +27,19 @@ public class DPFCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "deleteplayerfile";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/DeletePlayerFile <Username>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"dpf"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"dpf"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -47,18 +48,18 @@ public class DPFCommand extends SECommand {
 			if (player != null) {
 				DataHelper.setLastLocation (player.getGameProfile ().getId (),player.getPosition ());
 				player.onKillCommand ();
-				((EntityPlayerMP) player).connection.kickPlayerFromServer (Local.PLAYER_FILE_DELETE);
+				((EntityPlayerMP) player).connection.disconnect (new TextComponentString (Local.PLAYER_FILE_DELETE));
 				File playerFile = new File (server.getDataDirectory (),File.separator + server.getFolderName () + File.separator + "playerdata" + File.separator + player.getGameProfile ().getId ().toString () + ".dat");
 				LogHandler.info ("Deleting " + playerFile.getName ());
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_FILE_DELETE_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
 			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

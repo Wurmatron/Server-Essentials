@@ -29,12 +29,12 @@ public class HelpCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "help";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/help <#>";
 	}
 
@@ -71,7 +71,7 @@ public class HelpCommand extends SECommand {
 					if (index < prunedAliases.size ()) {
 						TextComponentTranslation temp = new TextComponentTranslation (formatCommand (sender,(ICommand) prunedAliases.values ().toArray ()[index]));
 						temp.setStyle (new Style ().setColor (TextFormatting.DARK_AQUA).setClickEvent (commandInteract ((ICommand) prunedAliases.values ().toArray ()[index])));
-						sender.addChatMessage (temp);
+						sender.sendMessage (temp);
 					}
 				ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER,clickEvent ((start / 8) + 1),null);
 			}
@@ -82,9 +82,9 @@ public class HelpCommand extends SECommand {
 
 	private String formatCommand (ICommandSender sender,ICommand command) {
 		if (command instanceof SECommand)
-			return TextFormatting.AQUA + "/" + command.getCommandName () + " | " + TextFormatting.DARK_AQUA + ((SECommand) command).getDescription ();
+			return TextFormatting.AQUA + "/" + command.getName () + " | " + TextFormatting.DARK_AQUA + ((SECommand) command).getDescription ();
 		else
-			return command.getCommandUsage (sender);
+			return command.getUsage (sender);
 	}
 
 
@@ -93,7 +93,7 @@ public class HelpCommand extends SECommand {
 	}
 
 	private ClickEvent commandInteract(ICommand command) {
-		return new ClickEvent (ClickEvent.Action.SUGGEST_COMMAND, "/" + command.getCommandName () + " ");
+		return new ClickEvent (ClickEvent.Action.SUGGEST_COMMAND, "/" + command.getName () + " ");
 	}
 
 	@Override

@@ -18,12 +18,12 @@ public class AfkCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "afk";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/afk";
 	}
 
@@ -37,10 +37,10 @@ public class AfkCommand extends SECommand {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		if (!DataHelper.isAfk (player.getGameProfile ().getId ())) {
-			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_NOW.replaceAll ("#",player.getDisplayNameString ())));
+			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Local.AFK_NOW.replaceAll ("#",player.getDisplayNameString ())));
 			DataHelper.addAfkPlayer (player);
 		} else {
-			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.AFK_OFF.replaceAll ("#",player.getDisplayNameString ())));
+			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Local.AFK_OFF.replaceAll ("#",player.getDisplayNameString ())));
 			DataHelper.addAfkPlayer (player);
 			DataHelper.removeAfkPlayer (player);
 		}

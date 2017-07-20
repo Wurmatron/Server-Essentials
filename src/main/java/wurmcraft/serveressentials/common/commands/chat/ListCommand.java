@@ -25,18 +25,18 @@ public class ListCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "list";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/list";
 	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		List <EntityPlayerMP> players = server.getPlayerList ().getPlayerList ();
+		List <EntityPlayerMP> players = server.getPlayerList ().getPlayers ();
 		List <UUID> pList = new ArrayList <> ();
 		for (EntityPlayerMP player : players)
 			pList.add (player.getGameProfile ().getId ());

@@ -23,18 +23,13 @@ public class AutoRankCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "autoRank";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/autoRank | /autoRank <user>";
-	}
-
-	@Override
-	public String[] getAliases () {
-		return new String[] {"ar"};
 	}
 
 	@Override
@@ -58,7 +53,7 @@ public class AutoRankCommand extends SECommand {
 				ChatHelper.sendMessageTo (player,Local.RANK_MAX);
 		} else if (args.length == 1) {
 			boolean hasNext = false;
-			for (EntityPlayer player : server.getPlayerList ().getPlayerList ())
+			for (EntityPlayer player : server.getPlayerList ().getPlayers ())
 				if (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()).equalsIgnoreCase (args[0])) {
 					PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
 					for (AutoRank autoRank : DataHelper.loadedAutoRanks)

@@ -25,19 +25,19 @@ public class SudoCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "sudo";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/sudo <name> <command>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"su","s"};
-	}
+//	@Override
+//	public String[] getAliases () {t
+//		return new String[] {"su","s"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -45,7 +45,7 @@ public class SudoCommand extends SECommand {
 			EntityPlayer victim = UsernameResolver.getPlayer (args[0]);
 			if (victim != null) {
 				if (args.length >= 2) {
-					victim.addChatComponentMessage (new TextComponentString (Local.COMMAND_FORCED));
+					victim.sendMessage (new TextComponentString (Local.COMMAND_FORCED));
 					String command = Strings.join (Arrays.copyOfRange (args,1,args.length)," ");
 					FMLCommonHandler.instance ().getMinecraftServerInstance ().getCommandManager ().executeCommand (victim,command);
 					ChatHelper.sendMessageTo (sender,Local.COMMAND_SENDER_FORCED.replaceAll ("#",victim.getDisplayName ().getUnformattedText ()) + "/" + command);
@@ -54,11 +54,11 @@ public class SudoCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

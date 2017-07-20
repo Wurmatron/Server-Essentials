@@ -21,19 +21,19 @@ public class DelWarp extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "delWarp";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/delwarp <name>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"deleteWarp", "removeWarp", "remWarp"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"deleteWarp", "removeWarp", "remWarp"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -49,7 +49,7 @@ public class DelWarp extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteWarps (args,DataHelper.getWarps ());
 	}
 

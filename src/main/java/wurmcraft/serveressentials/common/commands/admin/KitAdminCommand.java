@@ -25,12 +25,12 @@ public class KitAdminCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "kitAdmin";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/kitAdmin create <name> <time> | /kitAdmin remove <name>";
 	}
 
@@ -84,13 +84,13 @@ public class KitAdminCommand extends SECommand {
 				if (!found)
 					ChatHelper.sendMessageTo (player,Local.KIT_NOTFOUND.replaceAll ("#",args[1]));
 			} else
-				ChatHelper.sendMessageTo (sender,getCommandUsage (player));
+				ChatHelper.sendMessageTo (sender,getUsage (player));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (player));
+			ChatHelper.sendMessageTo (sender,getUsage (player));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteKits (args,DataHelper.loadedKits,1);
 	}
 }

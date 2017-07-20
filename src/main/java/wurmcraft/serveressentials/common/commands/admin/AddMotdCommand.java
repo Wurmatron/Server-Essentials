@@ -17,12 +17,12 @@ public class AddMotdCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "addMotd";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/addMotd <motd>";
 	}
 
@@ -33,7 +33,7 @@ public class AddMotdCommand extends SECommand {
 			DataHelper.globalSettings.addMotd (rule);
 			ChatHelper.sendMessageTo (sender,Local.MOTD_CREATED.replaceAll ("#",rule));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override

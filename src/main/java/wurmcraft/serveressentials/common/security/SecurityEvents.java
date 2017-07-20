@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.security;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -14,7 +15,7 @@ public class SecurityEvents {
 
 	@SubscribeEvent
 	public void creativeCheck (TickEvent.PlayerTickEvent e) {
-		if (e.player.worldObj.getWorldTime () % 100 == 0) {
+		if (e.player.world.getWorldTime () % 100 == 0) {
 			IRank rank = DataHelper.getPlayerData (e.player.getGameProfile ().getId ()).getRank ();
 			boolean validInCreative = false;
 			if (rank.hasPermission (Perm.CREATIVE))
@@ -22,7 +23,7 @@ public class SecurityEvents {
 			if (!validInCreative && !SecurityUtils.isTrustedMember (e.player)) {
 				EntityPlayerMP player = (EntityPlayerMP) e.player;
 				player.setGameType (GameType.SURVIVAL);
-				player.connection.kickPlayerFromServer (Local.SECURITY_CREATIVE_KICK);
+				player.connection.disconnect (new TextComponentString (Local.SECURITY_CREATIVE_KICK));
 				LogHandler.info ("# was kicked from the server for being in creative!".replaceAll ("#",player.getDisplayNameString ()));
 			}
 

@@ -18,12 +18,12 @@ public class SetWarpCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "setwarp";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/setwarp <name>";
 	}
 
@@ -35,7 +35,7 @@ public class SetWarpCommand extends SECommand {
 			Warp warp = new Warp (args[0],player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
 			ChatHelper.sendMessageTo (player,DataHelper.createWarp (warp),hoverEvent (warp));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	public HoverEvent hoverEvent (Warp home) {

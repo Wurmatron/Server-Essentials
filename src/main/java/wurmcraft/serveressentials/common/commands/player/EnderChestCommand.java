@@ -24,25 +24,25 @@ public class EnderChestCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "echest";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/echest <name>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"enderChest"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"enderChest"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		if (args.length == 0)
-			((EntityPlayer) sender).addChatComponentMessage (new TextComponentString (getCommandUsage (sender)));
+			((EntityPlayer) sender).sendMessage (new TextComponentString (getUsage (sender)));
 		if (args.length == 1) {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
 			EntityPlayer victim = UsernameResolver.getPlayer (args[0]);
@@ -57,7 +57,7 @@ public class EnderChestCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

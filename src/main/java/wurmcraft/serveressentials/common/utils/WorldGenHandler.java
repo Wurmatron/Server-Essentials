@@ -55,10 +55,10 @@ public class WorldGenHandler {
 		WorldGenHandler.providerServer = providerServer;
 		WorldGenHandler.server = server;
 		this.chunksPerCycle = chunksPerCycle;
-		minX = (int) providerServer.worldObj.getWorldBorder ().getCenterX () - (int) (providerServer.worldObj.getWorldBorder ().getDiameter () / 2);
-		maxX = (int) providerServer.worldObj.getWorldBorder ().getCenterX () + (int) (providerServer.worldObj.getWorldBorder ().getDiameter () / 2);
-		minZ = (int) providerServer.worldObj.getWorldBorder ().getCenterZ () - (int) (providerServer.worldObj.getWorldBorder ().getDiameter () / 2);
-		maxZ = (int) providerServer.worldObj.getWorldBorder ().getCenterZ () + (int) (providerServer.worldObj.getWorldBorder ().getDiameter () / 2);
+		minX = (int) providerServer.world.getWorldBorder ().getCenterX () - (int) (providerServer.world.getWorldBorder ().getDiameter () / 2);
+		maxX = (int) providerServer.world.getWorldBorder ().getCenterX () + (int) (providerServer.world.getWorldBorder ().getDiameter () / 2);
+		minZ = (int) providerServer.world.getWorldBorder ().getCenterZ () - (int) (providerServer.world.getWorldBorder ().getDiameter () / 2);
+		maxZ = (int) providerServer.world.getWorldBorder ().getCenterZ () + (int) (providerServer.world.getWorldBorder ().getDiameter () / 2);
 		regionID = new int[] {minX / 32,minZ / 32};
 		minX /= 16;
 		minZ /= 16;
@@ -75,7 +75,7 @@ public class WorldGenHandler {
 			chunkTag.setTag ("Level",levelTag);
 			try {
 				writeChunkToNBT.invoke (anvil,new Object[] {chunk,server,levelTag});
-				DataOutputStream dataoutputstream = RegionFileCache.getChunkOutputStream (server.getChunkSaveLocation (),chunk.xPosition,chunk.zPosition);
+				DataOutputStream dataoutputstream = RegionFileCache.getChunkOutputStream (server.getChunkSaveLocation (),chunk.x,chunk.z);
 				CompressedStreamTools.write (chunkTag,dataoutputstream);
 			} catch (IllegalAccessException | IllegalArgumentException | IOException e) {
 				e.printStackTrace ();
@@ -88,7 +88,7 @@ public class WorldGenHandler {
 	private void genChunk (int x,int z) {
 		if (!RegionFileCache.createOrLoadRegionFile (server.getChunkSaveLocation (),x,z).chunkExists (x & 0x1F,z & 0x1F)) {
 			Chunk chunk = providerServer.provideChunk (x,z);
-			chunk.populateChunk (providerServer,providerServer.chunkGenerator);
+			chunk.populate (providerServer,providerServer.chunkGenerator);
 			write (chunk);
 		}
 		totalChunks++;
@@ -160,7 +160,7 @@ public class WorldGenHandler {
 	}
 
 	private void notifyPlayers (int type) {
-		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ())
+		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ())
 			if (DataHelper.getPlayerData (player).getRank ().hasPermission (Perm.PREGEN))
 				if (type == 0)
 					ChatHelper.sendMessageTo (player,Local.PREGEN_NOTIFY.replaceAll ("#",totalChunks + "").replaceAll ("&","~" + (totalChunks / estTotalChunks) / 5));

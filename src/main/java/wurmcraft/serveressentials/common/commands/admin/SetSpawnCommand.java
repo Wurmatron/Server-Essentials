@@ -19,12 +19,12 @@ public class SetSpawnCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "setSpawn";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/setSpawn";
 	}
 
@@ -32,7 +32,7 @@ public class SetSpawnCommand extends SECommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		EntityPlayer player = (EntityPlayer) sender;
 		DataHelper.globalSettings.setSpawn (new SpawnPoint (player.getPosition (),player.rotationYaw,player.rotationPitch));
-		player.worldObj.setSpawnPoint (player.getPosition ());
+		player.world.setSpawnPoint (player.getPosition ());
 		ChatHelper.sendMessageTo (player,Local.SPAWN_SET.replaceAll ("@","" + DataHelper.globalSettings.getSpawn ().dimension),hoverEvent (DataHelper.globalSettings.getSpawn ()));
 	}
 

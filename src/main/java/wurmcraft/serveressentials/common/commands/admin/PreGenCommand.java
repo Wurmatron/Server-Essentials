@@ -24,18 +24,13 @@ public class PreGenCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "pregen";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/pregen | /pregen start <dim> <speed> | /pregen stop | /pregen pause";
-	}
-
-	@Override
-	public String[] getAliases () {
-		return new String[] {"gen"};
 	}
 
 	@Override
@@ -48,7 +43,7 @@ public class PreGenCommand extends SECommand {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer && args.length == 0) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (worldGen == null) {
-				worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (player.dimension).getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (player.dimension),20);
+				worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [player.dimension].getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [player.dimension],20);
 				ChatHelper.sendMessageTo (player,Local.PREGEN_STARTED);
 			} else if (worldGen.running && !worldGen.finished) {
 				worldGen.running = false;
@@ -86,14 +81,14 @@ public class PreGenCommand extends SECommand {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			if (args.length == 0) {
-				worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (player.dimension).getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (player.dimension),20);
+				worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [player.dimension].getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [player.dimension],20);
 				ChatHelper.sendMessageTo (player,Local.PREGEN_STARTED);
 			} else if (args.length == 1) {
 				try {
 					int dim = Integer.parseInt (args[0]);
-					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim)))
+					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim]))
 						ChatHelper.sendMessageTo (player,Local.PREGEN_WARN);
-					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim).getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim),20);
+					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim].getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim],20);
 					ChatHelper.sendMessageTo (player,Local.PREGEN_STARTED);
 				} catch (NumberFormatException e) {
 					ChatHelper.sendMessageTo (sender.getCommandSenderEntity (),Local.INVALID_NUMBER.replaceAll ("#",args[0]));
@@ -102,9 +97,9 @@ public class PreGenCommand extends SECommand {
 				try {
 					int dim = Integer.parseInt (args[0]);
 					int speed = Integer.parseInt (args[1]);
-					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim)))
+					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim]))
 						ChatHelper.sendMessageTo (player,Local.PREGEN_WARN);
-					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim).getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim),speed);
+					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim].getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim],speed);
 					ChatHelper.sendMessageTo (player,Local.PREGEN_STARTED);
 				} catch (NumberFormatException e) {
 					ChatHelper.sendMessageTo (sender.getCommandSenderEntity (),Local.INVALID_NUMBER.replaceAll ("#",args[0]));
@@ -116,9 +111,9 @@ public class PreGenCommand extends SECommand {
 			else if (args.length == 1) {
 				try {
 					int dim = Integer.parseInt (args[0]);
-					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim)))
+					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim]))
 						ChatHelper.sendMessageTo (sender,Local.PREGEN_WARN);
-					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim).getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim),20);
+					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim].getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim],20);
 					ChatHelper.sendMessageTo (sender,Local.PREGEN_STARTED);
 				} catch (NumberFormatException e) {
 					ChatHelper.sendMessageTo (sender.getCommandSenderEntity (),Local.INVALID_NUMBER.replaceAll ("#",args[0]));
@@ -127,9 +122,9 @@ public class PreGenCommand extends SECommand {
 				try {
 					int dim = Integer.parseInt (args[0]);
 					int speed = Integer.parseInt (args[1]);
-					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim)))
+					if (checkBorderSize (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim]))
 						ChatHelper.sendMessageTo (sender,Local.PREGEN_WARN);
-					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim).getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worldServerForDimension (dim),speed);
+					worldGen = new WorldGenHandler (FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim].getChunkProvider (),FMLCommonHandler.instance ().getMinecraftServerInstance ().worlds [dim],speed);
 					ChatHelper.sendMessageTo (sender,Local.PREGEN_STARTED);
 				} catch (NumberFormatException e) {
 					ChatHelper.sendMessageTo (sender.getCommandSenderEntity (),Local.INVALID_NUMBER.replaceAll ("#",args[0]));

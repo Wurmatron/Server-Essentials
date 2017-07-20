@@ -870,7 +870,7 @@ public class DataHelper {
 		if (data != null && rank != null) {
 			File playerFileLocation = new File (playerDataLocation + File.separator + name.toString () + ".json");
 			data.setRank (rank);
-			List <EntityPlayerMP> onlinePlayers = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ();
+			List <EntityPlayerMP> onlinePlayers = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ();
 			for (EntityPlayerMP player : onlinePlayers)
 				if (player.getGameProfile ().getId ().equals (name)) {
 					ChatHelper.sendMessageTo (player,Local.RANK_CHANGED.replaceAll ("#",rank.getName ()));
@@ -885,7 +885,7 @@ public class DataHelper {
 	}
 
 	public static void handleAndUpdatePlayTime () {
-		for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ()) {
+		for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ()) {
 			long timeSinceLastUpdate = DataHelper.joinTime.get (player.getGameProfile ().getId ());
 			long timeSinceUpdate = System.currentTimeMillis () - timeSinceLastUpdate;
 			int timeGained = (int) (timeSinceUpdate / 60000);
@@ -956,12 +956,12 @@ public class DataHelper {
 				if (autoRank.getRank ().equalsIgnoreCase (data.getRank ().getName ()) && autoRank.getPlayTime () <= data.getOnlineTime () && autoRank.getBalance () <= data.getMoney () && autoRank.getExp () <= player.experienceLevel) {
 					setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (autoRank.getNextRank ()));
 					ChatHelper.sendMessageTo (player,Local.RANK_UP.replaceAll ("#",RankManager.getRankFromName (autoRank.getNextRank ()).getName ()));
-					FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendChatMsg (new TextComponentString (Local.RANK_UP_NOTIFY.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("~",RankManager.getRankFromName (autoRank.getNextRank ()).getName ())));
+					FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Local.RANK_UP_NOTIFY.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("~",RankManager.getRankFromName (autoRank.getNextRank ()).getName ())));
 				}
 	}
 
 	public static void checkAndHandleAutoRank () {
-		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ())
+		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ())
 			checkAndHandleAutoRank (player);
 	}
 

@@ -29,12 +29,12 @@ public class SetGroup extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "setGroup";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/setGroup <username> <group>";
 	}
 
@@ -65,7 +65,7 @@ public class SetGroup extends SECommand {
 			if (!found)
 				ChatHelper.sendMessageTo (sender,Local.RANK_NOT_FOUND.replaceAll ("#",args[1]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
@@ -78,13 +78,13 @@ public class SetGroup extends SECommand {
 		return !Settings.securityModule;
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"setrank"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"setrank"};
+//	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

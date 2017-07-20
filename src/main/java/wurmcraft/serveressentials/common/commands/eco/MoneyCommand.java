@@ -15,6 +15,7 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoneyCommand extends SECommand {
@@ -24,18 +25,22 @@ public class MoneyCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "money";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/money <username>";
 	}
 
 	@Override
-	public String[] getAliases () {
-		return new String[] {"m", "bal", "balance"};
+	public List <String> getAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("m");
+		aliases.add ("bal");
+		aliases.add ("balance");
+		return aliases;
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class MoneyCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

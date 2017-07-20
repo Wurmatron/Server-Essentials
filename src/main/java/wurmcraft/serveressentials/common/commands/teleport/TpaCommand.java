@@ -26,12 +26,12 @@ public class TpaCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "tpa";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/tpa <user>";
 	}
 
@@ -45,7 +45,7 @@ public class TpaCommand extends SECommand {
 				return;
 			}
 			PlayerList players = server.getServer ().getPlayerList ();
-			if (players.getPlayerList ().size () > 0) {
+			if (players.getPlayers ().size () > 0) {
 				boolean found = false;
 				EntityPlayer otherPlayer = UsernameResolver.getPlayer (args[0]);
 				if (otherPlayer != null) {
@@ -66,7 +66,7 @@ public class TpaCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

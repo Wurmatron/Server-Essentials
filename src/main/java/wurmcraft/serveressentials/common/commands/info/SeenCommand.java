@@ -28,12 +28,12 @@ public class SeenCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "seen";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/seen <name>";
 	}
 
@@ -44,8 +44,8 @@ public class SeenCommand extends SECommand {
 		if (args.length > 0) {
 			PlayerList players = server.getServer ().getPlayerList ();
 			boolean displayed = false;
-			if (players.getPlayerList ().size () > 0)
-				for (EntityPlayerMP user : players.getPlayerList ())
+			if (players.getPlayers().size () > 0)
+				for (EntityPlayerMP user : players.getPlayers())
 					if (user.getGameProfile ().getId ().equals(UsernameResolver.getPlayerUUID(resolvedUsername))) {
 						ChatHelper.sendMessageTo (sender,(TextFormatting.GREEN + "Player: '" + UsernameCache.getLastKnownUsername (user.getGameProfile ().getId ()) + "' is currently online!"));
 						displayed = true;
@@ -63,11 +63,11 @@ public class SeenCommand extends SECommand {
 			} else if (!displayed)
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 

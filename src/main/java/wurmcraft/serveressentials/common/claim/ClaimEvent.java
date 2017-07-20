@@ -19,7 +19,7 @@ public class ClaimEvent {
 		Claim claim = ChunkManager.getClaim (e.getPos ());
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getPlayer ().getGameProfile ().getId ())) {
 			e.setCanceled (true);
-			e.getPlayer ().worldObj.notifyBlockUpdate (e.getPos (),e.getState (),e.getState (),2);
+			e.getPlayer ().world.notifyBlockUpdate (e.getPos (),e.getState (),e.getState (),2);
 			ChatHelper.sendMessageTo (e.getPlayer (),Local.CLAIM_BREAK.replaceAll ("#",getOwner (claim)));
 		}
 	}
@@ -29,7 +29,7 @@ public class ClaimEvent {
 		Claim claim = ChunkManager.getClaim (e.getPos ());
 		if (claim != null && !ChunkManager.canDestroy (claim,e.getPlayer ().getGameProfile ().getId ())) {
 			e.setCanceled (true);
-			e.getPlayer ().worldObj.notifyBlockUpdate (e.getPos (),e.getState (),e.getState (),2);
+			e.getPlayer ().world.notifyBlockUpdate (e.getPos (),e.getState (),e.getState (),2);
 			e.getPlayer ().inventory.markDirty ();
 			ChatHelper.sendMessageTo (e.getPlayer (),Local.CLAIM_PLACE.replaceAll ("#",getOwner (claim)));
 		}
@@ -100,7 +100,7 @@ public class ClaimEvent {
 			}
 		} else {
 			Vec3d location = e.getExplosion ().getPosition ();
-			Claim claim = ChunkManager.getClaim (new BlockPos (location.xCoord,location.yCoord,location.zCoord));
+			Claim claim = ChunkManager.getClaim (new BlockPos (location.x,location.y,location.z));
 			if (claim != null) {
 				if (e.getExplosion ().getExplosivePlacedBy () instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) e.getExplosion ().getExplosivePlacedBy ();

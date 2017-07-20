@@ -35,11 +35,11 @@ public class PlayerRespawnEvent {
 			ItemStack[][] inv = suicideData.get (e.getEntityPlayer ().getGameProfile ().getId ());
 			for (int index = 0; index < inv[0].length; index++)
 				e.getEntityPlayer ().inventory.setInventorySlotContents (index,inv[0][index]);
-			e.getEntityPlayer ().inventory.armorInventory[0] = inv[1][0];
-			e.getEntityPlayer ().inventory.armorInventory[1] = inv[1][1];
-			e.getEntityPlayer ().inventory.armorInventory[2] = inv[1][2];
-			e.getEntityPlayer ().inventory.armorInventory[3] = inv[1][3];
-			e.getEntityPlayer ().inventory.offHandInventory[0] = inv[2][0];
+			e.getEntityPlayer ().inventory.armorInventory.set (0,inv[1][0]);
+			e.getEntityPlayer ().inventory.armorInventory.set (1,inv[1][1]);
+			e.getEntityPlayer ().inventory.armorInventory.set (2,inv[1][2]);
+			e.getEntityPlayer ().inventory.armorInventory.set (3,inv[1][3]);
+			e.getEntityPlayer ().inventory.offHandInventory.set (0,inv[2][0]);
 			remove (e.getEntityPlayer ().getGameProfile ().getId ());
 		}
 	}

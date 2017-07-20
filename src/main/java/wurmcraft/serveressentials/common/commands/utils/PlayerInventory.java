@@ -13,13 +13,13 @@ public class PlayerInventory extends InventoryBasic {
 	public boolean echest;
 
 	public PlayerInventory (EntityPlayerMP owner,EntityPlayerMP viewer) {
-		super (owner.getName () + "'s inventory",false,owner.inventory.mainInventory.length);
+		super (owner.getName () + "'s inventory",false,owner.inventory.mainInventory.size ());
 		this.owner = owner;
 		this.viewer = viewer;
 	}
 
 	public PlayerInventory (EntityPlayerMP owner,EntityPlayerMP viewer,boolean echest) {
-		super (owner.getName () + "'s inventory",false,owner.inventory.mainInventory.length);
+		super (owner.getName () + "'s inventory",false,owner.inventory.mainInventory.size ());
 		this.owner = owner;
 		this.viewer = viewer;
 		this.echest = echest;
@@ -29,8 +29,8 @@ public class PlayerInventory extends InventoryBasic {
 	public void openInventory (EntityPlayer player) {
 		if (!echest) {
 			allowUpdate = false;
-			for (int id = 0; id < owner.inventory.mainInventory.length; ++id)
-				setInventorySlotContents (id,owner.inventory.mainInventory[id]);
+			for (int id = 0; id < owner.inventory.mainInventory.size (); ++id)
+				setInventorySlotContents (id,owner.inventory.mainInventory.get (id));
 			allowUpdate = true;
 			PlayerTickEvent.register (this);
 			super.openInventory (player);
@@ -48,8 +48,8 @@ public class PlayerInventory extends InventoryBasic {
 	public void closeInventory (EntityPlayer player) {
 		if (!echest) {
 			if (allowUpdate)
-				for (int id = 0; id < owner.inventory.mainInventory.length; ++id)
-					owner.inventory.mainInventory[id] = getStackInSlot (id);
+				for (int id = 0; id < owner.inventory.mainInventory.size (); ++id)
+					owner.inventory.mainInventory.set (id,getStackInSlot (id));
 			PlayerTickEvent.remove (this);
 			markDirty ();
 			super.closeInventory (player);
@@ -68,8 +68,8 @@ public class PlayerInventory extends InventoryBasic {
 		if (!echest) {
 			super.markDirty ();
 			if (allowUpdate)
-				for (int id = 0; id < owner.inventory.mainInventory.length; ++id)
-					owner.inventory.mainInventory[id] = getStackInSlot (id);
+				for (int id = 0; id < owner.inventory.mainInventory.size (); ++id)
+					owner.inventory.mainInventory.set (id,getStackInSlot (id));
 		} else {
 			super.markDirty ();
 			if (allowUpdate)
@@ -81,13 +81,13 @@ public class PlayerInventory extends InventoryBasic {
 	public void update () {
 		if (!echest) {
 			allowUpdate = false;
-			for (int id = 0; id < owner.inventory.mainInventory.length; ++id)
-				setInventorySlotContents (id,owner.inventory.mainInventory[id]);
+			for (int id = 0; id < owner.inventory.mainInventory.size (); ++id)
+				setInventorySlotContents (id,owner.inventory.mainInventory.get (id));
 			allowUpdate = true;
 			markDirty ();
 		} else {
 			allowUpdate = false;
-			for (int id = 0; id < owner.inventory.mainInventory.length; ++id)
+			for (int id = 0; id < owner.inventory.mainInventory.size (); ++id)
 				setInventorySlotContents (id,owner.getInventoryEnderChest ().getStackInSlot (id));
 			allowUpdate = true;
 			markDirty ();

@@ -27,19 +27,19 @@ public class ChannelCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "channel";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/channel <name> | /channel list";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"ch"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"ch"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -58,7 +58,7 @@ public class ChannelCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteChannel (args,ChannelManager.getChannels ());
 	}
 

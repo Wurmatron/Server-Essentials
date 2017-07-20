@@ -31,18 +31,20 @@ public class HomeCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "home";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/home <name>";
 	}
 
 	@Override
-	public String[] getAliases () {
-		return new String[] {"h"};
+	public List<String> getAliases () {
+		List<String> aliases = new ArrayList <> ();
+		aliases.add ("h");
+		return aliases;
 	}
 
 	@Override
@@ -96,7 +98,7 @@ public class HomeCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			return autoCompleteHomes (args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());

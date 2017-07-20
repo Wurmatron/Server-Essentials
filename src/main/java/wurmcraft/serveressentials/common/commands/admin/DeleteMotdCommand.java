@@ -22,19 +22,19 @@ public class DeleteMotdCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "deleteMotd";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/delMotd <motd No.>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"delMotd", "removeMotd", "remMotd"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"delMotd", "removeMotd", "remMotd"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -46,11 +46,11 @@ public class DeleteMotdCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (sender,Local.MOTD_INVALID_INDEX.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
 		if (sender instanceof EntityPlayer)
 			for (int i = 0; i > DataHelper.globalSettings.getMotd ().length; i++)

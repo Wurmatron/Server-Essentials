@@ -22,12 +22,12 @@ public class TpCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "tp";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/tp <username> | /tp <from> <to> | /tp <x> <y> <z> | /tp <username> <x> <y> <z>";
 	}
 
@@ -78,11 +78,11 @@ public class TpCommand extends SECommand {
 				}
 			}
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> args0 = autoCompleteUsername (args,0);
 		if (UsernameResolver.getPlayer (args[0]) != null)
 			return autoCompleteUsername (args,1);

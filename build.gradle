@@ -22,7 +22,7 @@ targetCompatibility = 1.8
 minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20161111"
+    mappings = "snapshot_20170624"
 	replace "@VERSION@", project.version
     replaceIn "Global.java"
 }
@@ -38,7 +38,7 @@ processResources
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-	
+
 	from(sourceSets.main.resources.srcDirs) {
         exclude '**/*.info'
         exclude '**/*.properties'

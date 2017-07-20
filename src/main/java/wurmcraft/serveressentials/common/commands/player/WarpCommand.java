@@ -28,18 +28,13 @@ public class WarpCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "warp";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/warp <name>";
-	}
-
-	@Override
-	public String[] getAliases () {
-		return new String[] {"warps"};
 	}
 
 	@Override
@@ -89,7 +84,7 @@ public class WarpCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteWarps (args,DataHelper.getWarps ());
 	}
 }

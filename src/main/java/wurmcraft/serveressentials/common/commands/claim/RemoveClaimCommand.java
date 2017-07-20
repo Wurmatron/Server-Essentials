@@ -19,12 +19,12 @@ public class RemoveClaimCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName()  {
 		return "removeClaim";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/removeclaim";
 	}
 

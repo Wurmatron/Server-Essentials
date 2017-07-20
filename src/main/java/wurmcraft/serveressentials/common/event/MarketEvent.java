@@ -45,7 +45,7 @@ public class MarketEvent {
 					if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
 						if (addStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
 							DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) - getPrice (e.getWorld (),e.getPos ()));
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).stackSize + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
+							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getCount () + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
 						} else
 							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PLAYER_INVENTORY_FULL);
 					} else
@@ -59,7 +59,7 @@ public class MarketEvent {
 					if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
 						if (hasStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
 							consumeStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()));
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_SOLD.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).stackSize + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()).replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())));
+							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_SOLD.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getCount () + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()).replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())));
 							DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) + getPrice (e.getWorld (),e.getPos ()));
 						} else
 							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_NONE.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
@@ -77,7 +77,7 @@ public class MarketEvent {
 								consumeStack (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()));
 								DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) - getPrice (e.getWorld (),e.getPos ()));
 								DataHelper.setMoney (getOwner (e.getWorld (),e.getPos ()),DataHelper.getMoney (getOwner (e.getWorld (),e.getPos ())) + getPrice (e.getWorld (),e.getPos ()));
-								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).stackSize + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
+								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getCount () + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
 							} else
 								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PLAYER_INVENTORY_FULL);
 						} else
@@ -169,24 +169,24 @@ public class MarketEvent {
 
 	private boolean hasStack (EntityPlayer player,ItemStack stack) {
 		for (ItemStack item : player.inventory.mainInventory)
-			if (item != null && item.isItemEqual (stack) && item.stackSize > 0)
+			if (item != null && item.isItemEqual (stack) && item.getCount () > 0)
 				return true;
 		return false;
 	}
 
 	private void consumeStack (EntityPlayer player,ItemStack stack) {
-		int amountLeft = stack.stackSize;
-		for (int index = 0; index < player.inventory.mainInventory.length; index++)
+		int amountLeft = stack.getCount ();
+		for (int index = 0; index < player.inventory.mainInventory.size (); index++)
 			if (amountLeft <= 0)
 				return;
-			else if (ItemStack.areItemsEqual (stack,player.inventory.mainInventory[index])) {
-				if (stack.stackSize <= player.inventory.mainInventory[index].stackSize) {
-					player.inventory.mainInventory[index].stackSize -= stack.stackSize;
-					if (player.inventory.mainInventory[index].stackSize <= 0)
+			else if (ItemStack.areItemsEqual (stack,player.inventory.mainInventory.get (index))) {
+				if (stack.getCount () <= player.inventory.mainInventory.get (index).getCount ()) {
+					player.inventory.mainInventory.get (index).setCount (player.inventory.mainInventory.get (index).getCount () - stack.getCount ());
+					if (player.inventory.mainInventory.get (index).getCount () <= 0)
 						player.inventory.setInventorySlotContents (index,null);
 					break;
-				} else if (stack.stackSize > player.inventory.mainInventory[index].stackSize) {
-					amountLeft -= player.inventory.mainInventory[index].stackSize;
+				} else if (stack.getCount () > player.inventory.mainInventory.get (index).getCount ()) {
+					amountLeft -= player.inventory.mainInventory.get (index).getCount ();
 					player.inventory.setInventorySlotContents (index,null);
 				}
 			}
@@ -235,18 +235,18 @@ public class MarketEvent {
 
 	private void consumeStack (World world,BlockPos pos,ItemStack stack) {
 		IInventory inv = (IInventory) world.getTileEntity (pos);
-		int amountLeft = stack.stackSize;
+		int amountLeft = stack.getCount ();
 		for (int index = 0; index < inv.getSizeInventory (); index++)
 			if (amountLeft <= 0)
 				return;
 			else if (ItemStack.areItemsEqual (stack,inv.getStackInSlot (index))) {
-				if (stack.stackSize <= inv.getStackInSlot (index).stackSize) {
-					inv.getStackInSlot (index).stackSize -= stack.stackSize;
-					if (inv.getStackInSlot (index).stackSize <= 0)
+				if (stack.getCount () <= inv.getStackInSlot (index).getCount ()) {
+					inv.getStackInSlot (index).setCount (inv.getStackInSlot (index).getCount () - stack.getCount ());
+					if (inv.getStackInSlot (index).getCount () <= 0)
 						inv.setInventorySlotContents (index,null);
 					break;
-				} else if (stack.stackSize > inv.getStackInSlot (index).stackSize) {
-					amountLeft -= inv.getStackInSlot (index).stackSize;
+				} else if (stack.getCount () > inv.getStackInSlot (index).getCount ()) {
+					amountLeft -= inv.getStackInSlot (index).getCount ();
 					inv.setInventorySlotContents (index,null);
 				}
 			}
@@ -267,9 +267,9 @@ public class MarketEvent {
 		IInventory inv = (IInventory) world.getTileEntity (pos);
 		for (int index = 0; index < inv.getSizeInventory (); index++)
 			if (inv.getStackInSlot (index) != null && inv.getStackInSlot (index).isItemEqual (stack)) {
-				inv.getStackInSlot (index).stackSize += stack.stackSize;
+				inv.getStackInSlot (index).setCount (inv.getStackInSlot (index).getCount () + stack.getCount ());
 				break;
-			} else if (inv.getStackInSlot (index) == null) {
+			} else if (inv.getStackInSlot (index) == ItemStack.EMPTY) {
 				inv.setInventorySlotContents (index,stack);
 				break;
 			}

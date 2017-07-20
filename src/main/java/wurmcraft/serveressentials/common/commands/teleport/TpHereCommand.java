@@ -20,12 +20,12 @@ public class TpHereCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "tphere";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/tphere <username>";
 	}
 
@@ -46,7 +46,7 @@ public class TpHereCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (player,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (player,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (player,getUsage (sender));
 	}
 
 	@Override

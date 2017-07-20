@@ -13,6 +13,7 @@ import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameModeCommand extends SECommand {
@@ -27,17 +28,19 @@ public class GameModeCommand extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "gamemode";
 	}
 
 	@Override
-	public String[] getAliases () {
-		return new String[] {"gm"};
+	public List <String> getAliases () {
+		List <String> aliases = new ArrayList <> ();
+		aliases.add ("gm");
+		return aliases;
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/gamemode <type> <user>";
 	}
 
@@ -63,11 +66,11 @@ public class GameModeCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (sender,Local.MODE_INVALID.replaceAll ("#",args[0]));
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,1);
 	}
 

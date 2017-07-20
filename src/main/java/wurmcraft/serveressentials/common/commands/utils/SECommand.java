@@ -32,12 +32,12 @@ public abstract class SECommand extends CommandBase {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return null;
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return null;
 	}
 
@@ -59,28 +59,28 @@ public abstract class SECommand extends CommandBase {
 		} else if (!hasSubCommand ()) {
 			// Run Non Sub Command
 		} else
-			ChatHelper.sendMessageTo (sender,getCommandUsage (sender));
+			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
-	@Override
-	public List <String> getCommandAliases () {
-		if (getAliases ().length > 0) {
-			String[] aliases = getAliases ();
-			List <String> allAliases = new ArrayList <> ();
-			String command = getCommandName ();
-			// TODO Generate List of all Aliases
-			Collections.addAll (allAliases,CommandUtils.permute (command));
-			for(String str : aliases) {
-				Collections.addAll (allAliases,CommandUtils.permute (str));
-			}
-//			LogHandler.info ("C: " + allAliases.toString ());
-			return allAliases;
-		}
-		return super.getCommandAliases ();
-	}
+//		@Override
+//	public List <String> getCommandAliases () {
+//		if (getAliases ().size () > 0) {
+//			String[] aliases = getAliases ();
+//			List <String> allAliases = new ArrayList <> ();
+//			String command = getName ();
+//			// TODO Generate List of all Aliases
+//			Collections.addAll (allAliases,CommandUtils.permute (command));
+//			for(String str : aliases) {
+//				Collections.addAll (allAliases,CommandUtils.permute (str));
+//			}
+////			LogHandler.info ("C: " + allAliases.toString ());
+//			return allAliases;
+//		}
+//		return super.getAliases ();
+//	}
 
-	public String[] getAliases () {
-		return new String[0];
+	public List<String> getAliases () {
+		return new ArrayList <> ();
 	}
 
 	public boolean canConsoleRun () {
@@ -218,7 +218,7 @@ public abstract class SECommand extends CommandBase {
 	public static List <String> autoCompleteUsername (String[] args,int playerIndex) {
 		List <String> usernames = new ArrayList <> ();
 		if (args.length >= playerIndex && args[playerIndex] != null) {
-			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ()) {
+			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ()) {
 				if (player.getDisplayNameString ().toLowerCase ().startsWith (args[playerIndex].toLowerCase ()))
 					usernames.add (player.getDisplayNameString ());
 				else {
@@ -229,7 +229,7 @@ public abstract class SECommand extends CommandBase {
 			}
 			return usernames;
 		} else {
-			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayerList ()) {
+			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ()) {
 				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
 				String name = data.getNickname () != null ? data.getNickname () : player.getDisplayNameString ();
 				usernames.add (name);

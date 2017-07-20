@@ -22,19 +22,19 @@ public class DelHome extends SECommand {
 	}
 
 	@Override
-	public String getCommandName () {
+	public String getName () {
 		return "delHome";
 	}
 
 	@Override
-	public String getCommandUsage (ICommandSender sender) {
+	public String getUsage (ICommandSender sender) {
 		return "/delhome <name>";
 	}
 
-	@Override
-	public String[] getAliases () {
-		return new String[] {"deleteHome"};
-	}
+//	@Override
+//	public String[] getAliases () {
+//		return new String[] {"deleteHome"};
+//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -50,7 +50,7 @@ public class DelHome extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletionOptions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			return autoCompleteHomes(args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
