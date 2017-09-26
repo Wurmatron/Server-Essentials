@@ -32,10 +32,10 @@ public class MuteCommand extends SECommand {
 		return "/mute <username>";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"m", "mu"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"m","mu"};
+	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

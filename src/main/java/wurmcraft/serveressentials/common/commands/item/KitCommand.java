@@ -37,6 +37,11 @@ public class KitCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"k"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/kit <name>";
 	}
@@ -85,16 +90,16 @@ public class KitCommand extends SECommand {
 		if (stack.getItem () instanceof ItemArmor) {
 			ItemArmor armor = (ItemArmor) stack.getItem ();
 			if (armor.armorType.equals (EntityEquipmentSlot.HEAD) && player.inventory.getStackInSlot (100) == null) {
-				player.inventory.armorInventory.set (3, stack);
+				player.inventory.armorInventory.set (3,stack);
 				return true;
 			} else if (armor.armorType.equals (EntityEquipmentSlot.CHEST) && player.inventory.getStackInSlot (101) == null) {
-				player.inventory.armorInventory.set (2, stack);
+				player.inventory.armorInventory.set (2,stack);
 				return true;
 			} else if (armor.armorType.equals (EntityEquipmentSlot.LEGS) && player.inventory.getStackInSlot (102) == null) {
-				player.inventory.armorInventory.set (1, stack);
+				player.inventory.armorInventory.set (1,stack);
 				return true;
 			} else if (armor.armorType.equals (EntityEquipmentSlot.FEET) && player.inventory.getStackInSlot (103) == null) {
-				player.inventory.armorInventory.set (0, stack);
+				player.inventory.armorInventory.set (0,stack);
 				return true;
 			}
 		} else {
@@ -142,7 +147,7 @@ public class KitCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteKits (args,DataHelper.loadedKits,0);
 	}
 }

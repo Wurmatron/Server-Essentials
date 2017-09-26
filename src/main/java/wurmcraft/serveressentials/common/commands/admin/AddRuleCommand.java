@@ -26,10 +26,10 @@ public class AddRuleCommand extends SECommand {
 		return "/addRule <rule>";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"addRule","aRule"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"aRule"};
+	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

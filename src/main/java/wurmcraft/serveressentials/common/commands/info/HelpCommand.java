@@ -34,6 +34,11 @@ public class HelpCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"h"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/help <#>";
 	}
@@ -92,8 +97,8 @@ public class HelpCommand extends SECommand {
 		return new ClickEvent (ClickEvent.Action.RUN_COMMAND,"/help #".replaceAll ("#","" + index));
 	}
 
-	private ClickEvent commandInteract(ICommand command) {
-		return new ClickEvent (ClickEvent.Action.SUGGEST_COMMAND, "/" + command.getName () + " ");
+	private ClickEvent commandInteract (ICommand command) {
+		return new ClickEvent (ClickEvent.Action.SUGGEST_COMMAND,"/" + command.getName () + " ");
 	}
 
 	@Override

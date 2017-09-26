@@ -41,10 +41,8 @@ public class HomeCommand extends SECommand {
 	}
 
 	@Override
-	public List<String> getAliases () {
-		List<String> aliases = new ArrayList <> ();
-		aliases.add ("h");
-		return aliases;
+	public String[] getCommandAliases () {
+		return new String[] {"h"};
 	}
 
 	@Override

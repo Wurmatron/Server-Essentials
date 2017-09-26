@@ -26,6 +26,11 @@ public class FlyCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"f"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/fly <username>";
 	}

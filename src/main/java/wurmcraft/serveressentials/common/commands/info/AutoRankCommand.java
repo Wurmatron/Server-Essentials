@@ -28,6 +28,11 @@ public class AutoRankCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"aRank"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/autoRank | /autoRank <user>";
 	}

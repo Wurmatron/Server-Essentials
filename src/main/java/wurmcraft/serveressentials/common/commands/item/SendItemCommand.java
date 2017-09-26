@@ -31,6 +31,11 @@ public class SendItemCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"sItem"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/sendItem <username>";
 	}
@@ -76,7 +81,7 @@ public class SendItemCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,0);
 	}
 }

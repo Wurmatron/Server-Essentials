@@ -30,10 +30,11 @@ public class DelWarp extends SECommand {
 		return "/delwarp <name>";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"deleteWarp", "removeWarp", "remWarp"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"delWarp","removeWarp","remWarp"};
+	}
+
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

@@ -21,7 +21,6 @@ import wurmcraft.serveressentials.common.security.SecurityEvents;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
-import wurmcraft.serveressentials.common.utils.ServerUtils;
 import wurmcraft.serveressentials.common.utils.lang.DownloadHelper;
 
 import java.io.File;
@@ -54,7 +53,7 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PreGenCommand (Perm.PREGEN));
 		if (Settings.securityModule)
 			MinecraftForge.EVENT_BUS.register (new SecurityEvents ());
-		new DownloadHelper (Global.LOCAL_WEB + Settings.lang + ".lang",new File (DataHelper.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang"),true);
+		DownloadHelper.save (Global.LOCAL_WEB + Settings.lang + ".lang",new File (DataHelper.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang"));
 	}
 
 	@Mod.EventHandler
@@ -63,7 +62,7 @@ public class ServerEssentialsServer {
 		SecurityUtils.loadTrustedStaff ();
 		LoadHelper.registerCommands (e);
 		LoadHelper.loadData ();
-		ServerUtils.customizeShutdownMessage ("Test message");
+		//		ServerUtils.customizeShutdownMessage ("Test message");
 		Local.load ();
 	}
 }

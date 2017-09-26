@@ -36,10 +36,11 @@ public class ChannelCommand extends SECommand {
 		return "/channel <name> | /channel list";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"ch"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"ch"};
+	}
+
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

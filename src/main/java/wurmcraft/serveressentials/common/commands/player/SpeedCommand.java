@@ -40,7 +40,7 @@ public class SpeedCommand extends SECommand {
 			player.capabilities.readCapabilitiesFromNBT (tagCompound);
 			player.sendPlayerAbilities ();
 			ChatHelper.sendMessageTo (sender,Local.SPEED_CHANGED.replaceAll ("#","" + speed));
-		} else  {
+		} else {
 			NBTTagCompound tagCompound = new NBTTagCompound ();
 			player.capabilities.writeCapabilitiesToNBT (tagCompound);
 			tagCompound.getCompoundTag ("abilities").setTag ("flySpeed",new NBTTagFloat (0.05F));

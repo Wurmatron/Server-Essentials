@@ -34,7 +34,7 @@ public class NickCommand extends SECommand {
 			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			if (player != null && DataHelper.getPlayerData (player.getGameProfile ().getId ()).getNickname () != null) {
 				ChatHelper.sendMessageTo (sender,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getNickname ().replaceAll ("&","\u00A7"));
-			} else if (player!= null && DataHelper.getPlayerData (player.getGameProfile ().getId ()).getNickname () == null)
+			} else if (player != null && DataHelper.getPlayerData (player.getGameProfile ().getId ()).getNickname () == null)
 				ChatHelper.sendMessageTo (sender,Local.NICK_NONE.replaceAll ("#",player.getDisplayNameString ()));
 			else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
@@ -57,10 +57,10 @@ public class NickCommand extends SECommand {
 			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"n"};
-//	}
+	//	@Override
+	//	public String[] getAliases () {
+	//		return new String[] {"n"};
+	//	}
 
 	@Override
 	public boolean canConsoleRun () {

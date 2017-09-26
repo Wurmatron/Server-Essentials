@@ -19,8 +19,13 @@ public class RemoveClaimCommand extends SECommand {
 	}
 
 	@Override
-	public String getName()  {
+	public String getName () {
 		return "removeClaim";
+	}
+
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"remClaim","deleteClaim","delClaim"};
 	}
 
 	@Override
@@ -41,7 +46,7 @@ public class RemoveClaimCommand extends SECommand {
 				ChatHelper.sendMessageTo (player,Local.CLAIM_REMOVED);
 			}
 		} else
-			ChatHelper.sendMessageTo (player, Local.MISSING_CLAIM);
+			ChatHelper.sendMessageTo (player,Local.MISSING_CLAIM);
 	}
 
 	@Override

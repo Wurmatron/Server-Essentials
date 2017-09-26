@@ -22,15 +22,14 @@ public class RenameCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"name"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/rename <name>";
 	}
-
-
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"name"};
-//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

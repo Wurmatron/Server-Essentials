@@ -24,7 +24,6 @@ public class SpawnCommand extends SECommand {
 		return "spawn";
 	}
 
-
 	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/spawn";

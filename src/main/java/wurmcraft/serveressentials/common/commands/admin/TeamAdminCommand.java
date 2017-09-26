@@ -22,7 +22,7 @@ public class TeamAdminCommand extends SECommand {
 
 	@Override
 	public String getName () {
-		return "teamadmin";
+		return "teamAdmin";
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class TeamAdminCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteTeam (args,TeamManager.getTeams ());
 	}
 
-	public void disband(ICommandSender sender, String[] args) {
+	public void disband (ICommandSender sender,String[] args) {
 		if (args.length >= 1) {
 			Team team = TeamManager.getTeamFromName (args[0]);
 			if (team != null) {

@@ -22,6 +22,11 @@ public class AddMotdCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"aMotd"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/addMotd <motd>";
 	}

@@ -8,8 +8,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
+import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -25,7 +25,12 @@ public class EnderChestCommand extends SECommand {
 
 	@Override
 	public String getName () {
-		return "echest";
+		return "enderChest";
+	}
+
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"eChest"};
 	}
 
 	@Override
@@ -33,10 +38,6 @@ public class EnderChestCommand extends SECommand {
 		return "/echest <name>";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"enderChest"};
-//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

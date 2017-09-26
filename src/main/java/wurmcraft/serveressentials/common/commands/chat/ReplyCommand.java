@@ -32,10 +32,10 @@ public class ReplyCommand extends SECommand {
 		return "Sends a message to the last known person";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"r"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"r"};
+	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

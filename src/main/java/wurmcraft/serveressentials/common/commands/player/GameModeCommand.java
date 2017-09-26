@@ -13,7 +13,6 @@ import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameModeCommand extends SECommand {
@@ -33,10 +32,8 @@ public class GameModeCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("gm");
-		return aliases;
+	public String[] getCommandAliases () {
+		return new String[] {"gm"};
 	}
 
 	@Override

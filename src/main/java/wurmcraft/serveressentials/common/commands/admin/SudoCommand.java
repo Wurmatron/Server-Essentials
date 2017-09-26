@@ -34,10 +34,11 @@ public class SudoCommand extends SECommand {
 		return "/sudo <name> <command>";
 	}
 
-//	@Override
-//	public String[] getAliases () {t
-//		return new String[] {"su","s"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"su"};
+	}
+
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

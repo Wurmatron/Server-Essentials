@@ -13,8 +13,6 @@ import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class RandomTeleportCommand extends SECommand {
@@ -27,19 +25,17 @@ public class RandomTeleportCommand extends SECommand {
 
 	@Override
 	public String getName () {
-		return "randomtp";
+		return "randomTP";
+	}
+
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"rtp"};
 	}
 
 	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/rtp";
-	}
-
-	@Override
-	public List<String> getAliases () {
-		List<String> aliases = new ArrayList <> ();
-		aliases.add ("rtp");
-		return aliases;
 	}
 
 	@Override
@@ -71,7 +67,7 @@ public class RandomTeleportCommand extends SECommand {
 						return;
 					}
 				}
-				ChatHelper.sendMessageTo (player, Local.RTP_FAIL);
+				ChatHelper.sendMessageTo (player,Local.RTP_FAIL);
 			}
 		} else
 			ChatHelper.sendMessageTo (player,TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ()));

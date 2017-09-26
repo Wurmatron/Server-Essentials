@@ -27,10 +27,14 @@ public class ReloadPlayerDataCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"relPlayerData","rpd"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/reloadPlayerData <username>";
 	}
-
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

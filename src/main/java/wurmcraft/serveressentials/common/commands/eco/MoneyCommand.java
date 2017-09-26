@@ -15,7 +15,6 @@ import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoneyCommand extends SECommand {
@@ -35,12 +34,8 @@ public class MoneyCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getAliases () {
-		List <String> aliases = new ArrayList <> ();
-		aliases.add ("m");
-		aliases.add ("bal");
-		aliases.add ("balance");
-		return aliases;
+	public String[] getCommandAliases () {
+		return new String[] {"m","balance","bal"};
 	}
 
 	@Override

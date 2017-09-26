@@ -38,10 +38,10 @@ public class VaultCommand extends SECommand {
 		return "/vault <name> | /vault create <name>| /vault delete <name";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"v"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"v"};
+	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
@@ -73,7 +73,7 @@ public class VaultCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 			return autoCompleteVaults (args,DataHelper.playerVaults.get (player.getGameProfile ().getId ()));

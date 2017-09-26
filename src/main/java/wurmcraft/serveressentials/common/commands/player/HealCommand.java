@@ -29,6 +29,11 @@ public class HealCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"h"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/heal <name>";
 	}

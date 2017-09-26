@@ -34,6 +34,12 @@ public class SetGroup extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"setRank"};
+	}
+
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/setGroup <username> <group>";
 	}
@@ -78,10 +84,10 @@ public class SetGroup extends SECommand {
 		return !Settings.securityModule;
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"setrank"};
-//	}
+	//	@Override
+	//	public String[] getAliases () {
+	//		return new String[] {"setrank"};
+	//	}
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {

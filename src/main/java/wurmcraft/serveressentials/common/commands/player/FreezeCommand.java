@@ -28,13 +28,18 @@ public class FreezeCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"fz"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/freeze <username>";
 	}
 
 	@Override
-	public List<String> getAliases () {
-		List<String> aliases = new ArrayList <> ();
+	public List <String> getAliases () {
+		List <String> aliases = new ArrayList <> ();
 		aliases.add ("f");
 		return aliases;
 	}
@@ -42,7 +47,7 @@ public class FreezeCommand extends SECommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0) {
-			EntityPlayer player = UsernameResolver.getPlayer(args[0]);
+			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			if (player != null) {
 				PlayerTickEvent.toggleFrozen (player,player.getPosition ());
 				if (PlayerTickEvent.isFrozen (player)) {

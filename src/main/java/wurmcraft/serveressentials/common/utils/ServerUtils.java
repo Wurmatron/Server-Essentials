@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.utils;
 
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.dedicated.DedicatedPlayerList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,13 +22,13 @@ public class ServerUtils {
 		public void setDisconnectMessage (String message) {
 			this.disconnectMessage = message;
 		}
-//
-//		@Override
-//		public void removeAllPlayers () {
-//			for (int i = 0; i < getPlayerList ().size (); ++i) {
-//				(getPlayerList ().get (i)).connection.kickPlayerFromServer (disconnectMessage);
-//			}
-//		}
+		//
+		//		@Override
+		//		public void removeAllPlayers () {
+		//			for (int i = 0; i < getPlayerList ().size (); ++i) {
+		//				(getPlayerList ().get (i)).connection.kickPlayerFromServer (disconnectMessage);
+		//			}
+		//		}
 	}
 
 	public static void customizeShutdownMessage (String newMessage) {

@@ -30,6 +30,11 @@ public class SetHomeCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"sHome"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/sethome <name>";
 	}

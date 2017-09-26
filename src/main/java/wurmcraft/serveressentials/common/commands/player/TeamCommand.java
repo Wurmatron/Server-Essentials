@@ -39,10 +39,8 @@ public class TeamCommand extends SECommand {
 	}
 
 	@Override
-	public List<String> getAliases () {
-		List<String> aliases = new ArrayList <> ();
-		aliases.add ("t");
-		return aliases;
+	public String[] getCommandAliases () {
+		return new String[] {"t"};
 	}
 
 	@Override

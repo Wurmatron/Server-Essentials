@@ -28,18 +28,18 @@ public class DPFCommand extends SECommand {
 
 	@Override
 	public String getName () {
-		return "deleteplayerfile";
+		return "deletePlayerFile";
+	}
+
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"delPlayerFile","dPlayerFile","dpf"};
 	}
 
 	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/DeletePlayerFile <Username>";
 	}
-
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"dpf"};
-//	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

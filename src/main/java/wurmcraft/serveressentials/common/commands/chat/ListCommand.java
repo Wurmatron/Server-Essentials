@@ -30,6 +30,11 @@ public class ListCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"players","online"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/list";
 	}
@@ -43,7 +48,7 @@ public class ListCommand extends SECommand {
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 		for (UUID name : pList) {
 			IRank rank = DataHelper.getPlayerData (name).getRank ();
-			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName (), clickEvent(UsernameCache.getLastKnownUsername (name)),null);
+			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName (),clickEvent (UsernameCache.getLastKnownUsername (name)),null);
 		}
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 	}

@@ -31,10 +31,10 @@ public class DeleteMotdCommand extends SECommand {
 		return "/delMotd <motd No.>";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"delMotd", "removeMotd", "remMotd"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"delMotd","removeMotd","remMotd"};
+	}
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

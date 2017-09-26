@@ -96,7 +96,7 @@ public class MailCommand extends SECommand {
 	}
 
 	@Override
-	public List <String> getTabCompletions(MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		return autoCompleteUsername (args,1);
 	}
 

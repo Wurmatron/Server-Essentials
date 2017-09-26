@@ -31,10 +31,11 @@ public class DeleteRuleCommand extends SECommand {
 		return "/remRule <rule No.>";
 	}
 
-//	@Override
-//	public String[] getAliases () {
-//		return new String[] {"delRule", "removeRule", "remRule"};
-//	}
+	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"delRule","removeRule","remRule"};
+	}
+
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

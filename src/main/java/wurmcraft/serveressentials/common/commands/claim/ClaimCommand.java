@@ -26,6 +26,11 @@ public class ClaimCommand extends SECommand {
 	}
 
 	@Override
+	public String[] getCommandAliases () {
+		return new String[] {"c"};
+	}
+
+	@Override
 	public String getUsage (ICommandSender sender) {
 		return "/claim";
 	}

@@ -9,9 +9,6 @@ import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WebsiteCommand extends SECommand {
 
 	public WebsiteCommand (Perm perm) {
@@ -24,15 +21,13 @@ public class WebsiteCommand extends SECommand {
 	}
 
 	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/website";
+	public String[] getCommandAliases () {
+		return new String[] {"web"};
 	}
 
 	@Override
-	public List<String> getAliases () {
-		List<String> aliases = new ArrayList<> ();
-		aliases.add ("web");
-		return aliases;
+	public String getUsage (ICommandSender sender) {
+		return "/website";
 	}
 
 	@Override

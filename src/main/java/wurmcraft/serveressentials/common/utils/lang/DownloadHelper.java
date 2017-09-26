@@ -10,17 +10,16 @@ import java.net.URL;
 
 public class DownloadHelper {
 
-	public URL textFile;
-	public File location;
-
-	public DownloadHelper (String webFile,File saveLocation,boolean save) {
+	public static void save (String webFile,File saveLocation) {
+		URL textFile = null;
+		File location;
 		try {
 			textFile = new URL (webFile);
 		} catch (MalformedURLException e) {
 			e.printStackTrace ();
 		}
 		location = saveLocation;
-		if (location != null && save)
+		if (location != null)
 			try {
 				if (!location.exists ())
 					FileUtils.copyURLToFile (textFile,location,10000,12000);

@@ -86,7 +86,7 @@ public class DataHelper {
 		return loadedPlayers.get (name);
 	}
 
-	public static PlayerData getPlayerData(EntityPlayer player) {
+	public static PlayerData getPlayerData (EntityPlayer player) {
 		return getPlayerData (player.getGameProfile ().getId ());
 	}
 
@@ -965,8 +965,8 @@ public class DataHelper {
 			checkAndHandleAutoRank (player);
 	}
 
-	public static int getMoney(UUID uuid) {
-		if(getPlayerData (uuid) == null)
+	public static int getMoney (UUID uuid) {
+		if (getPlayerData (uuid) == null)
 			loadPlayerData (uuid);
 		return getPlayerData (uuid).getMoney ();
 	}

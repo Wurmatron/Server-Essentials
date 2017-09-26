@@ -62,24 +62,29 @@ public abstract class SECommand extends CommandBase {
 			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
-//		@Override
-//	public List <String> getCommandAliases () {
-//		if (getAliases ().size () > 0) {
-//			String[] aliases = getAliases ();
-//			List <String> allAliases = new ArrayList <> ();
-//			String command = getName ();
-//			// TODO Generate List of all Aliases
-//			Collections.addAll (allAliases,CommandUtils.permute (command));
-//			for(String str : aliases) {
-//				Collections.addAll (allAliases,CommandUtils.permute (str));
-//			}
-////			LogHandler.info ("C: " + allAliases.toString ());
-//			return allAliases;
-//		}
-//		return super.getAliases ();
-//	}
+	//		@Override
+	//	public List <String> getCommandAliases () {
+	//		if (getAliases ().size () > 0) {
+	//			String[] aliases = getAliases ();
+	//			List <String> allAliases = new ArrayList <> ();
+	//			String command = getName ();
+	//			// TODO Generate List of all Aliases
+	//			Collections.addAll (allAliases,CommandUtils.permute (command));
+	//			for(String str : aliases) {
+	//				Collections.addAll (allAliases,CommandUtils.permute (str));
+	//			}
+	////			LogHandler.info ("C: " + allAliases.toString ());
+	//			return allAliases;
+	//		}
+	//		return super.getAliases ();
+	//	}
 
-	public List<String> getAliases () {
+	public List <String> getAliases () {
+		if (getCommandAliases ().length > 0) {
+			List <String> aliases = new ArrayList ();
+			Collections.addAll (aliases,getCommandAliases ());
+			return aliases;
+		}
 		return new ArrayList <> ();
 	}
 
@@ -93,6 +98,10 @@ public abstract class SECommand extends CommandBase {
 
 	public boolean requiresTrusted () {
 		return false;
+	}
+
+	public String[] getCommandAliases () {
+		return new String[0];
 	}
 
 	@Override

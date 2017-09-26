@@ -28,7 +28,6 @@ public class BackCommand extends SECommand {
 		return "/back";
 	}
 
-
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);

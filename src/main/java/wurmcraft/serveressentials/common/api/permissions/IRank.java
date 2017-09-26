@@ -53,7 +53,7 @@ public interface IRank {
 		return false;
 	}
 
-	default boolean hasPermission(Perm perm) {
+	default boolean hasPermission (Perm perm) {
 		for (String permission : getPermissions ())
 			if (permission.equalsIgnoreCase ("*") || permission.endsWith ("*") && permission.startsWith (perm.toString ().substring (0,perm.toString ().indexOf ("."))) || permission.equalsIgnoreCase (perm.toString ()))
 				return true;
