@@ -201,7 +201,7 @@ public class Local {
 		if (lang.exists ()) {
 			try {
 				BufferedReader reader = new BufferedReader (new FileReader (lang));
-				Local local = gson.fromJson (reader,Local.class);
+				gson.fromJson (reader,Local.class);
 			} catch (Exception e) {
 				e.printStackTrace ();
 			}

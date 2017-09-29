@@ -63,7 +63,7 @@ public class PreGenCommand extends SECommand {
 	}
 
 	private boolean checkBorderSize (World world) {
-		return !(world.getWorldBorder ().getDiameter () >= 100000);
+		return world.getWorldBorder ().getDiameter () <= 100000;
 	}
 
 	@Override

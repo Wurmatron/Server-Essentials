@@ -31,12 +31,6 @@ public class MarketEvent {
 	private static HashMap <UUID, BlockPos> shops = new HashMap <> ();
 
 	@SubscribeEvent
-	public void onItemDrop (ItemTossEvent e) {
-		if (disableDrops.size () > 0 && disableDrops.contains (e.getPlayer ().getGameProfile ().getId ()))
-			e.setCanceled (true);
-	}
-
-	@SubscribeEvent
 	public void onInteract (PlayerInteractEvent e) {
 		if (e.getWorld ().getTileEntity (e.getPos ()) != null && e.getWorld ().getTileEntity (e.getPos ()) instanceof TileEntitySign) {
 			String[] signText = getLines (e.getWorld (),e.getPos ());

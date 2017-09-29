@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.utils.lang;
+package wurmcraft.serveressentials.common.utils;
 
 import org.apache.commons.io.FileUtils;
 import wurmcraft.serveressentials.common.utils.LogHandler;

@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import wurmcraft.serveressentials.common.commands.utils.MarketInventory;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.DataHelper;

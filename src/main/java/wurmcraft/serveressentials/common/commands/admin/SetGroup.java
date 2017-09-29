@@ -59,14 +59,12 @@ public class SetGroup extends SECommand {
 			}
 			if (!found)
 				for (UUID id : UsernameCache.getMap ().keySet ())
-					if (UsernameCache.getMap ().get (id).equalsIgnoreCase (args[0])) {
-						if (RankManager.getRankFromName (args[1]) != null) {
-							found = true;
-							DataHelper.setRank (id,RankManager.getRankFromName (args[1]));
-							PlayerData data = DataHelper.getPlayerData (id);
-							String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : UsernameCache.getLastKnownUsername (id);
-							ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
-						}
+					if (UsernameCache.getMap ().get (id).equalsIgnoreCase (args[0]) && RankManager.getRankFromName (args[1]) != null) {
+						found = true;
+						DataHelper.setRank (id,RankManager.getRankFromName (args[1]));
+						PlayerData data = DataHelper.getPlayerData (id);
+						String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : UsernameCache.getLastKnownUsername (id);
+						ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
 					}
 			if (!found)
 				ChatHelper.sendMessageTo (sender,Local.RANK_NOT_FOUND.replaceAll ("#",args[1]));

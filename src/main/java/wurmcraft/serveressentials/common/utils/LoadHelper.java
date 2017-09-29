@@ -3,13 +3,11 @@ package wurmcraft.serveressentials.common.utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import wurmcraft.serveressentials.common.api.storage.ShopData;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.admin.*;
 import wurmcraft.serveressentials.common.commands.chat.*;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
-import wurmcraft.serveressentials.common.commands.eco.MarketCommand;
 import wurmcraft.serveressentials.common.commands.eco.MoneyCommand;
 import wurmcraft.serveressentials.common.commands.eco.PayCommand;
 import wurmcraft.serveressentials.common.commands.info.*;
@@ -71,7 +69,6 @@ public class LoadHelper {
 		e.registerServerCommand (new MuteCommand (Perm.MUTE));
 		e.registerServerCommand (new MoneyCommand (Perm.MONEY));
 		e.registerServerCommand (new PayCommand (Perm.PAY));
-		e.registerServerCommand (new MarketCommand (Perm.MARKET));
 		e.registerServerCommand (new VaultCommand (Perm.VAULT));
 		e.registerServerCommand (new HelpCommand (Perm.HELP));
 		e.registerServerCommand (new WebsiteCommand (Perm.WEBSITE));
@@ -103,8 +100,6 @@ public class LoadHelper {
 		DataHelper.createDefaultChannels ();
 		DataHelper.loadAllChannels ();
 		DataHelper.loadAllKits ();
-		ShopData data = new ShopData (new ItemStack[] {new ItemStack (Items.DIAMOND),new ItemStack (Items.IRON_INGOT,16)},new int[] {512,64},new boolean[] {true,false});
-		DataHelper.createMarket (UUID.randomUUID (),data);
 		DataHelper.loadAllAutoRanks ();
 		DataHelper.createDefaultAutoRank ();
 	}

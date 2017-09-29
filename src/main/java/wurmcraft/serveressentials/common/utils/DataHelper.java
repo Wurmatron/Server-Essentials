@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+// TODO Rework this class
 public class DataHelper {
 
 	public static final File saveLocation = new File (FMLCommonHandler.instance ().getMinecraftServerInstance ().getDataDirectory () + File.separator + wurmcraft.serveressentials.common.reference.Global.NAME);
@@ -49,7 +50,6 @@ public class DataHelper {
 	public static ArrayList <UUID> afkPlayers = new ArrayList <> ();
 	public static Global globalSettings;
 	public static HashMap <UUID, Vault[]> playerVaults = new HashMap <> ();
-	public static HashMap <UUID, ShopData> playerShops = new HashMap <> ();
 	public static ArrayList <Kit> loadedKits = new ArrayList <> ();
 	public static HashMap <UUID, UUID> lastMessage = new HashMap <> ();
 	public static ArrayList <UUID> spys = new ArrayList <> ();
@@ -716,46 +716,6 @@ public class DataHelper {
 				saveVault (uuid,uuidVaults);
 		} else
 			saveVault (uuid,new Vault[] {vault});
-	}
-
-	public static void createMarket (UUID name,ShopData data) {
-		if (!marketLocation.exists ())
-			marketLocation.mkdirs ();
-		File marketFile = new File (marketLocation + File.separator + name.toString () + ".json");
-		try {
-			marketFile.createNewFile ();
-			Files.write (Paths.get (marketFile.getAbsolutePath ()),gson.toJson (data).getBytes ());
-		} catch (IOException e) {
-			e.printStackTrace ();
-		}
-	}
-
-	public static ShopData loadMarket (UUID name) {
-		if (!playerShops.containsKey (name)) {
-			File marketFile = new File (marketLocation + File.separator + name.toString () + ".json");
-			if (marketFile.exists ()) {
-				ArrayList <String> lines = new ArrayList <> ();
-				try {
-					BufferedReader reader = new BufferedReader (new FileReader (marketFile));
-					String line;
-					while ((line = reader.readLine ()) != null)
-						lines.add (line);
-					reader.close ();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace ();
-				} catch (IOException e) {
-					e.printStackTrace ();
-				}
-				String temp = "";
-				for (int s = 0; s <= lines.size () - 1; s++)
-					temp = temp + lines.get (s);
-				ShopData data = gson.fromJson (temp,ShopData.class);
-				playerShops.put (name,data);
-				return data;
-			}
-			return null;
-		} else
-			return playerShops.get (name);
 	}
 
 	public static void saveKit (Kit kit) {

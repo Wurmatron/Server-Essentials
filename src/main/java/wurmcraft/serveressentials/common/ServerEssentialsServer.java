@@ -21,7 +21,7 @@ import wurmcraft.serveressentials.common.security.SecurityEvents;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
-import wurmcraft.serveressentials.common.utils.lang.DownloadHelper;
+import wurmcraft.serveressentials.common.utils.DownloadHelper;
 
 import java.io.File;
 
