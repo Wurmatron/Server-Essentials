@@ -40,7 +40,6 @@ public class DataHelper {
 	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
 	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
 	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
-	public static final File marketLocation = new File (saveLocation + File.separator + "Markets" + File.separator);
 	public static final File kitLocation = new File (saveLocation + File.separator + "Kits" + File.separator);
 	public static final File autoRankLocation = new File (saveLocation + File.separator + "AutoRank" + File.separator);
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();

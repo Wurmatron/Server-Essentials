@@ -8,6 +8,7 @@ import wurmcraft.serveressentials.common.commands.admin.*;
 import wurmcraft.serveressentials.common.commands.chat.*;
 import wurmcraft.serveressentials.common.commands.claim.ClaimCommand;
 import wurmcraft.serveressentials.common.commands.claim.RemoveClaimCommand;
+import wurmcraft.serveressentials.common.commands.eco.BalTopCommand;
 import wurmcraft.serveressentials.common.commands.eco.MoneyCommand;
 import wurmcraft.serveressentials.common.commands.eco.PayCommand;
 import wurmcraft.serveressentials.common.commands.info.*;
@@ -88,6 +89,7 @@ public class LoadHelper {
 		e.registerServerCommand (new TpLockCommand (Perm.TPLOCK));
 		e.registerServerCommand (new PreGenCommand (Perm.PREGEN));
 		e.registerServerCommand (new RandomTeleportCommand (Perm.RTP));
+		e.registerServerCommand (new BalTopCommand (Perm.BAL_TOP));
 	}
 
 	public static void loadData () {

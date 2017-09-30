@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.commands.info;
+package wurmcraft.serveressentials.common.commands.eco;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -21,25 +21,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class OnlineTimeCommand extends SECommand {
+public class BalTopCommand extends SECommand {
 
-	public OnlineTimeCommand (Perm perm) {
+	public BalTopCommand (Perm perm) {
 		super (perm);
 	}
 
 	@Override
 	public String getName () {
-		return "onlineTime";
+		return "baltop";
 	}
 
 	@Override
 	public String[] getCommandAliases () {
-		return new String[] {"ot"};
+		return new String[] {"mtop"};
 	}
 
 	@Override
 	public String getUsage (ICommandSender sender) {
-		return "/onlineTime | /onlineTime <username>";
+		return "/baltop";
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class OnlineTimeCommand extends SECommand {
 		UUID[] keys = dataMap.keySet ().toArray (new UUID[0]);
 		for (int i = 0; i < Settings.onlineTimeMaxPrint && i < keys.length; i++) {
 			unknownPlayers.forEach (s -> ChatHelper.sendMessageTo (sender,TextFormatting.RED + "Unknown Player: '" + s + "'"));
-			String formatted = DurationFormatUtils.formatDuration (dataMap.get (keys[i]).getOnlineTime () * 60000,"d%:H$:m#:s@").replace ('%','D').replace ('$','H').replace ('#','M').replace ('@','S').replaceAll (":",", ");
+			String formatted = Settings.currencySymbol + dataMap.get (keys[i]).getMoney ();
 			ChatHelper.sendMessageTo (sender,TextFormatting.GREEN + UsernameCache.getLastKnownUsername (keys[i]) + TextFormatting.DARK_AQUA + " : " + formatted);
 		}
 	}

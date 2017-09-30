@@ -12,7 +12,7 @@ public enum Perm {
 	ENDER_CHEST ("perk.enderChest"),FLY ("perm.fly"),BACK ("perm.back"),VAULT ("perm.vault"),NICK ("perm.nick"),
 
 	// Common
-	SEEN ("common.seen"),RULES ("common.rules"),MOTD ("common.motd"),TEAM ("common.team"),AFK ("common.afk"),PING ("common.ping"),SUICIDE ("common.suiside"),LIST ("common.list"),CHANNEL ("common.channel"),MONEY ("common.money"),PAY ("common.pay"),MARKET ("common.market"),HELP ("common.help"),WEBSITE ("common.website"),MESSAGE ("common.message"),MAIL ("common.mail"),SEND_ITEM ("common.sendItem"),KIT ("common.kit"),REPLY ("common.reply"),ONLINE_TIME ("common.onlineTime"),AUTORANK ("common.autorank"),
+	SEEN ("common.seen"),RULES ("common.rules"),MOTD ("common.motd"),TEAM ("common.team"),AFK ("common.afk"),PING ("common.ping"),SUICIDE ("common.suiside"),LIST ("common.list"),CHANNEL ("common.channel"),MONEY ("common.money"),PAY ("common.pay"),MARKET ("common.market"),HELP ("common.help"),WEBSITE ("common.website"),MESSAGE ("common.message"),MAIL ("common.mail"),SEND_ITEM ("common.sendItem"),KIT ("common.kit"),REPLY ("common.reply"),ONLINE_TIME ("common.onlineTime"),AUTORANK ("common.autorank"),BAL_TOP ("eco.baltop"),
 
 	// Claim
 	CLAIM ("claim.claim"),DEL_CLAIM ("claim.delClaim"),
