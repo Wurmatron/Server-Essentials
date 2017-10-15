@@ -1,7 +1,6 @@
 package wurmcraft.serveressentials.common.utils;
 
 import org.apache.commons.io.FileUtils;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.io.File;
 import java.io.IOException;

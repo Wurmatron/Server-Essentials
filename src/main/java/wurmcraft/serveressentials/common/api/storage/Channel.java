@@ -1,5 +1,9 @@
 package wurmcraft.serveressentials.common.api.storage;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Channel {
 
 	private String name;
@@ -8,6 +12,7 @@ public class Channel {
 	private boolean logChat;
 	private Type type;
 	private String typeData;
+	private String[] filter;
 
 	/**
 	 All the settings about a channel
@@ -18,14 +23,16 @@ public class Channel {
 	 @param logChat Chat logged to a file
 	 @param type Type of channel
 	 @param data Stores the data about the type (IE: Pass = "Password", Team = "teamName", Rank = "Rank Name")
+	 @param filter Replaces Words in chat with diffrent ones based on this filter
 	 */
-	public Channel (String name,String prefix,boolean chatFillter,boolean logChat,Type type,String data) {
+	public Channel (String name,String prefix,boolean chatFillter,boolean logChat,Type type,String data,String[] filter) {
 		this.name = name;
 		this.prefix = prefix;
 		this.chatFillter = chatFillter;
 		this.logChat = logChat;
 		this.type = type;
 		this.typeData = data;
+		this.filter = filter;
 	}
 
 	public Channel (String name,String prefix,Type type,String data) {
@@ -87,5 +94,24 @@ public class Channel {
 
 	public enum Type {
 		PUBLIC,PASS,TEAM,RANK
+	}
+
+	public String[] getFilter () {
+		return filter;
+	}
+
+	public void setFilter (String[] filter) {
+		this.filter = filter;
+	}
+
+
+	public void addFilter (String find,String replace) {
+		addFilter (new String[] {find + " " + replace});
+	}
+
+	public void addFilter (String[] filter) {
+		List <String> filters = Arrays.asList (getFilter ());
+		Collections.addAll (filters,filter);
+		setFilter (filters.toArray (new String[0]));
 	}
 }

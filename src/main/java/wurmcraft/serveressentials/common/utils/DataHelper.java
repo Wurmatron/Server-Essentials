@@ -594,9 +594,9 @@ public class DataHelper {
 	}
 
 	public static void createDefaultChannels () {
-		Channel globalChannel = new Channel (Defaults.DEFAULT_CHANNEL,"&9[G]",true,false,Channel.Type.PUBLIC,"");
-		Channel staffChannel = new Channel ("Staff","&4[S]",false,false,Channel.Type.RANK,"Admin");
-		Channel teamChannel = new Channel ("Team","&a[T]",true,false,Channel.Type.TEAM,"");
+		Channel globalChannel = new Channel (Defaults.DEFAULT_CHANNEL,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm","\"Demi San\" \"Demi God\""});
+		Channel staffChannel = new Channel ("Staff","&4[S]",false,false,Channel.Type.RANK,"Admin",null);
+		Channel teamChannel = new Channel ("Team","&a[T]",true,false,Channel.Type.TEAM,"",null);
 		saveChannel (globalChannel);
 		saveChannel (staffChannel);
 		saveChannel (teamChannel);

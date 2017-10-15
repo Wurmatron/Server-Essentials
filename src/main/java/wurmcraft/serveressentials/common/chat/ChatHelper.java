@@ -111,6 +111,7 @@ public class ChatHelper {
 
 	public static void sendChannelMessage (Channel channel,String displayName,IRank rank,int dimension,Team team,String message) {
 		PlayerList players = FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ();
+		message = applyFilter (channel,message);
 		if (!channel.getName ().equalsIgnoreCase ("Team")) {
 			List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
 			for (EntityPlayerMP player : players.getPlayers ()) {
@@ -162,4 +163,28 @@ public class ChatHelper {
 		return true;
 	}
 
+	private static String applyFilter (Channel ch,String message) {
+		for (String filter : ch.getFilter ()) {
+			String[] replace = unpackFilter (filter);
+			if (replace != null && replace.length > 0)
+				message = message.replaceAll ("(?i)" + replace[0],replace[1]);
+		}
+		return message;
+	}
+
+	private static String[] unpackFilter (String filter) {
+		if (!filter.contains ("\"")) {
+			String[] temp = filter.split (" ");
+			return new String[] {temp[0],temp[1]};
+		}
+		if (filter.contains ("\""))
+			if (filter.length () - filter.replaceAll ("\"","").length () == 2) {
+				String[] temp = filter.split ("\"");
+				return new String[] {temp[1],temp[3]};
+			} else if (filter.length () - filter.replaceAll ("\"","").length () == 4) {
+				String[] temp = filter.split ("\"");
+				return new String[] {temp[1],temp[3]};
+			}
+		return null;
+	}
 }

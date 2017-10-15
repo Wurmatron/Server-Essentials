@@ -1,0 +1,5 @@
+- Load Ranks from DataBase
+- Redesign DataHelper (possibly with generics)
+- Rework ConfigHandler
+- Better Economy Functionality
+- Tab AutoCompletion / Aliases

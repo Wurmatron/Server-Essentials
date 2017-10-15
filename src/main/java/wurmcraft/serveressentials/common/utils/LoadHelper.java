@@ -1,7 +1,5 @@
 package wurmcraft.serveressentials.common.utils;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import wurmcraft.serveressentials.common.claim.ChunkManager;
 import wurmcraft.serveressentials.common.commands.admin.*;
@@ -19,8 +17,6 @@ import wurmcraft.serveressentials.common.commands.item.SkullCommand;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
 import wurmcraft.serveressentials.common.reference.Perm;
-
-import java.util.UUID;
 
 public class LoadHelper {
 
