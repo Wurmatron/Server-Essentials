@@ -34,7 +34,6 @@ public class ChatHelper {
 
 	public static HashMap <String, String[]> lastChat = new HashMap <> ();
 
-	// TODO FIX Bug with no team name leaving a space in chat format
 	public static String format (String username,IRank rank,Channel channel,int dimension,Team team,String message) {
 		String format;
 		if (team != null) {
@@ -44,10 +43,9 @@ public class ChatHelper {
 				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,TEAM_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,team.getName () + TextFormatting.RESET});
 		} else {
 			if (rank.getSuffix () != null && !rank.getSuffix ().equals (""))
-				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY ,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY,RANK_SUFFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,rank.getSuffix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
 			else
-				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY,"").replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
-
+				format = StringUtils.replaceEach (Settings.chatFormat.replaceAll (TEAM_KEY ,"").replaceAll (" " + RANK_SUFFIX_KEY,""),new String[] {USERNAME_KEY,CHANNEL_KEY,MESSAGE_KEY,DIMENSION_KEY,RANK_PREFIX_KEY},new String[] {username,channel.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET,message,Integer.toString (dimension),rank.getPrefix ().replaceAll ("&","\u00A7") + TextFormatting.RESET});
 		}
 		return format;
 	}
