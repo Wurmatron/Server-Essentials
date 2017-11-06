@@ -60,9 +60,8 @@ public class RandomTeleportCommand extends SECommand {
 			} else {
 				for (int tries = 0; tries < 5; tries++) {
 					BlockPos tempPos = getRandomPos (player);
-					LogHandler.info ("Test: ");
 					if (TeleportUtils.safeLocation (player.world,randPos)) {
-						TeleportUtils.teleportTo (player,tempPos,false);
+						TeleportUtils.teleportTo (player,tempPos.add (.5,3,.5),false);
 						ChatHelper.sendMessageTo (player,Local.RAND_TP);
 						return;
 					}
@@ -86,6 +85,6 @@ public class RandomTeleportCommand extends SECommand {
 		double maxLocationZ = (border.getDiameter () / 2) + border.getCenterZ ();
 		int x = rand.nextInt ((int) maxLocationX);
 		int z = rand.nextInt ((int) maxLocationZ);
-		return player.world.getTopSolidOrLiquidBlock (new BlockPos (chance (x),64,chance (z)));
+		return player.world.getTopSolidOrLiquidBlock (new BlockPos (chance (x),500,chance (z)));
 	}
 }

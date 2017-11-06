@@ -39,32 +39,34 @@ public class SeenCommand extends SECommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		String resolvedUsername = UsernameResolver.usernameFromNickname (args[0]);
-		if (resolvedUsername == null) {
-			ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("\"#\"",args[0]));
-			return;
-		}
 		if (args.length > 0) {
-			PlayerList players = server.getServer ().getPlayerList ();
-			boolean displayed = false;
-			if (players.getPlayers ().size () > 0)
-				for (EntityPlayerMP user : players.getPlayers ())
-					if (user.getGameProfile ().getId ().equals (UsernameResolver.getPlayerUUID (resolvedUsername))) {
-						ChatHelper.sendMessageTo (sender,(TextFormatting.GREEN + "Player: '" + UsernameCache.getLastKnownUsername (user.getGameProfile ().getId ()) + "' is currently online!"));
-						displayed = true;
-					}
-			if (!displayed) {
-				for (UUID username : UsernameCache.getMap ().keySet ())
-					if (UsernameCache.getLastKnownUsername (username).equals (args[0])) {
-						PlayerData data = DataHelper.loadPlayerData (username);
-						if (data != null) {
-							ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#",TextFormatting.DARK_AQUA + new Date (data.getLastseen ()).toString ()));
+			String resolvedUsername = UsernameResolver.usernameFromNickname (args[0]);
+			if (resolvedUsername == null) {
+				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("\"#\"",args[0]));
+				return;
+			}
+			if (args.length > 0) {
+				PlayerList players = server.getServer ().getPlayerList ();
+				boolean displayed = false;
+				if (players.getPlayers ().size () > 0)
+					for (EntityPlayerMP user : players.getPlayers ())
+						if (user.getGameProfile ().getId ().equals (UsernameResolver.getPlayerUUID (resolvedUsername))) {
+							ChatHelper.sendMessageTo (sender,(TextFormatting.GREEN + "Player: '" + UsernameCache.getLastKnownUsername (user.getGameProfile ().getId ()) + "' is currently online!"));
 							displayed = true;
 						}
-						DataHelper.unloadPlayerData (username);
-					}
-			} else if (!displayed)
-				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
+				if (!displayed) {
+					for (UUID username : UsernameCache.getMap ().keySet ())
+						if (UsernameCache.getLastKnownUsername (username).equals (args[0])) {
+							PlayerData data = DataHelper.loadPlayerData (username);
+							if (data != null) {
+								ChatHelper.sendMessageTo (sender,Local.LAST_SEEN.replaceAll ("#",TextFormatting.DARK_AQUA + new Date (data.getLastseen ()).toString ()));
+								displayed = true;
+							}
+							DataHelper.unloadPlayerData (username);
+						}
+				} else if (!displayed)
+					ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
+			}
 		} else
 			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}

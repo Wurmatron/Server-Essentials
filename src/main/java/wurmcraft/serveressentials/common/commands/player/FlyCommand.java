@@ -60,15 +60,18 @@ public class FlyCommand extends SECommand {
 			if (!playerFound)
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
 		} else {
-			if (!player.capabilities.allowFlying) {
-				player.capabilities.allowFlying = true;
+			if (!player.capabilities.isCreativeMode) {
+				if (!player.capabilities.allowFlying) {
+					player.capabilities.allowFlying = true;
+					ChatHelper.sendMessageTo (player,Local.FLY_ENABLED);
+					player.sendPlayerAbilities ();
+				} else {
+					player.capabilities.allowFlying = false;
+					ChatHelper.sendMessageTo (player,Local.FLY_DISABLED);
+					player.sendPlayerAbilities ();
+				}
+			} else
 				ChatHelper.sendMessageTo (player,Local.FLY_ENABLED);
-				player.sendPlayerAbilities ();
-			} else {
-				player.capabilities.allowFlying = false;
-				ChatHelper.sendMessageTo (player,Local.FLY_DISABLED);
-				player.sendPlayerAbilities ();
-			}
 		}
 	}
 
