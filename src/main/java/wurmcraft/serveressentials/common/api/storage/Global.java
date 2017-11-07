@@ -15,6 +15,7 @@ public class Global {
 	private String[] rules;
 	private String[] motd;
 	private String website;
+	private boolean lockdown;
 
 	public Global (SpawnPoint spawn,String[] rules,String[] motd,String website) {
 		this.spawn = spawn;
@@ -102,5 +103,13 @@ public class Global {
 
 	public String getWebsite () {
 		return website;
+	}
+
+	public boolean getLockDown () {
+		return lockdown;
+	}
+
+	public void setLockDown (boolean lock) {
+		lockdown = lock;
 	}
 }

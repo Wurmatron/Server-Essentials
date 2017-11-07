@@ -58,6 +58,9 @@ public class Local {
 	public static String PREGEN_STARTED;
 	public static String PREGEN;
 	public static String PREGEN_STOP;
+	public static String LOCKDOWN;
+	public static String LOCKDOWN_ENABLED;
+	public static String LOCKDOWN_DISABLED;
 	// Player
 	public static String PLAYER_NOT_FOUND;
 	public static String PLAYER_INVENTORY;

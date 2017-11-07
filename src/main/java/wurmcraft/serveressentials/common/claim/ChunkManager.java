@@ -133,6 +133,8 @@ public class ChunkManager {
 	 @see Claim
 	 */
 	public static final Claim getClaim (BlockPos pos) {
+		if (DataHelper.globalSettings.getLockDown ())
+			return new Claim (null,null);
 		RegionData regionData = getRegion (pos);
 		if (regionData != null)
 			return regionData.getClaim (getIndexForClaim (pos));
@@ -249,7 +251,7 @@ public class ChunkManager {
 					return claim.getOwner ().equals (uuid);
 				} else
 					return claim.getOwner ().equals (uuid);
-			} else
+			} else if (claim.getOwner () != null)
 				return claim.getOwner ().equals (uuid);
 		}
 		return false;

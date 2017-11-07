@@ -172,5 +172,8 @@
   "LINK_CHEST": "§bSelect a chest to link this sign too",
   "SIGN_FIRST": "§cYou must first select a sign to start the linking process!",
   "LINKED": "§aChest linked to sign",
-  "SECURITY_CREATIVE_KICK": "§cYou are not allowed to be in creative"
+  "SECURITY_CREATIVE_KICK": "§cYou are not allowed to be in creative",
+  "LOCKDOWN": "§cLockdown Mode #!",
+  "LOCKDOWN_ENABLED": "§cServer Is Currently In LockDown Mode! (You will be unable to break/interact with anything!)",
+  "LOCKDOWN_DISABLED": "§cLockdown Mode Has Been Disabled"
 }
