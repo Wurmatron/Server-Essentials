@@ -123,6 +123,7 @@ public class Local {
 	public static String RANK_MAX;
 	public static String SPAM;
 	public static String NICK_NONE;
+	public static String PERK_CHANGED;
 	// Teleport
 	public static String TPA_USERNAME_NONE;
 	public static String TPA_USER_NOTFOUND;

@@ -87,6 +87,7 @@ public class LoadHelper {
 		e.registerServerCommand (new RandomTeleportCommand (Perm.RTP));
 		e.registerServerCommand (new BalTopCommand (Perm.BAL_TOP));
 		e.registerServerCommand (new LockDownCommand (Perm.LOCKDOWN));
+		e.registerServerCommand (new PerkCommand (Perm.PERK));
 	}
 
 	public static void loadData () {

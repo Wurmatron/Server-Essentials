@@ -10,6 +10,7 @@ import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +37,7 @@ public class PlayerData {
 	private int onlineTime;
 	private boolean isFrozen;
 	private boolean tpLock;
+	private String[] customData = new String[0];
 
 	public PlayerData (IRank group) {
 		this.rank = group.getName ();
@@ -253,5 +255,31 @@ public class PlayerData {
 
 	public void setTpLock (boolean tpLock) {
 		this.tpLock = tpLock;
+	}
+
+	public int getMaxHomes () {
+		return max_homes;
+	}
+
+	public void setMaxHomes (int max) {
+		max_homes = max;
+		if (max_homes < 0)
+			max_homes = 0;
+	}
+
+	public String[] getCustomData () {
+		return customData;
+	}
+
+	public void setCustomData (String[] data) {
+		this.customData = customData;
+	}
+
+	public void addCustomData (String data) {
+		List <String> custData = new ArrayList <> ();
+		if (customData != null && customData.length > 0)
+			Collections.addAll (custData,customData);
+		custData.add (data);
+		customData = custData.toArray (new String[0]);
 	}
 }

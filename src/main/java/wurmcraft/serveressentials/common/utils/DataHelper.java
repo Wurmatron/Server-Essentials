@@ -929,4 +929,70 @@ public class DataHelper {
 			loadPlayerData (uuid);
 		return getPlayerData (uuid).getMoney ();
 	}
+
+	public static void setMaxHomes (EntityPlayer player,int max) {
+		PlayerData data = getPlayerData (player);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + player.getGameProfile ().getId ().toString () + ".json");
+			data.setMaxHomes (max);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (player.getGameProfile ().getId ());
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+	public static void setMaxVaults (EntityPlayer player,int max) {
+		PlayerData data = getPlayerData (player);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + player.getGameProfile ().getId ().toString () + ".json");
+			data.setVaultSlots (max);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (player.getGameProfile ().getId ());
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+	public static void setCustomData (UUID uuid,String[] f) {
+		PlayerData data = getPlayerData (uuid);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + uuid.toString () + ".json");
+			data.setCustomData (f);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (uuid);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+	public static void addCustomData (UUID uuid,String f) {
+		PlayerData data = getPlayerData (uuid);
+		if (data != null) {
+			File playerFileLocation = new File (playerDataLocation + File.separator + uuid.toString () + ".json");
+			data.addCustomData (f);
+			try {
+				Files.write (Paths.get (playerFileLocation.getAbsolutePath ()),gson.toJson (data).getBytes ());
+				reloadPlayerData (uuid);
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+		}
+	}
+
+
+	public static String[] getCustomData (UUID uuid) {
+		PlayerData data = getPlayerData (uuid);
+		if (data == null)
+			DataHelper.loadPlayerData (uuid);
+		if (data != null)
+			return data.getCustomData ();
+		return new String[0];
+	}
 }

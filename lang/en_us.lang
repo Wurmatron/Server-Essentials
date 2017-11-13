@@ -175,5 +175,6 @@
   "SECURITY_CREATIVE_KICK": "§cYou are not allowed to be in creative",
   "LOCKDOWN": "§cLockdown Mode #!",
   "LOCKDOWN_ENABLED": "§cServer Is Currently In LockDown Mode! (You will be unable to break/interact with anything!)",
-  "LOCKDOWN_DISABLED": "§cLockdown Mode Has Been Disabled"
+  "LOCKDOWN_DISABLED": "§cLockdown Mode Has Been Disabled",
+  "PERK_CHANGED": "§b# Perk has been changed to @"
 }
