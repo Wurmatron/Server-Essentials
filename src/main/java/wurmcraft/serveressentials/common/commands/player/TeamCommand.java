@@ -45,7 +45,7 @@ public class TeamCommand extends SECommand {
 
 	@Override
 	public String getUsage (ICommandSender sender) {
-		return "/team join | leave | create | invite | kick | info";
+		return "/team join | leave | create <name> | invite | kick <name> | info | set <public | color>";
 	}
 
 	@Override
@@ -172,6 +172,7 @@ public class TeamCommand extends SECommand {
 			ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Name: " + team.getName ());
 			ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Owner: " + UsernameCache.getLastKnownUsername (team.getLeader ()));
 			ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Open: " + team.isPublic ());
+			ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Color: " + team.getTeamColor ().getFriendlyName ());
 			if (team.getMembers ().size () > 0) {
 				List <String> members = new ArrayList <> ();
 				for (UUID mem : team.getMembers ().keySet ())
@@ -196,5 +197,43 @@ public class TeamCommand extends SECommand {
 			ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.SPACER);
 		} else
 			ChatHelper.sendMessageTo (player,getUsage (sender));
+	}
+
+	@SubCommand
+	public void set (ICommandSender sender,String[] args) {
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		Team team = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam ();
+		if (team != null && team.getLeader ().equals (player.getGameProfile ().getId ())) {
+			if (args.length == 0)
+				ChatHelper.sendMessageTo (player,getUsage (sender));
+			else if (args.length > 1 && args[0].equalsIgnoreCase ("public")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase ("true") || args[1].equalsIgnoreCase ("yes")) {
+					team.setPublic (true);
+					DataHelper.saveTeam (team);
+				} else if (args.length > 1 && args[1].equalsIgnoreCase ("false") || args[1].equalsIgnoreCase ("no")) {
+					team.setPublic (false);
+					DataHelper.saveTeam (team);
+					ChatHelper.sendMessageTo (player,Local.TEAM_SET_VALUE.replaceAll ("#","public").replaceAll ("$",args[1]));
+				} else
+					ChatHelper.sendMessageTo (player,Local.TEAM_INVAID_VALUE.replaceAll ("#",args[0]).replaceAll ("$",args[1]));
+			} else if (args.length > 1 && args[0].equalsIgnoreCase ("color")) {
+				TextFormatting color = TextFormatting.getValueByName (args[1]);
+				if (color != null) {
+					team.setColor (color);
+					DataHelper.saveTeam (team);
+					ChatHelper.sendMessageTo (player,Local.TEAM_SET_VALUE.replaceAll ("#","color").replaceAll ("$",color.getFriendlyName ()));
+				} else {
+					ChatHelper.sendMessageTo (player,getUsage (sender));
+					List <String> colors = new ArrayList <> ();
+					for (TextFormatting te : TextFormatting.values ())
+						colors.add (te.getFriendlyName ());
+					ChatHelper.sendMessageTo (player,Strings.join (colors.toArray (new String[0])," "));
+				}
+			} else
+				ChatHelper.sendMessageTo (player,getUsage (sender));
+		} else if (team != null)
+			ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.TEAM_LEADER_PERM);
+		else
+			ChatHelper.sendMessageTo (player,TextFormatting.RED + Local.TEAM_NONE);
 	}
 }

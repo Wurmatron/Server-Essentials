@@ -1,5 +1,7 @@
 package wurmcraft.serveressentials.common.api.team;
 
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -13,11 +15,13 @@ public class Team implements ITeam {
 	private boolean publi;
 	private HashMap <UUID, String> members = new HashMap <> ();
 	private ArrayList <UUID> requetedPlayers = new ArrayList <> ();
+	private TextFormatting teamColor;
 
 	public Team (String name,UUID owner,boolean publi) {
 		this.teamName = name;
 		this.leader = owner;
 		this.publi = publi;
+		teamColor = TextFormatting.GRAY;
 	}
 
 	@Override
@@ -72,5 +76,18 @@ public class Team implements ITeam {
 	public void addPossibleMember (UUID name) {
 		if (!requetedPlayers.contains (name))
 			requetedPlayers.add (name);
+	}
+
+	@Override
+	public TextFormatting getTeamColor () {
+		return teamColor;
+	}
+
+	public void setPublic (boolean value) {
+		this.publi = value;
+	}
+
+	public void setColor (TextFormatting value) {
+		this.teamColor = value;
 	}
 }

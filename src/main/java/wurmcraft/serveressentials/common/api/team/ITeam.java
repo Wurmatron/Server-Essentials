@@ -1,5 +1,7 @@
 package wurmcraft.serveressentials.common.api.team;
 
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,6 +32,11 @@ public interface ITeam {
 	 Can anyone join
 	 */
 	boolean isPublic ();
+
+	/**
+	 Color Used To Display Team Name
+	 */
+	TextFormatting getTeamColor ();
 
 	/**
 	 Players that have been requested to join the team

@@ -138,6 +138,8 @@
   "TEAM_KICKED_OTHER": "§cYou have forfully kicked \"#\" from your team",
   "TEAMADMIN_DISBAND": "§4You have disbanded the \"#\" team!",
   "TEAM_NONE": "§cNo Team",
+  "TEAM_SET_VALUE": "# has been set to $",
+  "TEAM_INVAID_VALUE": "# is not a valid value for $",
   "CLAIM_BREAK": "§cYou do not have §6#\u0027s§c permission to break this!",
   "CLAIM_PLACE": "§cYou do not have §6#\u0027s§c permission to place a block here!",
   "CLAIM_INTERACT": "§cYou do not have §6#\u0027s§c permission to interact on that block",

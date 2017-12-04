@@ -159,6 +159,8 @@ public class Local {
 	public static String TEAM_KICKED_OTHER;
 	public static String TEAMADMIN_DISBAND;
 	public static String TEAM_NONE;
+	public static String TEAM_SET_VALUE;
+	public static String TEAM_INVAID_VALUE;
 	// Protection
 	public static String CLAIM_BREAK;
 	public static String CLAIM_PLACE;
