@@ -1,6 +1,8 @@
 package wurmcraft.serveressentials.common.security;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
@@ -59,5 +61,9 @@ public class SecurityUtils {
 		return false;
 	}
 
-
+	public static List <String> getPlayerMods (EntityPlayer player) {
+		EntityPlayerMP playerMP = (EntityPlayerMP) player;
+		NetworkDispatcher network = NetworkDispatcher.get (playerMP.connection.netManager);
+		return new ArrayList <> (network.getModList ().keySet ());
+	}
 }

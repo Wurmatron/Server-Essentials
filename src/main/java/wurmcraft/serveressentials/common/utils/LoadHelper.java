@@ -88,6 +88,7 @@ public class LoadHelper {
 		e.registerServerCommand (new BalTopCommand (Perm.BAL_TOP));
 		e.registerServerCommand (new LockDownCommand (Perm.LOCKDOWN));
 		e.registerServerCommand (new PerkCommand (Perm.PERK));
+		e.registerServerCommand (new ModListCommand (Perm.MODLIST));
 	}
 
 	public static void loadData () {

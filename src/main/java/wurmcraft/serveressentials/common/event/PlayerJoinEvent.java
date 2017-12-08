@@ -1,6 +1,8 @@
 package wurmcraft.serveressentials.common.event;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
@@ -8,6 +10,7 @@ import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Local;
+import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.DataHelper;
 
 public class PlayerJoinEvent {
@@ -34,5 +37,11 @@ public class PlayerJoinEvent {
 		DataHelper.handleAndUpdatePlayTime ();
 		if (DataHelper.getPlayerData (e.player.getGameProfile ().getId ()).isFrozen ())
 			PlayerTickEvent.addFrozen (e.player,new BlockPos (e.player.posX,e.player.posY,e.player.posZ));
+		if (!SecurityUtils.isTrustedMember (e.player) && DataHelper.globalSettings.getBannedMods ().length > 0) {
+			for (String id : SecurityUtils.getPlayerMods (e.player))
+				for (String modid : DataHelper.globalSettings.getBannedMods ())
+					if (modid.equalsIgnoreCase (id))
+						((EntityPlayerMP) e.player).connection.disconnect (new TextComponentString (Local.BANNED_MOD.replaceAll ("#",id)));
+		}
 	}
 }

@@ -61,6 +61,7 @@ public class Local {
 	public static String LOCKDOWN;
 	public static String LOCKDOWN_ENABLED;
 	public static String LOCKDOWN_DISABLED;
+	public static String BANNED_MOD;
 	// Player
 	public static String PLAYER_NOT_FOUND;
 	public static String PLAYER_INVENTORY;

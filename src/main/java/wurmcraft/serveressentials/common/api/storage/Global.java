@@ -16,12 +16,14 @@ public class Global {
 	private String[] motd;
 	private String website;
 	private boolean lockdown;
+	private String[] bannedMods;
 
 	public Global (SpawnPoint spawn,String[] rules,String[] motd,String website) {
 		this.spawn = spawn;
 		this.rules = rules;
 		this.motd = motd;
 		this.website = website;
+		bannedMods = new String[0];
 	}
 
 	public SpawnPoint getSpawn () {
@@ -111,5 +113,9 @@ public class Global {
 
 	public void setLockDown (boolean lock) {
 		lockdown = lock;
+	}
+
+	public String[] getBannedMods () {
+		return bannedMods;
 	}
 }
