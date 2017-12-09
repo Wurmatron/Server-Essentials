@@ -64,7 +64,7 @@ public class TpHereCommand extends SECommand {
 	}
 
 	@Override
-	public List<String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
+	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> args0 = autoCompleteUsername (args,0);
 		if (UsernameResolver.getPlayer (args[0]) != null)
 			return autoCompleteUsername (args,1);

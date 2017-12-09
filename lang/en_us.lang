@@ -179,5 +179,9 @@
   "LOCKDOWN_ENABLED": "§cServer Is Currently In LockDown Mode! (You will be unable to break/interact with anything!)",
   "LOCKDOWN_DISABLED": "§cLockdown Mode Has Been Disabled",
   "PERK_CHANGED": "§b# Perk has been changed to @",
-  "BANNED_MOD": "# has been banned, remove the mod and try again!"
+  "BANNED_MOD": "# has been banned, remove the mod and try again!",
+  "ONLINE_TIME": "Online Time: #",
+  "EXPERIENCE": "Experince: #",
+  "BALANCE": "Balance: #",
+  "WEBSITE": "Website #"
 }

@@ -34,80 +34,16 @@ public class MarketEvent {
 		if (e.getWorld ().getTileEntity (e.getPos ()) != null && e.getWorld ().getTileEntity (e.getPos ()) instanceof TileEntitySign) {
 			String[] signText = getLines (e.getWorld (),e.getPos ());
 			if (signText[0].equalsIgnoreCase ("[IBuy]") && Settings.buySign) {
-				if (isValid (e.getWorld (),e.getPos ())) {
-					if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
-						if (addStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
-							DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) - getPrice (e.getWorld (),e.getPos ()));
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getCount () + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
-						} else
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PLAYER_INVENTORY_FULL);
-					} else
-						ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.MONEY_NONE);
-				} else if (getPrice (e.getWorld (),e.getPos ()) >= 0 && e.getEntityPlayer ().getHeldItemMainhand () != null && getStack (e.getWorld (),e.getPos ()) == null) {
-					setShopBuy (e.getWorld (),e.getPos (),e.getEntityPlayer ().getHeldItemMainhand ());
-				} else
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
+				handleIBuySign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
 			} else if (signText[0].equalsIgnoreCase ("[ISell]") && Settings.sellSign) {
-				if (isValid (e.getWorld (),e.getPos ())) {
-					if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
-						if (hasStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
-							consumeStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()));
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_SOLD.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getCount () + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()).replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())));
-							DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) + getPrice (e.getWorld (),e.getPos ()));
-						} else
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_NONE.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
-					} else
-						ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.MONEY_NONE);
-				} else if (getPrice (e.getWorld (),e.getPos ()) >= 0 && e.getEntityPlayer ().getHeldItemMainhand () != null && getStack (e.getWorld (),e.getPos ()) == null) {
-					setShopBuy (e.getWorld (),e.getPos (),e.getEntityPlayer ().getHeldItemMainhand ());
-				} else
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
+				handleISellSign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
 			} else if (signText[0].equalsIgnoreCase ("[Buy]") && Settings.buySign) {
-				if (isValid (e.getWorld (),e.getPos ()) && hasValidLink (e.getWorld (),e.getPos ())) {
-					if (canBuy (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()))) {
-						if (DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) >= getPrice (e.getWorld (),e.getPos ())) {
-							if (addStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
-								consumeStack (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()));
-								DataHelper.setMoney (e.getEntityPlayer ().getGameProfile ().getId (),DataHelper.getMoney (e.getEntityPlayer ().getGameProfile ().getId ()) - getPrice (e.getWorld (),e.getPos ()));
-								DataHelper.setMoney (getOwner (e.getWorld (),e.getPos ()),DataHelper.getMoney (getOwner (e.getWorld (),e.getPos ())) + getPrice (e.getWorld (),e.getPos ()));
-								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PURCHASE.replaceAll ("@","" + getPrice (e.getWorld (),e.getPos ())).replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getCount () + "x " + getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
-							} else
-								ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.PLAYER_INVENTORY_FULL);
-						} else
-							ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.MONEY_NONE);
-					} else
-						ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
-				} else if (getPrice (e.getWorld (),e.getPos ()) >= 0 && e.getEntityPlayer ().getHeldItemMainhand () != null && e.getEntityPlayer ().getHeldItemMainhand ().isItemEqual (linkStack)) {
-					shops.put (e.getEntityPlayer ().getGameProfile ().getId (),e.getPos ());
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.LINK_CHEST);
-				} else
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
+				handleBuySign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
 			} else if (signText[0].equalsIgnoreCase ("[Sell]") && Settings.sellSign) {
-				if (isValid (e.getWorld (),e.getPos ()) && hasValidLink (e.getWorld (),e.getPos ()) && canSell (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()))) {
-					if (hasStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()))) {
-						consumeStack (e.getEntityPlayer (),getStack (e.getWorld (),e.getPos ()));
-						addStack (e.getWorld (),getChest (e.getWorld (),e.getPos ()),getStack (e.getWorld (),e.getPos ()));
-						DataHelper.setMoney (getOwner (e.getWorld (),e.getPos ()),DataHelper.getMoney (getOwner (e.getWorld (),e.getPos ())) + getPrice (e.getWorld (),e.getPos ()));
-					} else
-						ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_NONE.replaceAll ("#",getStack (e.getWorld (),e.getPos ()).getDisplayName ()));
-				} else if (getPrice (e.getWorld (),e.getPos ()) >= 0 && e.getEntityPlayer ().getHeldItemMainhand () != null && e.getEntityPlayer ().getHeldItemMainhand ().isItemEqual (linkStack)) {
-					shops.put (e.getEntityPlayer ().getGameProfile ().getId (),e.getPos ());
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.LINK_CHEST);
-				} else
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_INVALID);
+				handleSellSign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
+			} else if (e.getWorld ().getTileEntity (e.getPos ()) != null && isInventory (e.getWorld (),e.getPos ())) {
+				handleLinking (e.getEntityPlayer (),e.getWorld (),e.getPos ());
 			}
-		} else if (e.getWorld ().getTileEntity (e.getPos ()) != null && isInventory (e.getWorld (),e.getPos ())) {
-			if (shops.containsKey (e.getEntityPlayer ().getGameProfile ().getId ())) {
-				if (getStackForSign (e.getWorld (),e.getPos ()) != null) {
-					setShopBuy (e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()),getStackForSign (e.getWorld (),e.getPos ()));
-					setOwner (e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()),e.getEntityPlayer ().getGameProfile ().getId ());
-					setChest (e.getWorld (),shops.get (e.getEntityPlayer ().getGameProfile ().getId ()),e.getPos ());
-					shops.remove (e.getEntityPlayer ().getGameProfile ().getId ());
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.LINKED);
-				} else
-					ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.ITEM_NONE);
-			} else if (e.getEntityPlayer ().getHeldItemMainhand () != null && e.getEntityPlayer ().getHeldItemMainhand ().isItemEqual (linkStack))
-				ChatHelper.sendMessageTo (e.getEntityPlayer (),Local.SIGN_FIRST);
 		}
 	}
 
@@ -266,5 +202,89 @@ public class MarketEvent {
 				inv.setInventorySlotContents (index,stack);
 				break;
 			}
+	}
+
+	private void handleIBuySign (EntityPlayer player,World world,BlockPos pos) {
+		if (isValid (world,pos)) {
+			if (DataHelper.getMoney (player.getGameProfile ().getId ()) >= getPrice (world,pos)) {
+				if (addStack (player,getStack (world,pos))) {
+					DataHelper.setMoney (player.getGameProfile ().getId (),DataHelper.getMoney (player.getGameProfile ().getId ()) - getPrice (world,pos));
+					ChatHelper.sendMessageTo (player,Local.PURCHASE.replaceAll ("@","" + getPrice (world,pos)).replaceAll ("#",getStack (world,pos).getCount () + "x " + getStack (world,pos).getDisplayName ()));
+				} else
+					ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_FULL);
+			} else
+				ChatHelper.sendMessageTo (player,Local.MONEY_NONE);
+		} else if (getPrice (world,pos) >= 0 && player.getHeldItemMainhand () != null && getStack (world,pos) == null) {
+			setShopBuy (world,pos,player.getHeldItemMainhand ());
+		} else
+			ChatHelper.sendMessageTo (player,Local.SIGN_INVALID);
+	}
+
+	private void handleISellSign (EntityPlayer player,World world,BlockPos pos) {
+		if (isValid (world,pos)) {
+			if (DataHelper.getMoney (player.getGameProfile ().getId ()) >= getPrice (world,pos)) {
+				if (hasStack (player,getStack (world,pos))) {
+					consumeStack (player,getStack (world,pos));
+					ChatHelper.sendMessageTo (player,Local.ITEM_SOLD.replaceAll ("#",getStack (world,pos).getCount () + "x " + getStack (world,pos).getDisplayName ()).replaceAll ("@","" + getPrice (world,pos)));
+					DataHelper.setMoney (player.getGameProfile ().getId (),DataHelper.getMoney (player.getGameProfile ().getId ()) + getPrice (world,pos));
+				} else
+					ChatHelper.sendMessageTo (player,Local.ITEM_NONE.replaceAll ("#",getStack (world,pos).getDisplayName ()));
+			} else
+				ChatHelper.sendMessageTo (player,Local.MONEY_NONE);
+		} else if (getPrice (world,pos) >= 0 && player.getHeldItemMainhand () != null && getStack (world,pos) == null) {
+			setShopBuy (world,pos,player.getHeldItemMainhand ());
+		} else
+			ChatHelper.sendMessageTo (player,Local.SIGN_INVALID);
+	}
+
+	private void handleBuySign (EntityPlayer player,World world,BlockPos pos) {
+		if (isValid (world,pos) && hasValidLink (world,pos)) {
+			if (canBuy (world,getChest (world,pos),getStack (world,pos))) {
+				if (DataHelper.getMoney (player.getGameProfile ().getId ()) >= getPrice (world,pos)) {
+					if (addStack (player,getStack (world,pos))) {
+						consumeStack (world,getChest (world,pos),getStack (world,pos));
+						DataHelper.setMoney (player.getGameProfile ().getId (),DataHelper.getMoney (player.getGameProfile ().getId ()) - getPrice (world,pos));
+						DataHelper.setMoney (getOwner (world,pos),DataHelper.getMoney (getOwner (world,pos)) + getPrice (world,pos));
+						ChatHelper.sendMessageTo (player,Local.PURCHASE.replaceAll ("@","" + getPrice (world,pos)).replaceAll ("#",getStack (world,pos).getCount () + "x " + getStack (world,pos).getDisplayName ()));
+					} else
+						ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_FULL);
+				} else
+					ChatHelper.sendMessageTo (player,Local.MONEY_NONE);
+			} else
+				ChatHelper.sendMessageTo (player,Local.SIGN_INVALID);
+		} else if (getPrice (world,pos) >= 0 && player.getHeldItemMainhand () != null && player.getHeldItemMainhand ().isItemEqual (linkStack)) {
+			shops.put (player.getGameProfile ().getId (),pos);
+			ChatHelper.sendMessageTo (player,Local.LINK_CHEST);
+		} else
+			ChatHelper.sendMessageTo (player,Local.SIGN_INVALID);
+	}
+
+	private void handleSellSign (EntityPlayer player,World world,BlockPos pos) {
+		if (isValid (world,pos) && hasValidLink (world,pos) && canSell (world,getChest (world,pos),getStack (world,pos))) {
+			if (hasStack (player,getStack (world,pos))) {
+				consumeStack (player,getStack (world,pos));
+				addStack (world,getChest (world,pos),getStack (world,pos));
+				DataHelper.setMoney (getOwner (world,pos),DataHelper.getMoney (getOwner (world,pos)) + getPrice (world,pos));
+			} else
+				ChatHelper.sendMessageTo (player,Local.ITEM_NONE.replaceAll ("#",getStack (world,pos).getDisplayName ()));
+		} else if (getPrice (world,pos) >= 0 && player.getHeldItemMainhand () != null && player.getHeldItemMainhand ().isItemEqual (linkStack)) {
+			shops.put (player.getGameProfile ().getId (),pos);
+			ChatHelper.sendMessageTo (player,Local.LINK_CHEST);
+		} else
+			ChatHelper.sendMessageTo (player,Local.SIGN_INVALID);
+	}
+
+	private void handleLinking (EntityPlayer player,World world,BlockPos pos) {
+		if (shops.containsKey (player.getGameProfile ().getId ())) {
+			if (getStackForSign (world,pos) != null) {
+				setShopBuy (world,shops.get (player.getGameProfile ().getId ()),getStackForSign (world,pos));
+				setOwner (world,shops.get (player.getGameProfile ().getId ()),player.getGameProfile ().getId ());
+				setChest (world,shops.get (player.getGameProfile ().getId ()),pos);
+				shops.remove (player.getGameProfile ().getId ());
+				ChatHelper.sendMessageTo (player,Local.LINKED);
+			} else
+				ChatHelper.sendMessageTo (player,Local.ITEM_NONE);
+		} else if (player.getHeldItemMainhand () != null && player.getHeldItemMainhand ().isItemEqual (linkStack))
+			ChatHelper.sendMessageTo (player,Local.SIGN_FIRST);
 	}
 }

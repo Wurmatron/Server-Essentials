@@ -125,6 +125,9 @@ public class Local {
 	public static String SPAM;
 	public static String NICK_NONE;
 	public static String PERK_CHANGED;
+	public static String ONLINE_TIME;
+	public static String EXPERIENCE;
+	public static String BALANCE;
 	// Teleport
 	public static String TPA_USERNAME_NONE;
 	public static String TPA_USER_NOTFOUND;
@@ -177,6 +180,7 @@ public class Local {
 	public static String CHANNEL_PERMS;
 	public static String CHANNEL_INVALID;
 	public static String INVALID_NUMBER;
+	public static String WEBSITE;
 	// Item
 	public static String NO_ITEM;
 	public static String NAME_CHANGED;

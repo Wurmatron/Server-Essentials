@@ -85,23 +85,23 @@ public class AutoRankCommand extends SECommand {
 
 	private String checkAndFormatOnlineTime (PlayerData data,AutoRank rank) {
 		if (data.getOnlineTime () >= rank.getPlayTime ())
-			return TextFormatting.AQUA + "Online Time: " + TextFormatting.GREEN + rank.getPlayTime ();
+			return TextFormatting.AQUA + Local.ONLINE_TIME.replaceAll ("#",TextFormatting.GREEN + "" + rank.getPlayTime ());
 		else
-			return TextFormatting.AQUA + "Online Time: " + TextFormatting.RED + rank.getPlayTime ();
+			return TextFormatting.AQUA + Local.ONLINE_TIME.replaceAll ("#",TextFormatting.RED + "" + rank.getPlayTime ());
 	}
 
 	private String checkAndFormatExp (EntityPlayer player,AutoRank rank) {
 		if (player.experienceLevel >= rank.getExp ())
-			return TextFormatting.AQUA + "EXP: " + TextFormatting.GREEN + rank.getExp ();
+			return TextFormatting.AQUA + Local.EXPERIENCE.replaceAll ("#",TextFormatting.GREEN + "" + rank.getExp ());
 		else
-			return TextFormatting.AQUA + "EXP: " + TextFormatting.RED + rank.getExp ();
+			return TextFormatting.AQUA + Local.EXPERIENCE.replaceAll ("#",TextFormatting.RED + "" + rank.getExp ());
 	}
 
 	private String checkAndFormatBal (PlayerData data,AutoRank rank) {
 		if (data.getMoney () >= rank.getBalance ())
-			return TextFormatting.AQUA + "Balance: " + TextFormatting.GREEN + rank.getBalance ();
+			return TextFormatting.AQUA + Local.BALANCE.replaceAll ("#",TextFormatting.GREEN + "" + rank.getBalance ());
 		else
-			return TextFormatting.AQUA + "Balance: " + TextFormatting.RED + rank.getBalance ();
+			return TextFormatting.AQUA + Local.BALANCE.replaceAll ("#",TextFormatting.RED + "" + rank.getBalance ());
 	}
 
 
