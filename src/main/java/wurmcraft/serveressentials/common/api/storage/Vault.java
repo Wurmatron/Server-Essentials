@@ -3,7 +3,7 @@ package wurmcraft.serveressentials.common.api.storage;
 import net.minecraft.item.ItemStack;
 import wurmcraft.serveressentials.common.utils.StackConverter;
 
-public class Vault {
+public class Vault implements IDataType {
 
 	private String name;
 	private String[] items = new String[54];
@@ -38,5 +38,10 @@ public class Vault {
 
 	public void setName (String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getID () {
+		return name;
 	}
 }

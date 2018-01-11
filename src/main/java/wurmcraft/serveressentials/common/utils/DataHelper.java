@@ -61,7 +61,7 @@ public class DataHelper {
 			if (data != null)
 				loadedPlayers.put (player.getGameProfile ().getId (),data);
 			else {
-				PlayerData newData = new PlayerData (RankManager.getDefaultRank ());
+				PlayerData newData = new PlayerData (player.getGameProfile ().getId (),RankManager.getDefaultRank ());
 				newData.setFirstJoin ();
 				createPlayerFile (player.getGameProfile ().getId (),newData);
 				loadedPlayers.put (player.getGameProfile ().getId (),newData);

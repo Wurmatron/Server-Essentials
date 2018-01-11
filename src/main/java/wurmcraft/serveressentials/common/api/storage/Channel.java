@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Channel {
+public class Channel implements IDataType {
 
 	private String name;
 	private String prefix;
@@ -113,5 +113,10 @@ public class Channel {
 		List <String> filters = Arrays.asList (getFilter ());
 		Collections.addAll (filters,filter);
 		setFilter (filters.toArray (new String[0]));
+	}
+
+	@Override
+	public String getID () {
+		return name;
 	}
 }

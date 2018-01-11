@@ -3,13 +3,25 @@ package wurmcraft.serveressentials.common.config;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.io.File;
 
 public class ConfigHandler {
+
+	public static final File saveLocation = new File (FMLCommonHandler.instance ().getMinecraftServerInstance ().getDataDirectory () + File.separator + Global.NAME);
+	public static final File playerDataLocation = new File (saveLocation + File.separator + "Player-Data" + File.separator);
+	public static final File warpLocation = new File (saveLocation + File.separator + "Warp" + File.separator);
+	public static final File groupLocation = new File (saveLocation + File.separator + "Group" + File.separator);
+	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
+	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
+	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
+	public static final File kitLocation = new File (saveLocation + File.separator + "Kits" + File.separator);
+	public static final File autoRankLocation = new File (saveLocation + File.separator + "AutoRank" + File.separator);
 
 	public static File location;
 	public static Configuration config;

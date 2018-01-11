@@ -1,7 +1,7 @@
 package wurmcraft.serveressentials.common.api.storage;
 
 
-public class AutoRank {
+public class AutoRank implements IDataType {
 
 	private int playTime;
 	private int balance;
@@ -64,5 +64,10 @@ public class AutoRank {
 
 	public void setNextRank (String nextRank) {
 		this.nextRank = nextRank;
+	}
+
+	@Override
+	public String getID () {
+		return nextRank;
 	}
 }

@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.api.storage;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.team.ITeam;
 import wurmcraft.serveressentials.common.api.team.Team;
@@ -8,15 +9,17 @@ import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.TeamManager;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  Used to hold the data about a player
  */
-public class PlayerData {
+public class PlayerData implements IDataType {
 
 	private String rank;
 	private String nickname;
@@ -38,9 +41,13 @@ public class PlayerData {
 	private boolean isFrozen;
 	private boolean tpLock;
 	private String[] customData = new String[0];
+	private UUID uuid;
 
-	public PlayerData (IRank group) {
+	public PlayerData() {}
+
+	public PlayerData (UUID uuid,IRank group) {
 		this.rank = group.getName ();
+		this.uuid = uuid;
 	}
 
 	public Home[] getHomes () {
@@ -281,5 +288,10 @@ public class PlayerData {
 			Collections.addAll (custData,customData);
 		custData.add (data);
 		customData = custData.toArray (new String[0]);
+	}
+
+	@Override
+	public String getID () {
+		return uuid.toString ();
 	}
 }

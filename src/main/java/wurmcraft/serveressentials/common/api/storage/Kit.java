@@ -6,7 +6,7 @@ import wurmcraft.serveressentials.common.utils.StackConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Kit {
+public class Kit implements IDataType {
 
 	private String name;
 	private String[] items;
@@ -49,5 +49,10 @@ public class Kit {
 		for (ItemStack item : items)
 			stack.add (StackConverter.convertToString (item));
 		this.items = stack.toArray (new String[0]);
+	}
+
+	@Override
+	public String getID () {
+		return name;
 	}
 }
