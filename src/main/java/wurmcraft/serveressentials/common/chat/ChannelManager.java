@@ -1,8 +1,9 @@
 package wurmcraft.serveressentials.common.chat;
 
 import wurmcraft.serveressentials.common.api.storage.Channel;
+import wurmcraft.serveressentials.common.api.storage.IDataType;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.config.Settings;
-import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.*;
 
@@ -20,7 +21,7 @@ public class ChannelManager {
 		}
 	}
 
-	public static List <Channel> getChannels () {
+	public static List <IDataType> getChannels () {
 		return Collections.unmodifiableList (channels);
 	}
 
@@ -35,7 +36,7 @@ public class ChannelManager {
 		else if (channels.size () > 0)
 			return channels.get (0);
 		else {
-			DataHelper.createDefaultChannels ();
+			ConfigHandler.createDefaultChannels ();
 			return getDefaultChannel ();
 		}
 	}

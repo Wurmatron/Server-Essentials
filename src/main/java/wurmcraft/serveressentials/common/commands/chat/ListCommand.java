@@ -8,11 +8,13 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class ListCommand extends SECommand {
 			pList.add (player.getGameProfile ().getId ());
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);
 		for (UUID name : pList) {
-			IRank rank = DataHelper.getPlayerData (name).getRank ();
+			IRank rank = ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,name.toString ())).getRank ();
 			ChatHelper.sendMessageTo (sender,TextFormatting.AQUA + UsernameCache.getLastKnownUsername (name) + " : " + rank.getName (),clickEvent (UsernameCache.getLastKnownUsername (name)),null);
 		}
 		ChatHelper.sendMessageTo (sender,TextFormatting.RED + Local.SPACER);

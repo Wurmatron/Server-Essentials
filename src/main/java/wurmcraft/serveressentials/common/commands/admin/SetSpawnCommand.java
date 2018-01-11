@@ -10,7 +10,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class SetSpawnCommand extends SECommand {
 
@@ -31,13 +31,13 @@ public class SetSpawnCommand extends SECommand {
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		EntityPlayer player = (EntityPlayer) sender;
-		DataHelper.globalSettings.setSpawn (new SpawnPoint (player.getPosition (),player.rotationYaw,player.rotationPitch));
+		DataHelper2.globalSettings.setSpawn (new SpawnPoint (player.getPosition (),player.rotationYaw,player.rotationPitch));
 		player.world.setSpawnPoint (player.getPosition ());
-		ChatHelper.sendMessageTo (player,Local.SPAWN_SET.replaceAll ("@","" + DataHelper.globalSettings.getSpawn ().dimension),hoverEvent (DataHelper.globalSettings.getSpawn ()));
+		ChatHelper.sendMessageTo (player,Local.SPAWN_SET.replaceAll ("@","" + DataHelper2.globalSettings.getSpawn ().dimension),hoverEvent (DataHelper2.globalSettings.getSpawn ()));
 	}
 
 	public HoverEvent hoverEvent (SpawnPoint home) {
-		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
+		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,ChatHelper.displayLocation (home));
 	}
 
 	@Override

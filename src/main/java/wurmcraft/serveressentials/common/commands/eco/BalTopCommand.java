@@ -10,8 +10,9 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -48,13 +49,13 @@ public class BalTopCommand extends SECommand {
 		HashMap <UUID, PlayerData> dataMap = new HashMap <UUID, PlayerData> () {
 			{
 				if (args.length == 0) {
-					UsernameCache.getMap ().forEach ((uuid,s) -> put (uuid,DataHelper.loadPlayerData (uuid)));
+					UsernameCache.getMap ().forEach ((uuid,s) -> put (uuid,((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uuid.toString ()))));
 				} else {
 					UsernameResolver.AbstractUsernameCollection <String> usernames = new UsernameResolver.AbstractUsernameCollection <String> (UsernameCache.getMap ().values ());
 					for (String arg : args) {
 						UsernameCache.getMap ().forEach ((uuid,s) -> {
 							if (s.equalsIgnoreCase (arg))
-								put (uuid,DataHelper.loadPlayerData (uuid));
+								put (uuid,(((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uuid.toString ()))));
 							else if (!usernames.contains (s))
 								unknownPlayers.add (s);
 						});

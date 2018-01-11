@@ -1,6 +1,8 @@
 package wurmcraft.serveressentials.common.utils;
 
+import wurmcraft.serveressentials.common.api.storage.IDataType;
 import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.reference.Keys;
 
 import java.util.*;
 
@@ -16,7 +18,7 @@ public class TeamManager {
 					return false;
 			teams.add (team);
 			ownerTeam.put (team.getLeader (),team);
-			DataHelper.createTeam (team,false);
+			DataHelper2.createIfNonExist (Keys.TEAM,team);
 			return true;
 		}
 		return false;
@@ -36,13 +38,13 @@ public class TeamManager {
 		return null;
 	}
 
-	public static List <Team> getTeams () {
+	public static List <IDataType> getTeams () {
 		return Collections.unmodifiableList (teams);
 	}
 
 	public static void removeTeam (Team team) {
 		teams.remove (team);
 		ownerTeam.remove (team.getLeader ());
-		DataHelper.deleteTeam (team);
+		DataHelper2.delete (Keys.TEAM,team);
 	}
 }

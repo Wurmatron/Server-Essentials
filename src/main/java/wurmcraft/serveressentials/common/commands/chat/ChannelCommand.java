@@ -8,13 +8,16 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.Channel;
+import wurmcraft.serveressentials.common.api.storage.IDataType;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.SubCommand;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -49,7 +52,9 @@ public class ChannelCommand extends SECommand {
 		if (args.length == 1 && !args[0].equalsIgnoreCase ("list")) {
 			Channel channel = ChannelManager.getFromName (args[0]);
 			if (channel != null && hasPerm (player,"channel." + channel.getName ())) {
-				DataHelper.setChannel (player.getGameProfile ().getId (),channel);
+				PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
+				data.setCurrentChannel (channel);
+				DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 				ChatHelper.sendMessageTo (player,Local.CHANNEL_CHANGED.replaceAll ("#",channel.getName ()));
 			} else if (channel != null)
 				ChatHelper.sendMessageTo (player,Local.CHANNEL_PERMS.replaceAll ("#",channel.getName ()));
@@ -60,7 +65,7 @@ public class ChannelCommand extends SECommand {
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		return autoCompleteChannel (args,ChannelManager.getChannels ());
+		return autoComplete (args,ChannelManager.getChannels ());
 	}
 
 	@Override
@@ -76,10 +81,10 @@ public class ChannelCommand extends SECommand {
 	@SubCommand
 	public void list (ICommandSender sender,String[] args) {
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		List <Channel> channels = ChannelManager.getChannels ();
+		List <IDataType> channels = ChannelManager.getChannels ();
 		List <String> channelNames = new ArrayList <> ();
-		for (Channel channel : channels)
-			channelNames.add (channel.getName ());
+		for (IDataType channel : channels)
+			channelNames.add (channel.getID ());
 		ChatHelper.sendMessageTo (player,TextFormatting.AQUA + "Channels: " + TextFormatting.GOLD + Strings.join (channelNames,", "));
 	}
 

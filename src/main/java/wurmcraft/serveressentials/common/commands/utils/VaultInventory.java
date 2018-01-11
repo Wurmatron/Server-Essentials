@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import wurmcraft.serveressentials.common.api.storage.Vault;
-import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.UUID;
 
@@ -44,6 +43,7 @@ public class VaultInventory extends InventoryBasic {
 	@Override
 	public void markDirty () {
 		super.markDirty ();
-		DataHelper.saveVault (owner,vault);
+		// TODO DataHelper2
+		//		DataHelper.saveVault (owner,vault);
 	}
 }

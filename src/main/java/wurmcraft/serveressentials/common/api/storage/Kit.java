@@ -12,6 +12,10 @@ public class Kit implements IDataType {
 	private String[] items;
 	private int time;
 
+	public Kit () {
+
+	}
+
 	public Kit (String name,ItemStack[] items,int time) {
 		this.name = name;
 		List <String> stack = new ArrayList <> ();

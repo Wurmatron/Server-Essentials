@@ -9,9 +9,10 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -43,13 +44,13 @@ public class MoneyCommand extends SECommand {
 		if (args.length == 0) {
 			if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+				PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 				ChatHelper.sendMessageTo (player,Local.CURRENT_MONEY.replaceAll ("#","" + data.getMoney ()));
 			}
 		} else if (args.length == 1) {
 			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			if (player != null) {
-				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+				PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 				ChatHelper.sendMessageTo (sender,Local.CURRENT_MONEY_OTHER.replaceAll ("#","" + UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())).replaceAll ("%","" + data.getMoney ()));
 			} else
 				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));

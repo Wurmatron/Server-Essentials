@@ -4,6 +4,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -11,12 +12,12 @@ import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
-import wurmcraft.serveressentials.common.api.storage.Channel;
-import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.api.storage.*;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -66,22 +67,24 @@ public class ChatHelper {
 
 	public static void sendMessageTo (ICommandSender sender,EntityPlayer reciver,String message) {
 		sendMessageTo (reciver,message);
-		if (DataHelper.spys.size () > 0)
-			for (UUID uuid : DataHelper.spys)
-				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
-					if (spy.getGameProfile ().getId ().equals (uuid))
-						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
+		// TODO DataHelper2
+		//		if (DataHelper.spys.size () > 0)
+		//			for (UUID uuid : DataHelper.spys)
+		//				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
+		//					if (spy.getGameProfile ().getId ().equals (uuid))
+		//						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer sender,EntityPlayer reciver,String message) {
-		PlayerData reciverData = DataHelper.getPlayerData (reciver.getGameProfile ().getId ());
+		PlayerData reciverData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,reciver.getGameProfile ().getId ().toString ());
 		String reciverName = reciverData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + reciverData.getNickname ().replaceAll ("&","\u00A7") : reciver.getDisplayNameString ();
 		sendMessageTo (reciver,message);
-		if (DataHelper.spys.size () > 0)
-			for (UUID uuid : DataHelper.spys)
-				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
-					if (spy.getGameProfile ().getId ().equals (uuid))
-						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciverName + TextFormatting.GREEN + " <- " + message);
+		// TODO DataHelper2
+		//		if (DataHelper.spys.size () > 0)
+		//			for (UUID uuid : DataHelper.spys)
+		//				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
+		//					if (spy.getGameProfile ().getId ().equals (uuid))
+		//						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciverName + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message) {
@@ -128,7 +131,7 @@ public class ChatHelper {
 			} else {
 				List <UUID> recivers = ChannelManager.getPlayersInChannel (channel);
 				for (EntityPlayerMP player : players.getPlayers ())
-					if (recivers.contains (player.getGameProfile ().getId ()) && DataHelper.getPlayerData (player.getGameProfile ().getId ()).getTeam () == null)
+					if (recivers.contains (player.getGameProfile ().getId ()) && ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ())).getTeam () == null)
 						player.sendMessage (new TextComponentString (format (displayName,rank,channel,dimension,team,message)));
 			}
 		}
@@ -147,8 +150,7 @@ public class ChatHelper {
 						count++;
 						break;
 					}
-				if (count >= Settings.spamLimit)
-					return false;
+				return count < Settings.spamLimit;
 			} else {
 				lastChat.remove (name);
 				return true;
@@ -184,5 +186,23 @@ public class ChatHelper {
 				return new String[] {temp[1],temp[3]};
 			}
 		return null;
+	}
+
+	public static ITextComponent displayLocation (Home home) {
+		TextComponentString text = new TextComponentString ("X = " + home.getPos ().getX () + " Y = " + home.getPos ().getY () + " Z = " + home.getPos ().getZ ());
+		text.getStyle ().setColor (TextFormatting.GREEN);
+		return text;
+	}
+
+	public static ITextComponent displayLocation (Warp warp) {
+		TextComponentString text = new TextComponentString ("X = " + warp.getPos ().getX () + " Y = " + warp.getPos ().getY () + " Z = " + warp.getPos ().getZ ());
+		text.getStyle ().setColor (TextFormatting.GREEN);
+		return text;
+	}
+
+	public static ITextComponent displayLocation (SpawnPoint spawn) {
+		TextComponentString text = new TextComponentString ("X = " + spawn.location.getX () + " Y = " + spawn.location.getY () + " Z = " + spawn.location.getZ ());
+		text.getStyle ().setColor (TextFormatting.GREEN);
+		return text;
 	}
 }

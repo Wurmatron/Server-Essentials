@@ -7,15 +7,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import wurmcraft.serveressentials.common.api.storage.*;
-import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.api.storage.Home;
+import wurmcraft.serveressentials.common.api.storage.IDataType;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
 import wurmcraft.serveressentials.common.utils.CommandUtils;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.RankManager;
 
 import java.lang.reflect.Method;
@@ -104,16 +106,20 @@ public abstract class SECommand extends CommandBase {
 		return new String[0];
 	}
 
-	@Override
-	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
-		if (Settings.securityModule && requiresTrusted ()) {
-			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
-				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),perm.toString ());
-		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)
-			return RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),perm.toString ());
-		else
-			return canConsoleRun ();
-		return false;
+	public static List <String> autoComplete (String[] args,List <IDataType> data) {
+		List <String> dataList = new ArrayList <> ();
+		if (args.length == 0) {
+			for (IDataType d : data)
+				if (d != null)
+					dataList.add (d.getID ());
+			return dataList;
+		} else if (args.length == 1) {
+			for (IDataType d : data)
+				if (d != null && d.getID ().toLowerCase ().startsWith (args[0]))
+					dataList.add (d.getID ());
+			return dataList;
+		}
+		return null;
 	}
 
 	public String getDescription () {
@@ -136,90 +142,13 @@ public abstract class SECommand extends CommandBase {
 		return null;
 	}
 
-	public static List <String> autoCompleteWarps (String[] args,Warp[] warps) {
-		List <String> warpList = new ArrayList <> ();
-		if (args.length == 0) {
-			for (Warp warp : warps)
-				if (warp != null)
-					warpList.add (warp.getName ());
-			return warpList;
-		} else if (args.length == 1) {
-			for (Warp warp : warps)
-				if (warp != null && warp.getName ().toLowerCase ().startsWith (args[0]))
-					warpList.add (warp.getName ());
-			return warpList;
-		}
-		return null;
-	}
-
-	public static List <String> autoCompleteVaults (String[] args,Vault[] vaults) {
-		if (vaults.length > 0) {
-			List <String> vaultList = new ArrayList <> ();
-			if (args.length == 0) {
-				for (Vault vault : vaults)
-					if (vault != null)
-						vaultList.add (vault.getName ());
-				return vaultList;
-			} else if (args.length == 1) {
-				for (Vault vault : vaults)
-					if (vault != null && vault.getName ().toLowerCase ().startsWith (args[0]))
-						vaultList.add (vault.getName ());
-				return vaultList;
-			}
-		}
-		return null;
-	}
-
-	public static List <String> autoCompleteKits (String[] args,List <Kit> kits,int index) {
-		if (kits.size () > 0) {
-			List <String> kitList = new ArrayList <> ();
-			if (args.length == (((index - 1) >= 0) ? (index - 1) : 0)) {
-				for (Kit kit : kits)
-					if (kit != null)
-						kitList.add (kit.getName ());
-				return kitList;
-			} else if (args.length == 1) {
-				for (Kit kit : kits)
-					if (kit != null && kit.getName ().toLowerCase ().startsWith (args[index]))
-						kitList.add (kit.getName ());
-				return kitList;
-			}
-		}
-		return null;
-	}
-
-	public static List <String> autoCompleteChannel (String[] args,List <Channel> channels) {
-		if (channels.size () > 0) {
-			List <String> channelList = new ArrayList <> ();
-			if (args.length == 0) {
-				for (Channel channel : channels)
-					if (channel != null)
-						channelList.add (channel.getName ());
-				return channelList;
-			} else if (args.length == 1) {
-				for (Channel channel : channels)
-					if (channel != null && channel.getName ().toLowerCase ().startsWith (args[0]))
-						channelList.add (channel.getName ());
-				return channelList;
-			}
-		}
-		return null;
-	}
-
-	public static List <String> autoCompleteTeam (String[] args,List <Team> teams) {
-		if (teams.size () > 0) {
-			List <String> teamList = new ArrayList <> ();
-			if (args.length == 1) {
-				for (Team team : teams)
-					if (team != null)
-						teamList.add (team.getName ());
-				return teamList;
-			} else if (args.length == 2) {
-				for (Team team : teams)
-					if (team != null && team.getName ().toLowerCase ().startsWith (args[1]))
-						teamList.add (team.getName ());
-				return teamList;
-			}
+	public static List <String> autoComplete (String[] args,List <IDataType> data,int index) {
+		List <String> dataList = new ArrayList <> ();
+		if (args.length >= index) {
+			for (IDataType d : data)
+				if (d != null && d.getID ().toLowerCase ().startsWith (args[index]))
+					dataList.add (d.getID ());
+			return dataList;
 		}
 		return null;
 	}
@@ -231,7 +160,7 @@ public abstract class SECommand extends CommandBase {
 				if (player.getDisplayNameString ().toLowerCase ().startsWith (args[playerIndex].toLowerCase ()))
 					usernames.add (player.getDisplayNameString ());
 				else {
-					PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+					PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 					if (data.getNickname () != null && !data.getNickname ().equals ("") && args[playerIndex].toLowerCase ().startsWith (data.getNickname ().toLowerCase ()))
 						usernames.add (data.getNickname ());
 				}
@@ -239,7 +168,7 @@ public abstract class SECommand extends CommandBase {
 			return usernames;
 		} else {
 			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ()) {
-				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+				PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 				String name = data.getNickname () != null ? data.getNickname () : player.getDisplayNameString ();
 				usernames.add (name);
 			}
@@ -247,12 +176,24 @@ public abstract class SECommand extends CommandBase {
 		}
 	}
 
+	@Override
+	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
+		if (Settings.securityModule && requiresTrusted ()) {
+			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
+				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ().toString ())).getRank (),perm.toString ());
+		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)
+			return RankManager.hasPermission (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ().toString ())).getRank (),perm.toString ());
+		else
+			return canConsoleRun ();
+		return false;
+	}
+
 	protected boolean hasPerm (ICommandSender sender,String thePerm) {
 		if (Settings.securityModule && requiresTrusted ()) {
 			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
-				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),thePerm);
+				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ().toString ())).getRank (),thePerm);
 		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)
-			return RankManager.hasPermission (DataHelper.getPlayerData (((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ()).getRank (),thePerm);
+			return RankManager.hasPermission (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ().toString ())).getRank (),thePerm);
 		else
 			return canConsoleRun ();
 		return false;

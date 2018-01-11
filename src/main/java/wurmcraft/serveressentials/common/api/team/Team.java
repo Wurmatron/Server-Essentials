@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.api.team;
 
 import net.minecraft.util.text.TextFormatting;
+import wurmcraft.serveressentials.common.api.storage.IDataType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 /**
  @see ITeam */
-public class Team implements ITeam {
+public class Team implements ITeam, IDataType {
 
 	private String teamName;
 	private UUID leader;
@@ -16,6 +17,10 @@ public class Team implements ITeam {
 	private HashMap <UUID, String> members = new HashMap <> ();
 	private ArrayList <UUID> requetedPlayers = new ArrayList <> ();
 	private TextFormatting teamColor;
+
+	public Team () {
+
+	}
 
 	public Team (String name,UUID owner,boolean publi) {
 		this.teamName = name;
@@ -89,5 +94,10 @@ public class Team implements ITeam {
 
 	public void setColor (TextFormatting value) {
 		this.teamColor = value;
+	}
+
+	@Override
+	public String getID () {
+		return teamName;
 	}
 }

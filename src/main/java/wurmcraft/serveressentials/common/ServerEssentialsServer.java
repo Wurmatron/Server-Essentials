@@ -19,7 +19,6 @@ import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.security.SecurityEvents;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
-import wurmcraft.serveressentials.common.utils.DataHelper;
 import wurmcraft.serveressentials.common.utils.DownloadHelper;
 import wurmcraft.serveressentials.common.utils.LoadHelper;
 
@@ -53,7 +52,7 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PreGenCommand (Perm.PREGEN));
 		if (Settings.securityModule)
 			MinecraftForge.EVENT_BUS.register (new SecurityEvents ());
-		DownloadHelper.save (Global.LOCAL_WEB + Settings.lang + ".lang",new File (DataHelper.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang"));
+		DownloadHelper.save (Global.LOCAL_WEB + Settings.lang + ".lang",new File (ConfigHandler.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang"));
 	}
 
 	@Mod.EventHandler

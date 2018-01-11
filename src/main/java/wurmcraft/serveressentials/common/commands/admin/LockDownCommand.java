@@ -9,7 +9,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class LockDownCommand extends SECommand {
 
@@ -27,14 +27,14 @@ public class LockDownCommand extends SECommand {
 		super.execute (server,sender,args);
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase ("true")) {
-				DataHelper.globalSettings.setLockDown (true);
+				DataHelper2.globalSettings.setLockDown (true);
 				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Local.LOCKDOWN_ENABLED));
 			} else if (args[0].equalsIgnoreCase ("false")) {
-				DataHelper.globalSettings.setLockDown (false);
+				DataHelper2.globalSettings.setLockDown (false);
 				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Local.LOCKDOWN_DISABLED));
 			}
 		} else if (args.length == 0) {
-			ChatHelper.sendMessageTo (sender,Local.LOCKDOWN.replaceAll ("#",DataHelper.globalSettings.getLockDown () ? "Enabled" : "Disabled"));
+			ChatHelper.sendMessageTo (sender,Local.LOCKDOWN.replaceAll ("#",DataHelper2.globalSettings.getLockDown () ? "Enabled" : "Disabled"));
 		} else {
 			ChatHelper.sendMessageTo (sender,getUsage (sender));
 		}

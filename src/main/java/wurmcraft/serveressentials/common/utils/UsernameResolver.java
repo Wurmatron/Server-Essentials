@@ -7,6 +7,7 @@ import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 
 import java.util.*;
@@ -93,7 +94,7 @@ public class UsernameResolver {
 			return unFormattedName;
 		else {
 			for (UUID uid : UsernameCache.getMap ().keySet ()) {
-				String nick = DataHelper.loadPlayerData (uid).getNickname ();
+				String nick = ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uid.toString ())).getNickname ();
 				if (nick != null && nick.equalsIgnoreCase (unFormattedName))
 					return getUsername (uid);
 			}
@@ -102,11 +103,11 @@ public class UsernameResolver {
 	}
 
 	public static String getNickname (UUID uuid) {
-		return DataHelper.loadPlayerData (uuid).getNickname ();
+		return ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uuid.toString ())).getNickname ();
 	}
 
 	public static PlayerData getPlayerData (UUID uniqueID) {
-		return DataHelper.loadedPlayers.get (uniqueID);
+		return ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uniqueID.toString ()));
 	}
 
 	public static PlayerData getPlayerData (String username) {
@@ -116,7 +117,7 @@ public class UsernameResolver {
 		Set <UUID> uuids = UsernameCache.getMap ().keySet ();
 		for (UUID uuid : uuids)
 			if (UsernameCache.getMap ().get (uuid).equalsIgnoreCase (username))
-				return DataHelper.loadedPlayers.get (uuid);
+				return ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uuid.toString ()));
 		return null;
 	}
 

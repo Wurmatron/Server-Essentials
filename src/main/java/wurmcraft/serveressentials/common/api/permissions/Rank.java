@@ -1,8 +1,10 @@
 package wurmcraft.serveressentials.common.api.permissions;
 
+import wurmcraft.serveressentials.common.api.storage.IDataType;
+
 /**
  @see IRank */
-public class Rank implements IRank {
+public class Rank implements IRank, IDataType {
 
 	private String name;
 	private boolean defaul;
@@ -10,6 +12,10 @@ public class Rank implements IRank {
 	private String suffix;
 	private String[] inheritance;
 	private String[] permissions;
+
+	public Rank () {
+
+	}
 
 	public Rank (String name,boolean defaul,String prefix,String suffix,String[] inheritance,String[] permissions) {
 		this.name = name;
@@ -48,5 +54,10 @@ public class Rank implements IRank {
 	@Override
 	public String[] getPermissions () {
 		return permissions;
+	}
+
+	@Override
+	public String getID () {
+		return name;
 	}
 }

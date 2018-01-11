@@ -1,7 +1,9 @@
 package wurmcraft.serveressentials.common.api.storage;
 
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
 /**
  Stores basic values about the server
  */
-public class Global {
+public class Global implements IDataType {
 
 	private SpawnPoint spawn;
 	private String[] rules;
@@ -32,7 +34,7 @@ public class Global {
 
 	public void setSpawn (SpawnPoint spawn) {
 		this.spawn = spawn;
-		DataHelper.overrideGlobal (this);
+		DataHelper2.forceSave (ConfigHandler.saveLocation,this);
 	}
 
 	public String[] getRules () {
@@ -41,7 +43,7 @@ public class Global {
 
 	public void setRules (String[] rules) {
 		this.rules = rules;
-		DataHelper.overrideGlobal (this);
+		DataHelper2.forceSave (ConfigHandler.saveLocation,this);
 	}
 
 	public void addRule (String rule) {
@@ -85,7 +87,7 @@ public class Global {
 
 	public void setMotd (String[] motd) {
 		this.motd = motd;
-		DataHelper.overrideGlobal (this);
+		DataHelper2.forceSave (new File (ConfigHandler.saveLocation + File.separator + "Global.json"),this);
 	}
 
 	public void addMotd (String motd) {
@@ -117,5 +119,10 @@ public class Global {
 
 	public String[] getBannedMods () {
 		return bannedMods;
+	}
+
+	@Override
+	public String getID () {
+		return "Global";
 	}
 }

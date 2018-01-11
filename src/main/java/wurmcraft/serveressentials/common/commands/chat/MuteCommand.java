@@ -6,11 +6,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
@@ -42,8 +44,10 @@ public class MuteCommand extends SECommand {
 		if (args.length > 0) {
 			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			if (player != null) {
-				DataHelper.setMute (player.getGameProfile ().getId (),!DataHelper.isMuted (player.getGameProfile ().getId ()));
-				if (!DataHelper.isMuted (player.getGameProfile ().getId ())) {
+				PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
+				playerData.setMuted (!playerData.isMuted ());
+				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
+				if (!playerData.isMuted ()) {
 					ChatHelper.sendMessageTo (player,Local.UNMUTED);
 					ChatHelper.sendMessageTo (sender,Local.UNMUTED_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
 				} else {

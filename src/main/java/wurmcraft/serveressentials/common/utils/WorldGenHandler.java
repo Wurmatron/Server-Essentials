@@ -10,7 +10,9 @@ import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.chunk.storage.RegionFileCache;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 
@@ -74,7 +76,7 @@ public class WorldGenHandler {
 			NBTTagCompound chunkTag = new NBTTagCompound ();
 			chunkTag.setTag ("Level",levelTag);
 			try {
-				writeChunkToNBT.invoke (anvil,new Object[] {chunk,server,levelTag});
+				writeChunkToNBT.invoke (anvil,chunk,server,levelTag);
 				DataOutputStream dataoutputstream = RegionFileCache.getChunkOutputStream (server.getChunkSaveLocation (),chunk.x,chunk.z);
 				CompressedStreamTools.write (chunkTag,dataoutputstream);
 			} catch (IllegalAccessException | IllegalArgumentException | IOException e) {
@@ -161,7 +163,7 @@ public class WorldGenHandler {
 
 	private void notifyPlayers (int type) {
 		for (EntityPlayer player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ())
-			if (DataHelper.getPlayerData (player).getRank ().hasPermission (Perm.PREGEN))
+			if (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ())).getRank ().hasPermission (Perm.PREGEN))
 				if (type == 0)
 					ChatHelper.sendMessageTo (player,Local.PREGEN_NOTIFY.replaceAll ("#",totalChunks + "").replaceAll ("&","~" + (totalChunks / estTotalChunks) / 5));
 				else if (type == 1)

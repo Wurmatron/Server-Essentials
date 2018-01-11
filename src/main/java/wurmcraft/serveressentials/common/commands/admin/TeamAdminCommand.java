@@ -37,7 +37,7 @@ public class TeamAdminCommand extends SECommand {
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		return autoCompleteTeam (args,TeamManager.getTeams ());
+		return autoComplete (args,TeamManager.getTeams ());
 	}
 
 	public void disband (ICommandSender sender,String[] args) {

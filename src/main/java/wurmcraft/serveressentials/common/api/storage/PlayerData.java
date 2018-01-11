@@ -1,7 +1,6 @@
 package wurmcraft.serveressentials.common.api.storage;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
 import wurmcraft.serveressentials.common.api.team.ITeam;
 import wurmcraft.serveressentials.common.api.team.Team;
@@ -9,7 +8,6 @@ import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.TeamManager;
-import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import java.util.ArrayList;
 import java.util.Collections;

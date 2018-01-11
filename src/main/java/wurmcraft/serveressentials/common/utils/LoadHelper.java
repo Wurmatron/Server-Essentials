@@ -16,6 +16,7 @@ import wurmcraft.serveressentials.common.commands.item.SendItemCommand;
 import wurmcraft.serveressentials.common.commands.item.SkullCommand;
 import wurmcraft.serveressentials.common.commands.player.*;
 import wurmcraft.serveressentials.common.commands.teleport.*;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Perm;
 
 public class LoadHelper {
@@ -92,16 +93,16 @@ public class LoadHelper {
 	}
 
 	public static void loadData () {
-		DataHelper.createDefaultRank ();
-		DataHelper.loadWarps ();
-		DataHelper.loadGlobal ();
-		DataHelper.loadRanks ();
-		DataHelper.loadAllTeams ();
+		ConfigHandler.createDefaultRank ();
+		ConfigHandler.loadWarps ();
+		ConfigHandler.loadGlobal ();
+		ConfigHandler.loadRanks ();
+		ConfigHandler.loadAllTeams ();
 		ChunkManager.loadAllClaims ();
-		DataHelper.createDefaultChannels ();
-		DataHelper.loadAllChannels ();
-		DataHelper.loadAllKits ();
-		DataHelper.loadAllAutoRanks ();
-		DataHelper.createDefaultAutoRank ();
+		ConfigHandler.createDefaultChannels ();
+		ConfigHandler.loadAllChannels ();
+		ConfigHandler.loadAllKits ();
+		ConfigHandler.loadAllAutoRanks ();
+		ConfigHandler.createDefaultAutoRank ();
 	}
 }

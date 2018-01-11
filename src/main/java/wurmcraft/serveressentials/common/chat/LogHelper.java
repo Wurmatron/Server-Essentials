@@ -2,8 +2,8 @@ package wurmcraft.serveressentials.common.chat;
 
 import joptsimple.internal.Strings;
 import wurmcraft.serveressentials.common.api.storage.Channel;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.config.Settings;
-import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class LogHelper {
 
-	public static final File LOG_LOCATION = new File (DataHelper.saveLocation + File.separator,"Logs" + File.separator);
+	public static final File LOG_LOCATION = new File (ConfigHandler.saveLocation + File.separator,"Logs" + File.separator);
 	private static long LAST_SAVE = System.currentTimeMillis ();
 	private static HashMap <Channel, List <String>> chatLog = new HashMap <> ();
 

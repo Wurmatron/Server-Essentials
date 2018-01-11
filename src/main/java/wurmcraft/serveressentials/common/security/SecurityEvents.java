@@ -6,9 +6,11 @@ import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
 public class SecurityEvents {
@@ -16,7 +18,7 @@ public class SecurityEvents {
 	@SubscribeEvent
 	public void creativeCheck (TickEvent.PlayerTickEvent e) {
 		if (e.player.world.getWorldTime () % 100 == 0) {
-			IRank rank = DataHelper.getPlayerData (e.player.getGameProfile ().getId ()).getRank ();
+			IRank rank = ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,e.player.getGameProfile ().getId ().toString ())).getRank ();
 			boolean validInCreative = false;
 			if (rank.hasPermission (Perm.CREATIVE))
 				validInCreative = true;

@@ -8,7 +8,7 @@ import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class AddRuleCommand extends SECommand {
 
@@ -35,7 +35,7 @@ public class AddRuleCommand extends SECommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		if (args.length > 0) {
 			String rule = Strings.join (args," ");
-			DataHelper.globalSettings.addRule (rule);
+			DataHelper2.globalSettings.addRule (rule);
 			ChatHelper.sendMessageTo (sender,Local.RULE_CREATED.replaceAll ("#",rule));
 		} else
 			ChatHelper.sendMessageTo (sender,getUsage (sender));

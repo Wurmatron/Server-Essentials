@@ -5,8 +5,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import wurmcraft.serveressentials.common.commands.utils.PlayerInventory;
-import wurmcraft.serveressentials.common.config.Settings;
-import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import java.util.HashMap;
 
@@ -27,7 +25,7 @@ public class PlayerTickEvent {
 		if (!frozenPlayers.keySet ().contains (player)) {
 			player.capabilities.disableDamage = true;
 			frozenPlayers.put (player,pos);
-			DataHelper.setFrozen (player.getGameProfile ().getId (),true);
+			//			DataHelper.setFrozen (player.getGameProfile ().getId (),true);
 		}
 	}
 
@@ -35,7 +33,7 @@ public class PlayerTickEvent {
 		if (frozenPlayers.size () > 0 && frozenPlayers.keySet ().contains (player)) {
 			frozenPlayers.remove (player);
 			player.capabilities.disableDamage = false;
-			DataHelper.setFrozen (player.getGameProfile ().getId (),false);
+			//			DataHelper.setFrozen (player.getGameProfile ().getId (),false);
 		}
 	}
 
@@ -52,16 +50,16 @@ public class PlayerTickEvent {
 
 	@SubscribeEvent
 	public void tickStart (TickEvent.PlayerTickEvent e) {
-		if (openInv.size () > 0 && openInv.containsKey (e.player))
-			openInv.get (e.player).update ();
-		if (DataHelper.activeRequests.size () > 0 && e.player.world.getWorldTime () % 20 == 0)
-			for (long time : DataHelper.activeRequests.keySet ())
-				if ((time + (Settings.tpa_timeout * 1000)) <= System.currentTimeMillis ())
-					DataHelper.activeRequests.remove (time);
-		if (frozenPlayers.size () > 0 && frozenPlayers.keySet ().contains (e.player)) {
-			BlockPos lockedPos = frozenPlayers.get (e.player);
-			if (e.player.getPosition () != lockedPos)
-				e.player.setPositionAndUpdate (lockedPos.getX (),lockedPos.getY (),lockedPos.getZ ());
-		}
+		//		if (openInv.size () > 0 && openInv.containsKey (e.player))
+		//			openInv.get (e.player).update ();
+		//		if (DataHelper.activeRequests.size () > 0 && e.player.world.getWorldTime () % 20 == 0)
+		//			for (long time : DataHelper.activeRequests.keySet ())
+		//				if ((time + (Settings.tpa_timeout * 1000)) <= System.currentTimeMillis ())
+		//					DataHelper.activeRequests.remove (time);
+		//		if (frozenPlayers.size () > 0 && frozenPlayers.keySet ().contains (e.player)) {
+		//			BlockPos lockedPos = frozenPlayers.get (e.player);
+		//			if (e.player.getPosition () != lockedPos)
+		//				e.player.setPositionAndUpdate (lockedPos.getX (),lockedPos.getY (),lockedPos.getZ ());
+		//		}
 	}
 }

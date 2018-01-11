@@ -14,6 +14,10 @@ public class Channel implements IDataType {
 	private String typeData;
 	private String[] filter;
 
+	public Channel () {
+
+	}
+
 	/**
 	 All the settings about a channel
 

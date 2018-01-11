@@ -6,15 +6,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import wurmcraft.serveressentials.common.api.storage.IDataType;
 import wurmcraft.serveressentials.common.api.storage.Kit;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class KitAdminCommand extends SECommand {
 							int time = Integer.valueOf (args[2]);
 							if (time > 0 && args.length == 3) {
 								Kit kit = new Kit (args[1],kitItems.toArray (new ItemStack[0]),time);
-								DataHelper.saveKit (kit);
+								DataHelper2.forceSave (Keys.KIT,kit);
 								ChatHelper.sendMessageTo (player,Local.KIT_CREATED.replaceAll ("#",kit.getName ()));
 							}
 						} catch (NumberFormatException e) {
@@ -71,14 +72,11 @@ public class KitAdminCommand extends SECommand {
 					ChatHelper.sendMessageTo (player,Local.INVALID_KIT_NAME.replaceAll ("#",args[1]));
 			} else if (args[0].equalsIgnoreCase ("remove") || args[0].equalsIgnoreCase ("rem") || args[0].equalsIgnoreCase ("delete") || args[0].equalsIgnoreCase ("del")) {
 				boolean found = false;
-				for (Kit kit : DataHelper.loadedKits)
-					if (kit.getName ().equalsIgnoreCase (args[1])) {
+				for (IDataType kit : DataHelper2.getData (Keys.KIT))
+					if (kit.getID ().equalsIgnoreCase (args[1])) {
 						found = true;
-						File kitFile = new File (DataHelper.kitLocation + File.separator + kit.getName () + ".json");
-						if (kitFile.exists ())
-							kitFile.delete ();
-						DataHelper.loadedKits.remove (kit);
-						ChatHelper.sendMessageTo (player,Local.KIT_REMOVED.replaceAll ("#",kit.getName ()));
+						DataHelper2.delete (Keys.KIT,kit);
+						ChatHelper.sendMessageTo (player,Local.KIT_REMOVED.replaceAll ("#",kit.getID ()));
 						break;
 					}
 				if (!found)
@@ -91,6 +89,6 @@ public class KitAdminCommand extends SECommand {
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		return autoCompleteKits (args,DataHelper.loadedKits,1);
+		return autoComplete (args,DataHelper2.getData (Keys.KIT),1);
 	}
 }

@@ -11,10 +11,12 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.StackConverter;
 import wurmcraft.serveressentials.common.utils.WorldUtils;
 
@@ -205,10 +207,12 @@ public class MarketEvent {
 	}
 
 	private void handleIBuySign (EntityPlayer player,World world,BlockPos pos) {
+		PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 		if (isValid (world,pos)) {
-			if (DataHelper.getMoney (player.getGameProfile ().getId ()) >= getPrice (world,pos)) {
+			if (playerData.getMoney () >= getPrice (world,pos)) {
 				if (addStack (player,getStack (world,pos))) {
-					DataHelper.setMoney (player.getGameProfile ().getId (),DataHelper.getMoney (player.getGameProfile ().getId ()) - getPrice (world,pos));
+					playerData.setMoney (playerData.getMoney () - getPrice (world,pos));
+					DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
 					ChatHelper.sendMessageTo (player,Local.PURCHASE.replaceAll ("@","" + getPrice (world,pos)).replaceAll ("#",getStack (world,pos).getCount () + "x " + getStack (world,pos).getDisplayName ()));
 				} else
 					ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_FULL);
@@ -221,12 +225,13 @@ public class MarketEvent {
 	}
 
 	private void handleISellSign (EntityPlayer player,World world,BlockPos pos) {
+		PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 		if (isValid (world,pos)) {
-			if (DataHelper.getMoney (player.getGameProfile ().getId ()) >= getPrice (world,pos)) {
+			if (playerData.getMoney () >= getPrice (world,pos)) {
 				if (hasStack (player,getStack (world,pos))) {
 					consumeStack (player,getStack (world,pos));
 					ChatHelper.sendMessageTo (player,Local.ITEM_SOLD.replaceAll ("#",getStack (world,pos).getCount () + "x " + getStack (world,pos).getDisplayName ()).replaceAll ("@","" + getPrice (world,pos)));
-					DataHelper.setMoney (player.getGameProfile ().getId (),DataHelper.getMoney (player.getGameProfile ().getId ()) + getPrice (world,pos));
+					playerData.setMoney (playerData.getMoney () + getPrice (world,pos));
 				} else
 					ChatHelper.sendMessageTo (player,Local.ITEM_NONE.replaceAll ("#",getStack (world,pos).getDisplayName ()));
 			} else
@@ -238,13 +243,17 @@ public class MarketEvent {
 	}
 
 	private void handleBuySign (EntityPlayer player,World world,BlockPos pos) {
+		PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 		if (isValid (world,pos) && hasValidLink (world,pos)) {
 			if (canBuy (world,getChest (world,pos),getStack (world,pos))) {
-				if (DataHelper.getMoney (player.getGameProfile ().getId ()) >= getPrice (world,pos)) {
+				if (playerData.getMoney () >= getPrice (world,pos)) {
 					if (addStack (player,getStack (world,pos))) {
 						consumeStack (world,getChest (world,pos),getStack (world,pos));
-						DataHelper.setMoney (player.getGameProfile ().getId (),DataHelper.getMoney (player.getGameProfile ().getId ()) - getPrice (world,pos));
-						DataHelper.setMoney (getOwner (world,pos),DataHelper.getMoney (getOwner (world,pos)) + getPrice (world,pos));
+						playerData.setMoney (playerData.getMoney () - getPrice (world,pos));
+						PlayerData ownerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,getOwner (world,pos).toString ());
+						ownerData.setMoney (ownerData.getMoney () + getPrice (world,pos));
+						DataHelper2.forceSave (Keys.PLAYER_DATA,ownerData);
+						DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
 						ChatHelper.sendMessageTo (player,Local.PURCHASE.replaceAll ("@","" + getPrice (world,pos)).replaceAll ("#",getStack (world,pos).getCount () + "x " + getStack (world,pos).getDisplayName ()));
 					} else
 						ChatHelper.sendMessageTo (player,Local.PLAYER_INVENTORY_FULL);
@@ -264,7 +273,8 @@ public class MarketEvent {
 			if (hasStack (player,getStack (world,pos))) {
 				consumeStack (player,getStack (world,pos));
 				addStack (world,getChest (world,pos),getStack (world,pos));
-				DataHelper.setMoney (getOwner (world,pos),DataHelper.getMoney (getOwner (world,pos)) + getPrice (world,pos));
+				PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,getOwner (world,pos).toString ());
+				playerData.setMoney (playerData.getMoney () + getPrice (world,pos));
 			} else
 				ChatHelper.sendMessageTo (player,Local.ITEM_NONE.replaceAll ("#",getStack (world,pos).getDisplayName ()));
 		} else if (getPrice (world,pos) >= 0 && player.getHeldItemMainhand () != null && player.getHeldItemMainhand ().isItemEqual (linkStack)) {

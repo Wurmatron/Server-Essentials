@@ -12,7 +12,8 @@ import wurmcraft.serveressentials.common.api.storage.Claim;
 import wurmcraft.serveressentials.common.api.storage.Location;
 import wurmcraft.serveressentials.common.api.storage.RegionData;
 import wurmcraft.serveressentials.common.api.team.Team;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +30,7 @@ public class ChunkManager {
 
 	//              Region Location, Data
 	private static HashMap <Location, RegionData> claimData = new HashMap <> ();
-	private static File SAVE_LOCATION = new File (DataHelper.saveLocation + File.separator + "Claims" + File.separator + "0");
+	private static File SAVE_LOCATION = new File (ConfigHandler.saveLocation + File.separator + "Claims" + File.separator + "0");
 	private static Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
 
 	/**
@@ -133,7 +134,7 @@ public class ChunkManager {
 	 @see Claim
 	 */
 	public static final Claim getClaim (BlockPos pos) {
-		if (DataHelper.globalSettings.getLockDown ())
+		if (DataHelper2.globalSettings.getLockDown ())
 			return new Claim (null,null);
 		RegionData regionData = getRegion (pos);
 		if (regionData != null)

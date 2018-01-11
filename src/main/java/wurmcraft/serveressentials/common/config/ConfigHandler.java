@@ -1,27 +1,32 @@
 package wurmcraft.serveressentials.common.config;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import wurmcraft.serveressentials.common.api.permissions.Rank;
+import wurmcraft.serveressentials.common.api.storage.AutoRank;
+import wurmcraft.serveressentials.common.api.storage.Channel;
+import wurmcraft.serveressentials.common.api.storage.Kit;
+import wurmcraft.serveressentials.common.api.storage.Warp;
+import wurmcraft.serveressentials.common.api.team.Team;
+import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.reference.Global;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.LogHandler;
+import wurmcraft.serveressentials.common.utils.RankManager;
+import wurmcraft.serveressentials.common.utils.TeamManager;
 
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
 
 public class ConfigHandler {
 
-	public static final File saveLocation = new File (FMLCommonHandler.instance ().getMinecraftServerInstance ().getDataDirectory () + File.separator + Global.NAME);
-	public static final File playerDataLocation = new File (saveLocation + File.separator + "Player-Data" + File.separator);
-	public static final File warpLocation = new File (saveLocation + File.separator + "Warp" + File.separator);
-	public static final File groupLocation = new File (saveLocation + File.separator + "Group" + File.separator);
-	public static final File teamLoction = new File (saveLocation + File.separator + "Teams" + File.separator);
-	public static final File channelLocation = new File (saveLocation + File.separator + "Channels" + File.separator);
-	public static final File vaultLocation = new File (saveLocation + File.separator + "Vaults" + File.separator);
-	public static final File kitLocation = new File (saveLocation + File.separator + "Kits" + File.separator);
-	public static final File autoRankLocation = new File (saveLocation + File.separator + "AutoRank" + File.separator);
+	public static final File saveLocation = new File (FMLCommonHandler.instance ().getMinecraftServerInstance ().getDataDirectory () + File.separator + Global.NAME.replaceAll (" ","-"));
 
 	public static File location;
 	public static Configuration config;
@@ -107,4 +112,123 @@ public class ConfigHandler {
 			config.save ();
 		}
 	}
+
+	public static void createDefaultChannels () {
+		Channel globalChannel = new Channel (Defaults.DEFAULT_CHANNEL,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm","\"Demi San\" \"Demi God\""});
+		Channel staffChannel = new Channel ("Staff","&4[S]",false,false,Channel.Type.RANK,"Admin",null);
+		Channel teamChannel = new Channel ("Team","&a[T]",true,false,Channel.Type.TEAM,"",null);
+		DataHelper2.createIfNonExist (Keys.CHANNEL,globalChannel);
+		DataHelper2.createIfNonExist (Keys.CHANNEL,staffChannel);
+		DataHelper2.createIfNonExist (Keys.CHANNEL,teamChannel);
+	}
+
+	public static void createDefaultRank () {
+		File groupLocation = new File (saveLocation + File.separator + Keys.RANK.name ());
+		if (!groupLocation.exists () || groupLocation.listFiles ().length <= 0) {
+			Rank defaultGroup = new Rank ("Default",true,"[Default]","",null,new String[] {"common.*","teleport.*"});
+			Rank memberGroup = new Rank ("Member",false,"[Member]","",new String[] {"Default"},new String[] {"perk.*"});
+			Rank adminGroup = new Rank ("Admin",false,"[Admin]","",new String[] {defaultGroup.getName ()},new String[] {"*"});
+			DataHelper2.createIfNonExist (Keys.RANK,defaultGroup);
+			DataHelper2.createIfNonExist (Keys.RANK,adminGroup);
+			DataHelper2.createIfNonExist (Keys.RANK,memberGroup);
+			loadRanks ();
+		} else
+			groupLocation.mkdirs ();
+	}
+
+	public static void loadAllKits () {
+		File kitLocation = new File (saveLocation + File.separator + Keys.KIT.name ());
+		if (kitLocation.exists ())
+			for (File file : kitLocation.listFiles ())
+				DataHelper2.load (file,Keys.KIT,new Kit ());
+		else
+			kitLocation.mkdirs ();
+	}
+
+	public static void loadAllAutoRanks () {
+		File autoRankLocation = new File (saveLocation + File.separator + Keys.AUTO_RANK.name ());
+		if (autoRankLocation.exists ())
+			for (File file : autoRankLocation.listFiles ())
+				DataHelper2.load (file,Keys.AUTO_RANK,new AutoRank ());
+		else
+			autoRankLocation.mkdirs ();
+	}
+
+	public static void loadAllTeams () {
+		File teamLoction = new File (saveLocation + File.separator + Keys.TEAM.name ());
+		if (teamLoction.exists ()) {
+			for (File file : teamLoction.listFiles ()) {
+				Team team = DataHelper2.load (file,Keys.TEAM,new Team ());
+				TeamManager.register (team);
+			}
+		} else
+			teamLoction.mkdirs ();
+	}
+
+	public static void loadRanks () {
+		File rankLoction = new File (saveLocation + File.separator + Keys.RANK.name ());
+		if (rankLoction.exists ()) {
+			for (File file : rankLoction.listFiles ()) {
+				Rank rank = DataHelper2.load (file,Keys.TEAM,new Rank ());
+				RankManager.registerRank (rank);
+			}
+		} else
+			rankLoction.mkdirs ();
+	}
+
+	public static void createDefaultAutoRank () {
+		File autoRankLocation = new File (saveLocation + File.separator + Keys.AUTO_RANK.name ());
+		if (!autoRankLocation.exists () || autoRankLocation.listFiles ().length <= 0) {
+			AutoRank defaultToMember = new AutoRank (30,0,10,"Default","Member");
+			DataHelper2.createIfNonExist (Keys.AUTO_RANK,defaultToMember);
+			loadRanks ();
+		}
+	}
+
+	public static void loadAllChannels () {
+		File channelLocation = new File (saveLocation + File.separator + Keys.CHANNEL.name ());
+		if (channelLocation.exists ()) {
+			for (File file : channelLocation.listFiles ()) {
+				Channel ch = DataHelper2.load (file,Keys.CHANNEL,new Channel ());
+				ChannelManager.addChannel (ch);
+			}
+		} else
+			channelLocation.mkdirs ();
+	}
+
+	public static void loadGlobal () {
+		Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
+		File globalLocation = new File (saveLocation + File.separator + "Global.json");
+		if (globalLocation.exists ()) {
+			ArrayList <String> lines = new ArrayList <> ();
+			try {
+				BufferedReader reader = new BufferedReader (new FileReader (globalLocation));
+				String line;
+				while ((line = reader.readLine ()) != null)
+					lines.add (line);
+				reader.close ();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace ();
+			} catch (IOException e) {
+				e.printStackTrace ();
+			}
+			String temp = "";
+			for (int s = 0; s <= lines.size () - 1; s++)
+				temp = temp + lines.get (s);
+			DataHelper2.globalSettings = gson.fromJson (temp,wurmcraft.serveressentials.common.api.storage.Global.class);
+		} else {
+			DataHelper2.forceSave (saveLocation,new wurmcraft.serveressentials.common.api.storage.Global (null,new String[] {},new String[] {},"https://github.com/Wurmcraft/Server-Essentials"));
+			loadGlobal ();
+		}
+	}
+
+	public static void loadWarps () {
+		File warpLocation = new File (saveLocation + File.separator + Keys.WARP.name ());
+		if (warpLocation.exists ())
+			for (File file : warpLocation.listFiles ())
+				DataHelper2.load (file,Keys.WARP,new Warp ());
+		else
+			warpLocation.mkdirs ();
+	}
+
 }

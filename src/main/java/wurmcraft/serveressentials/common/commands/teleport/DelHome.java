@@ -2,15 +2,10 @@ package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import wurmcraft.serveressentials.common.api.storage.PlayerData;
-import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -38,23 +33,23 @@ public class DelHome extends SECommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		super.execute (server,sender,args);
-		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-		if (data == null)
-			DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
-		if (args.length == 0)
-			ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name));
-		else if (args.length == 1)
-			ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),args[0]));
+		//		super.execute (server,sender,args);
+		//		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		//		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
+		//		if (data == null)
+		//			DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
+		//		if (args.length == 0)
+		//			ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name));
+		//		else if (args.length == 1)
+		//			ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),args[0]));
 	}
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-			return autoCompleteHomes (args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
-		}
+		//		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+		//			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		//			return autoCompleteHomes (args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
+		//		}
 		return null;
 	}
 

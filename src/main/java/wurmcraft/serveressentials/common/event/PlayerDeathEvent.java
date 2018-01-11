@@ -5,7 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.reference.Keys;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class PlayerDeathEvent {
 
@@ -13,9 +15,10 @@ public class PlayerDeathEvent {
 	public void onPlayerDeath (LivingDeathEvent e) {
 		if (e.getEntity () instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) e.getEntity ();
-			DataHelper.setLastLocation (player.getGameProfile ().getId (),new BlockPos (player.posX,player.posY,player.posZ));
-			if (DataHelper.getCustomData (player.getGameProfile ().getId ()).length > 0) {
-				for (String data : DataHelper.getCustomData (player.getGameProfile ().getId ()))
+			PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) e.getEntity ()).getGameProfile ().getId ().toString ());
+			playerData.setLastLocation (new BlockPos (player.posX,player.posY,player.posZ));
+			if (playerData.getCustomData ().length > 0) {
+				for (String data : playerData.getCustomData ())
 					if (data.equalsIgnoreCase ("perk.keepInv"))
 						PlayerRespawnEvent.add (player.getGameProfile ().getId (),new ItemStack[][] {player.inventory.mainInventory.toArray (new ItemStack[0]),player.inventory.armorInventory.toArray (new ItemStack[0]),player.inventory.offHandInventory.toArray (new ItemStack[0])});
 			}

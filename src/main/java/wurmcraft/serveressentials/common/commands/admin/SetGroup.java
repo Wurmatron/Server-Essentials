@@ -12,9 +12,10 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
-import wurmcraft.serveressentials.common.utils.DataHelper;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -49,21 +50,23 @@ public class SetGroup extends SECommand {
 		super.execute (server,sender,args);
 		if (args.length > 1) {
 			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 			boolean found = false;
 			if (player != null && RankManager.getRankFromName (args[1]) != null) {
 				found = true;
-				DataHelper.setRank (player.getGameProfile ().getId (),RankManager.getRankFromName (args[1]));
-				PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-				String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : player.getDisplayNameString ();
+				playerData.setRank (RankManager.getRankFromName (args[1]));
+				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
+				String name = playerData.getNickname () != null ? "*" + TextFormatting.RESET + playerData.getNickname ().replaceAll ("&","\u00A7") : player.getDisplayNameString ();
 				ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
 			}
 			if (!found)
 				for (UUID id : UsernameCache.getMap ().keySet ())
 					if (UsernameCache.getMap ().get (id).equalsIgnoreCase (args[0]) && RankManager.getRankFromName (args[1]) != null) {
 						found = true;
-						DataHelper.setRank (id,RankManager.getRankFromName (args[1]));
-						PlayerData data = DataHelper.getPlayerData (id);
-						String name = data.getNickname () != null ? "*" + TextFormatting.RESET + data.getNickname ().replaceAll ("&","\u00A7") : UsernameCache.getLastKnownUsername (id);
+						PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,id.toString ());
+						data.setRank (RankManager.getRankFromName (args[1]));
+						DataHelper2.forceSave (Keys.PLAYER_DATA,data);
+						String name = playerData.getNickname () != null ? "*" + TextFormatting.RESET + playerData.getNickname ().replaceAll ("&","\u00A7") : UsernameCache.getLastKnownUsername (id);
 						ChatHelper.sendMessageTo (sender,Local.RANK_CHANGED.replaceAll ("Your",name).replaceAll ("#",RankManager.getRankFromName (args[1]).getName ()));
 					}
 			if (!found)

@@ -9,6 +9,10 @@ public class AutoRank implements IDataType {
 	private String rank;
 	private String nextRank;
 
+	public AutoRank () {
+
+	}
+
 	/**
 	 Used as storage to hold values about th way a player rank's up
 

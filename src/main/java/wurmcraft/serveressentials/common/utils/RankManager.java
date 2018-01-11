@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.utils;
 
 import wurmcraft.serveressentials.common.api.permissions.IRank;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,7 @@ public class RankManager {
 			LogHandler.error ("No Default Rank Found! Using " + loadedRanks.get (0).getName () + " as default group!");
 			return loadedRanks.get (0);
 		}
-		DataHelper.createDefaultRank ();
+		ConfigHandler.createDefaultRank ();
 		LogHandler.error ("Unable to load / find any groups!");
 		return null;
 	}
@@ -61,7 +62,7 @@ public class RankManager {
 
 	public static void clearAllRanks () {
 		loadedRanks.clear ();
-		DataHelper.loadRanks ();
+		ConfigHandler.loadRanks ();
 	}
 
 	public static boolean isMore (IRank higherRank,IRank lowerRank) {

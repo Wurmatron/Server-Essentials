@@ -13,6 +13,10 @@ public class Home {
 	private float pitch;
 	private int dimension;
 
+	public Home () {
+
+	}
+
 	public Home (String name,BlockPos location,int dimension,float yaw,float pitch) {
 		this.name = setName (name);
 		this.pos = setPos (location);
