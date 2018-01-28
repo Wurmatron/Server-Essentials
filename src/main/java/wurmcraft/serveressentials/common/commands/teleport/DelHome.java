@@ -43,7 +43,7 @@ public class DelHome extends SECommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ().toString ());
+		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
 		if (data == null)
 			DataHelper2.load (Keys.PLAYER_DATA,new PlayerData (player.getGameProfile ().getId (),null));
 		if (args.length == 0) {

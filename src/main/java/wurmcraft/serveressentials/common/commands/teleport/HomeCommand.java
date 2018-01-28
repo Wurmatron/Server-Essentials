@@ -19,6 +19,7 @@ import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
+import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -51,7 +52,8 @@ public class HomeCommand extends SECommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
-		PlayerData playerData = UsernameResolver.getPlayerData (player.getGameProfile ().getId ().toString ());
+		PlayerData playerData = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
+		LogHandler.info ("PD: " + playerData);
 		if (args.length == 0) {
 			Home home = playerData.getHome (Settings.home_name);
 			long teleport_timer = playerData.getTeleportTimer ();

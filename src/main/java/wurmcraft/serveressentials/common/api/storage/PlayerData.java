@@ -20,7 +20,7 @@ import java.util.UUID;
 public class PlayerData implements IDataType {
 
 	private String rank;
-	private String nickname;
+	private String nickname = "";
 	private int max_homes = 4;
 	private long teleport_timer;
 	private long lastseen;
@@ -30,7 +30,7 @@ public class PlayerData implements IDataType {
 	private List <Mail> currentMail = new ArrayList <> ();
 	private String team;
 	private String currentChannel;
-	private boolean muted;
+	private boolean muted = false;
 	private int vaultSlots;
 	private int marketSlots;
 	private boolean spy;
@@ -41,10 +41,14 @@ public class PlayerData implements IDataType {
 	private String[] customData = new String[0];
 	private UUID uuid;
 
-	public PlayerData() {}
+	public PlayerData () {
+	}
 
 	public PlayerData (UUID uuid,IRank group) {
-		this.rank = group.getName ();
+		if (group != null)
+			this.rank = group.getName ();
+		else
+			this.rank = RankManager.getDefaultRank ().getName ();
 		this.uuid = uuid;
 	}
 
@@ -130,19 +134,19 @@ public class PlayerData implements IDataType {
 		return RankManager.getDefaultRank ();
 	}
 
-	public void setRank (IRank rank) {
-		if (RankManager.getRanks ().contains (rank))
-			this.rank = rank.getName ();
-		else
-			this.rank = RankManager.getDefaultRank ().getName ();
-	}
-
 	public void setRank (String rank) {
 		IRank group = RankManager.getRankFromName (rank);
 		if (group != null)
 			setRank (group);
 		else
 			setRank (RankManager.getDefaultRank ());
+	}
+
+	public void setRank (IRank rank) {
+		if (RankManager.getRanks ().contains (rank))
+			this.rank = rank.getName ();
+		else
+			this.rank = RankManager.getDefaultRank ().getName ();
 	}
 
 	public Team getTeam () {
@@ -179,15 +183,15 @@ public class PlayerData implements IDataType {
 		this.money = money;
 	}
 
+	public String getCurrentChannel () {
+		return currentChannel;
+	}
+
 	public void setCurrentChannel (Channel channel) {
 		if (channel != null)
 			this.currentChannel = channel.getName ();
 		else
 			this.currentChannel = ChannelManager.getDefaultChannel ().getName ();
-	}
-
-	public String getCurrentChannel () {
-		return currentChannel;
 	}
 
 	public boolean isMuted () {

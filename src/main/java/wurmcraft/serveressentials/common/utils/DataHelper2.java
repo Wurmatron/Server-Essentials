@@ -54,6 +54,7 @@ public class DataHelper2 {
 	}
 
 	public static <T extends IDataType> T load (File file,Keys key,T type) {
+		LogHandler.debug ("Loaded: "  + file.getAbsolutePath ());
 		if (file.exists ()) {
 			try {
 				String fileData = Strings.join (Files.readAllLines (Paths.get (file.getAbsolutePath ())),"");
@@ -93,16 +94,17 @@ public class DataHelper2 {
 			load (f,key,data);
 			return true;
 		}
-		load (file,key,data);
+		load (f,key,data);
 		return false;
 	}
 
 	public static IDataType get (Keys key,String data) {
 		List <IDataType> keyData = getData (key);
-		for (IDataType d : keyData)
-			if (d.getID ().equals (data))
-				return d;
-		if (keyData.size () > 0)
+		if (keyData.size () > 0) {
+			for (IDataType d : keyData)
+				if (d.getID ().equals (data))
+					return d;
+		} else
 			load (new File (ConfigHandler.saveLocation + File.separator + key.name () + File.separator + data + ".json"),key,new PlayerData ());
 		return null;
 	}
@@ -119,7 +121,7 @@ public class DataHelper2 {
 	}
 
 	public static <T> T getTemp (Keys key,Object dataKey,T dataType) {
-		if (tempData.get (key).size () > 0) {
+		if (tempData.get (key) != null && tempData.get (key).size () > 0) {
 			HashMap <Object, T> data = (HashMap <Object, T>) tempData.get (key);
 			return data.getOrDefault (dataKey,null);
 		}

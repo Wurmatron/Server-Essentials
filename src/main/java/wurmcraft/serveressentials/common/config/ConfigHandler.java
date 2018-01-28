@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class ConfigHandler {
 
-	public static final File saveLocation = new File (FMLCommonHandler.instance ().getMinecraftServerInstance ().getDataDirectory () + File.separator + Global.NAME.replaceAll (" ","-"));
+	public static final File saveLocation = new File ("." + File.separator + Global.NAME.replaceAll (" ","-"));
 
 	public static File location;
 	public static Configuration config;

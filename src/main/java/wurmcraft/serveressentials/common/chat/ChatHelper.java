@@ -68,10 +68,10 @@ public class ChatHelper {
 	public static void sendMessageTo (ICommandSender sender,EntityPlayer reciver,String message) {
 		sendMessageTo (reciver,message);
 		if (DataHelper2.getTemp (Keys.SPY,reciver.getGameProfile ().getId ()).size () > 0)
-					for (EntityPlayer uuid : sender.getServer ().getPlayerList ().getPlayers ())
-						for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
-							if (spy.getGameProfile ().getId ().equals (uuid.getGameProfile ().getId ()))
-								sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
+			for (EntityPlayer uuid : sender.getServer ().getPlayerList ().getPlayers ())
+				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
+					if (spy.getGameProfile ().getId ().equals (uuid.getGameProfile ().getId ()))
+						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer sender,EntityPlayer reciver,String message) {
@@ -162,11 +162,13 @@ public class ChatHelper {
 	}
 
 	private static String applyFilter (Channel ch,String message) {
-		for (String filter : ch.getFilter ()) {
-			String[] replace = unpackFilter (filter);
-			if (replace != null && replace.length > 0)
-				message = message.replaceAll ("(?i)" + replace[0],replace[1]);
-		}
+		LogHandler.info ("CH: "  + ch.getName ());
+		if (ch.getFilter () != null && ch.getFilter ().length > 0)
+			for (String filter : ch.getFilter ()) {
+				String[] replace = unpackFilter (filter);
+				if (replace != null && replace.length > 0)
+					message = message.replaceAll ("(?i)" + replace[0],replace[1]);
+			}
 		return message;
 	}
 

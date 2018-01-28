@@ -17,51 +17,6 @@ import java.util.*;
  */
 public class UsernameResolver {
 
-	public static final class AbstractUsernameCollection <T extends String> extends AbstractCollection <T> {
-
-		List <T> names;
-
-		{
-			names = new LinkedList <> ();
-		}
-
-		public AbstractUsernameCollection (Collection <T> values) {
-			for (T value : values)
-				add (value);
-		}
-
-		@Override
-		public boolean contains (Object s) {
-			Iterator <T> itr = this.iterator ();
-			if (s == null)
-				return false;
-			else
-				while (itr.hasNext ())
-					if (((String) s).equalsIgnoreCase (itr.next ()))
-						return true;
-			return false;
-		}
-
-		@Override
-		public Iterator <T> iterator () {
-			return names.iterator ();
-		}
-
-		@Override
-		public boolean add (T s) {
-			if (!contains (s)) {
-				names.add (s);
-				return true;
-			} else
-				return false;
-		}
-
-		@Override
-		public int size () {
-			return names.size ();
-		}
-	}
-
 	private static MinecraftServer getServer () {
 		return FMLCommonHandler.instance ().getMinecraftServerInstance ();
 	}
@@ -94,11 +49,14 @@ public class UsernameResolver {
 			return unFormattedName;
 		else {
 			for (UUID uid : UsernameCache.getMap ().keySet ()) {
-				String nick = ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uid.toString ())).getNickname ();
-				if (nick != null && nick.equalsIgnoreCase (unFormattedName))
-					return getUsername (uid);
+				PlayerData data = getPlayerData (uid);
+				if (data != null) {
+					String nick = data.getNickname ();
+					if (nick != null && nick.equalsIgnoreCase (unFormattedName))
+						return getUsername (uid);
+				}
 			}
-			return null;
+			return "";
 		}
 	}
 
@@ -146,5 +104,50 @@ public class UsernameResolver {
 
 	public static EntityPlayer getPlayer (UUID uuid) {
 		return getServer ().getPlayerList ().getPlayerByUUID (uuid);
+	}
+
+	public static final class AbstractUsernameCollection <T extends String> extends AbstractCollection <T> {
+
+		List <T> names;
+
+		{
+			names = new LinkedList <> ();
+		}
+
+		public AbstractUsernameCollection (Collection <T> values) {
+			for (T value : values)
+				add (value);
+		}
+
+		@Override
+		public boolean contains (Object s) {
+			Iterator <T> itr = this.iterator ();
+			if (s == null)
+				return false;
+			else
+				while (itr.hasNext ())
+					if (((String) s).equalsIgnoreCase (itr.next ()))
+						return true;
+			return false;
+		}
+
+		@Override
+		public Iterator <T> iterator () {
+			return names.iterator ();
+		}
+
+		@Override
+		public boolean add (T s) {
+			if (!contains (s)) {
+				names.add (s);
+				return true;
+			} else
+				return false;
+		}
+
+		@Override
+		public int size () {
+			return names.size ();
+		}
 	}
 }

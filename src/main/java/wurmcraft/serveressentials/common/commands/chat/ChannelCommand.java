@@ -54,6 +54,7 @@ public class ChannelCommand extends SECommand {
 			if (channel != null && hasPerm (player,"channel." + channel.getName ())) {
 				PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
 				data.setCurrentChannel (channel);
+				ChannelManager.setPlayerChannel (player.getGameProfile ().getId (),channel);
 				DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 				ChatHelper.sendMessageTo (player,Local.CHANNEL_CHANGED.replaceAll ("#",channel.getName ()));
 			} else if (channel != null)
