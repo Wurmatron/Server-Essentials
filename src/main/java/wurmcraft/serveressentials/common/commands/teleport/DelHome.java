@@ -2,10 +2,18 @@ package wurmcraft.serveressentials.common.commands.teleport;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import wurmcraft.serveressentials.common.api.storage.PlayerData;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
+import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.reference.Keys;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -33,15 +41,20 @@ public class DelHome extends SECommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		//		super.execute (server,sender,args);
-		//		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		//		PlayerData data = DataHelper.getPlayerData (player.getGameProfile ().getId ());
-		//		if (data == null)
-		//			DataHelper.reloadPlayerData (player.getGameProfile ().getId ());
-		//		if (args.length == 0)
-		//			ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),Settings.home_name));
-		//		else if (args.length == 1)
-		//			ChatHelper.sendMessageTo (sender,DataHelper.deleteHome (player.getGameProfile ().getId (),args[0]));
+		super.execute (server,sender,args);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ().toString ());
+		if (data == null)
+			DataHelper2.load (Keys.PLAYER_DATA,new PlayerData (player.getGameProfile ().getId (),null));
+		if (args.length == 0) {
+			data.delHome (Settings.home_name);
+			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
+			ChatHelper.sendMessageTo (sender,Local.HOME_DELETED.replaceAll ("#",Settings.home_name));
+		} else if (args.length == 1) {
+			data.delHome (args[0]);
+			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
+			ChatHelper.sendMessageTo (sender,Local.HOME_DELETED.replaceAll ("#",args[0]));
+		}
 	}
 
 	@Override

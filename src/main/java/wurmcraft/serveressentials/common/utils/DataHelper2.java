@@ -20,8 +20,9 @@ import java.util.List;
 public class DataHelper2 {
 
 	private static final Gson gson = new GsonBuilder ().setPrettyPrinting ().create ();
-	private static HashMap <Keys, List <IDataType>> loadedData = new HashMap <> ();
 	public static Global globalSettings;
+	public static HashMap <Keys, HashMap <Object, Object>> tempData = new HashMap <> ();
+	private static HashMap <Keys, List <IDataType>> loadedData = new HashMap <> ();
 
 	public static List <IDataType> getData (Keys key) {
 		return loadedData.get (key);
@@ -111,6 +112,35 @@ public class DataHelper2 {
 		if (file.exists ())
 			file.delete ();
 		loadedData.get (key).remove (data);
+	}
+
+	public static void remove (Keys key,IDataType data) {
+		loadedData.get (key).remove (data);
+	}
+
+	public static <T> T getTemp (Keys key,Object dataKey,T dataType) {
+		if (tempData.get (key).size () > 0) {
+			HashMap <Object, T> data = (HashMap <Object, T>) tempData.get (key);
+			return data.getOrDefault (dataKey,null);
+		}
+		return null;
+	}
+
+	public static <T> HashMap <T, Object> getTemp (Keys key,T keyType) {
+		return (HashMap <T, Object>) tempData.get (key);
+	}
+
+	public static <T> void addTemp (Keys key,Object dataKey,Object data,boolean remove) {
+		HashMap <Object, Object> temp;
+		if (tempData.size () > 0)
+			temp = tempData.get (key);
+		else
+			temp = new HashMap <> ();
+		if (!remove)
+			temp.put (dataKey,data);
+		else
+			temp.remove (dataKey);
+		tempData.put (key,temp);
 	}
 
 }

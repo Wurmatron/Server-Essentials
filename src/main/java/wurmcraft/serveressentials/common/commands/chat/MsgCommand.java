@@ -63,8 +63,7 @@ public class MsgCommand extends SECommand {
 				if (senderPlayer != null) {
 					PlayerData senderData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,senderPlayer.getGameProfile ().getId ().toString ());
 					String senderName = senderData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + senderData.getNickname ().replaceAll ("&","\u00A7") : senderPlayer.getDisplayNameString ();
-					// TODO DataHelper2
-					//					DataHelper2.lastMessage.put (player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId ());
+					DataHelper2.addTemp (Keys.LAST_MESSAGE,player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId (),false);
 					ChatHelper.sendMessageTo (senderPlayer,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + senderName).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
 				} else {
 					ChatHelper.sendMessageTo (sender,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getName ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));

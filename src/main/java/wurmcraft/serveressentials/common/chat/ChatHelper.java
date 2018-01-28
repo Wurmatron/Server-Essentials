@@ -67,24 +67,22 @@ public class ChatHelper {
 
 	public static void sendMessageTo (ICommandSender sender,EntityPlayer reciver,String message) {
 		sendMessageTo (reciver,message);
-		// TODO DataHelper2
-		//		if (DataHelper.spys.size () > 0)
-		//			for (UUID uuid : DataHelper.spys)
-		//				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
-		//					if (spy.getGameProfile ().getId ().equals (uuid))
-		//						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
+		if (DataHelper2.getTemp (Keys.SPY,reciver.getGameProfile ().getId ()).size () > 0)
+					for (EntityPlayer uuid : sender.getServer ().getPlayerList ().getPlayers ())
+						for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
+							if (spy.getGameProfile ().getId ().equals (uuid.getGameProfile ().getId ()))
+								sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciver.getName () + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer sender,EntityPlayer reciver,String message) {
 		PlayerData reciverData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,reciver.getGameProfile ().getId ().toString ());
 		String reciverName = reciverData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + reciverData.getNickname ().replaceAll ("&","\u00A7") : reciver.getDisplayNameString ();
 		sendMessageTo (reciver,message);
-		// TODO DataHelper2
-		//		if (DataHelper.spys.size () > 0)
-		//			for (UUID uuid : DataHelper.spys)
-		//				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
-		//					if (spy.getGameProfile ().getId ().equals (uuid))
-		//						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciverName + TextFormatting.GREEN + " <- " + message);
+		if (DataHelper2.getTemp (Keys.SPY,sender.getGameProfile ().getId ()).size () > 0)
+			for (UUID uuid : DataHelper2.getTemp (Keys.SPY,sender.getGameProfile ().getId ()).keySet ())
+				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
+					if (spy.getGameProfile ().getId ().equals (uuid))
+						sendMessageTo (spy,TextFormatting.RED + "[Spy] " + TextFormatting.DARK_AQUA + reciverName + TextFormatting.GREEN + " <- " + message);
 	}
 
 	public static void sendMessageTo (EntityPlayer player,String message) {
