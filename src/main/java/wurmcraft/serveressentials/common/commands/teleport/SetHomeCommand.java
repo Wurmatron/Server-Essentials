@@ -34,7 +34,7 @@ public class SetHomeCommand extends SECommand {
 
 	@Override
 	public String[] getCommandAliases () {
-		return new String[] {"sHome"};
+		return new String[] {"sHome", "sethome"};
 	}
 
 	@Override

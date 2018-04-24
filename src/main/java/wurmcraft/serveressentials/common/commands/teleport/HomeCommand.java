@@ -7,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import wurmcraft.serveressentials.common.api.storage.Home;
@@ -33,6 +35,12 @@ public class HomeCommand extends SECommand {
 		super (perm);
 	}
 
+	public static ITextComponent displayLocation (Home home) {
+		TextComponentString text = new TextComponentString ("X = " + home.getPos ().getX () + " Y = " + home.getPos ().getY () + " Z = " + home.getPos ().getZ ());
+		text.getStyle ().setColor (TextFormatting.GREEN);
+		return text;
+	}
+
 	@Override
 	public String getName () {
 		return "home";
@@ -53,7 +61,6 @@ public class HomeCommand extends SECommand {
 		super.execute (server,sender,args);
 		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 		PlayerData playerData = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-		LogHandler.info ("PD: " + playerData);
 		if (args.length == 0) {
 			Home home = playerData.getHome (Settings.home_name);
 			long teleport_timer = playerData.getTeleportTimer ();
@@ -85,35 +92,34 @@ public class HomeCommand extends SECommand {
 
 	@SubCommand
 	public void list (ICommandSender sender,String[] args) {
-				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-				PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-				if (data == null)
-					DataHelper2.load (Keys.PLAYER_DATA, new PlayerData (player.getGameProfile ().getId (),null));
-				if (data.getHomes ().length > 0) {
-					ArrayList<String> homes = new ArrayList <> ();
-					for (Home h : data.getHomes ())
-						if (h != null)
-							homes.add (h.getName ());
-					if (homes.size () > 0)
-						ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Homes: " + TextFormatting.AQUA + Strings.join (homes.toArray (new String[0]),", "));
-					else
-						ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
-				} else
-					ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
+		if (data == null)
+			DataHelper2.load (Keys.PLAYER_DATA,new PlayerData (player.getGameProfile ().getId (),null));
+		if (data.getHomes ().length > 0) {
+			ArrayList <String> homes = new ArrayList <> ();
+			for (Home h : data.getHomes ())
+				if (h != null)
+					homes.add (h.getName ());
+			if (homes.size () > 0)
+				ChatHelper.sendMessageTo (sender,TextFormatting.DARK_AQUA + "Homes: " + TextFormatting.AQUA + Strings.join (homes.toArray (new String[0]),", "));
+			else
+				ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
+		} else
+			ChatHelper.sendMessageTo (sender,Local.HOME_NONEXISTENT);
 	}
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		//		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-		//			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		//			return autoCompleteHomes (args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
-		//		}
+		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+			return autoCompleteHomes (args,UsernameResolver.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
+		}
 		return null;
 	}
 
 	private HoverEvent hoverEvent (Home home) {
-		//		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
-		return null;
+		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,displayLocation (home));
 	}
 
 	@Override

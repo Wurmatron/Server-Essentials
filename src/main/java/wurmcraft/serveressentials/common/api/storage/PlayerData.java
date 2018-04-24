@@ -21,7 +21,7 @@ public class PlayerData implements IDataType {
 
 	private String rank;
 	private String nickname = "";
-	private int max_homes = 4;
+	private int max_homes = 2;
 	private long teleport_timer;
 	private long lastseen;
 	private int money;

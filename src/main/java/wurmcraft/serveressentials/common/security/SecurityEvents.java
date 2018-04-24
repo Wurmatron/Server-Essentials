@@ -22,7 +22,7 @@ public class SecurityEvents {
 			boolean validInCreative = false;
 			if (rank.hasPermission (Perm.CREATIVE))
 				validInCreative = true;
-			if (!validInCreative && !SecurityUtils.isTrustedMember (e.player)) {
+			if (e.player.capabilities.isCreativeMode && !validInCreative && !SecurityUtils.isTrustedMember (e.player)) {
 				EntityPlayerMP player = (EntityPlayerMP) e.player;
 				player.setGameType (GameType.SURVIVAL);
 				player.connection.disconnect (new TextComponentString (Local.SECURITY_CREATIVE_KICK));

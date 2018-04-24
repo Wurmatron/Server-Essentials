@@ -18,7 +18,7 @@ public class PlayerChatEvent {
 		e.setCanceled (true);
 		PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,e.getPlayer ().getGameProfile ().getId ().toString ());
 		if (!playerData.isMuted ()) {
-			String name = playerData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + playerData.getNickname ().replaceAll ("&","\u00A7") : e.getUsername ();
+			String name = playerData.getNickname () != null && playerData.getNickname ().length () > 0 ? TextFormatting.GRAY + "*" + TextFormatting.RESET + playerData.getNickname ().replaceAll ("&","\u00A7") : e.getUsername ();
 			Team team = playerData.getTeam ();
 			ChatHelper.sendMessage (name,playerData.getRank (),ChannelManager.getPlayerChannel (e.getPlayer ().getGameProfile ().getId ()),e.getPlayer ().dimension,team,e.getMessage ());
 		} else

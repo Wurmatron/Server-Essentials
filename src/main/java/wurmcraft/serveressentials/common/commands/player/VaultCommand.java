@@ -3,17 +3,26 @@ package wurmcraft.serveressentials.common.commands.player;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.Vault;
+import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.SubCommand;
+import wurmcraft.serveressentials.common.commands.utils.VaultInventory;
+import wurmcraft.serveressentials.common.reference.Keys;
+import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
+import wurmcraft.serveressentials.common.utils.DataHelper2;
+import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
+// TODO WIP
 public class VaultCommand extends SECommand {
 
 	public VaultCommand (Perm perm) {
@@ -37,21 +46,21 @@ public class VaultCommand extends SECommand {
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		//		super.execute (server,sender,args);
-		//		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		//		int maxVaults = DataHelper.getPlayerData (player.getGameProfile ().getId ()).getVaultSlots ();
-		//		if (maxVaults > 0 && DataHelper.playerVaults.get (player.getGameProfile ().getId ()) == null)
-		//			DataHelper.loadVault (player.getGameProfile ().getId ());
-		//		if (maxVaults == 0)
-		//			ChatHelper.sendMessageTo (player,Local.NO_VAULTS);
-		//		if (args.length == 1 && !args[0].equalsIgnoreCase ("list") && !args[0].equalsIgnoreCase ("del") && !args[0].equalsIgnoreCase ("delete") && args[0].equalsIgnoreCase ("create")) {
-		//			Vault[] vaults = DataHelper.playerVaults.get (player.getGameProfile ().getId ());
-		//			Vault vault = findVault (vaults,args[0]);
-		//			if (vault != null)
-		//				player.displayGUIChest (new VaultInventory ((EntityPlayerMP) player,player.getGameProfile ().getId (),vault));
-		//			else
-		//				ChatHelper.sendMessageTo (player,Local.VAULT_NOT_FOUND.replaceAll ("#",args[0]));
-		//		}
+				super.execute (server,sender,args);
+//				EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+//				int maxVaults = UsernameResolver.getPlayerData (player.getGameProfile ().getId ()).getVaultSlots ();
+//				if (maxVaults > 0 && DataHelper2.getTemp (Keys.VAULT,player.getGameProfile ().getId (), new Vault ("",null)) == null)
+//					DataHelper2.load ()
+//				if (maxVaults == 0)
+//					ChatHelper.sendMessageTo (player,Local.NO_VAULTS);
+//				if (args.length == 1 && !args[0].equalsIgnoreCase ("list") && !args[0].equalsIgnoreCase ("del") && !args[0].equalsIgnoreCase ("delete") && args[0].equalsIgnoreCase ("create")) {
+//					Vault[] vaults = DataHelper2..get (player.getGameProfile ().getId ());
+//					Vault vault = findVault (vaults,args[0]);
+//					if (vault != null)
+//						player.displayGUIChest (new VaultInventory ((EntityPlayerMP) player,player.getGameProfile ().getId (),vault));
+//					else
+//						ChatHelper.sendMessageTo (player,Local.VAULT_NOT_FOUND.replaceAll ("#",args[0]));
+//				}
 	}
 
 	@Override
