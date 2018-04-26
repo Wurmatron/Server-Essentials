@@ -1,6 +1,7 @@
 package wurmcraft.serveressentials.common.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
@@ -66,6 +67,10 @@ public class UsernameResolver {
 
 	public static PlayerData getPlayerData (UUID uniqueID) {
 		return ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,uniqueID.toString ()));
+	}
+
+	public static PlayerData getPlayerData(EntityPlayer player) {
+		return getPlayerData (player.getGameProfile ().getId ());
 	}
 
 	public static PlayerData getPlayerData (String username) {

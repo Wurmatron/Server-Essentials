@@ -22,6 +22,7 @@ import wurmcraft.serveressentials.common.utils.RankManager;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,6 +32,88 @@ public abstract class SECommand extends CommandBase {
 
 	public SECommand (Perm perm) {
 		this.perm = perm;
+	}
+
+	public static List <String> autoComplete (String[] args,List <IDataType> data) {
+		List <String> dataList = new ArrayList <> ();
+		if (args.length == 0) {
+			for (IDataType d : data)
+				if (d != null)
+					dataList.add (d.getID ());
+			return dataList;
+		} else if (args.length == 1) {
+			for (IDataType d : data)
+				if (d != null && d.getID ().toLowerCase ().startsWith (args[0]))
+					dataList.add (d.getID ());
+			return dataList;
+		}
+		return null;
+	}
+
+	public static List <String> autoCompleteHomes (String[] args,Home[] homes) {
+		List <String> homeList = new ArrayList <> ();
+		if (args.length == 0) {
+			for (Home home : homes)
+				if (home != null)
+					homeList.add (home.getName ());
+			return homeList;
+		} else if (args.length == 1) {
+			for (Home home : homes)
+				if (home != null && home.getName ().toLowerCase ().startsWith (args[0]))
+					homeList.add (home.getName ());
+			return homeList;
+		}
+		return null;
+	}
+
+	public static List <String> autoComplete (String[] args,List <IDataType> data,int index) {
+		List <String> dataList = new ArrayList <> ();
+		if (args.length >= index) {
+			for (IDataType d : data)
+				if (d != null && d.getID ().toLowerCase ().startsWith (args[index]))
+					dataList.add (d.getID ());
+			return dataList;
+		}
+		return null;
+	}
+
+	//		@Override
+	//	public List <String> getCommandAliases () {
+	//		if (getAliases ().size () > 0) {
+	//			String[] aliases = getAliases ();
+	//			List <String> allAliases = new ArrayList <> ();
+	//			String command = getName ();
+	//			// TODO Generate List of all Aliases
+	//			Collections.addAll (allAliases,CommandUtils.permute (command));
+	//			for(String str : aliases) {
+	//				Collections.addAll (allAliases,CommandUtils.permute (str));
+	//			}
+	////			LogHandler.info ("C: " + allAliases.toString ());
+	//			return allAliases;
+	//		}
+	//		return super.getAliases ();
+	//	}
+
+	public static List <String> autoCompleteUsername (String[] args,int index) {
+		List <String> possibleUsernames = getOnlinePlayerNames ();
+		if (args.length > index && args[index] != null)
+			return predictName (args[index],possibleUsernames);
+		else
+			return possibleUsernames;
+	}
+
+	public static List <String> predictName (String current,List <String> possibleNames) {
+		List <String> predictedNames = new ArrayList <> ();
+		for(String name : possibleNames)
+			if(name.toLowerCase ().startsWith (current.toLowerCase ()))
+				predictedNames.add (name);
+			else if(name.toLowerCase ().endsWith (current.toLowerCase ()))
+				predictedNames.add (name);
+		return predictedNames;
+	}
+
+	private static List <String> getOnlinePlayerNames () {
+		return Arrays.asList (FMLCommonHandler.instance ().getMinecraftServerInstance ().getOnlinePlayerNames ());
 	}
 
 	@Override
@@ -64,23 +147,6 @@ public abstract class SECommand extends CommandBase {
 			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
-	//		@Override
-	//	public List <String> getCommandAliases () {
-	//		if (getAliases ().size () > 0) {
-	//			String[] aliases = getAliases ();
-	//			List <String> allAliases = new ArrayList <> ();
-	//			String command = getName ();
-	//			// TODO Generate List of all Aliases
-	//			Collections.addAll (allAliases,CommandUtils.permute (command));
-	//			for(String str : aliases) {
-	//				Collections.addAll (allAliases,CommandUtils.permute (str));
-	//			}
-	////			LogHandler.info ("C: " + allAliases.toString ());
-	//			return allAliases;
-	//		}
-	//		return super.getAliases ();
-	//	}
-
 	public List <String> getAliases () {
 		if (getCommandAliases ().length > 0) {
 			List <String> aliases = new ArrayList ();
@@ -106,74 +172,8 @@ public abstract class SECommand extends CommandBase {
 		return new String[0];
 	}
 
-	public static List <String> autoComplete (String[] args,List <IDataType> data) {
-		List <String> dataList = new ArrayList <> ();
-		if (args.length == 0) {
-			for (IDataType d : data)
-				if (d != null)
-					dataList.add (d.getID ());
-			return dataList;
-		} else if (args.length == 1) {
-			for (IDataType d : data)
-				if (d != null && d.getID ().toLowerCase ().startsWith (args[0]))
-					dataList.add (d.getID ());
-			return dataList;
-		}
-		return null;
-	}
-
 	public String getDescription () {
 		return "";
-	}
-
-	public static List <String> autoCompleteHomes (String[] args,Home[] homes) {
-		List <String> homeList = new ArrayList <> ();
-		if (args.length == 0) {
-			for (Home home : homes)
-				if (home != null)
-					homeList.add (home.getName ());
-			return homeList;
-		} else if (args.length == 1) {
-			for (Home home : homes)
-				if (home != null && home.getName ().toLowerCase ().startsWith (args[0]))
-					homeList.add (home.getName ());
-			return homeList;
-		}
-		return null;
-	}
-
-	public static List <String> autoComplete (String[] args,List <IDataType> data,int index) {
-		List <String> dataList = new ArrayList <> ();
-		if (args.length >= index) {
-			for (IDataType d : data)
-				if (d != null && d.getID ().toLowerCase ().startsWith (args[index]))
-					dataList.add (d.getID ());
-			return dataList;
-		}
-		return null;
-	}
-
-	public static List <String> autoCompleteUsername (String[] args,int playerIndex) {
-		List <String> usernames = new ArrayList <> ();
-		if (args.length >= playerIndex && args[playerIndex] != null) {
-			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ()) {
-				if (player.getDisplayNameString ().toLowerCase ().startsWith (args[playerIndex].toLowerCase ()))
-					usernames.add (player.getDisplayNameString ());
-				else {
-					PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
-					if (data.getNickname () != null && !data.getNickname ().equals ("") && args[playerIndex].toLowerCase ().startsWith (data.getNickname ().toLowerCase ()))
-						usernames.add (data.getNickname ());
-				}
-			}
-			return usernames;
-		} else {
-			for (EntityPlayerMP player : FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().getPlayers ()) {
-				PlayerData data = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
-				String name = data.getNickname () != null ? data.getNickname () : player.getDisplayNameString ();
-				usernames.add (name);
-			}
-			return usernames;
-		}
 	}
 
 	@Override

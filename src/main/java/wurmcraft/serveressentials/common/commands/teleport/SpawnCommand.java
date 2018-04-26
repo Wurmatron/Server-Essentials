@@ -40,8 +40,6 @@ public class SpawnCommand extends SECommand {
 		long teleport_timer = data.getTeleportTimer ();
 		if (DataHelper2.globalSettings.getSpawn () != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
 			SpawnPoint spawn = DataHelper2.globalSettings.getSpawn ();
-			data.setLastLocation (player.getPosition ());
-			player.setLocationAndAngles (spawn.location.getX (),spawn.location.getY (),spawn.location.getZ (),spawn.yaw,spawn.pitch);
 			TeleportUtils.teleportTo (player,spawn.location,spawn.dimension,true);
 			ChatHelper.sendMessageTo (player,Local.SPAWN_TELEPORTED);
 			DataHelper2.forceSave (Keys.PLAYER_DATA,data);

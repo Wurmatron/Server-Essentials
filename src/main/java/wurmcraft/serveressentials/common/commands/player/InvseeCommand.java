@@ -62,10 +62,10 @@ public class InvseeCommand extends SECommand {
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		List <String> list = new ArrayList <> ();
-		if (sender instanceof EntityPlayer)
-			Collections.addAll (list,FMLCommonHandler.instance ().getMinecraftServerInstance ().getOnlinePlayerNames ());
-		return list;
+		List <String> args0 = autoCompleteUsername (args,0);
+		if (UsernameResolver.getPlayer (args[0]) != null)
+			return autoCompleteUsername (args,0);
+		return args0;
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class BackCommand extends SECommand {
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ().toString ());
+		PlayerData data = UsernameResolver.getPlayerData (player);
 		if (data != null && data.getLastLocation () != null) {
 			BlockPos lastLocation = data.getLastLocation ();
 			player.setPositionAndUpdate (lastLocation.getX (),lastLocation.getY (),lastLocation.getZ ());

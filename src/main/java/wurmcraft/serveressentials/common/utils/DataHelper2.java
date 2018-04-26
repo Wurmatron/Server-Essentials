@@ -28,6 +28,10 @@ public class DataHelper2 {
 		return loadedData.get (key);
 	}
 
+	public static <T extends IDataType> List <T> getData (Keys key,T type) {
+		return (List <T>) loadedData.get (key);
+	}
+
 	public static void forceSave (File file,IDataType data) {
 		if (!file.exists ())
 			file.mkdirs ();
@@ -54,7 +58,7 @@ public class DataHelper2 {
 	}
 
 	public static <T extends IDataType> T load (File file,Keys key,T type) {
-		LogHandler.debug ("Loaded: "  + file.getAbsolutePath ());
+		LogHandler.debug ("Loaded: " + file.getAbsolutePath ());
 		if (file.exists ()) {
 			try {
 				String fileData = Strings.join (Files.readAllLines (Paths.get (file.getAbsolutePath ())),"");

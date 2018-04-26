@@ -57,7 +57,7 @@ public class RandomTeleportCommand extends SECommand {
 				TeleportUtils.teleportTo (player,randPos,false);
 				ChatHelper.sendMessageTo (player,Local.RAND_TP);
 			} else {
-				for (int tries = 0; tries < 5; tries++) {
+				for (int tries = 0; tries < 8; tries++) {
 					BlockPos tempPos = getRandomPos (player);
 					if (TeleportUtils.safeLocation (player.world,randPos)) {
 						TeleportUtils.teleportTo (player,tempPos.add (.5,3,.5),false);

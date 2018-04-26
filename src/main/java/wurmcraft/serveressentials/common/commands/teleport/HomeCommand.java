@@ -65,8 +65,6 @@ public class HomeCommand extends SECommand {
 			Home home = playerData.getHome (Settings.home_name);
 			long teleport_timer = playerData.getTeleportTimer ();
 			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-				playerData.setLastLocation (player.getPosition ());
-				player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
 				TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
 				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
 				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
@@ -78,8 +76,6 @@ public class HomeCommand extends SECommand {
 			Home home = playerData.getHome (args[0]);
 			long teleport_timer = playerData.getTeleportTimer ();
 			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
-				playerData.setLastLocation (player.getPosition ());
-				player.setLocationAndAngles (home.getPos ().getX (),home.getPos ().getY (),home.getPos ().getZ (),home.getYaw (),home.getPitch ());
 				TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
 				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
 				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
