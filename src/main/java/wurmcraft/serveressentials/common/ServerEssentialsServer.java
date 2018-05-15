@@ -61,7 +61,6 @@ public class ServerEssentialsServer {
 		SecurityUtils.loadTrustedStaff ();
 		LoadHelper.registerCommands (e);
 		LoadHelper.loadData ();
-		//		ServerUtils.customizeShutdownMessage ("Test message");
 		Local.load ();
 	}
 }

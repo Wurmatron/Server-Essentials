@@ -1,19 +1,15 @@
 package wurmcraft.serveressentials.common.utils;
 
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.command.CommandBase;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.SPacketEntityEffect;
-import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.network.play.server.SPacketRespawn;
 import net.minecraft.network.play.server.SPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,8 +18,8 @@ import wurmcraft.serveressentials.common.commands.teleport.TpaCommand;
 import wurmcraft.serveressentials.common.config.Settings;
 import wurmcraft.serveressentials.common.reference.Keys;
 
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class TeleportUtils {
@@ -31,10 +27,12 @@ public class TeleportUtils {
 	public static void teleportTo (EntityPlayer player,BlockPos pos,boolean timer) {
 		if (player instanceof EntityPlayerMP && pos != null) {
 			PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
+			BlockPos position = getSafeLocation (player.world,pos);
 			data.setLastLocation (new BlockPos (player.posX,player.posY,player.posZ));
-			doTeleport ((EntityPlayerMP) player,pos.getX (),pos.getY (),pos.getZ (),player.dimension);
+			doTeleport ((EntityPlayerMP) player,position.getX (),position.getY (),position.getZ (),player.dimension);
 			if (timer)
 				data.setTeleportTimer (System.currentTimeMillis ());
+			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 		}
 	}
 
@@ -43,11 +41,21 @@ public class TeleportUtils {
 			PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
 			data.setLastLocation (new BlockPos (player.posX,player.posY,player.posZ));
 			if (player.dimension != dim)
-				player.changeDimension (dim);
+				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().transferPlayerToDimension ((EntityPlayerMP) player,dim,new CustomTeleporter (player.world.getMinecraftServer ().getWorld (player.dimension),pos.getX (),pos.getY (),pos.getZ ()));
 			doTeleport ((EntityPlayerMP) player,pos.getX (),pos.getY (),pos.getZ (),dim);
 			if (timer)
 				data.setTeleportTimer (System.currentTimeMillis ());
 		}
+	}
+
+	private static BlockPos getSafeLocation (World world,BlockPos pos) {
+		if (world.isAirBlock (pos) && world.isAirBlock (pos.up ()))
+			return pos;
+		List <BlockPos> testPos = generatePossibleLocations (pos);
+		for (BlockPos test : testPos)
+			if (world.isAirBlock (test) && world.isAirBlock (test.add (0,1,0)))
+				return test;
+		return world.getTopSolidOrLiquidBlock (pos);
 	}
 
 	public static void doTeleport (EntityPlayerMP player,double x,double y,double z,int dimID) {
@@ -70,12 +78,18 @@ public class TeleportUtils {
 			player.interactionManager.setWorld (newWorld);
 			player.mcServer.getPlayerList ().updateTimeAndWeatherForPlayer (player,newWorld);
 			player.mcServer.getPlayerList ().syncPlayerInventory (player);
-			for (PotionEffect potioneffect : player.getActivePotionEffects ())
+			for (PotionEffect potioneffect : player.getActivePotionEffects ()) {
 				player.connection.sendPacket (new SPacketEntityEffect (player.getEntityId (),potioneffect));
+			}
 			player.connection.sendPacket (new SPacketSetExperience (player.experience,player.experienceTotal,player.experienceLevel)); // Force XP sync
 			FMLCommonHandler.instance ().firePlayerChangedDimensionEvent (player,id,dimID);
-		} else
+		} else {
 			player.connection.setPlayerLocation (x + 0.5,y + 1,z + 0.5,player.rotationYaw,player.rotationPitch);
+		}
+	}
+
+	public static boolean safeLocation (World world,BlockPos pos) {
+		return world.getBlockState (pos.down ()).getBlock () != Blocks.AIR && !(world.getBlockState (pos.down ()).getBlock () instanceof BlockLiquid) && world.getBlockState (pos).getBlock () == Blocks.AIR && world.getBlockState (pos.up ()).getBlock () == Blocks.AIR;
 	}
 
 	public static String getRemainingCooldown (UUID uuid) {
@@ -108,7 +122,20 @@ public class TeleportUtils {
 		return false;
 	}
 
-	public static boolean safeLocation (World world,BlockPos pos) {
-		return world.getBlockState (pos.down ()).getBlock () != Blocks.AIR && !(world.getBlockState (pos.down ()).getBlock () instanceof BlockLiquid) && world.getBlockState (pos).getBlock () == Blocks.AIR;
+	private static List <BlockPos> generatePossibleLocations (BlockPos pos) {
+		List <BlockPos> possiblePos = new ArrayList <> ();
+		for (int x = 0; x < 6; x++)
+			for (int y = 0; y < 4; y++)
+				for (int z = 0; z < 6; z++) {
+					possiblePos.add (pos.add (-x,y,z));
+					possiblePos.add (pos.add (x,y,-z));
+					possiblePos.add (pos.add (-x,y,-z));
+					possiblePos.add (pos.add (x,y,z));
+					possiblePos.add (pos.add (-x,-y,z));
+					possiblePos.add (pos.add (x,-y,-z));
+					possiblePos.add (pos.add (-x,-y,-z));
+					possiblePos.add (pos.add (x,-y,z));
+				}
+		return possiblePos;
 	}
 }
