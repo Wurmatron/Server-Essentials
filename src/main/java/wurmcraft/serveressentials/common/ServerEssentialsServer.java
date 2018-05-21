@@ -44,7 +44,8 @@ public class ServerEssentialsServer {
 		MinecraftForge.EVENT_BUS.register (new PlayerTickEvent ());
 		MinecraftForge.EVENT_BUS.register (new PlayerRespawnEvent ());
 		MinecraftForge.EVENT_BUS.register (new PlayerChatEvent ());
-		MinecraftForge.EVENT_BUS.register (new ClaimEvent ());
+		if (ConfigHandler.claimingEnabled)
+			MinecraftForge.EVENT_BUS.register (new ClaimEvent ());
 		MinecraftForge.EVENT_BUS.register (new PlayerDeathEvent ());
 		MinecraftForge.EVENT_BUS.register (new MarketEvent ());
 		MinecraftForge.EVENT_BUS.register (new WorldEvent ());

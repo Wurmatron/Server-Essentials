@@ -183,5 +183,6 @@
   "ONLINE_TIME": "Online Time: #",
   "EXPERIENCE": "Experince: #",
   "BALANCE": "Balance: #",
-  "WEBSITE": "Website #"
+  "WEBSITE": "Website #",
+  "CLAIM_DISABLED": "§cClaiming is Disabled",
 }

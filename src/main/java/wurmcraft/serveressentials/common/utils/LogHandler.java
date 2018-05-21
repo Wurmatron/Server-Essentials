@@ -3,6 +3,7 @@ package wurmcraft.serveressentials.common.utils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Global;
 
 public class LogHandler {
@@ -31,7 +32,8 @@ public class LogHandler {
 	}
 
 	public static void debug (String msg) {
-		log (Level.INFO,msg);
+		if (ConfigHandler.debug)
+			log (Level.INFO,msg);
 	}
 
 	public static void chat (String msg) {

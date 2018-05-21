@@ -91,6 +91,9 @@ public class ConfigHandler {
 	@Config.Comment ("Default Server Lang")
 	public static String defaultLang = "en_us";
 
+	@Config.Comment ("Claiming is enabled?")
+	public static boolean claimingEnabled = true;
+
 	public static void createDefaultChannels () {
 		Channel globalChannel = new Channel (defaultChannel,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm",
 			"\"Demi San\" \"Demi God\""});

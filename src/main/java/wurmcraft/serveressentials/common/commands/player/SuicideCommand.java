@@ -35,8 +35,9 @@ public class SuicideCommand extends SECommand {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-		PlayerRespawnEvent.add (player.getGameProfile ().getId (),new ItemStack[][] {player.inventory.mainInventory.toArray (new ItemStack[0]),player.inventory.armorInventory.toArray (new ItemStack[0]),player.inventory.offHandInventory.toArray (new ItemStack[0])});
-		player.inventory.clear ();
+		// Disabled due to causing issues with graves
+//		PlayerRespawnEvent.add (player.getGameProfile ().getId (),new ItemStack[][] {player.inventory.mainInventory.toArray (new ItemStack[0]),player.inventory.armorInventory.toArray (new ItemStack[0]),player.inventory.offHandInventory.toArray (new ItemStack[0])});
+//		player.inventory.clear ();
 		data.setLastLocation (player.getPosition ());
 		DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 		player.onKillCommand ();

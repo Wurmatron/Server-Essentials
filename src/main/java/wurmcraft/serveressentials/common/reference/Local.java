@@ -173,6 +173,7 @@ public class Local {
 	public static String CHUNK_ALREADY_CLAIMED;
 	public static String CLAIM_REMOVED;
 	public static String MISSING_CLAIM;
+	public static String CLAIM_DISABLED;
 	// Chat
 	public static String SPACER;
 	public static String CHANNEL_CHANGED;
