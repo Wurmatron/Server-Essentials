@@ -1,12 +1,8 @@
 package wurmcraft.serveressentials.common.config;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.common.config.Config;
 import wurmcraft.serveressentials.common.api.permissions.Rank;
 import wurmcraft.serveressentials.common.api.storage.AutoRank;
 import wurmcraft.serveressentials.common.api.storage.Channel;
@@ -17,104 +13,87 @@ import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.reference.Global;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.RankManager;
 import wurmcraft.serveressentials.common.utils.TeamManager;
 
 import java.io.*;
 import java.util.ArrayList;
 
+@Config (modid = Global.MODID)
 public class ConfigHandler {
 
+	@Config.Ignore
 	public static final File saveLocation = new File ("." + File.separator + Global.NAME.replaceAll (" ","-"));
 
-	public static File location;
-	public static Configuration config;
+	@Config.Comment ("Enable debug mode")
+	public static boolean debug = false;
 
-	private static Property debug;
-	private static Property home_name;
-	private static Property teleport_cooldown;
-	private static Property respawn_point;
-	private static Property tpa_timeout;
-	private static Property default_channel;
-	private static Property forceChannelOnJoin;
-	private static Property chatFormat;
-	private static Property currencySymbol;
-	private static Property messageFormat;
-	private static Property securityModule;
-	private static Property trustedStaff;
-	private static Property onlineTimeMaxPrint;
-	private static Property logChat;
-	private static Property logInterval;
-	private static Property spamLimit;
-	private static Property mailFormat;
-	private static Property buySign;
-	private static Property sellSign;
-	private static Property colorSign;
-	private static Property commandSign;
-	private static Property lang;
+	@Config.Comment ("Default Home Name")
+	public static String homeName = "default";
 
-	public static void preInit (FMLPreInitializationEvent e) {
-		location = e.getSuggestedConfigurationFile ();
-		config = new Configuration (location);
-		loadConfig ();
-	}
+	@Config.Comment ("Time between teleportation (seconds)")
+	public static int teleportCooldown = 5;
 
-	private static void loadConfig () {
-		LogHandler.info ("Loading Config");
-		debug = config.get (Configuration.CATEGORY_GENERAL,"debug",Defaults.DEBUG,"Enable debug mode");
-		Settings.debug = debug.getBoolean ();
-		home_name = config.get (Configuration.CATEGORY_GENERAL,"home_name",Defaults.DEFAULT_HOME_NAME,"Default home name");
-		Settings.home_name = home_name.getString ();
-		teleport_cooldown = config.get (Configuration.CATEGORY_GENERAL,"teleport_cooldown",Defaults.TELEPORT_COOLDOWN,"Time between teleportation (in seconds)");
-		Settings.teleport_cooldown = teleport_cooldown.getInt ();
-		respawn_point = config.get (Configuration.CATEGORY_GENERAL,"respawn_point",Defaults.RESPAWN_POINT,"Respawn point (Home, Spawn and Default)");
-		Settings.respawn_point = respawn_point.getString ();
-		tpa_timeout = config.get (Configuration.CATEGORY_GENERAL,"tpa_timeout",Defaults.TPA_TIMEOUT,"Time for Tpa request timeout");
-		Settings.tpa_timeout = tpa_timeout.getInt ();
-		default_channel = config.get (Configuration.CATEGORY_GENERAL,"defaultChannel",Defaults.DEFAULT_CHANNEL,"Default channels players startout in");
-		Settings.default_channel = default_channel.getString ();
-		forceChannelOnJoin = config.get (Configuration.CATEGORY_GENERAL,"forceDefaultChannelOnJoin",Defaults.FORCECHANNELONJOIN,"Should player be played in this channel on join?");
-		Settings.forceChannelOnJoin = forceChannelOnJoin.getBoolean ();
-		chatFormat = config.get (Configuration.CATEGORY_GENERAL,"chatFormat",Defaults.CHATFORMAT,"Formatting for how the chat is displayed");
-		Settings.chatFormat = chatFormat.getString ();
-		currencySymbol = config.get (Configuration.CATEGORY_GENERAL,"currencySymbol",Defaults.CURRENCY_SYMBOL,"Symbol used for the server currency");
-		Settings.currencySymbol = currencySymbol.getString ();
-		messageFormat = config.get (Configuration.CATEGORY_GENERAL,"messageFormat",Defaults.MESSAGEFORMAT,"Formatting for how a message is displayed");
-		Settings.messageFormat = messageFormat.getString ();
-		trustedStaff = config.get (Configuration.CATEGORY_GENERAL,"trustedStaff","","Security protection against unauthorized \"things\"");
-		Settings.trustedStaff = trustedStaff.getString ();
-		securityModule = config.get (Configuration.CATEGORY_GENERAL,"securityModule",false,"Enable the Server-Essentials Security");
-		Settings.securityModule = securityModule.getBoolean ();
-		onlineTimeMaxPrint = config.get (Configuration.CATEGORY_GENERAL,"onlineTimeMaxPrint",Defaults.ONLINETIMEMAXPRINT,"Maximum number of usernames to be printed for 'onlinetime' command",1,30);
-		Settings.onlineTimeMaxPrint = onlineTimeMaxPrint.getInt ();
-		logChat = config.get (Configuration.CATEGORY_GENERAL,"logChat",Defaults.LOGCHAT,"Should the server log chat?");
-		Settings.logChat = logChat.getBoolean ();
-		logInterval = config.get (Configuration.CATEGORY_GENERAL,"logInterval",Defaults.LOGINTERVAL,"How long before saving chat? (Seconds)");
-		Settings.logInterval = logInterval.getInt ();
-		spamLimit = config.get (Configuration.CATEGORY_GENERAL,"spamLimit",Defaults.SPAMLIMIT,"How many times a player can type the same message");
-		Settings.spamLimit = spamLimit.getInt ();
-		mailFormat = config.get (Configuration.CATEGORY_GENERAL,"mailFormat",Defaults.MAILFORMAT,"How mail is displayed");
-		Settings.mailFormat = mailFormat.getString ();
-		buySign = config.get (Global.CATEGORY_ECO,"buySign",true,"Buy Sign Enabled?");
-		Settings.buySign = buySign.getBoolean ();
-		sellSign = config.get (Global.CATEGORY_ECO,"sellSign",true,"Sell Sign Enabled?");
-		Settings.sellSign = sellSign.getBoolean ();
-		colorSign = config.get (Global.CATEGORY_ECO,"colorSign",true,"Color Sign Enabled?");
-		Settings.colorSign = colorSign.getBoolean ();
-		commandSign = config.get (Global.CATEGORY_ECO,"commandSign",true,"Command Sign Enabled?");
-		Settings.commandSign = commandSign.getBoolean ();
-		lang = config.get (Configuration.CATEGORY_GENERAL,"lang","en_us","Language used for commands");
-		Settings.lang = lang.getString ();
+	@Config.Comment ("Respawn Point (home, spawn, default")
+	public static String respawnPoint = "home";
 
-		if (config.hasChanged ()) {
-			LogHandler.info ("Saving Config");
-			config.save ();
-		}
-	}
+	@Config.Comment ("Timeout for Tpa request")
+	public static int tpaTimeout = 120;
+
+	@Config.Comment ("Default Channel to join")
+	public static String defaultChannel = "Global";
+
+	@Config.Comment ("Force default channel on join")
+	public static boolean forceDefaultChannelOnJoin = true;
+
+	@Config.Comment ("How Chat is formatted")
+	public static String chatFormat = "%channel% " + "[%team%] " + "%rankPrefix% " + "%username% " + "%rankSuffix% " + "%message%";
+
+	@Config.Comment ("String used for currency")
+	public static String currencySymbol = "$";
+
+	@Config.Comment ("How the message command is displayed")
+	public static String msgFormat = "%username% - > %message%";
+
+	@Config.Comment ("Used by Security module for certain command if its enabled")
+	public static String trustedStaff = "";
+
+	@Config.Comment ("Makes it harder to change up the ranks along with a few abuse checks")
+	public static boolean securityModule = false;
+
+	@Config.Comment ("Used by OnlineTime Ranking System and simular commands")
+	public static int topMaxDisplay = 20;
+
+	@Config.Comment ("Log Chat to a file")
+	public static boolean logChat = true;
+
+	@Config.Comment ("How long before saving chat")
+	public static int logInterval = 30;
+
+	@Config.Comment ("Max of same message a user is allowed to type before it is blocked")
+	public static int spamLimit = 3;
+
+	@Config.Comment ("How the mail command is displated")
+	public static String mailFormat = "%username% -> %message%";
+
+	@Config.Comment ("Allow the creation of buy signs")
+	public static boolean buySign = true;
+
+	@Config.Comment ("Allow the creation of sell signs")
+	public static boolean sellSign = true;
+
+	@Config.Comment ("Allow the creation of color signs")
+	public static boolean colorSign = true;
+
+	@Config.Comment ("Allow the creation of command signs")
+	public static boolean commandSign = true;
+
+	@Config.Comment ("Default Server Lang")
+	public static String defaultLang = "en_us";
 
 	public static void createDefaultChannels () {
-		Channel globalChannel = new Channel (Defaults.DEFAULT_CHANNEL,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm","\"Demi San\" \"Demi God\""});
+		Channel globalChannel = new Channel (defaultChannel,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm",
+			"\"Demi San\" \"Demi God\""});
 		Channel staffChannel = new Channel ("Staff","&4[S]",false,false,Channel.Type.RANK,"Admin",null);
 		Channel teamChannel = new Channel ("Team","&a[T]",true,false,Channel.Type.TEAM,"",null);
 		DataHelper2.createIfNonExist (Keys.CHANNEL,globalChannel);

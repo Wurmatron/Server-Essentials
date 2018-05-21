@@ -11,7 +11,7 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -82,7 +82,7 @@ public class SetGroup extends SECommand {
 
 	@Override
 	public boolean canConsoleRun () {
-		return !Settings.securityModule;
+		return !ConfigHandler.securityModule;
 	}
 
 	//	@Override

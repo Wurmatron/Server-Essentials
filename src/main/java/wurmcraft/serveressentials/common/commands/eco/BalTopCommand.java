@@ -9,7 +9,7 @@ import net.minecraftforge.common.UsernameCache;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
@@ -64,9 +64,9 @@ public class BalTopCommand extends SECommand {
 			}
 		};
 		UUID[] keys = dataMap.keySet ().toArray (new UUID[0]);
-		for (int i = 0; i < Settings.onlineTimeMaxPrint && i < keys.length; i++) {
+		for (int i = 0; i < ConfigHandler.topMaxDisplay && i < keys.length; i++) {
 			unknownPlayers.forEach (s -> ChatHelper.sendMessageTo (sender,TextFormatting.RED + "Unknown Player: '" + s + "'"));
-			String formatted = Settings.currencySymbol + dataMap.get (keys[i]).getMoney ();
+			String formatted = ConfigHandler.currencySymbol + dataMap.get (keys[i]).getMoney ();
 			ChatHelper.sendMessageTo (sender,TextFormatting.GREEN + UsernameCache.getLastKnownUsername (keys[i]) + TextFormatting.DARK_AQUA + " : " + formatted);
 		}
 	}

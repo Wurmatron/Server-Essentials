@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -47,9 +47,9 @@ public class DelHome extends SECommand {
 		if (data == null)
 			DataHelper2.load (Keys.PLAYER_DATA,new PlayerData (player.getGameProfile ().getId (),null));
 		if (args.length == 0) {
-			data.delHome (Settings.home_name);
+			data.delHome (ConfigHandler.homeName);
 			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
-			ChatHelper.sendMessageTo (sender,Local.HOME_DELETED.replaceAll ("#",Settings.home_name));
+			ChatHelper.sendMessageTo (sender,Local.HOME_DELETED.replaceAll ("#",ConfigHandler.homeName));
 		} else if (args.length == 1) {
 			data.delHome (args[0]);
 			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
@@ -59,10 +59,10 @@ public class DelHome extends SECommand {
 
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		//		if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
-		//			EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		//			return autoCompleteHomes (args,DataHelper.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
-		//		}
+				if (sender.getCommandSenderEntity () instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
+					return autoCompleteHomes (args,UsernameResolver.getPlayerData (player.getGameProfile ().getId ()).getHomes ());
+				}
 		return null;
 	}
 

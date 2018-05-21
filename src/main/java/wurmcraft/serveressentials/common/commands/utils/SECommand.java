@@ -4,14 +4,13 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.IDataType;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -178,7 +177,7 @@ public abstract class SECommand extends CommandBase {
 
 	@Override
 	public boolean checkPermission (MinecraftServer server,ICommandSender sender) {
-		if (Settings.securityModule && requiresTrusted ()) {
+		if (ConfigHandler.securityModule && requiresTrusted ()) {
 			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
 				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ().toString ())).getRank (),perm.toString ());
 		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)
@@ -189,7 +188,7 @@ public abstract class SECommand extends CommandBase {
 	}
 
 	protected boolean hasPerm (ICommandSender sender,String thePerm) {
-		if (Settings.securityModule && requiresTrusted ()) {
+		if (ConfigHandler.securityModule && requiresTrusted ()) {
 			if (sender.getCommandSenderEntity () instanceof EntityPlayer)
 				return SecurityUtils.isTrustedMember ((EntityPlayer) sender.getCommandSenderEntity ()) && RankManager.hasPermission (((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,((EntityPlayer) sender.getCommandSenderEntity ()).getGameProfile ().getId ().toString ())).getRank (),thePerm);
 		} else if (sender.getCommandSenderEntity () instanceof EntityPlayer)

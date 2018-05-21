@@ -10,7 +10,7 @@ import wurmcraft.serveressentials.common.api.storage.Home;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -21,8 +21,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static wurmcraft.serveressentials.common.commands.teleport.HomeCommand.displayLocation;
+
 public class SetHomeCommand extends SECommand {
 
+	// TODO Lower case does not set home
 	public SetHomeCommand (Perm perm) {
 		super (perm);
 	}
@@ -55,11 +58,12 @@ public class SetHomeCommand extends SECommand {
 			} else
 				ChatHelper.sendMessageTo (player,Local.INVALID_HOME_NAME.replaceAll ("#",args[0]));
 		} else {
-			Home home = new Home (Settings.home_name,player.getPosition (),player.dimension,player.rotationYaw,player.rotationPitch);
+			Home home = new Home (ConfigHandler.homeName,player.getPosition (),player.dimension,player.rotationYaw,player
+				.rotationPitch);
 			PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
 			data.addHome (home);
 			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
-			ChatHelper.sendMessageTo (player,Local.HOME_SET.replaceAll ("#",home.getName ()));
+			ChatHelper.sendMessageTo (player,Local.HOME_SET.replaceAll ("#",home.getName ()),hoverEvent (home));
 		}
 	}
 
@@ -67,13 +71,12 @@ public class SetHomeCommand extends SECommand {
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		List <String> list = new ArrayList <> ();
 		if (args.length == 0)
-			list.add (Settings.home_name);
+			list.add (ConfigHandler.homeName);
 		return list;
 	}
 
 	private HoverEvent hoverEvent (Home home) {
-		//		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,DataHelper.displayLocation (home));
-		return null;
+				return new HoverEvent (HoverEvent.Action.SHOW_TEXT,displayLocation (home));
 	}
 
 	@Override

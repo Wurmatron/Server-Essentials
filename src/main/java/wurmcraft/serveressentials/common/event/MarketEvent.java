@@ -13,7 +13,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
@@ -35,13 +35,13 @@ public class MarketEvent {
 	public void onInteract (PlayerInteractEvent e) {
 		if (e.getWorld ().getTileEntity (e.getPos ()) != null && e.getWorld ().getTileEntity (e.getPos ()) instanceof TileEntitySign) {
 			String[] signText = getLines (e.getWorld (),e.getPos ());
-			if (signText[0].equalsIgnoreCase ("[IBuy]") && Settings.buySign) {
+			if (signText[0].equalsIgnoreCase ("[IBuy]") && ConfigHandler.buySign) {
 				handleIBuySign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
-			} else if (signText[0].equalsIgnoreCase ("[ISell]") && Settings.sellSign) {
+			} else if (signText[0].equalsIgnoreCase ("[ISell]") && ConfigHandler.sellSign) {
 				handleISellSign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
-			} else if (signText[0].equalsIgnoreCase ("[Buy]") && Settings.buySign) {
+			} else if (signText[0].equalsIgnoreCase ("[Buy]") && ConfigHandler.buySign) {
 				handleBuySign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
-			} else if (signText[0].equalsIgnoreCase ("[Sell]") && Settings.sellSign) {
+			} else if (signText[0].equalsIgnoreCase ("[Sell]") && ConfigHandler.sellSign) {
 				handleSellSign (e.getEntityPlayer (),e.getWorld (),e.getPos ());
 			} else if (e.getWorld ().getTileEntity (e.getPos ()) != null && isInventory (e.getWorld (),e.getPos ())) {
 				handleLinking (e.getEntityPlayer (),e.getWorld (),e.getPos ());
@@ -88,7 +88,7 @@ public class MarketEvent {
 
 	private int getPrice (World world,BlockPos pos) {
 		try {
-			return Integer.parseInt (getLines (world,pos)[3].replaceAll (Settings.currencySymbol,""));
+			return Integer.parseInt (getLines (world,pos)[3].replaceAll (ConfigHandler.currencySymbol,""));
 		} catch (NumberFormatException e) {
 			return -1;
 		}

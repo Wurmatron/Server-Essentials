@@ -8,7 +8,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.api.storage.SpawnPoint;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -38,12 +38,13 @@ public class SpawnCommand extends SECommand {
 		EntityPlayer player = (EntityPlayer) sender;
 		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
 		long teleport_timer = data.getTeleportTimer ();
-		if (DataHelper2.globalSettings.getSpawn () != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+		if (DataHelper2.globalSettings.getSpawn () != null && (teleport_timer + (ConfigHandler.teleportCooldown * 1000)) <= System
+			.currentTimeMillis ()) {
 			SpawnPoint spawn = DataHelper2.globalSettings.getSpawn ();
 			TeleportUtils.teleportTo (player,spawn.location,spawn.dimension,true);
 			ChatHelper.sendMessageTo (player,Local.SPAWN_TELEPORTED);
 			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
-		} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+		} else if ((teleport_timer + (ConfigHandler.teleportCooldown * 1000)) > System.currentTimeMillis ())
 			ChatHelper.sendMessageTo (player,TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ()));
 	}
 

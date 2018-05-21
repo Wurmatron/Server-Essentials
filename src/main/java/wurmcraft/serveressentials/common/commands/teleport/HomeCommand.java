@@ -16,12 +16,11 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.SubCommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
-import wurmcraft.serveressentials.common.utils.LogHandler;
 import wurmcraft.serveressentials.common.utils.TeleportUtils;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
@@ -53,7 +52,7 @@ public class HomeCommand extends SECommand {
 
 	@Override
 	public String[] getCommandAliases () {
-		return new String[] {"h"};
+		return new String[] {"h", "HOME"};
 	}
 
 	@Override
@@ -62,24 +61,24 @@ public class HomeCommand extends SECommand {
 		EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity ();
 		PlayerData playerData = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
 		if (args.length == 0) {
-			Home home = playerData.getHome (Settings.home_name);
+			Home home = playerData.getHome (ConfigHandler.homeName);
 			long teleport_timer = playerData.getTeleportTimer ();
-			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+			if (home != null && (teleport_timer + (ConfigHandler.teleportCooldown * 1000)) <= System.currentTimeMillis ()) {
 				TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
 				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
 				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
-			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+			} else if ((teleport_timer + (ConfigHandler.teleportCooldown * 1000)) > System.currentTimeMillis ())
 				ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
 			else
 				ChatHelper.sendMessageTo (sender,Local.HOME_NONE);
 		} else if (args.length == 1 && !args[0].equalsIgnoreCase ("list")) {
 			Home home = playerData.getHome (args[0]);
 			long teleport_timer = playerData.getTeleportTimer ();
-			if (home != null && (teleport_timer + (Settings.teleport_cooldown * 1000)) <= System.currentTimeMillis ()) {
+			if (home != null && (teleport_timer + (ConfigHandler.teleportCooldown * 1000)) <= System.currentTimeMillis ()) {
 				TeleportUtils.teleportTo (player,home.getPos (),home.getDimension (),true);
 				ChatHelper.sendMessageTo (player,TextFormatting.AQUA + Local.HOME_TELEPORTED.replace ("#",home.getName ()),hoverEvent (home));
 				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
-			} else if ((teleport_timer + (Settings.teleport_cooldown * 1000)) > System.currentTimeMillis ())
+			} else if ((teleport_timer + (ConfigHandler.teleportCooldown * 1000)) > System.currentTimeMillis ())
 				ChatHelper.sendMessageTo (player,Local.TELEPORT_COOLDOWN.replace ("#",TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ())));
 			else
 				ChatHelper.sendMessageTo (sender,Local.HOME_INVALID.replaceAll ("#",args[0]));

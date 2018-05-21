@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChannelManager;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.security.SecurityUtils;
@@ -30,8 +30,8 @@ public class PlayerJoinEvent {
 			if (newPlayer)
 				playerData.setFirstJoin ();
 			playerData.setLastseen (System.currentTimeMillis ());
-			if (Settings.forceChannelOnJoin) {
-				playerData.setCurrentChannel (ChannelManager.getFromName (Settings.default_channel));
+			if (ConfigHandler.forceDefaultChannelOnJoin) {
+				playerData.setCurrentChannel (ChannelManager.getFromName (ConfigHandler.defaultChannel));
 				ChannelManager.setPlayerChannel (e.player.getGameProfile ().getId (),ChannelManager.getFromName (playerData.getCurrentChannel ()));
 			}
 			if (playerData.getMail () != null && playerData.getMail ().size () > 0)

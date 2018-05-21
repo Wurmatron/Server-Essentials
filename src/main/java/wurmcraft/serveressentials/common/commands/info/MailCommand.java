@@ -14,7 +14,7 @@ import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.commands.utils.SubCommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -89,7 +89,7 @@ public class MailCommand extends SECommand {
 		if (playerMail.size () > 0) {
 			ChatHelper.sendMessageTo (sender.getCommandSenderEntity (),Local.SPACER);
 			for (int index = 0; index < playerMail.size (); index++)
-				ChatHelper.sendMessageTo (player,TextFormatting.GREEN + "[" + (index + 1) + "]: " + StringUtils.replaceEach (Settings.mailFormat,new String[] {"%username%","%message%"},new String[] {TextFormatting.AQUA + UsernameResolver.getUsername (playerMail.get (index).getSender ()),TextFormatting.GOLD + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7")}),clickEvent (index + 1),null);
+				ChatHelper.sendMessageTo (player,TextFormatting.GREEN + "[" + (index + 1) + "]: " + StringUtils.replaceEach (ConfigHandler.mailFormat,new String[] {"%username%","%message%"},new String[] {TextFormatting.AQUA + UsernameResolver.getUsername (playerMail.get (index).getSender ()),TextFormatting.GOLD + playerMail.get (index).getMessage ().replaceAll ("&","\u00A7")}),clickEvent (index + 1),null);
 			ChatHelper.sendMessageTo (player,Local.SPACER);
 		} else
 			ChatHelper.sendMessageTo (player,Local.NO_MAIL);
@@ -142,7 +142,7 @@ public class MailCommand extends SECommand {
 			String username = player.getGameProfile ().getName ();
 			Mail[] playerMail = UsernameResolver.getPlayerData (username).getMail ().toArray (new Mail[0]);
 			for (int index : parseMailIndices (player,trailingArgs,playerMail))
-				ChatHelper.sendMessageTo (player,TextFormatting.GREEN + "[" + (index + 1) + "]: " + StringUtils.replaceEach (Settings.mailFormat,new String[] {"%username%","%message%"},new String[] {TextFormatting.AQUA + UsernameResolver.getUsername (playerMail[index].getSender ()),TextFormatting.GOLD + playerMail[index].getMessage ().replaceAll ("&","\u00A7")}));
+				ChatHelper.sendMessageTo (player,TextFormatting.GREEN + "[" + (index + 1) + "]: " + StringUtils.replaceEach (ConfigHandler.mailFormat,new String[] {"%username%","%message%"},new String[] {TextFormatting.AQUA + UsernameResolver.getUsername (playerMail[index].getSender ()),TextFormatting.GOLD + playerMail[index].getMessage ().replaceAll ("&","\u00A7")}));
 		}
 	}
 

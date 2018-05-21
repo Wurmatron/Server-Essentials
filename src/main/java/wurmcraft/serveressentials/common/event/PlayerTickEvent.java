@@ -54,7 +54,7 @@ public class PlayerTickEvent {
 		//			openInv.get (e.player).update ();
 		//		if (DataHelper.activeRequests.size () > 0 && e.player.world.getWorldTime () % 20 == 0)
 		//			for (long time : DataHelper.activeRequests.keySet ())
-		//				if ((time + (Settings.tpa_timeout * 1000)) <= System.currentTimeMillis ())
+		//				if ((time + (ConfigHandler.tpa_timeout * 1000)) <= System.currentTimeMillis ())
 		//					DataHelper.activeRequests.remove (time);
 		//		if (frozenPlayers.size () > 0 && frozenPlayers.keySet ().contains (e.player)) {
 		//			BlockPos lockedPos = frozenPlayers.get (e.player);

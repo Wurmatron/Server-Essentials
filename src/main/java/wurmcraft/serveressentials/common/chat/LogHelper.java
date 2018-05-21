@@ -3,7 +3,6 @@ package wurmcraft.serveressentials.common.chat;
 import joptsimple.internal.Strings;
 import wurmcraft.serveressentials.common.api.storage.Channel;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
-import wurmcraft.serveressentials.common.config.Settings;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +18,7 @@ public class LogHelper {
 	private static HashMap <Channel, List <String>> chatLog = new HashMap <> ();
 
 	public static void checkAndSave () {
-		if (System.currentTimeMillis () >= (LAST_SAVE + (Settings.logInterval * 1000)) && chatLog.size () > 0)
+		if (System.currentTimeMillis () >= (LAST_SAVE + (ConfigHandler.logInterval * 1000)) && chatLog.size () > 0)
 			save ();
 	}
 

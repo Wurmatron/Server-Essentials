@@ -3,7 +3,7 @@ package wurmcraft.serveressentials.common.security;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.utils.LogHandler;
 
 import java.io.BufferedReader;
@@ -20,11 +20,11 @@ public class SecurityUtils {
 	public static List <UUID> trusted = new ArrayList <> ();
 
 	public static void loadTrustedStaff () {
-		if (Settings.securityModule && Settings.trustedStaff != null && Settings.trustedStaff.length () > 0) {
+		if (ConfigHandler.securityModule && ConfigHandler.trustedStaff != null && ConfigHandler.trustedStaff.length () > 0) {
 			if (trusted.size () > 0)
 				trusted.clear ();
 			try {
-				URL url = new URL (Settings.trustedStaff);
+				URL url = new URL (ConfigHandler.trustedStaff);
 				BufferedReader in = new BufferedReader (new InputStreamReader (url.openStream ()));
 				String inputLine;
 				while ((inputLine = in.readLine ()) != null) {
@@ -46,7 +46,7 @@ public class SecurityUtils {
 	}
 
 	public static boolean isTrustedMember (EntityPlayer player) {
-		if (Settings.securityModule) {
+		if (ConfigHandler.securityModule) {
 			if (trusted.size () > 0) {
 				for (UUID uuid : trusted)
 					if (uuid.equals (player.getGameProfile ().getId ()))

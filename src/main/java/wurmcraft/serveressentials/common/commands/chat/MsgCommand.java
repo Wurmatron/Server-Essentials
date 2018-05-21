@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
@@ -64,9 +64,10 @@ public class MsgCommand extends SECommand {
 					PlayerData senderData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,senderPlayer.getGameProfile ().getId ().toString ());
 					String senderName = senderData.getNickname () != null ? TextFormatting.GRAY + "*" + TextFormatting.RESET + senderData.getNickname ().replaceAll ("&","\u00A7") : senderPlayer.getDisplayNameString ();
 					DataHelper2.addTemp (Keys.LAST_MESSAGE,player.getGameProfile ().getId (),senderPlayer.getGameProfile ().getId (),false);
-					ChatHelper.sendMessageTo (senderPlayer,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + senderName).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
+					ChatHelper.sendMessageTo (senderPlayer,player,ConfigHandler.msgFormat.replaceAll (ChatHelper.USERNAME_KEY,
+						TextFormatting.AQUA + senderName).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
 				} else {
-					ChatHelper.sendMessageTo (sender,player,Settings.messageFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getName ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
+					ChatHelper.sendMessageTo (sender,player,ConfigHandler.msgFormat.replaceAll (ChatHelper.USERNAME_KEY,TextFormatting.AQUA + sender.getName ()).replaceAll (ChatHelper.MESSAGE_KEY,TextFormatting.GRAY + message));
 				}
 			}
 		} else

@@ -3,7 +3,6 @@ package wurmcraft.serveressentials.common.reference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
-import wurmcraft.serveressentials.common.config.Settings;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -208,7 +207,7 @@ public class Local {
 
 	public static void load () {
 		Gson gson = new GsonBuilder ().excludeFieldsWithModifiers (Modifier.TRANSIENT).setPrettyPrinting ().create ();
-		File lang = new File (ConfigHandler.saveLocation + File.separator + "Language" + File.separator + Settings.lang + ".lang");
+		File lang = new File (ConfigHandler.saveLocation + File.separator + "Language" + File.separator + ConfigHandler.defaultLang + ".lang");
 		if (lang.exists ()) {
 			try {
 				BufferedReader reader = new BufferedReader (new FileReader (lang));

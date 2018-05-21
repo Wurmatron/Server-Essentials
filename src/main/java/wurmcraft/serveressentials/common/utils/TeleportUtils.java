@@ -9,13 +9,12 @@ import net.minecraft.network.play.server.SPacketRespawn;
 import net.minecraft.network.play.server.SPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.commands.teleport.TpaCommand;
-import wurmcraft.serveressentials.common.config.Settings;
+import wurmcraft.serveressentials.common.config.ConfigHandler;
 import wurmcraft.serveressentials.common.reference.Keys;
 
 import java.util.ArrayList;
@@ -103,7 +102,7 @@ public class TeleportUtils {
 	public static boolean canTeleport (UUID uuid) {
 		if (uuid != null) {
 			PlayerData data = UsernameResolver.getPlayerData (uuid);
-			return data.getTeleportTimer () + (Settings.teleport_cooldown * 1000) <= System.currentTimeMillis ();
+			return data.getTeleportTimer () + (ConfigHandler.teleportCooldown * 1000) <= System.currentTimeMillis ();
 		}
 		return false;
 	}
