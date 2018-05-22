@@ -21,8 +21,7 @@ public class AddMotdCommand extends SECommand {
 		return "addMotd";
 	}
 
-	@Override
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[] {"aMotd"};
 	}
 

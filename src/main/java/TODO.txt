@@ -1,4 +1,3 @@
 - Load Ranks from DataBase
-- Rework ConfigHandler
 - Better Economy Functionality
 - Tab AutoCompletion / Aliases

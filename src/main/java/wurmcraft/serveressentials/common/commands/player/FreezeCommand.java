@@ -28,7 +28,7 @@ public class FreezeCommand extends SECommand {
 	}
 
 	@Override
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[] {"fz"};
 	}
 

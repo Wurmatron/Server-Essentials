@@ -76,22 +76,19 @@ public abstract class SECommand extends CommandBase {
 		return null;
 	}
 
-	//		@Override
-	//	public List <String> getCommandAliases () {
-	//		if (getAliases ().size () > 0) {
-	//			String[] aliases = getAliases ();
-	//			List <String> allAliases = new ArrayList <> ();
-	//			String command = getName ();
-	//			// TODO Generate List of all Aliases
-	//			Collections.addAll (allAliases,CommandUtils.permute (command));
-	//			for(String str : aliases) {
-	//				Collections.addAll (allAliases,CommandUtils.permute (str));
-	//			}
-	////			LogHandler.info ("C: " + allAliases.toString ());
-	//			return allAliases;
-	//		}
-	//		return super.getAliases ();
-	//	}
+	@Override
+	public List <String> getAliases () {
+		String[] altNames = getAltNames ();
+		List <String> aliases = new ArrayList <> ();
+		aliases.add (getName ().toLowerCase ());
+		aliases.add (getName ().toUpperCase ());
+		for (String cmd : altNames) {
+			aliases.add (cmd);
+			aliases.add (cmd.toLowerCase ());
+			aliases.add (cmd.toUpperCase ());
+		}
+		return aliases;
+	}
 
 	public static List <String> autoCompleteUsername (String[] args,int index) {
 		List <String> possibleUsernames = getOnlinePlayerNames ();
@@ -146,15 +143,6 @@ public abstract class SECommand extends CommandBase {
 			ChatHelper.sendMessageTo (sender,getUsage (sender));
 	}
 
-	public List <String> getAliases () {
-		if (getCommandAliases ().length > 0) {
-			List <String> aliases = new ArrayList ();
-			Collections.addAll (aliases,getCommandAliases ());
-			return aliases;
-		}
-		return new ArrayList <> ();
-	}
-
 	public boolean canConsoleRun () {
 		return true;
 	}
@@ -167,7 +155,7 @@ public abstract class SECommand extends CommandBase {
 		return false;
 	}
 
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[0];
 	}
 

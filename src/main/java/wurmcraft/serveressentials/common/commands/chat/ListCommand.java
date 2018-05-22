@@ -32,7 +32,7 @@ public class ListCommand extends SECommand {
 	}
 
 	@Override
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[] {"players","online"};
 	}
 

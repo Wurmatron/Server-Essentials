@@ -26,8 +26,7 @@ public class AddRuleCommand extends SECommand {
 		return "/addRule <rule>";
 	}
 
-	@Override
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[] {"aRule"};
 	}
 

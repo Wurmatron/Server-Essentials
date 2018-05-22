@@ -37,7 +37,7 @@ public class MsgCommand extends SECommand {
 	}
 
 	@Override
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[] {"pm"};
 	}
 

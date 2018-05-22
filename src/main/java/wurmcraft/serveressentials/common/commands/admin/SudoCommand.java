@@ -35,10 +35,9 @@ public class SudoCommand extends SECommand {
 	}
 
 	@Override
-	public String[] getCommandAliases () {
+	public String[] getAltNames () {
 		return new String[] {"su"};
 	}
-
 
 	@Override
 	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {

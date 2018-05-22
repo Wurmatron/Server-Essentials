@@ -31,8 +31,8 @@ public class DeleteMotdCommand extends SECommand {
 		return "/delMotd <motd No.>";
 	}
 
-	@Override
-	public String[] getCommandAliases () {
+
+	public String[] getAltNames () {
 		return new String[] {"delMotd","removeMotd","remMotd"};
 	}
 
