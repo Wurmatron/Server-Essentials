@@ -25,4 +25,9 @@ public class Claim {
 	public UUID getOwner () {
 		return owner;
 	}
+
+	@Override
+	public String toString () {
+		return "Claim{" + "team='" + team + '\'' + ", owner=" + owner + '}';
+	}
 }
