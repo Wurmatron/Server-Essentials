@@ -27,7 +27,17 @@ minecraft {
     replaceIn "Global.java"
 }
 
-dependencies {}
+repositories {
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+}
+
+dependencies {
+	deobfCompile "ftb-utilities:FTBUtilities:${ftblib_version}"
+	deobfCompile "ftblib:FTBLib:${ftbutils_version}"
+}
 
 processResources
 {

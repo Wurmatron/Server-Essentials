@@ -92,7 +92,7 @@ public class ConfigHandler {
 	public static String defaultLang = "en_us";
 
 	@Config.Comment ("Claiming is enabled?")
-	public static boolean claimingEnabled = true;
+	public static boolean claimingEnabled = false;
 
 	public static void createDefaultChannels () {
 		Channel globalChannel = new Channel (defaultChannel,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm",

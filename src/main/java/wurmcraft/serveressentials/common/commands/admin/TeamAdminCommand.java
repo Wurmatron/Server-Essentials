@@ -3,7 +3,6 @@ package wurmcraft.serveressentials.common.commands.admin;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -11,9 +10,6 @@ import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.reference.Local;
 import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.TeamManager;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class TeamAdminCommand extends SECommand {
 
@@ -36,11 +32,6 @@ public class TeamAdminCommand extends SECommand {
 		if (args.length <= 0)
 			sender.sendMessage (new TextComponentString (getUsage (sender)));
 		super.execute (server,sender,args);
-	}
-
-	@Override
-	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		return autoComplete (args,TeamManager.getTeams ());
 	}
 
 	public void disband (ICommandSender sender,String[] args) {

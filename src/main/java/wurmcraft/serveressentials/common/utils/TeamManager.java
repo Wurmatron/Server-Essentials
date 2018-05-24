@@ -1,6 +1,5 @@
 package wurmcraft.serveressentials.common.utils;
 
-import wurmcraft.serveressentials.common.api.storage.IDataType;
 import wurmcraft.serveressentials.common.api.team.Team;
 import wurmcraft.serveressentials.common.reference.Keys;
 
@@ -38,7 +37,7 @@ public class TeamManager {
 		return null;
 	}
 
-	public static List <IDataType> getTeams () {
+	public static List <Team> getTeams () {
 		return Collections.unmodifiableList (teams);
 	}
 

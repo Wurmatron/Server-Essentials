@@ -72,7 +72,7 @@ public class TeamCommand extends SECommand {
 	@Override
 	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
 		if (args.length == 2 && args[0].equalsIgnoreCase ("invite")) {
-			List <String> players = new ArrayList <> ();
+			List<String> players = new ArrayList<> ();
 			for (EntityPlayerMP player : server.getPlayerList ().getPlayers ())
 				players.add (UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ()));
 			return players;
