@@ -90,6 +90,7 @@ public class LoadHelper {
 		e.registerServerCommand (new LockDownCommand (Perm.LOCKDOWN));
 		e.registerServerCommand (new PerkCommand (Perm.PERK));
 		e.registerServerCommand (new ModListCommand (Perm.MODLIST));
+		e.registerServerCommand (new GodCommand (Perm.GOD));
 	}
 
 	public static void loadData () {

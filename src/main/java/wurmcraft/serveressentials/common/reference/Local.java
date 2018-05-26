@@ -127,6 +127,8 @@ public class Local {
 	public static String ONLINE_TIME;
 	public static String EXPERIENCE;
 	public static String BALANCE;
+	public static String GOD_ENABLED;
+	public static String GOD_DISABLED;
 	// Teleport
 	public static String TPA_USERNAME_NONE;
 	public static String TPA_USER_NOTFOUND;
