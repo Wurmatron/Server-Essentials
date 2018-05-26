@@ -67,7 +67,7 @@ public class ChatHelper {
 
 	public static void sendMessageTo (ICommandSender sender,EntityPlayer reciver,String message) {
 		sendMessageTo (reciver,message);
-		if (DataHelper2.getTemp (Keys.SPY,reciver.getGameProfile ().getId ()).size () > 0)
+		if (sender != null && DataHelper2.getTemp (Keys.SPY,reciver.getGameProfile ().getId ()).size () > 0)
 			for (EntityPlayer uuid : sender.getServer ().getPlayerList ().getPlayers ())
 				for (EntityPlayer spy : sender.getServer ().getPlayerList ().getPlayers ())
 					if (spy.getGameProfile ().getId ().equals (uuid.getGameProfile ().getId ()))

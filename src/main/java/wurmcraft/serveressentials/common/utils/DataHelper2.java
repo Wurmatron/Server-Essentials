@@ -133,7 +133,7 @@ public class DataHelper2 {
 	}
 
 	public static <T> HashMap <T, Object> getTemp (Keys key,T keyType) {
-		return (HashMap <T, Object>) tempData.get (key);
+		return (HashMap <T, Object>) tempData.getOrDefault (key, new HashMap<>());
 	}
 
 	public static <T> void addTemp (Keys key,Object dataKey,Object data,boolean remove) {
