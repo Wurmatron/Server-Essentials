@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.UsernameCache;
+import wurmcraft.serveressentials.common.api.storage.LocationWrapper;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
 import wurmcraft.serveressentials.common.event.PlayerRespawnEvent;
@@ -35,10 +36,7 @@ public class SuicideCommand extends SECommand {
 		super.execute (server,sender,args);
 		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
 		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-		// Disabled due to causing issues with graves
-//		PlayerRespawnEvent.add (player.getGameProfile ().getId (),new ItemStack[][] {player.inventory.mainInventory.toArray (new ItemStack[0]),player.inventory.armorInventory.toArray (new ItemStack[0]),player.inventory.offHandInventory.toArray (new ItemStack[0])});
-//		player.inventory.clear ();
-		data.setLastLocation (player.getPosition ());
+		data.setLastLocation(new LocationWrapper((int) player.posX, (int)player.posY,(int) player.posZ, player.dimension));
 		DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 		player.onKillCommand ();
 	}

@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import wurmcraft.serveressentials.common.api.storage.IDataType;
+import wurmcraft.serveressentials.common.api.storage.LocationWrapper;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.api.storage.Warp;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -53,7 +54,7 @@ public class WarpCommand extends SECommand {
 			if (TeleportUtils.canTeleport (player.getGameProfile ().getId ())) {
 				player.setPositionAndRotation (warp.getPos ().getX (),warp.getPos ().getY (),warp.getPos ().getZ (),warp.getYaw (),warp.getPitch ());
 				PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ().toString ());
-				data.setLastLocation (player.getPosition ());
+				data.setLastLocation(new LocationWrapper((int) player.posX, (int)player.posY,(int) player.posZ, player.dimension));
 				DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 				TeleportUtils.teleportTo (player,warp.getPos (),warp.getDimension (),true);
 				ChatHelper.sendMessageTo (player,Local.WARP_TELEPORT.replaceAll ("#",warp.getName ()));

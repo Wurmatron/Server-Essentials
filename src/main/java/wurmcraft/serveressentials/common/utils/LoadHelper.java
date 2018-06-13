@@ -91,6 +91,7 @@ public class LoadHelper {
 		e.registerServerCommand (new PerkCommand (Perm.PERK));
 		e.registerServerCommand (new ModListCommand (Perm.MODLIST));
 		e.registerServerCommand (new GodCommand (Perm.GOD));
+		e.registerServerCommand(new ReloadRankCommand(Perm.RELOAD_RANK));
 	}
 
 	public static void loadData () {

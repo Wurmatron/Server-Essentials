@@ -25,7 +25,7 @@ public class PlayerData implements IDataType {
 	private long teleport_timer;
 	private long lastseen;
 	private int money;
-	private BlockPos lastLocation;
+	private LocationWrapper lastLocation;
 	private Home[] homes = new Home[max_homes];
 	private List <Mail> currentMail = new ArrayList <> ();
 	private String team;
@@ -40,6 +40,8 @@ public class PlayerData implements IDataType {
 	private boolean tpLock;
 	private String[] customData = new String[0];
 	private UUID uuid;
+	// TODO per player language support
+	private String lang;
 
 	public PlayerData () {
 	}
@@ -167,11 +169,11 @@ public class PlayerData implements IDataType {
 			this.team = null;
 	}
 
-	public BlockPos getLastLocation () {
+	public LocationWrapper getLastLocation () {
 		return lastLocation;
 	}
 
-	public void setLastLocation (BlockPos loc) {
+	public void setLastLocation (LocationWrapper loc) {
 		this.lastLocation = loc;
 	}
 
@@ -295,5 +297,13 @@ public class PlayerData implements IDataType {
 	@Override
 	public String getID () {
 		return uuid.toString ();
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 }

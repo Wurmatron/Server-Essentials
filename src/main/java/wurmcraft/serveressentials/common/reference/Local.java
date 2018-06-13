@@ -61,6 +61,8 @@ public class Local {
 	public static String LOCKDOWN_ENABLED;
 	public static String LOCKDOWN_DISABLED;
 	public static String BANNED_MOD;
+	public static String RANK_RELOAD;
+	public static String RANK_NOT_FOUND;
 	// Player
 	public static String PLAYER_NOT_FOUND;
 	public static String PLAYER_INVENTORY;
@@ -115,7 +117,6 @@ public class Local {
 	public static String SPY_OTHER;
 	public static String NICKNAME_OTHER;
 	public static String NICKNAME_SET;
-	public static String RANK_NOT_FOUND;
 	public static String RANK_CHANGED;
 	public static String RANK_UP;
 	public static String RANK_UP_NOTIFY;

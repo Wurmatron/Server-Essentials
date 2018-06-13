@@ -13,7 +13,7 @@ public enum Perm {
 		".reloadPlayerData"),TELEPORT ("admin.teleport"),FREEZE ("admin.freeze"),TOP ("admin.top"),RENAME ("admin" +
 		".rename"),MUTE ("admin.mute"),SPEED ("admin.speed"),SPY ("admin.spy"),SET_GROUP ("admin.setGroup"),TP_HERE
 		("admin.tpHere"),KIT_ADMIN ("admin.kitAdmin"),PREGEN ("admin.pregen"),LOCKDOWN ("admin.lockdown"),PERK ("admin" +
-		".perk"),MODLIST ("admin.modlist"), GOD("admin.god"),
+		".perk"),MODLIST ("admin.modlist"), GOD("admin.god"), RELOAD_RANK("admin.reloadRank"),
 
 	// Perk
 	ENDER_CHEST ("perk.enderChest"),FLY ("perm.fly"),BACK ("perm.back"),VAULT ("perm.vault"),NICK ("perm.nick"),

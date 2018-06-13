@@ -4,6 +4,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import wurmcraft.serveressentials.common.api.storage.LocationWrapper;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
@@ -37,7 +38,7 @@ public class TpacceptCommand extends SECommand {
 				EntityPlayer[] otherPlayer = TpaCommand.activeRequests.get (time);
 				if (otherPlayer[1].getGameProfile ().getId ().equals (player.getGameProfile ().getId ())) {
 					PlayerData data = UsernameResolver.getPlayerData (otherPlayer[0]);
-					data.setLastLocation (otherPlayer[0].getPosition ());
+					data.setLastLocation(new LocationWrapper((int) otherPlayer[0].posX, (int)otherPlayer[0].posY,(int) otherPlayer[0].posZ, otherPlayer[0].dimension));
 					TeleportUtils.teleportTo (otherPlayer[0],player.getPosition (),true);
 					ChatHelper.sendMessageTo (otherPlayer[1],Local.TPA_ACCEPED_OTHER.replaceAll ("#",otherPlayer[0].getDisplayName ().getUnformattedText ()));
 					ChatHelper.sendMessageTo (otherPlayer[0],Local.TPA_ACCEPTED.replaceAll ("#",otherPlayer[1].getDisplayName ().getUnformattedText ()));

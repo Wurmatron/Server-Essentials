@@ -72,7 +72,6 @@ public class PlayerTickEvent {
 		}
 		if (ConfigHandler.claimingEnabled && chunkChanged (e.player)) {
 			String name = getClaimName (e.player);
-			System.out.println ("Out: " + name);
 			if (name != null)
 				e.player.sendMessage (new TextComponentString (TextFormatting.RED + name));
 			playerChunkLoc.put (e.player,new ChunkPos (e.player.getPosition ()));

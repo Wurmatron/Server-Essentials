@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import wurmcraft.serveressentials.common.api.storage.LocationWrapper;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.commands.teleport.TpaCommand;
 import wurmcraft.serveressentials.common.config.ConfigHandler;
@@ -27,7 +28,7 @@ public class TeleportUtils {
 		if (player instanceof EntityPlayerMP && pos != null) {
 			PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
 			BlockPos position = getSafeLocation (player.world,pos);
-			data.setLastLocation (new BlockPos (player.posX,player.posY,player.posZ));
+			data.setLastLocation(new LocationWrapper((int) player.posX, (int)player.posY,(int) player.posZ, player.dimension));
 			doTeleport ((EntityPlayerMP) player,position.getX (),position.getY (),position.getZ (),player.dimension);
 			if (timer)
 				data.setTeleportTimer (System.currentTimeMillis ());
@@ -38,7 +39,7 @@ public class TeleportUtils {
 	public static void teleportTo (EntityPlayer player,BlockPos pos,int dim,boolean timer) {
 		if (player != null && pos != null) {
 			PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-			data.setLastLocation (new BlockPos (player.posX,player.posY,player.posZ));
+			data.setLastLocation(new LocationWrapper((int) player.posX, (int)player.posY,(int) player.posZ, player.dimension));
 			if (player.dimension != dim)
 				FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().transferPlayerToDimension ((EntityPlayerMP) player,dim,new CustomTeleporter (player.world.getMinecraftServer ().getWorld (player.dimension),pos.getX (),pos.getY (),pos.getZ ()));
 			doTeleport ((EntityPlayerMP) player,pos.getX (),pos.getY (),pos.getZ (),dim);

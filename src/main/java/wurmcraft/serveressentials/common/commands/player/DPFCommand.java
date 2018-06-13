@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
+import wurmcraft.serveressentials.common.api.storage.LocationWrapper;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
 import wurmcraft.serveressentials.common.commands.utils.SECommand;
@@ -49,7 +50,7 @@ public class DPFCommand extends SECommand {
 			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
 			if (player != null) {
 				PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-				data.setLastLocation (player.getPosition ());
+				data.setLastLocation(new LocationWrapper((int) player.posX, (int)player.posY,(int) player.posZ, player.dimension));
 				DataHelper2.forceSave (Keys.PLAYER_DATA,data);
 				player.onKillCommand ();
 				((EntityPlayerMP) player).connection.disconnect (new TextComponentString (Local.PLAYER_FILE_DELETE));

@@ -34,7 +34,7 @@
   "SKULL": "§b#\u0027s head has been placed in your inventory!",
   "PLAYER_ONLY": "§cCommand can only be run by players!",
   "AFK_NOW": "§c# is now afk!",
-  "AFK_OFF": "§c# is no longer afk!",PLAYER_NOT_FOUND
+  "AFK_OFF": "§c# is no longer afk!",
   "PING_REPLY": "§dNep NepNep Nep Nep Nep",
   "PREGEN_NOTIFY": "§9[Pre-Gen]: §c# chunks generated, (\u0026%)",
   "PREGEN_FINISHED": "§a[Pre-Gen]: Finished with # chunks",
@@ -186,5 +186,6 @@
   "WEBSITE": "Website #",
   "CLAIM_DISABLED": "§cClaiming is Disabled",
   "GOD_ENABLED": "§6God Mode Enabled",
-  "GOD_DISABLED": "§cGod Mode Disabled"
+  "GOD_DISABLED": "§cGod Mode Disabled",
+  "RANK_RELOAD": "§bRank # reloaded!"
 }

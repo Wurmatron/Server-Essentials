@@ -92,7 +92,7 @@ public class ConfigHandler {
 	public static String defaultLang = "en_us";
 
 	@Config.Comment ("Claiming is enabled?")
-	public static boolean claimingEnabled = false;
+	public static boolean claimingEnabled = true;
 
 	public static void createDefaultChannels () {
 		Channel globalChannel = new Channel (defaultChannel,"&9[G]",true,false,Channel.Type.PUBLIC,"",new String[] {"Wurmatron Wurm",
@@ -107,7 +107,7 @@ public class ConfigHandler {
 	public static void createDefaultRank () {
 		File groupLocation = new File (saveLocation + File.separator + Keys.RANK.name ());
 		if (!groupLocation.exists () || groupLocation.listFiles ().length <= 0) {
-			Rank defaultGroup = new Rank ("Default",true,"[Default]","",null,new String[] {"common.*","teleport.*"});
+			Rank defaultGroup = new Rank ("Default",true,"[Default]","",null,new String[] {"common.*","teleport.*", "claim.*"});
 			Rank memberGroup = new Rank ("Member",false,"[Member]","",new String[] {"Default"},new String[] {"perk.*"});
 			Rank adminGroup = new Rank ("Admin",false,"[Admin]","",new String[] {defaultGroup.getName ()},new String[] {"*"});
 			DataHelper2.createIfNonExist (Keys.RANK,defaultGroup);
