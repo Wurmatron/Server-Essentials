@@ -162,7 +162,7 @@ public class ChatHelper {
 	}
 
 	private static String applyFilter (Channel ch,String message) {
-		LogHandler.info ("CH: "  + ch.getName ());
+		LogHandler.debug ("Channel: "  + ch.getName ());
 		if (ch.getFilter () != null && ch.getFilter ().length > 0)
 			for (String filter : ch.getFilter ()) {
 				String[] replace = unpackFilter (filter);
