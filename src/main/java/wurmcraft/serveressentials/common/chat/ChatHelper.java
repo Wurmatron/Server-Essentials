@@ -15,6 +15,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.lang3.StringUtils;
 import wurmcraft.serveressentials.common.api.permissions.IRank;
@@ -176,8 +177,9 @@ public class ChatHelper {
       List<UUID> recivers = ChannelManager.getPlayersInChannel(channel);
       for (EntityPlayerMP player : players.getPlayers()) {
         if (recivers.contains(player.getGameProfile().getId())) {
-          player.sendMessage(new TextComponentString(
-              format(displayName, rank, channel, dimension, team, message)));
+          ITextComponent textComponent = ForgeHooks.newChatWithLinks(
+              format(displayName, rank, channel, dimension, team, message));
+          player.sendMessage(textComponent);
         }
       }
     } else {

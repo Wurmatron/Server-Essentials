@@ -222,7 +222,6 @@ public class ConfigHandler {
     } else {
       wurmcraft.serveressentials.common.api.storage.Global global = new wurmcraft.serveressentials.common.api.storage.Global(
           null, new String[]{}, new String[]{}, "https://github.com/Wurmcraft/Server-Essentials");
-      global.setGlobalChannel(ChannelManager.getDefaultChannel().getName());
       DataHelper2.forceSave(saveLocation, global);
       loadGlobal();
     }
