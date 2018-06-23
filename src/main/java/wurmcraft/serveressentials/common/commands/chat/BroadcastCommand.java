@@ -12,30 +12,33 @@ import wurmcraft.serveressentials.common.reference.Perm;
 
 public class BroadcastCommand extends SECommand {
 
-	public BroadcastCommand (Perm perm) {
-		super (perm);
-	}
+  public BroadcastCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "broadcast";
-	}
+  @Override
+  public String getName() {
+    return "broadcast";
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/broadcast <message>";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/broadcast <message>";
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (args.length > 0)
-			FMLCommonHandler.instance ().getMinecraftServerInstance ().getPlayerList ().sendMessage (new TextComponentString (Strings.join (args," ").replaceAll ("&","\u00A7")));
-		else
-			ChatHelper.sendMessageTo (sender,getUsage (sender));
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    if (args.length > 0) {
+      FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+          .sendMessage(new TextComponentString(Strings.join(args, " ").replaceAll("&", "\u00A7")));
+    } else {
+      ChatHelper.sendMessageTo(sender, getUsage(sender));
+    }
+  }
 
-	@Override
-	public String getDescription () {
-		return "Broadcast a message to everyone on the server";
-	}
+  @Override
+  public String getDescription() {
+    return "Broadcast a message to everyone on the server";
+  }
 }

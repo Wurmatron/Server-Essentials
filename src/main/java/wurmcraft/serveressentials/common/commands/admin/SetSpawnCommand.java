@@ -14,39 +14,43 @@ import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class SetSpawnCommand extends SECommand {
 
-	public SetSpawnCommand (Perm perm) {
-		super (perm);
-	}
+  public SetSpawnCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "setSpawn";
-	}
+  @Override
+  public String getName() {
+    return "setSpawn";
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/setSpawn";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/setSpawn";
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		EntityPlayer player = (EntityPlayer) sender;
-		DataHelper2.globalSettings.setSpawn (new SpawnPoint (player.getPosition (),player.rotationYaw,player.rotationPitch));
-		player.world.setSpawnPoint (player.getPosition ());
-		ChatHelper.sendMessageTo (player,Local.SPAWN_SET.replaceAll ("@","" + DataHelper2.globalSettings.getSpawn ().dimension),hoverEvent (DataHelper2.globalSettings.getSpawn ()));
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    EntityPlayer player = (EntityPlayer) sender;
+    DataHelper2.globalSettings
+        .setSpawn(new SpawnPoint(player.getPosition(), player.rotationYaw, player.rotationPitch));
+    player.world.setSpawnPoint(player.getPosition());
+    ChatHelper.sendMessageTo(player,
+        Local.SPAWN_SET.replaceAll("@", "" + DataHelper2.globalSettings.getSpawn().dimension),
+        hoverEvent(DataHelper2.globalSettings.getSpawn()));
+  }
 
-	public HoverEvent hoverEvent (SpawnPoint home) {
-		return new HoverEvent (HoverEvent.Action.SHOW_TEXT,ChatHelper.displayLocation (home));
-	}
+  public HoverEvent hoverEvent(SpawnPoint home) {
+    return new HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatHelper.displayLocation(home));
+  }
 
-	@Override
-	public String getDescription () {
-		return "Sets the worlds spawn point";
-	}
+  @Override
+  public String getDescription() {
+    return "Sets the worlds spawn point";
+  }
 
-	@Override
-	public boolean canConsoleRun () {
-		return false;
-	}
+  @Override
+  public boolean canConsoleRun() {
+    return false;
+  }
 }

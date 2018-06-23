@@ -5,7 +5,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import wurmcraft.serveressentials.common.api.storage.LocationWrapper;
 import wurmcraft.serveressentials.common.api.storage.PlayerData;
 import wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -42,7 +41,8 @@ public class BackCommand extends SECommand {
     if (data != null && data.getLastLocation() != null) {
       if (player instanceof EntityPlayerMP) {
         LocationWrapper last = data.getLastLocation();
-        TeleportUtils.doTeleport((EntityPlayerMP) player, last.getX(), last.getY(), last.getZ(), last.getDim());
+        TeleportUtils.doTeleport((EntityPlayerMP) player, last.getX(), last.getY(), last.getZ(),
+            last.getDim());
         data.setTeleportTimer(System.currentTimeMillis());
         DataHelper2.forceSave(Keys.PLAYER_DATA, data);
         ChatHelper.sendMessageTo(player, Local.TELEPORT_BACK);

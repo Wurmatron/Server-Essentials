@@ -12,42 +12,44 @@ import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class AddMotdCommand extends SECommand {
 
-	public AddMotdCommand (Perm perm) {
-		super (perm);
-	}
+  public AddMotdCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "addMotd";
-	}
+  @Override
+  public String getName() {
+    return "addMotd";
+  }
 
-	public String[] getAltNames () {
-		return new String[] {"aMotd"};
-	}
+  public String[] getAltNames() {
+    return new String[]{"aMotd"};
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/addMotd <motd>";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/addMotd <motd>";
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (args.length > 0) {
-			String rule = Strings.join (args," ");
-			DataHelper2.globalSettings.addMotd (rule);
-			ChatHelper.sendMessageTo (sender,Local.MOTD_CREATED.replaceAll ("#",rule));
-		} else
-			ChatHelper.sendMessageTo (sender,getUsage (sender));
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    if (args.length > 0) {
+      String rule = Strings.join(args, " ");
+      DataHelper2.globalSettings.addMotd(rule);
+      ChatHelper.sendMessageTo(sender, Local.MOTD_CREATED.replaceAll("#", rule));
+    } else {
+      ChatHelper.sendMessageTo(sender, getUsage(sender));
+    }
+  }
 
-	@Override
-	public String getDescription () {
-		return "Adds a line to the MOTD";
-	}
+  @Override
+  public String getDescription() {
+    return "Adds a line to the MOTD";
+  }
 
 
-	@Override
-	public boolean canConsoleRun () {
-		return true;
-	}
+  @Override
+  public boolean canConsoleRun() {
+    return true;
+  }
 }

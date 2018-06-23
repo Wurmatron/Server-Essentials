@@ -12,42 +12,44 @@ import wurmcraft.serveressentials.common.utils.DataHelper2;
 
 public class AddRuleCommand extends SECommand {
 
-	public AddRuleCommand (Perm perm) {
-		super (perm);
-	}
+  public AddRuleCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "addRule";
-	}
+  @Override
+  public String getName() {
+    return "addRule";
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/addRule <rule>";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/addRule <rule>";
+  }
 
-	public String[] getAltNames () {
-		return new String[] {"aRule"};
-	}
+  public String[] getAltNames() {
+    return new String[]{"aRule"};
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		if (args.length > 0) {
-			String rule = Strings.join (args," ");
-			DataHelper2.globalSettings.addRule (rule);
-			ChatHelper.sendMessageTo (sender,Local.RULE_CREATED.replaceAll ("#",rule));
-		} else
-			ChatHelper.sendMessageTo (sender,getUsage (sender));
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    if (args.length > 0) {
+      String rule = Strings.join(args, " ");
+      DataHelper2.globalSettings.addRule(rule);
+      ChatHelper.sendMessageTo(sender, Local.RULE_CREATED.replaceAll("#", rule));
+    } else {
+      ChatHelper.sendMessageTo(sender, getUsage(sender));
+    }
+  }
 
-	@Override
-	public String getDescription () {
-		return "Add a Rule to the list";
-	}
+  @Override
+  public String getDescription() {
+    return "Add a Rule to the list";
+  }
 
 
-	@Override
-	public boolean canConsoleRun () {
-		return true;
-	}
+  @Override
+  public boolean canConsoleRun() {
+    return true;
+  }
 }

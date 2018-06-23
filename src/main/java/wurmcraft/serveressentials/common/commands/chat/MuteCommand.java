@@ -1,5 +1,7 @@
 package wurmcraft.serveressentials.common.commands.chat;
 
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,59 +17,63 @@ import wurmcraft.serveressentials.common.reference.Perm;
 import wurmcraft.serveressentials.common.utils.DataHelper2;
 import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 public class MuteCommand extends SECommand {
 
-	public MuteCommand (Perm perm) {
-		super (perm);
-	}
+  public MuteCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "mute";
-	}
+  @Override
+  public String getName() {
+    return "mute";
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/mute <username>";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/mute <username>";
+  }
 
-	@Override
-	public String[] getAltNames () {
-		return new String[] {"m","mu"};
-	}
+  @Override
+  public String[] getAltNames() {
+    return new String[]{"m", "mu"};
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
 		if (args.length > 0) {
-			EntityPlayer player = UsernameResolver.getPlayer (args[0]);
+			EntityPlayer player = UsernameResolver.getPlayer(args[0]);
 			if (player != null) {
-				PlayerData playerData = (PlayerData) DataHelper2.get (Keys.PLAYER_DATA,player.getGameProfile ().getId ().toString ());
-				playerData.setMuted (!playerData.isMuted ());
-				DataHelper2.forceSave (Keys.PLAYER_DATA,playerData);
-				if (!playerData.isMuted ()) {
-					ChatHelper.sendMessageTo (player,Local.UNMUTED);
-					ChatHelper.sendMessageTo (sender,Local.UNMUTED_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
+				PlayerData playerData = (PlayerData) DataHelper2
+						.get(Keys.PLAYER_DATA, player.getGameProfile().getId().toString());
+				playerData.setMuted(!playerData.isMuted());
+				DataHelper2.forceSave(Keys.PLAYER_DATA, playerData);
+				if (!playerData.isMuted()) {
+					ChatHelper.sendMessageTo(player, Local.UNMUTED);
+					ChatHelper.sendMessageTo(sender, Local.UNMUTED_OTHER.replaceAll("#",
+							UsernameCache.getLastKnownUsername(player.getGameProfile().getId())));
 				} else {
-					ChatHelper.sendMessageTo (player,Local.MUTED);
-					ChatHelper.sendMessageTo (sender,Local.MUTED_OTHER.replaceAll ("#",UsernameCache.getLastKnownUsername (player.getGameProfile ().getId ())));
+					ChatHelper.sendMessageTo(player, Local.MUTED);
+					ChatHelper.sendMessageTo(sender, Local.MUTED_OTHER.replaceAll("#",
+							UsernameCache.getLastKnownUsername(player.getGameProfile().getId())));
 				}
-			} else
-				ChatHelper.sendMessageTo (sender,Local.PLAYER_NOT_FOUND.replaceAll ("#",args[0]));
-		} else
-			ChatHelper.sendMessageTo (sender,getUsage (sender));
+			} else {
+				ChatHelper.sendMessageTo(sender, Local.PLAYER_NOT_FOUND.replaceAll("#", args[0]));
+			}
+		} else {
+			ChatHelper.sendMessageTo(sender, getUsage(sender));
+		}
 
-	}
+  }
 
-	@Override
-	public List <String> getTabCompletions (MinecraftServer server,ICommandSender sender,String[] args,@Nullable BlockPos pos) {
-		return autoCompleteUsername (args,0);
-	}
+  @Override
+  public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
+      String[] args, @Nullable BlockPos pos) {
+    return autoCompleteUsername(args, 0);
+  }
 
-	@Override
-	public String getDescription () {
-		return "Disables someone from talking in chat";
-	}
+  @Override
+  public String getDescription() {
+    return "Disables someone from talking in chat";
+  }
 }

@@ -14,48 +14,51 @@ import wurmcraft.serveressentials.common.reference.Perm;
 
 public class RemoveClaimCommand extends SECommand {
 
-	public RemoveClaimCommand (Perm perm) {
-		super (perm);
-	}
+  public RemoveClaimCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "removeClaim";
-	}
+  @Override
+  public String getName() {
+    return "removeClaim";
+  }
 
-	@Override
-	public String[] getAltNames () {
-		return new String[] {"remClaim","deleteClaim","delClaim"};
-	}
+  @Override
+  public String[] getAltNames() {
+    return new String[]{"remClaim", "deleteClaim", "delClaim"};
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/removeclaim";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/removeclaim";
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		super.execute (server,sender,args);
-		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		RegionData regionData = ChunkManager.getRegion (player.getPosition ());
-		if (regionData != null) {
-			Claim claim = regionData.getClaim (ChunkManager.getIndexForClaim (player.getPosition ()));
-			if (claim != null && ChunkManager.isOwnerOrLeader (player.getGameProfile ().getId (),claim)) {
-				regionData.setClaim (ChunkManager.getIndexForClaim (player.getPosition ()),null);
-				ChunkManager.handleRegionUpdate (ChunkManager.getRegionLocation (player.getPosition ()),regionData);
-				ChatHelper.sendMessageTo (player,Local.CLAIM_REMOVED);
-			}
-		} else
-			ChatHelper.sendMessageTo (player,Local.MISSING_CLAIM);
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    super.execute(server, sender, args);
+    EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+    RegionData regionData = ChunkManager.getRegion(player.getPosition());
+    if (regionData != null) {
+      Claim claim = regionData.getClaim(ChunkManager.getIndexForClaim(player.getPosition()));
+      if (claim != null && ChunkManager.isOwnerOrLeader(player.getGameProfile().getId(), claim)) {
+        regionData.setClaim(ChunkManager.getIndexForClaim(player.getPosition()), null);
+        ChunkManager
+            .handleRegionUpdate(ChunkManager.getRegionLocation(player.getPosition()), regionData);
+        ChatHelper.sendMessageTo(player, Local.CLAIM_REMOVED);
+      }
+    } else {
+      ChatHelper.sendMessageTo(player, Local.MISSING_CLAIM);
+    }
+  }
 
-	@Override
-	public boolean canConsoleRun () {
-		return false;
-	}
+  @Override
+  public boolean canConsoleRun() {
+    return false;
+  }
 
-	@Override
-	public String getDescription () {
-		return "Deletes a claim in a the chunk you are standing in";
-	}
+  @Override
+  public String getDescription() {
+    return "Deletes a claim in a the chunk you are standing in";
+  }
 }

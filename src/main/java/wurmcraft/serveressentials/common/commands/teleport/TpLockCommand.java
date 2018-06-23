@@ -15,38 +15,39 @@ import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 public class TpLockCommand extends SECommand {
 
-	public TpLockCommand (Perm perm) {
-		super (perm);
-	}
+  public TpLockCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "tplock";
-	}
+  @Override
+  public String getName() {
+    return "tplock";
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/tplock";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/tplock";
+  }
 
-	@Override
-	public boolean canConsoleRun () {
-		return false;
-	}
+  @Override
+  public boolean canConsoleRun() {
+    return false;
+  }
 
-	@Override
-	public String getDescription () {
-		return "Disable tpa requests";
-	}
+  @Override
+  public String getDescription() {
+    return "Disable tpa requests";
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		super.execute (server,sender,args);
-		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity ();
-		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-		boolean temp = data.isTpLock ();
-		data.setTpLock (!temp);
-		DataHelper2.forceSave (Keys.PLAYER_DATA,data);
-		ChatHelper.sendMessageTo (player,Local.TPLOCK.replaceAll ("#",(temp ? "Disabled" : "Enabled")));
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    super.execute(server, sender, args);
+    EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+    PlayerData data = UsernameResolver.getPlayerData(player.getGameProfile().getId());
+    boolean temp = data.isTpLock();
+    data.setTpLock(!temp);
+    DataHelper2.forceSave(Keys.PLAYER_DATA, data);
+    ChatHelper.sendMessageTo(player, Local.TPLOCK.replaceAll("#", (temp ? "Disabled" : "Enabled")));
+  }
 }

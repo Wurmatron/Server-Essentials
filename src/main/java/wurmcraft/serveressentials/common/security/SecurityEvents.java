@@ -15,20 +15,24 @@ import wurmcraft.serveressentials.common.utils.LogHandler;
 
 public class SecurityEvents {
 
-	@SubscribeEvent
-	public void creativeCheck (TickEvent.PlayerTickEvent e) {
-		if (e.player.world.getWorldTime () % 100 == 0) {
-			IRank rank = ((PlayerData) DataHelper2.get (Keys.PLAYER_DATA,e.player.getGameProfile ().getId ().toString ())).getRank ();
-			boolean validInCreative = false;
-			if (rank.hasPermission (Perm.CREATIVE))
-				validInCreative = true;
-			if (e.player.capabilities.isCreativeMode && !validInCreative && !SecurityUtils.isTrustedMember (e.player)) {
-				EntityPlayerMP player = (EntityPlayerMP) e.player;
-				player.setGameType (GameType.SURVIVAL);
-				player.connection.disconnect (new TextComponentString (Local.SECURITY_CREATIVE_KICK));
-				LogHandler.info ("# was kicked from the server for being in creative!".replaceAll ("#",player.getDisplayNameString ()));
-			}
+  @SubscribeEvent
+  public void creativeCheck(TickEvent.PlayerTickEvent e) {
+    if (e.player.world.getWorldTime() % 100 == 0) {
+      IRank rank = ((PlayerData) DataHelper2
+          .get(Keys.PLAYER_DATA, e.player.getGameProfile().getId().toString())).getRank();
+      boolean validInCreative = false;
+      if (rank.hasPermission(Perm.CREATIVE)) {
+        validInCreative = true;
+      }
+      if (e.player.capabilities.isCreativeMode && !validInCreative && !SecurityUtils
+          .isTrustedMember(e.player)) {
+        EntityPlayerMP player = (EntityPlayerMP) e.player;
+        player.setGameType(GameType.SURVIVAL);
+        player.connection.disconnect(new TextComponentString(Local.SECURITY_CREATIVE_KICK));
+        LogHandler.info("# was kicked from the server for being in creative!"
+            .replaceAll("#", player.getDisplayNameString()));
+      }
 
-		}
-	}
+    }
+  }
 }

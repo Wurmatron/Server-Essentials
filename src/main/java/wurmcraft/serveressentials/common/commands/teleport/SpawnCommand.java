@@ -18,43 +18,48 @@ import wurmcraft.serveressentials.common.utils.UsernameResolver;
 
 public class SpawnCommand extends SECommand {
 
-	public SpawnCommand (Perm perm) {
-		super (perm);
-	}
+  public SpawnCommand(Perm perm) {
+    super(perm);
+  }
 
-	@Override
-	public String getName () {
-		return "spawn";
-	}
+  @Override
+  public String getName() {
+    return "spawn";
+  }
 
-	@Override
-	public String getUsage (ICommandSender sender) {
-		return "/spawn";
-	}
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/spawn";
+  }
 
-	@Override
-	public void execute (MinecraftServer server,ICommandSender sender,String[] args) throws CommandException {
-		super.execute (server,sender,args);
-		EntityPlayer player = (EntityPlayer) sender;
-		PlayerData data = UsernameResolver.getPlayerData (player.getGameProfile ().getId ());
-		long teleport_timer = data.getTeleportTimer ();
-		if (DataHelper2.globalSettings.getSpawn () != null && (teleport_timer + (ConfigHandler.teleportCooldown * 1000)) <= System
-			.currentTimeMillis ()) {
-			SpawnPoint spawn = DataHelper2.globalSettings.getSpawn ();
-			TeleportUtils.teleportTo (player,spawn.location,spawn.dimension,true);
-			ChatHelper.sendMessageTo (player,Local.SPAWN_TELEPORTED);
-			DataHelper2.forceSave (Keys.PLAYER_DATA,data);
-		} else if ((teleport_timer + (ConfigHandler.teleportCooldown * 1000)) > System.currentTimeMillis ())
-			ChatHelper.sendMessageTo (player,TeleportUtils.getRemainingCooldown (player.getGameProfile ().getId ()));
-	}
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    super.execute(server, sender, args);
+    EntityPlayer player = (EntityPlayer) sender;
+    PlayerData data = UsernameResolver.getPlayerData(player.getGameProfile().getId());
+    long teleport_timer = data.getTeleportTimer();
+    if (DataHelper2.globalSettings.getSpawn() != null
+        && (teleport_timer + (ConfigHandler.teleportCooldown * 1000)) <= System
+        .currentTimeMillis()) {
+      SpawnPoint spawn = DataHelper2.globalSettings.getSpawn();
+      TeleportUtils.teleportTo(player, spawn.location, spawn.dimension, true);
+      ChatHelper.sendMessageTo(player, Local.SPAWN_TELEPORTED);
+      DataHelper2.forceSave(Keys.PLAYER_DATA, data);
+    } else if ((teleport_timer + (ConfigHandler.teleportCooldown * 1000)) > System
+        .currentTimeMillis()) {
+      ChatHelper.sendMessageTo(player,
+          TeleportUtils.getRemainingCooldown(player.getGameProfile().getId()));
+    }
+  }
 
-	@Override
-	public boolean canConsoleRun () {
-		return false;
-	}
+  @Override
+  public boolean canConsoleRun() {
+    return false;
+  }
 
-	@Override
-	public String getDescription () {
-		return "Teleport to the server's spawn";
-	}
+  @Override
+  public String getDescription() {
+    return "Teleport to the server's spawn";
+  }
 }
