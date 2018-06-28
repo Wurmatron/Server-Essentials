@@ -10,6 +10,10 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.4.0'
+    id "com.github.johnrengelman.shadow" version "2.0.4"
+}
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}"
@@ -23,7 +27,7 @@ minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run"
     mappings = "snapshot_20170624"
-	replace "@VERSION@", project.version
+    replace "@VERSION@", project.version
     replaceIn "Global.java"
 }
 
@@ -35,26 +39,45 @@ repositories {
 }
 
 dependencies {
-	deobfCompile "ftb-utilities:FTBUtilities:${ftblib_version}"
-	deobfCompile "ftblib:FTBLib:${ftbutils_version}"
+    deobfCompile "ftb-utilities:FTBUtilities:${ftblib_version}"
+    deobfCompile "ftblib:FTBLib:${ftbutils_version}"
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.25.1'
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.25.1'
 }
 
 processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+        {
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
 
-	from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.info'
-        exclude '**/*.properties'
-    }
+            from(sourceSets.main.resources.srcDirs) {
+                exclude '**/*.info'
+                exclude '**/*.properties'
+            }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
+
+shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
+shadowJar {
+    dependencies {
+        exclude('dummy*')
+        include(dependency('org.glassfish.jersey.containers:jersey-container-servlet:2.25.1'))
+        include(dependency('org.glassfish.jersey.media:jersey-media-json-jackson:2.25.1'))
     }
+}
+
+reobf {
+    shadowJar {}
+}
+
+task buildAndPackage (dependsOn: build) {
+    dependsOn 'spotlessApply'
 }
