@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}"
-group= package_group
+group = package_group
 archivesBaseName = mod_name
 
 sourceCompatibility = 1.8
@@ -52,7 +52,7 @@ processResources
 
             from(sourceSets.main.resources.srcDirs) {
                 include 'mcmod.info'
-                expand 'version':project.version, 'mcversion':project.minecraft.version
+                expand 'version': project.version, 'mcversion': project.minecraft.version
             }
 
             from(sourceSets.main.resources.srcDirs) {
@@ -64,6 +64,16 @@ processResources
                 exclude 'mcmod.info'
             }
         }
+
+spotless {
+    java {
+        removeUnusedImports()
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+        googleJavaFormat()
+    }
+}
 
 shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
 shadowJar {
@@ -78,6 +88,6 @@ reobf {
     shadowJar {}
 }
 
-task buildAndPackage (dependsOn: build) {
+task buildAndPackage(dependsOn: build) {
     dependsOn 'spotlessApply'
 }

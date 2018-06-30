@@ -1,3 +1,0 @@
-- Load Ranks from DataBase
-- Better Economy Functionality
-- Tab AutoCompletion / Aliases
