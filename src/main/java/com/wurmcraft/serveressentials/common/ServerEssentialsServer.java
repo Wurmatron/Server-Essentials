@@ -20,7 +20,13 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true)
+@Mod(
+  modid = Global.MODID,
+  name = Global.NAME,
+  version = Global.VERSION,
+  serverSideOnly = true,
+  acceptableRemoteVersions = "*"
+)
 public class ServerEssentialsServer {
 
   @Mod.Instance(Global.MODID)

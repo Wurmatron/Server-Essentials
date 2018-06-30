@@ -7,8 +7,5 @@ import com.wurmcraft.serveressentials.api.module.Module;
 public class SecurityModule implements IModule {
 
   @Override
-  public void setup() {
-
-  }
-
+  public void setup() {}
 }

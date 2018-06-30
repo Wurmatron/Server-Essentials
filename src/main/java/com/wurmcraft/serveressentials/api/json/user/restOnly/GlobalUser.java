@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.api.json.user.restOnly;
 
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Share;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 
 public class GlobalUser {
 
@@ -10,20 +11,68 @@ public class GlobalUser {
   private String nick;
   private Bank bank;
   private String team;
-  private String onlineTime;
-  private String lastSeen;
+  private long onlineTime;
+  private long lastSeen;
   private Share[] stocks;
   private int loadedChunks;
   private long firstJoin;
   private boolean muted;
   private String lang;
   private String discord;
-  private String permission;
-  private String perks;
+  private String[] permission;
+  private String[] perks;
+
+  public GlobalUser() {}
 
   public GlobalUser(String uuid, String rank) {
     this.uuid = uuid;
     this.rank = rank;
+    this.nick = "";
+    this.bank = new Bank();
+    this.team = "";
+    this.onlineTime = 0;
+    this.lastSeen = System.currentTimeMillis();
+    this.stocks = new Share[0];
+    this.loadedChunks = 0;
+    this.firstJoin = System.currentTimeMillis();
+    this.muted = false;
+    this.lang = ConfigHandler.defaultLanguage;
+    this.discord = "";
+    this.permission = new String[0];
+    this.perks = new String[0];
+  }
+
+  public GlobalUser(
+      String uuid,
+      String rank,
+      String nick,
+      Bank bank,
+      String team,
+      long onlineTime,
+      long lastSeen,
+      Share[] stocks,
+      int loadedChunks,
+      long firstJoin,
+      boolean muted,
+      String lang,
+      String discord,
+      String[] permission,
+      String[] perks) {
+    this.uuid = uuid;
+    this.rank = rank;
+    this.nick = nick;
+    this.bank = bank;
+    this.team = team;
+    this.onlineTime = onlineTime;
+    this.lastSeen = lastSeen;
+    this.stocks = stocks;
+    this.loadedChunks = loadedChunks;
+    this.firstJoin = firstJoin;
+    this.muted = muted;
+    this.lang = lang;
+    this.discord = discord;
+    this.permission = permission;
+    this.perks = perks;
   }
 
   public String getUuid() {
@@ -66,19 +115,19 @@ public class GlobalUser {
     this.team = team;
   }
 
-  public String getOnlineTime() {
+  public long getOnlineTime() {
     return onlineTime;
   }
 
-  public void setOnlineTime(String onlineTime) {
+  public void setOnlineTime(long onlineTime) {
     this.onlineTime = onlineTime;
   }
 
-  public String getLastSeen() {
+  public long getLastSeen() {
     return lastSeen;
   }
 
-  public void setLastSeen(String lastSeen) {
+  public void setLastSeen(long lastSeen) {
     this.lastSeen = lastSeen;
   }
 
@@ -130,19 +179,19 @@ public class GlobalUser {
     this.discord = discord;
   }
 
-  public String getPermission() {
+  public String[] getPermission() {
     return permission;
   }
 
-  public void setPermission(String permission) {
+  public void setPermission(String[] permission) {
     this.permission = permission;
   }
 
-  public String getPerks() {
+  public String[] getPerks() {
     return perks;
   }
 
-  public void setPerks(String perks) {
+  public void setPerks(String[] perks) {
     this.perks = perks;
   }
 }

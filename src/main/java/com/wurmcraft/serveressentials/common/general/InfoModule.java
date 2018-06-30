@@ -7,7 +7,5 @@ import com.wurmcraft.serveressentials.api.module.Module;
 public class InfoModule implements IModule {
 
   @Override
-  public void setup() {
-
-  }
+  public void setup() {}
 }

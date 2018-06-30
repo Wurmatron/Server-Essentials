@@ -4,4 +4,7 @@ public class Bank {
 
   public Coin[] currency;
 
+  public Bank() {
+    currency = new Coin[0];
+  }
 }

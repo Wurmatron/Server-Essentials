@@ -4,14 +4,25 @@ public class Rank {
 
   private String name;
   private String prefix;
-  private String inheritance;
-  private String permissions;
+  private String suffix;
+  private String[] inheritance;
+  private String[] permission;
 
-  public Rank(String name, String prefix, String inheritance, String permissions) {
+  public Rank() {
+    name = "";
+    prefix = "";
+    suffix = "";
+    inheritance = new String[] {};
+    permission = new String[] {};
+  }
+
+  public Rank(
+      String name, String prefix, String suffix, String[] inheritance, String[] permission) {
     this.name = name;
     this.prefix = prefix;
+    this.suffix = suffix;
     this.inheritance = inheritance;
-    this.permissions = permissions;
+    this.permission = permission;
   }
 
   public String getName() {
@@ -30,19 +41,27 @@ public class Rank {
     this.prefix = prefix;
   }
 
-  public String getInheritance() {
+  public String[] getInheritance() {
     return inheritance;
   }
 
-  public void setInheritance(String inheritance) {
+  public void setInheritance(String[] inheritance) {
     this.inheritance = inheritance;
   }
 
-  public String getPermissions() {
-    return permissions;
+  public String[] getPermission() {
+    return permission;
   }
 
-  public void setPermissions(String permissions) {
-    this.permissions = permissions;
+  public void setPermission(String[] permission) {
+    this.permission = permission;
+  }
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
   }
 }

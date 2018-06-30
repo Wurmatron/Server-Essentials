@@ -7,7 +7,5 @@ import com.wurmcraft.serveressentials.api.module.Module;
 public class TeleportationModule implements IModule {
 
   @Override
-  public void setup() {
-
-  }
+  public void setup() {}
 }

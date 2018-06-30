@@ -18,5 +18,4 @@ public class LocationWrapper extends Location {
   public int getDim() {
     return dim;
   }
-
 }

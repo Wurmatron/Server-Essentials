@@ -4,5 +4,4 @@ public class Coin {
 
   public String name;
   public long amount;
-
 }
