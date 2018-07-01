@@ -60,7 +60,7 @@ public class ServerEssentialsServer {
   @EventHandler
   public void serverStarting(FMLServerStartingEvent e) {
     logger.info("Server Starting");
-    CommandLoader.registerCommand(e);
+    CommandLoader.registerCommands(e);
   }
 
   private static List<IModule> loadModules(ASMDataTable asmData) {

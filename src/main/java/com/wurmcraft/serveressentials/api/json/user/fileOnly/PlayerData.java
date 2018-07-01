@@ -7,7 +7,7 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.Mail;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
-import com.wurmcraft.serveressentials.common.language.Local;
+import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +40,6 @@ public class PlayerData implements IDataType {
   private boolean tpLock;
   private String[] customData = new String[0];
   private UUID uuid;
-  // TODO per player language support
   private String lang;
 
   public PlayerData() {
@@ -81,15 +80,16 @@ public class PlayerData implements IDataType {
       for (int index = 0; index < homes.length; index++) {
         if (homes[index] != null && homes[index].getName().equalsIgnoreCase(home.getName())) {
           homes[index] = home;
-          return Local.HOME_REPLACED.replaceAll("#", home.getName());
+          return LanguageModule.getLangFromKey(lang).HOME_REPLACED.replaceAll("#", home.getName());
         } else if (homes[index] == null) {
           homes[index] = home;
-          return Local.HOME_SET.replaceAll("#", home.getName());
+          return LanguageModule.getLangFromKey(lang).HOME_SET.replaceAll("#", home.getName());
         }
       }
-      return Local.HOME_MAX.replaceAll("#", Integer.toString(max_homes));
+      return LanguageModule.getLangFromKey(lang).HOME_MAX
+          .replaceAll("#", Integer.toString(max_homes));
     }
-    return Local.HOME_INVALID;
+    return LanguageModule.getLangFromKey(lang).HOME_INVALID;
   }
 
   public String delHome(String name) {
@@ -97,11 +97,11 @@ public class PlayerData implements IDataType {
       for (int index = 0; index < homes.length; index++) {
         if (homes[index] != null && homes[index].getName().equalsIgnoreCase(name)) {
           homes[index] = null;
-          return Local.HOME_DELETED.replaceAll("#", name);
+          return LanguageModule.getLangFromKey(lang).HOME_DELETED.replaceAll("#", name);
         }
       }
     }
-    return Local.HOME_ERROR_DELETION.replaceAll("#", name);
+    return LanguageModule.getLangFromKey(lang).HOME_ERROR_DELETION.replaceAll("#", name);
   }
 
   public long getTeleportTimer() {

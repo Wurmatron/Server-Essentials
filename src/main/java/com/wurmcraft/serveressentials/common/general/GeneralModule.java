@@ -16,8 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Objects;
 
-@Module(name = "Info")
-public class InfoModule implements IModule {
+@Module(name = "General")
+public class GeneralModule implements IModule {
 
   @Override
   public void setup() {

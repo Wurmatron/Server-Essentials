@@ -33,7 +33,7 @@ public class CommandLoader {
     loadedCommands = activeCommands;
   }
 
-  public static void registerCommand(FMLServerStartingEvent e) {
+  public static void registerCommands(FMLServerStartingEvent e) {
     if (loadedCommands.size() > 0) {
       for (SECommand command : loadedCommands) {
         e.registerServerCommand(command);
