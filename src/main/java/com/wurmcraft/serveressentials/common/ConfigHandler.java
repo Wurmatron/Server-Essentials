@@ -30,11 +30,17 @@ public class ConfigHandler {
   public static int syncPeriod = 5;
 
   @Comment("Default rank name")
-  public static String defaultRank = "default";
+  public static String defaultRank = "Default";
 
   @Comment("Directory were the data will be stored")
   public static String saveLocation = "Server-Essentials";
 
   @Comment("Default channel for users")
   public static String defaultChannel = "global";
+
+  @Comment("Forge default channel on join")
+  public static boolean forgeDefaultChannelOnJoin = true;
+
+  @Comment("How many of the same message will be displayed before flagging as spam")
+  public static int spamLimit = 5;
 }

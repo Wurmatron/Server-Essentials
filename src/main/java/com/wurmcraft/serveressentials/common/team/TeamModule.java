@@ -7,5 +7,6 @@ import com.wurmcraft.serveressentials.api.module.Module;
 public class TeamModule implements IModule {
 
   @Override
-  public void setup() {}
+  public void setup() {
+  }
 }

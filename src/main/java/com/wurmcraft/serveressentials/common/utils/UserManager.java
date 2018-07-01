@@ -13,12 +13,19 @@ public class UserManager {
   // Rank Cache
   public static NonBlockingHashMap<String, Rank> rankCache = new NonBlockingHashMap<>();
 
+  public static NonBlockingHashMap<UUID, Long> joinTime = new NonBlockingHashMap<>();
+
   public static Rank getPlayerRank(UUID uuid) {
     return userRanks.get(uuid);
   }
 
   public static Rank getRank(String name) {
-    return rankCache.getOrDefault(name, getDefaultRank());
+    for (String key : rankCache.keySet()) {
+      if (key.equalsIgnoreCase(name)) {
+        return rankCache.get(key);
+      }
+    }
+    return getDefaultRank();
   }
 
   public static Object[] getPlayerData(UUID uuid) {

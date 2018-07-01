@@ -1,6 +1,5 @@
 package com.wurmcraft.serveressentials.api.json.user.fileOnly;
 
-
 import com.wurmcraft.serveressentials.api.json.user.Channel;
 import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.IDataType;

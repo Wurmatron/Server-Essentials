@@ -9,7 +9,6 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,9 +23,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class RestModule implements IModule {
 
   private static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
-
-  public static long lastRankSync;
-  public static HashMap<UUID, Long> lastPlayerSync = new HashMap<>();
 
   @Override
   public void setup() {
@@ -65,7 +61,6 @@ public class RestModule implements IModule {
         0L,
         ConfigHandler.syncPeriod,
         TimeUnit.MINUTES);
-    lastRankSync = System.currentTimeMillis();
     ServerEssentialsServer.logger.debug("Synced Ranks with REST API");
   }
 
@@ -93,7 +88,6 @@ public class RestModule implements IModule {
         0L,
         ConfigHandler.syncPeriod,
         TimeUnit.MINUTES);
-    lastPlayerSync.put(uuid, System.currentTimeMillis());
     ServerEssentialsServer.logger.debug(
         "Synced Player '" + UsernameCache.getLastKnownUsername(uuid) + "' with REST API");
   }
@@ -122,7 +116,7 @@ public class RestModule implements IModule {
 
   private static void createNewUser(UUID uuid) {
     try {
-      GlobalUser globalUser = new GlobalUser(uuid.toString(), "default");
+      GlobalUser globalUser = new GlobalUser(uuid.toString(), "Default");
       Response res = RequestHelper.UserResponses.addPlayerData(globalUser);
       System.out.println(res.getStatusInfo().toString());
       UserManager.playerData.put(
@@ -140,9 +134,9 @@ public class RestModule implements IModule {
   public static void createDefaultRanks() {
     Rank defaultRank =
         new Rank(
-            "default", "&8[Default] ", "", new String[]{}, new String[]{"info.*", "teleport.*"});
+            "Default", "&8[Default] ", "", new String[]{}, new String[]{"info.*", "teleport.*"});
     Rank adminRank =
-        new Rank("admin", "&c[Admin] ", "", new String[]{"default"}, new String[]{"admin.*"});
+        new Rank("Admin", "&c[Admin] ", "", new String[]{"default"}, new String[]{"admin.*"});
     RequestHelper.RankResponses.addRank(defaultRank);
     RequestHelper.RankResponses.addRank(adminRank);
   }

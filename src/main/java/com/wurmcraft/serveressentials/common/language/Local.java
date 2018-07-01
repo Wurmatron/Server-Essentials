@@ -2,9 +2,9 @@ package com.wurmcraft.serveressentials.common.language;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.*;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Modifier;
 
@@ -209,10 +209,19 @@ public class Local {
   public static String SECURITY_CREATIVE_KICK;
 
   public static void load() {
-    Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).setPrettyPrinting()
-        .create();
-    File lang = new File(ConfigHandler.saveLocation + File.separator + "Language" + File.separator
-        + ConfigHandler.defaultLanguage + ".lang");
+    Gson gson =
+        new GsonBuilder()
+            .excludeFieldsWithModifiers(Modifier.TRANSIENT)
+            .setPrettyPrinting()
+            .create();
+    File lang =
+        new File(
+            ConfigHandler.saveLocation
+                + File.separator
+                + "Language"
+                + File.separator
+                + ConfigHandler.defaultLanguage
+                + ".lang");
     if (lang.exists()) {
       try {
         BufferedReader reader = new BufferedReader(new FileReader(lang));

@@ -7,5 +7,6 @@ import com.wurmcraft.serveressentials.api.module.Module;
 public class ClaimModule implements IModule {
 
   @Override
-  public void setup() {}
+  public void setup() {
+  }
 }

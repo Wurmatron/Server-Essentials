@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
-public class Rank {
+public class Rank implements IDataType {
 
   private String name;
   private String prefix;
@@ -12,8 +12,8 @@ public class Rank {
     name = "";
     prefix = "";
     suffix = "";
-    inheritance = new String[] {};
-    permission = new String[] {};
+    inheritance = new String[]{};
+    permission = new String[]{};
   }
 
   public Rank(
@@ -63,5 +63,10 @@ public class Rank {
 
   public void setSuffix(String suffix) {
     this.suffix = suffix;
+  }
+
+  @Override
+  public String getID() {
+    return name;
   }
 }

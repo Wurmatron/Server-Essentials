@@ -2,7 +2,9 @@ package com.wurmcraft.serveressentials.api.json.user;
 
 import net.minecraft.util.math.BlockPos;
 
-/** Holds all the values for a home */
+/**
+ * Holds all the values for a home
+ */
 public class Home {
 
   private String name;
@@ -11,7 +13,8 @@ public class Home {
   private float pitch;
   private int dimension;
 
-  public Home() {}
+  public Home() {
+  }
 
   public Home(String name, BlockPos location, int dimension, float yaw, float pitch) {
     this.name = setName(name);

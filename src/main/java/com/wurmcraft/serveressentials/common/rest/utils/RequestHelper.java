@@ -46,7 +46,8 @@ public class RequestHelper {
       return client
           .target("http://localhost:8080/rank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<Rank>>() {})
+          .get(new GenericType<ArrayList<Rank>>() {
+          })
           .toArray(new Rank[0]);
     }
   }
@@ -55,21 +56,21 @@ public class RequestHelper {
 
     public static Response addPlayerData(GlobalUser user) {
       return client
-          .target("http://localhost:8080/user/add")
+          .target(getBaseURL() + "user/add")
           .request(MediaType.APPLICATION_JSON)
           .post(Entity.entity(GSON.toJson(user), MediaType.APPLICATION_JSON));
     }
 
     public static GlobalUser getPlayerData(UUID name) {
       return client
-          .target("http://localhost:8080/user/find/" + name)
+          .target(getBaseURL() + "user/find/" + name)
           .request(MediaType.APPLICATION_JSON)
           .get(GlobalUser.class);
     }
 
     public static Response overridePlayerData(GlobalUser user) {
       return client
-          .target("http://localhost:8080/user/override")
+          .target(getBaseURL() + "user/override")
           .request(MediaType.APPLICATION_JSON)
           .put(Entity.entity(GSON.toJson(user), MediaType.APPLICATION_JSON));
     }
