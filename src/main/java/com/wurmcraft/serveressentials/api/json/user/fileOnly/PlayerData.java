@@ -296,4 +296,12 @@ public class PlayerData implements IDataType {
   public void setLang(String lang) {
     this.lang = lang;
   }
+
+  public String getTeam() {
+    return team;
+  }
+
+  public void setTeam(String team) {
+    this.team = team;
+  }
 }

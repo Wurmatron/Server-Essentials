@@ -10,7 +10,8 @@ public class ConfigHandler {
   @Comment("Modules to be loaded")
   public static String[] modules =
       new String[]{
-          "Chat", "Claim", "General", "Language", "Rank", "Rest", "Security", "Teleportation"
+          "Chat", "Claim", "General", "Language", "Rank", "Rest", "Security", "Team",
+          "Teleportation"
       };
 
   @Comment("How the data is stored (File, Rest)")

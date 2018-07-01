@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -73,6 +74,30 @@ public class RequestHelper {
           .target(getBaseURL() + "user/override")
           .request(MediaType.APPLICATION_JSON)
           .put(Entity.entity(GSON.toJson(user), MediaType.APPLICATION_JSON));
+    }
+  }
+
+  public static class TeamResponses {
+
+    public static Response addTeam(GlobalTeam team) {
+      return client
+          .target(getBaseURL() + "team/add")
+          .request(MediaType.APPLICATION_JSON)
+          .post(Entity.entity(GSON.toJson(team), MediaType.APPLICATION_JSON));
+    }
+
+    public static GlobalTeam getTeam(String name) {
+      return client
+          .target(getBaseURL() + "team/find/" + name)
+          .request(MediaType.APPLICATION_JSON)
+          .get(GlobalTeam.class);
+    }
+
+    public static Response overrideTeam(GlobalTeam team) {
+      return client
+          .target(getBaseURL() + "team/override")
+          .request(MediaType.APPLICATION_JSON)
+          .put(Entity.entity(GSON.toJson(team), MediaType.APPLICATION_JSON));
     }
   }
 

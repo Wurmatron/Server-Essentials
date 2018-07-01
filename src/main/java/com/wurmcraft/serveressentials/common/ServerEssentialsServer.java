@@ -75,7 +75,7 @@ public class ServerEssentialsServer {
         for (String activeModule : ConfigHandler.modules) {
           if (name.equalsIgnoreCase(activeModule)) {
             activeModules.add(module);
-            logger.info("Adding module '" + name + "'");
+            logger.info("Loading Module '" + name + "'");
           } else {
             logger.debug("Prevented module '" + name + "' from loading due to config");
           }

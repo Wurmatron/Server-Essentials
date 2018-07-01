@@ -12,6 +12,9 @@ public class UserManager {
   public static NonBlockingHashMap<UUID, Object[]> playerData = new NonBlockingHashMap<>();
   // Rank Cache
   public static NonBlockingHashMap<String, Rank> rankCache = new NonBlockingHashMap<>();
+  // Team Cache
+  public static NonBlockingHashMap<String, Object[]> teamCache = new NonBlockingHashMap<>();
+
 
   public static NonBlockingHashMap<UUID, Long> joinTime = new NonBlockingHashMap<>();
 
@@ -34,5 +37,9 @@ public class UserManager {
 
   public static Rank getDefaultRank() {
     return getRank(ConfigHandler.defaultRank);
+  }
+
+  public static Object[] getTeam(String name) {
+    return teamCache.getOrDefault(name, new Object[0]);
   }
 }

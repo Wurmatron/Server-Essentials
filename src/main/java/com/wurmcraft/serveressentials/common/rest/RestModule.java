@@ -11,13 +11,14 @@ import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.team.TeamModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import javax.ws.rs.core.Response;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.UsernameCache;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 @Module(name = "Rest")
 public class RestModule implements IModule {
 
-  private static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
+  public static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
 
   @Override
   public void setup() {
@@ -93,6 +94,7 @@ public class RestModule implements IModule {
           } catch (Exception e) {
             createNewUser(uuid);
           }
+          TeamModule.loadRestTeam(uuid);
         },
         0L,
         ConfigHandler.syncPeriod,
@@ -109,7 +111,7 @@ public class RestModule implements IModule {
             UserManager.playerData.remove(uuid);
           }
         },
-        ConfigHandler.syncPeriod,
+        ConfigHandler.syncPeriod + 5,
         TimeUnit.MINUTES);
   }
 
