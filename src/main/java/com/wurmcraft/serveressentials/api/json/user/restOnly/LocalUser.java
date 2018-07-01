@@ -1,37 +1,49 @@
 package com.wurmcraft.serveressentials.api.json.user.restOnly;
 
 import com.wurmcraft.serveressentials.api.json.user.Home;
+import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
+import com.wurmcraft.serveressentials.api.json.user.optional.Vault;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
+import java.util.UUID;
 
-public class LocalUser {
+public class LocalUser implements IDataType {
 
-  private String lastSeen;
-  private String firstJoin;
-  public Home[] homes;
-  private String[] vaults;
+  private UUID uuid;
+  private long lastSeen;
+  private long firstJoin;
+  private Home[] homes;
+  private Vault[] vaults;
   private boolean tpLock;
   private String currentChannel;
-  private String onlineTime;
+  private long onlineTime;
   private LocationWrapper lastLocation;
 
-  public LocalUser(String firstJoin, String currentChannel) {
-    this.firstJoin = firstJoin;
-    this.currentChannel = currentChannel;
+  public LocalUser(UUID uuid) {
+    this.uuid = uuid;
+    firstJoin = System.currentTimeMillis();
+    lastSeen = System.currentTimeMillis();
+    homes = new Home[0];
+    vaults = new Vault[0];
+    tpLock = false;
+    currentChannel = ConfigHandler.defaultChannel;
+    onlineTime = 0;
+    lastLocation = new LocationWrapper(0, 0, 0, 0);
   }
 
-  public String getLastSeen() {
+  public long getLastSeen() {
     return lastSeen;
   }
 
-  public void setLastSeen(String lastSeen) {
+  public void setLastSeen(long lastSeen) {
     this.lastSeen = lastSeen;
   }
 
-  public String getFirstJoin() {
+  public long getFirstJoin() {
     return firstJoin;
   }
 
-  public void setFirstJoin(String firstJoin) {
+  public void setFirstJoin(long firstJoin) {
     this.firstJoin = firstJoin;
   }
 
@@ -43,11 +55,11 @@ public class LocalUser {
     this.homes = homes;
   }
 
-  public String[] getVaults() {
+  public Vault[] getVaults() {
     return vaults;
   }
 
-  public void setVaults(String[] vaults) {
+  public void setVaults(Vault[] vaults) {
     this.vaults = vaults;
   }
 
@@ -67,11 +79,11 @@ public class LocalUser {
     this.currentChannel = currentChannel;
   }
 
-  public String getOnlineTime() {
+  public long getOnlineTime() {
     return onlineTime;
   }
 
-  public void setOnlineTime(String onlineTime) {
+  public void setOnlineTime(long onlineTime) {
     this.onlineTime = onlineTime;
   }
 
@@ -81,5 +93,18 @@ public class LocalUser {
 
   public void setLastLocation(LocationWrapper lastLocation) {
     this.lastLocation = lastLocation;
+  }
+
+  public UUID getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
+  }
+
+  @Override
+  public String getID() {
+    return uuid.toString();
   }
 }

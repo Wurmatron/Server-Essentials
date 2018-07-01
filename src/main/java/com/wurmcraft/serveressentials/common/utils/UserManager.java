@@ -29,7 +29,7 @@ public class UserManager {
   }
 
   public static Object[] getPlayerData(UUID uuid) {
-    return null;
+    return playerData.getOrDefault(uuid, new Object[0]);
   }
 
   public static Rank getDefaultRank() {

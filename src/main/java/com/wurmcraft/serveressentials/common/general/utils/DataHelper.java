@@ -47,7 +47,7 @@ public class DataHelper {
   public static void forceSave(Keys key, IDataType data) {
     File file = new File(ConfigHandler.saveLocation + File.separator + key.name());
     if (!file.exists()) {
-      file.mkdir();
+      file.mkdirs();
     }
     File dataFile = new File(file + File.separator + data.getID() + ".json");
     try {

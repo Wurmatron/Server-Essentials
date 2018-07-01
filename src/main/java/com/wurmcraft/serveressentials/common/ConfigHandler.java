@@ -39,7 +39,7 @@ public class ConfigHandler {
   public static String defaultChannel = "global";
 
   @Comment("Forge default channel on join")
-  public static boolean forgeDefaultChannelOnJoin = true;
+  public static boolean forceDefaultChannelOnJoin = true;
 
   @Comment("How many of the same message will be displayed before flagging as spam")
   public static int spamLimit = 5;

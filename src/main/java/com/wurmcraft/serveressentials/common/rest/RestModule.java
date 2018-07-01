@@ -2,13 +2,17 @@ package com.wurmcraft.serveressentials.common.rest;
 
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import java.io.File;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -72,16 +76,21 @@ public class RestModule implements IModule {
             if (globalUser == null) {
               createNewUser(uuid);
             } else {
+              LocalUser user = loadLocalUser(uuid);
+              if (user == null) {
+                user = new LocalUser(uuid);
+                DataHelper.forceSave(Keys.LOCAL_USER, user);
+              }
               UserManager.playerData.put(
                   uuid,
                   new Object[]{
                       globalUser,
-                      UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, null})[1]
+                      UserManager.playerData
+                          .getOrDefault(uuid, new Object[]{globalUser, user})[1]
                   });
               UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
             }
           } catch (Exception e) {
-            e.printStackTrace();
             createNewUser(uuid);
           }
         },
@@ -117,13 +126,14 @@ public class RestModule implements IModule {
   private static void createNewUser(UUID uuid) {
     try {
       GlobalUser globalUser = new GlobalUser(uuid.toString(), "Default");
-      Response res = RequestHelper.UserResponses.addPlayerData(globalUser);
-      System.out.println(res.getStatusInfo().toString());
+      LocalUser localUser = new LocalUser(uuid);
+      DataHelper.createIfNonExist(Keys.LOCAL_USER, localUser);
+      RequestHelper.UserResponses.addPlayerData(globalUser);
       UserManager.playerData.put(
           uuid,
           new Object[]{
               globalUser,
-              UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, null})[1]
+              UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, localUser})[1]
           });
       UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
     } catch (Exception e) {
@@ -139,5 +149,11 @@ public class RestModule implements IModule {
         new Rank("Admin", "&c[Admin] ", "", new String[]{"default"}, new String[]{"admin.*"});
     RequestHelper.RankResponses.addRank(defaultRank);
     RequestHelper.RankResponses.addRank(adminRank);
+  }
+
+  public static LocalUser loadLocalUser(UUID uuid) {
+    return DataHelper.load(new File(
+        ConfigHandler.saveLocation + File.separator + Keys.LOCAL_USER.name() + File.separator + uuid
+            .toString() + ".json"), Keys.LOCAL_USER, new LocalUser(uuid));
   }
 }
