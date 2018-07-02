@@ -28,3 +28,5 @@ rest/ranks/
 rest/users/
 rest/package-lock.json
 rest/node_modules
+rest/teams
+rest/autorank

@@ -22,8 +22,8 @@ public class WorldEvent {
 
   @SubscribeEvent
   public void onLeaveEvent(PlayerEvent.PlayerLoggedOutEvent e) {
-    GlobalUser globalUser = (GlobalUser) UserManager
-        .getPlayerData(e.player.getGameProfile().getId())[0];
+    GlobalUser globalUser =
+        (GlobalUser) UserManager.getPlayerData(e.player.getGameProfile().getId())[0];
     globalUser.setLastSeen(System.currentTimeMillis());
     globalUser.setOnlineTime(
         globalUser.getOnlineTime() + calculateOnTime(e.player.getGameProfile().getId()));

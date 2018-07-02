@@ -41,14 +41,18 @@ public class GeneralModule implements IModule {
     File global = new File(saveLocation + File.separator + "Global.json");
     if (global.exists()) {
       try {
-        DataHelper.globalSettings = DataHelper.GSON
-            .fromJson(new FileReader(global), GlobalData.class);
+        DataHelper.globalSettings =
+            DataHelper.GSON.fromJson(new FileReader(global), GlobalData.class);
       } catch (FileNotFoundException e) {
         ServerEssentialsServer.logger.warn("Failed to load '" + global.getAbsolutePath() + "'");
       }
     } else {
-      GlobalData globalData = new GlobalData(null, new String[]{}, new String[]{},
-          "https://github.com/Wurmcraft/Server-Essentials/");
+      GlobalData globalData =
+          new GlobalData(
+              null,
+              new String[] {},
+              new String[] {},
+              "https://github.com/Wurmcraft/Server-Essentials/");
       DataHelper.forceSave(new File(saveLocation), globalData);
       setupGlobal();
     }

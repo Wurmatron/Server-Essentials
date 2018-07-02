@@ -27,8 +27,7 @@ public abstract class SECommand implements ICommand {
 
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
-      throws CommandException {
-  }
+      throws CommandException {}
 
   @Override
   public boolean checkPermission(MinecraftServer server, ICommandSender sender) {

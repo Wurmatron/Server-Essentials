@@ -10,7 +10,6 @@ import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
-
 import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
@@ -18,14 +17,12 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import wurmcraft.serveressentials.common.api.team.Team;
 
 @Module(name = "Team")
 public class TeamModule implements IModule {
-
 
   private static boolean globalTeams = false;
 
@@ -45,7 +42,7 @@ public class TeamModule implements IModule {
     if (teamDir.exists()) {
       for (File file : Objects.requireNonNull(teamDir.listFiles())) {
         Team team = DataHelper.load(file, Keys.TEAM, new Team());
-        UserManager.teamCache.put(team.getName(), new Object[]{team});
+        UserManager.teamCache.put(team.getName(), new Object[] {team});
       }
     } else {
       teamDir.mkdirs();
@@ -59,11 +56,11 @@ public class TeamModule implements IModule {
       if (!team.isEmpty()) {
         LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(team));
         if (localTeam != null) {
-          UserManager.teamCache.put(team, new Object[]{globalUser, localTeam});
+          UserManager.teamCache.put(team, new Object[] {globalUser, localTeam});
         } else {
           localTeam = new LocalTeam(team);
           DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
-          UserManager.teamCache.put(team, new Object[]{globalUser, localTeam});
+          UserManager.teamCache.put(team, new Object[] {globalUser, localTeam});
         }
       }
     }
@@ -85,10 +82,10 @@ public class TeamModule implements IModule {
 
   private static int isTeamLoaded(String team) {
     int totalPlayers = 0;
-    for (EntityPlayerMP player : FMLCommonHandler.instance().getMinecraftServerInstance()
-        .getPlayerList().getPlayers()) {
-      GlobalUser globalUser = (GlobalUser) UserManager
-          .getPlayerData(player.getGameProfile().getId())[0];
+    for (EntityPlayerMP player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      GlobalUser globalUser =
+          (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       if (globalUser.getTeam().equalsIgnoreCase(team)) {
         totalPlayers++;
       }

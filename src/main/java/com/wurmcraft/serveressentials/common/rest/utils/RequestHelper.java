@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.rest.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
+import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -45,10 +46,9 @@ public class RequestHelper {
 
     public static Rank[] getAllRanks() {
       return client
-          .target("http://localhost:8080/rank/find/")
+          .target(getBaseURL() + "rank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<Rank>>() {
-          })
+          .get(new GenericType<ArrayList<Rank>>() {})
           .toArray(new Rank[0]);
     }
   }
@@ -98,6 +98,38 @@ public class RequestHelper {
           .target(getBaseURL() + "team/override")
           .request(MediaType.APPLICATION_JSON)
           .put(Entity.entity(GSON.toJson(team), MediaType.APPLICATION_JSON));
+    }
+  }
+
+  public static class AutoRankResponses {
+
+    public static Response addAutoRank(AutoRank rank) {
+      return client
+          .target(getBaseURL() + "autorank/add")
+          .request(MediaType.APPLICATION_JSON)
+          .post(Entity.entity(GSON.toJson(rank), MediaType.APPLICATION_JSON));
+    }
+
+    public static Rank getAutoRank(String name) {
+      return client
+          .target(getBaseURL() + "autorank/find/" + name)
+          .request(MediaType.APPLICATION_JSON)
+          .get(Rank.class);
+    }
+
+    public static Response overrideAutoRank(AutoRank rank) {
+      return client
+          .target(getBaseURL() + "autorank/override")
+          .request(MediaType.APPLICATION_JSON)
+          .put(Entity.entity(rank, MediaType.APPLICATION_JSON));
+    }
+
+    public static AutoRank[] getAllAutoRanks() {
+      return client
+          .target(getBaseURL() + "autorank/find/")
+          .request(MediaType.APPLICATION_JSON)
+          .get(new GenericType<ArrayList<AutoRank>>() {})
+          .toArray(new AutoRank[0]);
     }
   }
 

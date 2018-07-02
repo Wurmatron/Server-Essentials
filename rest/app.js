@@ -3,6 +3,7 @@ const port = 8080;
 const ranksDir = './ranks';
 const userDir = './users';
 const teamDir = './teams';
+const autorankDir = './autorank';
 
 // Require / Imports
 const express = require('express');
@@ -16,6 +17,7 @@ const app = express();
 const ranksDB = levelup(leveldown(ranksDir));
 const userDB = levelup(leveldown(userDir));
 const teamDB = levelup(leveldown(teamDir));
+const autorankDB = levelup(leveldown(teamDir));
 const urlencoder = bodyParser.urlencoded({
     extended: true
 });
@@ -397,6 +399,120 @@ function addTeamEntry(req, res, override) {
         perks: req.body.perks,
         owner: req.body.owner,
         members: req.body.members
+    }), function (err) {
+        if (err)
+            req.sendStatus(400);
+    });
+    res.sendStatus(201);
+}
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=
+//       Auto Rank
+// =-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+/**
+ * Creates a new AutoRank entry from input json data
+ *
+ * 409 AutoRank Already exists
+ * 201 Created
+ * 400 Invalid Request missing Autorank nextRank
+ */
+app.post('/autorank/add', urlencoder, (req, res) => {
+    if (req.body.nextRank) {
+        const rank = autorankDB.get(req.body.nextRank)
+        rank.then(function (result) {
+            if (!rank) {
+                addAutoRankEntry(req, res, false)
+            } else {
+                res.sendStatus(409)
+            }
+        }, function (err) {
+            addAutoRankEntry(req, res, false)
+        })
+    }
+});
+
+/**
+ * Returns a Array of all the AutoRanks
+ *
+ * 304 AutoRanks sent
+ */
+app.get('/autorank/find', urlencoder, (req, res) => {
+    var allRanks = []
+    autorankDB.createReadStream()
+        .on('data', function (data) {
+            const rankData = JSON.parse(data.value.toString('utf8'))
+            allRanks.push({
+                playTime: rankData.playTime,
+                balance: rankData.balance,
+                exp: rankData.exp,
+                rank: rankData.rank,
+                nextRank: rankData.nextRank
+            })
+        })
+        .on('error', function (err) {
+            console.log('Error, ', err)
+        })
+        .on('close', function () {
+        })
+        .on('end', function () {
+            res.json(allRanks)
+        })
+})
+
+/**
+ * Removes a AutoRank from the database
+ *
+ * 200 AutoRank has been deleted
+ * 404 AutoRank does not exist
+ * 400 Invalid Request missing nextRank
+ */
+app.delete('/autorank/delete', urlencoder, (req, res) => {
+    if (req.body.nextRank) {
+        const rank = autorankDB.get(req.body.nextRank)
+        rank.then(function (result) {
+            console.log("Removing AutoRank '" + req.body.nextRank + "'");
+            autorankDB.del(req.body.nextRank);
+            res.sendStatus(200)
+        }, function (err) {
+            res.sendStatus(404)
+        })
+    } else {
+        res.sendStatus(400)
+    }
+});
+
+/**
+ * Overrides a current Autorank or created a new one
+ *
+ * 400 Invalid Request missing nextRank
+ * 201 AutoRank Overridden / Created
+ */
+app.put('/autorank/override', urlencoder, (req, res) => {
+    if (req.body.nextRank) {
+        addAutoRankEntry(req, res, true)
+    } else {
+        res.sendStatus(400)
+    }
+});
+
+/**
+ * Add an entry to the rank DataBase
+ *
+ * 201 if rank is added
+ * 400 Invalid request, missing rank name
+ */
+function addAutoRankEntry(req, res, override) {
+    if (!override) {
+        console.log("Adding AutoRank '" + req.body.name + "'");
+    }
+    autorankDB.put(req.body.nextRank, JSON.stringify({
+        playTime: req.body.name,
+        balance: req.body.balance,
+        exp: req.body.exp,
+        rank: req.body.rank,
+        nextRank: req.body.nextRank
     }), function (err) {
         if (err)
             req.sendStatus(400);

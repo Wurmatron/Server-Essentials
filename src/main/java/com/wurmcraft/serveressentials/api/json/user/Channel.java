@@ -14,8 +14,7 @@ public class Channel implements IDataType {
   private String typeData;
   private String[] filter;
 
-  public Channel() {
-  }
+  public Channel() {}
 
   /**
    * All the settings about a channel
@@ -26,7 +25,7 @@ public class Channel implements IDataType {
    * @param logChat Chat logged to a file
    * @param type Type of channel
    * @param data Stores the data about the type (IE: Pass = "Password", Team = "teamName", Rank =
-   * "Rank Name")
+   *     "Rank Name")
    * @param filter Replaces Words in chat with diffrent ones based on this filter
    */
   public Channel(
@@ -119,7 +118,7 @@ public class Channel implements IDataType {
   }
 
   public void addFilter(String find, String replace) {
-    addFilter(new String[]{find + " " + replace});
+    addFilter(new String[] {find + " " + replace});
   }
 
   public void addFilter(String[] filter) {

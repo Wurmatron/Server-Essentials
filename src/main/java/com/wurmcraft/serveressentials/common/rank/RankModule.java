@@ -45,12 +45,14 @@ public class RankModule implements IModule {
   private void createDefaultRanks() {
     File groupLocation = new File(ConfigHandler.saveLocation + File.separator + Keys.RANK.name());
     if (!groupLocation.exists() || groupLocation.listFiles().length <= 0) {
-      Rank defaultGroup = new Rank("Default", "[Default]", "", null,
-          new String[]{"common.*", "teleport.*", "claim.*"});
-      Rank memberGroup = new Rank("Member", "[Member]", "", new String[]{"Default"},
-          new String[]{"perk.*"});
-      Rank adminGroup = new Rank("Admin", "[Admin]", "",
-          new String[]{defaultGroup.getName()}, new String[]{"*"});
+      Rank defaultGroup =
+          new Rank(
+              "Default", "[Default]", "", null, new String[] {"common.*", "teleport.*", "claim.*"});
+      Rank memberGroup =
+          new Rank("Member", "[Member]", "", new String[] {"Default"}, new String[] {"perk.*"});
+      Rank adminGroup =
+          new Rank(
+              "Admin", "[Admin]", "", new String[] {defaultGroup.getName()}, new String[] {"*"});
       DataHelper.createIfNonExist(Keys.RANK, defaultGroup);
       DataHelper.createIfNonExist(Keys.RANK, adminGroup);
       DataHelper.createIfNonExist(Keys.RANK, memberGroup);
@@ -61,8 +63,8 @@ public class RankModule implements IModule {
   }
 
   private void setupAutoRanks() {
-    File autoRankLocation = new File(
-        ConfigHandler.saveLocation + File.separator + Keys.AUTO_RANK.name());
+    File autoRankLocation =
+        new File(ConfigHandler.saveLocation + File.separator + Keys.AUTO_RANK.name());
     if (autoRankLocation.exists()) {
       for (File file : Objects.requireNonNull(autoRankLocation.listFiles())) {
         DataHelper.load(file, Keys.AUTO_RANK, new AutoRank());

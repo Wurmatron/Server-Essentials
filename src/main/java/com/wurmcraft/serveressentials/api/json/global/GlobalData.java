@@ -52,7 +52,7 @@ public class GlobalData implements IDataType {
       listRules.add(rule);
       setRules(listRules.toArray(new String[0]));
     } else {
-      setRules(new String[]{rule});
+      setRules(new String[] {rule});
     }
   }
 
@@ -90,8 +90,8 @@ public class GlobalData implements IDataType {
 
   public void setMotd(String[] motd) {
     this.motd = motd;
-    DataHelper
-        .forceSave(new File(ConfigHandler.saveLocation + File.separator + "Global.json"), this);
+    DataHelper.forceSave(
+        new File(ConfigHandler.saveLocation + File.separator + "Global.json"), this);
   }
 
   public void addMotd(String motd) {
@@ -102,7 +102,7 @@ public class GlobalData implements IDataType {
       listmotd.add(motd);
       setMotd(listmotd.toArray(new String[0]));
     } else {
-      setMotd(new String[]{motd});
+      setMotd(new String[] {motd});
     }
   }
 

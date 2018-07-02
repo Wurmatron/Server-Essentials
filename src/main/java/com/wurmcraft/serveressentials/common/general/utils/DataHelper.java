@@ -80,9 +80,16 @@ public class DataHelper {
   }
 
   public static <T extends IDataType> T load(Keys key, T type) {
-    return load(new File(
-        ConfigHandler.saveLocation + File.separator + key.name() + File.separator + type.getID()
-            + ".json"), key, type);
+    return load(
+        new File(
+            ConfigHandler.saveLocation
+                + File.separator
+                + key.name()
+                + File.separator
+                + type.getID()
+                + ".json"),
+        key,
+        type);
   }
 
   public static boolean createIfNonExist(File file, IDataType data) {
@@ -118,9 +125,14 @@ public class DataHelper {
   }
 
   public static void delete(Keys key, IDataType data) {
-    File file = new File(
-        ConfigHandler.saveLocation + File.separator + key.toString() + File.separator + data.getID()
-            + ".json");
+    File file =
+        new File(
+            ConfigHandler.saveLocation
+                + File.separator
+                + key.toString()
+                + File.separator
+                + data.getID()
+                + ".json");
     if (file.exists()) {
       file.delete();
     }
@@ -157,5 +169,4 @@ public class DataHelper {
     }
     tempData.put(key, temp);
   }
-
 }

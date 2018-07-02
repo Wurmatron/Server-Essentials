@@ -27,9 +27,15 @@ public class LanguageModule implements IModule {
   @Override
   public void setup() {
     for (String langKey : ConfigHandler.supportedLanguages) {
-      save(Global.LOCAL_WEB + langKey + ".lang", new File(
-          ConfigHandler.saveLocation + File.separator + "Language" + File.separator + langKey
-              + ".json"));
+      save(
+          Global.LOCAL_WEB + langKey + ".lang",
+          new File(
+              ConfigHandler.saveLocation
+                  + File.separator
+                  + "Language"
+                  + File.separator
+                  + langKey
+                  + ".json"));
       cacheLanguages();
     }
   }
@@ -58,9 +64,17 @@ public class LanguageModule implements IModule {
   private void cacheLanguages() {
     for (String langKey : ConfigHandler.supportedLanguages) {
       try {
-        Local local = DataHelper.GSON.fromJson(new FileReader(new File(
-            ConfigHandler.saveLocation + File.separator + "Language" + File.separator + langKey
-                + ".json")), Local.class);
+        Local local =
+            DataHelper.GSON.fromJson(
+                new FileReader(
+                    new File(
+                        ConfigHandler.saveLocation
+                            + File.separator
+                            + "Language"
+                            + File.separator
+                            + langKey
+                            + ".json")),
+                Local.class);
         loadedLanguages.put(langKey, local);
       } catch (FileNotFoundException e) {
         e.printStackTrace();
@@ -69,12 +83,13 @@ public class LanguageModule implements IModule {
   }
 
   public static Local getLangfromUUID(UUID uuid) {
-    return loadedLanguages
-        .getOrDefault(getPlayerLang(uuid), loadedLanguages.get(ConfigHandler.defaultLanguage));
+    return loadedLanguages.getOrDefault(
+        getPlayerLang(uuid), loadedLanguages.get(ConfigHandler.defaultLanguage));
   }
 
   public static Local getLangFromKey(String langKey) {
-    return loadedLanguages.getOrDefault(langKey, loadedLanguages.get(ConfigHandler.defaultLanguage));
+    return loadedLanguages.getOrDefault(
+        langKey, loadedLanguages.get(ConfigHandler.defaultLanguage));
   }
 
   private static String getPlayerLang(UUID uuid) {

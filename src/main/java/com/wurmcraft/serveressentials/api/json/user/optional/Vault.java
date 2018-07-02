@@ -17,7 +17,7 @@ public class Vault implements IDataType {
     ItemStack[] outputStacks = new ItemStack[54];
     for (int index = 0; index < items.length; index++) {
       // TODO Implement
-//      outputStacks[index] = StackConverter.convertToStack(items[index]);
+      //      outputStacks[index] = StackConverter.convertToStack(items[index]);
     }
     if (outputStacks != null) {
       return outputStacks;
@@ -30,7 +30,7 @@ public class Vault implements IDataType {
       String[] outputStacks = new String[54];
       for (int index = 0; index < stacks.length; index++) {
         // TODO Implement
-//        outputStacks[index] = StackConverter.convertToString(stacks[index]);
+        //        outputStacks[index] = StackConverter.convertToString(stacks[index]);
       }
       items = outputStacks;
     } else {

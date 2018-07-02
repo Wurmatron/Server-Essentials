@@ -14,9 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Used to hold the data about a player
- */
+/** Used to hold the data about a player */
 public class PlayerData implements IDataType {
 
   private String rank;
@@ -42,8 +40,7 @@ public class PlayerData implements IDataType {
   private UUID uuid;
   private String lang;
 
-  public PlayerData() {
-  }
+  public PlayerData() {}
 
   public PlayerData(UUID uuid, Rank rank) {
     if (rank != null) {
@@ -86,7 +83,8 @@ public class PlayerData implements IDataType {
           return LanguageModule.getLangFromKey(lang).HOME_SET.replaceAll("#", home.getName());
         }
       }
-      return LanguageModule.getLangFromKey(lang).HOME_MAX
+      return LanguageModule.getLangFromKey(lang)
+          .HOME_MAX
           .replaceAll("#", Integer.toString(max_homes));
     }
     return LanguageModule.getLangFromKey(lang).HOME_INVALID;
