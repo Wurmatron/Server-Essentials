@@ -7,14 +7,14 @@ public class Claim {
   private String team;
   private UUID owner;
 
-  //  public Claim(Team team, UUID owner) {
+  //  public Claim(TeamCommand team, UUID owner) {
   //    if (team != null) {
   //      this.team = team.getName();
   //    }
   //    this.owner = owner;
   //  }
 
-  //  public Team getTeam() {
+  //  public TeamCommand getTeam() {
   ////    if (team != null && team.length() > 0) {
   ////      return TeamManager.getTeamFromName(team);
   ////    }

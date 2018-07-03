@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import wurmcraft.serveressentials.common.api.team.Team;
 
-@Module(name = "Team")
+@Module(name = "TeamCommand")
 public class TeamModule implements IModule {
 
   private static boolean globalTeams = false;

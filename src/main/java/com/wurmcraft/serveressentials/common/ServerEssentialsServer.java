@@ -40,8 +40,8 @@ public class ServerEssentialsServer {
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
     logger.info("Starting PreInit");
-    CommandLoader.locateCommands(e.getAsmData());
     modules = loadModules(e.getAsmData());
+    CommandLoader.locateCommands(e.getAsmData());
   }
 
   @EventHandler

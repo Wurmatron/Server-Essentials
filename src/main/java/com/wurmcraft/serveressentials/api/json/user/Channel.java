@@ -24,8 +24,8 @@ public class Channel implements IDataType {
    * @param chatFillter Is the chat filter acive in this channel
    * @param logChat Chat logged to a file
    * @param type Type of channel
-   * @param data Stores the data about the type (IE: Pass = "Password", Team = "teamName", Rank =
-   *     "Rank Name")
+   * @param data Stores the data about the type (IE: Pass = "Password", TeamCommand = "teamName",
+   *     Rank = "Rank Name")
    * @param filter Replaces Words in chat with diffrent ones based on this filter
    */
   public Channel(

@@ -92,6 +92,15 @@ public class LanguageModule implements IModule {
         langKey, loadedLanguages.get(ConfigHandler.defaultLanguage));
   }
 
+  public static boolean isValidLangKey(String key) {
+    for (String lang : ConfigHandler.supportedLanguages) {
+      if (lang.equalsIgnoreCase(key)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private static String getPlayerLang(UUID uuid) {
     if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];

@@ -17,7 +17,7 @@ public class ConfigHandler {
         "Language",
         "Rank",
         "Security",
-        "Team",
+        "TeamCommand",
         "Teleportation"
       };
 

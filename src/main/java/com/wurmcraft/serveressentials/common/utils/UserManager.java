@@ -2,7 +2,9 @@ package com.wurmcraft.serveressentials.common.utils;
 
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import java.util.UUID;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -14,7 +16,7 @@ public class UserManager {
   // Rank Cache
   public static NonBlockingHashMap<String, Rank> rankCache = new NonBlockingHashMap<>();
   public static NonBlockingHashMap<String, AutoRank> autoRankCache = new NonBlockingHashMap<>();
-  // Team Cache
+  // TeamCommand Cache
   public static NonBlockingHashMap<String, Object[]> teamCache = new NonBlockingHashMap<>();
 
   public static NonBlockingHashMap<UUID, Long> joinTime = new NonBlockingHashMap<>();
@@ -30,6 +32,15 @@ public class UserManager {
       }
     }
     return getDefaultRank();
+  }
+
+  public static boolean isValidRank(String name) {
+    for (String key : rankCache.keySet()) {
+      if (key.equalsIgnoreCase(name)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static Object[] getPlayerData(UUID uuid) {

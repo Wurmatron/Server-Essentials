@@ -1,7 +1,10 @@
 package com.wurmcraft.serveressentials.common.utils;
 
+import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.api.module.IModule;
+import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +20,25 @@ public class CommandLoader {
     List<SECommand> activeCommands = new ArrayList<>();
     for (ASMData data : asmData.getAll(Command.class.getName())) {
       try {
+        String commandModule = data.getAnnotationInfo().getOrDefault("moduleName", "").toString();
         Class<?> asmClass = Class.forName(data.getClassName());
         Class<? extends SECommand> supportClass = asmClass.asSubclass(SECommand.class);
         SECommand command = supportClass.newInstance();
-        activeCommands.add(command);
+        if (!commandModule.isEmpty()) {
+          for (IModule module : ServerEssentialsAPI.modules) {
+            if (module.getClass().getAnnotation(Module.class) != null
+                && module
+                .getClass()
+                .getAnnotation(Module.class)
+                .name()
+                .equalsIgnoreCase(commandModule)) {
+              activeCommands.add(command);
+              break;
+            }
+          }
+        } else {
+          activeCommands.add(command);
+        }
         ServerEssentialsServer.logger.debug(
             "Loading Command '"
                 + command.getName()
