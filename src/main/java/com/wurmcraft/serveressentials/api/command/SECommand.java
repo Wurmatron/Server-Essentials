@@ -102,7 +102,7 @@ public abstract class SECommand implements ICommand {
     return false;
   }
 
-  protected Local getCurrentLanguage(ICommandSender sender) {
+  protected static Local getCurrentLanguage(ICommandSender sender) {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       return LanguageModule.getLangfromUUID(player.getGameProfile().getId());

@@ -23,6 +23,10 @@ public class Local {
   public static String CHAT_LANG = "Language";
   public static String CHAT_LASTSEEN = "Seen";
   public static String PLAYER_ONLY = "Players Only!";
+  public static String CHAT_NAME = "Name";
+  public static String CHAT_PREFIX = "Prefix";
+  public static String CHAT_SUFFIX = "Suffix";
+  public static String CHAT_INHERITANCE = "Inheritance";
   // Commands
   public static String RANK_NULL = "Rank Does not Exist!";
   public static String PLAYER_NOT_FOUND = "Player '%PLAYER%' not found!";

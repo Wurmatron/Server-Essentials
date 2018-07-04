@@ -12,6 +12,7 @@ import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.Date;
 import java.util.UUID;
+import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -41,7 +42,44 @@ public class PermCommand extends SECommand {
 
   @SubCommand
   public void group(ICommandSender sender, String[] args) {
-    sender.sendMessage(new TextComponentString("WIP"));
+    if (args.length == 0) {
+      sender.sendMessage(new TextComponentString(getUsage(sender)));
+    } else {
+      Local lang = getCurrentLanguage(sender);
+      if (args.length == 2 && args[1].equalsIgnoreCase("info")) {
+        for (String format : getRankFormatting(sender, args[0])) {
+          sender.sendMessage(new TextComponentString(format));
+        }
+      } else if (args.length >= 4 && args[1].equalsIgnoreCase("perm")) {
+        Rank rank = UserManager.getRank(args[0]);
+        boolean added = args[2].equalsIgnoreCase("add");
+        if (rank != null) {
+          for (int index = 3; index < args.length; index++) {
+            if (added) {
+              rank.addPermission(args[index]);
+              sender.sendMessage(new TextComponentString(
+                  TextFormatting.LIGHT_PURPLE + lang.PERM_ADDED.replaceAll("%PERM%",
+                      TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                      .replaceAll("%PLAYER%",
+                          TextFormatting.GOLD + rank.getName()
+                              + TextFormatting.LIGHT_PURPLE)));
+            } else {
+              rank.delPermission(args[index]);
+              sender.sendMessage(new TextComponentString(
+                  TextFormatting.LIGHT_PURPLE + lang.PERM_DEL.replaceAll("%PERM%",
+                      TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                      .replaceAll("%PLAYER%",
+                          TextFormatting.GOLD + rank.getName()
+                              + TextFormatting.LIGHT_PURPLE)));
+            }
+            RequestHelper.RankResponses.overrideRank(rank);
+          }
+        } else {
+          sender.sendMessage(new TextComponentString(TextFormatting.RED + lang.PLAYER_NOT_FOUND
+              .replaceAll("%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+        }
+      }
+    }
   }
 
   @SubCommand
@@ -154,6 +192,20 @@ public class PermCommand extends SECommand {
             + new Date(user.getLastSeen()).toString(),
         lang.CHAT_SPACER
     };
+  }
+
+  private static String[] getRankFormatting(ICommandSender sender, String r) {
+    Local lang = getCurrentLanguage(sender);
+    Rank rank = UserManager.getRank(r);
+    return new String[]{lang.CHAT_SPACER,
+        TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
+        TextFormatting.LIGHT_PURPLE + lang.CHAT_PREFIX + ": " + TextFormatting.AQUA + rank
+            .getPrefix(),
+        TextFormatting.LIGHT_PURPLE + lang.CHAT_SUFFIX + ": " + TextFormatting.AQUA + rank
+            .getSuffix(),
+        TextFormatting.LIGHT_PURPLE + lang.CHAT_INHERITANCE + ": " + TextFormatting.AQUA + Strings
+            .join(rank.getInheritance(), " "),
+        lang.CHAT_SPACER};
   }
 
   @Override

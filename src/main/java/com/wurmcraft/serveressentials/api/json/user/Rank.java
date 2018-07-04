@@ -1,5 +1,10 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Rank implements IDataType {
 
   private String name;
@@ -68,5 +73,25 @@ public class Rank implements IDataType {
   @Override
   public String getID() {
     return name;
+  }
+
+  public void addPermission(String... perm) {
+    List<String> currentPermissions = new ArrayList<>();
+    Collections.addAll(currentPermissions, getPermission());
+    currentPermissions.addAll(Arrays.asList(perm));
+    this.permission = currentPermissions.toArray(new String[0]);
+  }
+
+  public void delPermission(String perm) {
+    List<String> currentPermissions = new ArrayList<>();
+    Collections.addAll(currentPermissions, getPermission());
+    String delNode = "";
+    for (String node : currentPermissions) {
+      if (node.equalsIgnoreCase(perm)) {
+        delNode = node;
+      }
+    }
+    currentPermissions.remove(delNode);
+    this.permission = currentPermissions.toArray(new String[0]);
   }
 }
