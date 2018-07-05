@@ -5,6 +5,7 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
@@ -128,6 +129,7 @@ public class PermCommand extends SECommand {
                       .replaceAll("%PLAYER%",
                           TextFormatting.GOLD + UsernameCache.getLastKnownUsername(uuid)
                               + TextFormatting.LIGHT_PURPLE)));
+              UserManager.playerData.put(uuid, new Object[] {selectedUser, UserManager.playerData.getOrDefault(uuid, new Object[] {selectedUser,new LocalUser(uuid)})[1]});
             } else {
               selectedUser.delPermission(args[index]);
               sender.sendMessage(new TextComponentString(
@@ -136,6 +138,7 @@ public class PermCommand extends SECommand {
                       .replaceAll("%PLAYER%",
                           TextFormatting.GOLD + UsernameCache.getLastKnownUsername(uuid)
                               + TextFormatting.LIGHT_PURPLE)));
+              UserManager.playerData.put(uuid, new Object[] {selectedUser, UserManager.playerData.get(uuid)[1]});
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
           }
@@ -157,6 +160,7 @@ public class PermCommand extends SECommand {
                       .replaceAll("%PLAYER%",
                           TextFormatting.GOLD + UsernameCache.getLastKnownUsername(uuid)
                               + TextFormatting.LIGHT_PURPLE)));
+              UserManager.playerData.put(uuid, new Object[] {selectedUser, UserManager.playerData.getOrDefault(uuid, new Object[] {selectedUser,new LocalUser(uuid)})[1]});
             } else {
               selectedUser.delPerk(args[index]);
               sender.sendMessage(new TextComponentString(
@@ -165,6 +169,7 @@ public class PermCommand extends SECommand {
                       .replaceAll("%PLAYER%",
                           TextFormatting.GOLD + UsernameCache.getLastKnownUsername(uuid)
                               + TextFormatting.LIGHT_PURPLE)));
+              UserManager.playerData.put(uuid, new Object[] {selectedUser, UserManager.playerData.getOrDefault(uuid, new Object[] {selectedUser,new LocalUser(uuid)})[1]});
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
           }

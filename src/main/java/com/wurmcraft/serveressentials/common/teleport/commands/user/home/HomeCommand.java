@@ -1,11 +1,10 @@
-package com.wurmcraft.serveressentials.common.teleport.commands.user;
+package com.wurmcraft.serveressentials.common.teleport.commands.user.home;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
@@ -17,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 @Command(moduleName = "Teleportation")
 public class HomeCommand extends SECommand {
@@ -36,6 +36,9 @@ public class HomeCommand extends SECommand {
       for (Home home : homes) {
         if (home.getName().equalsIgnoreCase(args[0])) {
           TeleportUtils.teleportTo((EntityPlayerMP) player, home.getPos(), true);
+          sender.sendMessage(new TextComponentString(
+              getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
+          return;
         }
       }
     } else if (args.length == 0) {
@@ -43,6 +46,8 @@ public class HomeCommand extends SECommand {
       for (Home home : homes) {
         if (home.getName().equalsIgnoreCase(ConfigHandler.defaultHome)) {
           TeleportUtils.teleportTo((EntityPlayerMP) player, home.getPos(), true);
+          sender.sendMessage(new TextComponentString(
+              getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
           return;
         }
       }
@@ -70,8 +75,11 @@ public class HomeCommand extends SECommand {
     Home[] homes = HomeCommand
         .getPlayerHomes(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
     StringBuilder builder = new StringBuilder();
-    for (Home home : homes) {
-      builder.append(home.getName());
+    for (int index = 0; index < homes.length; index++) {
+      builder.append(TextFormatting.GOLD + homes[index].getName());
+      if (index != homes.length - 1) {
+        builder.append(TextFormatting.GRAY + ", " + TextFormatting.GOLD);
+      }
     }
     sender.sendMessage(new TextComponentString(builder.toString()));
   }

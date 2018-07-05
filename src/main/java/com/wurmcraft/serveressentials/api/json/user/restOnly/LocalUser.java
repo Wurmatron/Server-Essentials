@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.optional.Vault;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -122,8 +123,18 @@ public class LocalUser implements IDataType {
 
   public void addHome(Home home) {
     List<Home> homeData = new ArrayList<>();
-    Collections.addAll(homeData,getHomes());
+    Collections.addAll(homeData, getHomes());
     homeData.add(home);
     this.homes = homeData.toArray(new Home[0]);
+  }
+
+  public void delHome(String name) {
+    List<Home> homesArray = new ArrayList<>();
+    for (Home home : getHomes()) {
+      if (!home.getName().equalsIgnoreCase(name)) {
+        homesArray.add(home);
+      }
+    }
+    this.homes = homesArray.toArray(new Home[0]);
   }
 }

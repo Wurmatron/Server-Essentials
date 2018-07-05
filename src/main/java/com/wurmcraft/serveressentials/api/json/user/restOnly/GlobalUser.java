@@ -223,8 +223,8 @@ public class GlobalUser {
   public void addPerk(String... perk) {
     List<String> currentPerks = new ArrayList<>();
     Collections.addAll(currentPerks, getPerks());
-    currentPerks.addAll(Arrays.asList(perk));
-    this.permission = currentPerks.toArray(new String[0]);
+    Collections.addAll(currentPerks, perk);
+    this.perks = currentPerks.toArray(new String[0]);
   }
 
   public void delPerk(String perk) {

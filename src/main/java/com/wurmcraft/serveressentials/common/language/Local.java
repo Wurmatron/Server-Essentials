@@ -14,7 +14,8 @@ public class Local {
   public String TPA_SENT = "Tpa Request Sent!";
   public String TPA_Recive = "%PLAYER% has sent you a TPA Request %ACCEPT% | %DENY%";
   public String TPA_ACCEPT = "Tpa Request Accepted!";
-
+  public String TP_HOME = "You have teleported to '%HOME%'";
+  public String HOME_DELETED = "Home '%HOME%' has been deleted!";
 
   // Permissions
   public String PERM_ADDED = "Permission '%PERM% added to '%PLAYER%'";
