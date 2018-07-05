@@ -10,6 +10,12 @@ import java.lang.reflect.Modifier;
 
 public class Local {
 
+  // Teleport
+  public String TPA_SENT = "Tpa Request Sent!";
+  public String TPA_Recive = "%PLAYER% has sent you a TPA Request %ACCEPT% | %DENY%";
+  public String TPA_ACCEPT = "Tpa Request Accepted!";
+
+
   // Permissions
   public String PERM_ADDED = "Permission '%PERM% added to '%PLAYER%'";
   public String PERM_DEL = "Permission '%PERM% deleted from '%PLAYER%'";
@@ -27,6 +33,8 @@ public class Local {
   public static String CHAT_PREFIX = "Prefix";
   public static String CHAT_SUFFIX = "Suffix";
   public static String CHAT_INHERITANCE = "Inheritance";
+  public String CHAT_ACCEPT = "Accept";
+  public String CHAT_DENY = "Deny";
   // Commands
   public static String RANK_NULL = "Rank Does not Exist!";
   public static String PLAYER_NOT_FOUND = "Player '%PLAYER%' not found!";

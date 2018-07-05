@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import java.util.UUID;
+import net.minecraft.entity.player.EntityPlayer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class UserManager {
@@ -45,6 +46,10 @@ public class UserManager {
 
   public static Object[] getPlayerData(UUID uuid) {
     return playerData.getOrDefault(uuid, new Object[0]);
+  }
+
+  public static Object[] getPlayerData(EntityPlayer player) {
+    return getPlayerData(player.getGameProfile().getId());
   }
 
   public static Rank getDefaultRank() {

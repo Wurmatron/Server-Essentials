@@ -5,6 +5,9 @@ import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.optional.Vault;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class LocalUser implements IDataType {
@@ -18,6 +21,7 @@ public class LocalUser implements IDataType {
   private String currentChannel;
   private long onlineTime;
   private LocationWrapper lastLocation;
+  private long teleportTimer;
 
   public LocalUser(UUID uuid) {
     this.uuid = uuid;
@@ -106,5 +110,20 @@ public class LocalUser implements IDataType {
   @Override
   public String getID() {
     return uuid.toString();
+  }
+
+  public long getTeleportTimer() {
+    return teleportTimer;
+  }
+
+  public void setTeleportTimer(long teleportTimer) {
+    this.teleportTimer = teleportTimer;
+  }
+
+  public void addHome(Home home) {
+    List<Home> homeData = new ArrayList<>();
+    Collections.addAll(homeData,getHomes());
+    homeData.add(home);
+    this.homes = homeData.toArray(new Home[0]);
   }
 }

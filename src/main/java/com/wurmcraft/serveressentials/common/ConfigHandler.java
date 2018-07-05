@@ -9,16 +9,16 @@ public class ConfigHandler {
 
   @Comment("Modules to be loaded")
   public static String[] modules =
-      new String[] {
-        "AutoRank",
-        "Chat",
-        "Claim",
-        "General",
-        "Language",
-        "Rank",
-        "Security",
-        "TeamCommand",
-        "Teleportation"
+      new String[]{
+          "AutoRank",
+          "Chat",
+          "Claim",
+          "General",
+          "Language",
+          "Rank",
+          "Security",
+          "TeamCommand",
+          "Teleportation"
       };
 
   @Comment("How the data is stored (File, Rest)")
@@ -31,7 +31,7 @@ public class ConfigHandler {
   public static String defaultLanguage = "en_us";
 
   @Comment("Supported Server Languages (Requires Lang Files)")
-  public static String[] supportedLanguages = new String[] {"en_us"};
+  public static String[] supportedLanguages = new String[]{"en_us"};
 
   @Comment(
       "How long to wait (in minutes) before checking for an update for Rest API (Saves Bandwidth)")
@@ -51,4 +51,11 @@ public class ConfigHandler {
 
   @Comment("How many of the same message will be displayed before flagging as spam")
   public static int spamLimit = 5;
+
+  @Comment("How many seconds before another teleport can be completed")
+  public static int teleportTimer = 4;
+
+  @Comment("Default home name")
+  public static String defaultHome = "home";
+
 }

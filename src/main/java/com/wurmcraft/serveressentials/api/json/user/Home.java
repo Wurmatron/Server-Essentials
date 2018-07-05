@@ -6,19 +6,13 @@ import net.minecraft.util.math.BlockPos;
 public class Home {
 
   private String name;
-  private BlockPos pos;
-  private float yaw;
-  private float pitch;
-  private int dimension;
+  private LocationWrapper pos;
 
   public Home() {}
 
-  public Home(String name, BlockPos location, int dimension, float yaw, float pitch) {
+  public Home(String name, LocationWrapper location) {
     this.name = setName(name);
     this.pos = setPos(location);
-    this.dimension = dimension;
-    this.yaw = yaw;
-    this.pitch = pitch;
   }
 
   public String getName() {
@@ -30,24 +24,12 @@ public class Home {
     return getName();
   }
 
-  public BlockPos getPos() {
+  public LocationWrapper getPos() {
     return pos;
   }
 
-  public BlockPos setPos(BlockPos pos) {
+  public LocationWrapper setPos(LocationWrapper pos) {
     this.pos = pos;
     return getPos();
-  }
-
-  public float getYaw() {
-    return yaw;
-  }
-
-  public float getPitch() {
-    return pitch;
-  }
-
-  public int getDimension() {
-    return dimension;
   }
 }
