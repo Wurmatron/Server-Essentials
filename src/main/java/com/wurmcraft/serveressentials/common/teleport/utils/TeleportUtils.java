@@ -66,8 +66,8 @@ public class TeleportUtils {
     }
   }
 
-  public static void teleportTo(EntityPlayerMP teleporter, EntityPlayerMP toPlayer) {
-    teleportTo(teleporter,
+  public static void teleportTo(EntityPlayer teleporter, EntityPlayer toPlayer) {
+    teleportTo((EntityPlayerMP) teleporter,
         new LocationWrapper(toPlayer.posX, toPlayer.posY, toPlayer.posZ, toPlayer.dimension), true);
   }
 

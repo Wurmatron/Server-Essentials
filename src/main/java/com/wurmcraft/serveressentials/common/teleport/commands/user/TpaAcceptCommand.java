@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
+import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,7 @@ public class TpaAcceptCommand extends SECommand {
         if (players[1].getGameProfile().getId().equals(player.getGameProfile().getId())) {
           player.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_ACCEPT));
           players[0].sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_ACCEPT));
+          TeleportUtils.teleportTo(players[0], players[1]);
           break;
         }
       }
