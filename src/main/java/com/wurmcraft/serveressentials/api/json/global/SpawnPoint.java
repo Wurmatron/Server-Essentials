@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.api.json.global;
 
+import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -7,12 +8,12 @@ import net.minecraft.util.math.BlockPos;
  */
 public class SpawnPoint {
 
-  public BlockPos location;
-  public int dimension;
+
+  public LocationWrapper location;
   public float yaw;
   public float pitch;
 
-  public SpawnPoint(BlockPos location, float yaw, float pitch) {
+  public SpawnPoint(LocationWrapper location, float yaw, float pitch) {
     this.location = location;
     this.yaw = yaw;
     this.pitch = pitch;

@@ -23,6 +23,7 @@ public class Local {
   public String PERK_ADDED = "Permission '%PERM% added to '%PLAYER%'";
   public String PERK_DEL = "Permission '%PERM% deleted from '%PLAYER%'";
 
+
   // Chat
   public static String CHAT_SPACER = "=-=-=-=-=-=";
   public static String CHAT_RANK = "Rank";
