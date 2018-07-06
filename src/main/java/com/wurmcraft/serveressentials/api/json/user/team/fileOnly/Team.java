@@ -1,12 +1,13 @@
 package wurmcraft.serveressentials.common.api.team;
 
 import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import net.minecraft.util.text.TextFormatting;
 
-public class Team implements IDataType {
+public class Team implements IDataType, ITeam {
 
   private String teamName;
   private UUID leader;
@@ -34,6 +35,7 @@ public class Team implements IDataType {
     return members;
   }
 
+  @Override
   public UUID getLeader() {
     return leader;
   }

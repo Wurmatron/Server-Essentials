@@ -21,6 +21,14 @@ public class Rank implements IDataType {
     permission = new String[] {};
   }
 
+  public Rank(Rank rank) {
+    this.name = rank.name;
+    this.prefix = rank.prefix;
+    this.suffix = rank.suffix;
+    this.inheritance = rank.inheritance;
+    this.permission = rank.permission;
+  }
+
   public Rank(
       String name, String prefix, String suffix, String[] inheritance, String[] permission) {
     this.name = name;

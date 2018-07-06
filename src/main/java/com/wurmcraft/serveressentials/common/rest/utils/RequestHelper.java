@@ -27,7 +27,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "rank/add")
           .request(MediaType.APPLICATION_JSON)
-          .post(Entity.entity(GSON.toJson(rank), MediaType.APPLICATION_JSON));
+          .post(Entity
+              .entity(new RankJson(rank, ConfigHandler.restAuthKey), MediaType.APPLICATION_JSON));
     }
 
     public static Rank getRank(String name) {
@@ -41,14 +42,16 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "rank/override")
           .request(MediaType.APPLICATION_JSON)
-          .put(Entity.entity(rank, MediaType.APPLICATION_JSON));
+          .put(Entity
+              .entity(new RankJson(rank, ConfigHandler.restAuthKey), MediaType.APPLICATION_JSON));
     }
 
     public static Rank[] getAllRanks() {
       return client
           .target(getBaseURL() + "rank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<Rank>>() {})
+          .get(new GenericType<ArrayList<Rank>>() {
+          })
           .toArray(new Rank[0]);
     }
   }
@@ -59,7 +62,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "user/add")
           .request(MediaType.APPLICATION_JSON)
-          .post(Entity.entity(GSON.toJson(user), MediaType.APPLICATION_JSON));
+          .post(Entity.entity(GSON.toJson(new GlobalUserJson(user, ConfigHandler.restAuthKey)),
+              MediaType.APPLICATION_JSON));
     }
 
     public static GlobalUser getPlayerData(UUID name) {
@@ -73,7 +77,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "user/override")
           .request(MediaType.APPLICATION_JSON)
-          .put(Entity.entity(GSON.toJson(user), MediaType.APPLICATION_JSON));
+          .put(Entity.entity(GSON.toJson(new GlobalUserJson(user, ConfigHandler.restAuthKey)),
+              MediaType.APPLICATION_JSON));
     }
   }
 
@@ -83,7 +88,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "team/add")
           .request(MediaType.APPLICATION_JSON)
-          .post(Entity.entity(GSON.toJson(team), MediaType.APPLICATION_JSON));
+          .post(Entity.entity(GSON.toJson(new GlobalTeamJson(team, ConfigHandler.restAuthKey)),
+              MediaType.APPLICATION_JSON));
     }
 
     public static GlobalTeam getTeam(String name) {
@@ -97,7 +103,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "team/override")
           .request(MediaType.APPLICATION_JSON)
-          .put(Entity.entity(GSON.toJson(team), MediaType.APPLICATION_JSON));
+          .put(Entity.entity(GSON.toJson(new GlobalTeamJson(team, ConfigHandler.restAuthKey)),
+              MediaType.APPLICATION_JSON));
     }
   }
 
@@ -128,7 +135,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "autorank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<AutoRank>>() {})
+          .get(new GenericType<ArrayList<AutoRank>>() {
+          })
           .toArray(new AutoRank[0]);
     }
   }

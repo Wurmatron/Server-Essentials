@@ -19,6 +19,14 @@ public class GlobalTeam {
     this.members = new String[0];
   }
 
+  public GlobalTeam(GlobalTeam team) {
+    this.name = team.name;
+    this.bank = team.bank;
+    this.perks = team.perks;
+    this.owner = team.owner;
+    this.members = team.members;
+  }
+
   public GlobalTeam(String name, Bank bank, String[] perks, UUID owner, String[] members) {
     this.name = name;
     this.bank = bank;

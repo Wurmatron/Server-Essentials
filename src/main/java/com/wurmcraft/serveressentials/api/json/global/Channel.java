@@ -1,5 +1,6 @@
-package com.wurmcraft.serveressentials.api.json.user;
+package com.wurmcraft.serveressentials.api.json.global;
 
+import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

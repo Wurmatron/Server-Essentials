@@ -29,6 +29,24 @@ public class GlobalUser {
   public GlobalUser() {
   }
 
+  public GlobalUser(GlobalUser user) {
+    this.uuid = user.uuid;
+    this.rank = user.rank;
+    this.nick = user.nick;
+    this.bank = user.bank;
+    this.team = user.team;
+    this.onlineTime = user.onlineTime;
+    this.lastSeen = user.lastSeen;
+    this.stocks = user.stocks;
+    this.loadedChunks = user.loadedChunks;
+    this.firstJoin = user.firstJoin;
+    this.muted = user.muted;
+    this.lang = user.lang;
+    this.discord = user.discord;
+    this.permission = user.permission;
+    this.perks = user.perks;
+  }
+
   public GlobalUser(String uuid, String rank) {
     this.uuid = uuid;
     this.rank = rank;

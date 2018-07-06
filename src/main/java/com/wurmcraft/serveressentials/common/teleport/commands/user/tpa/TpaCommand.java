@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.teleport.commands.user;
+package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;

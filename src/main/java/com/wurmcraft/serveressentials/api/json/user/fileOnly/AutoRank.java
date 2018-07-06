@@ -10,7 +10,16 @@ public class AutoRank implements IDataType {
   private String rank;
   private String nextRank;
 
-  public AutoRank() {}
+  public AutoRank() {
+  }
+
+  public AutoRank(AutoRank auto) {
+    this.playTime = auto.playTime;
+    this.balance = auto.balance;
+    this.exp = auto.exp;
+    this.rank = auto.rank;
+    this.nextRank = auto.nextRank;
+  }
 
   /**
    * Used as storage to hold values about th way a player rank's up

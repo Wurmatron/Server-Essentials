@@ -27,6 +27,9 @@ public class ConfigHandler {
   @Comment("Required if using Rest module")
   public static String restURL = "";
 
+  @Comment("Rest API Auth Key")
+  public static String restAuthKey = "someRandomAuthKey123";
+
   @Comment("Default Language")
   public static String defaultLanguage = "en_us";
 
@@ -57,5 +60,15 @@ public class ConfigHandler {
 
   @Comment("Default home name")
   public static String defaultHome = "home";
+
+  @Comment("How chat is displayed")
+  public static String chatFormat =
+      "%channel% " + "[%team%] " + "%rankPrefix% " + "%username% " + "%rankSuffix% " + "%message%";
+
+  @Comment("(Rest Only) List of all the currencys this server will accept / acknowledge")
+  public static String[] activeCurrency = new String[]{"Doge Coin", "NepNep Coin"};
+
+  @Comment("Name of the server currency")
+  public static String serverCurrency = "Doge Coin";
 
 }

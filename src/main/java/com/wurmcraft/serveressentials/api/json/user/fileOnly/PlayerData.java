@@ -1,13 +1,12 @@
 package com.wurmcraft.serveressentials.api.json.user.fileOnly;
 
-import com.wurmcraft.serveressentials.api.json.user.Channel;
+import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.Mail;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
-import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.Collections;

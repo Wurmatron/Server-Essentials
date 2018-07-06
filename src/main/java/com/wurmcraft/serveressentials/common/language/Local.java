@@ -16,6 +16,8 @@ public class Local {
   public String TPA_ACCEPT = "Tpa Request Accepted!";
   public String TP_HOME = "You have teleported to '%HOME%'";
   public String HOME_DELETED = "Home '%HOME%' has been deleted!";
+  public String TP_BACK = "You have teleported back to your previous location";
+  public String TP_BACK_FAIL = "Failed to find your last known location!";
 
   // Permissions
   public String PERM_ADDED = "Permission '%PERM% added to '%PLAYER%'";
