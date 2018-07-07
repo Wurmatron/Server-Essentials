@@ -43,7 +43,10 @@ public class UserManager {
   }
 
   public static Object[] getPlayerData(UUID uuid) {
-    return playerData.getOrDefault(uuid, new Object[0]);
+    if (uuid != null) {
+      return playerData.getOrDefault(uuid, new Object[0]);
+    }
+    return new Object[0];
   }
 
   public static Object[] getPlayerData(EntityPlayer player) {

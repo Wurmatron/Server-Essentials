@@ -26,7 +26,8 @@ public class UsernameResolver {
   }
 
   public static String getNick(UUID uuid) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")
+        && UserManager.getPlayerData(uuid).length > 0) {
       return ((GlobalUser) UserManager.getPlayerData(uuid)[0]).getNick();
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       return ((PlayerData) UserManager.getPlayerData(uuid)[0]).getNickname();

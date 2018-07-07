@@ -70,10 +70,14 @@ public class RequestHelper {
     }
 
     public static GlobalUser getPlayerData(UUID name) {
-      return client
-          .target(getBaseURL() + "user/find/" + name)
-          .request(MediaType.APPLICATION_JSON)
-          .get(GlobalUser.class);
+      try {
+        return client
+            .target(getBaseURL() + "user/find/" + name)
+            .request(MediaType.APPLICATION_JSON)
+            .get(GlobalUser.class);
+      } catch (Exception e) {
+        return null;
+      }
     }
 
     public static Response overridePlayerData(GlobalUser user) {

@@ -108,7 +108,7 @@ public abstract class SECommand implements ICommand {
 
   protected static GlobalUser forceUserFromUUID(UUID uuid) {
     GlobalUser user = null;
-    if (UserManager.getPlayerData(uuid).length > 0) {
+    if (UserManager.getPlayerData(uuid) != null && UserManager.getPlayerData(uuid).length > 0) {
       user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
     }
     if (user == null) {

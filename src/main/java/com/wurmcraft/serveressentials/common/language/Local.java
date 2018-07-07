@@ -53,6 +53,10 @@ public class Local {
   public String GOD_ENABBLE = "God Mode Enabled";
   public String TPLOCK_DISABLED = "TP Lock Disabled";
   public String TPLOCK_ENABLED = "TP Lock Enabled";
+  public String INVALID_NUMBER = "%NUMBER% is not a valid number!";
+
+  // ECO
+  public String PAYED = "You paid %PLAYER% %AMOUNT% %COIN%";
 
   public static Local load(String langKey) {
     boolean valid = false;

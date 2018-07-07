@@ -1,5 +1,4 @@
 Commands:
-  - Balance / Money
   - Pay
   - Stocks
   - Shop Renting /shop ?

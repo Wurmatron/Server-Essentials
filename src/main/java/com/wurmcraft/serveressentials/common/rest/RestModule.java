@@ -1,6 +1,8 @@
 package com.wurmcraft.serveressentials.common.rest;
 
 import com.wurmcraft.serveressentials.api.json.user.Rank;
+import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
+import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
@@ -14,6 +16,8 @@ import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.team.TeamModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -83,9 +87,9 @@ public class RestModule implements IModule {
               }
               UserManager.playerData.put(
                   uuid,
-                  new Object[] {
-                    globalUser,
-                    UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, user})[1]
+                  new Object[]{
+                      globalUser,
+                      UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, user})[1]
                   });
               UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
             }
@@ -126,14 +130,20 @@ public class RestModule implements IModule {
   private static void createNewUser(UUID uuid) {
     try {
       GlobalUser globalUser = new GlobalUser(uuid.toString(), "Default");
+      List<Coin> coins = new ArrayList<>();
+      for (String name : ConfigHandler.activeCurrency) {
+        coins.add(new Coin(name, 0));
+      }
+      Bank bank = new Bank(coins.toArray(new Coin[0]));
+      globalUser.setBank(bank);
       LocalUser localUser = new LocalUser(uuid);
       DataHelper.createIfNonExist(Keys.LOCAL_USER, localUser);
       RequestHelper.UserResponses.addPlayerData(globalUser);
       UserManager.playerData.put(
           uuid,
-          new Object[] {
-            globalUser,
-            UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, localUser})[1]
+          new Object[]{
+              globalUser,
+              UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, localUser})[1]
           });
       UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
     } catch (Exception e) {
@@ -144,9 +154,9 @@ public class RestModule implements IModule {
   public static void createDefaultRanks() {
     Rank defaultRank =
         new Rank(
-            "Default", "&8[Default] ", "", new String[] {}, new String[] {"info.*", "teleport.*"});
+            "Default", "&8[Default] ", "", new String[]{}, new String[]{"info.*", "teleport.*"});
     Rank adminRank =
-        new Rank("Admin", "&c[Admin] ", "", new String[] {"default"}, new String[] {"admin.*"});
+        new Rank("Admin", "&c[Admin] ", "", new String[]{"default"}, new String[]{"admin.*"});
     RequestHelper.RankResponses.addRank(defaultRank);
     RequestHelper.RankResponses.addRank(adminRank);
   }
