@@ -3,7 +3,7 @@ const port = 8080;
 const ranksDir = './ranks';
 const userDir = './users';
 const teamDir = './teams';
-const autorankDir = './autorank';
+const apiKey = 'keys';
 
 // Require / Imports
 const express = require('express');
@@ -17,13 +17,13 @@ const app = express();
 const ranksDB = levelup(leveldown(ranksDir));
 const userDB = levelup(leveldown(userDir));
 const teamDB = levelup(leveldown(teamDir));
-const autorankDB = levelup(leveldown(teamDir));
 const urlencoder = bodyParser.urlencoded({
     extended: true
 });
 app.use(bodyParser.json());
 app.use(morgan('short'));
 app.set('json spaces', 2);
+var apiKeys = require('fs').readFileSync(apiKey).toString();
 
 /**
  * Gets Rank from name
@@ -47,17 +47,21 @@ app.get('/rank/find/:name', (req, res) => {
  * 400 Invalid Request missing rank name
  */
 app.post('/rank/add', urlencoder, (req, res) => {
-    if (req.body.name) {
-        const rank = ranksDB.get(req.body.name)
-        rank.then(function (result) {
-            if (!rank) {
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.name) {
+            const rank = ranksDB.get(req.body.name)
+            rank.then(function (result) {
+                if (!rank) {
+                    addRankEntry(req, res)
+                } else {
+                    res.sendStatus(409)
+                }
+            }, function (err) {
                 addRankEntry(req, res)
-            } else {
-                res.sendStatus(409)
-            }
-        }, function (err) {
-            addRankEntry(req, res)
-        })
+            })
+        }
+    } else {
+        res.sendStatus(401)
     }
 });
 
@@ -97,17 +101,21 @@ app.get('/rank/find', urlencoder, (req, res) => {
  * 400 Invalid Request missing rank name
  */
 app.delete('/rank/delete', urlencoder, (req, res) => {
-    if (req.body.name) {
-        const rank = ranksDB.get(req.body.name)
-        rank.then(function (result) {
-            console.log("Removing entry '" + req.body.name + "'");
-            ranksDB.del(req.body.name);
-            res.sendStatus(200)
-        }, function (err) {
-            res.sendStatus(404)
-        })
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.name) {
+            const rank = ranksDB.get(req.body.name)
+            rank.then(function (result) {
+                console.log("Removing entry '" + req.body.name + "'");
+                ranksDB.del(req.body.name);
+                res.sendStatus(200)
+            }, function (err) {
+                res.sendStatus(404)
+            })
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 });
 
@@ -118,10 +126,14 @@ app.delete('/rank/delete', urlencoder, (req, res) => {
  * 201 Rank Overridden / Created
  */
 app.put('/rank/override', urlencoder, (req, res) => {
-    if (req.body.name) {
-        addRankEntry(req, res)
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.name) {
+            addRankEntry(req, res)
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 });
 
@@ -141,7 +153,7 @@ function addRankEntry(req, res) {
         permission: req.body.permission
     }), function (err) {
         if (err)
-            req.sendStatus(400);
+            res.req.sendStatus(400);
     });
     res.sendStatus(201);
 }
@@ -161,7 +173,8 @@ app.get('/user/find/:uuid', (req, res) => {
     }, function (err) {
         res.sendStatus(404);
     })
-});
+})
+;
 
 /**
  * Creates a new user entry from input json data
@@ -171,19 +184,23 @@ app.get('/user/find/:uuid', (req, res) => {
  * 400 Invalid Request missing uuid
  */
 app.post('/user/add', urlencoder, (req, res) => {
-    if (req.body.uuid) {
-        const user = userDB.get(req.body.uuid)
-        user.then(function (result) {
-            if (!user) {
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.uuid) {
+            const user = userDB.get(req.body.uuid)
+            user.then(function (result) {
+                if (!user) {
+                    addUserEntry(req, res, false)
+                } else {
+                    res.sendStatus(409)
+                }
+            }, function (err) {
                 addUserEntry(req, res, false)
-            } else {
-                res.sendStatus(409)
-            }
-        }, function (err) {
-            addUserEntry(req, res, false)
-        })
+            })
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 });
 
@@ -220,18 +237,21 @@ app.get('/user/find', urlencoder, (req, res) => {
  * 400 Invalid Request missing user
  */
 app.delete('/user/delete', urlencoder, (req, res) => {
-    if (req.body.uuid) {
-        const user = userDB.get(req.body.uuid)
-        user.then(function (result) {
-            console.log("Removing User '" + req.body.uuid + "'");
-            userDB.del(req.body.uuid);
-            res.sendStatus(200)
-        }, function (err) {
-            res.sendStatus(404)
-        })
-    } else {
-        res.sendStatus(400)
-    }
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.uuid) {
+            const user = userDB.get(req.body.uuid)
+            user.then(function (result) {
+                console.log("Removing User '" + req.body.uuid + "'");
+                userDB.del(req.body.uuid);
+                res.sendStatus(200)
+            }, function (err) {
+                res.sendStatus(404)
+            })
+        } else {
+            res.sendStatus(400)
+        }
+    } else
+        res.sendStatus(401)
 });
 
 /**
@@ -241,11 +261,14 @@ app.delete('/user/delete', urlencoder, (req, res) => {
  * 201 User Overridden / Created
  */
 app.put('/user/override', urlencoder, (req, res) => {
-    if (req.body.uuid) {
-        addUserEntry(req, res, true)
-    } else {
-        res.sendStatus(400)
-    }
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.uuid) {
+            addUserEntry(req, res, true)
+        } else {
+            res.sendStatus(400)
+        }
+    } else
+        res.sendStatus(401)
 });
 
 /**
@@ -276,7 +299,7 @@ function addUserEntry(req, res, override) {
         perks: req.body.perks
     }), function (err) {
         if (err)
-            req.sendStatus(400);
+            res.req.sendStatus(400);
     });
     res.sendStatus(201);
 }
@@ -296,7 +319,8 @@ app.get('/team/find/:name', (req, res) => {
     }, function (err) {
         res.sendStatus(404);
     })
-});
+})
+;
 
 /**
  * Creates a new team entry from input json data
@@ -306,20 +330,23 @@ app.get('/team/find/:name', (req, res) => {
  * 400 Invalid Request missing uuid
  */
 app.post('/team/add', urlencoder, (req, res) => {
-    if (req.body.name) {
-        const team = teamDB.get(req.body.uuid)
-        team.then(function (result) {
-            if (!user) {
-                addUserEntry(req, res, false)
-            } else {
-                res.sendStatus(409)
-            }
-        }, function (err) {
-            addTeamEntry(req, res, false)
-        })
-    } else {
-        res.sendStatus(400)
-    }
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.name) {
+            const team = teamDB.get(req.body.uuid)
+            team.then(function (result) {
+                if (!user) {
+                    addUserEntry(req, res, false)
+                } else {
+                    res.sendStatus(409)
+                }
+            }, function (err) {
+                addTeamEntry(req, res, false)
+            })
+        } else {
+            res.sendStatus(400)
+        }
+    } else
+        res.sendStatus(401)
 });
 
 /**
@@ -355,17 +382,21 @@ app.get('/user/find', urlencoder, (req, res) => {
  * 400 Invalid Request missing team name
  */
 app.delete('/user/delete', urlencoder, (req, res) => {
-    if (req.body.name) {
-        const team = teamDB.get(req.body.name)
-        team.then(function (result) {
-            console.log("Removing Team '" + req.body.name + "'");
-            teamDB.del(req.body.uuid);
-            res.sendStatus(200)
-        }, function (err) {
-            res.sendStatus(404)
-        })
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.name) {
+            const team = teamDB.get(req.body.name)
+            team.then(function (result) {
+                console.log("Removing Team '" + req.body.name + "'");
+                teamDB.del(req.body.uuid);
+                res.sendStatus(200)
+            }, function (err) {
+                res.sendStatus(404)
+            })
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 });
 
@@ -376,10 +407,14 @@ app.delete('/user/delete', urlencoder, (req, res) => {
  * 201 Team Overridden / Created
  */
 app.put('/team/override', urlencoder, (req, res) => {
-    if (req.body.name) {
-        addTeamEntry(req, res, true)
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.name) {
+            addTeamEntry(req, res, true)
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 });
 
@@ -401,7 +436,7 @@ function addTeamEntry(req, res, override) {
         members: req.body.members
     }), function (err) {
         if (err)
-            req.sendStatus(400);
+            res.req.sendStatus(400);
     });
     res.sendStatus(201);
 }
@@ -419,18 +454,21 @@ function addTeamEntry(req, res, override) {
  * 400 Invalid Request missing Autorank nextRank
  */
 app.post('/autorank/add', urlencoder, (req, res) => {
-    if (req.body.nextRank) {
-        const rank = autorankDB.get(req.body.nextRank)
-        rank.then(function (result) {
-            if (!rank) {
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.nextRank) {
+            const rank = autorankDB.get(req.body.nextRank)
+            rank.then(function (result) {
+                if (!rank) {
+                    addAutoRankEntry(req, res, false)
+                } else {
+                    res.sendStatus(409)
+                }
+            }, function (err) {
                 addAutoRankEntry(req, res, false)
-            } else {
-                res.sendStatus(409)
-            }
-        }, function (err) {
-            addAutoRankEntry(req, res, false)
-        })
-    }
+            })
+        }
+    } else
+        req.sendStatus(401)
 });
 
 /**
@@ -469,18 +507,23 @@ app.get('/autorank/find', urlencoder, (req, res) => {
  * 400 Invalid Request missing nextRank
  */
 app.delete('/autorank/delete', urlencoder, (req, res) => {
-    if (req.body.nextRank) {
-        const rank = autorankDB.get(req.body.nextRank)
-        rank.then(function (result) {
-            console.log("Removing AutoRank '" + req.body.nextRank + "'");
-            autorankDB.del(req.body.nextRank);
-            res.sendStatus(200)
-        }, function (err) {
-            res.sendStatus(404)
-        })
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.nextRank) {
+            const rank = autorankDB.get(req.body.nextRank)
+            rank.then(function (result) {
+                console.log("Removing AutoRank '" + req.body.nextRank + "'");
+                autorankDB.del(req.body.nextRank);
+                res.sendStatus(200)
+            }, function (err) {
+                res.sendStatus(404)
+            })
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        req.sendStatus(401)
     }
+
 });
 
 /**
@@ -490,10 +533,14 @@ app.delete('/autorank/delete', urlencoder, (req, res) => {
  * 201 AutoRank Overridden / Created
  */
 app.put('/autorank/override', urlencoder, (req, res) => {
-    if (req.body.nextRank) {
-        addAutoRankEntry(req, res, true)
+    if (apiKeys.indexOf(req.body.authKey) > -1) {
+        if (req.body.nextRank) {
+            addAutoRankEntry(req, res, true)
+        } else {
+            res.sendStatus(400)
+        }
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 });
 
@@ -519,7 +566,6 @@ function addAutoRankEntry(req, res, override) {
     });
     res.sendStatus(201);
 }
-
 
 // Start NodeJS Server
 app.listen(port, () => {

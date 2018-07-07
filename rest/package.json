@@ -2,7 +2,7 @@
   "name": "serveressentials-rest",
   "version": "0.0.0",
   "description": "Rest API for use with Server Essentials",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
