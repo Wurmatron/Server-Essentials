@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.UUID;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -29,12 +28,16 @@ public class SeenCommand extends SECommand {
       UUID player = UsernameResolver.getUUIDFromName(args[0]);
       if (player != null) {
         GlobalUser global = forceUserFromUUID(player);
-        sender.sendMessage(new TextComponentString(
-            getCurrentLanguage(sender).CHAT_LASTSEEN + ": " + TextFormatting.AQUA + new Date(
-                global.getLastSeen()).toString()));
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender).CHAT_LASTSEEN
+                    + ": "
+                    + TextFormatting.AQUA
+                    + new Date(global.getLastSeen()).toString()));
       } else {
-        sender.sendMessage(new TextComponentString(
-            getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));

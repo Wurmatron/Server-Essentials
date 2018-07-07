@@ -1,6 +1,5 @@
 Commands:
   - Team command
-      - Info
       - create
       - bank
       - perks

@@ -19,7 +19,7 @@ public class ChatModule implements IModule {
   }
 
   private void createDefaultChannels() {
-    Channel channel = new Channel("global", "[G]", Type.PUBLIC, "");
+    Channel channel = new Channel("global", "&b[G]", Type.PUBLIC, "");
     DataHelper.forceSave(Keys.CHANNEL, channel);
     DataHelper.load(Keys.CHANNEL, channel);
   }

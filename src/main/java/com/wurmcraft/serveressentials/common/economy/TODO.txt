@@ -1,5 +1,4 @@
 Commands:
-  - Pay
   - Stocks
   - Shop Renting /shop ?
 

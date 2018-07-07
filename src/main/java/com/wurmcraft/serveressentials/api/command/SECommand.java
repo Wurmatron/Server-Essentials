@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.api.command;
 
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
@@ -115,5 +116,16 @@ public abstract class SECommand implements ICommand {
       user = RequestHelper.UserResponses.getPlayerData(uuid);
     }
     return user;
+  }
+
+  protected static GlobalTeam forceTeamFromName(String name) {
+    GlobalTeam team = null;
+    if (UserManager.teamCache.get(name) != null && UserManager.teamCache.get(name).length > 0) {
+      team = (GlobalTeam) UserManager.getTeam(name)[0];
+    }
+    if (team == null) {
+      team = RequestHelper.TeamResponses.getTeam(name);
+    }
+    return team;
   }
 }

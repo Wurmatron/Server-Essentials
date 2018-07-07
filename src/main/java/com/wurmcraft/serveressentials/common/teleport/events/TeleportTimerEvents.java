@@ -3,7 +3,6 @@ package com.wurmcraft.serveressentials.common.teleport.events;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class TeleportTimerEvents {

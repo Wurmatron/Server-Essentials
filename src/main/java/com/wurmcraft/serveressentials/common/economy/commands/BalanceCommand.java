@@ -30,18 +30,26 @@ public class BalanceCommand extends SECommand {
       GlobalUser gloal = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
       for (String active : ConfigHandler.activeCurrency) {
-        sender.sendMessage(new TextComponentString(
-            TextFormatting.LIGHT_PURPLE + active + ": " + TextFormatting.GOLD + gloal.getBank()
-                .getCurrency(active.replaceAll(" ", "_"))));
+        sender.sendMessage(
+            new TextComponentString(
+                TextFormatting.LIGHT_PURPLE
+                    + active
+                    + ": "
+                    + TextFormatting.GOLD
+                    + gloal.getBank().getCurrency(active.replaceAll(" ", "_"))));
       }
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
     } else if (args.length == 1) {
       GlobalUser user = forceUserFromUUID(UsernameResolver.getUUIDFromName(args[0]));
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
       for (String active : ConfigHandler.activeCurrency) {
-        sender.sendMessage(new TextComponentString(
-            TextFormatting.LIGHT_PURPLE + active + ": " + TextFormatting.GOLD + user.getBank()
-                .getCurrency(active.replaceAll(" ", "_"))));
+        sender.sendMessage(
+            new TextComponentString(
+                TextFormatting.LIGHT_PURPLE
+                    + active
+                    + ": "
+                    + TextFormatting.GOLD
+                    + user.getBank().getCurrency(active.replaceAll(" ", "_"))));
       }
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
     } else {

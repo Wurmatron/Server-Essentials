@@ -1,9 +1,13 @@
 package com.wurmcraft.serveressentials.api.json.user.team.restOnly;
 
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
+import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
-public class GlobalTeam {
+public class GlobalTeam implements ITeam {
 
   private String name;
   private Bank bank;
@@ -33,6 +37,11 @@ public class GlobalTeam {
     this.perks = perks;
     this.owner = owner;
     this.members = members;
+  }
+
+  @Override
+  public UUID getLeader() {
+    return owner;
   }
 
   public String getName() {
@@ -73,5 +82,21 @@ public class GlobalTeam {
 
   public void setMembers(String[] members) {
     this.members = members;
+  }
+
+  public void addMember(String uuid) {
+    List<String> currentMembers = new ArrayList<>();
+    Collections.addAll(currentMembers, members);
+    if (!currentMembers.contains(uuid)) {
+      currentMembers.add(uuid);
+    }
+    this.members = currentMembers.toArray(new String[0]);
+  }
+
+  public void delMember(String uuid) {
+    List<String> currentMembers = new ArrayList<>();
+    Collections.addAll(currentMembers, members);
+    currentMembers.remove(uuid);
+    this.members = currentMembers.toArray(new String[0]);
   }
 }

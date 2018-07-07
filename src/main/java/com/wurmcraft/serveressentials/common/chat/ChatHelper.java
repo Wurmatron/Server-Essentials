@@ -49,7 +49,10 @@ public class ChatHelper {
                   Integer.toString(dimension),
                   rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                   rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  TextFormatting.GRAY + team.getName() + TextFormatting.RESET
+                  TextFormatting.GRAY
+                      + team.getName().substring(0, 1).toUpperCase()
+                      + team.getName().substring(1, team.getName().length()).toLowerCase()
+                      + TextFormatting.RESET
                 });
       } else {
         format =
@@ -64,7 +67,10 @@ public class ChatHelper {
                   message,
                   Integer.toString(dimension),
                   rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  TextFormatting.GRAY + team.getName() + TextFormatting.RESET
+                  TextFormatting.GRAY
+                      + team.getName().substring(0, 1).toUpperCase()
+                      + team.getName().substring(1, team.getName().length()).toLowerCase()
+                      + TextFormatting.RESET
                 });
       }
     } else {

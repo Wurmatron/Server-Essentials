@@ -35,8 +35,8 @@ public class PayCommand extends SECommand {
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (args.length == 2 || args.length == 3) {
       GlobalUser user = forceUserFromUUID(UsernameResolver.getUUIDFromName(args[0]));
-      GlobalUser global = (GlobalUser) UserManager
-          .getPlayerData(player.getGameProfile().getId())[0];
+      GlobalUser global =
+          (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       if (user != null) {
         try {
           double amount = Double.parseDouble(args[1]);
@@ -48,23 +48,32 @@ public class PayCommand extends SECommand {
             setCurrency(user.getBank(), currency, amount, true);
             RequestHelper.UserResponses.overridePlayerData(user);
             RequestHelper.UserResponses.overridePlayerData(global);
-            UserManager.playerData
-                .put(player.getGameProfile().getId(), new Object[]{global, DataHelper
-                    .load(Keys.LOCAL_USER, new LocalUser(player.getGameProfile().getId()))});
-            player.sendMessage(new TextComponentString(
-                LanguageModule.getLangfromUUID(player.getGameProfile().getId()).PAYED
-                    .replaceAll("%PLAYER%",
-                        UsernameCache
-                            .getLastKnownUsername(UsernameResolver.getUUIDFromName(args[0])))
-                    .replaceAll("%COIN%", currency).replaceAll("%AMOUNT%", "" + amount)));
+            UserManager.playerData.put(
+                player.getGameProfile().getId(),
+                new Object[] {
+                  global,
+                  DataHelper.load(Keys.LOCAL_USER, new LocalUser(player.getGameProfile().getId()))
+                });
+            player.sendMessage(
+                new TextComponentString(
+                    LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                        .PAYED
+                        .replaceAll(
+                            "%PLAYER%",
+                            UsernameCache.getLastKnownUsername(
+                                UsernameResolver.getUUIDFromName(args[0])))
+                        .replaceAll("%COIN%", currency)
+                        .replaceAll("%AMOUNT%", "" + amount)));
           }
         } catch (NumberFormatException e) {
-          sender.sendMessage(new TextComponentString(
-              getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[1])));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[1])));
         }
       } else {
-        sender.sendMessage(new TextComponentString(
-            getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
       }
     } else if (args.length == 0) {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
@@ -78,8 +87,7 @@ public class PayCommand extends SECommand {
     }
     for (Coin c : bank.currency) {
       if (c.name.equalsIgnoreCase(currencyName)) {
-        if(!add && c.amount - amount > 0)
-          return false;
+        if (!add && c.amount - amount > 0) return false;
         if (add) {
           c.amount += amount;
         } else {

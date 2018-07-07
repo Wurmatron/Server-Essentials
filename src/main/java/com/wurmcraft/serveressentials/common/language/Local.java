@@ -43,6 +43,7 @@ public class Local {
   public String CHAT_DENY = "Deny";
   public String GLOBAL = "Global";
   public String LOCAL = "Local";
+  public String CHAT_LEADER = "Leader";
   // Commands
   public String RANK_NULL = "Rank Does not Exist!";
   public String PLAYER_NOT_FOUND = "Player '%PLAYER%' not found!";

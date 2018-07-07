@@ -33,10 +33,14 @@ public class RequestHelper {
     }
 
     public static Rank getRank(String name) {
-      return client
-          .target(getBaseURL() + "rank/find/" + name)
-          .request(MediaType.APPLICATION_JSON)
-          .get(Rank.class);
+      try {
+        return client
+            .target(getBaseURL() + "rank/find/" + name)
+            .request(MediaType.APPLICATION_JSON)
+            .get(Rank.class);
+      } catch (Exception e) {
+        return null;
+      }
     }
 
     public static Response overrideRank(Rank rank) {
@@ -104,10 +108,14 @@ public class RequestHelper {
     }
 
     public static GlobalTeam getTeam(String name) {
-      return client
-          .target(getBaseURL() + "team/find/" + name)
-          .request(MediaType.APPLICATION_JSON)
-          .get(GlobalTeam.class);
+      try {
+        return client
+            .target(getBaseURL() + "team/find/" + name)
+            .request(MediaType.APPLICATION_JSON)
+            .get(GlobalTeam.class);
+      } catch (Exception e) {
+        return null;
+      }
     }
 
     public static Response overrideTeam(GlobalTeam team) {
