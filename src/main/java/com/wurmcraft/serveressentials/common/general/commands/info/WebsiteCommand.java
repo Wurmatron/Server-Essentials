@@ -5,22 +5,23 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.network.datasync.EntityDataManager.DataEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "General")
-public class RulesCommand extends SECommand {
+public class WebsiteCommand extends SECommand {
 
   @Override
   public String getName() {
-    return "rules";
+    return "website";
   }
 
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
-    for (String rulesNo : DataHelper.globalSettings.getRules()) {
-      sender.sendMessage(new TextComponentString(rulesNo.replaceAll("&", "\u00A7")));
-    }
+    super.execute(server, sender, args);
+    sender.sendMessage(
+        new TextComponentString(DataHelper.globalSettings.getWebsite().replaceAll("&", "\u00A7")));
   }
 }

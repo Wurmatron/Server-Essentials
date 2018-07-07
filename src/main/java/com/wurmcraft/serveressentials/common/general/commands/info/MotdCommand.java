@@ -9,18 +9,18 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "General")
-public class RulesCommand extends SECommand {
+public class MotdCommand extends SECommand {
 
   @Override
   public String getName() {
-    return "rules";
+    return "motd";
   }
 
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
-    for (String rulesNo : DataHelper.globalSettings.getRules()) {
-      sender.sendMessage(new TextComponentString(rulesNo.replaceAll("&", "\u00A7")));
+    for (String motdLine : DataHelper.globalSettings.getMotd()) {
+      sender.sendMessage(new TextComponentString(motdLine.replaceAll("&", "\u00A7")));
     }
   }
 }

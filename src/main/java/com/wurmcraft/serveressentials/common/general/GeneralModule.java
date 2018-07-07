@@ -9,12 +9,14 @@ import com.wurmcraft.serveressentials.api.json.global.Warp;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.general.events.GlobaDataEvents;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Objects;
+import net.minecraftforge.common.MinecraftForge;
 
 @Module(name = "General")
 public class GeneralModule implements IModule {
@@ -24,6 +26,7 @@ public class GeneralModule implements IModule {
     setupKits();
     setupGlobal();
     setupWarps();
+    MinecraftForge.EVENT_BUS.register(new GlobaDataEvents());
   }
 
   private void setupKits() {
@@ -50,8 +53,8 @@ public class GeneralModule implements IModule {
       GlobalData globalData =
           new GlobalData(
               null,
-              new String[] {},
-              new String[] {},
+              new String[]{},
+              new String[]{},
               "https://github.com/Wurmcraft/Server-Essentials/");
       DataHelper.forceSave(new File(saveLocation), globalData);
       setupGlobal();
