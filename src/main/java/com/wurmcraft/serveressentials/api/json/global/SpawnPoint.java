@@ -1,13 +1,9 @@
 package com.wurmcraft.serveressentials.api.json.global;
 
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import net.minecraft.util.math.BlockPos;
 
-/**
- * Used to store the value of the world spawn
- */
+/** Used to store the value of the world spawn */
 public class SpawnPoint {
-
 
   public LocationWrapper location;
   public float yaw;

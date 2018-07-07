@@ -36,8 +36,9 @@ public class HomeCommand extends SECommand {
       for (Home home : homes) {
         if (home.getName().equalsIgnoreCase(args[0])) {
           TeleportUtils.teleportTo((EntityPlayerMP) player, home.getPos(), true);
-          sender.sendMessage(new TextComponentString(
-              getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
           return;
         }
       }
@@ -46,8 +47,9 @@ public class HomeCommand extends SECommand {
       for (Home home : homes) {
         if (home.getName().equalsIgnoreCase(ConfigHandler.defaultHome)) {
           TeleportUtils.teleportTo((EntityPlayerMP) player, home.getPos(), true);
-          sender.sendMessage(new TextComponentString(
-              getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
           return;
         }
       }
@@ -72,8 +74,9 @@ public class HomeCommand extends SECommand {
 
   @SubCommand
   public void list(ICommandSender sender, String[] args) {
-    Home[] homes = HomeCommand
-        .getPlayerHomes(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
+    Home[] homes =
+        HomeCommand.getPlayerHomes(
+            ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
     StringBuilder builder = new StringBuilder();
     for (int index = 0; index < homes.length; index++) {
       builder.append(TextFormatting.GOLD + homes[index].getName());

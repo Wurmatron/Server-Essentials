@@ -1,0 +1,7 @@
+Commands:
+  - Claim
+  - DeleteClaim
+  - AdminClaim
+
+Perks:
+  - More Claim Chunks

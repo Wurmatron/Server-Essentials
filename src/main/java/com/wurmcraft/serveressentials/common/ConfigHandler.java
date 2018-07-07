@@ -13,6 +13,7 @@ public class ConfigHandler {
           "AutoRank",
           "Chat",
           "Claim",
+          "Economy",
           "General",
           "Language",
           "Rank",
@@ -71,4 +72,6 @@ public class ConfigHandler {
   @Comment("Name of the server currency")
   public static String serverCurrency = "Doge Coin";
 
+  @Comment("How many seconds before a TPA request will timeout")
+  public static int tpaTimeout = 120;
 }

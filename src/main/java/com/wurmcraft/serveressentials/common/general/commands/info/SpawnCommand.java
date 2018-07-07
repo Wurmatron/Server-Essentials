@@ -27,15 +27,16 @@ public class SpawnCommand extends SECommand {
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (DataHelper.globalSettings.getSpawn() != null
         && DataHelper.globalSettings.getSpawn().location != null) {
-      TeleportUtils
-          .teleportTo((EntityPlayerMP) player, DataHelper.globalSettings.getSpawn().location, true);
+      TeleportUtils.teleportTo(
+          (EntityPlayerMP) player, DataHelper.globalSettings.getSpawn().location, true);
       sender.sendMessage(
           new TextComponentString(
               getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", "Spawn")));
     } else {
-      TeleportUtils
-          .teleportTo((EntityPlayerMP) player,
-              new LocationWrapper(server.getWorld(0).getSpawnPoint(), player.dimension), true);
+      TeleportUtils.teleportTo(
+          (EntityPlayerMP) player,
+          new LocationWrapper(server.getWorld(0).getSpawnPoint(), player.dimension),
+          true);
       sender.sendMessage(
           new TextComponentString(
               getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", "Overworld Spawn")));

@@ -29,11 +29,13 @@ public class DelHomeCommand extends SECommand {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
       user.delHome(homeName);
-      sender.sendMessage(new TextComponentString(
-          getCurrentLanguage(sender).HOME_DELETED.replaceAll("%HOME%", homeName)));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).HOME_DELETED.replaceAll("%HOME%", homeName)));
       DataHelper.forceSave(Keys.LOCAL_USER, user);
-      UserManager.playerData.put(player.getGameProfile().getId(),
-          new Object[]{forceUserFromUUID(player.getGameProfile().getId()), user});
+      UserManager.playerData.put(
+          player.getGameProfile().getId(),
+          new Object[] {forceUserFromUUID(player.getGameProfile().getId()), user});
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }

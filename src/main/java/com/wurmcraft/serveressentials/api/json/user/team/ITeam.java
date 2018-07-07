@@ -7,5 +7,4 @@ public interface ITeam {
   UUID getLeader();
 
   String getName();
-
 }

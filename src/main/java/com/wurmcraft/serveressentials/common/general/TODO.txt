@@ -1,0 +1,15 @@
+Commands:
+  - Fly
+  - GameMode
+  - Invsee
+  - Suiside
+  - Vault
+  - Warp
+  - DeletePlayerFile
+  - Kit
+  - Kit Admin
+  - Rename
+  - SendItem
+  - Skull
+  - Help
+  - AFK

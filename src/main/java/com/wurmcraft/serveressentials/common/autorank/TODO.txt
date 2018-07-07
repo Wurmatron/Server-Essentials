@@ -1,0 +1,7 @@
+Commands:
+  - autorank
+    - check
+    - info
+
+Perks:
+  - Force Buy Rank / Part Left to unlock rank (Expensive)

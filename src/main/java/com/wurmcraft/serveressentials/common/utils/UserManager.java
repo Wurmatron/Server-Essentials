@@ -2,9 +2,7 @@ package com.wurmcraft.serveressentials.common.utils;
 
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
-import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;

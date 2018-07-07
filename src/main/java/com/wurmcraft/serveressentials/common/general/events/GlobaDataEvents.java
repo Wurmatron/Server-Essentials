@@ -13,5 +13,4 @@ public class GlobaDataEvents {
       e.player.sendMessage(new TextComponentString(motdLine.replaceAll("&", "\u00A7")));
     }
   }
-
 }

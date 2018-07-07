@@ -1,6 +1,5 @@
 package com.wurmcraft.serveressentials.common.language.command;
 
-import com.mojang.authlib.yggdrasil.response.User;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
@@ -45,8 +44,8 @@ public class LangCommand extends SECommand {
         sender.sendMessage(
             new TextComponentString(lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0])));
       } else {
-        sender
-            .sendMessage(new TextComponentString(lang.INVALID_LANG.replaceAll("%LANG%", args[0])));
+        sender.sendMessage(
+            new TextComponentString(lang.INVALID_LANG.replaceAll("%LANG%", args[0])));
       }
     } else if (args.length == 2) {
       UUID uuid = UsernameResolver.getUUIDFromName(args[1]);
@@ -56,8 +55,8 @@ public class LangCommand extends SECommand {
         sender.sendMessage(
             new TextComponentString(lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0])));
       } else {
-        sender
-            .sendMessage(new TextComponentString(lang.INVALID_LANG.replaceAll("%LANG%", args[0])));
+        sender.sendMessage(
+            new TextComponentString(lang.INVALID_LANG.replaceAll("%LANG%", args[0])));
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));

@@ -6,7 +6,6 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.optional.Vault;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;

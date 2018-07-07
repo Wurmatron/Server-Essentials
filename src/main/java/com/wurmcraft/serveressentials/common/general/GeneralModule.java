@@ -53,8 +53,8 @@ public class GeneralModule implements IModule {
       GlobalData globalData =
           new GlobalData(
               null,
-              new String[]{},
-              new String[]{},
+              new String[] {},
+              new String[] {},
               "https://github.com/Wurmcraft/Server-Essentials/");
       DataHelper.forceSave(new File(saveLocation), globalData);
       setupGlobal();

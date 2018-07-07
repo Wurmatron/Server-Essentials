@@ -20,7 +20,7 @@ public class LocationWrapper extends Location {
   }
 
   public LocationWrapper(double x, double y, double z, int dim) {
-    super((int)x, (int) z);
+    super((int) x, (int) z);
     this.y = (int) y;
     this.dim = dim;
   }

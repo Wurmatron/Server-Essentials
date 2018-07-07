@@ -16,7 +16,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -45,15 +44,16 @@ public abstract class SECommand implements ICommand {
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
     if (!canConsoleRun() && sender.getCommandSenderEntity() == null) {
-      sender.sendMessage(new TextComponentString(
-          LanguageModule.getLangFromKey(ConfigHandler.defaultLanguage).PLAYER_ONLY));
+      sender.sendMessage(
+          new TextComponentString(
+              LanguageModule.getLangFromKey(ConfigHandler.defaultLanguage).PLAYER_ONLY));
       return;
     }
     if (hasSubCommand() && args.length > 0) {
       Method[] methods = getClass().getMethods();
       for (Method method : methods) {
-        if (method.getAnnotation(SubCommand.class) != null && method.getName()
-            .equalsIgnoreCase(args[0])) {
+        if (method.getAnnotation(SubCommand.class) != null
+            && method.getName().equalsIgnoreCase(args[0])) {
           try {
             method.invoke(this, sender, CommandUtils.getArgsAfterCommand(1, args));
             return;
@@ -90,10 +90,6 @@ public abstract class SECommand implements ICommand {
     return 0;
   }
 
-  public String getPermission() {
-    return "";
-  }
-
   public boolean canConsoleRun() {
     return false;
   }
@@ -121,4 +117,3 @@ public abstract class SECommand implements ICommand {
     return user;
   }
 }
-

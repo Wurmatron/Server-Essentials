@@ -26,8 +26,7 @@ public class GlobalUser {
   private String[] permission;
   private String[] perks;
 
-  public GlobalUser() {
-  }
+  public GlobalUser() {}
 
   public GlobalUser(GlobalUser user) {
     this.uuid = user.uuid;
@@ -256,5 +255,9 @@ public class GlobalUser {
     }
     currentPerks.remove(delNode);
     this.permission = currentPerks.toArray(new String[0]);
+  }
+
+  public boolean hasPerk(String perk) {
+    return Arrays.stream(perks).anyMatch(p -> p.equalsIgnoreCase(perk));
   }
 }

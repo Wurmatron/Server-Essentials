@@ -47,15 +47,18 @@ public class ArrayUtils {
 
     public T difference() {
       switch (this.lower.getClass().getSimpleName()) {
-        case "Long": {
-          return (T) new Long(this.upper.longValue() - this.lower.longValue());
-        }
-        case "Float": {
-          return (T) new Float(this.upper.floatValue() - this.lower.floatValue());
-        }
-        case "Integer": {
-          return (T) new Integer(this.upper.intValue() - this.lower.intValue());
-        }
+        case "Long":
+          {
+            return (T) new Long(this.upper.longValue() - this.lower.longValue());
+          }
+        case "Float":
+          {
+            return (T) new Float(this.upper.floatValue() - this.lower.floatValue());
+          }
+        case "Integer":
+          {
+            return (T) new Integer(this.upper.intValue() - this.lower.intValue());
+          }
         default:
           return (T) new Double(this.upper.doubleValue() - this.lower.doubleValue());
       }
@@ -70,8 +73,8 @@ public class ArrayUtils {
     }
 
     public static <T extends Number> boolean areEqual(Range<T> first, Range<T> second) {
-      return first.getUpperLimit() == second.getUpperLimit() && first.getLowerLimit() == second
-          .getLowerLimit();
+      return first.getUpperLimit() == second.getUpperLimit()
+          && first.getLowerLimit() == second.getLowerLimit();
     }
 
     public static <T extends Number> Range<T> getDifference(Range<T> first, Range<T> second) {
@@ -103,7 +106,8 @@ public class ArrayUtils {
     Range<Integer> newSize = new Range<Integer>(start, end);
     Class<T> type = (Class<T>) array.getClass().getComponentType();
     T[] workingArray = (T[]) Array.newInstance(type, Math.abs(newSize.difference()) + 1);
-    return (start > end) ? copyOver(array, start, -1 * end, workingArray)
+    return (start > end)
+        ? copyOver(array, start, -1 * end, workingArray)
         : copyOver(array, start, end + 1, workingArray);
   }
 }

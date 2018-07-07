@@ -1,0 +1,7 @@
+Commands:
+  - mute
+  - Nick
+
+Perks:
+  = Nick
+  - Chat TXT display color (Non-Admin)

@@ -1,7 +1,5 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
-import net.minecraft.util.math.BlockPos;
-
 /** Holds all the values for a home */
 public class Home {
 

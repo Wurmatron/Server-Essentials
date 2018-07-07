@@ -19,7 +19,9 @@ public class UsernameResolver {
 
   public static EntityPlayer getPlayer(String name) {
     UUID uuid = getUUIDFromName(name);
-    return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+    return FMLCommonHandler.instance()
+        .getMinecraftServerInstance()
+        .getPlayerList()
         .getPlayerByUUID(uuid);
   }
 
@@ -51,23 +53,23 @@ public class UsernameResolver {
   }
 
   public static String usernameFromNickname(String username) {
-    String unFormattedName = TextFormatting.getTextWithoutFormattingCodes(username)
-        .replaceAll("\\*", "");
+    String unFormattedName =
+        TextFormatting.getTextWithoutFormattingCodes(username).replaceAll("\\*", "");
     if (new AbstractUsernameCollection(UsernameCache.getMap().values()).contains(unFormattedName)) {
       return unFormattedName;
     } else {
       for (UUID uid : UsernameCache.getMap().keySet()) {
-          String nick = getNick(uid);
-          if (nick != null && nick.equalsIgnoreCase(unFormattedName)) {
-            return getUsername(uid);
-          }
+        String nick = getNick(uid);
+        if (nick != null && nick.equalsIgnoreCase(unFormattedName)) {
+          return getUsername(uid);
+        }
       }
       return "";
     }
   }
 
-  public static final class AbstractUsernameCollection<T extends String> extends
-      AbstractCollection<T> {
+  public static final class AbstractUsernameCollection<T extends String>
+      extends AbstractCollection<T> {
 
     List<T> names;
 
@@ -116,5 +118,4 @@ public class UsernameResolver {
       return names.size();
     }
   }
-
 }

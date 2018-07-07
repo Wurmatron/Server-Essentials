@@ -2,7 +2,6 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
@@ -40,17 +39,20 @@ public class TpaCommand extends SECommand {
       if (player != null) {
         LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
         if (user != null && !user.isTpLock()) {
-          TeleportationModule.activeRequests
-              .put(System.currentTimeMillis(), new EntityPlayer[]{senderPlayer, player});
+          TeleportationModule.activeRequests.put(
+              System.currentTimeMillis(), new EntityPlayer[] {senderPlayer, player});
           sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_SENT));
-          player.sendMessage(new TextComponentString(
-              lang.TPA_Recive.replaceAll("%PLAYER%", senderPlayer.getDisplayNameString())
-                  .replaceAll("%ACCEPT%", lang.CHAT_ACCEPT).replaceAll("%DENY%", lang.CHAT_DENY)));
+          player.sendMessage(
+              new TextComponentString(
+                  lang.TPA_Recive.replaceAll("%PLAYER%", senderPlayer.getDisplayNameString())
+                      .replaceAll("%ACCEPT%", lang.CHAT_ACCEPT)
+                      .replaceAll("%DENY%", lang.CHAT_DENY)));
         }
       } else {
-        sender.sendMessage(new TextComponentString(
-            TextFormatting.RED + getCurrentLanguage(sender).PLAYER_NOT_FOUND
-                .replaceAll("%PLAYER%", args[0])));
+        sender.sendMessage(
+            new TextComponentString(
+                TextFormatting.RED
+                    + getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
