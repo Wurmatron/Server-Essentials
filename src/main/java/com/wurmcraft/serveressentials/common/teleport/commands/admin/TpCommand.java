@@ -18,6 +18,11 @@ import net.minecraft.util.text.TextComponentString;
 public class TpCommand extends SECommand {
 
   @Override
+  public String getName() {
+    return "tp";
+  }
+
+  @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
     super.execute(server, sender, args);

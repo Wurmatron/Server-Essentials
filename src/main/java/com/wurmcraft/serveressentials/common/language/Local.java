@@ -41,6 +41,8 @@ public class Local {
   public String CHAT_INHERITANCE = "Inheritance";
   public String CHAT_ACCEPT = "Accept";
   public String CHAT_DENY = "Deny";
+  public String GLOBAL = "Global";
+  public String LOCAL = "Local";
   // Commands
   public String RANK_NULL = "Rank Does not Exist!";
   public String PLAYER_NOT_FOUND = "Player '%PLAYER%' not found!";

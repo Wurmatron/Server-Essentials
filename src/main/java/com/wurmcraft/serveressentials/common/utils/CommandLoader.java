@@ -41,9 +41,7 @@ public class CommandLoader {
         }
         ServerEssentialsServer.logger.debug(
             "Loading Command '"
-                + command.getName()
-                + "' with permission "
-                + command.getPermission());
+                + command.getName());
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -57,9 +55,7 @@ public class CommandLoader {
         e.registerServerCommand(command);
         ServerEssentialsServer.logger.debug(
             "Registered Command '"
-                + command.getName()
-                + "' with permission "
-                + command.getPermission());
+                + command.getName());
       }
     } else {
       ServerEssentialsServer.logger.error("No Commands Loaded / Found!");

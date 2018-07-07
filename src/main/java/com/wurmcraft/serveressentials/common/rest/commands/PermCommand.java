@@ -325,9 +325,4 @@ public class PermCommand extends SECommand {
   public boolean hasSubCommand() {
     return true;
   }
-
-  @Override
-  public String getPermission() {
-    return "admin.perm";
-  }
 }
