@@ -3,7 +3,6 @@ package com.wurmcraft.serveressentials.api.json.user.team.fileOnly;
 import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 import net.minecraft.util.text.TextFormatting;
 

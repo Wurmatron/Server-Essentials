@@ -117,8 +117,8 @@ public abstract class SECommand implements ICommand {
     if (canConsoleRun() && sender.getCommandSenderEntity() == null) {
       return true;
     }
-    if (SecurityModule.trusted.size() > 0 && getClass().getAnnotation(Command.class)
-        .trustedRequired()) {
+    if (SecurityModule.trusted.size() > 0
+        && getClass().getAnnotation(Command.class).trustedRequired()) {
       if (sender instanceof EntityPlayer) {
         return SecurityModule.isTrustedMember((EntityPlayer) sender.getCommandSenderEntity());
       }
@@ -128,8 +128,8 @@ public abstract class SECommand implements ICommand {
     for (String perm : perms) {
       if (perm.equalsIgnoreCase(commandPerm)
           || perm.contains(".*")
-          && perm.substring(0, perm.indexOf("."))
-          .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
+              && perm.substring(0, perm.indexOf("."))
+                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
           || perm.equalsIgnoreCase("*")) {
         return true;
       }

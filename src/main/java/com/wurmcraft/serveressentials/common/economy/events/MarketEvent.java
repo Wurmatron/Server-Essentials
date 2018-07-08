@@ -150,8 +150,8 @@ public class MarketEvent {
     for (String perm : perms) {
       if (perm.equalsIgnoreCase(commandPerm)
           || perm.contains(".*")
-          && perm.substring(0, perm.indexOf("."))
-          .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
+              && perm.substring(0, perm.indexOf("."))
+                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
           || perm.equalsIgnoreCase("*")) {
         return true;
       }
@@ -199,7 +199,7 @@ public class MarketEvent {
                   .sendMessage(
                       new TextComponentString(
                           LanguageModule.getLangfromUUID(
-                              e.getEntityPlayer().getGameProfile().getId())
+                                  e.getEntityPlayer().getGameProfile().getId())
                               .PURCHASED
                               .replaceAll(
                                   "%COST%",
@@ -211,7 +211,7 @@ public class MarketEvent {
                   .sendMessage(
                       new TextComponentString(
                           LanguageModule.getLangfromUUID(
-                              e.getEntityPlayer().getGameProfile().getId())
+                                  e.getEntityPlayer().getGameProfile().getId())
                               .NO_MONEY));
             }
           } else if (txt.equalsIgnoreCase("[ISell]")) {
@@ -220,7 +220,7 @@ public class MarketEvent {
                   .sendMessage(
                       new TextComponentString(
                           LanguageModule.getLangfromUUID(
-                              e.getEntityPlayer().getGameProfile().getId())
+                                  e.getEntityPlayer().getGameProfile().getId())
                               .SOLD
                               .replaceAll(
                                   "%COST%",
@@ -232,7 +232,7 @@ public class MarketEvent {
                   .sendMessage(
                       new TextComponentString(
                           LanguageModule.getLangfromUUID(
-                              e.getEntityPlayer().getGameProfile().getId())
+                                  e.getEntityPlayer().getGameProfile().getId())
                               .NO_ITEM));
             }
           }

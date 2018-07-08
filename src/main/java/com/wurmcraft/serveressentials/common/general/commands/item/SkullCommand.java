@@ -31,12 +31,11 @@ public class SkullCommand extends SECommand {
         stack.setTagCompound(new NBTTagCompound());
         stack.getTagCompound().setTag("SkullOwner", new NBTTagString(args[0]));
         player.inventory.addItemStackToInventory(stack);
-        player.sendMessage(new TextComponentString(
-            getCurrentLanguage(sender).SKULL.replaceAll("#", args[0])));
+        player.sendMessage(
+            new TextComponentString(getCurrentLanguage(sender).SKULL.replaceAll("#", args[0])));
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
   }
-
 }

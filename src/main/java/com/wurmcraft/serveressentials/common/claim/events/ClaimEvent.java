@@ -21,9 +21,12 @@ public class ClaimEvent {
     if (claim != null && !ChunkManager.canDestroy(claim, e.getPlayer().getGameProfile().getId())) {
       e.setCanceled(true);
       e.getPlayer().world.notifyBlockUpdate(e.getPos(), e.getState(), e.getState(), 2);
-      e.getPlayer().sendMessage(new TextComponentString(
-          LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_BREAK
-              .replaceAll("%PLAYER%", getOwner(claim))));
+      e.getPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
+                      .CLAIM_BREAK
+                      .replaceAll("%PLAYER%", getOwner(claim))));
     }
   }
 
@@ -34,75 +37,92 @@ public class ClaimEvent {
       e.setCanceled(true);
       e.getPlayer().world.notifyBlockUpdate(e.getPos(), e.getState(), e.getState(), 2);
       e.getPlayer().inventory.markDirty();
-      e.getPlayer().sendMessage(new TextComponentString(
-          LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_PLACE
-              .replaceAll("%PLAYER%", getOwner(claim))));
+      e.getPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
+                      .CLAIM_PLACE
+                      .replaceAll("%PLAYER%", getOwner(claim))));
     }
   }
 
   @SubscribeEvent
   public void onRightClickBlock(PlayerInteractEvent.RightClickBlock e) {
     Claim claim = ChunkManager.getClaim(e.getPos());
-    if (claim != null && !ChunkManager
-        .canDestroy(claim, e.getEntityPlayer().getGameProfile().getId()) && !ChunkManager
-        .isItemSafe(e.getItemStack())) {
+    if (claim != null
+        && !ChunkManager.canDestroy(claim, e.getEntityPlayer().getGameProfile().getId())
+        && !ChunkManager.isItemSafe(e.getItemStack())) {
       e.setCanceled(true);
-      e.getEntityPlayer().sendMessage(new TextComponentString(
-          LanguageModule
-              .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT
-              .replaceAll("#", getOwner(claim))));
+      e.getEntityPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                      .CLAIM_INTERACT
+                      .replaceAll("#", getOwner(claim))));
     }
   }
 
   @SubscribeEvent
   public void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock e) {
     Claim claim = ChunkManager.getClaim(e.getPos());
-    if (claim != null && !ChunkManager
-        .canDestroy(claim, e.getEntityPlayer().getGameProfile().getId()) && !ChunkManager
-        .isItemSafe(e.getItemStack())) {
+    if (claim != null
+        && !ChunkManager.canDestroy(claim, e.getEntityPlayer().getGameProfile().getId())
+        && !ChunkManager.isItemSafe(e.getItemStack())) {
       e.setCanceled(true);
-      e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-          .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT
-          .replaceAll("%PLAYER%", getOwner(claim))));
+      e.getEntityPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                      .CLAIM_INTERACT
+                      .replaceAll("%PLAYER%", getOwner(claim))));
     }
   }
 
   @SubscribeEvent
   public void onRightClickItem(PlayerInteractEvent.RightClickItem e) {
     Claim claim = ChunkManager.getClaim(e.getPos());
-    if (claim != null && !ChunkManager
-        .canDestroy(claim, e.getEntityPlayer().getGameProfile().getId()) && !ChunkManager
-        .isItemSafe(e.getItemStack())) {
+    if (claim != null
+        && !ChunkManager.canDestroy(claim, e.getEntityPlayer().getGameProfile().getId())
+        && !ChunkManager.isItemSafe(e.getItemStack())) {
       e.setCanceled(true);
-      e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-          .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT
-          .replaceAll("%PLAYER%", getOwner(claim))));
+      e.getEntityPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                      .CLAIM_INTERACT
+                      .replaceAll("%PLAYER%", getOwner(claim))));
     }
   }
 
   @SubscribeEvent
   public void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty e) {
     Claim claim = ChunkManager.getClaim(e.getPos());
-    if (claim != null && !ChunkManager
-        .canDestroy(claim, e.getEntityPlayer().getGameProfile().getId()) && !ChunkManager
-        .isItemSafe(e.getItemStack())) {
+    if (claim != null
+        && !ChunkManager.canDestroy(claim, e.getEntityPlayer().getGameProfile().getId())
+        && !ChunkManager.isItemSafe(e.getItemStack())) {
       e.setCanceled(true);
-      e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-          .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT
-          .replaceAll("%PLAYER%", getOwner(claim))));
+      e.getEntityPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                      .CLAIM_INTERACT
+                      .replaceAll("%PLAYER%", getOwner(claim))));
     }
   }
 
   @SubscribeEvent
   public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty e) {
     Claim claim = ChunkManager.getClaim(e.getPos());
-    if (claim != null && !ChunkManager
-        .canDestroy(claim, e.getEntityPlayer().getGameProfile().getId())) {
+    if (claim != null
+        && !ChunkManager.canDestroy(claim, e.getEntityPlayer().getGameProfile().getId())) {
       if (!ChunkManager.isItemSafe(e.getItemStack())) {
         e.setCanceled(true);
-        e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT
-            .replaceAll("%PLAYER%", getOwner(claim))));
+        e.getEntityPlayer()
+            .sendMessage(
+                new TextComponentString(
+                    LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                        .CLAIM_INTERACT
+                        .replaceAll("%PLAYER%", getOwner(claim))));
       }
     }
   }
@@ -116,9 +136,11 @@ public class ClaimEvent {
           if (e.getExplosion().getExplosivePlacedBy() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) e.getExplosion().getExplosivePlacedBy();
             if (!ChunkManager.canDestroy(claim, player.getGameProfile().getId())) {
-              player.sendMessage(new TextComponentString(LanguageModule
-                  .getLangfromUUID(player.getGameProfile().getId()).CLAIM_EXPLOSION
-                  .replaceAll("#", getOwner(claim))));
+              player.sendMessage(
+                  new TextComponentString(
+                      LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                          .CLAIM_EXPLOSION
+                          .replaceAll("#", getOwner(claim))));
               e.setCanceled(true);
             }
           } else {
@@ -133,9 +155,11 @@ public class ClaimEvent {
         if (e.getExplosion().getExplosivePlacedBy() instanceof EntityPlayer) {
           EntityPlayer player = (EntityPlayer) e.getExplosion().getExplosivePlacedBy();
           if (!ChunkManager.canDestroy(claim, player.getGameProfile().getId())) {
-            player.sendMessage(new TextComponentString(LanguageModule
-                .getLangfromUUID(player.getGameProfile().getId()).CLAIM_EXPLOSION
-                .replaceAll("#", getOwner(claim))));
+            player.sendMessage(
+                new TextComponentString(
+                    LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                        .CLAIM_EXPLOSION
+                        .replaceAll("#", getOwner(claim))));
             e.setCanceled(true);
           }
         } else {

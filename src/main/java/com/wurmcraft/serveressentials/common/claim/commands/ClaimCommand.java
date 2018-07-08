@@ -38,20 +38,20 @@ public class ClaimCommand extends SECommand {
       if (claim == null) {
         ITeam team = getTeamFromUser(player.getGameProfile().getId());
         regionData.addClaim(player.getPosition(), new Claim(team, player.getGameProfile().getId()));
-        ChunkManager
-            .handleRegionUpdate(ChunkManager.getRegionLocation(player.getPosition()), regionData);
+        ChunkManager.handleRegionUpdate(
+            ChunkManager.getRegionLocation(player.getPosition()), regionData);
         sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHUNK_CLAIMED));
       } else {
-        sender
-            .sendMessage(new TextComponentString(getCurrentLanguage(sender).CHUNK_ALREADY_CLAIMED));
+        sender.sendMessage(
+            new TextComponentString(getCurrentLanguage(sender).CHUNK_ALREADY_CLAIMED));
       }
     } else {
       RegionData regionDataNew = new RegionData();
       ITeam team = getTeamFromUser(player.getGameProfile().getId());
-      regionDataNew
-          .addClaim(player.getPosition(), new Claim(team, player.getGameProfile().getId()));
-      ChunkManager
-          .handleRegionUpdate(ChunkManager.getRegionLocation(player.getPosition()), regionDataNew);
+      regionDataNew.addClaim(
+          player.getPosition(), new Claim(team, player.getGameProfile().getId()));
+      ChunkManager.handleRegionUpdate(
+          ChunkManager.getRegionLocation(player.getPosition()), regionDataNew);
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHUNK_CLAIMED));
     }
   }
@@ -66,5 +66,4 @@ public class ClaimCommand extends SECommand {
     }
     return null;
   }
-
 }

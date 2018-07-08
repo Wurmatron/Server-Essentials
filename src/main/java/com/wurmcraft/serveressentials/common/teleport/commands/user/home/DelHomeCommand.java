@@ -35,7 +35,7 @@ public class DelHomeCommand extends SECommand {
       DataHelper.forceSave(Keys.LOCAL_USER, user);
       UserManager.playerData.put(
           player.getGameProfile().getId(),
-          new Object[]{forceUserFromUUID(player.getGameProfile().getId()), user});
+          new Object[] {forceUserFromUUID(player.getGameProfile().getId()), user});
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }

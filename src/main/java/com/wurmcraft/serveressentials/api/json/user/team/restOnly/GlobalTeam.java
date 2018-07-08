@@ -100,6 +100,4 @@ public class GlobalTeam implements ITeam {
     currentMembers.remove(uuid);
     this.members = currentMembers.toArray(new String[0]);
   }
-
-
 }

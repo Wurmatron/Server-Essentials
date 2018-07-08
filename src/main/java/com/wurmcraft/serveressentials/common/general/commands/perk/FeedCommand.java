@@ -1,34 +1,43 @@
-package com.wurmcraft.serveressentials.common.security.commands;
+package com.wurmcraft.serveressentials.common.general.commands.perk;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.common.security.SecurityModule;
+import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
-import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 
-@Command(moduleName = "Security")
-public class ModsCommand extends SECommand {
+@Command(moduleName = "General")
+public class FeedCommand extends SECommand {
 
   @Override
   public String getName() {
-    return "mods";
+    return "feed";
   }
 
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
-    if (args.length > 0) {
+    super.execute(server, sender, args);
+    if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      player.getFoodStats().setFoodLevel(20);
+      player.sendMessage(new TextComponentString(getCurrentLanguage(sender).FEED));
+    } else if (args.length == 1) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
       if (player != null) {
+        player.getFoodStats().setFoodLevel(20);
+        player.sendMessage(
+            new TextComponentString(
+                LanguageModule.getLangfromUUID(player.getGameProfile().getId()).FEED));
         sender.sendMessage(
             new TextComponentString(
-                TextFormatting.AQUA + Strings.join(SecurityModule.getPlayerMods(player), ",")));
+                getCurrentLanguage(sender)
+                    .FEED_OTHER
+                    .replaceAll("%PLAYER%", player.getDisplayNameString())));
       } else {
         sender.sendMessage(
             new TextComponentString(

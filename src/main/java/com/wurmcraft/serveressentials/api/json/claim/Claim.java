@@ -9,19 +9,19 @@ public class Claim {
   private String team;
   private UUID owner;
 
-    public Claim(ITeam team, UUID owner) {
-      if (team != null) {
-        this.team = team.getName();
-      }
-      this.owner = owner;
+  public Claim(ITeam team, UUID owner) {
+    if (team != null) {
+      this.team = team.getName();
     }
+    this.owner = owner;
+  }
 
-    public ITeam getTeam() {
-      if (team != null && team.length() > 0) {
-        return (ITeam) UserManager.getTeam(team)[0];
-      }
-      return null;
+  public ITeam getTeam() {
+    if (team != null && team.length() > 0) {
+      return (ITeam) UserManager.getTeam(team)[0];
     }
+    return null;
+  }
 
   public UUID getOwner() {
     return owner;

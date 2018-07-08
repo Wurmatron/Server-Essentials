@@ -1,6 +1,5 @@
 package com.wurmcraft.serveressentials.common;
 
-import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.common.reference.Global;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
@@ -10,17 +9,17 @@ public class ConfigHandler {
 
   @Comment("Modules to be loaded")
   public static String[] modules =
-      new String[]{
-          "AutoRank",
-          "Chat",
-          "Claim",
-          "Economy",
-          "General",
-          "Language",
-          "Rank",
-          "Security",
-          "TeamCommand",
-          "Teleportation"
+      new String[] {
+        "AutoRank",
+        "Chat",
+        "Claim",
+        "Economy",
+        "General",
+        "Language",
+        "Rank",
+        "Security",
+        "TeamCommand",
+        "Teleportation"
       };
 
   @Comment("How the data is stored (File, Rest)")
@@ -36,7 +35,7 @@ public class ConfigHandler {
   public static String defaultLanguage = "en_us";
 
   @Comment("Supported Server Languages (Requires Lang Files)")
-  public static String[] supportedLanguages = new String[]{"en_us"};
+  public static String[] supportedLanguages = new String[] {"en_us"};
 
   @Comment(
       "How long to wait (in minutes) before checking for an update for Rest API (Saves Bandwidth)")
@@ -68,7 +67,7 @@ public class ConfigHandler {
       "%channel% " + "[%team%] " + "%rankPrefix% " + "%username% " + "%rankSuffix% " + "%message%";
 
   @Comment("(Rest Only) List of all the currencys this server will accept / acknowledge")
-  public static String[] activeCurrency = new String[]{"Doge Coin", "NepNep Coin"};
+  public static String[] activeCurrency = new String[] {"Doge Coin", "NepNep Coin"};
 
   @Comment("Name of the server currency")
   public static String serverCurrency = "Doge Coin";
@@ -78,4 +77,7 @@ public class ConfigHandler {
 
   @Comment("URL to trusted staff list (UUID)")
   public static String trustedStaff = "";
+
+  @Comment("Message displayed to users on server shutdown")
+  public static String shutdownMessage = "&cServer Shutdown";
 }

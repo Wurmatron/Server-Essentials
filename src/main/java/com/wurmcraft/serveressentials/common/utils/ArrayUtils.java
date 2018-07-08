@@ -85,15 +85,18 @@ public class ArrayUtils {
 
     public T difference() {
       switch (this.lower.getClass().getSimpleName()) {
-        case "Long": {
-          return (T) new Long(this.upper.longValue() - this.lower.longValue());
-        }
-        case "Float": {
-          return (T) new Float(this.upper.floatValue() - this.lower.floatValue());
-        }
-        case "Integer": {
-          return (T) new Integer(this.upper.intValue() - this.lower.intValue());
-        }
+        case "Long":
+          {
+            return (T) new Long(this.upper.longValue() - this.lower.longValue());
+          }
+        case "Float":
+          {
+            return (T) new Float(this.upper.floatValue() - this.lower.floatValue());
+          }
+        case "Integer":
+          {
+            return (T) new Integer(this.upper.intValue() - this.lower.intValue());
+          }
         default:
           return (T) new Double(this.upper.doubleValue() - this.lower.doubleValue());
       }

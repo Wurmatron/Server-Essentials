@@ -17,8 +17,8 @@ public class Rank implements IDataType {
     name = "";
     prefix = "";
     suffix = "";
-    inheritance = new String[]{};
-    permission = new String[]{};
+    inheritance = new String[] {};
+    permission = new String[] {};
   }
 
   public Rank(Rank rank) {

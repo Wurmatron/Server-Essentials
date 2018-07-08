@@ -26,8 +26,7 @@ public class GlobalUser {
   private String[] permission;
   private String[] perks;
 
-  public GlobalUser() {
-  }
+  public GlobalUser() {}
 
   public GlobalUser(GlobalUser user) {
     this.uuid = user.uuid;

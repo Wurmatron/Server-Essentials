@@ -14,7 +14,6 @@ import net.minecraft.util.text.TextComponentString;
 @Command(moduleName = "Claim")
 public class DelClaimCommand extends SECommand {
 
-
   @Override
   public String getName() {
     return "delClaim";
@@ -30,8 +29,8 @@ public class DelClaimCommand extends SECommand {
       Claim claim = regionData.getClaim(ChunkManager.getIndexForClaim(player.getPosition()));
       if (claim != null && ChunkManager.isOwnerOrLeader(player.getGameProfile().getId(), claim)) {
         regionData.setClaim(ChunkManager.getIndexForClaim(player.getPosition()), null);
-        ChunkManager
-            .handleRegionUpdate(ChunkManager.getRegionLocation(player.getPosition()), regionData);
+        ChunkManager.handleRegionUpdate(
+            ChunkManager.getRegionLocation(player.getPosition()), regionData);
         player.sendMessage(new TextComponentString(getCurrentLanguage(sender).CLAIM_REMOVED));
       }
     } else {

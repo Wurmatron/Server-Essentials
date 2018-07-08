@@ -34,7 +34,7 @@ public class FTBUtilsEvents {
     RequestHelper.UserResponses.overridePlayerData(user);
     UserManager.playerData.put(
         player.getId(),
-        new Object[]{user, (LocalUser) UserManager.getPlayerData(player.getId())[1]});
+        new Object[] {user, (LocalUser) UserManager.getPlayerData(player.getId())[1]});
   }
 
   @SubscribeEvent
@@ -61,8 +61,8 @@ public class FTBUtilsEvents {
       if (team != null) {
         UserManager.teamCache.put(
             e.getTeam().toString(),
-            new Object[]{
-                team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
+            new Object[] {
+              team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
             });
       }
     }
@@ -80,8 +80,8 @@ public class FTBUtilsEvents {
       if (team != null) {
         UserManager.teamCache.put(
             e.getTeam().toString(),
-            new Object[]{
-                team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
+            new Object[] {
+              team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
             });
       }
     }

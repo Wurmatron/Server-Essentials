@@ -30,8 +30,8 @@ public class ChunkManager {
 
   //              Region Location, Data
   private static HashMap<Location, RegionData> claimData = new HashMap<>();
-  private static File SAVE_LOCATION = new File(
-      ConfigHandler.saveLocation + File.separator + "Claims" + File.separator + "0");
+  private static File SAVE_LOCATION =
+      new File(ConfigHandler.saveLocation + File.separator + "Claims" + File.separator + "0");
   private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
   /**
@@ -144,8 +144,9 @@ public class ChunkManager {
   public static void loadRegion(Location loc) {
     File regionFile = getFileForRegion(loc);
     try {
-      RegionData data = gson
-          .fromJson(Strings.join(IOUtils.readLines(new FileInputStream(regionFile)), ""),
+      RegionData data =
+          gson.fromJson(
+              Strings.join(IOUtils.readLines(new FileInputStream(regionFile)), ""),
               RegionData.class);
       addLoadedRegion(loc, data);
     } catch (FileNotFoundException e) {
@@ -268,8 +269,12 @@ public class ChunkManager {
   public static Location convertClaimFileNameToLocation(File file) {
     if (file != null && file.getName().length() > 0) {
       int x = Integer.valueOf(file.getName().substring(2, file.getName().indexOf(".", 3)));
-      int z = Integer.valueOf(file.getName().substring(file.getName().indexOf(".", 3) + 1,
-          file.getName().indexOf(".", file.getName().indexOf(".", 3) + 1)));
+      int z =
+          Integer.valueOf(
+              file.getName()
+                  .substring(
+                      file.getName().indexOf(".", 3) + 1,
+                      file.getName().indexOf(".", file.getName().indexOf(".", 3) + 1)));
       return new Location(x, z);
     }
     return null;

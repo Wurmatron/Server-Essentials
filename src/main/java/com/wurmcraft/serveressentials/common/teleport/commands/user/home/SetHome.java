@@ -62,7 +62,7 @@ public class SetHome extends SECommand {
       if (getMaxHomes(global) > data.getHomes().length) {
         data.addHome(new Home(name, new LocationWrapper(player.getPosition(), player.dimension)));
         DataHelper.forceSave(Keys.LOCAL_USER, data);
-        UserManager.playerData.put(player.getGameProfile().getId(), new Object[]{global, data});
+        UserManager.playerData.put(player.getGameProfile().getId(), new Object[] {global, data});
         return true;
       } else {
         return false;

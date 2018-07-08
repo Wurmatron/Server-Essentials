@@ -71,6 +71,12 @@ public class Local {
   public String COMMAND_FORCED = "You were forced to run %COMMAND%";
   public String COMMAND_SENDER_FORCED = "You forced %PLAYER% to run the command %COMMAND%";
   public String COMMAND_NOT_FOUND = "Command %COMMAND% not found!";
+  public String SUN = "Weather changed to sunny";
+  public String FEED = "You have been feed";
+  public String FEED_OTHER = "You just feed %PLAYER%";
+  public String HEAL = "You have just been healed";
+  public String HEAL_OTHER = "You have just healed %PLAYER%";
+  public String SPEED_CHANGED = "Your speed has changed to %SPEED%";
 
   // Claiming
   public String CLAIM_BREAK = "You cannot break a block in this claim owned by %PLAYER%!";

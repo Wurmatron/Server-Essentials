@@ -37,11 +37,11 @@ public class TeamModule implements IModule {
       if (globalTeam != null) {
         LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(globalUser.getTeam()));
         if (localTeam != null) {
-          UserManager.teamCache.put(globalUser.getTeam(), new Object[]{globalTeam, localTeam});
+          UserManager.teamCache.put(globalUser.getTeam(), new Object[] {globalTeam, localTeam});
         } else {
           localTeam = new LocalTeam(globalUser.getTeam());
           DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
-          UserManager.teamCache.put(globalUser.getTeam(), new Object[]{globalTeam, localTeam});
+          UserManager.teamCache.put(globalUser.getTeam(), new Object[] {globalTeam, localTeam});
         }
       }
     }
@@ -53,11 +53,11 @@ public class TeamModule implements IModule {
       if (!team.isEmpty() && globalTeam != null) {
         LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(team));
         if (localTeam != null) {
-          UserManager.teamCache.put(team, new Object[]{globalTeam, localTeam});
+          UserManager.teamCache.put(team, new Object[] {globalTeam, localTeam});
         } else {
           localTeam = new LocalTeam(team);
           DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
-          UserManager.teamCache.put(team, new Object[]{globalTeam, localTeam});
+          UserManager.teamCache.put(team, new Object[] {globalTeam, localTeam});
         }
       }
     }
@@ -109,7 +109,7 @@ public class TeamModule implements IModule {
     if (teamDir.exists()) {
       for (File file : Objects.requireNonNull(teamDir.listFiles())) {
         Team team = DataHelper.load(file, Keys.TEAM, new Team());
-        UserManager.teamCache.put(team.getName(), new Object[]{team});
+        UserManager.teamCache.put(team.getName(), new Object[] {team});
       }
     } else {
       teamDir.mkdirs();

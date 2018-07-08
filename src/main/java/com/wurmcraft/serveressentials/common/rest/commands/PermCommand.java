@@ -29,43 +29,43 @@ public class PermCommand extends SECommand {
   private static String[] getUserFormatting(UUID uuid) {
     GlobalUser user = forceUserFromUUID(uuid);
     Local lang = LanguageModule.getLangFromKey(user.getLang());
-    return new String[]{
-        lang.CHAT_SPACER,
-        TextFormatting.LIGHT_PURPLE + "UUID: " + TextFormatting.AQUA + uuid,
-        TextFormatting.LIGHT_PURPLE + lang.CHAT_RANK + ": " + TextFormatting.AQUA + user.getRank(),
-        TextFormatting.LIGHT_PURPLE + lang.CHAT_TEAM + ": " + TextFormatting.AQUA + user.getTeam(),
-        TextFormatting.LIGHT_PURPLE + lang.CHAT_LANG + ": " + TextFormatting.AQUA + user.getLang(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_LASTSEEN
-            + ": "
-            + TextFormatting.AQUA
-            + new Date(user.getLastSeen()).toString(),
-        lang.CHAT_SPACER
+    return new String[] {
+      lang.CHAT_SPACER,
+      TextFormatting.LIGHT_PURPLE + "UUID: " + TextFormatting.AQUA + uuid,
+      TextFormatting.LIGHT_PURPLE + lang.CHAT_RANK + ": " + TextFormatting.AQUA + user.getRank(),
+      TextFormatting.LIGHT_PURPLE + lang.CHAT_TEAM + ": " + TextFormatting.AQUA + user.getTeam(),
+      TextFormatting.LIGHT_PURPLE + lang.CHAT_LANG + ": " + TextFormatting.AQUA + user.getLang(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_LASTSEEN
+          + ": "
+          + TextFormatting.AQUA
+          + new Date(user.getLastSeen()).toString(),
+      lang.CHAT_SPACER
     };
   }
 
   private static String[] getRankFormatting(ICommandSender sender, String r) {
     Local lang = getCurrentLanguage(sender);
     Rank rank = UserManager.getRank(r);
-    return new String[]{
-        lang.CHAT_SPACER,
-        TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_PREFIX
-            + ": "
-            + TextFormatting.AQUA
-            + rank.getPrefix(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_SUFFIX
-            + ": "
-            + TextFormatting.AQUA
-            + rank.getSuffix(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_INHERITANCE
-            + ": "
-            + TextFormatting.AQUA
-            + Strings.join(rank.getInheritance(), " "),
-        lang.CHAT_SPACER
+    return new String[] {
+      lang.CHAT_SPACER,
+      TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_PREFIX
+          + ": "
+          + TextFormatting.AQUA
+          + rank.getPrefix(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_SUFFIX
+          + ": "
+          + TextFormatting.AQUA
+          + rank.getSuffix(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_INHERITANCE
+          + ": "
+          + TextFormatting.AQUA
+          + Strings.join(rank.getInheritance(), " "),
+      lang.CHAT_SPACER
     };
   }
 
@@ -107,28 +107,28 @@ public class PermCommand extends SECommand {
                   new TextComponentString(
                       TextFormatting.LIGHT_PURPLE
                           + lang.PERM_ADDED
-                          .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
-                          .replaceAll(
-                              "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + rank.getName()
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              .replaceAll(
+                                  "%PERM%",
+                                  TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              .replaceAll(
+                                  "%PLAYER%",
+                                  TextFormatting.GOLD
+                                      + rank.getName()
+                                      + TextFormatting.LIGHT_PURPLE)));
             } else {
               rank.delPermission(args[index]);
               sender.sendMessage(
                   new TextComponentString(
                       TextFormatting.LIGHT_PURPLE
                           + lang.PERM_DEL
-                          .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
-                          .replaceAll(
-                              "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + rank.getName()
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              .replaceAll(
+                                  "%PERM%",
+                                  TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              .replaceAll(
+                                  "%PLAYER%",
+                                  TextFormatting.GOLD
+                                      + rank.getName()
+                                      + TextFormatting.LIGHT_PURPLE)));
             }
             RequestHelper.RankResponses.overrideRank(rank);
           }
@@ -137,7 +137,7 @@ public class PermCommand extends SECommand {
               new TextComponentString(
                   TextFormatting.RED
                       + lang.PLAYER_NOT_FOUND.replaceAll(
-                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+                          "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
         }
       } else if (args.length == 2 && args[1].equalsIgnoreCase("sync")) {
         Rank rank = RequestHelper.RankResponses.getRank(args[0]);
@@ -176,22 +176,22 @@ public class PermCommand extends SECommand {
                 new TextComponentString(
                     TextFormatting.LIGHT_PURPLE
                         + lang.PLAYER_RANK_CHANGED
-                        .replaceAll(
-                            "%RANK%",
-                            TextFormatting.RED
-                                + selectedUser.getRank()
-                                + TextFormatting.LIGHT_PURPLE)
-                        .replaceAll(
-                            "%PLAYER%",
-                            TextFormatting.GOLD
-                                + UsernameCache.getLastKnownUsername(uuid)
-                                + TextFormatting.LIGHT_PURPLE)));
+                            .replaceAll(
+                                "%RANK%",
+                                TextFormatting.RED
+                                    + selectedUser.getRank()
+                                    + TextFormatting.LIGHT_PURPLE)
+                            .replaceAll(
+                                "%PLAYER%",
+                                TextFormatting.GOLD
+                                    + UsernameCache.getLastKnownUsername(uuid)
+                                    + TextFormatting.LIGHT_PURPLE)));
           } else {
             sender.sendMessage(
                 new TextComponentString(
                     TextFormatting.RED
                         + lang.PLAYER_NOT_FOUND.replaceAll(
-                        "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+                            "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
           }
         } else {
           sender.sendMessage(new TextComponentString(lang.RANK_NULL));
@@ -208,20 +208,20 @@ public class PermCommand extends SECommand {
                   new TextComponentString(
                       TextFormatting.LIGHT_PURPLE
                           + lang.PERM_ADDED
-                          .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
-                          .replaceAll(
-                              "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              .replaceAll(
+                                  "%PERM%",
+                                  TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              .replaceAll(
+                                  "%PLAYER%",
+                                  TextFormatting.GOLD
+                                      + UsernameCache.getLastKnownUsername(uuid)
+                                      + TextFormatting.LIGHT_PURPLE)));
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      selectedUser,
-                      UserManager.playerData
-                          .getOrDefault(uuid, new Object[]{selectedUser, new LocalUser(uuid)})[1]
+                  new Object[] {
+                    selectedUser,
+                    UserManager.playerData
+                        .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             } else {
               selectedUser.delPermission(args[index]);
@@ -229,16 +229,16 @@ public class PermCommand extends SECommand {
                   new TextComponentString(
                       TextFormatting.LIGHT_PURPLE
                           + lang.PERM_DEL
-                          .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
-                          .replaceAll(
-                              "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              .replaceAll(
+                                  "%PERM%",
+                                  TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              .replaceAll(
+                                  "%PLAYER%",
+                                  TextFormatting.GOLD
+                                      + UsernameCache.getLastKnownUsername(uuid)
+                                      + TextFormatting.LIGHT_PURPLE)));
               UserManager.playerData.put(
-                  uuid, new Object[]{selectedUser, UserManager.playerData.get(uuid)[1]});
+                  uuid, new Object[] {selectedUser, UserManager.playerData.get(uuid)[1]});
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
           }
@@ -247,7 +247,7 @@ public class PermCommand extends SECommand {
               new TextComponentString(
                   TextFormatting.RED
                       + lang.PLAYER_NOT_FOUND.replaceAll(
-                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+                          "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
         }
       } else if (args.length >= 4 && args[1].equalsIgnoreCase("perk")) {
         UUID uuid = UsernameResolver.getUUIDFromName(args[0]);
@@ -261,20 +261,20 @@ public class PermCommand extends SECommand {
                   new TextComponentString(
                       TextFormatting.LIGHT_PURPLE
                           + lang.PERK_ADDED
-                          .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
-                          .replaceAll(
-                              "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              .replaceAll(
+                                  "%PERM%",
+                                  TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              .replaceAll(
+                                  "%PLAYER%",
+                                  TextFormatting.GOLD
+                                      + UsernameCache.getLastKnownUsername(uuid)
+                                      + TextFormatting.LIGHT_PURPLE)));
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      selectedUser,
-                      UserManager.playerData
-                          .getOrDefault(uuid, new Object[]{selectedUser, new LocalUser(uuid)})[1]
+                  new Object[] {
+                    selectedUser,
+                    UserManager.playerData
+                        .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             } else {
               selectedUser.delPerk(args[index]);
@@ -282,20 +282,20 @@ public class PermCommand extends SECommand {
                   new TextComponentString(
                       TextFormatting.LIGHT_PURPLE
                           + lang.PERK_DEL
-                          .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
-                          .replaceAll(
-                              "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              .replaceAll(
+                                  "%PERM%",
+                                  TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              .replaceAll(
+                                  "%PLAYER%",
+                                  TextFormatting.GOLD
+                                      + UsernameCache.getLastKnownUsername(uuid)
+                                      + TextFormatting.LIGHT_PURPLE)));
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      selectedUser,
-                      UserManager.playerData
-                          .getOrDefault(uuid, new Object[]{selectedUser, new LocalUser(uuid)})[1]
+                  new Object[] {
+                    selectedUser,
+                    UserManager.playerData
+                        .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
@@ -305,13 +305,13 @@ public class PermCommand extends SECommand {
               new TextComponentString(
                   TextFormatting.RED
                       + lang.PLAYER_NOT_FOUND.replaceAll(
-                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+                          "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
         }
       } else if (args.length == 2 && args[1].equalsIgnoreCase("sync")) {
         UUID uuid = UsernameResolver.getUUIDFromName(args[0]);
         GlobalUser user = RequestHelper.UserResponses.getPlayerData(uuid);
         LocalUser local = DataHelper.load(Keys.LOCAL_USER, new LocalUser(uuid));
-        UserManager.playerData.put(uuid, new Object[]{user, local});
+        UserManager.playerData.put(uuid, new Object[] {user, local});
       }
     }
   }

@@ -8,6 +8,9 @@ import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.CommandLoader;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -17,15 +20,16 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(
-    modid = Global.MODID,
-    name = Global.NAME,
-    version = Global.VERSION,
-    serverSideOnly = true,
-    acceptableRemoteVersions = "*"
+  modid = Global.MODID,
+  name = Global.NAME,
+  version = Global.VERSION,
+  serverSideOnly = true,
+  acceptableRemoteVersions = "*"
 )
 public class ServerEssentialsServer {
 
@@ -85,5 +89,14 @@ public class ServerEssentialsServer {
   public void serverStarting(FMLServerStartingEvent e) {
     logger.info("Server Starting");
     CommandLoader.registerCommands(e);
+  }
+
+  @EventHandler
+  public void serverStopping(FMLServerStoppingEvent e) {
+    for (EntityPlayerMP player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      player.connection.disconnect(
+          new TextComponentString(ConfigHandler.shutdownMessage.replaceAll("&", "\u00A7")));
+    }
   }
 }

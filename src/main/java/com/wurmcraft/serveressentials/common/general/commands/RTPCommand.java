@@ -39,9 +39,8 @@ public class RTPCommand extends SECommand {
         teleportPos = randPos;
       }
     }
-    TeleportUtils
-        .teleportTo((EntityPlayerMP) player, new LocationWrapper(teleportPos, player.dimension),
-            true);
+    TeleportUtils.teleportTo(
+        (EntityPlayerMP) player, new LocationWrapper(teleportPos, player.dimension), true);
     player.sendMessage(new TextComponentString(getCurrentLanguage(sender).RTP));
   }
 
@@ -61,7 +60,6 @@ public class RTPCommand extends SECommand {
     int z = rand.nextInt((int) maxLocationZ);
     return player.world.getTopSolidOrLiquidBlock(new BlockPos(flipChance(x), 500, flipChance(z)));
   }
-
 
   @Override
   public boolean canConsoleRun() {

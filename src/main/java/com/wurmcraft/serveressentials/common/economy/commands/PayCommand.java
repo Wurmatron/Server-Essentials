@@ -81,9 +81,9 @@ public class PayCommand extends SECommand {
             RequestHelper.UserResponses.overridePlayerData(global);
             UserManager.playerData.put(
                 player.getGameProfile().getId(),
-                new Object[]{
-                    global,
-                    DataHelper.load(Keys.LOCAL_USER, new LocalUser(player.getGameProfile().getId()))
+                new Object[] {
+                  global,
+                  DataHelper.load(Keys.LOCAL_USER, new LocalUser(player.getGameProfile().getId()))
                 });
             player.sendMessage(
                 new TextComponentString(

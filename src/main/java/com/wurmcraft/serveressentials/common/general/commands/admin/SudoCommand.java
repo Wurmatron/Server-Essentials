@@ -29,26 +29,33 @@ public class SudoCommand extends SECommand {
       if (victim != null) {
         if (args.length >= 2) {
           String command = Strings.join(Arrays.copyOfRange(args, 1, args.length), " ");
-          victim.sendMessage(new TextComponentString(
-              LanguageModule.getLangfromUUID(victim.getGameProfile().getId()).COMMAND_FORCED
-                  .replaceAll("%COMMAND%", command)));
-          FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager()
+          victim.sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(victim.getGameProfile().getId())
+                      .COMMAND_FORCED
+                      .replaceAll("%COMMAND%", command)));
+          FMLCommonHandler.instance()
+              .getMinecraftServerInstance()
+              .getCommandManager()
               .executeCommand(victim, command);
-          sender.sendMessage(new TextComponentString(
-              getCurrentLanguage(sender).COMMAND_SENDER_FORCED
-                  .replaceAll("%PLAYER%", victim.getDisplayNameString())
-                  .replaceAll("%COMMAND%", command)));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender)
+                      .COMMAND_SENDER_FORCED
+                      .replaceAll("%PLAYER%", victim.getDisplayNameString())
+                      .replaceAll("%COMMAND%", command)));
         } else {
-          sender.sendMessage(new TextComponentString(
-              getCurrentLanguage(sender).COMMAND_NOT_FOUND.replaceAll("%COMMAND%", "/")));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).COMMAND_NOT_FOUND.replaceAll("%COMMAND%", "/")));
         }
       } else {
-        sender.sendMessage(new TextComponentString(
-            getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
   }
-
 }

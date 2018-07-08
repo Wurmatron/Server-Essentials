@@ -2,9 +2,7 @@ package com.wurmcraft.serveressentials.api.json.global;
 
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 
-/**
- * Used to store the value of the world spawn
- */
+/** Used to store the value of the world spawn */
 public class SpawnPoint {
 
   public LocationWrapper location;

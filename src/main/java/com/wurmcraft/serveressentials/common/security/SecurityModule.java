@@ -44,8 +44,8 @@ public class SecurityModule implements IModule {
           try {
             UUID uuid = UUID.fromString(inputLine);
             trusted.add(uuid);
-            ServerEssentialsServer.logger
-                .debug("\"" + uuid + "\" has been added to the trusted staff list");
+            ServerEssentialsServer.logger.debug(
+                "\"" + uuid + "\" has been added to the trusted staff list");
           } catch (IllegalArgumentException e) {
             e.printStackTrace();
           }

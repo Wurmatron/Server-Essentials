@@ -24,11 +24,14 @@ public class RenameCommand extends SECommand {
     if (args.length > 0) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       if (player.getHeldItemMainhand() != null) {
-        player.getHeldItemMainhand()
+        player
+            .getHeldItemMainhand()
             .setStackDisplayName(Strings.join(args, " ").replaceAll("&", "\u00A7"));
-        player.sendMessage(new TextComponentString(
-            getCurrentLanguage(sender).NAME_CHANGED
-                .replaceAll("%NAME%", Strings.join(args, " ").replaceAll("&", "\u00A7"))));
+        player.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender)
+                    .NAME_CHANGED
+                    .replaceAll("%NAME%", Strings.join(args, " ").replaceAll("&", "\u00A7"))));
       } else {
         player.sendMessage(new TextComponentString(getCurrentLanguage(sender).NO_ITEM));
       }

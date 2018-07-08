@@ -4,6 +4,8 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,14 +16,22 @@ import net.minecraft.world.GameType;
 @Command(moduleName = "General")
 public class GameModeCommand extends SECommand {
 
-  private static final String[] CREATIVE = new String[]{"Creative", "c", "1"};
-  private static final String[] SURVIVAL = new String[]{"Survival", "s", "0"};
-  private static final String[] ADVENTURE = new String[]{"Adventure", "a", "2"};
-  private static final String[] SPECTATOR = new String[]{"Spectator", "sp", "3"};
+  private static final String[] CREATIVE = new String[] {"Creative", "c", "1"};
+  private static final String[] SURVIVAL = new String[] {"Survival", "s", "0"};
+  private static final String[] ADVENTURE = new String[] {"Adventure", "a", "2"};
+  private static final String[] SPECTATOR = new String[] {"Spectator", "sp", "3"};
 
   @Override
   public String getName() {
-    return "GameMode";
+    return "gamemode";
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> altNames = new ArrayList<>();
+    altNames.add("gm");
+    altNames.add("mode");
+    return altNames;
   }
 
   @Override
@@ -103,5 +113,17 @@ public class GameModeCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return true;
+  }
+
+  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    // Lets Players out of creative without perms
+    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      if (player.capabilities.isCreativeMode) {
+        return true;
+      }
+    }
+    return super.checkPermission(server, sender);
   }
 }

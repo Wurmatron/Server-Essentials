@@ -64,8 +64,7 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "rank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<Rank>>() {
-          })
+          .get(new GenericType<ArrayList<Rank>>() {})
           .toArray(new Rank[0]);
     }
   }
@@ -165,8 +164,7 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "autorank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<AutoRank>>() {
-          })
+          .get(new GenericType<ArrayList<AutoRank>>() {})
           .toArray(new AutoRank[0]);
     }
   }
