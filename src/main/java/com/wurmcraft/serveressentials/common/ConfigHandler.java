@@ -80,4 +80,7 @@ public class ConfigHandler {
 
   @Comment("Message displayed to users on server shutdown")
   public static String shutdownMessage = "&cServer Shutdown";
+
+  @Comment(("Link  to your discord server"))
+  public static String discordLink = "";
 }

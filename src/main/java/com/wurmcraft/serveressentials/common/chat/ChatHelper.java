@@ -114,47 +114,4 @@ public class ChatHelper {
     }
     return format;
   }
-
-  public static void sendChannelMessage(
-      Channel channel, String displayName, Rank rank, int dimension, ITeam team, String message) {
-    PlayerList players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList();
-    message = applyFilter(channel, message);
-    if (!channel.getName().equalsIgnoreCase("Team")) {
-      for (EntityPlayerMP player : players.getPlayers()) {
-        ITextComponent textComponent =
-            ForgeHooks.newChatWithLinks(
-                format(displayName, rank, channel, dimension, team, message));
-        player.sendMessage(textComponent);
-      }
-    }
-  }
-
-  private static String applyFilter(Channel ch, String message) {
-    if (ch.getFilter() != null && ch.getFilter().length > 0) {
-      for (String filter : ch.getFilter()) {
-        String[] replace = unpackFilter(filter);
-        if (replace != null && replace.length > 0) {
-          message = message.replaceAll("(?i)" + replace[0], replace[1]);
-        }
-      }
-    }
-    return message;
-  }
-
-  private static String[] unpackFilter(String filter) {
-    if (!filter.contains("\"")) {
-      String[] temp = filter.split(" ");
-      return new String[] {temp[0], temp[1]};
-    }
-    if (filter.contains("\"")) {
-      if (filter.length() - filter.replaceAll("\"", "").length() == 2) {
-        String[] temp = filter.split("\"");
-        return new String[] {temp[1], temp[3]};
-      } else if (filter.length() - filter.replaceAll("\"", "").length() == 4) {
-        String[] temp = filter.split("\"");
-        return new String[] {temp[1], temp[3]};
-      }
-    }
-    return null;
-  }
 }
