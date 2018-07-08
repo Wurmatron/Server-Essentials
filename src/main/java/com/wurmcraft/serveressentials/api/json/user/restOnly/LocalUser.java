@@ -22,6 +22,7 @@ public class LocalUser implements IDataType {
   private long onlineTime;
   private LocationWrapper lastLocation;
   private long teleportTimer;
+  private boolean frozen;
 
   public LocalUser(UUID uuid) {
     this.uuid = uuid;
@@ -135,5 +136,13 @@ public class LocalUser implements IDataType {
       }
     }
     this.homes = homesArray.toArray(new Home[0]);
+  }
+
+  public boolean isFrozen() {
+    return frozen;
+  }
+
+  public void setFrozen(boolean frozen) {
+    this.frozen = frozen;
   }
 }

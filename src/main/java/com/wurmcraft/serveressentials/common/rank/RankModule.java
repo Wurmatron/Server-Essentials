@@ -47,12 +47,12 @@ public class RankModule implements IModule {
     if (!groupLocation.exists() || groupLocation.listFiles().length <= 0) {
       Rank defaultGroup =
           new Rank(
-              "Default", "[Default]", "", null, new String[] {"common.*", "teleport.*", "claim.*"});
+              "Default", "[Default]", "", null, new String[]{"common.*", "teleport.*", "claim.*"});
       Rank memberGroup =
-          new Rank("Member", "[Member]", "", new String[] {"Default"}, new String[] {"perk.*"});
+          new Rank("Member", "[Member]", "", new String[]{"Default"}, new String[]{"perk.*"});
       Rank adminGroup =
           new Rank(
-              "Admin", "[Admin]", "", new String[] {defaultGroup.getName()}, new String[] {"*"});
+              "Admin", "[Admin]", "", new String[]{defaultGroup.getName()}, new String[]{"*"});
       DataHelper.createIfNonExist(Keys.RANK, defaultGroup);
       DataHelper.createIfNonExist(Keys.RANK, adminGroup);
       DataHelper.createIfNonExist(Keys.RANK, memberGroup);

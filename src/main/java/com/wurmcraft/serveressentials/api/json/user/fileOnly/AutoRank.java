@@ -10,7 +10,8 @@ public class AutoRank implements IDataType {
   private String rank;
   private String nextRank;
 
-  public AutoRank() {}
+  public AutoRank() {
+  }
 
   public AutoRank(AutoRank auto) {
     this.playTime = auto.playTime;

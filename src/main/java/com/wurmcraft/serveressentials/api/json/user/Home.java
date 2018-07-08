@@ -1,12 +1,15 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
-/** Holds all the values for a home */
+/**
+ * Holds all the values for a home
+ */
 public class Home {
 
   private String name;
   private LocationWrapper pos;
 
-  public Home() {}
+  public Home() {
+  }
 
   public Home(String name, LocationWrapper location) {
     this.name = setName(name);

@@ -5,6 +5,33 @@ import java.lang.reflect.Array;
 
 public class ArrayUtils {
 
+  public static <T> T[] copyOver(T[] original, T[] receiver) {
+    return ArrayUtils.<T>copyOver(original, 0, original.length, receiver);
+  }
+
+  public static <T> T[] copyOver(T[] original, int off, int len, T[] receiver)
+      throws IndexOutOfBoundsException {
+    if (len >= 0) {
+      for (int pos = off; pos < off + len && pos < original.length; pos++) {
+        receiver[pos - off] = original[pos];
+      }
+    } else {
+      for (int pos = off; pos >= (-1 * len) && pos >= 0; pos--) {
+        receiver[off - pos] = original[pos];
+      }
+    }
+    return receiver;
+  }
+
+  public static <T> T[] splice(T[] array, int start, int end) {
+    Range<Integer> newSize = new Range<Integer>(start, end);
+    Class<T> type = (Class<T>) array.getClass().getComponentType();
+    T[] workingArray = (T[]) Array.newInstance(type, Math.abs(newSize.difference()) + 1);
+    return (start > end)
+        ? copyOver(array, start, -1 * end, workingArray)
+        : copyOver(array, start, end + 1, workingArray);
+  }
+
   public static final class Range<T extends Number> {
 
     public final T lower;
@@ -14,6 +41,17 @@ public class ArrayUtils {
     public Range(T lower, T upper) {
       this.lower = lower;
       this.upper = upper;
+    }
+
+    public static <T extends Number> boolean areEqual(Range<T> first, Range<T> second) {
+      return first.getUpperLimit() == second.getUpperLimit()
+          && first.getLowerLimit() == second.getLowerLimit();
+    }
+
+    public static <T extends Number> Range<T> getDifference(Range<T> first, Range<T> second) {
+      return new Range<T>(
+          (T) new Integer(Math.abs(first.lower.byteValue() - second.lower.byteValue())),
+          (T) new Integer(Math.abs(first.upper.byteValue() - second.upper.byteValue())));
     }
 
     public T getLowerLimit() {
@@ -47,18 +85,15 @@ public class ArrayUtils {
 
     public T difference() {
       switch (this.lower.getClass().getSimpleName()) {
-        case "Long":
-          {
-            return (T) new Long(this.upper.longValue() - this.lower.longValue());
-          }
-        case "Float":
-          {
-            return (T) new Float(this.upper.floatValue() - this.lower.floatValue());
-          }
-        case "Integer":
-          {
-            return (T) new Integer(this.upper.intValue() - this.lower.intValue());
-          }
+        case "Long": {
+          return (T) new Long(this.upper.longValue() - this.lower.longValue());
+        }
+        case "Float": {
+          return (T) new Float(this.upper.floatValue() - this.lower.floatValue());
+        }
+        case "Integer": {
+          return (T) new Integer(this.upper.intValue() - this.lower.intValue());
+        }
         default:
           return (T) new Double(this.upper.doubleValue() - this.lower.doubleValue());
       }
@@ -71,43 +106,5 @@ public class ArrayUtils {
     public boolean isLessThan(Range<T> supposedlyGreater) {
       return !isGreaterThan(supposedlyGreater);
     }
-
-    public static <T extends Number> boolean areEqual(Range<T> first, Range<T> second) {
-      return first.getUpperLimit() == second.getUpperLimit()
-          && first.getLowerLimit() == second.getLowerLimit();
-    }
-
-    public static <T extends Number> Range<T> getDifference(Range<T> first, Range<T> second) {
-      return new Range<T>(
-          (T) new Integer(Math.abs(first.lower.byteValue() - second.lower.byteValue())),
-          (T) new Integer(Math.abs(first.upper.byteValue() - second.upper.byteValue())));
-    }
-  }
-
-  public static <T> T[] copyOver(T[] original, T[] receiver) {
-    return ArrayUtils.<T>copyOver(original, 0, original.length, receiver);
-  }
-
-  public static <T> T[] copyOver(T[] original, int off, int len, T[] receiver)
-      throws IndexOutOfBoundsException {
-    if (len >= 0) {
-      for (int pos = off; pos < off + len && pos < original.length; pos++) {
-        receiver[pos - off] = original[pos];
-      }
-    } else {
-      for (int pos = off; pos >= (-1 * len) && pos >= 0; pos--) {
-        receiver[off - pos] = original[pos];
-      }
-    }
-    return receiver;
-  }
-
-  public static <T> T[] splice(T[] array, int start, int end) {
-    Range<Integer> newSize = new Range<Integer>(start, end);
-    Class<T> type = (Class<T>) array.getClass().getComponentType();
-    T[] workingArray = (T[]) Array.newInstance(type, Math.abs(newSize.difference()) + 1);
-    return (start > end)
-        ? copyOver(array, start, -1 * end, workingArray)
-        : copyOver(array, start, end + 1, workingArray);
   }
 }

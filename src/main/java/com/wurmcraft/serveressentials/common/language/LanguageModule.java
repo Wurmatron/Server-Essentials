@@ -24,6 +24,36 @@ public class LanguageModule implements IModule {
 
   public static HashMap<String, Local> loadedLanguages = new HashMap<>();
 
+  public static Local getLangfromUUID(UUID uuid) {
+    return loadedLanguages.getOrDefault(
+        getPlayerLang(uuid), loadedLanguages.get(ConfigHandler.defaultLanguage));
+  }
+
+  public static Local getLangFromKey(String langKey) {
+    return loadedLanguages.getOrDefault(
+        langKey, loadedLanguages.get(ConfigHandler.defaultLanguage));
+  }
+
+  public static boolean isValidLangKey(String key) {
+    for (String lang : ConfigHandler.supportedLanguages) {
+      if (lang.equalsIgnoreCase(key)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static String getPlayerLang(UUID uuid) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
+      return data.getLang();
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      GlobalUser user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
+      return user.getLang();
+    }
+    return ConfigHandler.defaultLanguage;
+  }
+
   @Override
   public void setup() {
     for (String langKey : ConfigHandler.supportedLanguages) {
@@ -80,35 +110,5 @@ public class LanguageModule implements IModule {
         e.printStackTrace();
       }
     }
-  }
-
-  public static Local getLangfromUUID(UUID uuid) {
-    return loadedLanguages.getOrDefault(
-        getPlayerLang(uuid), loadedLanguages.get(ConfigHandler.defaultLanguage));
-  }
-
-  public static Local getLangFromKey(String langKey) {
-    return loadedLanguages.getOrDefault(
-        langKey, loadedLanguages.get(ConfigHandler.defaultLanguage));
-  }
-
-  public static boolean isValidLangKey(String key) {
-    for (String lang : ConfigHandler.supportedLanguages) {
-      if (lang.equalsIgnoreCase(key)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private static String getPlayerLang(UUID uuid) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
-      return data.getLang();
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      GlobalUser user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
-      return user.getLang();
-    }
-    return ConfigHandler.defaultLanguage;
   }
 }

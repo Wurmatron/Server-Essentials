@@ -1,7 +1,4 @@
 Commands:
-  - Fly
-  - GameMode
-  - Invsee
   - Suiside
   - Vault
   - Warp

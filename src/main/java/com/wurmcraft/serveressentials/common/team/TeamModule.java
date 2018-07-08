@@ -30,32 +30,6 @@ public class TeamModule implements IModule {
 
   private static boolean globalTeams = false;
 
-  @Override
-  public void setup() {
-    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      if (!Loader.isModLoaded("ftbutilities")) {
-        loadAllTeams();
-      }
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      globalTeams = true;
-      if (Loader.isModLoaded("ftbutilities")) {
-        MinecraftForge.EVENT_BUS.register(new FTBUtilsEvents());
-      }
-    }
-  }
-
-  private void loadAllTeams() {
-    File teamDir = new File(saveLocation + File.separator + TEAM.name());
-    if (teamDir.exists()) {
-      for (File file : Objects.requireNonNull(teamDir.listFiles())) {
-        Team team = DataHelper.load(file, Keys.TEAM, new Team());
-        UserManager.teamCache.put(team.getName(), new Object[] {team});
-      }
-    } else {
-      teamDir.mkdirs();
-    }
-  }
-
   public static void loadRestTeam(UUID uuid) {
     if (globalTeams) {
       GlobalUser globalUser = (GlobalUser) UserManager.getPlayerData(uuid)[0];
@@ -63,11 +37,11 @@ public class TeamModule implements IModule {
       if (globalTeam != null) {
         LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(globalUser.getTeam()));
         if (localTeam != null) {
-          UserManager.teamCache.put(globalUser.getTeam(), new Object[] {globalTeam, localTeam});
+          UserManager.teamCache.put(globalUser.getTeam(), new Object[]{globalTeam, localTeam});
         } else {
           localTeam = new LocalTeam(globalUser.getTeam());
           DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
-          UserManager.teamCache.put(globalUser.getTeam(), new Object[] {globalTeam, localTeam});
+          UserManager.teamCache.put(globalUser.getTeam(), new Object[]{globalTeam, localTeam});
         }
       }
     }
@@ -79,11 +53,11 @@ public class TeamModule implements IModule {
       if (!team.isEmpty() && globalTeam != null) {
         LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(team));
         if (localTeam != null) {
-          UserManager.teamCache.put(team, new Object[] {globalTeam, localTeam});
+          UserManager.teamCache.put(team, new Object[]{globalTeam, localTeam});
         } else {
           localTeam = new LocalTeam(team);
           DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
-          UserManager.teamCache.put(team, new Object[] {globalTeam, localTeam});
+          UserManager.teamCache.put(team, new Object[]{globalTeam, localTeam});
         }
       }
     }
@@ -114,5 +88,31 @@ public class TeamModule implements IModule {
       }
     }
     return totalPlayers;
+  }
+
+  @Override
+  public void setup() {
+    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      if (!Loader.isModLoaded("ftbutilities")) {
+        loadAllTeams();
+      }
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      globalTeams = true;
+      if (Loader.isModLoaded("ftbutilities")) {
+        MinecraftForge.EVENT_BUS.register(new FTBUtilsEvents());
+      }
+    }
+  }
+
+  private void loadAllTeams() {
+    File teamDir = new File(saveLocation + File.separator + TEAM.name());
+    if (teamDir.exists()) {
+      for (File file : Objects.requireNonNull(teamDir.listFiles())) {
+        Team team = DataHelper.load(file, Keys.TEAM, new Team());
+        UserManager.teamCache.put(team.getName(), new Object[]{team});
+      }
+    } else {
+      teamDir.mkdirs();
+    }
   }
 }

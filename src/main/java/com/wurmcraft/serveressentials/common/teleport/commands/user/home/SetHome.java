@@ -20,6 +20,15 @@ import net.minecraft.util.text.TextComponentString;
 @Command(moduleName = "Teleportation")
 public class SetHome extends SECommand {
 
+  private static int getMaxHomes(GlobalUser user) {
+    for (String perk : user.getPerks()) {
+      if (perk.startsWith("home.amount.")) {
+        return Integer.parseInt(perk.substring(perk.lastIndexOf(".") + 1, perk.length()));
+      }
+    }
+    return 1;
+  }
+
   @Override
   public String getName() {
     return "setHome";
@@ -53,22 +62,13 @@ public class SetHome extends SECommand {
       if (getMaxHomes(global) > data.getHomes().length) {
         data.addHome(new Home(name, new LocationWrapper(player.getPosition(), player.dimension)));
         DataHelper.forceSave(Keys.LOCAL_USER, data);
-        UserManager.playerData.put(player.getGameProfile().getId(), new Object[] {global, data});
+        UserManager.playerData.put(player.getGameProfile().getId(), new Object[]{global, data});
         return true;
       } else {
         return false;
       }
     }
     return false;
-  }
-
-  private static int getMaxHomes(GlobalUser user) {
-    for (String perk : user.getPerks()) {
-      if (perk.startsWith("home.amount.")) {
-        return Integer.parseInt(perk.substring(perk.lastIndexOf(".") + 1, perk.length()));
-      }
-    }
-    return 1;
   }
 
   @Override

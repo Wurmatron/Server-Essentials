@@ -32,24 +32,6 @@ public class RestModule implements IModule {
 
   public static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
 
-  @Override
-  public void setup() {
-    if (ConfigHandler.storageType.equalsIgnoreCase("rest")) {
-      if (ConfigHandler.restURL.startsWith("http://")
-          || ConfigHandler.restURL.startsWith("https://")) {
-        MinecraftForge.EVENT_BUS.register(new WorldEvent());
-        ServerEssentialsServer.logger.info("Creating Default Ranks");
-        syncRanks();
-      } else {
-        ServerEssentialsServer.logger.warn(
-            "Rest API Unable to load due to invalid Endpoint '" + ConfigHandler.restURL + "'");
-      }
-    } else {
-      ServerEssentialsServer.logger.debug(
-          "Rest API is enabled but not used for UserData or Ranks'" + ConfigHandler.restURL + "'");
-    }
-  }
-
   public static void syncRanks() {
     executors.scheduleAtFixedRate(
         () -> {
@@ -87,9 +69,9 @@ public class RestModule implements IModule {
               }
               UserManager.playerData.put(
                   uuid,
-                  new Object[] {
-                    globalUser,
-                    UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, user})[1]
+                  new Object[]{
+                      globalUser,
+                      UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, user})[1]
                   });
               UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
             }
@@ -141,9 +123,9 @@ public class RestModule implements IModule {
       RequestHelper.UserResponses.addPlayerData(globalUser);
       UserManager.playerData.put(
           uuid,
-          new Object[] {
-            globalUser,
-            UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, localUser})[1]
+          new Object[]{
+              globalUser,
+              UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, localUser})[1]
           });
       UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
     } catch (Exception e) {
@@ -154,9 +136,9 @@ public class RestModule implements IModule {
   public static void createDefaultRanks() {
     Rank defaultRank =
         new Rank(
-            "Default", "&8[Default]", "", new String[] {}, new String[] {"info.*", "teleport.*"});
+            "Default", "&8[Default]", "", new String[]{}, new String[]{"info.*", "teleport.*"});
     Rank adminRank =
-        new Rank("Admin", "&c[Admin]", "", new String[] {"default"}, new String[] {"admin.*"});
+        new Rank("Admin", "&c[Admin]", "", new String[]{"default"}, new String[]{"admin.*"});
     RequestHelper.RankResponses.addRank(defaultRank);
     RequestHelper.RankResponses.addRank(adminRank);
   }
@@ -172,5 +154,23 @@ public class RestModule implements IModule {
                 + ".json"),
         Keys.LOCAL_USER,
         new LocalUser(uuid));
+  }
+
+  @Override
+  public void setup() {
+    if (ConfigHandler.storageType.equalsIgnoreCase("rest")) {
+      if (ConfigHandler.restURL.startsWith("http://")
+          || ConfigHandler.restURL.startsWith("https://")) {
+        MinecraftForge.EVENT_BUS.register(new WorldEvent());
+        ServerEssentialsServer.logger.info("Creating Default Ranks");
+        syncRanks();
+      } else {
+        ServerEssentialsServer.logger.warn(
+            "Rest API Unable to load due to invalid Endpoint '" + ConfigHandler.restURL + "'");
+      }
+    } else {
+      ServerEssentialsServer.logger.debug(
+          "Rest API is enabled but not used for UserData or Ranks'" + ConfigHandler.restURL + "'");
+    }
   }
 }

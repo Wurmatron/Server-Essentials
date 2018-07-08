@@ -16,34 +16,6 @@ import net.minecraft.util.text.TextFormatting;
 @Command(moduleName = "Team")
 public class TeamCommand extends SECommand {
 
-  @Override
-  public String getName() {
-    return "seTeam";
-  }
-
-  @Override
-  public String getUsage(ICommandSender sender) {
-    return "/seTeam <name> <info>";
-  }
-
-  @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
-      throws CommandException {
-    super.execute(server, sender, args);
-    if (args.length == 0) {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
-    } else {
-      if (args.length == 2 && args[1].equalsIgnoreCase("info")) {
-        GlobalTeam team = forceTeamFromName(args[0]);
-        for (String line : formatTeam(getCurrentLanguage(sender), team)) {
-          sender.sendMessage(new TextComponentString(line));
-        }
-      } else {
-        sender.sendMessage(new TextComponentString(getUsage(sender)));
-      }
-    }
-  }
-
   private static String[] formatTeam(Local lang, GlobalTeam team) {
     List<String> lines = new ArrayList<>();
     lines.add(lang.CHAT_SPACER);
@@ -71,5 +43,33 @@ public class TeamCommand extends SECommand {
     }
     lines.add(lang.CHAT_SPACER);
     return lines.toArray(new String[0]);
+  }
+
+  @Override
+  public String getName() {
+    return "seTeam";
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/seTeam <name> <info>";
+  }
+
+  @Override
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+      throws CommandException {
+    super.execute(server, sender, args);
+    if (args.length == 0) {
+      sender.sendMessage(new TextComponentString(getUsage(sender)));
+    } else {
+      if (args.length == 2 && args[1].equalsIgnoreCase("info")) {
+        GlobalTeam team = forceTeamFromName(args[0]);
+        for (String line : formatTeam(getCurrentLanguage(sender), team)) {
+          sender.sendMessage(new TextComponentString(line));
+        }
+      } else {
+        sender.sendMessage(new TextComponentString(getUsage(sender)));
+      }
+    }
   }
 }

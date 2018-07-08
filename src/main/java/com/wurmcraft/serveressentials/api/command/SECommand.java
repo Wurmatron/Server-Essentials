@@ -25,6 +25,36 @@ import net.minecraft.util.text.TextComponentString;
 
 public abstract class SECommand implements ICommand {
 
+  protected static Local getCurrentLanguage(ICommandSender sender) {
+    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      return LanguageModule.getLangfromUUID(player.getGameProfile().getId());
+    }
+    return LanguageModule.getLangFromKey(ConfigHandler.defaultLanguage);
+  }
+
+  protected static GlobalUser forceUserFromUUID(UUID uuid) {
+    GlobalUser user = null;
+    if (UserManager.getPlayerData(uuid) != null && UserManager.getPlayerData(uuid).length > 0) {
+      user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
+    }
+    if (user == null) {
+      user = RequestHelper.UserResponses.getPlayerData(uuid);
+    }
+    return user;
+  }
+
+  protected static GlobalTeam forceTeamFromName(String name) {
+    GlobalTeam team = null;
+    if (UserManager.teamCache.get(name) != null && UserManager.teamCache.get(name).length > 0) {
+      team = (GlobalTeam) UserManager.getTeam(name)[0];
+    }
+    if (team == null) {
+      team = RequestHelper.TeamResponses.getTeam(name);
+    }
+    return team;
+  }
+
   @Override
   public String getName() {
     return null;
@@ -91,8 +121,8 @@ public abstract class SECommand implements ICommand {
     for (String perm : perms) {
       if (perm.equalsIgnoreCase(commandPerm)
           || perm.contains(".*")
-              && perm.substring(0, perm.indexOf("."))
-                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
+          && perm.substring(0, perm.indexOf("."))
+          .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
           || perm.equalsIgnoreCase("*")) {
         return true;
       }
@@ -139,36 +169,6 @@ public abstract class SECommand implements ICommand {
 
   public boolean hasSubCommand() {
     return false;
-  }
-
-  protected static Local getCurrentLanguage(ICommandSender sender) {
-    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      return LanguageModule.getLangfromUUID(player.getGameProfile().getId());
-    }
-    return LanguageModule.getLangFromKey(ConfigHandler.defaultLanguage);
-  }
-
-  protected static GlobalUser forceUserFromUUID(UUID uuid) {
-    GlobalUser user = null;
-    if (UserManager.getPlayerData(uuid) != null && UserManager.getPlayerData(uuid).length > 0) {
-      user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
-    }
-    if (user == null) {
-      user = RequestHelper.UserResponses.getPlayerData(uuid);
-    }
-    return user;
-  }
-
-  protected static GlobalTeam forceTeamFromName(String name) {
-    GlobalTeam team = null;
-    if (UserManager.teamCache.get(name) != null && UserManager.teamCache.get(name).length > 0) {
-      team = (GlobalTeam) UserManager.getTeam(name)[0];
-    }
-    if (team == null) {
-      team = RequestHelper.TeamResponses.getTeam(name);
-    }
-    return team;
   }
 
   @Override

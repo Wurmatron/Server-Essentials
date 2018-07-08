@@ -7,7 +7,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class Warp extends Home implements IDataType {
 
-  public Warp() {}
+  public Warp() {
+  }
 
   public Warp(String name, BlockPos location, int dimension) {
     super(name, new LocationWrapper(location, dimension));

@@ -13,7 +13,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-/** Used to hold the data about a player */
+/**
+ * Used to hold the data about a player
+ */
 public class PlayerData implements IDataType {
 
   private String rank;
@@ -39,7 +41,8 @@ public class PlayerData implements IDataType {
   private UUID uuid;
   private String lang;
 
-  public PlayerData() {}
+  public PlayerData() {
+  }
 
   public PlayerData(UUID uuid, Rank rank) {
     if (rank != null) {
@@ -140,6 +143,10 @@ public class PlayerData implements IDataType {
     return UserManager.getDefaultRank();
   }
 
+  public void setRank(Rank rank) {
+    this.rank = UserManager.getRank(rank.getName()).getName();
+  }
+
   public void setRank(String rank) {
     Rank group = UserManager.getRank(rank);
     if (group != null) {
@@ -147,10 +154,6 @@ public class PlayerData implements IDataType {
     } else {
       setRank(UserManager.getDefaultRank());
     }
-  }
-
-  public void setRank(Rank rank) {
-    this.rank = UserManager.getRank(rank.getName()).getName();
   }
 
   public LocationWrapper getLastLocation() {

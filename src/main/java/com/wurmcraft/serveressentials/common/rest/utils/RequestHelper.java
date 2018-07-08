@@ -21,6 +21,14 @@ public class RequestHelper {
   private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   private static Client client = ClientBuilder.newClient();
 
+  private static String getBaseURL() {
+    if (ConfigHandler.restURL.endsWith("/")) {
+      return ConfigHandler.restURL;
+    } else {
+      return ConfigHandler.restURL + "/";
+    }
+  }
+
   public static class RankResponses {
 
     public static Response addRank(Rank rank) {
@@ -56,7 +64,8 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "rank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<Rank>>() {})
+          .get(new GenericType<ArrayList<Rank>>() {
+          })
           .toArray(new Rank[0]);
     }
   }
@@ -156,16 +165,9 @@ public class RequestHelper {
       return client
           .target(getBaseURL() + "autorank/find/")
           .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<AutoRank>>() {})
+          .get(new GenericType<ArrayList<AutoRank>>() {
+          })
           .toArray(new AutoRank[0]);
-    }
-  }
-
-  private static String getBaseURL() {
-    if (ConfigHandler.restURL.endsWith("/")) {
-      return ConfigHandler.restURL;
-    } else {
-      return ConfigHandler.restURL + "/";
     }
   }
 }

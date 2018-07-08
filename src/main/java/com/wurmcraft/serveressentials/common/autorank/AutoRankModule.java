@@ -20,15 +20,6 @@ import java.util.concurrent.TimeUnit;
 @Module(name = "AutoRank")
 public class AutoRankModule implements IModule {
 
-  @Override
-  public void setup() {
-    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      syncAutoRanks();
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      loadAutoRanks();
-    }
-  }
-
   public static void syncAutoRanks() {
     RestModule.executors.scheduleAtFixedRate(
         () -> {
@@ -60,6 +51,15 @@ public class AutoRankModule implements IModule {
       }
     } else {
       autoRankDir.mkdirs();
+    }
+  }
+
+  @Override
+  public void setup() {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      syncAutoRanks();
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      loadAutoRanks();
     }
   }
 }

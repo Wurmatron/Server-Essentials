@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.general.events.GlobaDataEvents;
+import com.wurmcraft.serveressentials.common.general.events.PlayerTickEvent;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import java.io.File;
@@ -27,6 +28,7 @@ public class GeneralModule implements IModule {
     setupGlobal();
     setupWarps();
     MinecraftForge.EVENT_BUS.register(new GlobaDataEvents());
+    MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
   }
 
   private void setupKits() {
@@ -53,8 +55,8 @@ public class GeneralModule implements IModule {
       GlobalData globalData =
           new GlobalData(
               null,
-              new String[] {},
-              new String[] {},
+              new String[]{},
+              new String[]{},
               "https://github.com/Wurmcraft/Server-Essentials/");
       DataHelper.forceSave(new File(saveLocation), globalData);
       setupGlobal();

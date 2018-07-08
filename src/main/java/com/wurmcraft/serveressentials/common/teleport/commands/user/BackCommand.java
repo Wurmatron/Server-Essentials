@@ -18,6 +18,17 @@ import net.minecraft.util.text.TextComponentString;
 @Command(moduleName = "Teleportation")
 public class BackCommand extends SECommand {
 
+  private static LocationWrapper getLastLocation(EntityPlayer player) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData(player)[0];
+      return data.getLastLocation();
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      LocalUser data = (LocalUser) UserManager.getPlayerData(player)[1];
+      return data.getLastLocation();
+    }
+    return null;
+  }
+
   @Override
   public String getName() {
     return "back";
@@ -35,16 +46,5 @@ public class BackCommand extends SECommand {
     } else {
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TP_BACK_FAIL));
     }
-  }
-
-  private static LocationWrapper getLastLocation(EntityPlayer player) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      PlayerData data = (PlayerData) UserManager.getPlayerData(player)[0];
-      return data.getLastLocation();
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      LocalUser data = (LocalUser) UserManager.getPlayerData(player)[1];
-      return data.getLastLocation();
-    }
-    return null;
   }
 }

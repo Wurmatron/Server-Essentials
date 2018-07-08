@@ -52,7 +52,7 @@ public class GlobalData implements IDataType {
       listRules.add(rule);
       setRules(listRules.toArray(new String[0]));
     } else {
-      setRules(new String[] {rule});
+      setRules(new String[]{rule});
     }
   }
 
@@ -102,16 +102,16 @@ public class GlobalData implements IDataType {
       listmotd.add(motd);
       setMotd(listmotd.toArray(new String[0]));
     } else {
-      setMotd(new String[] {motd});
+      setMotd(new String[]{motd});
     }
-  }
-
-  public void setWebsite(String website) {
-    this.website = website;
   }
 
   public String getWebsite() {
     return website;
+  }
+
+  public void setWebsite(String website) {
+    this.website = website;
   }
 
   public boolean getLockDown() {

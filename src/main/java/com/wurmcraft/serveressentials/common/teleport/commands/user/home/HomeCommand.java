@@ -21,6 +21,17 @@ import net.minecraft.util.text.TextFormatting;
 @Command(moduleName = "Teleportation")
 public class HomeCommand extends SECommand {
 
+  public static Home[] getPlayerHomes(UUID uuid) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      LocalUser user = (LocalUser) UserManager.getPlayerData(uuid)[1];
+      return user.getHomes();
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
+      return data.getHomes();
+    }
+    return new Home[0];
+  }
+
   @Override
   public String getName() {
     return "home";
@@ -59,17 +70,6 @@ public class HomeCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return false;
-  }
-
-  public static Home[] getPlayerHomes(UUID uuid) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      LocalUser user = (LocalUser) UserManager.getPlayerData(uuid)[1];
-      return user.getHomes();
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
-      return data.getHomes();
-    }
-    return new Home[0];
   }
 
   @SubCommand

@@ -20,6 +20,23 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class FTBUtilsEvents {
 
+  private static String[] convertToString(List<ForgePlayer> players) {
+    List<String> members = new ArrayList<>();
+    for (ForgePlayer player : players) {
+      members.add(player.getId().toString());
+    }
+    return members.toArray(new String[0]);
+  }
+
+  private static void updatePlayer(ForgePlayer player) {
+    GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getId())[0];
+    user.setTeam(player.team.toString());
+    RequestHelper.UserResponses.overridePlayerData(user);
+    UserManager.playerData.put(
+        player.getId(),
+        new Object[]{user, (LocalUser) UserManager.getPlayerData(player.getId())[1]});
+  }
+
   @SubscribeEvent
   public void onTeamCreated(ForgeTeamCreatedEvent e) {
     GlobalTeam global =
@@ -44,8 +61,8 @@ public class FTBUtilsEvents {
       if (team != null) {
         UserManager.teamCache.put(
             e.getTeam().toString(),
-            new Object[] {
-              team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
+            new Object[]{
+                team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
             });
       }
     }
@@ -63,8 +80,8 @@ public class FTBUtilsEvents {
       if (team != null) {
         UserManager.teamCache.put(
             e.getTeam().toString(),
-            new Object[] {
-              team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
+            new Object[]{
+                team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
             });
       }
     }
@@ -72,22 +89,5 @@ public class FTBUtilsEvents {
     team.delMember(e.getPlayer().getId().toString());
     RequestHelper.TeamResponses.overrideTeam(team);
     updatePlayer(e.getTeam().owner);
-  }
-
-  private static String[] convertToString(List<ForgePlayer> players) {
-    List<String> members = new ArrayList<>();
-    for (ForgePlayer player : players) {
-      members.add(player.getId().toString());
-    }
-    return members.toArray(new String[0]);
-  }
-
-  private static void updatePlayer(ForgePlayer player) {
-    GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getId())[0];
-    user.setTeam(player.team.toString());
-    RequestHelper.UserResponses.overridePlayerData(user);
-    UserManager.playerData.put(
-        player.getId(),
-        new Object[] {user, (LocalUser) UserManager.getPlayerData(player.getId())[1]});
   }
 }

@@ -28,10 +28,10 @@ public class CommandLoader {
           for (IModule module : ServerEssentialsAPI.modules) {
             if (module.getClass().getAnnotation(Module.class) != null
                 && module
-                    .getClass()
-                    .getAnnotation(Module.class)
-                    .name()
-                    .equalsIgnoreCase(commandModule)) {
+                .getClass()
+                .getAnnotation(Module.class)
+                .name()
+                .equalsIgnoreCase(commandModule)) {
               activeCommands.add(command);
               break;
             }

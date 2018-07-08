@@ -22,6 +22,18 @@ import net.minecraft.util.text.TextComponentString;
 @Command(moduleName = "Language")
 public class LangCommand extends SECommand {
 
+  private static void setUserLang(UUID uuid, String key) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
+      data.setLang(key);
+      DataHelper.forceSave(Keys.PLAYER_DATA, data);
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      GlobalUser user = forceUserFromUUID(uuid);
+      user.setLang(key);
+      RequestHelper.UserResponses.overridePlayerData(user);
+    }
+  }
+
   @Override
   public String getName() {
     return "lang";
@@ -60,18 +72,6 @@ public class LangCommand extends SECommand {
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
-    }
-  }
-
-  private static void setUserLang(UUID uuid, String key) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
-      data.setLang(key);
-      DataHelper.forceSave(Keys.PLAYER_DATA, data);
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      GlobalUser user = forceUserFromUUID(uuid);
-      user.setLang(key);
-      RequestHelper.UserResponses.overridePlayerData(user);
     }
   }
 }

@@ -22,88 +22,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MarketEvent {
 
-  @SubscribeEvent
-  public void onInteractEvent(PlayerInteractEvent.RightClickBlock e) {
-    IBlockState state = e.getEntityPlayer().world.getBlockState(e.getPos());
-    if (state
-        .getBlock()
-        .getUnlocalizedName()
-        .equalsIgnoreCase(Blocks.STANDING_SIGN.getUnlocalizedName())) {
-      TileEntitySign sign = (TileEntitySign) e.getEntityPlayer().world.getTileEntity(e.getPos());
-      if (sign != null) {
-        if (!sign.getTileData().hasKey("shopData")) {
-          if (userHasPerm(e.getEntityPlayer(), "economy.ibuy")
-              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[IBuy]")) {
-            e.getEntityPlayer()
-                .sendMessage(
-                    new TextComponentString(createIBuySign(e.getEntityPlayer(), state, sign)));
-          } else if (userHasPerm(e.getEntityPlayer(), "economy.buy")
-              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Buy]")) {
-            e.getEntityPlayer()
-                .sendMessage(
-                    new TextComponentString(createBuySign(e.getEntityPlayer(), state, sign)));
-          } else if (userHasPerm(e.getEntityPlayer(), "economy.isell")
-              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[ISell]")) {
-            e.getEntityPlayer()
-                .sendMessage(
-                    new TextComponentString(createISellSign(e.getEntityPlayer(), state, sign)));
-          } else if (userHasPerm(e.getEntityPlayer(), "economy.sell")
-              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Sell]")) {
-            e.getEntityPlayer()
-                .sendMessage(
-                    new TextComponentString(createSellSign(e.getEntityPlayer(), state, sign)));
-          }
-        } else {
-          String txt =
-              TextFormatting.getTextWithoutFormattingCodes(sign.signText[0].getUnformattedText());
-          if (txt.equalsIgnoreCase("[IBuy]")) {
-            if (Ibuy(e.getEntityPlayer(), sign)) {
-              e.getEntityPlayer()
-                  .sendMessage(
-                      new TextComponentString(
-                          LanguageModule.getLangfromUUID(
-                                  e.getEntityPlayer().getGameProfile().getId())
-                              .PURCHASED
-                              .replaceAll(
-                                  "%COST%",
-                                  TextFormatting.getTextWithoutFormattingCodes(
-                                      sign.signText[3].getUnformattedComponentText()))
-                              .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
-            } else {
-              e.getEntityPlayer()
-                  .sendMessage(
-                      new TextComponentString(
-                          LanguageModule.getLangfromUUID(
-                                  e.getEntityPlayer().getGameProfile().getId())
-                              .NO_MONEY));
-            }
-          } else if (txt.equalsIgnoreCase("[ISell]")) {
-            if (ISell(e.getEntityPlayer(), sign)) {
-              e.getEntityPlayer()
-                  .sendMessage(
-                      new TextComponentString(
-                          LanguageModule.getLangfromUUID(
-                                  e.getEntityPlayer().getGameProfile().getId())
-                              .SOLD
-                              .replaceAll(
-                                  "%COST%",
-                                  TextFormatting.getTextWithoutFormattingCodes(
-                                      sign.signText[3].getUnformattedComponentText()))
-                              .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
-            } else {
-              e.getEntityPlayer()
-                  .sendMessage(
-                      new TextComponentString(
-                          LanguageModule.getLangfromUUID(
-                                  e.getEntityPlayer().getGameProfile().getId())
-                              .NO_ITEM));
-            }
-          }
-        }
-      }
-    }
-  }
-
   private static String createIBuySign(
       EntityPlayer player, IBlockState state, TileEntitySign sign) {
     if (player.getHeldItemMainhand() != ItemStack.EMPTY) {
@@ -232,12 +150,94 @@ public class MarketEvent {
     for (String perm : perms) {
       if (perm.equalsIgnoreCase(commandPerm)
           || perm.contains(".*")
-              && perm.substring(0, perm.indexOf("."))
-                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
+          && perm.substring(0, perm.indexOf("."))
+          .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
           || perm.equalsIgnoreCase("*")) {
         return true;
       }
     }
     return false;
+  }
+
+  @SubscribeEvent
+  public void onInteractEvent(PlayerInteractEvent.RightClickBlock e) {
+    IBlockState state = e.getEntityPlayer().world.getBlockState(e.getPos());
+    if (state
+        .getBlock()
+        .getUnlocalizedName()
+        .equalsIgnoreCase(Blocks.STANDING_SIGN.getUnlocalizedName())) {
+      TileEntitySign sign = (TileEntitySign) e.getEntityPlayer().world.getTileEntity(e.getPos());
+      if (sign != null) {
+        if (!sign.getTileData().hasKey("shopData")) {
+          if (userHasPerm(e.getEntityPlayer(), "economy.ibuy")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[IBuy]")) {
+            e.getEntityPlayer()
+                .sendMessage(
+                    new TextComponentString(createIBuySign(e.getEntityPlayer(), state, sign)));
+          } else if (userHasPerm(e.getEntityPlayer(), "economy.buy")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Buy]")) {
+            e.getEntityPlayer()
+                .sendMessage(
+                    new TextComponentString(createBuySign(e.getEntityPlayer(), state, sign)));
+          } else if (userHasPerm(e.getEntityPlayer(), "economy.isell")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[ISell]")) {
+            e.getEntityPlayer()
+                .sendMessage(
+                    new TextComponentString(createISellSign(e.getEntityPlayer(), state, sign)));
+          } else if (userHasPerm(e.getEntityPlayer(), "economy.sell")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Sell]")) {
+            e.getEntityPlayer()
+                .sendMessage(
+                    new TextComponentString(createSellSign(e.getEntityPlayer(), state, sign)));
+          }
+        } else {
+          String txt =
+              TextFormatting.getTextWithoutFormattingCodes(sign.signText[0].getUnformattedText());
+          if (txt.equalsIgnoreCase("[IBuy]")) {
+            if (Ibuy(e.getEntityPlayer(), sign)) {
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                              e.getEntityPlayer().getGameProfile().getId())
+                              .PURCHASED
+                              .replaceAll(
+                                  "%COST%",
+                                  TextFormatting.getTextWithoutFormattingCodes(
+                                      sign.signText[3].getUnformattedComponentText()))
+                              .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
+            } else {
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                              e.getEntityPlayer().getGameProfile().getId())
+                              .NO_MONEY));
+            }
+          } else if (txt.equalsIgnoreCase("[ISell]")) {
+            if (ISell(e.getEntityPlayer(), sign)) {
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                              e.getEntityPlayer().getGameProfile().getId())
+                              .SOLD
+                              .replaceAll(
+                                  "%COST%",
+                                  TextFormatting.getTextWithoutFormattingCodes(
+                                      sign.signText[3].getUnformattedComponentText()))
+                              .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
+            } else {
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                              e.getEntityPlayer().getGameProfile().getId())
+                              .NO_ITEM));
+            }
+          }
+        }
+      }
+    }
   }
 }

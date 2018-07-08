@@ -19,7 +19,7 @@ public class WorldEvent {
     PlayerData playerData =
         (PlayerData) DataHelper.get(Keys.PLAYER_DATA, e.player.getGameProfile().getId().toString());
     if (playerData != null) {
-      UserManager.playerData.put(e.player.getGameProfile().getId(), new Object[] {playerData});
+      UserManager.playerData.put(e.player.getGameProfile().getId(), new Object[]{playerData});
       UserManager.userRanks.put(e.player.getGameProfile().getId(), playerData.getRank());
       if (newPlayer) {
         playerData.setFirstJoin();

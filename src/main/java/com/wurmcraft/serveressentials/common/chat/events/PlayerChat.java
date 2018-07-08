@@ -18,19 +18,6 @@ import wurmcraft.serveressentials.common.api.team.Team;
 
 public class PlayerChat {
 
-  @SubscribeEvent(priority = EventPriority.HIGHEST)
-  public void onChat(ServerChatEvent e) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      if (proccessRest(e)) {
-        e.setCanceled(true);
-      }
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      if (proccessFile(e)) {
-        e.setCanceled(true);
-      }
-    }
-  }
-
   public static boolean proccessRest(ServerChatEvent e) {
     GlobalUser global =
         (GlobalUser) UserManager.getPlayerData(e.getPlayer().getGameProfile().getId())[0];
@@ -65,5 +52,18 @@ public class PlayerChat {
 
   public static boolean proccessFile(ServerChatEvent e) {
     return false;
+  }
+
+  @SubscribeEvent(priority = EventPriority.HIGHEST)
+  public void onChat(ServerChatEvent e) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      if (proccessRest(e)) {
+        e.setCanceled(true);
+      }
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      if (proccessFile(e)) {
+        e.setCanceled(true);
+      }
+    }
   }
 }

@@ -40,7 +40,7 @@ public class TpaCommand extends SECommand {
         LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
         if (user != null && !user.isTpLock()) {
           TeleportationModule.activeRequests.put(
-              System.currentTimeMillis(), new EntityPlayer[] {senderPlayer, player});
+              System.currentTimeMillis(), new EntityPlayer[]{senderPlayer, player});
           sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_SENT));
           player.sendMessage(
               new TextComponentString(

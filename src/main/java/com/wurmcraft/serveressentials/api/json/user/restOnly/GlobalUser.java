@@ -10,8 +10,8 @@ import java.util.List;
 
 public class GlobalUser {
 
-  private String uuid;
   public String rank;
+  private String uuid;
   private String nick;
   private Bank bank;
   private String team;
@@ -26,7 +26,8 @@ public class GlobalUser {
   private String[] permission;
   private String[] perks;
 
-  public GlobalUser() {}
+  public GlobalUser() {
+  }
 
   public GlobalUser(GlobalUser user) {
     this.uuid = user.uuid;

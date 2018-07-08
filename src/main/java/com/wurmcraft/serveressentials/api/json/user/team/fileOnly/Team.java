@@ -44,6 +44,10 @@ public class Team implements IDataType, ITeam {
     return publi;
   }
 
+  public void setPublic(boolean value) {
+    this.publi = value;
+  }
+
   public ArrayList<UUID> requestedPlayers() {
     return requetedPlayers;
   }
@@ -80,10 +84,6 @@ public class Team implements IDataType, ITeam {
 
   public TextFormatting getTeamColor() {
     return teamColor;
-  }
-
-  public void setPublic(boolean value) {
-    this.publi = value;
   }
 
   public void setColor(TextFormatting value) {

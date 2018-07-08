@@ -55,8 +55,20 @@ public class Local {
   public String TPLOCK_DISABLED = "TP Lock Disabled";
   public String TPLOCK_ENABLED = "TP Lock Enabled";
   public String INVALID_NUMBER = "%NUMBER% is not a valid number!";
+  public String MODE_INVALID = "Invalid Gamemode '%MODE%'";
+  public String MODE_CHANGED = "You Gamemode has changed to %MODE%";
+  public String MODE_CHANGED_OTHER = "You have changed %PLAYER% gamemode to %MODE%";
+  public String FLY_ENABLED = "Flying Mode Enabled";
+  public String FLY_DISABLED = "Flying Mode Disabled";
+  public String FLY_ENABLED_OTHER = "Flying Mode Enabled for %PLAYER%";
+  public String FLY_DISABLED_OTHER = "Flying Mode Disabled for %PLAYER%";
+  public String PLAYER_INVENTORY = "Opening %PLAYER%'s Inventory";
+  public String UNFROZEN = "You have been unfrozen";
+  public String FROZEN = "You have been frozen";
+  public String UNFROZEN_OTHER = "You have unfrozen %PLAYER%";
+  public String FROZEN_OTHER = "You have frozen %PLAYER%";
 
-  // ECO
+  // Eco
   public String PAYED = "You paid %PLAYER% %AMOUNT% %COIN%";
   public String INVALID_HAND = "You must be holding an item to create a Buy sign";
   public String SIGN_CREATED = "%TYPE% sign created!";
