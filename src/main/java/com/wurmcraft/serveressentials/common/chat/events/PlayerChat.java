@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.chat.commands.MuteCommand;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Keys;
@@ -116,6 +117,14 @@ public class PlayerChat {
 
   @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void onChat(ServerChatEvent e) {
+    if (MuteCommand.getMuted(e.getPlayer().getGameProfile().getId())) {
+      e.setCanceled(true);
+      e.getPlayer()
+          .sendMessage(
+              new TextComponentString(
+                  LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).MUTED));
+      return;
+    }
     if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       if (handleMessage(e.getPlayer().getGameProfile().getId(), e.getMessage())) {
         if (proccessRest(e)) {

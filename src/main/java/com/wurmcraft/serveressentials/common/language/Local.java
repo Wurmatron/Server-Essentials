@@ -46,6 +46,11 @@ public class Local {
   public String CHAT_LEADER = "Leader";
   public String CHANNEL_CHANGED = "Your channel has been changed to %CHANNEL%";
   public String CHAT_SPAM = "Dont Spam Chat!";
+  public String MUTED_OTHER = "You have muted %PLAYER%";
+  public String MUTED = "You have been muted!";
+  public String UNMUTED_OTHER = "You have unmuted %PLAYER%";
+  public String UNMUTED = "You have been umuted!";
+
   // Commands
   public String RANK_NULL = "Rank Does not Exist!";
   public String PLAYER_NOT_FOUND = "Player '%PLAYER%' not found!";
