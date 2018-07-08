@@ -87,7 +87,9 @@ public class PayCommand extends SECommand {
     }
     for (Coin c : bank.currency) {
       if (c.name.equalsIgnoreCase(currencyName)) {
-        if (!add && c.amount - amount > 0) return false;
+        if (!add && c.amount - amount > 0) {
+          return false;
+        }
         if (add) {
           c.amount += amount;
         } else {

@@ -1,11 +1,15 @@
 package com.wurmcraft.serveressentials.common.economy.events;
 
+import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.StackConverter;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,7 +19,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.commons.codec.language.bm.Lang;
 
 public class MarketEvent {
 
@@ -29,19 +32,23 @@ public class MarketEvent {
       TileEntitySign sign = (TileEntitySign) e.getEntityPlayer().world.getTileEntity(e.getPos());
       if (sign != null) {
         if (!sign.getTileData().hasKey("shopData")) {
-          if (sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[IBuy]")) {
+          if (userHasPerm(e.getEntityPlayer(), "economy.ibuy")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[IBuy]")) {
             e.getEntityPlayer()
                 .sendMessage(
                     new TextComponentString(createIBuySign(e.getEntityPlayer(), state, sign)));
-          } else if (sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Buy]")) {
+          } else if (userHasPerm(e.getEntityPlayer(), "economy.buy")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Buy]")) {
             e.getEntityPlayer()
                 .sendMessage(
                     new TextComponentString(createBuySign(e.getEntityPlayer(), state, sign)));
-          } else if (sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[ISell]")) {
+          } else if (userHasPerm(e.getEntityPlayer(), "economy.isell")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[ISell]")) {
             e.getEntityPlayer()
                 .sendMessage(
                     new TextComponentString(createISellSign(e.getEntityPlayer(), state, sign)));
-          } else if (sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Sell]")) {
+          } else if (userHasPerm(e.getEntityPlayer(), "economy.sell")
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[Sell]")) {
             e.getEntityPlayer()
                 .sendMessage(
                     new TextComponentString(createSellSign(e.getEntityPlayer(), state, sign)));
@@ -51,25 +58,45 @@ public class MarketEvent {
               TextFormatting.getTextWithoutFormattingCodes(sign.signText[0].getUnformattedText());
           if (txt.equalsIgnoreCase("[IBuy]")) {
             if (Ibuy(e.getEntityPlayer(), sign)) {
-              e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-                  .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).PURCHASED
-                  .replaceAll("%COST%", TextFormatting.getTextWithoutFormattingCodes(
-                      sign.signText[3].getUnformattedComponentText()))
-                  .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                                  e.getEntityPlayer().getGameProfile().getId())
+                              .PURCHASED
+                              .replaceAll(
+                                  "%COST%",
+                                  TextFormatting.getTextWithoutFormattingCodes(
+                                      sign.signText[3].getUnformattedComponentText()))
+                              .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
             } else {
-              e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-                  .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).NO_MONEY));
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                                  e.getEntityPlayer().getGameProfile().getId())
+                              .NO_MONEY));
             }
           } else if (txt.equalsIgnoreCase("[ISell]")) {
             if (ISell(e.getEntityPlayer(), sign)) {
-              e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-                  .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).SOLD
-                  .replaceAll("%COST%", TextFormatting.getTextWithoutFormattingCodes(
-                      sign.signText[3].getUnformattedComponentText()))
-                  .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                                  e.getEntityPlayer().getGameProfile().getId())
+                              .SOLD
+                              .replaceAll(
+                                  "%COST%",
+                                  TextFormatting.getTextWithoutFormattingCodes(
+                                      sign.signText[3].getUnformattedComponentText()))
+                              .replaceAll("%COIN%", ConfigHandler.serverCurrency)));
             } else {
-              e.getEntityPlayer().sendMessage(new TextComponentString(LanguageModule
-                  .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).NO_ITEM));
+              e.getEntityPlayer()
+                  .sendMessage(
+                      new TextComponentString(
+                          LanguageModule.getLangfromUUID(
+                                  e.getEntityPlayer().getGameProfile().getId())
+                              .NO_ITEM));
             }
           }
         }
@@ -162,8 +189,10 @@ public class MarketEvent {
 
   private static boolean ISell(EntityPlayer player, TileEntitySign sign) {
     GlobalUser global = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-    double sellAmount = Double.parseDouble(TextFormatting
-        .getTextWithoutFormattingCodes(sign.signText[3].getUnformattedComponentText()));
+    double sellAmount =
+        Double.parseDouble(
+            TextFormatting.getTextWithoutFormattingCodes(
+                sign.signText[3].getUnformattedComponentText()));
     ItemStack sellItem = StackConverter.getData(sign.getTileData().getString("shopData"));
     int amountToSell = 0;
     if (player.inventory.hasItemStack(sellItem)) {
@@ -180,6 +209,34 @@ public class MarketEvent {
       global.getBank().earn(ConfigHandler.serverCurrency, amountToSell * sellAmount);
       RequestHelper.UserResponses.overridePlayerData(global);
       return true;
+    }
+    return false;
+  }
+
+  private static String[] getUserPerms(EntityPlayer player) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      GlobalUser user = (GlobalUser) UserManager.getPlayerData((player))[0];
+      List<String> perms = new ArrayList<>();
+      Collections.addAll(perms, user.getPermission());
+      Collections.addAll(perms, UserManager.getRank(user.getRank()).getPermission());
+      return perms.toArray(new String[0]);
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData((player))[0];
+      return data.getRank().getPermission();
+    }
+    return new String[0];
+  }
+
+  private static boolean userHasPerm(EntityPlayer player, String commandPerm) {
+    String[] perms = getUserPerms(player);
+    for (String perm : perms) {
+      if (perm.equalsIgnoreCase(commandPerm)
+          || perm.contains(".*")
+              && perm.substring(0, perm.indexOf("."))
+                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
+          || perm.equalsIgnoreCase("*")) {
+        return true;
+      }
     }
     return false;
   }

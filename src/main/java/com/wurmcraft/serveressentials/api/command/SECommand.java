@@ -89,10 +89,11 @@ public abstract class SECommand implements ICommand {
     String[] perms = getSenderPermissions(sender);
     String commandPerm = getCommandPerm();
     for (String perm : perms) {
-      if (perm.equalsIgnoreCase(commandPerm) || perm.contains(".*") && perm
-          .substring(0, perm.indexOf("."))
-          .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf("."))) || perm
-          .equalsIgnoreCase("*")) {
+      if (perm.equalsIgnoreCase(commandPerm)
+          || perm.contains(".*")
+              && perm.substring(0, perm.indexOf("."))
+                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
+          || perm.equalsIgnoreCase("*")) {
         return true;
       }
     }
@@ -115,15 +116,17 @@ public abstract class SECommand implements ICommand {
   private String[] getSenderPermissions(ICommandSender sender) {
     if (sender != null && sender.getCommandSenderEntity() != null) {
       if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-        GlobalUser user = (GlobalUser) UserManager
-            .getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
+        GlobalUser user =
+            (GlobalUser)
+                UserManager.getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
         List<String> perms = new ArrayList<>();
         Collections.addAll(perms, user.getPermission());
         Collections.addAll(perms, UserManager.getRank(user.getRank()).getPermission());
         return perms.toArray(new String[0]);
       } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-        PlayerData data = (PlayerData) UserManager
-            .getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
+        PlayerData data =
+            (PlayerData)
+                UserManager.getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
         return data.getRank().getPermission();
       }
     }
