@@ -67,6 +67,7 @@ public class Local {
   public String FROZEN = "You have been frozen";
   public String UNFROZEN_OTHER = "You have unfrozen %PLAYER%";
   public String FROZEN_OTHER = "You have frozen %PLAYER%";
+  public String RTP = "You have Randomly Teleported !";
 
   // Eco
   public String PAYED = "You paid %PLAYER% %AMOUNT% %COIN%";
