@@ -23,7 +23,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 
-@Command(moduleName = "Rest")
+@Command(moduleName = "Rest", trustedRequired = true)
 public class PermCommand extends SECommand {
 
   private static String[] getUserFormatting(UUID uuid) {

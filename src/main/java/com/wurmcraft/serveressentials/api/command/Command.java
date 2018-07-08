@@ -12,4 +12,6 @@ public @interface Command {
   String moduleName() default "";
 
   String perm() default "";
+
+  boolean trustedRequired() default false;
 }

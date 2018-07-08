@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.security.SecurityModule;
 import com.wurmcraft.serveressentials.common.utils.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.lang.reflect.Method;
@@ -113,8 +114,14 @@ public abstract class SECommand implements ICommand {
 
   @Override
   public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-    if (canConsoleRun()) {
+    if (canConsoleRun() && sender.getCommandSenderEntity() == null) {
       return true;
+    }
+    if (SecurityModule.trusted.size() > 0 && getClass().getAnnotation(Command.class)
+        .trustedRequired()) {
+      if (sender instanceof EntityPlayer) {
+        return SecurityModule.isTrustedMember((EntityPlayer) sender.getCommandSenderEntity());
+      }
     }
     String[] perms = getSenderPermissions(sender);
     String commandPerm = getCommandPerm();

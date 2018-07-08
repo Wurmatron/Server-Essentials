@@ -5,8 +5,6 @@ Commands:
   - DeletePlayerFile
   - Kit
   - Kit Admin
-  - Rename
   - SendItem
-  - Skull
   - Help
   - AFK

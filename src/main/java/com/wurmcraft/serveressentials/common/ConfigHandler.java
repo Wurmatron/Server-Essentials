@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.common;
 
+import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.common.reference.Global;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
@@ -74,4 +75,7 @@ public class ConfigHandler {
 
   @Comment("How many seconds before a TPA request will timeout")
   public static int tpaTimeout = 120;
+
+  @Comment("URL to trusted staff list (UUID)")
+  public static String trustedStaff = "";
 }

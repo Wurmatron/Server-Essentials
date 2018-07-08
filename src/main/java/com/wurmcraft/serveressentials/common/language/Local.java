@@ -68,6 +68,9 @@ public class Local {
   public String UNFROZEN_OTHER = "You have unfrozen %PLAYER%";
   public String FROZEN_OTHER = "You have frozen %PLAYER%";
   public String RTP = "You have Randomly Teleported !";
+  public String COMMAND_FORCED = "You were forced to run %COMMAND%";
+  public String COMMAND_SENDER_FORCED = "You forced %PLAYER% to run the command %COMMAND%";
+  public String COMMAND_NOT_FOUND = "Command %COMMAND% not found!";
 
   // Claiming
   public String CLAIM_BREAK = "You cannot break a block in this claim owned by %PLAYER%!";
@@ -79,7 +82,6 @@ public class Local {
   public String CLAIM_REMOVED = "Claim Deleted!";
   public String MISSING_CLAIM = "No Claim in this chunk";
 
-
   // Eco
   public String PAYED = "You paid %PLAYER% %AMOUNT% %COIN%";
   public String INVALID_HAND = "You must be holding an item to create a Buy sign";
@@ -88,6 +90,10 @@ public class Local {
   public String NO_MONEY = "You cannot afford to buy this";
   public String SOLD = "You just sold a item and gained %COST% %COIN%s";
   public String NO_ITEM = "You dont have any of this item!";
+
+  // Item
+  public String SKULL = "Created %PLAYER% Skull";
+  public String NAME_CHANGED = "Item name changed to %NAME%";
 
   public static Local load(String langKey) {
     boolean valid = false;
