@@ -84,6 +84,7 @@ public class Local {
   public String HEAL = "You have just been healed";
   public String HEAL_OTHER = "You have just healed %PLAYER%";
   public String SPEED_CHANGED = "Your speed has changed to %SPEED%";
+  public String PING_RESPONSE = "Nep NepNep Nep Nep Nep";
 
   // Claiming
   public String CLAIM_BREAK = "You cannot break a block in this claim owned by %PLAYER%!";
