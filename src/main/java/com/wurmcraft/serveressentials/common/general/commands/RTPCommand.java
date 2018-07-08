@@ -22,6 +22,17 @@ public class RTPCommand extends SECommand {
 
   private static Random rand = new Random(System.currentTimeMillis());
 
+  private static boolean validLocation(World world, BlockPos pos) {
+    if (world.getBlockState(pos).getBlock() != Blocks.AIR
+        || world.getBlockState(pos.up()).getBlock() != Blocks.AIR) {
+      return false;
+    }
+    if (world.getBiome(pos.down()).topBlock.getBlock() instanceof BlockFluidBase) {
+      return false;
+    }
+    return true;
+  }
+
   @Override
   public String getName() {
     return "rtp";
@@ -64,16 +75,5 @@ public class RTPCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return false;
-  }
-
-  private static boolean validLocation(World world, BlockPos pos) {
-    if (world.getBlockState(pos).getBlock() != Blocks.AIR
-        || world.getBlockState(pos.up()).getBlock() != Blocks.AIR) {
-      return false;
-    }
-    if (world.getBiome(pos.down()).topBlock.getBlock() instanceof BlockFluidBase) {
-      return false;
-    }
-    return true;
   }
 }

@@ -15,6 +15,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClaimEvent {
 
+  public static String getOwner(Claim claim) {
+    if (claim != null && claim.getTeam() != null) {
+      return claim.getTeam().getName();
+    } else if (claim != null && claim.getOwner() != null) {
+      return UsernameCache.getLastKnownUsername(claim.getOwner());
+    }
+    return "Unknown";
+  }
+
   @SubscribeEvent
   public void onBlockBreak(BlockEvent.BreakEvent e) {
     Claim claim = ChunkManager.getClaim(e.getPos());
@@ -167,14 +176,5 @@ public class ClaimEvent {
         }
       }
     }
-  }
-
-  public static String getOwner(Claim claim) {
-    if (claim != null && claim.getTeam() != null) {
-      return claim.getTeam().getName();
-    } else if (claim != null && claim.getOwner() != null) {
-      return UsernameCache.getLastKnownUsername(claim.getOwner());
-    }
-    return "Unknown";
   }
 }

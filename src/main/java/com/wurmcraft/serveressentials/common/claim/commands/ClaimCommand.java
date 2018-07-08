@@ -22,6 +22,17 @@ import net.minecraft.util.text.TextComponentString;
 @Command(moduleName = "Claiming")
 public class ClaimCommand extends SECommand {
 
+  private static ITeam getTeamFromUser(UUID uuid) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
+      return (Team) UserManager.getTeam(data.getTeam())[0];
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      GlobalUser user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
+      return (GlobalTeam) UserManager.getTeam(user.getTeam())[0];
+    }
+    return null;
+  }
+
   @Override
   public String getName() {
     return "claim";
@@ -54,16 +65,5 @@ public class ClaimCommand extends SECommand {
           ChunkManager.getRegionLocation(player.getPosition()), regionDataNew);
       sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHUNK_CLAIMED));
     }
-  }
-
-  private static ITeam getTeamFromUser(UUID uuid) {
-    if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
-      return (Team) UserManager.getTeam(data.getTeam())[0];
-    } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      GlobalUser user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
-      return (GlobalTeam) UserManager.getTeam(user.getTeam())[0];
-    }
-    return null;
   }
 }

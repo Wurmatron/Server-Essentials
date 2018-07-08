@@ -20,11 +20,6 @@ public class SecurityModule implements IModule {
 
   public static List<UUID> trusted = new ArrayList<>();
 
-  @Override
-  public void setup() {
-    loadTrustedStaff();
-  }
-
   public static List<String> getPlayerMods(EntityPlayer player) {
     EntityPlayerMP playerMP = (EntityPlayerMP) player;
     NetworkDispatcher network = NetworkDispatcher.get(playerMP.connection.netManager);
@@ -73,5 +68,10 @@ public class SecurityModule implements IModule {
       }
     }
     return false;
+  }
+
+  @Override
+  public void setup() {
+    loadTrustedStaff();
   }
 }

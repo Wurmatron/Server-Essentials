@@ -16,10 +16,10 @@ import net.minecraft.world.GameType;
 @Command(moduleName = "General")
 public class GameModeCommand extends SECommand {
 
-  private static final String[] CREATIVE = new String[] {"Creative", "c", "1"};
-  private static final String[] SURVIVAL = new String[] {"Survival", "s", "0"};
-  private static final String[] ADVENTURE = new String[] {"Adventure", "a", "2"};
-  private static final String[] SPECTATOR = new String[] {"Spectator", "sp", "3"};
+  private static final String[] CREATIVE = new String[]{"Creative", "c", "1"};
+  private static final String[] SURVIVAL = new String[]{"Survival", "s", "0"};
+  private static final String[] ADVENTURE = new String[]{"Adventure", "a", "2"};
+  private static final String[] SPECTATOR = new String[]{"Spectator", "sp", "3"};
 
   @Override
   public String getName() {

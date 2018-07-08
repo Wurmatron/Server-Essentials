@@ -140,10 +140,6 @@ public class PlayerData implements IDataType {
     return UserManager.getDefaultRank();
   }
 
-  public void setRank(Rank rank) {
-    this.rank = UserManager.getRank(rank.getName()).getName();
-  }
-
   public void setRank(String rank) {
     Rank group = UserManager.getRank(rank);
     if (group != null) {
@@ -151,6 +147,10 @@ public class PlayerData implements IDataType {
     } else {
       setRank(UserManager.getDefaultRank());
     }
+  }
+
+  public void setRank(Rank rank) {
+    this.rank = UserManager.getRank(rank.getName()).getName();
   }
 
   public LocationWrapper getLastLocation() {
