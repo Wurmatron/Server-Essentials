@@ -50,6 +50,7 @@ public class Local {
   public String MUTED = "You have been muted!";
   public String UNMUTED_OTHER = "You have unmuted %PLAYER%";
   public String UNMUTED = "You have been umuted!";
+  public String NICK = "Nick has been changeed to %NICK%";
 
   // Commands
   public String RANK_NULL = "Rank Does not Exist!";
@@ -85,6 +86,8 @@ public class Local {
   public String HEAL_OTHER = "You have just healed %PLAYER%";
   public String SPEED_CHANGED = "Your speed has changed to %SPEED%";
   public String PING_RESPONSE = "Nep NepNep Nep Nep Nep";
+  public String PLAYER_FILE_DELETE = "Your Player File has been deleted";
+  public String PLAYER_FILE_DELETE_OTHER = "You have deleted %PLAYER%'s PlayerFile";
 
   // Claiming
   public String CLAIM_BREAK = "You cannot break a block in this claim owned by %PLAYER%!";

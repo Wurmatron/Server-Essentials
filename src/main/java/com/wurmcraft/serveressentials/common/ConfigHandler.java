@@ -83,4 +83,6 @@ public class ConfigHandler {
 
   @Comment(("Link  to your discord server"))
   public static String discordLink = "";
+
+  public static String msgFormat = "%username% -> %message%";
 }

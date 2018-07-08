@@ -38,9 +38,12 @@ public class ListCommand extends SECommand {
     sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
     for (UUID name : pList) {
       Rank userRank = getPlayerRank(name);
-      sender.sendMessage(new TextComponentString(
-          TextFormatting.AQUA + UsernameCache.getLastKnownUsername(name) + ": " + userRank
-              .getName()));
+      sender.sendMessage(
+          new TextComponentString(
+              TextFormatting.AQUA
+                  + UsernameCache.getLastKnownUsername(name)
+                  + ": "
+                  + userRank.getName()));
     }
     sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
   }
