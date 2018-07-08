@@ -28,10 +28,10 @@ public class CommandLoader {
           for (IModule module : ServerEssentialsAPI.modules) {
             if (module.getClass().getAnnotation(Module.class) != null
                 && module
-                    .getClass()
-                    .getAnnotation(Module.class)
-                    .name()
-                    .equalsIgnoreCase(commandModule)) {
+                .getClass()
+                .getAnnotation(Module.class)
+                .name()
+                .equalsIgnoreCase(commandModule)) {
               activeCommands.add(command);
               break;
             }
@@ -39,7 +39,9 @@ public class CommandLoader {
         } else {
           activeCommands.add(command);
         }
-        ServerEssentialsServer.logger.debug("Loading Command '" + command.getName());
+        ServerEssentialsServer.logger.debug(
+            "Loading Command '" + command.getName() + " with permission " + command
+                .getCommandPerm());
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -51,7 +53,9 @@ public class CommandLoader {
     if (loadedCommands.size() > 0) {
       for (SECommand command : loadedCommands) {
         e.registerServerCommand(command);
-        ServerEssentialsServer.logger.debug("Registered Command '" + command.getName());
+        ServerEssentialsServer.logger.debug(
+            "Registered Command '" + command.getName() + " with permission " + command
+                .getCommandPerm());
       }
     } else {
       ServerEssentialsServer.logger.error("No Commands Loaded / Found!");

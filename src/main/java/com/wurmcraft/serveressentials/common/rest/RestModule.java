@@ -154,9 +154,9 @@ public class RestModule implements IModule {
   public static void createDefaultRanks() {
     Rank defaultRank =
         new Rank(
-            "Default", "&8[Default] ", "", new String[] {}, new String[] {"info.*", "teleport.*"});
+            "Default", "&8[Default]", "", new String[] {}, new String[] {"info.*", "teleport.*"});
     Rank adminRank =
-        new Rank("Admin", "&c[Admin] ", "", new String[] {"default"}, new String[] {"admin.*"});
+        new Rank("Admin", "&c[Admin]", "", new String[] {"default"}, new String[] {"admin.*"});
     RequestHelper.RankResponses.addRank(defaultRank);
     RequestHelper.RankResponses.addRank(adminRank);
   }

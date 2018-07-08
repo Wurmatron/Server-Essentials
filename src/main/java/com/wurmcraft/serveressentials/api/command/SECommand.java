@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.api.command;
 
+import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -10,6 +11,7 @@ import com.wurmcraft.serveressentials.common.utils.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -33,11 +35,20 @@ public abstract class SECommand implements ICommand {
     return "";
   }
 
+  public List<String> getAltNames() {
+    return new ArrayList<>();
+  }
+
   @Override
   public List<String> getAliases() {
     List<String> aliases = new ArrayList<>();
     aliases.add(getName().toLowerCase());
     aliases.add(getName().toUpperCase());
+    for (String alt : getAltNames()) {
+      aliases.add(alt);
+      aliases.add(alt.toLowerCase());
+      aliases.add(alt.toUpperCase());
+    }
     return aliases;
   }
 
@@ -72,7 +83,20 @@ public abstract class SECommand implements ICommand {
 
   @Override
   public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-    return true;
+    if (canConsoleRun()) {
+      return true;
+    }
+    String[] perms = getSenderPermissions(sender);
+    String commandPerm = getCommandPerm();
+    for (String perm : perms) {
+      if (perm.equalsIgnoreCase(commandPerm) || perm.contains(".*") && perm
+          .substring(0, perm.indexOf("."))
+          .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf("."))) || perm
+          .equalsIgnoreCase("*")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
@@ -81,14 +105,29 @@ public abstract class SECommand implements ICommand {
     return null;
   }
 
-  @Override
-  public boolean isUsernameIndex(String[] args, int index) {
-    return false;
+  public String getCommandPerm() {
+    if (!getClass().getAnnotation(Command.class).perm().isEmpty()) {
+      return getClass().getAnnotation(Command.class).perm();
+    }
+    return getClass().getAnnotation(Command.class).moduleName() + "." + getName().toLowerCase();
   }
 
-  @Override
-  public int compareTo(ICommand o) {
-    return 0;
+  private String[] getSenderPermissions(ICommandSender sender) {
+    if (sender != null && sender.getCommandSenderEntity() != null) {
+      if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+        GlobalUser user = (GlobalUser) UserManager
+            .getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
+        List<String> perms = new ArrayList<>();
+        Collections.addAll(perms, user.getPermission());
+        Collections.addAll(perms, UserManager.getRank(user.getRank()).getPermission());
+        return perms.toArray(new String[0]);
+      } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+        PlayerData data = (PlayerData) UserManager
+            .getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
+        return data.getRank().getPermission();
+      }
+    }
+    return new String[0];
   }
 
   public boolean canConsoleRun() {
@@ -127,5 +166,15 @@ public abstract class SECommand implements ICommand {
       team = RequestHelper.TeamResponses.getTeam(name);
     }
     return team;
+  }
+
+  @Override
+  public boolean isUsernameIndex(String[] args, int index) {
+    return false;
+  }
+
+  @Override
+  public int compareTo(ICommand o) {
+    return 0;
   }
 }
