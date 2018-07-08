@@ -1,4 +1,4 @@
-package wurmcraft.serveressentials.common.api.team;
+package com.wurmcraft.serveressentials.api.json.user.team.fileOnly;
 
 import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
@@ -12,7 +12,7 @@ public class Team implements IDataType, ITeam {
   private String teamName;
   private UUID leader;
   private boolean publi;
-  private HashMap<UUID, String> members = new HashMap<>();
+  private String[] members;
   private ArrayList<UUID> requetedPlayers = new ArrayList<>();
   private TextFormatting teamColor;
 
@@ -31,7 +31,8 @@ public class Team implements IDataType, ITeam {
     return teamName;
   }
 
-  public HashMap<UUID, String> getMembers() {
+  @Override
+  public String[] getMembers() {
     return members;
   }
 
@@ -59,21 +60,6 @@ public class Team implements IDataType, ITeam {
       }
     }
     return isPublic();
-  }
-
-  public void addMember(UUID name) {
-    if (!members.keySet().contains(name)) {
-      members.put(name, "default");
-      requetedPlayers.remove(name);
-    }
-  }
-
-  public void removeMember(UUID name) {
-    for (UUID mem : members.keySet()) {
-      if (mem.equals(name)) {
-        members.remove(mem);
-      }
-    }
   }
 
   public void addPossibleMember(UUID name) {

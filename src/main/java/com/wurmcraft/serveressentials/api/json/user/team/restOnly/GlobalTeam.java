@@ -76,6 +76,7 @@ public class GlobalTeam implements ITeam {
     this.owner = owner;
   }
 
+  @Override
   public String[] getMembers() {
     return members;
   }
@@ -99,4 +100,6 @@ public class GlobalTeam implements ITeam {
     currentMembers.remove(uuid);
     this.members = currentMembers.toArray(new String[0]);
   }
+
+
 }

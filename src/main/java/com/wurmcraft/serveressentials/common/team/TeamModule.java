@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 import static com.wurmcraft.serveressentials.common.reference.Keys.TEAM;
 
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.LocalTeam;
 import com.wurmcraft.serveressentials.api.module.IModule;
@@ -23,7 +24,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
-import wurmcraft.serveressentials.common.api.team.Team;
 
 @Module(name = "Team")
 public class TeamModule implements IModule {

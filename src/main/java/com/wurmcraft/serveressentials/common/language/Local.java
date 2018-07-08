@@ -69,6 +69,17 @@ public class Local {
   public String FROZEN_OTHER = "You have frozen %PLAYER%";
   public String RTP = "You have Randomly Teleported !";
 
+  // Claiming
+  public String CLAIM_BREAK = "You cannot break a block in this claim owned by %PLAYER%!";
+  public String CLAIM_PLACE = "You cannot place a block in %PLAYER%'s Claim";
+  public String CLAIM_INTERACT = "You dont have %PLAYER%'s permission to interact in this claim!";
+  public String CLAIM_EXPLOSION = "You cannot explode %PLAYER%'s claim!";
+  public String CHUNK_CLAIMED = "Chunk Claimed!";
+  public String CHUNK_ALREADY_CLAIMED = "Chunk is allready claimed!";
+  public String CLAIM_REMOVED = "Claim Deleted!";
+  public String MISSING_CLAIM = "No Claim in this chunk";
+
+
   // Eco
   public String PAYED = "You paid %PLAYER% %AMOUNT% %COIN%";
   public String INVALID_HAND = "You must be holding an item to create a Buy sign";

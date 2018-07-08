@@ -1,6 +1,4 @@
 Commands:
-  - Claim
-  - DeleteClaim
   - AdminClaim
 
 Perks:
