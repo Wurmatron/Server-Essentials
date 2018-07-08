@@ -28,4 +28,20 @@ public class Bank {
   public void setCurrency(Coin[] currency) {
     this.currency = currency;
   }
+
+  public void spend(String name, double amount) {
+    for (Coin coin : currency) {
+      if (coin.name.equalsIgnoreCase(name.replaceAll(" ", "_"))) {
+        coin.setAmount(coin.amount - amount);
+      }
+    }
+  }
+
+  public void earn(String name, double amount) {
+    for (Coin coin : currency) {
+      if (coin.name.equalsIgnoreCase(name.replaceAll(" ", "_"))) {
+        coin.setAmount(coin.amount + amount);
+      }
+    }
+  }
 }

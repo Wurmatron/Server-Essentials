@@ -5,7 +5,6 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.language.Local;
-import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.command.CommandException;
@@ -50,8 +49,11 @@ public class TeamCommand extends SECommand {
     lines.add(lang.CHAT_SPACER);
     if (team != null) {
       lines.add(
-          TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + team
-              .getName());
+          TextFormatting.LIGHT_PURPLE
+              + lang.CHAT_NAME
+              + ": "
+              + TextFormatting.AQUA
+              + team.getName());
       lines.add(
           TextFormatting.LIGHT_PURPLE
               + lang.CHAT_LEADER

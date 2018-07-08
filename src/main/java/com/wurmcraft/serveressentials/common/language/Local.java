@@ -58,6 +58,12 @@ public class Local {
 
   // ECO
   public String PAYED = "You paid %PLAYER% %AMOUNT% %COIN%";
+  public String INVALID_HAND = "You must be holding an item to create a Buy sign";
+  public String SIGN_CREATED = "%TYPE% sign created!";
+  public String PURCHASED = "You just purchased an item for %COST% %COIN%s";
+  public String NO_MONEY ="You cannot afford to buy this";
+  public String SOLD = "You just sold a item and gained %COST% %COIN%s";
+  public String NO_ITEM = "You dont have any of this item!";
 
   public static Local load(String langKey) {
     boolean valid = false;
