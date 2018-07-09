@@ -61,11 +61,16 @@ public class RequestHelper {
     }
 
     public static Rank[] getAllRanks() {
-      return client
-          .target(getBaseURL() + "rank/find/")
-          .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<Rank>>() {})
-          .toArray(new Rank[0]);
+      try {
+        return client
+            .target(getBaseURL() + "rank/find/")
+            .request(MediaType.APPLICATION_JSON)
+            .get(new GenericType<ArrayList<Rank>>() {})
+            .toArray(new Rank[0]);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return new Rank[0];
     }
   }
 
