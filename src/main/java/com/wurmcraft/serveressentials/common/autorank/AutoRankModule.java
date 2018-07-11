@@ -57,7 +57,7 @@ public class AutoRankModule implements IModule {
   @Override
   public void setup() {
     if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-//      syncAutoRanks();
+      //      syncAutoRanks();
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       loadAutoRanks();
     }

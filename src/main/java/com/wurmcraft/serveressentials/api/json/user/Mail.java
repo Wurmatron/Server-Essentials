@@ -2,9 +2,7 @@ package com.wurmcraft.serveressentials.api.json.user;
 
 import java.util.UUID;
 
-/**
- * Stores a message sent from another user
- */
+/** Stores a message sent from another user */
 public class Mail {
 
   private UUID sender;

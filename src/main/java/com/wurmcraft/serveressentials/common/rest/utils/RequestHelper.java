@@ -7,6 +7,11 @@ import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.UUID;
 import javax.ws.rs.client.Client;
@@ -18,13 +23,34 @@ import javax.ws.rs.core.Response;
 
 public class RequestHelper {
 
-  private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-  private static Client client = ClientBuilder.newClient();
+  private static Gson GSON;
+  private static Client client;
+
+  static {
+    ServerEssentialsServer.logger.error("Start cinit RequestHelper!");
+    try {
+      GSON = new GsonBuilder().setPrettyPrinting().create();
+      client = ClientBuilder.newClient();
+    } catch (Throwable t) {
+      try (final PrintStream ps =
+          new PrintStream(
+              new FileOutputStream(new File("/home/matthew/Git/Server-Essentials/error.txt")),
+              true)) {
+        t.printStackTrace(ps);
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
+    ServerEssentialsServer.logger.error("End cinit RequestHelper!");
+  }
 
   private static String getBaseURL() {
+    System.out.println("INFORMATION: " + client);
     if (ConfigHandler.restURL.endsWith("/")) {
+      System.out.println("INFORMATION: " + ConfigHandler.restURL);
       return ConfigHandler.restURL;
     } else {
+      System.out.println("INFORMATION: " + ConfigHandler.restURL + "/");
       return ConfigHandler.restURL + "/";
     }
   }
@@ -75,7 +101,6 @@ public class RequestHelper {
   }
 
   public static class UserResponses {
-
     public static Response addPlayerData(GlobalUser user) {
       return client
           .target(getBaseURL() + "user/add")
@@ -93,6 +118,7 @@ public class RequestHelper {
             .request(MediaType.APPLICATION_JSON)
             .get(GlobalUser.class);
       } catch (Exception e) {
+        e.printStackTrace();
         return null;
       }
     }
@@ -109,7 +135,6 @@ public class RequestHelper {
   }
 
   public static class TeamResponses {
-
     public static Response addTeam(GlobalTeam team) {
       return client
           .target(getBaseURL() + "team/add")
@@ -143,7 +168,6 @@ public class RequestHelper {
   }
 
   public static class AutoRankResponses {
-
     public static Response addAutoRank(AutoRank rank) {
       return client
           .target(getBaseURL() + "autorank/add")

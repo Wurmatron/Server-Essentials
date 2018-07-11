@@ -1,8 +1,6 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
-/**
- * Stores x and z location
- */
+/** Stores x and z location */
 public class Location {
 
   private int x;

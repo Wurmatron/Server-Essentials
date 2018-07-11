@@ -28,44 +28,46 @@ public class ChatHelper {
         format =
             StringUtils.replaceEach(
                 ConfigHandler.chatFormat,
-                new String[]{
-                    USERNAME_KEY,
-                    CHANNEL_KEY,
-                    MESSAGE_KEY,
-                    DIMENSION_KEY,
-                    RANK_PREFIX_KEY,
-                    RANK_SUFFIX_KEY,
-                    TEAM_KEY
+                new String[] {
+                  USERNAME_KEY,
+                  CHANNEL_KEY,
+                  MESSAGE_KEY,
+                  DIMENSION_KEY,
+                  RANK_PREFIX_KEY,
+                  RANK_SUFFIX_KEY,
+                  TEAM_KEY
                 },
-                new String[]{
-                    username,
-                    channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    message,
-                    Integer.toString(dimension),
-                    rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    TextFormatting.GRAY
-                        + team.getName().substring(0, 1).toUpperCase()
-                        + team.getName().substring(1, team.getName().length()).toLowerCase()
-                        + TextFormatting.RESET
+                new String[] {
+                  username,
+                  channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  message,
+                  Integer.toString(dimension),
+                  rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  TextFormatting.GRAY
+                      + team.getName().substring(0, 1).toUpperCase()
+                      + team.getName().substring(1, team.getName().length()).toLowerCase()
+                      + TextFormatting.RESET
                 });
       } else {
         format =
             StringUtils.replaceEach(
                 ConfigHandler.chatFormat.replaceAll(" " + RANK_SUFFIX_KEY, ""),
-                new String[]{
-                    USERNAME_KEY, CHANNEL_KEY, MESSAGE_KEY, DIMENSION_KEY, RANK_PREFIX_KEY, TEAM_KEY
+                new String[] {
+                  USERNAME_KEY, CHANNEL_KEY, MESSAGE_KEY, DIMENSION_KEY, RANK_PREFIX_KEY, TEAM_KEY
                 },
-                new String[]{
-                    username,
-                    channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    message,
-                    Integer.toString(dimension),
-                    rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    team.getName().length() > 0 ? TextFormatting.GRAY
-                        + team.getName().substring(0, 1).toUpperCase()
-                        + team.getName().substring(1, team.getName().length()).toLowerCase()
-                        + TextFormatting.RESET : ""
+                new String[] {
+                  username,
+                  channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  message,
+                  Integer.toString(dimension),
+                  rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  team.getName().length() > 0
+                      ? TextFormatting.GRAY
+                          + team.getName().substring(0, 1).toUpperCase()
+                          + team.getName().substring(1, team.getName().length()).toLowerCase()
+                          + TextFormatting.RESET
+                      : ""
                 });
       }
     } else {
@@ -73,21 +75,21 @@ public class ChatHelper {
         format =
             StringUtils.replaceEach(
                 ConfigHandler.chatFormat.replaceAll(TEAM_KEY, ""),
-                new String[]{
-                    USERNAME_KEY,
-                    CHANNEL_KEY,
-                    MESSAGE_KEY,
-                    DIMENSION_KEY,
-                    RANK_PREFIX_KEY,
-                    RANK_SUFFIX_KEY
+                new String[] {
+                  USERNAME_KEY,
+                  CHANNEL_KEY,
+                  MESSAGE_KEY,
+                  DIMENSION_KEY,
+                  RANK_PREFIX_KEY,
+                  RANK_SUFFIX_KEY
                 },
-                new String[]{
-                    username,
-                    channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    message,
-                    Integer.toString(dimension),
-                    rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET
+                new String[] {
+                  username,
+                  channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  message,
+                  Integer.toString(dimension),
+                  rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET
                 });
       } else {
         format =
@@ -95,15 +97,15 @@ public class ChatHelper {
                 ConfigHandler.chatFormat
                     .replaceAll(TEAM_KEY, "")
                     .replaceAll(" " + RANK_SUFFIX_KEY, ""),
-                new String[]{
-                    USERNAME_KEY, CHANNEL_KEY, MESSAGE_KEY, DIMENSION_KEY, RANK_PREFIX_KEY
+                new String[] {
+                  USERNAME_KEY, CHANNEL_KEY, MESSAGE_KEY, DIMENSION_KEY, RANK_PREFIX_KEY
                 },
-                new String[]{
-                    username,
-                    channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                    message,
-                    Integer.toString(dimension),
-                    rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET
+                new String[] {
+                  username,
+                  channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                  message,
+                  Integer.toString(dimension),
+                  rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET
                 });
       }
     }
