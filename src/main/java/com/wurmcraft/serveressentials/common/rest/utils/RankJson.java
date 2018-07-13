@@ -10,4 +10,6 @@ public class RankJson extends Rank {
     super(rank);
     this.authKey = authKey;
   }
+
+  public RankJson() {}
 }

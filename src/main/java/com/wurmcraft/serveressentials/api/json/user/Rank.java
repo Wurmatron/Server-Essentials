@@ -1,11 +1,12 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Rank implements IDataType {
+public class Rank implements IDataType, Serializable {
 
   private String name;
   private String prefix;

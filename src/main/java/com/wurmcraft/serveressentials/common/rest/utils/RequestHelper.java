@@ -3,96 +3,116 @@ package com.wurmcraft.serveressentials.common.rest.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
-import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.UUID;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 public class RequestHelper {
 
-  private static Gson GSON;
-  private static Client client;
+  private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-  static {
-    ServerEssentialsServer.logger.error("Start cinit RequestHelper!");
-    try {
-      GSON = new GsonBuilder().setPrettyPrinting().create();
-      client = ClientBuilder.newClient();
-    } catch (Throwable t) {
-      try (final PrintStream ps =
-          new PrintStream(
-              new FileOutputStream(new File("/home/matthew/Git/Server-Essentials/error.txt")),
-              true)) {
-        t.printStackTrace(ps);
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
-      }
-    }
-    ServerEssentialsServer.logger.error("End cinit RequestHelper!");
-  }
+  private static final String USER_AGENT = "Mozilla/5.0";
 
   private static String getBaseURL() {
-    System.out.println("INFORMATION: " + client);
     if (ConfigHandler.restURL.endsWith("/")) {
-      System.out.println("INFORMATION: " + ConfigHandler.restURL);
       return ConfigHandler.restURL;
     } else {
-      System.out.println("INFORMATION: " + ConfigHandler.restURL + "/");
       return ConfigHandler.restURL + "/";
+    }
+  }
+
+  private static void post(String URL, Object data) {
+    try {
+      URL postURL = new URL(getBaseURL() + URL);
+      URLConnection connection = postURL.openConnection();
+      HttpURLConnection http = (HttpURLConnection) connection;
+      http.setRequestMethod("POST");
+      http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+      http.setDoOutput(true);
+      String jsonData = GSON.toJson(data);
+      connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
+      connection.getOutputStream().write(jsonData.getBytes());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private static void put(String URL, Object data) {
+    try {
+      URL postURL = new URL(getBaseURL() + URL);
+      URLConnection connection = postURL.openConnection();
+      HttpURLConnection http = (HttpURLConnection) connection;
+      http.setRequestMethod("PUT");
+      http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+      http.setDoOutput(true);
+      String jsonData = GSON.toJson(data);
+      connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
+      OutputStreamWriter out = new OutputStreamWriter(http.getOutputStream());
+      out.write(jsonData);
+      out.close();
+      System.out.println("Code: " + http.getResponseCode());
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
   public static class RankResponses {
 
-    public static Response addRank(Rank rank) {
-      return client
-          .target(getBaseURL() + "rank/add")
-          .request(MediaType.APPLICATION_JSON)
-          .post(
-              Entity.entity(
-                  new RankJson(rank, ConfigHandler.restAuthKey), MediaType.APPLICATION_JSON));
+    public static void addRank(Rank rank) {
+      post("rank/add", new RankJson(rank, ConfigHandler.restAuthKey));
     }
 
     public static Rank getRank(String name) {
       try {
-        return client
-            .target(getBaseURL() + "rank/find/" + name)
-            .request(MediaType.APPLICATION_JSON)
-            .get(Rank.class);
+        URL obj = new URL(getBaseURL() + "rank/find/" + name);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), Rank.class);
+        }
       } catch (Exception e) {
-        return null;
+        e.printStackTrace();
       }
+      return null;
     }
 
-    public static Response overrideRank(Rank rank) {
-      return client
-          .target(getBaseURL() + "rank/override")
-          .request(MediaType.APPLICATION_JSON)
-          .put(
-              Entity.entity(
-                  new RankJson(rank, ConfigHandler.restAuthKey), MediaType.APPLICATION_JSON));
+    public static void overrideRank(Rank rank) {
+      put("rank/override", new RankJson(rank, ConfigHandler.restAuthKey));
     }
 
     public static Rank[] getAllRanks() {
       try {
-        return client
-            .target(getBaseURL() + "rank/find/")
-            .request(MediaType.APPLICATION_JSON)
-            .get(new GenericType<ArrayList<Rank>>() {})
-            .toArray(new Rank[0]);
+        URL obj = new URL(getBaseURL() + "rank/find");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), Rank[].class);
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -101,100 +121,104 @@ public class RequestHelper {
   }
 
   public static class UserResponses {
-    public static Response addPlayerData(GlobalUser user) {
-      return client
-          .target(getBaseURL() + "user/add")
-          .request(MediaType.APPLICATION_JSON)
-          .post(
-              Entity.entity(
-                  GSON.toJson(new GlobalUserJson(user, ConfigHandler.restAuthKey)),
-                  MediaType.APPLICATION_JSON));
+
+    public static void addPlayerData(GlobalUser user) {
+      post("user/add", new GlobalUserJson(user, ConfigHandler.restAuthKey));
     }
 
-    public static GlobalUser getPlayerData(UUID name) {
+    public static GlobalUser getPlayerData(UUID uuid) {
       try {
-        return client
-            .target(getBaseURL() + "user/find/" + name)
-            .request(MediaType.APPLICATION_JSON)
-            .get(GlobalUser.class);
+        URL obj = new URL(getBaseURL() + "user/find/" + uuid.toString());
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), GlobalUser.class);
+        }
       } catch (Exception e) {
         e.printStackTrace();
-        return null;
       }
+      return null;
     }
 
-    public static Response overridePlayerData(GlobalUser user) {
-      return client
-          .target(getBaseURL() + "user/override")
-          .request(MediaType.APPLICATION_JSON)
-          .put(
-              Entity.entity(
-                  GSON.toJson(new GlobalUserJson(user, ConfigHandler.restAuthKey)),
-                  MediaType.APPLICATION_JSON));
+    public static void overridePlayerData(GlobalUser user) {
+      put("user/override", new GlobalUserJson(user, ConfigHandler.restAuthKey));
     }
   }
 
   public static class TeamResponses {
-    public static Response addTeam(GlobalTeam team) {
-      return client
-          .target(getBaseURL() + "team/add")
-          .request(MediaType.APPLICATION_JSON)
-          .post(
-              Entity.entity(
-                  GSON.toJson(new GlobalTeamJson(team, ConfigHandler.restAuthKey)),
-                  MediaType.APPLICATION_JSON));
+
+    public static void addTeam(GlobalTeam team) {
+      post("team/add", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
     }
 
     public static GlobalTeam getTeam(String name) {
       try {
-        return client
-            .target(getBaseURL() + "team/find/" + name)
-            .request(MediaType.APPLICATION_JSON)
-            .get(GlobalTeam.class);
+        URL obj = new URL(getBaseURL() + "team/find/" + name);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), GlobalTeam.class);
+        }
       } catch (Exception e) {
-        return null;
+        e.printStackTrace();
       }
+      return null;
     }
 
-    public static Response overrideTeam(GlobalTeam team) {
-      return client
-          .target(getBaseURL() + "team/override")
-          .request(MediaType.APPLICATION_JSON)
-          .put(
-              Entity.entity(
-                  GSON.toJson(new GlobalTeamJson(team, ConfigHandler.restAuthKey)),
-                  MediaType.APPLICATION_JSON));
+    public static void overrideTeam(GlobalTeam team) {
+      post("team/override", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
     }
   }
 
-  public static class AutoRankResponses {
-    public static Response addAutoRank(AutoRank rank) {
-      return client
-          .target(getBaseURL() + "autorank/add")
-          .request(MediaType.APPLICATION_JSON)
-          .post(Entity.entity(GSON.toJson(rank), MediaType.APPLICATION_JSON));
-    }
-
-    public static Rank getAutoRank(String name) {
-      return client
-          .target(getBaseURL() + "autorank/find/" + name)
-          .request(MediaType.APPLICATION_JSON)
-          .get(Rank.class);
-    }
-
-    public static Response overrideAutoRank(AutoRank rank) {
-      return client
-          .target(getBaseURL() + "autorank/override")
-          .request(MediaType.APPLICATION_JSON)
-          .put(Entity.entity(rank, MediaType.APPLICATION_JSON));
-    }
-
-    public static AutoRank[] getAllAutoRanks() {
-      return client
-          .target(getBaseURL() + "autorank/find/")
-          .request(MediaType.APPLICATION_JSON)
-          .get(new GenericType<ArrayList<AutoRank>>() {})
-          .toArray(new AutoRank[0]);
-    }
-  }
+  //
+  //  public static class AutoRankResponses {
+  //
+  //    public static Response addAutoRank(AutoRank rank) {
+  //      return client
+  //          .target(getBaseURL() + "autorank/add")
+  //          .request(MediaType.APPLICATION_JSON)
+  //          .post(Entity.entity(GSON.toJson(rank), MediaType.APPLICATION_JSON));
+  //    }
+  //
+  //    public static Rank getAutoRank(String name) {
+  //      return client
+  //          .target(getBaseURL() + "autorank/find/" + name)
+  //          .request(MediaType.APPLICATION_JSON)
+  //          .get(Rank.class);
+  //    }
+  //
+  //    public static Response overrideAutoRank(AutoRank rank) {
+  //      return client
+  //          .target(getBaseURL() + "autorank/override")
+  //          .request(MediaType.APPLICATION_JSON)
+  //          .put(Entity.entity(rank, MediaType.APPLICATION_JSON));
+  //    }
+  //
+  //    public static AutoRank[] getAllAutoRanks() {
+  //      return client
+  //          .target(getBaseURL() + "autorank/find/")
+  //          .request(MediaType.APPLICATION_JSON)
+  //          .get(new GenericType<ArrayList<AutoRank>>() {
+  //          })
+  //          .toArray(new AutoRank[0]);
+  //    }
+  //  }
 }
