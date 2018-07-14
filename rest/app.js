@@ -3,6 +3,7 @@ const port = 8080;
 const ranksDir = './ranks';
 const userDir = './users';
 const teamDir = './teams';
+const autorankDir = './autorank';
 const apiKey = 'keys';
 
 // Require / Imports
@@ -17,6 +18,7 @@ const app = express();
 const ranksDB = levelup(leveldown(ranksDir));
 const userDB = levelup(leveldown(userDir));
 const teamDB = levelup(leveldown(teamDir));
+const autorankDB = levelup(leveldown(autorankDir));
 const urlencoder = bodyParser.urlencoded({
     extended: true
 });
@@ -217,6 +219,7 @@ app.get('/user/find', urlencoder, (req, res) => {
             allUsers.push({
                 uuid: userData.uuid,
                 discord: userData.discord,
+                rank: userData.rank
             })
         })
         .on('error', function (err) {
@@ -332,7 +335,7 @@ app.get('/team/find/:name', (req, res) => {
 app.post('/team/add', urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
-            const team = teamDB.get(req.body.uuid)
+            const team = teamDB.get(req.body.name)
             team.then(function (result) {
                 if (!user) {
                     addUserEntry(req, res, false)
@@ -354,7 +357,7 @@ app.post('/team/add', urlencoder, (req, res) => {
  *
  * 304 Team sent
  */
-app.get('/user/find', urlencoder, (req, res) => {
+app.get('/team/find', urlencoder, (req, res) => {
     var allTeams = []
     teamDB.createReadStream()
         .on('data', function (data) {
@@ -381,7 +384,7 @@ app.get('/user/find', urlencoder, (req, res) => {
  * 404 Team does not exist
  * 400 Invalid Request missing team name
  */
-app.delete('/user/delete', urlencoder, (req, res) => {
+app.delete('/team/delete', urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const team = teamDB.get(req.body.name)

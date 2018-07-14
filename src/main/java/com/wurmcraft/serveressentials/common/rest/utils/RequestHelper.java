@@ -39,6 +39,8 @@ public class RequestHelper {
       String jsonData = GSON.toJson(data);
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
+      int status = ((HttpURLConnection) connection).getResponseCode();
+      System.out.println(status);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -161,24 +163,26 @@ public class RequestHelper {
     }
 
     public static GlobalTeam getTeam(String name) {
-      try {
-        URL obj = new URL(getBaseURL() + "team/find/" + name);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuffer response = new StringBuffer();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+      if (!name.isEmpty()) {
+        try {
+          URL obj = new URL(getBaseURL() + "team/find/" + name);
+          HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+          con.setRequestMethod("GET");
+          con.setRequestProperty("User-Agent", USER_AGENT);
+          int responseCode = con.getResponseCode();
+          if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+              response.append(inputLine);
+            }
+            in.close();
+            return GSON.fromJson(response.toString(), GlobalTeam.class);
           }
-          in.close();
-          return GSON.fromJson(response.toString(), GlobalTeam.class);
+        } catch (Exception e) {
+          e.printStackTrace();
         }
-      } catch (Exception e) {
-        e.printStackTrace();
       }
       return null;
     }
@@ -187,38 +191,4 @@ public class RequestHelper {
       post("team/override", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
     }
   }
-
-  //
-  //  public static class AutoRankResponses {
-  //
-  //    public static Response addAutoRank(AutoRank rank) {
-  //      return client
-  //          .target(getBaseURL() + "autorank/add")
-  //          .request(MediaType.APPLICATION_JSON)
-  //          .post(Entity.entity(GSON.toJson(rank), MediaType.APPLICATION_JSON));
-  //    }
-  //
-  //    public static Rank getAutoRank(String name) {
-  //      return client
-  //          .target(getBaseURL() + "autorank/find/" + name)
-  //          .request(MediaType.APPLICATION_JSON)
-  //          .get(Rank.class);
-  //    }
-  //
-  //    public static Response overrideAutoRank(AutoRank rank) {
-  //      return client
-  //          .target(getBaseURL() + "autorank/override")
-  //          .request(MediaType.APPLICATION_JSON)
-  //          .put(Entity.entity(rank, MediaType.APPLICATION_JSON));
-  //    }
-  //
-  //    public static AutoRank[] getAllAutoRanks() {
-  //      return client
-  //          .target(getBaseURL() + "autorank/find/")
-  //          .request(MediaType.APPLICATION_JSON)
-  //          .get(new GenericType<ArrayList<AutoRank>>() {
-  //          })
-  //          .toArray(new AutoRank[0]);
-  //    }
-  //  }
 }

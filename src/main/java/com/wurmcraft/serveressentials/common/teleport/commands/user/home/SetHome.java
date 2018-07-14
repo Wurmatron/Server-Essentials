@@ -11,6 +11,8 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,11 +41,22 @@ public class SetHome extends SECommand {
       throws CommandException {
     super.execute(server, sender, args);
     String homeName = args.length > 0 ? args[0] : ConfigHandler.defaultHome;
+    if (homeName.isEmpty()) homeName = ConfigHandler.defaultHome;
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (!homeName.equalsIgnoreCase("list") && setHome(player, homeName)) {
-      sender.sendMessage(new TextComponentString("T"));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender)
+                  .HOME_CREATED
+                  .replaceAll("%HOME%", homeName)
+                  .replaceAll("&", "\u00A7")));
     } else {
-      sender.sendMessage(new TextComponentString("F"));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender)
+                  .HOME_FAILED
+                  .replaceAll("%HOME%", homeName)
+                  .replaceAll("&", "\u00A7")));
     }
   }
 
@@ -74,5 +87,23 @@ public class SetHome extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return false;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/setHome \u00A7b<name>";
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alts = new ArrayList<>();
+    alts.add("setH");
+    alts.add("sHome");
+    return alts;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_SETHOME.replaceAll("&", "\u00A7");
   }
 }

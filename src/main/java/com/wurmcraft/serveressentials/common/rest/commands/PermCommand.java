@@ -23,6 +23,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 
+// TODO Rework Command
 @Command(moduleName = "Rest", trustedRequired = true)
 public class PermCommand extends SECommand {
 
@@ -30,17 +31,29 @@ public class PermCommand extends SECommand {
     GlobalUser user = forceUserFromUUID(uuid);
     Local lang = LanguageModule.getLangFromKey(user.getLang());
     return new String[] {
-      lang.CHAT_SPACER,
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
       TextFormatting.LIGHT_PURPLE + "UUID: " + TextFormatting.AQUA + uuid,
-      TextFormatting.LIGHT_PURPLE + lang.CHAT_RANK + ": " + TextFormatting.AQUA + user.getRank(),
-      TextFormatting.LIGHT_PURPLE + lang.CHAT_TEAM + ": " + TextFormatting.AQUA + user.getTeam(),
-      TextFormatting.LIGHT_PURPLE + lang.CHAT_LANG + ": " + TextFormatting.AQUA + user.getLang(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_LASTSEEN
+          + lang.CHAT_RANK.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + user.getRank(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_TEAM.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + user.getTeam(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_LANG.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + user.getLang(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_LASTSEEN.replaceAll("&", "\u00A7")
           + ": "
           + TextFormatting.AQUA
           + new Date(user.getLastSeen()).toString(),
-      lang.CHAT_SPACER
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7")
     };
   }
 
@@ -48,24 +61,24 @@ public class PermCommand extends SECommand {
     Local lang = getCurrentLanguage(sender);
     Rank rank = UserManager.getRank(r);
     return new String[] {
-      lang.CHAT_SPACER,
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
       TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_PREFIX
+          + lang.CHAT_PREFIX.replaceAll("&", "\u00A7")
           + ": "
           + TextFormatting.AQUA
           + rank.getPrefix(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_SUFFIX
+          + lang.CHAT_SUFFIX.replaceAll("&", "\u00A7")
           + ": "
           + TextFormatting.AQUA
           + rank.getSuffix(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_INHERITANCE
+          + lang.CHAT_INHERITANCE.replaceAll("&", "\u00A7")
           + ": "
           + TextFormatting.AQUA
           + Strings.join(rank.getInheritance(), " "),
-      lang.CHAT_SPACER
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7")
     };
   }
 

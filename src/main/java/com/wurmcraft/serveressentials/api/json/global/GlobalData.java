@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// TODO Implement
 public class GlobalData implements IDataType {
 
   private SpawnPoint spawn;

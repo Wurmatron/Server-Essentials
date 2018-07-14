@@ -6,6 +6,8 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +16,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
+// TODO Rework Command
 @Command(moduleName = "Teleportation")
 public class TpCommand extends SECommand {
 
@@ -38,7 +41,8 @@ public class TpCommand extends SECommand {
             new TextComponentString(
                 LanguageModule.getLangfromUUID(player.getGameProfile().getId())
                     .TP_HOME
-                    .replaceAll("%HOME%", p.getDisplayNameString())));
+                    .replaceAll("%HOME%", p.getDisplayNameString())
+                    .replaceAll("&", "\u00A7")));
       } else {
         sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).PLAYER_ONLY));
       }
@@ -50,11 +54,20 @@ public class TpCommand extends SECommand {
             (EntityPlayerMP) from,
             new LocationWrapper(new BlockPos(to.posX, to.posY, to.posZ), to.dimension),
             false);
-        //        ChatHelper.sendMessageTo(sender,
-        //            Local.TELEPORTED_FROM.replaceAll("#", from.getDisplayNameString())
-        //                .replaceAll("%", to.getDisplayNameString()));
-        //        ChatHelper
-        //            .sendMessageTo(from, Local.TELEPORT_TO.replaceAll("#", to.getDisplayNameString()));
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender)
+                    .TP_HOME_OTHER
+                    .replaceAll("%FROM%", from.getDisplayNameString())
+                    .replaceAll("%TO%", to.getDisplayNameString())
+                    .replaceAll("%HOME%", to.getDisplayNameString())
+                    .replaceAll("&", "\u00A7")));
+        from.sendMessage(
+            new TextComponentString(
+                LanguageModule.getLangfromUUID(from.getGameProfile().getId())
+                    .TP_HOME
+                    .replaceAll("%HOME%", to.getDisplayNameString())
+                    .replaceAll("&", "\u00A7")));
       } else {
         sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).PLAYER_ONLY));
       }
@@ -73,7 +86,8 @@ public class TpCommand extends SECommand {
               new TextComponentString(
                   LanguageModule.getLangfromUUID(player.getGameProfile().getId())
                       .TP_HOME
-                      .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")));
+                      .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
+                      .replaceAll("&", "\u00A7")));
         }
       } catch (NumberFormatException e) {
       }
@@ -93,7 +107,8 @@ public class TpCommand extends SECommand {
                 new TextComponentString(
                     LanguageModule.getLangfromUUID(player.getGameProfile().getId())
                         .TP_HOME
-                        .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")));
+                        .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
+                        .replaceAll("&", "\u00A7")));
           }
         } catch (NumberFormatException e) {
         }
@@ -106,5 +121,21 @@ public class TpCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return true;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/tp \u00A7b<to|x> <from|y> <z> <dimension>";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_TP.replaceAll("&", "\u00A7");
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+    return autoCompleteUsername(args, 0);
   }
 }

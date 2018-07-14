@@ -33,14 +33,27 @@ public class SeenCommand extends SECommand {
                 getCurrentLanguage(sender).CHAT_LASTSEEN
                     + ": "
                     + TextFormatting.AQUA
-                    + new Date(global.getLastSeen()).toString()));
+                    + new Date(global.getLastSeen()).toString().replaceAll("&", "\u00A7")));
       } else {
         sender.sendMessage(
             new TextComponentString(
-                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+                getCurrentLanguage(sender)
+                    .PLAYER_NOT_FOUND
+                    .replaceAll("%PLAYER%", args[0])
+                    .replaceAll("&", "\u00A7")));
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00Abseen \u00A79<username>";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_SEEN.replaceAll("&", "\u00A7");
   }
 }

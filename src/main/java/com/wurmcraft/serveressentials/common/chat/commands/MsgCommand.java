@@ -15,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
+// TODO Rework Command
 @Command(moduleName = "Chat")
 public class MsgCommand extends SECommand {
 

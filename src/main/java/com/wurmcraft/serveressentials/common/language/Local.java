@@ -11,16 +11,22 @@ import java.lang.reflect.Modifier;
 public class Local {
 
   // Teleport
-  public String TPA_SENT = "Tpa Request Sent!";
-  public String TPA_Recive = "%PLAYER% has sent you a TPA Request %ACCEPT% | %DENY%";
-  public String TPA_ACCEPT = "Tpa Request Accepted!";
-  public String TPA_DENY = "Tpa Request Denied!";
-  public String TP_HOME = "You have teleported to '%HOME%'";
-  public String HOME_DELETED = "Home '%HOME%' has been deleted!";
-  public String TP_BACK = "You have teleported back to your previous location";
+  public String TPA_SENT = "&9Tpa Request Sent!";
+  public String TPA_Recive = "&b%PLAYER% &dhas sent you a TPA Request %ACCEPT%";
+  public String TPA_ACCEPT = "&dTpa Request Accepted!";
+  public String TPA_DENY = "&dTpa Request Denied!";
+  public String TP_HOME = "&dYou have teleported to '&6%HOME%&d'";
+  public String HOME_DELETED = "&dHome '%HOME%' has been deleted!";
+  public String TP_BACK = "&dYou have teleported back to your previous location";
   public String TP_BACK_FAIL = "Failed to find your last known location!";
-  public String TP = "You have been teleported!";
-  public String TP_HERE = "%PLAYER% has been teleported to your current location.";
+  public String TP = "&dYou have been teleported to %NAME%";
+  public String TP_HERE = "&6%PLAYER%&d has been teleported to your current location.";
+  public String TELEPORT_TOP = "&dYou have been teleported to the top!";
+  public String HOME_NOTSET = "&dNo home has been set";
+  public String HOME_HOVER = "&dX: &9%X%\n&dY: &9%Y%\n&dZ: &9%Z%\n&dD: &9%DIMENSION%";
+  public String HOME_CREATED = "&dHome &6%Name% &dcreated";
+  public String HOME_FAILED = "&dFailed to create home %HOME%";
+  public String TP_HOME_OTHER = "'&6%FROM%&d' has been teleported to '&6%TO%&6'";
 
   // Permissions
   public String PERM_ADDED = "Permission '%PERM% added to '%PLAYER%'";
@@ -29,7 +35,8 @@ public class Local {
   public String PERK_DEL = "Permission '%PERM% deleted from '%PLAYER%'";
 
   // Chat
-  public String CHAT_SPACER = "=-=-=-=-=-=";
+  public String CHAT_SPACER =
+      "&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=";
   public String CHAT_RANK = "Rank";
   public String CHAT_TEAM = "Team";
   public String CHAT_LANG = "Language";
@@ -39,18 +46,24 @@ public class Local {
   public String CHAT_PREFIX = "Prefix";
   public String CHAT_SUFFIX = "Suffix";
   public String CHAT_INHERITANCE = "Inheritance";
-  public String CHAT_ACCEPT = "Accept";
-  public String CHAT_DENY = "Deny";
+  public String CHAT_ACCEPT = "&aAccept";
+  public String CHAT_DENY = "&cDeny";
   public String GLOBAL = "Global";
   public String LOCAL = "Local";
   public String CHAT_LEADER = "Leader";
-  public String CHANNEL_CHANGED = "Your channel has been changed to %CHANNEL%";
+  public String CHANNEL_CHANGED = "&dYour channel has been changed to &6%CHANNEL%";
   public String CHAT_SPAM = "Dont Spam Chat!";
   public String MUTED_OTHER = "You have muted %PLAYER%";
   public String MUTED = "You have been muted!";
   public String UNMUTED_OTHER = "You have unmuted %PLAYER%";
   public String UNMUTED = "You have been umuted!";
   public String NICK = "Nick has been changeed to %NICK%";
+  public String CHANNEL_LIST = "&6%TYPE% %PREFIX% %NAME%";
+  public String HOME_LIST = "&d%HOME%";
+  public String AFK = "&dYou are now AFK";
+  public String NOTAFK = "&dYou are no longer AFK";
+  public String AFK_OTHER = "&b%PLAYER% &dis now AFK";
+  public String NOTAFK_OTHER = "&b%PLAYER% &dis no longer AFK";
 
   // Commands
   public String RANK_NULL = "Rank Does not Exist!";
@@ -60,8 +73,8 @@ public class Local {
   public String LANGUAGE_CHANGED = "Language Changed to, '%LANG%'";
   public String GOD_DISABLE = "God Mode Disabled";
   public String GOD_ENABBLE = "God Mode Enabled";
-  public String TPLOCK_DISABLED = "TP Lock Disabled";
-  public String TPLOCK_ENABLED = "TP Lock Enabled";
+  public String TPLOCK_DISABLED = "&dTP Lock Disabled";
+  public String TPLOCK_ENABLED = "&dTP Lock Enabled";
   public String INVALID_NUMBER = "%NUMBER% is not a valid number!";
   public String MODE_INVALID = "Invalid Gamemode '%MODE%'";
   public String MODE_CHANGED = "You Gamemode has changed to %MODE%";
@@ -75,7 +88,7 @@ public class Local {
   public String FROZEN = "You have been frozen";
   public String UNFROZEN_OTHER = "You have unfrozen %PLAYER%";
   public String FROZEN_OTHER = "You have frozen %PLAYER%";
-  public String RTP = "You have Randomly Teleported !";
+  public String RTP = "&dYou have Randomly Teleported!";
   public String COMMAND_FORCED = "You were forced to run %COMMAND%";
   public String COMMAND_SENDER_FORCED = "You forced %PLAYER% to run the command %COMMAND%";
   public String COMMAND_NOT_FOUND = "Command %COMMAND% not found!";
@@ -111,6 +124,24 @@ public class Local {
   // Item
   public String SKULL = "Created %PLAYER% Skull";
   public String NAME_CHANGED = "Item name changed to %NAME%";
+
+  // Command Descriptions
+  public String COMMAND_TOP = "&9Teleports you to the highest location above your current location";
+  public String COMMAND_BROADCAST = "&9Allows Admins to broadcast a message";
+  public String COMMAND_CHANNEL = "&9Allows for changing of your current channel";
+  public String COMMAND_HOME = "&9Teleport to your homes";
+  public String COMMAND_DELHOME = "&9Deletes a current home";
+  public String COMMAND_SETHOME = "&9Creates a home to later teleport to";
+  public String COMMAND_TPA = "&9Teleport to another with there acceptance";
+  public String COMMAND_TPAACCEPT = "&9Accept to incoming teleport request";
+  public String COMMAND_TP = "&9Allows for Admin teleportation";
+  public String COMMAND_SEEN = "&9Find the last time a player has logged in";
+  public String COMMAND_HELP = "&9List of all commands";
+  public String COMMAND_TPLOCK = "&9Disables TPA requests";
+  public String COMMAND_BACK = "&9Teleport to your last known location";
+  public String COMMAND_TPHERE = "&9Teleport a player to your current location";
+  public String COMMAND_RTP = "&9Teleprot to a random location within the world";
+  public String COMMAND_AFK = "&9Sets if a player is AFK or not";
 
   public static Local load(String langKey) {
     boolean valid = false;

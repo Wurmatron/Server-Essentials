@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fluids.BlockFluidBase;
 
+// TODO Rework Command
 @Command(moduleName = "General")
 public class RTPCommand extends SECommand {
 
@@ -52,7 +53,8 @@ public class RTPCommand extends SECommand {
     }
     TeleportUtils.teleportTo(
         (EntityPlayerMP) player, new LocationWrapper(teleportPos, player.dimension), true);
-    player.sendMessage(new TextComponentString(getCurrentLanguage(sender).RTP));
+    player.sendMessage(
+        new TextComponentString(getCurrentLanguage(sender).RTP.replaceAll("&", "\u00A7")));
   }
 
   private int flipChance(int no) {
@@ -75,5 +77,15 @@ public class RTPCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return false;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A7/rtp";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_RTP.replaceAll("&", "\u00A7");
   }
 }

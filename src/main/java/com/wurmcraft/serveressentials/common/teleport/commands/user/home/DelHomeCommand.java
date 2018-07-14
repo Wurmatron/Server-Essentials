@@ -2,14 +2,22 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user.home;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.api.json.user.Home;
+import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
@@ -27,17 +35,70 @@ public class DelHomeCommand extends SECommand {
     if (args.length == 1) {
       String homeName = args[0];
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
-      user.delHome(homeName);
-      sender.sendMessage(
-          new TextComponentString(
-              getCurrentLanguage(sender).HOME_DELETED.replaceAll("%HOME%", homeName)));
-      DataHelper.forceSave(Keys.LOCAL_USER, user);
-      UserManager.playerData.put(
-          player.getGameProfile().getId(),
-          new Object[] {forceUserFromUUID(player.getGameProfile().getId()), user});
+      if (deleteHome(player.getGameProfile().getId(), homeName)) {
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender).HOME_DELETED.replaceAll("%HOME%", homeName)));
+      }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
+  }
+
+  private static boolean deleteHome(UUID uuid, String name) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      LocalUser user = (LocalUser) UserManager.getPlayerData(uuid)[1];
+      user.delHome(name);
+      DataHelper.forceSave(Keys.LOCAL_USER, user);
+      UserManager.playerData.put(uuid, new Object[] {forceUserFromUUID(uuid), user});
+      return true;
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
+      data.delHome(name);
+      DataHelper.forceSave(Keys.PLAYER_DATA, data);
+    }
+    return false;
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    List<String> predictions = new ArrayList<>();
+    Home[] homes =
+        HomeCommand.getPlayerHomes(
+            ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
+    if (args.length > 0 && !args[0].isEmpty()) {
+      for (Home home : homes) {
+        if (home.getName().length() > args[0].length()
+            && home.getName().substring(0, args[0].length()).equalsIgnoreCase(args[0])) {
+          predictions.add(home.getName());
+        }
+      }
+    }
+    if (predictions.size() == 0) {
+      for (Home home : homes) {
+        predictions.add(home.getName());
+      }
+    }
+    return predictions;
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alts = new ArrayList<>();
+    alts.add("deleteHome");
+    alts.add("removeHome");
+    alts.add("remHome");
+    return alts;
+  }
+
+  @Override
+  public boolean canConsoleRun() {
+    return false;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_DELHOME.replaceAll("&", "\u00A7");
   }
 }

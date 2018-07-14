@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
+// TODO Rework Command
 @Command(moduleName = "General")
 public class SpeedCommand extends SECommand {
 
@@ -32,7 +33,10 @@ public class SpeedCommand extends SECommand {
         e.printStackTrace();
         sender.sendMessage(
             new TextComponentString(
-                getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[0])));
+                getCurrentLanguage(sender)
+                    .INVALID_NUMBER
+                    .replaceAll("%NUMBER%", args[0])
+                    .replaceAll("&", "\u00A7")));
         return;
       }
       NBTTagCompound tagCompound = new NBTTagCompound();
@@ -49,7 +53,8 @@ public class SpeedCommand extends SECommand {
           new TextComponentString(
               LanguageModule.getLangfromUUID(player.getGameProfile().getId())
                   .SPEED_CHANGED
-                  .replaceAll("%SPEED%", "" + speed)));
+                  .replaceAll("%SPEED%", "" + speed)
+                  .replaceAll("&", "\u00A7")));
     } else {
       NBTTagCompound tagCompound = new NBTTagCompound();
       player.capabilities.writeCapabilitiesToNBT(tagCompound);

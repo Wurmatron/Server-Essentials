@@ -9,14 +9,20 @@ import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.util.text.event.HoverEvent.Action;
 
 @Command(moduleName = "Teleportation")
 public class HomeCommand extends SECommand {
@@ -47,9 +53,7 @@ public class HomeCommand extends SECommand {
       for (Home home : homes) {
         if (home.getName().equalsIgnoreCase(args[0])) {
           TeleportUtils.teleportTo((EntityPlayerMP) player, home.getPos(), true);
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
+          sender.sendMessage(formatHome(sender, home));
           return;
         }
       }
@@ -58,11 +62,16 @@ public class HomeCommand extends SECommand {
       for (Home home : homes) {
         if (home.getName().equalsIgnoreCase(ConfigHandler.defaultHome)) {
           TeleportUtils.teleportTo((EntityPlayerMP) player, home.getPos(), true);
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", home.getName())));
+          sender.sendMessage(formatHome(sender, home));
           return;
         }
+        TeleportUtils.teleportTo((EntityPlayerMP) player, homes[0].getPos(), true);
+        sender.sendMessage(formatHome(sender, homes[0]));
+      }
+      if (homes.length == 0) {
+        sender.sendMessage(
+            new TextComponentString(
+                getCurrentLanguage(sender).HOME_NOTSET.replaceAll("&", "\u00A7")));
       }
     }
   }
@@ -75,20 +84,87 @@ public class HomeCommand extends SECommand {
   @SubCommand
   public void list(ICommandSender sender, String[] args) {
     Home[] homes =
-        HomeCommand.getPlayerHomes(
-            ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
-    StringBuilder builder = new StringBuilder();
-    for (int index = 0; index < homes.length; index++) {
-      builder.append(TextFormatting.GOLD + homes[index].getName());
-      if (index != homes.length - 1) {
-        builder.append(TextFormatting.GRAY + ", " + TextFormatting.GOLD);
-      }
+        getPlayerHomes(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
+    sender.sendMessage(
+        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+    for (Home home : homes) {
+      TextComponentString msg =
+          new TextComponentString(
+              getCurrentLanguage(sender)
+                  .HOME_LIST
+                  .replaceAll("%HOME%", home.getName())
+                  .replaceAll("&", "\u00A7"));
+      msg.getStyle()
+          .setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/home " + home.getName()));
+      sender.sendMessage(msg);
     }
-    sender.sendMessage(new TextComponentString(builder.toString()));
+    sender.sendMessage(
+        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
   }
 
   @Override
   public boolean hasSubCommand() {
     return true;
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alts = new ArrayList<>();
+    alts.add("h");
+    return alts;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/home \u00A7b<name>";
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    List<String> predictions = new ArrayList<>();
+    Home[] homes =
+        getPlayerHomes(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
+    if (args.length > 0 && !args[0].isEmpty()) {
+      for (Home home : homes) {
+        if (home.getName().length() > args[0].length()
+            && home.getName().substring(0, args[0].length()).equalsIgnoreCase(args[0])) {
+          predictions.add(home.getName());
+        }
+      }
+    }
+    if (predictions.size() == 0) {
+      for (Home home : homes) {
+        predictions.add(home.getName());
+      }
+    }
+    return predictions;
+  }
+
+  private static TextComponentString formatHome(ICommandSender sender, Home home) {
+    TextComponentString msg =
+        new TextComponentString(
+            getCurrentLanguage(sender)
+                .TP_HOME
+                .replaceAll("%HOME%", home.getName())
+                .replaceAll("&", "\u00A7"));
+    msg.getStyle()
+        .setHoverEvent(
+            new HoverEvent(
+                Action.SHOW_TEXT,
+                new TextComponentString(
+                    getCurrentLanguage(sender)
+                        .HOME_HOVER
+                        .replaceAll("%X%", String.valueOf(home.getPos().getX()))
+                        .replaceAll("%Y%", String.valueOf(home.getPos().getY()))
+                        .replaceAll("%Z%", String.valueOf(home.getPos().getZ()))
+                        .replaceAll("%DIMENSION%", String.valueOf(home.getPos().getDim()))
+                        .replaceAll("&", "\u00A7"))));
+    return msg;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_HOME.replaceAll("&", "\u00A7");
   }
 }

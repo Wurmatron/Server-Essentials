@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
+// TODO Rework Command
 @Command(moduleName = "Teleportation")
 public class BackCommand extends SECommand {
 
@@ -42,9 +43,27 @@ public class BackCommand extends SECommand {
     LocationWrapper location = getLastLocation(player);
     if (location != null && location.getY() > 0) {
       TeleportUtils.teleportTo((EntityPlayerMP) player, location, true);
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TP_BACK));
+      sender.sendMessage(
+          new TextComponentString(getCurrentLanguage(sender).TP_BACK.replaceAll("&", "\u00A7")));
     } else {
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TP_BACK_FAIL));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).TP_BACK_FAIL.replaceAll("&", "\u00A7")));
     }
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/back";
+  }
+
+  @Override
+  public boolean canConsoleRun() {
+    return false;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_BACK.replaceAll("&", "\u00A7");
   }
 }

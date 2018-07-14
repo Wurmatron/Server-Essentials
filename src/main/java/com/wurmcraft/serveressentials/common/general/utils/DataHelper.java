@@ -64,7 +64,7 @@ public class DataHelper {
       try {
         String fileData = Strings.join(Files.readAllLines(Paths.get(file.getAbsolutePath())), "");
         T data = GSON.fromJson(fileData, (Class<T>) type.getClass());
-        if (loadedData.containsKey(key)) {
+        if (loadedData.containsKey(key) && !exists(key, type)) {
           loadedData.get(key).add(data);
         } else {
           List<IDataType> dataList = new ArrayList<>();
@@ -77,6 +77,15 @@ public class DataHelper {
       }
     }
     return null;
+  }
+
+  private static <T extends IDataType> boolean exists(Keys key, T type) {
+    for (IDataType d : loadedData.get(key)) {
+      if (d.getID().equalsIgnoreCase(type.getID())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static <T extends IDataType> T load(Keys key, T type) {

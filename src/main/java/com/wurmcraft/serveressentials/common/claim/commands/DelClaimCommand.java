@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
+// TODO Rework Command
 @Command(moduleName = "Claim")
 public class DelClaimCommand extends SECommand {
 

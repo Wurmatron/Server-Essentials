@@ -8,6 +8,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
+// TODO Rework Command
 @Command(moduleName = "General")
 public class DiscordCommand extends SECommand {
 

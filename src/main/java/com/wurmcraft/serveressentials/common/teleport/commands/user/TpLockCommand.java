@@ -26,15 +26,29 @@ public class TpLockCommand extends SECommand {
     LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
     if (user.isTpLock()) {
       user.setTpLock(false);
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPLOCK_DISABLED));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7")));
     } else {
       user.setTpLock(true);
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPLOCK_ENABLED));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7")));
     }
   }
 
   @Override
   public boolean canConsoleRun() {
     return false;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/tplock";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_TPLOCK.replaceAll("&", "\u00A7");
   }
 }

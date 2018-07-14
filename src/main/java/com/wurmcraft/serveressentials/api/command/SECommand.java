@@ -12,6 +12,7 @@ import com.wurmcraft.serveressentials.common.utils.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class SECommand implements ICommand {
 
@@ -107,8 +109,6 @@ public abstract class SECommand implements ICommand {
       }
     } else if (!hasSubCommand()) {
       // Run Non Sub Command
-    } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
   }
 
@@ -186,5 +186,32 @@ public abstract class SECommand implements ICommand {
   @Override
   public int compareTo(ICommand o) {
     return 0;
+  }
+
+  public String getDescription(ICommandSender sender) {
+    return "";
+  }
+
+  protected static List<String> autoCompleteUsername(String[] args, int index) {
+    List<String> possibleUsernames =
+        Arrays.asList(
+            FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames());
+    if (args.length > index && args[index] != null) {
+      return predictName(args[index], possibleUsernames);
+    } else {
+      return possibleUsernames;
+    }
+  }
+
+  protected static List<String> predictName(String current, List<String> possibleNames) {
+    List<String> predictedNames = new ArrayList<>();
+    for (String name : possibleNames) {
+      if (name.toLowerCase().startsWith(current.toLowerCase())) {
+        predictedNames.add(name);
+      } else if (name.toLowerCase().endsWith(current.toLowerCase())) {
+        predictedNames.add(name);
+      }
+    }
+    return predictedNames;
   }
 }

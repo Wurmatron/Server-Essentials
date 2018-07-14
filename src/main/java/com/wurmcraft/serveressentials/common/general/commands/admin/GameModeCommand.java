@@ -13,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
+// TODO Rework Command
 @Command(moduleName = "General")
 public class GameModeCommand extends SECommand {
 

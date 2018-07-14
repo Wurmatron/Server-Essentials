@@ -24,11 +24,17 @@ public class TpaAcceptCommand extends SECommand {
     super.execute(server, sender, args);
     if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      for (EntityPlayer[] players : TeleportationModule.activeRequests.values()) {
+      for (long time : TeleportationModule.activeRequests.keySet()) {
+        EntityPlayer[] players = TeleportationModule.activeRequests.get(time);
         if (players[1].getGameProfile().getId().equals(player.getGameProfile().getId())) {
-          player.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_ACCEPT));
-          players[0].sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_ACCEPT));
+          player.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7")));
+          players[0].sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7")));
           TeleportUtils.teleportTo(players[0], players[1]);
+          TeleportationModule.activeRequests.remove(time);
           break;
         }
       }
@@ -40,5 +46,10 @@ public class TpaAcceptCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return false;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_TPAACCEPT;
   }
 }

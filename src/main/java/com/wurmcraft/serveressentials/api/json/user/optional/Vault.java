@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.api.json.user.optional;
 
 import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.common.utils.StackConverter;
 import net.minecraft.item.ItemStack;
 
 public class Vault implements IDataType {
@@ -16,8 +17,7 @@ public class Vault implements IDataType {
   public ItemStack[] getItems() {
     ItemStack[] outputStacks = new ItemStack[54];
     for (int index = 0; index < items.length; index++) {
-      // TODO Implement
-      //      outputStacks[index] = StackConverter.convertToStack(items[index]);
+      outputStacks[index] = StackConverter.getData(items[index]);
     }
     if (outputStacks != null) {
       return outputStacks;
@@ -29,8 +29,7 @@ public class Vault implements IDataType {
     if (stacks != null) {
       String[] outputStacks = new String[54];
       for (int index = 0; index < stacks.length; index++) {
-        // TODO Implement
-        //        outputStacks[index] = StackConverter.convertToString(stacks[index]);
+        outputStacks[index] = StackConverter.toString(stacks[index]);
       }
       items = outputStacks;
     } else {

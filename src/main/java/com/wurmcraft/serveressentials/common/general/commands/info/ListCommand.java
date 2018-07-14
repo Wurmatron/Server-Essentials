@@ -18,6 +18,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 
+// TODO Rework Command
 @Command(moduleName = "General")
 public class ListCommand extends SECommand {
 
@@ -35,7 +36,8 @@ public class ListCommand extends SECommand {
     for (EntityPlayerMP player : players) {
       pList.add(player.getGameProfile().getId());
     }
-    sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+    sender.sendMessage(
+        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
     for (UUID name : pList) {
       Rank userRank = getPlayerRank(name);
       sender.sendMessage(
@@ -45,7 +47,8 @@ public class ListCommand extends SECommand {
                   + ": "
                   + userRank.getName()));
     }
-    sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+    sender.sendMessage(
+        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
   }
 
   @Override

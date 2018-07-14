@@ -20,6 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.UsernameCache;
 
+// TODO Rework Command
 @Command(moduleName = "Economy")
 public class PayCommand extends SECommand {
 

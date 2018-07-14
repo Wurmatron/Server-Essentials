@@ -34,7 +34,8 @@ public class TpDenyCommand extends SECommand {
       }
     }
     TeleportationModule.activeRequests.remove(playerRequest);
-    sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).TPA_DENY));
+    sender.sendMessage(
+        new TextComponentString(getCurrentLanguage(sender).TPA_DENY.replaceAll("&", "\u00A7")));
   }
 
   @Override

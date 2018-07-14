@@ -16,6 +16,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
+// TODO Rework Command
 @Command(moduleName = "Rest")
 public class OnlineTimeCommand extends SECommand {
 

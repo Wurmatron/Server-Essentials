@@ -3,7 +3,6 @@ package com.wurmcraft.serveressentials.common.utils;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
-import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -45,11 +44,8 @@ public class UserManager {
 
   public static Object[] getPlayerData(UUID uuid) {
     if (uuid != null) {
-      ServerEssentialsServer.logger.error(
-          "KLFGLAGHJLGHAJKLS" + playerData.getOrDefault(uuid, new Object[0]).length);
       return playerData.getOrDefault(uuid, new Object[0]);
     }
-    System.out.println("KLFGLAGHJLGHAJKLS EMPTY ARRAY!");
     return new Object[0];
   }
 

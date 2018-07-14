@@ -2,6 +2,8 @@ package com.wurmcraft.serveressentials.common.chat.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import java.util.ArrayList;
+import java.util.List;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -33,5 +35,23 @@ public class BroadcastCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return true;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/broadcast \u00A7b<the message here>";
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alts = new ArrayList<>();
+    alts.add("bc");
+    alts.add("say");
+    return alts;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_BROADCAST;
   }
 }

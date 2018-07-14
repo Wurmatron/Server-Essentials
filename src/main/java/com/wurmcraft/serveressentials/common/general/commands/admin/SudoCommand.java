@@ -13,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+// TODO Rework Command
 @Command(moduleName = "General")
 public class SudoCommand extends SECommand {
 

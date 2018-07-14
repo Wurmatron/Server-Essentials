@@ -33,58 +33,55 @@ public class RestModule implements IModule {
   public static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
 
   public static void syncRanks() {
-    try {
-      Rank[] allRanks = RequestHelper.RankResponses.getAllRanks();
-      UserManager.rankCache.clear();
-      for (Rank rank : allRanks) {
-        UserManager.rankCache.put(rank.getName(), rank);
-      }
-      if (UserManager.rankCache.size() == 0) {
-        createDefaultRanks();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    //    executors.scheduleAtFixedRate(
-    //        () -> {
-    //        },
-    //        0L,
-    //        ConfigHandler.syncPeriod,
-    //        TimeUnit.MINUTES);
-    ServerEssentialsServer.logger.debug("Synced Ranks with REST API");
+    executors.scheduleAtFixedRate(
+        () -> {
+          try {
+            Rank[] allRanks = RequestHelper.RankResponses.getAllRanks();
+            UserManager.rankCache.clear();
+            for (Rank rank : allRanks) {
+              UserManager.rankCache.put(rank.getName(), rank);
+            }
+            if (UserManager.rankCache.size() == 0) {
+              createDefaultRanks();
+            }
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        },
+        0L,
+        ConfigHandler.syncPeriod,
+        TimeUnit.MINUTES);
   }
 
   public static void syncPlayer(UUID uuid) {
-    ServerEssentialsServer.logger.error("SYNC PLAYER!");
-    try {
-      GlobalUser globalUser = RequestHelper.UserResponses.getPlayerData(uuid);
-      if (globalUser == null) {
-        createNewUser(uuid);
-      } else {
-        LocalUser user = loadLocalUser(uuid);
-        if (user == null) {
-          user = new LocalUser(uuid);
-          DataHelper.forceSave(Keys.LOCAL_USER, user);
-        }
-        UserManager.playerData.put(
-            uuid,
-            new Object[] {
-              globalUser,
-              UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, user})[1]
-            });
-        UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
-      }
-    } catch (Exception e) {
-      createNewUser(uuid);
-    }
-    TeamModule.loadRestTeam(uuid);
-    //    executors.scheduleAtFixedRate(
-    //        () -> {
-    //
-    //        },
-    //        0L,
-    //        ConfigHandler.syncPeriod,
-    //        TimeUnit.MINUTES);
+    executors.scheduleAtFixedRate(
+        () -> {
+          try {
+            GlobalUser globalUser = RequestHelper.UserResponses.getPlayerData(uuid);
+            if (globalUser == null) {
+              createNewUser(uuid);
+            } else {
+              LocalUser user = loadLocalUser(uuid);
+              if (user == null) {
+                user = new LocalUser(uuid);
+                DataHelper.forceSave(Keys.LOCAL_USER, user);
+              }
+              UserManager.playerData.put(
+                  uuid,
+                  new Object[] {
+                    globalUser,
+                    UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, user})[1]
+                  });
+              UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
+              TeamModule.loadRestTeam(uuid);
+            }
+          } catch (Exception e) {
+            createNewUser(uuid);
+          }
+        },
+        0L,
+        ConfigHandler.syncPeriod,
+        TimeUnit.MINUTES);
     ServerEssentialsServer.logger.debug(
         "Synced Player '" + UsernameCache.getLastKnownUsername(uuid) + "' with REST API");
   }
