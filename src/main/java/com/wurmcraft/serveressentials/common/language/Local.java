@@ -118,30 +118,34 @@ public class Local {
   public String SIGN_CREATED = "%TYPE% sign created!";
   public String PURCHASED = "You just purchased an item for %COST% %COIN%s";
   public String NO_MONEY = "You cannot afford to buy this";
-  public String SOLD = "You just sold a item and gained %COST% %COIN%s";
-  public String NO_ITEM = "You dont have any of this item!";
+  public String SOLD;
+  public String NO_ITEM;
 
   // Item
-  public String SKULL = "Created %PLAYER% Skull";
-  public String NAME_CHANGED = "Item name changed to %NAME%";
+  public String SKULL;
+  public String NAME_CHANGED;
 
   // Command Descriptions
-  public String COMMAND_TOP = "&9Teleports you to the highest location above your current location";
-  public String COMMAND_BROADCAST = "&9Allows Admins to broadcast a message";
-  public String COMMAND_CHANNEL = "&9Allows for changing of your current channel";
-  public String COMMAND_HOME = "&9Teleport to your homes";
-  public String COMMAND_DELHOME = "&9Deletes a current home";
-  public String COMMAND_SETHOME = "&9Creates a home to later teleport to";
-  public String COMMAND_TPA = "&9Teleport to another with there acceptance";
-  public String COMMAND_TPAACCEPT = "&9Accept to incoming teleport request";
-  public String COMMAND_TP = "&9Allows for Admin teleportation";
-  public String COMMAND_SEEN = "&9Find the last time a player has logged in";
-  public String COMMAND_HELP = "&9List of all commands";
-  public String COMMAND_TPLOCK = "&9Disables TPA requests";
-  public String COMMAND_BACK = "&9Teleport to your last known location";
-  public String COMMAND_TPHERE = "&9Teleport a player to your current location";
-  public String COMMAND_RTP = "&9Teleprot to a random location within the world";
-  public String COMMAND_AFK = "&9Sets if a player is AFK or not";
+  public String COMMAND_TOP;
+  public String COMMAND_BROADCAST;
+  public String COMMAND_CHANNEL;
+  public String COMMAND_HOME;
+  public String COMMAND_DELHOME;
+  public String COMMAND_SETHOME;
+  public String COMMAND_TPA;
+  public String COMMAND_TPAACCEPT;
+  public String COMMAND_TP;
+  public String COMMAND_SEEN;
+  public String COMMAND_HELP;
+  public String COMMAND_TPLOCK;
+  public String COMMAND_BACK;
+  public String COMMAND_TPHERE;
+  public String COMMAND_RTP;
+  public String COMMAND_AFK;
+  public String COMMAND_DISCORD;
+  public String COMMAND_MODS;
+  public String COMMAND_PERM;
+  public String COMMAND_ONLINETIME;
 
   public static Local load(String langKey) {
     boolean valid = false;

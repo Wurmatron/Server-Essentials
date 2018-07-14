@@ -20,6 +20,7 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -121,7 +122,7 @@ public class PlayerChat {
       e.setCanceled(true);
       e.getPlayer()
           .sendMessage(
-              new TextComponentString(
+              ForgeHooks.newChatWithLinks(
                   LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).MUTED));
       return;
     }

@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
-// TODO Rework Command
 @Command(moduleName = "Teleportation")
 public class BackCommand extends SECommand {
 

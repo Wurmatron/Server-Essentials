@@ -75,4 +75,6 @@ public class LangCommand extends SECommand {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
   }
+
+
 }

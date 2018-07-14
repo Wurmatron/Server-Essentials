@@ -4,15 +4,17 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.security.SecurityModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.List;
+import javax.annotation.Nullable;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
-// TODO Rework Command
 @Command(moduleName = "Security")
 public class ModsCommand extends SECommand {
 
@@ -38,5 +40,21 @@ public class ModsCommand extends SECommand {
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/mods \u00A7b<player>";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_MODS.replaceAll("&", "\u00A7");
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+    return autoCompleteUsername(args, 0);
   }
 }

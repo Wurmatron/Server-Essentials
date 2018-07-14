@@ -114,5 +114,9 @@
   "COMMAND_BACK": "&9Teleport to your last known location",
   "COMMAND_TPHERE": "&9Teleport a player to your current location",
   "COMMAND_RTP": "&9Teleprot to a random location within the world",
-  "COMMAND_AFK": "&9Sets if a player is AFK or not"
+  "COMMAND_AFK": "&9Sets if a player is AFK or not",
+  "COMMAND_DISCORD": "&9Lists the server discord",
+  "COMMAND_MODS": "&9Gets a list of players active mods",
+  "COMMAND_PERM": "&9Main comand for perms and ranks",
+  "COMMAND_ONLINETIME": "&9List of the users play time"
 }

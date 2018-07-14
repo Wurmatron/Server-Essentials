@@ -5,7 +5,10 @@ import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.HashMap;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.ForgeHooks;
 import org.apache.commons.lang3.StringUtils;
 
 public class ChatHelper {
@@ -110,5 +113,10 @@ public class ChatHelper {
       }
     }
     return format;
+  }
+
+  public static void sendMessage(ICommandSender sender, String msg) {
+    ITextComponent message = ForgeHooks.newChatWithLinks(msg.replaceAll("&", "\u00A7"), true);
+    sender.sendMessage(message);
   }
 }

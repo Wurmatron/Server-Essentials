@@ -2,9 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.info;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +50,7 @@ public class AFKCommand extends SECommand {
     }
     for (EntityPlayer user :
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-      if (afk) {
+      if (!afk) {
         user.sendMessage(
             new TextComponentString(
                 LanguageModule.getLangfromUUID(user.getGameProfile().getId())

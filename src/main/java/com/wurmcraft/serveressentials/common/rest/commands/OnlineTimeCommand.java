@@ -8,6 +8,8 @@ import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +18,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-// TODO Rework Command
 @Command(moduleName = "Rest")
 public class OnlineTimeCommand extends SECommand {
 
@@ -95,5 +96,24 @@ public class OnlineTimeCommand extends SECommand {
         sender.sendMessage(new TextComponentString(getUsage(sender)));
       }
     }
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alts = new ArrayList<>();
+    alts.add("online");
+    alts.add("time");
+    alts.add("ot");
+    return alts;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/onlineTime \u00A7b<player>";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_ONLINETIME.replaceAll("&", "\u00A7");
   }
 }

@@ -23,7 +23,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 
-// TODO Rework Command
 @Command(moduleName = "Rest", trustedRequired = true)
 public class PermCommand extends SECommand {
 
@@ -337,5 +336,10 @@ public class PermCommand extends SECommand {
   @Override
   public boolean hasSubCommand() {
     return true;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_PERM.replaceAll("&", "\u00A7");
   }
 }
