@@ -75,6 +75,8 @@ public class RestModule implements IModule {
               UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
               TeamModule.loadRestTeam(uuid);
             }
+            ServerEssentialsServer.logger.debug(
+                "Sync Time: " + (System.currentTimeMillis() - WorldEvent.startTime));
           } catch (Exception e) {
             createNewUser(uuid);
           }

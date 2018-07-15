@@ -29,7 +29,9 @@ public class BalanceCommand extends SECommand {
     if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       GlobalUser gloal = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
       for (String active : ConfigHandler.activeCurrency) {
         sender.sendMessage(
             new TextComponentString(
@@ -39,10 +41,14 @@ public class BalanceCommand extends SECommand {
                     + TextFormatting.GOLD
                     + gloal.getBank().getCurrency(active.replaceAll(" ", "_"))));
       }
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
     } else if (args.length == 1) {
       GlobalUser user = forceUserFromUUID(UsernameResolver.getUUIDFromName(args[0]));
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
       for (String active : ConfigHandler.activeCurrency) {
         sender.sendMessage(
             new TextComponentString(
@@ -52,7 +58,9 @@ public class BalanceCommand extends SECommand {
                     + TextFormatting.GOLD
                     + user.getBank().getCurrency(active.replaceAll(" ", "_"))));
       }
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+      sender.sendMessage(
+          new TextComponentString(
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }

@@ -117,7 +117,7 @@ public class MarketEvent {
       for (int index = 0; index < player.inventory.mainInventory.size(); index++) {
         if (player.inventory.mainInventory.get(index).isItemEqual(sellItem)) {
           amountToSell +=
-              player.inventory.mainInventory.get(index).getCount() / sellItem.getCount();
+              (player.inventory.mainInventory.get(index).getCount() / sellItem.getCount()) + 1;
           player.inventory.mainInventory.set(index, ItemStack.EMPTY);
           if (!player.isSneaking()) {
             break;

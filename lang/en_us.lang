@@ -118,5 +118,8 @@
   "COMMAND_DISCORD": "&9Lists the server discord",
   "COMMAND_MODS": "&9Gets a list of players active mods",
   "COMMAND_PERM": "&9Main comand for perms and ranks",
-  "COMMAND_ONLINETIME": "&9List of the users play time"
+  "COMMAND_ONLINETIME": "&9List of the users play time",
+  "Spawn": "Spawn",
+  "COMMAND_SPAWN", "&9Teleports the user to spawn",
+  "UUID": "&9UUID: &6%UUID%"
 }

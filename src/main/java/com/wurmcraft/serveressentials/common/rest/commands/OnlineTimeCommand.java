@@ -38,7 +38,9 @@ public class OnlineTimeCommand extends SECommand {
               (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
           LocalUser local =
               (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
-          sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
           String formattedGlobal =
               DurationFormatUtils.formatDuration(global.getOnlineTime() * 60000, "d%:H$:m#:s@")
                   .replace('%', 'D')
@@ -61,8 +63,13 @@ public class OnlineTimeCommand extends SECommand {
                       + formattedGlobal));
           sender.sendMessage(
               new TextComponentString(
-                  getCurrentLanguage(sender).LOCAL + ": " + TextFormatting.AQUA + formattedLocal));
-          sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER));
+                  getCurrentLanguage(sender).LOCAL
+                      + ": "
+                      + TextFormatting.AQUA
+                      + formattedLocal.replaceAll("&", "\u00A7")));
+          sender.sendMessage(
+              new TextComponentString(
+                  getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
         } else {
           sender.sendMessage(
               new TextComponentString(
@@ -86,7 +93,10 @@ public class OnlineTimeCommand extends SECommand {
                   .replaceAll(":", ", ");
           sender.sendMessage(
               new TextComponentString(
-                  getCurrentLanguage(sender).LOCAL + ": " + TextFormatting.AQUA + formattedLocal));
+                  getCurrentLanguage(sender).LOCAL
+                      + ": "
+                      + TextFormatting.AQUA
+                      + formattedLocal.replaceAll("&", "\u00A7")));
         } else {
           sender.sendMessage(
               new TextComponentString(

@@ -46,7 +46,7 @@ public class PlayerChat {
             ? e.getUsername()
             : TextFormatting.GREEN + "*" + TextFormatting.GRAY + global.getNick();
     e.setComponent(
-        new TextComponentString(
+        ForgeHooks.newChatWithLinks(
             ChatHelper.format(
                 username,
                 UserManager.getRank(global.rank),
@@ -55,14 +55,15 @@ public class PlayerChat {
                 UserManager.getTeam(global.getTeam()).length > 0
                     ? (ITeam) UserManager.getTeam(global.getTeam())[0]
                     : new Team(),
-                e.getMessage())));
-    if (currentChannel.getName().equalsIgnoreCase(ConfigHandler.defaultChannel)) {
+                e.getMessage()),
+            true));
+    if (currentChannel.getName().equalsIgnoreCase(ConfigHandler.globalChannel)) {
       return false;
     }
     return true;
   }
 
-  public static boolean proccessFile(ServerChatEvent e) {
+  private static boolean proccessFile(ServerChatEvent e) {
     return false;
   }
 

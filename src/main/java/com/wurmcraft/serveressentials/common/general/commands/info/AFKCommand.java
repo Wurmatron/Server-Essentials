@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.info;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.apache.commons.codec.language.bm.Lang;
 import org.cliffc.high_scale_lib.NonBlockingHashSet;
 
 @Command(moduleName = "General")
@@ -33,12 +35,10 @@ public class AFKCommand extends SECommand {
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (afkPlayers.contains(player)) {
       setAFK(player, false);
-      sender.sendMessage(
-          new TextComponentString(getCurrentLanguage(sender).AFK.replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).NOTAFK);
     } else {
       setAFK(player, true);
-      sender.sendMessage(
-          new TextComponentString(getCurrentLanguage(sender).NOTAFK.replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).AFK);
     }
   }
 
@@ -50,20 +50,17 @@ public class AFKCommand extends SECommand {
     }
     for (EntityPlayer user :
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-      if (!afk) {
-        user.sendMessage(
-            new TextComponentString(
-                LanguageModule.getLangfromUUID(user.getGameProfile().getId())
-                    .AFK_OTHER
-                    .replaceAll("%PLAYER%", player.getDisplayNameString())
-                    .replaceAll("&", "\u00A7")));
+      if (user.getGameProfile().getId().equals(player.getGameProfile().getId())) {
+        break;
+      }
+      if (afk) {
+        ChatHelper.sendMessage(user,
+            LanguageModule.getLangfromUUID(user.getGameProfile().getId()).AFK_OTHER
+                .replaceAll("%PLAYER%", player.getDisplayNameString()));
       } else {
-        user.sendMessage(
-            new TextComponentString(
-                LanguageModule.getLangfromUUID(user.getGameProfile().getId())
-                    .NOTAFK_OTHER
-                    .replaceAll("%PLAYER%", player.getDisplayNameString())
-                    .replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(user,
+            LanguageModule.getLangfromUUID(user.getGameProfile().getId()).NOTAFK_OTHER
+                .replaceAll("%PLAYER%", player.getDisplayNameString()));
       }
     }
   }

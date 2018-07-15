@@ -84,5 +84,9 @@ public class ConfigHandler {
   @Comment(("Link  to your discord server"))
   public static String discordLink = "";
 
+  @Comment("Changes how messages are displayed")
   public static String msgFormat = "%username% -> %message%";
+
+  @Comment("Channel is not intercepted by Server-Essentials")
+  public static String globalChannel = "global";
 }

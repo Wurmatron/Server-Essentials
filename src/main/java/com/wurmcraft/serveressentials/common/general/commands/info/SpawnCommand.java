@@ -12,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
-// TODO Rework Command
 @Command(moduleName = "General")
 public class SpawnCommand extends SECommand {
 
@@ -32,7 +31,9 @@ public class SpawnCommand extends SECommand {
           (EntityPlayerMP) player, DataHelper.globalSettings.getSpawn().location, true);
       sender.sendMessage(
           new TextComponentString(
-              getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", "Spawn")));
+              getCurrentLanguage(sender)
+                  .TP_HOME
+                  .replaceAll("%HOME%", getCurrentLanguage(sender).SPAWN)));
     } else {
       TeleportUtils.teleportTo(
           (EntityPlayerMP) player,
@@ -40,12 +41,24 @@ public class SpawnCommand extends SECommand {
           true);
       sender.sendMessage(
           new TextComponentString(
-              getCurrentLanguage(sender).TP_HOME.replaceAll("%HOME%", "Overworld Spawn")));
+              getCurrentLanguage(sender)
+                  .TP_HOME
+                  .replaceAll("%HOME%", getCurrentLanguage(sender).SPAWN)));
     }
   }
 
   @Override
   public boolean canConsoleRun() {
     return false;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/spawn";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_SPAWN.replaceAll("&", "\u00A7");
   }
 }

@@ -45,12 +45,14 @@ public class ChatHelper {
                   channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                   message,
                   Integer.toString(dimension),
-                  rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  TextFormatting.GRAY
-                      + team.getName().substring(0, 1).toUpperCase()
-                      + team.getName().substring(1, team.getName().length()).toLowerCase()
-                      + TextFormatting.RESET
+                  rank.getPrefix().replaceAll("&", "\u00A7"),
+                  rank.getSuffix().replaceAll("&", "\u00A7"),
+                  team.getName().length() > 0
+                      ? TextFormatting.GRAY
+                          + team.getName().substring(0, 1).toUpperCase()
+                          + team.getName().substring(1, team.getName().length()).toLowerCase()
+                          + TextFormatting.RESET
+                      : ""
                 });
       } else {
         format =
@@ -92,7 +94,7 @@ public class ChatHelper {
                   message,
                   Integer.toString(dimension),
                   rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  rank.getSuffix().replaceAll("&", "\u00A7") + TextFormatting.RESET
+                  rank.getSuffix().replaceAll("&", "\u00A7")
                 });
       } else {
         format =

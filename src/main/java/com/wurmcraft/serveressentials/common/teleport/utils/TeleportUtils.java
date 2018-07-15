@@ -56,7 +56,7 @@ public class TeleportUtils {
         }
         player.mcServer.getPlayerList().preparePlayer(player, oldWorld);
         player.connection.setPlayerLocation(
-            location.getY() + 0.5,
+            location.getX() + 0.5,
             location.getY() + 1,
             location.getZ() + 0.5,
             player.rotationYaw,
