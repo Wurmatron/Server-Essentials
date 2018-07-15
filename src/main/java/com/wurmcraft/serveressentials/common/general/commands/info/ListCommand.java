@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 
-// TODO Rework Command
 @Command(moduleName = "General")
 public class ListCommand extends SECommand {
 
@@ -36,19 +36,14 @@ public class ListCommand extends SECommand {
     for (EntityPlayerMP player : players) {
       pList.add(player.getGameProfile().getId());
     }
-    sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
     for (UUID name : pList) {
       Rank userRank = getPlayerRank(name);
-      sender.sendMessage(
-          new TextComponentString(
-              TextFormatting.AQUA
-                  + UsernameCache.getLastKnownUsername(name)
-                  + ": "
-                  + userRank.getName()));
+      ChatHelper.sendMessage(sender,
+          userRank.getPrefix() + ": " + TextFormatting.LIGHT_PURPLE + UsernameCache
+              .getLastKnownUsername(name));
     }
-    sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
   }
 
   @Override
@@ -65,5 +60,15 @@ public class ListCommand extends SECommand {
       return data.getRank();
     }
     return null;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "\u00A79/list";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_LIST.replaceAll("&", "\u00A7");
   }
 }

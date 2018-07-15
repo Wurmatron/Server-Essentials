@@ -148,6 +148,8 @@ public class Local {
   public String COMMAND_PERM;
   public String COMMAND_ONLINETIME;
   public String COMMAND_SPAWN;
+  public String COMMAND_LIST;
+  public String COMMAND_MOTD;
 
   public static Local load(String langKey) {
     boolean valid = false;
