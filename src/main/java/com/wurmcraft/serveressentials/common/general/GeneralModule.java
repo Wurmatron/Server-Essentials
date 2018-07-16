@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.general.events.GlobaDataEvents;
+import com.wurmcraft.serveressentials.common.general.events.MOTDEvent;
 import com.wurmcraft.serveressentials.common.general.events.PlayerTickEvent;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
@@ -29,6 +30,7 @@ public class GeneralModule implements IModule {
     setupWarps();
     MinecraftForge.EVENT_BUS.register(new GlobaDataEvents());
     MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
+        MinecraftForge.EVENT_BUS.register(new MOTDEvent());
   }
 
   private void setupKits() {

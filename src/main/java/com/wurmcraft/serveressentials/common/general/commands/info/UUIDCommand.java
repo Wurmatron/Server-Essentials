@@ -37,16 +37,22 @@ public class UUIDCommand extends SECommand {
     super.execute(server, sender, args);
     if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).UUID
-          .replaceAll("%UUID%", player.getGameProfile().getId().toString()));
+      ChatHelper.sendMessage(
+          sender,
+          getCurrentLanguage(sender)
+              .UUID
+              .replaceAll("%UUID%", player.getGameProfile().getId().toString()));
     } else if (args.length == 1) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
       if (player != null) {
-        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).UUID
-            .replaceAll("%UUID%", player.getGameProfile().getId().toString()));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .UUID
+                .replaceAll("%UUID%", player.getGameProfile().getId().toString()));
       } else {
-        ChatHelper.sendMessage(sender,
-            getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));

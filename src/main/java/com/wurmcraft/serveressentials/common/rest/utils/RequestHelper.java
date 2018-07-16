@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.rest.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
+import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -189,6 +190,63 @@ public class RequestHelper {
 
     public static void overrideTeam(GlobalTeam team) {
       post("team/override", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
+    }
+  }
+
+  public static class AutoRankResponses {
+
+    public static void addAutoRank(AutoRank rank) {
+      post("autorank/add", new AutoRankJson(rank, ConfigHandler.restAuthKey));
+    }
+
+    public static AutoRank getAutoRank(String name) {
+      try {
+        URL obj = new URL(getBaseURL() + "autorank/find/" + name);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), AutoRank.class);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+
+    public static void overrideAutoRank(AutoRank rank) {
+      put("autorank/override", new AutoRankJson(rank, ConfigHandler.restAuthKey));
+    }
+
+    public static AutoRank[] getAllAutoRanks() {
+      try {
+        URL obj = new URL(getBaseURL() + "autorank/find");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), AutoRank[].class);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return new AutoRank[0];
     }
   }
 }

@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.common.teleport;
 
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
-import com.wurmcraft.serveressentials.common.teleport.events.TeleportTimerEvents;
+import com.wurmcraft.serveressentials.common.teleport.events.TeleportEvents;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -15,6 +15,6 @@ public class TeleportationModule implements IModule {
 
   @Override
   public void setup() {
-    MinecraftForge.EVENT_BUS.register(new TeleportTimerEvents());
+    MinecraftForge.EVENT_BUS.register(new TeleportEvents());
   }
 }

@@ -2,10 +2,14 @@ package com.wurmcraft.serveressentials.common.teleport.events;
 
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
+import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
+import com.wurmcraft.serveressentials.common.utils.CommandUtils;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
-public class TeleportTimerEvents {
+public class TeleportEvents {
 
   @SubscribeEvent
   public void onTickEvent(WorldTickEvent.WorldTickEvent e) {
@@ -14,6 +18,17 @@ public class TeleportTimerEvents {
         if ((time + (ConfigHandler.tpaTimeout * 1000)) <= System.currentTimeMillis()) {
           TeleportationModule.activeRequests.remove(time);
         }
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onDeath(LivingDeathEvent e) {
+    if (e.getEntityLiving() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) e.getEntityLiving();
+      TeleportUtils.setLastLocation(player, player.getPosition());
+      if (CommandUtils.hasPerm("perk.keepInventory", player)) {
+        // TODO Implement
       }
     }
   }

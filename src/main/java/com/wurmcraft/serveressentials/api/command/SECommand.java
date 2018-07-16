@@ -1,6 +1,5 @@
 package com.wurmcraft.serveressentials.api.command;
 
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -13,7 +12,6 @@ import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -123,16 +121,8 @@ public abstract class SECommand implements ICommand {
         return SecurityModule.isTrustedMember((EntityPlayer) sender.getCommandSenderEntity());
       }
     }
-    String[] perms = getSenderPermissions(sender);
-    String commandPerm = getCommandPerm();
-    for (String perm : perms) {
-      if (perm.equalsIgnoreCase(commandPerm)
-          || perm.contains(".*")
-              && perm.substring(0, perm.indexOf("."))
-                  .equalsIgnoreCase(commandPerm.substring(0, commandPerm.indexOf(".")))
-          || perm.equalsIgnoreCase("*")) {
-        return true;
-      }
+    if (CommandUtils.hasPerm(getCommandPerm(), sender)) {
+      return true;
     }
     return false;
   }
@@ -148,26 +138,6 @@ public abstract class SECommand implements ICommand {
       return getClass().getAnnotation(Command.class).perm();
     }
     return getClass().getAnnotation(Command.class).moduleName() + "." + getName().toLowerCase();
-  }
-
-  private String[] getSenderPermissions(ICommandSender sender) {
-    if (sender != null && sender.getCommandSenderEntity() != null) {
-      if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-        GlobalUser user =
-            (GlobalUser)
-                UserManager.getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
-        List<String> perms = new ArrayList<>();
-        Collections.addAll(perms, user.getPermission());
-        Collections.addAll(perms, UserManager.getRank(user.getRank()).getPermission());
-        return perms.toArray(new String[0]);
-      } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
-        PlayerData data =
-            (PlayerData)
-                UserManager.getPlayerData(((EntityPlayer) sender.getCommandSenderEntity()))[0];
-        return data.getRank().getPermission();
-      }
-    }
-    return new String[0];
   }
 
   public boolean canConsoleRun() {

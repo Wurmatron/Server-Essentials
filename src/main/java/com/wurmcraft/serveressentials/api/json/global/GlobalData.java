@@ -16,6 +16,15 @@ public class GlobalData implements IDataType {
   private String website;
   private boolean lockdown;
   private String[] bannedMods;
+  private String[] globalMOTD;
+
+  public String[] getGlobalMOTD() {
+    return globalMOTD;
+  }
+
+  public void setGlobalMOTD(String[] globalMOTD) {
+    this.globalMOTD = globalMOTD;
+  }
 
   public GlobalData(SpawnPoint spawn, String[] rules, String[] motd, String website) {
     this.spawn = spawn;
@@ -23,6 +32,7 @@ public class GlobalData implements IDataType {
     this.motd = motd;
     this.website = website;
     bannedMods = new String[0];
+    globalMOTD = new String[0];
   }
 
   public SpawnPoint getSpawn() {
@@ -51,7 +61,7 @@ public class GlobalData implements IDataType {
       listRules.add(rule);
       setRules(listRules.toArray(new String[0]));
     } else {
-      setRules(new String[] {rule});
+      setRules(new String[]{rule});
     }
   }
 
@@ -101,7 +111,7 @@ public class GlobalData implements IDataType {
       listmotd.add(motd);
       setMotd(listmotd.toArray(new String[0]));
     } else {
-      setMotd(new String[] {motd});
+      setMotd(new String[]{motd});
     }
   }
 

@@ -15,7 +15,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 
@@ -39,9 +38,12 @@ public class ListCommand extends SECommand {
     ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
     for (UUID name : pList) {
       Rank userRank = getPlayerRank(name);
-      ChatHelper.sendMessage(sender,
-          userRank.getPrefix() + ": " + TextFormatting.LIGHT_PURPLE + UsernameCache
-              .getLastKnownUsername(name));
+      ChatHelper.sendMessage(
+          sender,
+          userRank.getPrefix()
+              + ": "
+              + TextFormatting.LIGHT_PURPLE
+              + UsernameCache.getLastKnownUsername(name));
     }
     ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
   }

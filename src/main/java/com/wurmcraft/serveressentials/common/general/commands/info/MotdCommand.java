@@ -7,7 +7,6 @@ import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "General")
 public class MotdCommand extends SECommand {

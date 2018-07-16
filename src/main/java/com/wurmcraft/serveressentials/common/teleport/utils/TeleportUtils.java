@@ -101,7 +101,7 @@ public class TeleportUtils {
     return false;
   }
 
-  private static void setLastLocation(EntityPlayer player, BlockPos pos) {
+  public static void setLastLocation(EntityPlayer player, BlockPos pos) {
     if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       data.setLastLocation(new LocationWrapper(pos, player.dimension));

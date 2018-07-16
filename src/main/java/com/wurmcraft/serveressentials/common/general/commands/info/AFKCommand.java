@@ -8,9 +8,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import org.apache.commons.codec.language.bm.Lang;
 import org.cliffc.high_scale_lib.NonBlockingHashSet;
 
 @Command(moduleName = "General")
@@ -54,12 +52,16 @@ public class AFKCommand extends SECommand {
         break;
       }
       if (afk) {
-        ChatHelper.sendMessage(user,
-            LanguageModule.getLangfromUUID(user.getGameProfile().getId()).AFK_OTHER
+        ChatHelper.sendMessage(
+            user,
+            LanguageModule.getLangfromUUID(user.getGameProfile().getId())
+                .AFK_OTHER
                 .replaceAll("%PLAYER%", player.getDisplayNameString()));
       } else {
-        ChatHelper.sendMessage(user,
-            LanguageModule.getLangfromUUID(user.getGameProfile().getId()).NOTAFK_OTHER
+        ChatHelper.sendMessage(
+            user,
+            LanguageModule.getLangfromUUID(user.getGameProfile().getId())
+                .NOTAFK_OTHER
                 .replaceAll("%PLAYER%", player.getDisplayNameString()));
       }
     }

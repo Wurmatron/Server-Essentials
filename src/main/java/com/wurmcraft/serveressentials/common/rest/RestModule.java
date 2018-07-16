@@ -68,9 +68,9 @@ public class RestModule implements IModule {
               }
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      globalUser,
-                      UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, user})[1]
+                  new Object[] {
+                    globalUser,
+                    UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, user})[1]
                   });
               UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
               TeamModule.loadRestTeam(uuid);
@@ -124,9 +124,9 @@ public class RestModule implements IModule {
       RequestHelper.UserResponses.addPlayerData(globalUser);
       UserManager.playerData.put(
           uuid,
-          new Object[]{
-              globalUser,
-              UserManager.playerData.getOrDefault(uuid, new Object[]{globalUser, localUser})[1]
+          new Object[] {
+            globalUser,
+            UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, localUser})[1]
           });
       UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
     } catch (Exception e) {
@@ -137,9 +137,9 @@ public class RestModule implements IModule {
   public static void createDefaultRanks() {
     Rank defaultRank =
         new Rank(
-            "Default", "&8[Default]", "", new String[]{}, new String[]{"info.*", "teleport.*"});
+            "Default", "&8[Default]", "", new String[] {}, new String[] {"info.*", "teleport.*"});
     Rank adminRank =
-        new Rank("Admin", "&c[Admin]", "", new String[]{"default"}, new String[]{"admin.*"});
+        new Rank("Admin", "&c[Admin]", "", new String[] {"default"}, new String[] {"admin.*"});
     RequestHelper.RankResponses.addRank(defaultRank);
     RequestHelper.RankResponses.addRank(adminRank);
   }

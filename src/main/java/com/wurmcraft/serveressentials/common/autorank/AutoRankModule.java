@@ -11,6 +11,7 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
+import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
 import java.util.Objects;
@@ -23,11 +24,11 @@ public class AutoRankModule implements IModule {
     RestModule.executors.scheduleAtFixedRate(
         () -> {
           try {
-            //            AutoRank[] allAutoRanks = RequestHelper.AutoRankResponses.getAllAutoRanks();
+            AutoRank[] allAutoRanks = RequestHelper.AutoRankResponses.getAllAutoRanks();
             UserManager.autoRankCache.clear();
-            //            for (AutoRank rank : allAutoRanks) {
-            //              UserManager.autoRankCache.put(rank.getID(), rank);
-            //            }
+            for (AutoRank rank : allAutoRanks) {
+              UserManager.autoRankCache.put(rank.getID(), rank);
+            }
             if (UserManager.rankCache.size() == 0) {
               ServerEssentialsServer.logger.debug("No AutoRank Found within the database");
             }
@@ -56,7 +57,7 @@ public class AutoRankModule implements IModule {
   @Override
   public void setup() {
     if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
-      //      syncAutoRanks();
+      syncAutoRanks();
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       loadAutoRanks();
     }
