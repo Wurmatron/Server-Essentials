@@ -11,7 +11,8 @@ public class MOTDEvent {
 
   @SubscribeEvent
   public void onServerPing(TickEvent.ServerTickEvent e) {
-    if (DataHelper.globalSettings.getGlobalMOTD() != null && DataHelper.globalSettings.getGlobalMOTD().length > 0) {
+    if (DataHelper.globalSettings.getGlobalMOTD() != null
+        && DataHelper.globalSettings.getGlobalMOTD().length > 0) {
       MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
       StringBuilder builder = new StringBuilder();
       for (String txt : DataHelper.globalSettings.getGlobalMOTD()) {

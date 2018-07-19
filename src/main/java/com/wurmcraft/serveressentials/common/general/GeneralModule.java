@@ -30,7 +30,7 @@ public class GeneralModule implements IModule {
     setupWarps();
     MinecraftForge.EVENT_BUS.register(new GlobaDataEvents());
     MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
-        MinecraftForge.EVENT_BUS.register(new MOTDEvent());
+    MinecraftForge.EVENT_BUS.register(new MOTDEvent());
   }
 
   private void setupKits() {

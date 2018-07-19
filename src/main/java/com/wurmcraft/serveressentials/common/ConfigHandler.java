@@ -89,4 +89,7 @@ public class ConfigHandler {
 
   @Comment("Channel is not intercepted by Server-Essentials")
   public static String globalChannel = "global";
+
+  @Comment("Currency all others converge into")
+  public static String globalCurrency = "global";
 }

@@ -4,10 +4,12 @@ import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 import static com.wurmcraft.serveressentials.common.reference.Keys.AUTO_RANK;
 
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.autorank.events.RankCheckupRestEvent;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
@@ -16,6 +18,8 @@ import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 @Module(name = "AutoRank")
 public class AutoRankModule implements IModule {
@@ -58,8 +62,16 @@ public class AutoRankModule implements IModule {
   public void setup() {
     if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       syncAutoRanks();
+      MinecraftForge.EVENT_BUS.register(new RankCheckupRestEvent());
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       loadAutoRanks();
     }
+  }
+
+  public static boolean verifyAutoRank(AutoRank rank, EntityPlayer player, GlobalUser user) {
+    boolean balance = rank.getBalance() == user.getBank().getCurrency(ConfigHandler.serverCurrency);
+    boolean exp = rank.getExp() <= player.experienceLevel;
+    boolean playTime = rank.getPlayTime() <= user.getOnlineTime();
+    return balance && exp && playTime;
   }
 }
