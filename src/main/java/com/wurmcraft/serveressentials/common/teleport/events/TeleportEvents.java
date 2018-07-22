@@ -27,9 +27,7 @@ public class TeleportEvents {
     if (e.getEntityLiving() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) e.getEntityLiving();
       TeleportUtils.setLastLocation(player, player.getPosition());
-      if (CommandUtils.hasPerm("perk.keepInventory", player)) {
-        // TODO Implement
-      }
+      if (CommandUtils.hasPerm("perk.keepInventory", player)) {}
     }
   }
 }

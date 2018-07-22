@@ -6,7 +6,6 @@ import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.CommandLoader;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
