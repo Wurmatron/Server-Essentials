@@ -57,7 +57,6 @@ public class BankCommand extends SECommand {
     }
   }
 
-
   @Override
   public boolean canConsoleRun() {
     return true;
