@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -247,6 +248,63 @@ public class RequestHelper {
         e.printStackTrace();
       }
       return new AutoRank[0];
+    }
+  }
+
+  public static class EcoResponses {
+
+    public static void addEco(Currency coin) {
+      post("eco/add", new CurrencyJson(coin, ConfigHandler.restAuthKey));
+    }
+
+    public static Currency getEco(String name) {
+      try {
+        URL obj = new URL(getBaseURL() + "eco/find/" + name);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), Currency.class);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+
+    public static void overrideEco(Currency currency) {
+      put("eco/override", new CurrencyJson(currency, ConfigHandler.restAuthKey));
+    }
+
+    public static Currency[] getAllCurrency() {
+      try {
+        URL obj = new URL(getBaseURL() + "eco/find");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuffer response = new StringBuffer();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), Currency[].class);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return new Currency[0];
     }
   }
 }
