@@ -1,55 +1,61 @@
 package com.wurmcraft.serveressentials.common.economy;
 
+import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.economy.events.MarketEvent;
+import com.wurmcraft.serveressentials.common.rest.RestModule;
+import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 import net.minecraftforge.common.MinecraftForge;
+import org.cliffc.high_scale_lib.NonBlockingHashMap;
+import org.cliffc.high_scale_lib.NonBlockingHashSet;
 
 @Module(name = "Economy")
 public class EconomyModule implements IModule {
 
-  public static HashMap<String, Double> activeCurrency = new HashMap<>();
+  public static NonBlockingHashMap<String, Currency> currency = new NonBlockingHashMap<>();
 
   @Override
   public void setup() {
     MinecraftForge.EVENT_BUS.register(new MarketEvent());
-    for (String coin : ConfigHandler.activeCurrency) {
-      if (coin.contains(":")) {
-        activeCurrency.put(
-            coin.substring(0, coin.indexOf(":")),
-            Double.parseDouble(coin.substring(coin.indexOf(":") + 1, coin.length())));
-      } else {
-        activeCurrency.put(coin, 1.0);
-      }
-    }
+    syncCurrency();
   }
 
-  public static boolean isValidCurrrency(String name) {
-    for (String curr : activeCurrency.keySet()) {
-      if (curr.equalsIgnoreCase(name)) {
-        return true;
-      }
-    }
-    return false;
+
+  public static void syncCurrency() {
+    RestModule.executors.scheduleAtFixedRate(
+        () -> {
+          try {
+            Currency[] autoCurrency = RequestHelper.EcoResponses.getAllCurrency();
+            currency.clear();
+            for (Currency c : autoCurrency) {
+              currency.put(c.name, c);
+            }
+            if (currency.size() == 0) {
+              ServerEssentialsServer.logger.debug("No Currency Found within the database");
+            }
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        },
+        0L,
+        ConfigHandler.syncPeriod,
+        TimeUnit.MINUTES);
+    ServerEssentialsServer.logger.debug("Synced AutoRanks with REST API");
   }
 
-  public static double exchangeCurrency(String currentCoin, int amount, String newCoin) {
-    if (newCoin.equalsIgnoreCase(ConfigHandler.globalCurrency)) {
-      return amount * getExchangeRate(ConfigHandler.globalCurrency);
-    } else {
-      double globalRate = exchangeCurrency(currentCoin, amount, ConfigHandler.globalCurrency);
-      return (amount * globalRate) * getExchangeRate(newCoin);
-    }
-  }
-
-  private static double getExchangeRate(String currency) {
-    for (String coin : activeCurrency.keySet()) {
-      if (currency.equalsIgnoreCase(coin)) {
-        return activeCurrency.get(coin);
+  public static Currency getCurrency(String name) {
+    for (Currency currency : currency.values()) {
+      if (currency.name.equalsIgnoreCase(name)) {
+        return currency;
       }
     }
-    return 1.0;
+    return null;
   }
 }

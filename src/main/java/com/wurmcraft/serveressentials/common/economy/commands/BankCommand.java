@@ -4,8 +4,10 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
+import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.economy.EconomyModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,33 @@ public class BankCommand extends SECommand {
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
     } else {
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
+    }
+  }
+
+  @SubCommand
+  public void exchange(ICommandSender sender, String[] args) {
+    if (args.length == 3 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      Currency currentCurrency = EconomyModule.getCurrency(args[0]);
+      if (currentCurrency != null) {
+        try {
+          double amount = Double.parseDouble(args[1]);
+          Currency newCurrency = EconomyModule.getCurrency(args[2]);
+          GlobalUser user = (GlobalUser) UserManager
+              .getPlayerData(player.getGameProfile().getId())[0];
+          user.getBank().spend(currentCurrency.name, amount);
+          double amt = (currentCurrency.sell * amount) / newCurrency.buy;
+          user.getBank().earn(newCurrency.name, amt);
+          String name = getCurrentLanguage(sender).CURRENCY_CONVERT;
+          ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CURRENCY_CONVERT
+              .replaceAll("%CURRENCY%", currentCurrency.name).replaceAll("%AMOUNT%", "" + amount)
+              .replaceAll("%AMOUNT2%", "" + amt).replaceAll("%CURRENCY2%", newCurrency.name));
+        } catch (NumberFormatException e) {
+          ChatHelper.sendMessage(sender,
+              getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[1]));
+
+        }
+      }
     }
   }
 
