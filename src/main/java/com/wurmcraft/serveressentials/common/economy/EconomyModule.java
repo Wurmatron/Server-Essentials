@@ -1,6 +1,5 @@
 package com.wurmcraft.serveressentials.common.economy;
 
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
@@ -9,12 +8,9 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.economy.events.MarketEvent;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
-import com.wurmcraft.serveressentials.common.utils.UserManager;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
-import org.cliffc.high_scale_lib.NonBlockingHashSet;
 
 @Module(name = "Economy")
 public class EconomyModule implements IModule {
@@ -26,7 +22,6 @@ public class EconomyModule implements IModule {
     MinecraftForge.EVENT_BUS.register(new MarketEvent());
     syncCurrency();
   }
-
 
   public static void syncCurrency() {
     RestModule.executors.scheduleAtFixedRate(

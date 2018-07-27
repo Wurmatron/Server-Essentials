@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.economy.EconomyModule;
+import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,19 +69,31 @@ public class BankCommand extends SECommand {
         try {
           double amount = Double.parseDouble(args[1]);
           Currency newCurrency = EconomyModule.getCurrency(args[2]);
-          GlobalUser user = (GlobalUser) UserManager
-              .getPlayerData(player.getGameProfile().getId())[0];
+          GlobalUser user =
+              (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
+          //          if(user.getBank().getCurrency(currentCurrency.name) >= amount) {
+
           user.getBank().spend(currentCurrency.name, amount);
           double amt = (currentCurrency.sell * amount) / newCurrency.buy;
           user.getBank().earn(newCurrency.name, amt);
-          String name = getCurrentLanguage(sender).CURRENCY_CONVERT;
-          ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CURRENCY_CONVERT
-              .replaceAll("%CURRENCY%", currentCurrency.name).replaceAll("%AMOUNT%", "" + amount)
-              .replaceAll("%AMOUNT2%", "" + amt).replaceAll("%CURRENCY2%", newCurrency.name));
+          ChatHelper.sendMessage(
+              sender,
+              getCurrentLanguage(sender)
+                  .CURRENCY_CONVERT
+                  .replaceAll("%CURRENCY%", currentCurrency.name)
+                  .replaceAll("%AMOUNT%", "" + amount)
+                  .replaceAll("%AMOUNT2%", "" + amt)
+                  .replaceAll("%CURRENCY2%", newCurrency.name));
+          UserManager.playerData.put(
+              player.getGameProfile().getId(),
+              new Object[] {user, UserManager.playerData.get(player.getGameProfile().getId())[1]});
+          RequestHelper.UserResponses.overridePlayerData(user);
+          //          }else {
+          //            ChatHelper.sendMessage(sender,getCurrentLanguage(sender).NO_MONEY);
+          //          }
         } catch (NumberFormatException e) {
-          ChatHelper.sendMessage(sender,
-              getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[1]));
-
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[1]));
         }
       }
     }

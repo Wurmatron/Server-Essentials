@@ -46,6 +46,7 @@ public class Bank {
     boolean found = false;
     for (Coin coin : currency) {
       if (coin.name.equalsIgnoreCase(name.replaceAll(" ", "_"))) {
+        cleanCurrency();
         coin.setAmount(coin.amount + amount);
         found = true;
       }
@@ -64,17 +65,26 @@ public class Bank {
   }
 
   private void cleanCurrency() {
-    List<Coin> validCurrency = new ArrayList<>();
-    for (String coin : ConfigHandler.activeCurrency) {
-      for (Coin c : currency) {
-        if (coin.equalsIgnoreCase(c.name)) {
-          validCurrency.add(c);
-        } else if (c.amount > 0) {
-          validCurrency.add(c);
+    List<Coin> activeCurr = new ArrayList<>();
+    List<String> tested = new ArrayList<>();
+    for (String name : ConfigHandler.activeCurrency) {
+      for (Coin coin : currency) {
+        if (coin.name.equalsIgnoreCase(name) && !coinExists(coin)) {
+          activeCurr.add(coin);
+          tested.add(coin.name);
         }
       }
     }
-    currency = validCurrency.toArray(new Coin[0]);
+    currency = activeCurr.toArray(new Coin[0]);
+  }
+
+  public boolean coinExists(Coin coin) {
+    for (Coin c : currency) {
+      if (coin.name.equalsIgnoreCase(c.name)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean validCurrency(String name) {
