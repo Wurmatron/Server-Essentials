@@ -9,6 +9,8 @@ import com.wurmcraft.serveressentials.api.json.global.Warp;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.general.commands.perk.PerkCommand;
+import com.wurmcraft.serveressentials.common.general.commands.utils.Perk;
 import com.wurmcraft.serveressentials.common.general.events.GlobaDataEvents;
 import com.wurmcraft.serveressentials.common.general.events.MOTDEvent;
 import com.wurmcraft.serveressentials.common.general.events.PlayerTickEvent;
@@ -31,6 +33,7 @@ public class GeneralModule implements IModule {
     MinecraftForge.EVENT_BUS.register(new GlobaDataEvents());
     MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
     MinecraftForge.EVENT_BUS.register(new MOTDEvent());
+    PerkCommand.perks.put("home", new Perk("home", 100, 1000, "home.amount.%LEVEL%"));
   }
 
   private void setupKits() {

@@ -124,5 +124,6 @@
   "UUID": "&9UUID: &6%UUID%",
   "COMMAND_LIST": "List all the current server players",
   "COMMAND_MOTD": "Displays the server MOTD",
-  "CURRENCY_CONVERT": "%AMOUNT% %CURRENCY% has been converted to %CURRENCY2% %AMOUNT2%"
+  "CURRENCY_CONVERT": "%AMOUNT% %CURRENCY% has been converted to %CURRENCY2% %AMOUNT2%",
+  "BUY_PERK": "You just purchased an extra %PERK% for %COST%"
 }

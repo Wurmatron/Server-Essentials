@@ -247,15 +247,15 @@ public class GlobalUser implements Serializable {
 
   public void delPerk(String perk) {
     List<String> currentPerks = new ArrayList<>();
-    Collections.addAll(currentPerks, getPermission());
-    String delNode = "";
-    for (String node : currentPerks) {
-      if (node.equalsIgnoreCase(perk)) {
-        delNode = node;
+    for (String perm : perks) {
+      if (perk.contains("%LEVEL%")) {
+        if (perm.substring(perm.lastIndexOf("."))
+            .equalsIgnoreCase(perk.substring(perm.lastIndexOf(".")))) currentPerks.add(perm);
+      } else if (!perm.equalsIgnoreCase(perk)) {
+        currentPerks.add(perm);
       }
     }
-    currentPerks.remove(delNode);
-    this.permission = currentPerks.toArray(new String[0]);
+    perks = currentPerks.toArray(new String[0]);
   }
 
   public boolean hasPerk(String perk) {

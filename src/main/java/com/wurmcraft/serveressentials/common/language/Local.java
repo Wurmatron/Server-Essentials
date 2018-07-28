@@ -122,6 +122,7 @@ public class Local {
   public String SOLD;
   public String NO_ITEM;
   public String CURRENCY_CONVERT;
+  public String BUY_PERK;
 
   // Item
   public String SKULL;
