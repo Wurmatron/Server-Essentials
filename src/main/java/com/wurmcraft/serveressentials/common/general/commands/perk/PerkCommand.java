@@ -10,10 +10,15 @@ import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.commands.utils.Perk;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Command(moduleName = "General")
@@ -43,7 +48,21 @@ public class PerkCommand extends SECommand {
   }
 
   @SubCommand
-  public void list(ICommandSender sender, String[] args) {}
+  public void list(ICommandSender sender, String[] args) {
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
+    for (String name : perks.keySet()) {
+      if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+        EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+        GlobalUser user = (GlobalUser) UserManager
+            .getPlayerData(player.getGameProfile().getId())[0];
+        ChatHelper.sendMessage(sender,
+            TextFormatting.LIGHT_PURPLE + name + " " + (perks.get(name).getCost(user)));
+      } else {
+        ChatHelper.sendMessage(sender, TextFormatting.LIGHT_PURPLE + name);
+      }
+    }
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
+  }
 
   @SubCommand
   public void buy(ICommandSender sender, String[] args) {
@@ -93,5 +112,21 @@ public class PerkCommand extends SECommand {
       }
     }
     return 0;
+  }
+
+  @Override
+  public boolean canConsoleRun() {
+    return true;
+  }
+
+  @Override
+  public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
+      String[] args, @Nullable BlockPos targetPos) {
+    List<String> possible = new ArrayList<>();
+    if(args.length >= 1 && args[0].equalsIgnoreCase("buy")) {
+      for(String name : perks.keySet())
+        possible.add(name);
+    }
+    return possible;
   }
 }
