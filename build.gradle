@@ -39,8 +39,6 @@ repositories {
 }
 
 dependencies {
-    compile "ftb-utilities:FTBUtilities:${ftblib_version}"
-    compile "ftblib:FTBLib:${ftbutils_version}"
     compile group: 'com.github.stephenc.high-scale-lib', name: 'high-scale-lib', version: '1.1.4'
 }
 
