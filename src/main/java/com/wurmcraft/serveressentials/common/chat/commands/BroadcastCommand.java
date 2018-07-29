@@ -27,7 +27,8 @@ public class BroadcastCommand extends SECommand {
       FMLCommonHandler.instance()
           .getMinecraftServerInstance()
           .getPlayerList()
-          .sendMessage(ForgeHooks.newChatWithLinks(Strings.join(args, " ").replaceAll("&", "\u00A7")), true);
+          .sendMessage(
+              ForgeHooks.newChatWithLinks(Strings.join(args, " ").replaceAll("&", "\u00A7")), true);
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
