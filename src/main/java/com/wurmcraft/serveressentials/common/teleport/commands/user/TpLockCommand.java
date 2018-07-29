@@ -78,7 +78,7 @@ public class TpLockCommand extends SECommand {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "\u00A79/tplock \u00A7<player>";
+    return "\u00A79/tplock \u00A7b<player>";
   }
 
   @Override
@@ -97,10 +97,14 @@ public class TpLockCommand extends SECommand {
       LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
       user.setTpLock(lock);
       DataHelper.forceSave(Keys.LOCAL_USER, user);
+      UserManager.playerData.put(
+          player.getGameProfile().getId(),
+          new Object[] {UserManager.getPlayerData(player.getGameProfile().getId())[0], user});
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       data.setTpLock(lock);
       DataHelper.forceSave(Keys.PLAYER_DATA, data);
+      UserManager.playerData.put(player.getGameProfile().getId(), new Object[] {data});
     }
   }
 

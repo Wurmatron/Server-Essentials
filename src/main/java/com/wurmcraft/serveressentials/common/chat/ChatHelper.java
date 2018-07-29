@@ -21,8 +21,6 @@ public class ChatHelper {
   public static final String RANK_SUFFIX_KEY = "%rankSuffix%";
   public static final String TEAM_KEY = "%team%";
 
-  public static HashMap<String, String[]> lastChat = new HashMap<>();
-
   public static String format(
       String username, Rank rank, Channel channel, int dimension, ITeam team, String message) {
     String format;

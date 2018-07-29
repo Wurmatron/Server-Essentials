@@ -30,7 +30,7 @@ public class TpaCommand extends SECommand {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "\u00A7/tpa \u00A7b<user>";
+    return "\u00A79/tpa \u00A7b<user>";
   }
 
   @Override

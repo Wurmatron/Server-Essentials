@@ -53,10 +53,10 @@ public class PerkCommand extends SECommand {
     for (String name : perks.keySet()) {
       if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
         EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-        GlobalUser user = (GlobalUser) UserManager
-            .getPlayerData(player.getGameProfile().getId())[0];
-        ChatHelper.sendMessage(sender,
-            TextFormatting.LIGHT_PURPLE + name + " " + (perks.get(name).getCost(user)));
+        GlobalUser user =
+            (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
+        ChatHelper.sendMessage(
+            sender, TextFormatting.LIGHT_PURPLE + name + " " + (perks.get(name).getCost(user)));
       } else {
         ChatHelper.sendMessage(sender, TextFormatting.LIGHT_PURPLE + name);
       }
@@ -120,12 +120,11 @@ public class PerkCommand extends SECommand {
   }
 
   @Override
-  public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
-      String[] args, @Nullable BlockPos targetPos) {
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
     List<String> possible = new ArrayList<>();
-    if(args.length >= 1 && args[0].equalsIgnoreCase("buy")) {
-      for(String name : perks.keySet())
-        possible.add(name);
+    if (args.length >= 1 && args[0].equalsIgnoreCase("buy")) {
+      for (String name : perks.keySet()) possible.add(name);
     }
     return possible;
   }

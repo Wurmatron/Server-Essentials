@@ -9,6 +9,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 @Command(moduleName = "General")
@@ -26,7 +27,7 @@ public class BroadcastCommand extends SECommand {
       FMLCommonHandler.instance()
           .getMinecraftServerInstance()
           .getPlayerList()
-          .sendMessage(new TextComponentString(Strings.join(args, " ").replaceAll("&", "\u00A7")));
+          .sendMessage(ForgeHooks.newChatWithLinks(Strings.join(args, " ").replaceAll("&", "\u00A7")), true);
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
