@@ -67,7 +67,7 @@
   "PLAYER_INVENTORY": "&dOpening %PLAYER%'s Inventory",
   "UNFROZEN": "&dYou have been unfrozen",
   "FROZEN": "&cYou have been frozen",
-  "UNFROZEN_OTHER": &d"You have unfrozen %PLAYER%",
+  "UNFROZEN_OTHER": "&dYou have unfrozen %PLAYER%",
   "FROZEN_OTHER": "&cYou have frozen %PLAYER%",
   "RTP": "&dYou have Randomly Teleported!",
   "COMMAND_FORCED": "&dYou were forced to run %COMMAND%",
@@ -81,7 +81,7 @@
   "SPEED_CHANGED": "&dYour speed has changed to %SPEED%",
   "PING_RESPONSE": "&dNep NepNep Nep Nep Nep",
   "PLAYER_FILE_DELETE": "&dYour Player File has been deleted",
-  "PLAYER_FILE_DELETE_OTHER": &d"You have deleted %PLAYER%'s PlayerFile",
+  "PLAYER_FILE_DELETE_OTHER": "&dYou have deleted %PLAYER%'s PlayerFile",
   "CLAIM_BREAK": "&dYou cannot break a block in this claim owned by %PLAYER%!",
   "CLAIM_PLACE": "&dYou cannot place a block in %PLAYER%'s Claim",
   "CLAIM_INTERACT": "&dYou dont have %PLAYER%'s permission to interact in this claim!",
@@ -125,5 +125,6 @@
   "COMMAND_LIST": "&9List all the current server players",
   "COMMAND_MOTD": "&9Displays the server MOTD",
   "CURRENCY_CONVERT": "&9%AMOUNT% %CURRENCY% has been converted to %CURRENCY2% %AMOUNT2%",
-  "BUY_PERK": "&9You just purchased an extra %PERK% for %COST%"
+  "BUY_PERK": "&9You just purchased an extra %PERK% for %COST%",
+  "TPA_NOTSAFE": "&9Not safe to teleport to %PLAYER%"
 }

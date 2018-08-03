@@ -27,6 +27,7 @@ public class Local {
   public String HOME_CREATED;
   public String HOME_FAILED;
   public String TP_HOME_OTHER;
+  public String TPA_NOTSAFE;
 
   // Permissions
   public String PERM_ADDED;

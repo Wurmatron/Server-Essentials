@@ -2,10 +2,13 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
+import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.List;
@@ -47,23 +50,29 @@ public class TpaCommand extends SECommand {
           if (player.getGameProfile().getId().equals(senderPlayer.getGameProfile().getId())) {
             return;
           }
-          TeleportationModule.activeRequests.put(
-              System.currentTimeMillis(), new EntityPlayer[] {senderPlayer, player});
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TPA_SENT.replaceAll("&", "\u00A7")));
-          TextComponentString msg =
-              new TextComponentString(
-                  lang.TPA_Recive.replaceAll("%PLAYER%", senderPlayer.getDisplayNameString())
-                      .replaceAll("%ACCEPT%", lang.CHAT_ACCEPT.replaceAll("&", "\u00A7"))
-                      .replaceAll("%DENY%", lang.CHAT_DENY.replaceAll("&", "\u00A7"))
-                      .replaceAll("&", "\u00A7"));
-          msg.getStyle().setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/tpaccept"));
-          msg.getStyle()
-              .setHoverEvent(
-                  new HoverEvent(
-                      HoverEvent.Action.SHOW_TEXT, new TextComponentString("\u00A7d/tpaccept")));
-          player.sendMessage(msg);
+          if (TeleportUtils.safeToTeleport(player,
+              new LocationWrapper(player.getPosition(), player.dimension))) {
+            TeleportationModule.activeRequests.put(
+                System.currentTimeMillis(), new EntityPlayer[]{senderPlayer, player});
+            sender.sendMessage(
+                new TextComponentString(
+                    getCurrentLanguage(sender).TPA_SENT.replaceAll("&", "\u00A7")));
+            TextComponentString msg =
+                new TextComponentString(
+                    lang.TPA_Recive.replaceAll("%PLAYER%", senderPlayer.getDisplayNameString())
+                        .replaceAll("%ACCEPT%", lang.CHAT_ACCEPT.replaceAll("&", "\u00A7"))
+                        .replaceAll("%DENY%", lang.CHAT_DENY.replaceAll("&", "\u00A7"))
+                        .replaceAll("&", "\u00A7"));
+            msg.getStyle().setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/tpaccept"));
+            msg.getStyle()
+                .setHoverEvent(
+                    new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT, new TextComponentString("\u00A7d/tpaccept")));
+            player.sendMessage(msg);
+          } else {
+            ChatHelper.sendMessage(sender, getCurrentLanguage(sender).TPA_NOTSAFE
+                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+          }
         }
       } else {
         sender.sendMessage(

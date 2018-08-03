@@ -32,4 +32,8 @@ public class LocationWrapper extends Location {
   public int getDim() {
     return dim;
   }
+
+  public BlockPos getPos() {
+    return new BlockPos(getX(),y,getZ());
+  }
 }

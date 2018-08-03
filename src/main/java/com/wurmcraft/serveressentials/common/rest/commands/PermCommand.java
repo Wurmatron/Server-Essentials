@@ -324,6 +324,7 @@ public class PermCommand extends SECommand {
         GlobalUser user = RequestHelper.UserResponses.getPlayerData(uuid);
         LocalUser local = DataHelper.load(Keys.LOCAL_USER, new LocalUser(uuid));
         UserManager.playerData.put(uuid, new Object[] {user, local});
+        // TODO Output
       }
     }
   }

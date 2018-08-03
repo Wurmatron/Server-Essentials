@@ -10,12 +10,15 @@ import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.SPacketEntityEffect;
 import net.minecraft.network.play.server.SPacketRespawn;
 import net.minecraft.network.play.server.SPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TeleportUtils {
@@ -126,5 +129,16 @@ public class TeleportUtils {
       data.setTeleportTimer(System.currentTimeMillis());
       DataHelper.forceSave(Keys.LOCAL_USER, data);
     }
+  }
+
+  public static boolean safeToTeleport(EntityPlayer player, LocationWrapper location) {
+    boolean blocks = player.world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState()
+        && player.world.getBlockState(location.getPos().add(0, 1, 0)) == Blocks.AIR
+        .getDefaultState();
+    boolean fluid =
+        player.world.getBlockState(location.getPos().add(0, -1, 0)) != Blocks.AIR.getDefaultState()
+            && player.world.getBlockState(location.getPos().add(0, -1, 0))
+            .getBlock() instanceof IFluidBlock;
+    return blocks && !fluid;
   }
 }
