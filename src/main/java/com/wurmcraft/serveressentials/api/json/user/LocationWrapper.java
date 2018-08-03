@@ -34,6 +34,6 @@ public class LocationWrapper extends Location {
   }
 
   public BlockPos getPos() {
-    return new BlockPos(getX(),y,getZ());
+    return new BlockPos(getX(), y, getZ());
   }
 }

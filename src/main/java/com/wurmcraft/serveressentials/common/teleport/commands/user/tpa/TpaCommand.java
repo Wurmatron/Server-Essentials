@@ -50,10 +50,10 @@ public class TpaCommand extends SECommand {
           if (player.getGameProfile().getId().equals(senderPlayer.getGameProfile().getId())) {
             return;
           }
-          if (TeleportUtils.safeToTeleport(player,
-              new LocationWrapper(player.getPosition(), player.dimension))) {
+          if (TeleportUtils.safeToTeleport(
+              player, new LocationWrapper(player.getPosition(), player.dimension))) {
             TeleportationModule.activeRequests.put(
-                System.currentTimeMillis(), new EntityPlayer[]{senderPlayer, player});
+                System.currentTimeMillis(), new EntityPlayer[] {senderPlayer, player});
             sender.sendMessage(
                 new TextComponentString(
                     getCurrentLanguage(sender).TPA_SENT.replaceAll("&", "\u00A7")));
@@ -70,8 +70,11 @@ public class TpaCommand extends SECommand {
                         HoverEvent.Action.SHOW_TEXT, new TextComponentString("\u00A7d/tpaccept")));
             player.sendMessage(msg);
           } else {
-            ChatHelper.sendMessage(sender, getCurrentLanguage(sender).TPA_NOTSAFE
-                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+            ChatHelper.sendMessage(
+                sender,
+                getCurrentLanguage(sender)
+                    .TPA_NOTSAFE
+                    .replaceAll("%PLAYER%", player.getDisplayNameString()));
           }
         }
       } else {

@@ -1,10 +1,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -17,50 +14,40 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}"
-group = package_group
-archivesBaseName = mod_name
+group = "com.wurmcraft.serveressentials"
+archivesBaseName = "ServerEssentials"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
 
 minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20170624"
-    replace "@VERSION@", project.version
+    mappings = "${mcp_map}"
+    replace "@version@", project.version
     replaceIn "Global.java"
+    clientRunArgs += "--username=${username}"
 }
 
-repositories {
-    maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
-    }
-}
+repositories {}
 
 dependencies {
     compile group: 'com.github.stephenc.high-scale-lib', name: 'high-scale-lib', version: '1.1.4'
 }
 
-processResources
-        {
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
-
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
-                expand 'version': project.version, 'mcversion': project.minecraft.version
-            }
-
-            from(sourceSets.main.resources.srcDirs) {
-                exclude '**/*.info'
-                exclude '**/*.properties'
-            }
-
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
 
 spotless {
     java {
@@ -68,18 +55,24 @@ spotless {
         indentWithSpaces()
         trimTrailingWhitespace()
         endWithNewline()
-        googleJavaFormat()
     }
 }
 
-shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
 shadowJar {
     dependencies {
         exclude('dummy*')
-		include(dependency('com.github.stephenc.high-scale-lib:high-scale-lib:1.1.4'))
+        exclude ('*.jar')
+        include(dependency('com.github.stephenc.high-scale-lib:high-scale-lib:1.1.4'))
     }
 }
 
 reobf {
     shadowJar {}
+}
+
+task buildAndPackage {
+    dependsOn 'clean'
+    dependsOn 'spotlessApply'
+    dependsOn 'build'
+    tasks.findByName('build').mustRunAfter 'clean'
 }
