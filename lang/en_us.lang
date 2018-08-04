@@ -126,5 +126,7 @@
   "COMMAND_MOTD": "&9Displays the server MOTD",
   "CURRENCY_CONVERT": "&9%AMOUNT% %CURRENCY% has been converted to %CURRENCY2% %AMOUNT2%",
   "BUY_PERK": "&9You just purchased an extra %PERK% for %COST%",
-  "TPA_NOTSAFE": "&9Not safe to teleport to %PLAYER%"
+  "TPA_NOTSAFE": "&9Not safe to teleport to %PLAYER%",
+  "USER_SYNC": "&9%PLAYER% has been synced"!,
+  "CHAT_TIME": "&9Time"
 }

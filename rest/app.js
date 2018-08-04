@@ -560,7 +560,7 @@ function addAutoRankEntry(req, res, override) {
         console.log("Adding AutoRank '" + req.body.name + "'");
     }
     autorankDB.put(req.body.nextRank, JSON.stringify({
-        playTime: req.body.name,
+        playTime: req.body.playTime,
         balance: req.body.balance,
         exp: req.body.exp,
         rank: req.body.rank,

@@ -49,10 +49,9 @@ public class CommandUtils {
   public static boolean hasPerm(String perm, ICommandSender sender) {
     String[] perms = getSenderPermissions(sender);
     for (String p : perms) {
-      if (p.equalsIgnoreCase(perm)) return true;
-      if (p.contains("*")
-          && p.substring(0, p.lastIndexOf("."))
-              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf(".")))) return true;
+      if (p.equalsIgnoreCase(perm) || p.equalsIgnoreCase("*")) return true;
+      if (p.contains("*") && p.contains(".") && perm.contains(".") && p.substring(0, p.lastIndexOf(".")).equalsIgnoreCase(perm.substring(0, perm.lastIndexOf("."))))
+        return true;
     }
     return false;
   }

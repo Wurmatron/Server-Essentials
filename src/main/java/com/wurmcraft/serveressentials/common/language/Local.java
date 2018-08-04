@@ -66,6 +66,8 @@ public class Local {
   public String NOTAFK_OTHER;
   public String SPAWN;
   public String UUID;
+  public String USER_SYNC;
+  public String CHAT_TIME;
 
   // Commands
   public String RANK_NULL;

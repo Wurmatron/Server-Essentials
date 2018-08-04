@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.autorank;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 import static com.wurmcraft.serveressentials.common.reference.Keys.AUTO_RANK;
 
+import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
@@ -73,5 +74,14 @@ public class AutoRankModule implements IModule {
     boolean exp = rank.getExp() <= player.experienceLevel;
     boolean playTime = rank.getPlayTime() <= user.getOnlineTime();
     return balance && exp && playTime;
+  }
+
+  public static AutoRank getAutorankFromRank(Rank rank) {
+    for (AutoRank auto : UserManager.autoRankCache.values()) {
+      if (auto.getRank().equalsIgnoreCase(rank.getName())) {
+        return auto;
+      }
+    }
+    return null;
   }
 }
