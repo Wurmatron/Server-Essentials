@@ -4,12 +4,12 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.claim.Claim;
 import com.wurmcraft.serveressentials.api.json.claim.RegionData;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.claim.ChunkManager;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "Claim")
@@ -32,10 +32,10 @@ public class DelClaimCommand extends SECommand {
         regionData.setClaim(ChunkManager.getIndexForClaim(player.getPosition()), null);
         ChunkManager.handleRegionUpdate(
             ChunkManager.getRegionLocation(player.getPosition()), regionData);
-        player.sendMessage(new TextComponentString(getCurrentLanguage(sender).CLAIM_REMOVED));
+        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CLAIM_REMOVED);
       }
     } else {
-      player.sendMessage(new TextComponentString(getCurrentLanguage(sender).MISSING_CLAIM));
+      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).MISSING_CLAIM);
     }
   }
 }

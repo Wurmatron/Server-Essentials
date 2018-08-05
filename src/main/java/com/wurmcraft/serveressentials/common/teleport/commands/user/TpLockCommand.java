@@ -18,7 +18,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class TpLockCommand extends SECommand {
@@ -37,14 +36,12 @@ public class TpLockCommand extends SECommand {
       LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
       if (user.isTpLock()) {
         setLock(player, false);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7"));
       } else {
         setLock(player, true);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7"));
       }
     } else if (args.length == 1) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
@@ -53,14 +50,12 @@ public class TpLockCommand extends SECommand {
             (PlayerData) UserManager.getPlayerData(player.getGameProfile().getId())[0];
         if (data.isTpLock()) {
           setLock(player, false);
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7")));
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7"));
         } else {
           setLock(player, true);
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7")));
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7"));
         }
       } else {
         ChatHelper.sendMessage(

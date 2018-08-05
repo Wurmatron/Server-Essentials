@@ -2,12 +2,12 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class TpDenyCommand extends SECommand {
@@ -34,8 +34,7 @@ public class TpDenyCommand extends SECommand {
       }
     }
     TeleportationModule.activeRequests.remove(playerRequest);
-    sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).TPA_DENY.replaceAll("&", "\u00A7")));
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).TPA_DENY.replaceAll("&", "\u00A7"));
   }
 
   @Override

@@ -78,15 +78,15 @@ public class TpaCommand extends SECommand {
           }
         }
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .PLAYER_NOT_FOUND
-                    .replaceAll("%PLAYER%", args[0])
-                    .replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .PLAYER_NOT_FOUND
+                .replaceAll("%PLAYER%", args[0])
+                .replaceAll("&", "\u00A7"));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

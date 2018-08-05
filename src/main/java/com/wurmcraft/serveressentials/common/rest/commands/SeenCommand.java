@@ -3,13 +3,16 @@ package com.wurmcraft.serveressentials.common.rest.commands;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
 @Command(moduleName = "Rest")
@@ -28,22 +31,22 @@ public class SeenCommand extends SECommand {
       UUID player = UsernameResolver.getUUIDFromName(args[0]);
       if (player != null) {
         GlobalUser global = forceUserFromUUID(player);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).CHAT_LASTSEEN
-                    + ": "
-                    + TextFormatting.AQUA
-                    + new Date(global.getLastSeen()).toString().replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender).CHAT_LASTSEEN
+                + ": "
+                + TextFormatting.AQUA
+                + new Date(global.getLastSeen()).toString().replaceAll("&", "\u00A7"));
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .PLAYER_NOT_FOUND
-                    .replaceAll("%PLAYER%", args[0])
-                    .replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .PLAYER_NOT_FOUND
+                .replaceAll("%PLAYER%", args[0])
+                .replaceAll("&", "\u00A7"));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 
@@ -55,5 +58,11 @@ public class SeenCommand extends SECommand {
   @Override
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_SEEN.replaceAll("&", "\u00A7");
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    return autoCompleteUsername(args, 0);
   }
 }

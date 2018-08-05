@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
@@ -17,7 +18,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class SetHome extends SECommand {
@@ -44,19 +44,19 @@ public class SetHome extends SECommand {
     if (homeName.isEmpty()) homeName = ConfigHandler.defaultHome;
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (!homeName.equalsIgnoreCase("list") && setHome(player, homeName)) {
-      sender.sendMessage(
-          new TextComponentString(
-              getCurrentLanguage(sender)
-                  .HOME_CREATED
-                  .replaceAll("%HOME%", homeName)
-                  .replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(
+          sender,
+          getCurrentLanguage(sender)
+              .HOME_CREATED
+              .replaceAll("%HOME%", homeName)
+              .replaceAll("&", "\u00A7"));
     } else {
-      sender.sendMessage(
-          new TextComponentString(
-              getCurrentLanguage(sender)
-                  .HOME_FAILED
-                  .replaceAll("%HOME%", homeName)
-                  .replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(
+          sender,
+          getCurrentLanguage(sender)
+              .HOME_FAILED
+              .replaceAll("%HOME%", homeName)
+              .replaceAll("&", "\u00A7"));
     }
   }
 

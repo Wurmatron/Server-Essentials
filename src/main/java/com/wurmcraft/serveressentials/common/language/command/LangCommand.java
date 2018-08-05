@@ -5,6 +5,7 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
@@ -17,7 +18,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "Language")
@@ -54,25 +54,20 @@ public class LangCommand extends SECommand {
       Local lang = LanguageModule.getLangFromKey(args[0]);
       if (LanguageModule.isValidLangKey(args[0]) && lang != null) {
         setUserLang(player.getGameProfile().getId(), args[0]);
-        sender.sendMessage(
-            new TextComponentString(lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0])));
+        ChatHelper.sendMessage(sender, lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0]));
       } else {
-        sender.sendMessage(
-            new TextComponentString(lang.INVALID_LANG.replaceAll("%LANG%", args[0])));
+        ChatHelper.sendMessage(sender, lang.INVALID_LANG.replaceAll("%LANG%", args[0]));
       }
     } else if (args.length == 2) {
       UUID uuid = UsernameResolver.getUUIDFromName(args[1]);
       Local lang = LanguageModule.getLangFromKey(args[0]);
       if (lang != null) {
-        setUserLang(uuid, args[0]);
-        sender.sendMessage(
-            new TextComponentString(lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0])));
+        ChatHelper.sendMessage(sender, lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0]));
       } else {
-        sender.sendMessage(
-            new TextComponentString(lang.INVALID_LANG.replaceAll("%LANG%", args[0])));
+        ChatHelper.sendMessage(sender, lang.INVALID_LANG.replaceAll("%LANG%", args[0]));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 }

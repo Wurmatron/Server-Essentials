@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.item;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "General")
@@ -32,11 +32,11 @@ public class SkullCommand extends SECommand {
         stack.setTagCompound(new NBTTagCompound());
         stack.getTagCompound().setTag("SkullOwner", new NBTTagString(args[0]));
         player.inventory.addItemStackToInventory(stack);
-        player.sendMessage(
-            new TextComponentString(getCurrentLanguage(sender).SKULL.replaceAll("#", args[0])));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).SKULL.replaceAll("%PLAYER%", args[0]));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 }

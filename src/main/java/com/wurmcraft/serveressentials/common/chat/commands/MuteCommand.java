@@ -5,6 +5,7 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Keys;
@@ -16,7 +17,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "Chat")
@@ -35,24 +35,22 @@ public class MuteCommand extends SECommand {
     if (player != null) {
       if (getMuted(player.getGameProfile().getId())) {
         setMute(player.getGameProfile().getId(), false);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .UNMUTED_OTHER
-                    .replaceAll("%PLAYER%", player.getDisplayNameString())));
-        player.sendMessage(
-            new TextComponentString(
-                LanguageModule.getLangfromUUID(player.getGameProfile().getId()).UNMUTED));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .UNMUTED_OTHER
+                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+        ChatHelper.sendMessage(
+            player, LanguageModule.getLangfromUUID(player.getGameProfile().getId()).UNMUTED);
       } else {
         setMute(player.getGameProfile().getId(), true);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .MUTED_OTHER
-                    .replaceAll("%PLAYER%", player.getDisplayNameString())));
-        player.sendMessage(
-            new TextComponentString(
-                LanguageModule.getLangfromUUID(player.getGameProfile().getId()).MUTED));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .MUTED_OTHER
+                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+        ChatHelper.sendMessage(
+            player, LanguageModule.getLangfromUUID(player.getGameProfile().getId()).MUTED);
       }
     } else {
       if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
@@ -61,29 +59,27 @@ public class MuteCommand extends SECommand {
           if (user.isMuted()) {
             user.setMuted(false);
             RequestHelper.UserResponses.overridePlayerData(user);
-            sender.sendMessage(
-                new TextComponentString(
-                    getCurrentLanguage(sender)
-                        .UNMUTED_OTHER
-                        .replaceAll("%PLAYER%", player.getDisplayNameString())));
+            ChatHelper.sendMessage(
+                sender,
+                getCurrentLanguage(sender)
+                    .UNMUTED_OTHER
+                    .replaceAll("%PLAYER%", player.getDisplayNameString()));
           } else {
             user.setMuted(true);
             RequestHelper.UserResponses.overridePlayerData(user);
-            sender.sendMessage(
-                new TextComponentString(
-                    getCurrentLanguage(sender)
-                        .MUTED_OTHER
-                        .replaceAll("%PLAYER%", player.getDisplayNameString())));
+            ChatHelper.sendMessage(
+                sender,
+                getCurrentLanguage(sender)
+                    .MUTED_OTHER
+                    .replaceAll("%PLAYER%", player.getDisplayNameString()));
           }
         } else {
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
         }
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
       }
     }
   }

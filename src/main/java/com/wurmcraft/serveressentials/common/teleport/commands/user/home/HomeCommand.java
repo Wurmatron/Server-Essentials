@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
@@ -69,9 +70,8 @@ public class HomeCommand extends SECommand {
         sender.sendMessage(formatHome(sender, homes[0]));
       }
       if (homes.length == 0) {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).HOME_NOTSET.replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).HOME_NOTSET.replaceAll("&", "\u00A7"));
       }
     }
   }
@@ -98,8 +98,9 @@ public class HomeCommand extends SECommand {
           .setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/home " + home.getName()));
       sender.sendMessage(msg);
     }
-    sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+    ChatHelper.sendMessage(
+        sender, getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7"));
+    ;
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
@@ -18,7 +19,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class DelHomeCommand extends SECommand {
@@ -36,12 +36,11 @@ public class DelHomeCommand extends SECommand {
       String homeName = args[0];
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       if (deleteHome(player.getGameProfile().getId(), homeName)) {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).HOME_DELETED.replaceAll("%HOME%", homeName)));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).HOME_DELETED.replaceAll("%HOME%", homeName));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

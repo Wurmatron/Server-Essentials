@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.command.CommandException;
@@ -13,7 +14,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class BackCommand extends SECommand {
@@ -42,12 +42,10 @@ public class BackCommand extends SECommand {
     LocationWrapper location = getLastLocation(player);
     if (location != null && location.getY() > 0) {
       TeleportUtils.teleportTo((EntityPlayerMP) player, location, true);
-      sender.sendMessage(
-          new TextComponentString(getCurrentLanguage(sender).TP_BACK.replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).TP_BACK.replaceAll("&", "\u00A7"));
     } else {
-      sender.sendMessage(
-          new TextComponentString(
-              getCurrentLanguage(sender).TP_BACK_FAIL.replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(
+          sender, getCurrentLanguage(sender).TP_BACK_FAIL.replaceAll("&", "\u00A7"));
     }
   }
 

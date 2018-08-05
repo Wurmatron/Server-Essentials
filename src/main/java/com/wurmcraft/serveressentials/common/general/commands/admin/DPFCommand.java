@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Keys;
@@ -57,13 +58,13 @@ public class DPFCommand extends SECommand {
       ServerEssentialsServer.logger.info(
           "Deleting " + player.getDisplayNameString() + "'s player file");
       playerFile.delete();
-      sender.sendMessage(
-          new TextComponentString(
-              getCurrentLanguage(sender)
-                  .PLAYER_FILE_DELETE_OTHER
-                  .replaceAll("%PLAYER%", player.getDisplayNameString())));
+      ChatHelper.sendMessage(
+          sender,
+          getCurrentLanguage(sender)
+              .PLAYER_FILE_DELETE_OTHER
+              .replaceAll("%PLAYER%", player.getDisplayNameString()));
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

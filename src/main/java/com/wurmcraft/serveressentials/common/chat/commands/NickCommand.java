@@ -5,6 +5,7 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
@@ -15,7 +16,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "Chat")
@@ -33,19 +33,19 @@ public class NickCommand extends SECommand {
     if (args.length == 1 && sender.getCommandSenderEntity() != null) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       setNick(player.getGameProfile().getId(), args[0]);
+      ChatHelper.sendMessage(player, getCurrentLanguage(sender).NICK.replaceAll("%NICK%", args[0]));
     } else if (args.length == 2) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
       if (player != null) {
         setNick(player.getGameProfile().getId(), args[0]);
-        sender.sendMessage(
-            new TextComponentString(getCurrentLanguage(sender).NICK.replaceAll("%NICK%", args[0])));
+        ChatHelper.sendMessage(
+            player, getCurrentLanguage(sender).NICK.replaceAll("%NICK%", args[0]));
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

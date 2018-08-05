@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -9,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "General")
@@ -31,12 +31,12 @@ public class SpeedCommand extends SECommand {
         speed = Double.parseDouble(args[0]);
       } catch (NumberFormatException e) {
         e.printStackTrace();
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .INVALID_NUMBER
-                    .replaceAll("%NUMBER%", args[0])
-                    .replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .INVALID_NUMBER
+                .replaceAll("%NUMBER%", args[0])
+                .replaceAll("&", "\u00A7"));
         return;
       }
       NBTTagCompound tagCompound = new NBTTagCompound();
@@ -49,12 +49,12 @@ public class SpeedCommand extends SECommand {
           .setTag("walkSpeed", new NBTTagFloat((float) speed / 10));
       player.capabilities.readCapabilitiesFromNBT(tagCompound);
       player.sendPlayerAbilities();
-      player.sendMessage(
-          new TextComponentString(
-              LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                  .SPEED_CHANGED
-                  .replaceAll("%SPEED%", "" + speed)
-                  .replaceAll("&", "\u00A7")));
+      ChatHelper.sendMessage(
+          player,
+          LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+              .SPEED_CHANGED
+              .replaceAll("%SPEED%", "" + speed)
+              .replaceAll("&", "\u00A7"));
     } else {
       NBTTagCompound tagCompound = new NBTTagCompound();
       player.capabilities.writeCapabilitiesToNBT(tagCompound);

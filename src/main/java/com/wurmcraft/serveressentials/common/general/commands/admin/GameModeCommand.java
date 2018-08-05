@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
 // TODO Rework Command
@@ -50,40 +50,39 @@ public class GameModeCommand extends SECommand {
           EntityPlayer user = UsernameResolver.getPlayer(args[1]);
           if (user != null) {
             user.setGameType(GameType.getByID(mode));
-            user.sendMessage(
-                new TextComponentString(
-                    LanguageModule.getLangfromUUID(user.getGameProfile().getId())
-                        .MODE_CHANGED
-                        .replaceAll("%MODE%", GameType.getByID(mode).getName())));
-            sender.sendMessage(
-                new TextComponentString(
-                    getCurrentLanguage(sender)
-                        .MODE_CHANGED_OTHER
-                        .replaceAll("%PLAYER%", user.getDisplayNameString())
-                        .replaceAll("%MODE%", GameType.getByID(mode).getName())));
+            ChatHelper.sendMessage(
+                user,
+                LanguageModule.getLangfromUUID(user.getGameProfile().getId())
+                    .MODE_CHANGED
+                    .replaceAll("%MODE%", GameType.getByID(mode).getName()));
+            ChatHelper.sendMessage(
+                sender,
+                getCurrentLanguage(sender)
+                    .MODE_CHANGED_OTHER
+                    .replaceAll("%PLAYER%", user.getDisplayNameString())
+                    .replaceAll("%MODE%", GameType.getByID(mode).getName()));
           } else {
-            sender.sendMessage(
-                new TextComponentString(
-                    getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[1])));
+            ChatHelper.sendMessage(
+                sender,
+                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[1]));
           }
         } else if (sender instanceof EntityPlayer) {
           EntityPlayer player = (EntityPlayer) sender;
           player.setGameType(GameType.getByID(mode));
-          sender.sendMessage(
-              new TextComponentString(
-                  LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                      .MODE_CHANGED
-                      .replaceAll("%MODE%", GameType.getByID(mode).getName())));
+          ChatHelper.sendMessage(
+              sender,
+              LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                  .MODE_CHANGED
+                  .replaceAll("%MODE%", GameType.getByID(mode).getName()));
         } else {
-          sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).PLAYER_ONLY));
+          ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
         }
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).MODE_INVALID.replaceAll("%MODE%", args[0])));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).MODE_INVALID.replaceAll("%MODE%", args[0]));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

@@ -106,6 +106,10 @@ public class Local {
   public String PLAYER_FILE_DELETE;
   public String PLAYER_FILE_DELETE_OTHER;
   public String NO_RANKUP;
+  public String RANKUP;
+  public String RANKUP_OTHER;
+  public String VANISHED;
+  public String UNVANISHED;
 
   // Claiming
   public String CLAIM_BREAK;

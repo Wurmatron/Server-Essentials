@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.security.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.security.SecurityModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.List;
@@ -12,7 +13,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 @Command(moduleName = "Security")
@@ -29,16 +29,14 @@ public class ModsCommand extends SECommand {
     if (args.length > 0) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
       if (player != null) {
-        sender.sendMessage(
-            new TextComponentString(
-                TextFormatting.AQUA + Strings.join(SecurityModule.getPlayerMods(player), ",")));
+        ChatHelper.sendMessage(
+            sender, TextFormatting.AQUA + Strings.join(SecurityModule.getPlayerMods(player), ","));
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

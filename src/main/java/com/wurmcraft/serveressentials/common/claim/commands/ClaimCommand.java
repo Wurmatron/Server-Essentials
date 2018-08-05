@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.claim.ChunkManager;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;
@@ -17,7 +18,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "Claiming")
@@ -52,10 +52,9 @@ public class ClaimCommand extends SECommand {
         regionData.addClaim(player.getPosition(), new Claim(team, player.getGameProfile().getId()));
         ChunkManager.handleRegionUpdate(
             ChunkManager.getRegionLocation(player.getPosition()), regionData);
-        sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHUNK_CLAIMED));
+        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHUNK_CLAIMED);
       } else {
-        sender.sendMessage(
-            new TextComponentString(getCurrentLanguage(sender).CHUNK_ALREADY_CLAIMED));
+        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHUNK_ALREADY_CLAIMED);
       }
     } else {
       RegionData regionDataNew = new RegionData();
@@ -64,7 +63,7 @@ public class ClaimCommand extends SECommand {
           player.getPosition(), new Claim(team, player.getGameProfile().getId()));
       ChunkManager.handleRegionUpdate(
           ChunkManager.getRegionLocation(player.getPosition()), regionDataNew);
-      sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).CHUNK_CLAIMED));
+      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHUNK_CLAIMED);
     }
   }
 }

@@ -4,13 +4,13 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.Local;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 // TODO Rework Command
@@ -61,15 +61,15 @@ public class TeamCommand extends SECommand {
       throws CommandException {
     super.execute(server, sender, args);
     if (args.length == 0) {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     } else {
       if (args.length == 2 && args[1].equalsIgnoreCase("info")) {
         GlobalTeam team = forceTeamFromName(args[0]);
         for (String line : formatTeam(getCurrentLanguage(sender), team)) {
-          sender.sendMessage(new TextComponentString(line));
+          ChatHelper.sendMessage(sender, line);
         }
       } else {
-        sender.sendMessage(new TextComponentString(getUsage(sender)));
+        ChatHelper.sendMessage(sender, getUsage(sender));
       }
     }
   }

@@ -55,14 +55,15 @@ spotless {
         indentWithSpaces()
         trimTrailingWhitespace()
         endWithNewline()
+        googleJavaFormat()
     }
 }
 
 shadowJar {
     dependencies {
         exclude('dummy*')
-        exclude ('*.jar')
         include(dependency('com.github.stephenc.high-scale-lib:high-scale-lib:1.1.4'))
+        exclude ('FTB*.jar')
     }
 }
 
@@ -70,7 +71,10 @@ reobf {
     shadowJar {}
 }
 
-task buildAndPackage {
+defaultTasks 'buildAndPackage'
+shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
+
+task buildAndPackage (dependsOn: build) {
     dependsOn 'clean'
     dependsOn 'spotlessApply'
     dependsOn 'build'

@@ -30,55 +30,55 @@ public class PermCommand extends SECommand {
   private static String[] getUserFormatting(UUID uuid) {
     GlobalUser user = forceUserFromUUID(uuid);
     Local lang = LanguageModule.getLangFromKey(user.getLang());
-    return new String[]{
-        lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
-        TextFormatting.LIGHT_PURPLE + "UUID: " + TextFormatting.AQUA + uuid,
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_RANK.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + user.getRank(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_TEAM.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + user.getTeam(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_LANG.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + user.getLang(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_LASTSEEN.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + new Date(user.getLastSeen()).toString(),
-        lang.CHAT_SPACER.replaceAll("&", "\u00A7")
+    return new String[] {
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
+      TextFormatting.LIGHT_PURPLE + "UUID: " + TextFormatting.AQUA + uuid,
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_RANK.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + user.getRank(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_TEAM.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + user.getTeam(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_LANG.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + user.getLang(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_LASTSEEN.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + new Date(user.getLastSeen()).toString(),
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7")
     };
   }
 
   private static String[] getRankFormatting(ICommandSender sender, String r) {
     Local lang = getCurrentLanguage(sender);
     Rank rank = UserManager.getRank(r);
-    return new String[]{
-        lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
-        TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_PREFIX.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + rank.getPrefix(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_SUFFIX.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + rank.getSuffix(),
-        TextFormatting.LIGHT_PURPLE
-            + lang.CHAT_INHERITANCE.replaceAll("&", "\u00A7")
-            + ": "
-            + TextFormatting.AQUA
-            + Strings.join(rank.getInheritance(), " "),
-        lang.CHAT_SPACER.replaceAll("&", "\u00A7")
+    return new String[] {
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
+      TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_PREFIX.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + rank.getPrefix(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_SUFFIX.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + rank.getSuffix(),
+      TextFormatting.LIGHT_PURPLE
+          + lang.CHAT_INHERITANCE.replaceAll("&", "\u00A7")
+          + ": "
+          + TextFormatting.AQUA
+          + Strings.join(rank.getInheritance(), " "),
+      lang.CHAT_SPACER.replaceAll("&", "\u00A7")
     };
   }
 
@@ -116,41 +116,35 @@ public class PermCommand extends SECommand {
           for (int index = 3; index < args.length; index++) {
             if (added) {
               rank.addPermission(args[index]);
-              sender.sendMessage(
-                  new TextComponentString(
-                      TextFormatting.LIGHT_PURPLE
-                          + lang.PERM_ADDED
+              ChatHelper.sendMessage(
+                  sender,
+                  TextFormatting.LIGHT_PURPLE
+                      + lang.PERM_ADDED
                           .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              "%PERM%", TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
                           .replaceAll(
                               "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + rank.getName()
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              TextFormatting.GOLD + rank.getName() + TextFormatting.LIGHT_PURPLE));
             } else {
               rank.delPermission(args[index]);
-              sender.sendMessage(
-                  new TextComponentString(
-                      TextFormatting.LIGHT_PURPLE
-                          + lang.PERM_DEL
+              ChatHelper.sendMessage(
+                  sender,
+                  TextFormatting.LIGHT_PURPLE
+                      + lang.PERM_DEL
                           .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              "%PERM%", TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
                           .replaceAll(
                               "%PLAYER%",
-                              TextFormatting.GOLD
-                                  + rank.getName()
-                                  + TextFormatting.LIGHT_PURPLE)));
+                              TextFormatting.GOLD + rank.getName() + TextFormatting.LIGHT_PURPLE));
             }
             RequestHelper.RankResponses.overrideRank(rank);
           }
         } else {
-          sender.sendMessage(
-              new TextComponentString(
-                  TextFormatting.RED
-                      + lang.PLAYER_NOT_FOUND.replaceAll(
-                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+          ChatHelper.sendMessage(
+              sender,
+              TextFormatting.RED
+                  + lang.PLAYER_NOT_FOUND.replaceAll(
+                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED));
         }
       } else if (args.length == 2 && args[1].equalsIgnoreCase("sync")) {
         Rank rank = RequestHelper.RankResponses.getRank(args[0]);
@@ -170,12 +164,12 @@ public class PermCommand extends SECommand {
   @SubCommand
   public void user(ICommandSender sender, String[] args) {
     if (args.length == 0) {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     } else {
       Local lang = getCurrentLanguage(sender);
       if (args.length == 2 && args[1].equalsIgnoreCase("info")) {
         for (String format : getUserFormatting(UsernameResolver.getUUIDFromName(args[0]))) {
-          sender.sendMessage(new TextComponentString(format));
+          ChatHelper.sendMessage(sender, format);
         }
       } else if (args.length == 3 && args[1].equalsIgnoreCase("rank")) {
         Rank rank = UserManager.getRank(args[2]);
@@ -185,10 +179,10 @@ public class PermCommand extends SECommand {
           if (selectedUser != null) {
             selectedUser.setRank(rank.getName());
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
-            sender.sendMessage(
-                new TextComponentString(
-                    TextFormatting.LIGHT_PURPLE
-                        + lang.PLAYER_RANK_CHANGED
+            ChatHelper.sendMessage(
+                sender,
+                TextFormatting.LIGHT_PURPLE
+                    + lang.PLAYER_RANK_CHANGED
                         .replaceAll(
                             "%RANK%",
                             TextFormatting.RED
@@ -198,16 +192,16 @@ public class PermCommand extends SECommand {
                             "%PLAYER%",
                             TextFormatting.GOLD
                                 + UsernameCache.getLastKnownUsername(uuid)
-                                + TextFormatting.LIGHT_PURPLE)));
+                                + TextFormatting.LIGHT_PURPLE));
           } else {
-            sender.sendMessage(
-                new TextComponentString(
-                    TextFormatting.RED
-                        + lang.PLAYER_NOT_FOUND.replaceAll(
-                        "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+            ChatHelper.sendMessage(
+                sender,
+                TextFormatting.RED
+                    + lang.PLAYER_NOT_FOUND.replaceAll(
+                        "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED));
           }
         } else {
-          sender.sendMessage(new TextComponentString(lang.RANK_NULL));
+          ChatHelper.sendMessage(sender, lang.RANK_NULL);
         }
       } else if (args.length >= 4 && args[1].equalsIgnoreCase("perm")) {
         UUID uuid = UsernameResolver.getUUIDFromName(args[0]);
@@ -217,41 +211,39 @@ public class PermCommand extends SECommand {
           for (int index = 3; index < args.length; index++) {
             if (added) {
               selectedUser.addPermission(args[index]);
-              sender.sendMessage(
-                  new TextComponentString(
-                      TextFormatting.LIGHT_PURPLE
-                          + lang.PERM_ADDED
+              ChatHelper.sendMessage(
+                  sender,
+                  TextFormatting.LIGHT_PURPLE
+                      + lang.PERM_ADDED
                           .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              "%PERM%", TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
                           .replaceAll(
                               "%PLAYER%",
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                                  + TextFormatting.LIGHT_PURPLE));
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      selectedUser,
-                      UserManager.playerData
-                          .getOrDefault(uuid, new Object[]{selectedUser, new LocalUser(uuid)})[1]
+                  new Object[] {
+                    selectedUser,
+                    UserManager.playerData
+                        .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             } else {
               selectedUser.delPermission(args[index]);
-              sender.sendMessage(
-                  new TextComponentString(
-                      TextFormatting.LIGHT_PURPLE
-                          + lang.PERM_DEL
+              ChatHelper.sendMessage(
+                  sender,
+                  TextFormatting.LIGHT_PURPLE
+                      + lang.PERM_DEL
                           .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              "%PERM%", TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
                           .replaceAll(
                               "%PLAYER%",
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                                  + TextFormatting.LIGHT_PURPLE));
               UserManager.playerData.put(
-                  uuid, new Object[]{selectedUser, UserManager.playerData.get(uuid)[1]});
+                  uuid, new Object[] {selectedUser, UserManager.playerData.get(uuid)[1]});
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
           }
@@ -260,7 +252,7 @@ public class PermCommand extends SECommand {
               new TextComponentString(
                   TextFormatting.RED
                       + lang.PLAYER_NOT_FOUND.replaceAll(
-                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+                          "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
         }
       } else if (args.length >= 4 && args[1].equalsIgnoreCase("perk")) {
         UUID uuid = UsernameResolver.getUUIDFromName(args[0]);
@@ -270,63 +262,64 @@ public class PermCommand extends SECommand {
           for (int index = 3; index < args.length; index++) {
             if (added) {
               selectedUser.addPerk(args[index]);
-              sender.sendMessage(
-                  new TextComponentString(
-                      TextFormatting.LIGHT_PURPLE
-                          + lang.PERK_ADDED
+              ChatHelper.sendMessage(
+                  sender,
+                  TextFormatting.LIGHT_PURPLE
+                      + lang.PERK_ADDED
                           .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              "%PERM%", TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
                           .replaceAll(
                               "%PLAYER%",
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                                  + TextFormatting.LIGHT_PURPLE));
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      selectedUser,
-                      UserManager.playerData
-                          .getOrDefault(uuid, new Object[]{selectedUser, new LocalUser(uuid)})[1]
+                  new Object[] {
+                    selectedUser,
+                    UserManager.playerData
+                        .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             } else {
               selectedUser.delPerk(args[index]);
-              sender.sendMessage(
-                  new TextComponentString(
-                      TextFormatting.LIGHT_PURPLE
-                          + lang.PERK_DEL
+              ChatHelper.sendMessage(
+                  sender,
+                  TextFormatting.LIGHT_PURPLE
+                      + lang.PERK_DEL
                           .replaceAll(
-                              "%PERM%",
-                              TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
+                              "%PERM%", TextFormatting.RED + args[3] + TextFormatting.LIGHT_PURPLE)
                           .replaceAll(
                               "%PLAYER%",
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
-                                  + TextFormatting.LIGHT_PURPLE)));
+                                  + TextFormatting.LIGHT_PURPLE));
               UserManager.playerData.put(
                   uuid,
-                  new Object[]{
-                      selectedUser,
-                      UserManager.playerData
-                          .getOrDefault(uuid, new Object[]{selectedUser, new LocalUser(uuid)})[1]
+                  new Object[] {
+                    selectedUser,
+                    UserManager.playerData
+                        .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
           }
         } else {
-          sender.sendMessage(
-              new TextComponentString(
-                  TextFormatting.RED
-                      + lang.PLAYER_NOT_FOUND.replaceAll(
-                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED)));
+          ChatHelper.sendMessage(
+              sender,
+              TextFormatting.RED
+                  + lang.PLAYER_NOT_FOUND.replaceAll(
+                      "%PLAYER%", TextFormatting.GOLD + args[0] + TextFormatting.RED));
         }
       } else if (args.length == 2 && args[1].equalsIgnoreCase("sync")) {
         UUID uuid = UsernameResolver.getUUIDFromName(args[0]);
         GlobalUser user = RequestHelper.UserResponses.getPlayerData(uuid);
         LocalUser local = DataHelper.load(Keys.LOCAL_USER, new LocalUser(uuid));
-        UserManager.playerData.put(uuid, new Object[]{user, local});
-        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).USER_SYNC
-            .replaceAll("%PLAYER%", UsernameCache.getLastKnownUsername(uuid)));
+        UserManager.playerData.put(uuid, new Object[] {user, local});
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .USER_SYNC
+                .replaceAll("%PLAYER%", UsernameCache.getLastKnownUsername(uuid)));
       }
     }
   }

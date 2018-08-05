@@ -2,13 +2,13 @@ package com.wurmcraft.serveressentials.common.chat.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import java.util.ArrayList;
 import java.util.List;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -30,7 +30,7 @@ public class BroadcastCommand extends SECommand {
           .sendMessage(
               ForgeHooks.newChatWithLinks(Strings.join(args, " ").replaceAll("&", "\u00A7")), true);
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

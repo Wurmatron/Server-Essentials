@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.item;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -28,13 +29,13 @@ public class RenameCommand extends SECommand {
         player
             .getHeldItemMainhand()
             .setStackDisplayName(Strings.join(args, " ").replaceAll("&", "\u00A7"));
-        player.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .NAME_CHANGED
-                    .replaceAll("%NAME%", Strings.join(args, " ").replaceAll("&", "\u00A7"))));
+        ChatHelper.sendMessage(
+            player,
+            getCurrentLanguage(sender)
+                .NAME_CHANGED
+                .replaceAll("%NAME%", Strings.join(args, " ").replaceAll("&", "\u00A7")));
       } else {
-        player.sendMessage(new TextComponentString(getCurrentLanguage(sender).NO_ITEM));
+        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).NO_ITEM);
       }
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));

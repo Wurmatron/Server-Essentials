@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
@@ -52,9 +53,9 @@ public class ChannelCommand extends SECommand {
       // TODO Support for diffrent channel types
       if (ch != null) {
         setUserChannel((EntityPlayer) sender.getCommandSenderEntity(), ch);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).CHANNEL_CHANGED.replaceAll("%CHANNEL%", ch.getName())));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender).CHANNEL_CHANGED.replaceAll("%CHANNEL%", ch.getName()));
       }
     }
   }

@@ -2,13 +2,13 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class TpaAcceptCommand extends SECommand {
@@ -27,19 +27,17 @@ public class TpaAcceptCommand extends SECommand {
       for (long time : TeleportationModule.activeRequests.keySet()) {
         EntityPlayer[] players = TeleportationModule.activeRequests.get(time);
         if (players[1].getGameProfile().getId().equals(player.getGameProfile().getId())) {
-          player.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7")));
-          players[0].sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7")));
+          ChatHelper.sendMessage(
+              player, getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7"));
+          ChatHelper.sendMessage(
+              players[0], getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7"));
           TeleportUtils.teleportTo(players[0], players[1]);
           TeleportationModule.activeRequests.remove(time);
           break;
         }
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

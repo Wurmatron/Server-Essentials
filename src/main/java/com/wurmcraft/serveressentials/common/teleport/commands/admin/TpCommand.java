@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.teleport.commands.admin;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -14,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 
 @Command(moduleName = "Teleportation")
 public class TpCommand extends SECommand {
@@ -36,14 +36,14 @@ public class TpCommand extends SECommand {
             (EntityPlayerMP) player,
             new LocationWrapper(new BlockPos(p.posX, p.posY, p.posZ), p.dimension),
             false);
-        sender.sendMessage(
-            new TextComponentString(
-                LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                    .TP_HOME
-                    .replaceAll("%HOME%", p.getDisplayNameString())
-                    .replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender,
+            LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                .TP_HOME
+                .replaceAll("%HOME%", p.getDisplayNameString())
+                .replaceAll("&", "\u00A7"));
       } else {
-        sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).PLAYER_ONLY));
+        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
       }
     } else if (args.length == 2) {
       EntityPlayer from = UsernameResolver.getPlayer(args[0]);
@@ -53,22 +53,22 @@ public class TpCommand extends SECommand {
             (EntityPlayerMP) from,
             new LocationWrapper(new BlockPos(to.posX, to.posY, to.posZ), to.dimension),
             false);
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender)
-                    .TP_HOME_OTHER
-                    .replaceAll("%FROM%", from.getDisplayNameString())
-                    .replaceAll("%TO%", to.getDisplayNameString())
-                    .replaceAll("%HOME%", to.getDisplayNameString())
-                    .replaceAll("&", "\u00A7")));
-        from.sendMessage(
-            new TextComponentString(
-                LanguageModule.getLangfromUUID(from.getGameProfile().getId())
-                    .TP_HOME
-                    .replaceAll("%HOME%", to.getDisplayNameString())
-                    .replaceAll("&", "\u00A7")));
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .TP_HOME_OTHER
+                .replaceAll("%FROM%", from.getDisplayNameString())
+                .replaceAll("%TO%", to.getDisplayNameString())
+                .replaceAll("%HOME%", to.getDisplayNameString())
+                .replaceAll("&", "\u00A7"));
+        ChatHelper.sendMessage(
+            from,
+            LanguageModule.getLangfromUUID(from.getGameProfile().getId())
+                .TP_HOME
+                .replaceAll("%HOME%", to.getDisplayNameString())
+                .replaceAll("&", "\u00A7"));
       } else {
-        sender.sendMessage(new TextComponentString(getCurrentLanguage(sender).PLAYER_ONLY));
+        ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
       }
     } else if (args.length == 3 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
@@ -81,12 +81,12 @@ public class TpCommand extends SECommand {
               (EntityPlayerMP) player,
               new LocationWrapper(new BlockPos(x, y, z), player.dimension),
               false);
-          sender.sendMessage(
-              new TextComponentString(
-                  LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                      .TP_HOME
-                      .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
-                      .replaceAll("&", "\u00A7")));
+          ChatHelper.sendMessage(
+              sender,
+              LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                  .TP_HOME
+                  .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
+                  .replaceAll("&", "\u00A7"));
         }
       } catch (NumberFormatException e) {
       }
@@ -102,18 +102,18 @@ public class TpCommand extends SECommand {
                 (EntityPlayerMP) player,
                 new LocationWrapper(new BlockPos(x, y, z), player.dimension),
                 false);
-            sender.sendMessage(
-                new TextComponentString(
-                    LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                        .TP_HOME
-                        .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
-                        .replaceAll("&", "\u00A7")));
+            ChatHelper.sendMessage(
+                sender,
+                LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                    .TP_HOME
+                    .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
+                    .replaceAll("&", "\u00A7"));
           }
         } catch (NumberFormatException e) {
         }
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 

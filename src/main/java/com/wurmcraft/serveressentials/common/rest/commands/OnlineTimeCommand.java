@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;
@@ -55,28 +56,23 @@ public class OnlineTimeCommand extends SECommand {
                   .replace('#', 'M')
                   .replace('@', 'S')
                   .replaceAll(":", ", ");
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).GLOBAL
-                      + ": "
-                      + TextFormatting.AQUA
-                      + formattedGlobal));
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).LOCAL
-                      + ": "
-                      + TextFormatting.AQUA
-                      + formattedLocal.replaceAll("&", "\u00A7")));
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+          ChatHelper.sendMessage(
+              sender,
+              getCurrentLanguage(sender).GLOBAL + ": " + TextFormatting.AQUA + formattedGlobal);
+          ChatHelper.sendMessage(
+              sender,
+              getCurrentLanguage(sender).LOCAL
+                  + ": "
+                  + TextFormatting.AQUA
+                  + formattedLocal.replaceAll("&", "\u00A7"));
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7"));
         } else {
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
         }
       } else {
-        sender.sendMessage(new TextComponentString(getUsage(sender)));
+        ChatHelper.sendMessage(sender, getUsage(sender));
       }
     } else {
       if (args.length == 1) {
@@ -91,19 +87,18 @@ public class OnlineTimeCommand extends SECommand {
                   .replace('#', 'M')
                   .replace('@', 'S')
                   .replaceAll(":", ", ");
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).LOCAL
-                      + ": "
-                      + TextFormatting.AQUA
-                      + formattedLocal.replaceAll("&", "\u00A7")));
+          ChatHelper.sendMessage(
+              sender,
+              getCurrentLanguage(sender).LOCAL
+                  + ": "
+                  + TextFormatting.AQUA
+                  + formattedLocal.replaceAll("&", "\u00A7"));
         } else {
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
         }
       } else {
-        sender.sendMessage(new TextComponentString(getUsage(sender)));
+        ChatHelper.sendMessage(sender, getUsage(sender));
       }
     }
   }

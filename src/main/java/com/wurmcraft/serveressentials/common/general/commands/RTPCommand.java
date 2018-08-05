@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.general.commands;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import java.util.Random;
 import net.minecraft.command.CommandException;
@@ -12,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fluids.BlockFluidBase;
@@ -53,8 +53,7 @@ public class RTPCommand extends SECommand {
     }
     TeleportUtils.teleportTo(
         (EntityPlayerMP) player, new LocationWrapper(teleportPos, player.dimension), true);
-    player.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).RTP.replaceAll("&", "\u00A7")));
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).RTP.replaceAll("&", "\u00A7"));
   }
 
   private int flipChance(int no) {
