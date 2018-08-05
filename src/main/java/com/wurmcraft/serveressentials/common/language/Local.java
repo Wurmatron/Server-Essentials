@@ -105,6 +105,7 @@ public class Local {
   public String PING_RESPONSE;
   public String PLAYER_FILE_DELETE;
   public String PLAYER_FILE_DELETE_OTHER;
+  public String NO_RANKUP;
 
   // Claiming
   public String CLAIM_BREAK;
@@ -155,6 +156,7 @@ public class Local {
   public String COMMAND_SPAWN;
   public String COMMAND_LIST;
   public String COMMAND_MOTD;
+  public String COMMAND_AUTORANK;
 
   // Gui
   public String GUI_PERK;

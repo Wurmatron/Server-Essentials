@@ -84,4 +84,13 @@ public class AutoRankModule implements IModule {
     }
     return null;
   }
+
+  public static AutoRank getAutorankFromRank(String rank) {
+    for (AutoRank auto : UserManager.autoRankCache.values()) {
+      if (auto.getRank().equalsIgnoreCase(rank)) {
+        return auto;
+      }
+    }
+    return null;
+  }
 }
