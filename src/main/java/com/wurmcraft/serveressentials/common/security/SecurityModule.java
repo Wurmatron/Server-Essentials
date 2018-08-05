@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.security.events.SecurityEvents;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 
 @Module(name = "Security")
@@ -73,5 +75,6 @@ public class SecurityModule implements IModule {
   @Override
   public void setup() {
     loadTrustedStaff();
+    MinecraftForge.EVENT_BUS.register(new SecurityEvents());
   }
 }
