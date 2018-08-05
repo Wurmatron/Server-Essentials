@@ -62,7 +62,7 @@ public class VanishCommand extends SECommand {
           FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
         if (altPlayer != player) {
           world.getEntityTracker().removePlayerFromTrackers(altPlayer);
-          world.getEntityTracker().track(altPlayer);
+          world.getEntityTracker().updateVisibility((EntityPlayerMP) player);
         }
       }
       ChatHelper.sendMessage(

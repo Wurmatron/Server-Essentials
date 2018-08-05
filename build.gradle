@@ -42,7 +42,7 @@ processResources {
     inputs.property "mcversion", project.minecraft.version
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
@@ -63,7 +63,7 @@ shadowJar {
     dependencies {
         exclude('dummy*')
         include(dependency('com.github.stephenc.high-scale-lib:high-scale-lib:1.1.4'))
-        exclude ('FTB*.jar')
+        exclude('FTB*.jar')
     }
 }
 
@@ -74,9 +74,15 @@ reobf {
 defaultTasks 'buildAndPackage'
 shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
 
-task buildAndPackage (dependsOn: build) {
+task buildAndPackage(dependsOn: build, type: Zip) {
     dependsOn 'clean'
     dependsOn 'spotlessApply'
     dependsOn 'build'
     tasks.findByName('build').mustRunAfter 'clean'
+    from 'rest/'
+    include '*.js'
+    include 'keys'
+    include '*.json'
+    archiveName 'Rest.zip'
+    destinationDir(file('build/libs/'))
 }
