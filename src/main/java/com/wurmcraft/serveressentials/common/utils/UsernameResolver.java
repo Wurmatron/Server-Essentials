@@ -32,7 +32,7 @@ public class UsernameResolver {
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       return ((PlayerData) UserManager.getPlayerData(uuid)[0]).getNickname();
     }
-    return "";
+    return getUsername(uuid);
   }
 
   public static UUID getUUIDFromName(String username) {

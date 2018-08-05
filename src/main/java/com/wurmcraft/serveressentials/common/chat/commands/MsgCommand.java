@@ -7,14 +7,16 @@ import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.List;
+import javax.annotation.Nullable;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-// TODO Rework Command
 @Command(moduleName = "Chat")
 public class MsgCommand extends SECommand {
 
@@ -38,12 +40,26 @@ public class MsgCommand extends SECommand {
         if (sender.getCommandSenderEntity() != null
             && sender.getCommandSenderEntity() instanceof EntityPlayer) {
           EntityPlayer entitySender = (EntityPlayer) sender.getCommandSenderEntity();
-          ChatHelper.sendMessage(reciv, message);
           ChatHelper.sendMessage(
-              sender,
+              reciv,
               ConfigHandler.msgFormat
-                  .replaceAll(ChatHelper.USERNAME_KEY, TextFormatting.AQUA + "Server")
-                  .replaceAll(ChatHelper.MESSAGE_KEY, TextFormatting.GRAY + message));
+                  .replaceAll(
+                      ChatHelper.USERNAME_KEY,
+                      TextFormatting.AQUA
+                          + UsernameResolver.getNick(reciv.getGameProfile().getId()))
+                  .replaceAll(ChatHelper.MESSAGE_KEY, TextFormatting.GRAY + message)
+                  .replaceAll(
+                      "%sender%", UsernameResolver.getNick(entitySender.getGameProfile().getId())));
+          ChatHelper.sendMessage(
+              entitySender,
+              ConfigHandler.msgFormat
+                  .replaceAll(
+                      ChatHelper.USERNAME_KEY,
+                      TextFormatting.AQUA
+                          + UsernameResolver.getNick(reciv.getGameProfile().getId()))
+                  .replaceAll(ChatHelper.MESSAGE_KEY, TextFormatting.GRAY + message)
+                  .replaceAll(
+                      "%sender%", UsernameResolver.getNick(entitySender.getGameProfile().getId())));
           DataHelper.addTemp(
               Keys.LAST_MESSAGE,
               entitySender.getGameProfile().getId(),
@@ -63,5 +79,11 @@ public class MsgCommand extends SECommand {
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
     }
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    return autoCompleteUsername(args, 0);
   }
 }

@@ -5,6 +5,8 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.reference.Keys;
+import java.util.ArrayList;
+import java.util.List;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -48,5 +50,12 @@ public class ReplyCommand extends SECommand {
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
     }
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alts = new ArrayList<>();
+    alts.add("r");
+    return alts;
   }
 }

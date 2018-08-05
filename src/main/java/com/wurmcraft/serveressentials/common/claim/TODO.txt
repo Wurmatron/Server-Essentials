@@ -1,5 +1,0 @@
-Commands:
-  - AdminClaim
-
-Perks:
-  - More Claim Chunks

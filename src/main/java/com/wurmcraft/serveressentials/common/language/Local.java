@@ -110,6 +110,7 @@ public class Local {
   public String RANKUP_OTHER;
   public String VANISHED;
   public String UNVANISHED;
+  public String SPAWN_SET;
 
   // Claiming
   public String CLAIM_BREAK;
@@ -161,9 +162,6 @@ public class Local {
   public String COMMAND_LIST;
   public String COMMAND_MOTD;
   public String COMMAND_AUTORANK;
-
-  // Gui
-  public String GUI_PERK;
 
   public static Local load(String langKey) {
     boolean valid = false;

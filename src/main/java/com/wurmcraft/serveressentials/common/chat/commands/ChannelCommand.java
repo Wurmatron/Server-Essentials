@@ -50,7 +50,7 @@ public class ChannelCommand extends SECommand {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     } else if (args.length == 1 && !args[0].equalsIgnoreCase("list")) {
       Channel ch = (Channel) DataHelper.get(Keys.CHANNEL, args[0]);
-      // TODO Support for diffrent channel types
+      // TODO Support for different channel types
       if (ch != null) {
         setUserChannel((EntityPlayer) sender.getCommandSenderEntity(), ch);
         ChatHelper.sendMessage(

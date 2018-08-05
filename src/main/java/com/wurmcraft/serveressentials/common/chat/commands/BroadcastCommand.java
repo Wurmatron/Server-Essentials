@@ -49,6 +49,7 @@ public class BroadcastCommand extends SECommand {
     List<String> alts = new ArrayList<>();
     alts.add("bc");
     alts.add("say");
+    alts.add("announcement");
     return alts;
   }
 

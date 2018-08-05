@@ -135,5 +135,6 @@
   "RANKUP": "&dYou are ranked up to '%RANK%'",
   "RANKUP_OTHER": "&d%PLAYER% has ranked up to '%RANK%'",
   "VANISHED": "&dYou have vanished",
-  "UNVANISHED": "&dYou have unvanished"
+  "UNVANISHED": "&dYou have unvanished",
+  "SPAWN_SET": "Spawn set"
 }
