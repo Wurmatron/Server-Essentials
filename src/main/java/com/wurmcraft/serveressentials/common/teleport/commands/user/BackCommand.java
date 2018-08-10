@@ -63,4 +63,9 @@ public class BackCommand extends SECommand {
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_BACK.replaceAll("&", "\u00A7");
   }
+
+  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    return true;
+  }
 }

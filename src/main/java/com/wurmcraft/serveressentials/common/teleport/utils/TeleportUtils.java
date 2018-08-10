@@ -16,6 +16,7 @@ import net.minecraft.network.play.server.SPacketRespawn;
 import net.minecraft.network.play.server.SPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -131,14 +132,9 @@ public class TeleportUtils {
   }
 
   public static boolean safeToTeleport(EntityPlayer player, LocationWrapper location) {
-    boolean blocks =
-        player.world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState()
-            && player.world.getBlockState(location.getPos().add(0, 1, 0))
-                == Blocks.AIR.getDefaultState();
-    boolean fluid =
-        player.world.getBlockState(location.getPos().add(0, -1, 0)) != Blocks.AIR.getDefaultState()
-            && player.world.getBlockState(location.getPos().add(0, -1, 0)).getBlock()
-                instanceof IFluidBlock;
-    return blocks && !fluid;
+    World world = player.world;
+      boolean suffCheck = world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState() && world.getBlockState(location.getPos().up()) == Blocks.AIR.getDefaultState();
+      boolean fluid = world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock || world.getBlockState(location.getPos().down(2)).getBlock() instanceof IFluidBlock;
+      return suffCheck && !fluid;
   }
 }

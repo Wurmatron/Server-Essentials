@@ -11,6 +11,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -36,7 +38,7 @@ public class RTPCommand extends SECommand {
 
   @Override
   public String getName() {
-    return "rtp";
+    return "fire";
   }
 
   @Override
@@ -47,13 +49,34 @@ public class RTPCommand extends SECommand {
     BlockPos teleportPos = null;
     while (teleportPos == null) {
       BlockPos randPos = getRandomPos(player);
-      if (validLocation(player.world, randPos)) {
+      if (validLocation(player.world, randPos) && safeTeleport(player,
+          new LocationWrapper(randPos, player.dimension))) {
         teleportPos = randPos;
       }
     }
     TeleportUtils.teleportTo(
         (EntityPlayerMP) player, new LocationWrapper(teleportPos, player.dimension), true);
+    player.addPotionEffect(new PotionEffect(Potion.getPotionById(22), 20, 4));
     ChatHelper.sendMessage(sender, getCurrentLanguage(sender).RTP.replaceAll("&", "\u00A7"));
+  }
+
+  private boolean safeTeleport(EntityPlayer player, LocationWrapper loc) {
+    boolean quick = TeleportUtils.safeToTeleport(player, loc);
+    if (!quick) {
+      for (int x = 0; x < 4; x++) {
+        for (int z = 0; z < 4; z++) {
+          for (int f = 0; f < 2; f++) {
+            if (!TeleportUtils.safeToTeleport(player,
+                new LocationWrapper(flipChance(loc.getX() + x), loc.getY(),
+                    flipChance(loc.getZ() + z), loc.getDim()))) {
+              return false;
+            }
+
+          }
+        }
+      }
+    }
+    return quick;
   }
 
   private int flipChance(int no) {
@@ -66,11 +89,10 @@ public class RTPCommand extends SECommand {
 
   private BlockPos getRandomPos(EntityPlayer player) {
     WorldBorder border = player.world.getWorldBorder();
-    double maxLocationX = (border.getDiameter() / 2) + border.getCenterX();
-    double maxLocationZ = (border.getDiameter() / 2) + border.getCenterZ();
-    int x = rand.nextInt((int) maxLocationX);
-    int z = rand.nextInt((int) maxLocationZ);
-    return player.world.getTopSolidOrLiquidBlock(new BlockPos(flipChance(x), 500, flipChance(z)));
+    return player.world.getTopSolidOrLiquidBlock(new BlockPos(
+        flipChance(rand.nextInt((int) ((border.getDiameter() / 2) + border.getCenterX()))), 255,
+        flipChance(rand.nextInt((int) ((border.getDiameter() / 2) + border.getCenterZ())))))
+        .add(0, 3, 0);
   }
 
   @Override
@@ -86,5 +108,10 @@ public class RTPCommand extends SECommand {
   @Override
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_RTP.replaceAll("&", "\u00A7");
+  }
+
+  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    return true;
   }
 }

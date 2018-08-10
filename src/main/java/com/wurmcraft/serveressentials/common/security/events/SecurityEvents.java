@@ -11,13 +11,17 @@ public class SecurityEvents {
 
   @SubscribeEvent
   public void onJoinEvent(PlayerEvent.PlayerLoggedInEvent e) {
-    if (ConfigHandler.autoOP && SecurityModule.isTrustedMember(e.player) && !FMLCommonHandler
-        .instance()
-        .getMinecraftServerInstance().getPlayerList().canSendCommands(e.player.getGameProfile())) {
+    if (ConfigHandler.autoOP
+        && SecurityModule.isTrustedMember(e.player)
+        && !FMLCommonHandler.instance()
+            .getMinecraftServerInstance()
+            .getPlayerList()
+            .canSendCommands(e.player.getGameProfile())) {
       FMLCommonHandler.instance()
           .getMinecraftServerInstance()
           .getCommandManager()
-          .executeCommand(FMLCommonHandler.instance().getMinecraftServerInstance(),
+          .executeCommand(
+              FMLCommonHandler.instance().getMinecraftServerInstance(),
               "op " + UsernameCache.getLastKnownUsername(e.player.getGameProfile().getId()));
     }
   }
