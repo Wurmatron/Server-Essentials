@@ -17,7 +17,7 @@ public class Claim {
   }
 
   public ITeam getTeam() {
-    if (team != null && team.length() > 0) {
+    if (team != null && team.length() > 0 && UserManager.getTeam(team) != null) {
       return (ITeam) UserManager.getTeam(team)[0];
     }
     return null;

@@ -20,7 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
 // TODO Rework Command
-@Command(moduleName = "Claiming")
+@Command(moduleName = "Claim")
 public class ClaimCommand extends SECommand {
 
   private static ITeam getTeamFromUser(UUID uuid) {

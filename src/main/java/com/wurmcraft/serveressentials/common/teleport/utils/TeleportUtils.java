@@ -133,8 +133,12 @@ public class TeleportUtils {
 
   public static boolean safeToTeleport(EntityPlayer player, LocationWrapper location) {
     World world = player.world;
-      boolean suffCheck = world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState() && world.getBlockState(location.getPos().up()) == Blocks.AIR.getDefaultState();
-      boolean fluid = world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock || world.getBlockState(location.getPos().down(2)).getBlock() instanceof IFluidBlock;
-      return suffCheck && !fluid;
+    boolean suffCheck =
+        world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState()
+            && world.getBlockState(location.getPos().up()) == Blocks.AIR.getDefaultState();
+    boolean fluid =
+        world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock
+            || world.getBlockState(location.getPos().down(2)).getBlock() instanceof IFluidBlock;
+    return suffCheck && !fluid;
   }
 }

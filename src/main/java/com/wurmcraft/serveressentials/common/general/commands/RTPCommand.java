@@ -38,7 +38,7 @@ public class RTPCommand extends SECommand {
 
   @Override
   public String getName() {
-    return "fire";
+    return "rtp";
   }
 
   @Override
@@ -49,8 +49,8 @@ public class RTPCommand extends SECommand {
     BlockPos teleportPos = null;
     while (teleportPos == null) {
       BlockPos randPos = getRandomPos(player);
-      if (validLocation(player.world, randPos) && safeTeleport(player,
-          new LocationWrapper(randPos, player.dimension))) {
+      if (validLocation(player.world, randPos)
+          && safeTeleport(player, new LocationWrapper(randPos, player.dimension))) {
         teleportPos = randPos;
       }
     }
@@ -66,12 +66,15 @@ public class RTPCommand extends SECommand {
       for (int x = 0; x < 4; x++) {
         for (int z = 0; z < 4; z++) {
           for (int f = 0; f < 2; f++) {
-            if (!TeleportUtils.safeToTeleport(player,
-                new LocationWrapper(flipChance(loc.getX() + x), loc.getY(),
-                    flipChance(loc.getZ() + z), loc.getDim()))) {
+            if (!TeleportUtils.safeToTeleport(
+                player,
+                new LocationWrapper(
+                    flipChance(loc.getX() + x),
+                    loc.getY(),
+                    flipChance(loc.getZ() + z),
+                    loc.getDim()))) {
               return false;
             }
-
           }
         }
       }
@@ -89,9 +92,13 @@ public class RTPCommand extends SECommand {
 
   private BlockPos getRandomPos(EntityPlayer player) {
     WorldBorder border = player.world.getWorldBorder();
-    return player.world.getTopSolidOrLiquidBlock(new BlockPos(
-        flipChance(rand.nextInt((int) ((border.getDiameter() / 2) + border.getCenterX()))), 255,
-        flipChance(rand.nextInt((int) ((border.getDiameter() / 2) + border.getCenterZ())))))
+    return player
+        .world
+        .getTopSolidOrLiquidBlock(
+            new BlockPos(
+                flipChance(rand.nextInt((int) ((border.getDiameter() / 2) + border.getCenterX()))),
+                255,
+                flipChance(rand.nextInt((int) ((border.getDiameter() / 2) + border.getCenterZ())))))
         .add(0, 3, 0);
   }
 
@@ -109,9 +116,9 @@ public class RTPCommand extends SECommand {
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_RTP.replaceAll("&", "\u00A7");
   }
-
-  @Override
-  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-    return true;
-  }
+//
+//  @Override
+//  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+//    return true;
+//  }
 }
