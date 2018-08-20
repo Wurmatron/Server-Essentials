@@ -111,6 +111,8 @@ public class Local {
   public String VANISHED;
   public String UNVANISHED;
   public String SPAWN_SET;
+  public String IGNORED;
+  public String UNIGNORED;
 
   // Claiming
   public String CLAIM_BREAK;

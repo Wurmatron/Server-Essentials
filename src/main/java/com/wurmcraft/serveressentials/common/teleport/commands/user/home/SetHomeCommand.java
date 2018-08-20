@@ -20,7 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
 @Command(moduleName = "Teleportation")
-public class SetHome extends SECommand {
+public class SetHomeCommand extends SECommand {
 
   private static int getMaxHomes(GlobalUser user) {
     for (String perk : user.getPerks()) {
@@ -41,7 +41,9 @@ public class SetHome extends SECommand {
       throws CommandException {
     super.execute(server, sender, args);
     String homeName = args.length > 0 ? args[0] : ConfigHandler.defaultHome;
-    if (homeName.isEmpty()) homeName = ConfigHandler.defaultHome;
+    if (homeName.isEmpty()) {
+      homeName = ConfigHandler.defaultHome;
+    }
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (!homeName.equalsIgnoreCase("list") && setHome(player, homeName)) {
       ChatHelper.sendMessage(
@@ -63,6 +65,9 @@ public class SetHome extends SECommand {
   public boolean setHome(EntityPlayer player, String name) {
     if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(player)[0];
+      if (homeExists(name, data.getHomes())) {
+        return false;
+      }
       if (data.getMaxHomes() > data.getHomes().length) {
         data.addHome(new Home(name, new LocationWrapper(player.getPosition(), player.dimension)));
         return true;
@@ -71,6 +76,9 @@ public class SetHome extends SECommand {
       }
     } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       LocalUser data = (LocalUser) UserManager.getPlayerData(player)[1];
+      if (homeExists(name, data.getHomes())) {
+        return false;
+      }
       GlobalUser global = (GlobalUser) UserManager.getPlayerData(player)[0];
       if (getMaxHomes(global) > data.getHomes().length) {
         data.addHome(new Home(name, new LocationWrapper(player.getPosition(), player.dimension)));
@@ -105,5 +113,14 @@ public class SetHome extends SECommand {
   @Override
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_SETHOME.replaceAll("&", "\u00A7");
+  }
+
+  private static boolean homeExists(String name, Home[] homes) {
+    for (Home home : homes) {
+      if (home.getName().equalsIgnoreCase(name)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

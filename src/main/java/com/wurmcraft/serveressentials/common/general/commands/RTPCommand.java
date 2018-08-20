@@ -116,9 +116,9 @@ public class RTPCommand extends SECommand {
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_RTP.replaceAll("&", "\u00A7");
   }
-//
-//  @Override
-//  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-//    return true;
-//  }
+  //
+  //  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    return true;
+  }
 }

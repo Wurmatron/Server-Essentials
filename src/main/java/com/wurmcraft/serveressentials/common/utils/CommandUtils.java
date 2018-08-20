@@ -54,8 +54,7 @@ public class CommandUtils {
           && p.contains(".")
           && perm.contains(".")
           && p.substring(0, p.lastIndexOf("."))
-              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf("."))))
-        return true;
+              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf(".")))) return true;
     }
     return false;
   }

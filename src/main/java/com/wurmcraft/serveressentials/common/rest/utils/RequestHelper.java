@@ -61,7 +61,6 @@ public class RequestHelper {
       OutputStreamWriter out = new OutputStreamWriter(http.getOutputStream());
       out.write(jsonData);
       out.close();
-      System.out.println("Code: " + http.getResponseCode());
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.claim.events;
 
 import com.wurmcraft.serveressentials.api.json.claim.Claim;
-import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.claim.ChunkManager;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -199,7 +198,6 @@ public class ClaimEvent {
     }
   }
 
-
   private boolean chunkChanged(EntityPlayer player) {
     if (playerChunkLoc.containsKey(player)) {
       return !(playerChunkLoc.get(player).x == ((int) player.posX >> 4)
@@ -212,11 +210,13 @@ public class ClaimEvent {
     Claim oldClaim = ChunkManager.getClaim(playerChunkLoc.get(player).getBlock(8, 0, 8));
     Claim claim = ChunkManager.getClaim(player.getPosition());
     if (oldClaim != null && claim != null) {
-      if (oldClaim.getTeam() != null && claim.getTeam() != null && !claim.getTeam().getName()
-          .equalsIgnoreCase(oldClaim.getTeam().getName())) {
+      if (oldClaim.getTeam() != null
+          && claim.getTeam() != null
+          && !claim.getTeam().getName().equalsIgnoreCase(oldClaim.getTeam().getName())) {
         return claim.getTeam().getName();
-      } else if (oldClaim.getOwner() != null && claim.getOwner() != null && !oldClaim.getOwner()
-          .equals(claim.getOwner())) {
+      } else if (oldClaim.getOwner() != null
+          && claim.getOwner() != null
+          && !oldClaim.getOwner().equals(claim.getOwner())) {
         return UsernameResolver.getUsername(claim.getOwner());
       }
     } else if (claim != null) {
@@ -231,6 +231,4 @@ public class ClaimEvent {
     }
     return null;
   }
-
-
 }

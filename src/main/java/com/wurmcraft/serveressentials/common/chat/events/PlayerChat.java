@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.common.chat.events;
 
 import com.wurmcraft.serveressentials.api.json.global.Channel;
+import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
@@ -13,15 +14,18 @@ import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -114,6 +118,7 @@ public class PlayerChat {
       chat[0] = message;
       lastChat.put(name, chat);
     }
+    if (isIgnored(name, message)) return false;
     return true;
   }
 
@@ -158,5 +163,46 @@ public class PlayerChat {
         e.setCanceled(true);
       }
     }
+  }
+
+  @SubscribeEvent(priority = EventPriority.HIGHEST)
+  public void nameDisplay(PlayerEvent.NameFormat e) {
+    EntityPlayer player = getPlayer(e.getUsername());
+    if (player != null) {
+      Rank rank = UserManager.getPlayerRank(player.getGameProfile().getId());
+      if (rank == null) {
+        rank = UserManager.getRank(ConfigHandler.defaultRank);
+      }
+      String name = UsernameResolver.getNick(player.getGameProfile().getId());
+      if (name.length() <= 0) name = e.getDisplayname();
+      e.setDisplayname(
+          TextFormatting.getTextWithoutFormattingCodes(rank.getPrefix().replaceAll("&", "\u00A7"))
+              + " "
+              + name);
+    }
+  }
+
+  private EntityPlayer getPlayer(String username) {
+    for (EntityPlayer player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      if (player.getGameProfile().getName().equalsIgnoreCase(username)) {
+        return player;
+      }
+    }
+    return null;
+  }
+
+  public static boolean isIgnored(UUID user, String message) {
+    LocalUser localUser = (LocalUser) UserManager.getPlayerData(user)[1];
+    if (localUser != null && localUser.getIgnored() != null && localUser.getIgnored().length > 0) {
+      for (String ignored : localUser.getIgnored()) {
+        if (ignored.startsWith("[") && ignored.endsWith("]")) {
+          if (message.toLowerCase().contains(ignored)) return true;
+        } else if (message.substring(1).toLowerCase().startsWith(ignored)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

@@ -23,6 +23,7 @@ public class LocalUser implements IDataType {
   private LocationWrapper lastLocation;
   private long teleportTimer;
   private boolean frozen;
+  private String[] ignored;
 
   public LocalUser(UUID uuid) {
     this.uuid = uuid;
@@ -34,6 +35,7 @@ public class LocalUser implements IDataType {
     currentChannel = ConfigHandler.defaultChannel;
     onlineTime = 0;
     lastLocation = new LocationWrapper(0, 0, 0, 0);
+    ignored = new String[0];
   }
 
   public long getLastSeen() {
@@ -144,5 +146,40 @@ public class LocalUser implements IDataType {
 
   public void setFrozen(boolean frozen) {
     this.frozen = frozen;
+  }
+
+  public String[] getIgnored() {
+    return ignored;
+  }
+
+  public void setIgnored(String[] ignored) {
+    this.ignored = ignored;
+  }
+
+  public void addIgnored(String ign) {
+    List<String> list = new ArrayList<>();
+    Collections.addAll(list, getIgnored());
+    list.add(ign);
+    this.ignored = list.toArray(new String[0]);
+  }
+
+  public void delIgnored(String ign) {
+    List<String> list = new ArrayList<>();
+    for (String i : getIgnored()) {
+      if (!i.equalsIgnoreCase(ign)) {
+        list.add(i);
+      }
+    }
+    this.ignored = list.toArray(new String[0]);
+  }
+
+  public boolean isIgnored(String type) {
+    if (getIgnored() == null) ignored = new String[0];
+    for (String list : getIgnored()) {
+      if (list.equalsIgnoreCase(type)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -22,10 +22,10 @@ public class RegionData {
   }
 
   public void addClaim(Location loc, Claim claim) {
-        setClaim(ChunkManager.getIndexForClaim(loc), claim);
+    setClaim(ChunkManager.getIndexForClaim(loc), claim);
   }
 
   public void addClaim(BlockPos pos, Claim claim) {
-        setClaim(ChunkManager.getIndexForClaim(pos), claim);
+    setClaim(ChunkManager.getIndexForClaim(pos), claim);
   }
 }

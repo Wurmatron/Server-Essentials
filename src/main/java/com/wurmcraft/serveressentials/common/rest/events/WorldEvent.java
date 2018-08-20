@@ -39,6 +39,6 @@ public class WorldEvent {
   }
 
   private long calculateOnTime(UUID uuid) {
-    return (System.currentTimeMillis() - UserManager.joinTime.get(uuid)) / 60000;
+    return (System.currentTimeMillis() - UserManager.joinTime.getOrDefault(uuid, 0L)) / 60000;
   }
 }
