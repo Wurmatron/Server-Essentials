@@ -49,12 +49,26 @@ public class CommandUtils {
   public static boolean hasPerm(String perm, ICommandSender sender) {
     String[] perms = getSenderPermissions(sender);
     for (String p : perms) {
-      if (p.equalsIgnoreCase(perm) || p.equalsIgnoreCase("*")) return true;
+      if (p.equalsIgnoreCase(perm) || p.equalsIgnoreCase("*")) {
+        return true;
+      }
       if (p.contains("*")
           && p.contains(".")
           && perm.contains(".")
           && p.substring(0, p.lastIndexOf("."))
-              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf(".")))) return true;
+              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf(".")))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean isNumberAtPos(String[] commandArgs, int index) {
+    if (commandArgs != null && commandArgs.length >= index) {
+      try {
+        Integer.parseInt(commandArgs[index]);
+      } catch (NumberFormatException e) {
+      }
     }
     return false;
   }

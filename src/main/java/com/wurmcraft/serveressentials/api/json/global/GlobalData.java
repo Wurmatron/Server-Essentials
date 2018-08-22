@@ -99,8 +99,7 @@ public class GlobalData implements IDataType {
 
   public void setMotd(String[] motd) {
     this.motd = motd;
-    DataHelper.forceSave(
-        new File(ConfigHandler.saveLocation + File.separator + "Global.json"), this);
+    DataHelper.forceSave(new File(ConfigHandler.saveLocation), this);
   }
 
   public void addMotd(String motd) {

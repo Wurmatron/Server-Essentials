@@ -31,25 +31,27 @@ public class FlyCommand extends SECommand {
         if (!user.capabilities.allowFlying) {
           user.capabilities.allowFlying = true;
           user.capabilities.isFlying = true;
-          ChatHelper.sendMessage(user,
-              LanguageModule.getLangfromUUID(user.getGameProfile().getId()).FLY_ENABLED);
-          ChatHelper.sendMessage(player,
+          ChatHelper.sendMessage(
+              user, LanguageModule.getLangfromUUID(user.getGameProfile().getId()).FLY_ENABLED);
+          ChatHelper.sendMessage(
+              player,
               LanguageModule.getLangfromUUID(player.getGameProfile().getId())
                   .FLY_ENABLED_OTHER
                   .replaceAll("%PLAYER%", user.getDisplayNameString()));
           user.sendPlayerAbilities();
         } else {
           user.capabilities.allowFlying = false;
-          ChatHelper.sendMessage(user,
-              LanguageModule.getLangfromUUID(user.getGameProfile().getId()).FLY_DISABLED);
-          ChatHelper.sendMessage(player,
+          ChatHelper.sendMessage(
+              user, LanguageModule.getLangfromUUID(user.getGameProfile().getId()).FLY_DISABLED);
+          ChatHelper.sendMessage(
+              player,
               LanguageModule.getLangfromUUID(player.getGameProfile().getId())
                   .FLY_DISABLED_OTHER
                   .replaceAll("%PLAYER%", user.getDisplayNameString()));
           user.sendPlayerAbilities();
         }
-        ChatHelper.sendMessage(sender,
-            getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
+        ChatHelper.sendMessage(
+            sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
       }
     } else {
       if (!player.capabilities.isCreativeMode) {
