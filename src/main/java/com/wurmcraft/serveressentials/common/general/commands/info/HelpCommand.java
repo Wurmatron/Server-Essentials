@@ -23,7 +23,7 @@ public class HelpCommand extends SECommand {
 
   private static final Map<String, ICommand> sortedCommand =
       sortCommands(FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager());
-  private static final int CHAT_WIDTH = 54;
+  private static final int CHAT_WIDTH = 80;
   private static final int COMMANDS_PER_PAGE = 8;
 
   @Override
@@ -65,14 +65,13 @@ public class HelpCommand extends SECommand {
   }
 
   private void displayPage(ICommandSender sender, int page) {
-    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
-    HashMap<ICommand, String> commandDisplay = getPageDisplay(sender, page);
-    for (ICommand cmd : commandDisplay.keySet()) {
-      TextComponentTranslation msg = new TextComponentTranslation(commandDisplay.get(cmd));
-      msg.getStyle().setClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, cmd.getName()));
-      sender.sendMessage(msg);
-    }
-    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
+    String pageName = "Page " + page;
+    String SPACER = getCurrentLanguage(sender).CHAT_SPACER;
+    String HALF_SPACER = SPACER.substring(0, (CHAT_WIDTH) + (pageName.length() / 2));
+    String TOP_SPACER = (HALF_SPACER + " " + pageName + " " + HALF_SPACER);
+    ChatHelper.sendMessage(sender, TOP_SPACER);
+    System.out.println("Length: " + TOP_SPACER.length() + " " + SPACER.length());
+    ChatHelper.sendMessage(sender,SPACER);
   }
 
   private HashMap<ICommand, String> getPageDisplay(ICommandSender sender, int page) {
@@ -123,5 +122,10 @@ public class HelpCommand extends SECommand {
       }
     }
     return "";
+  }
+
+  @Override
+  public boolean canConsoleRun() {
+    return true;
   }
 }

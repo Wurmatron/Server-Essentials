@@ -13,6 +13,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 
 @Command(moduleName = "Teleportation")
@@ -41,6 +43,7 @@ public class BackCommand extends SECommand {
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     LocationWrapper location = getLastLocation(player);
     if (location != null && location.getY() > 0) {
+      player.addPotionEffect(new PotionEffect(Potion.getPotionById(22), 100, 4));
       TeleportUtils.teleportTo((EntityPlayerMP) player, location, true);
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).TP_BACK.replaceAll("&", "\u00A7"));
     } else {
