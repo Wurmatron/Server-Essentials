@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.events.PlayerTickEvent;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -28,31 +29,26 @@ public class FreezeCommand extends SECommand {
       if (player != null) {
         PlayerTickEvent.toggleFrozen(player, player.getPosition());
         if (PlayerTickEvent.isFrozen(player)) {
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender)
-                      .FROZEN_OTHER
-                      .replaceAll("%PLAYER%", player.getDisplayNameString())));
-          player.sendMessage(
-              new TextComponentString(
-                  LanguageModule.getLangfromUUID(player.getGameProfile().getId()).FROZEN));
+          ChatHelper.sendMessage(sender,
+              getCurrentLanguage(sender)
+                  .FROZEN_OTHER
+                  .replaceAll("%PLAYER%", player.getDisplayNameString()));
+          ChatHelper.sendMessage(player,
+              LanguageModule.getLangfromUUID(player.getGameProfile().getId()).FROZEN);
         } else {
-          sender.sendMessage(
-              new TextComponentString(
-                  getCurrentLanguage(sender)
-                      .UNFROZEN_OTHER
-                      .replaceAll("%PLAYER%", player.getDisplayNameString())));
-          player.sendMessage(
-              new TextComponentString(
-                  LanguageModule.getLangfromUUID(player.getGameProfile().getId()).UNFROZEN));
+          ChatHelper.sendMessage(sender,
+              getCurrentLanguage(sender)
+                  .UNFROZEN_OTHER
+                  .replaceAll("%PLAYER%", player.getDisplayNameString()));
+          ChatHelper.sendMessage(player,
+              LanguageModule.getLangfromUUID(player.getGameProfile().getId()).UNFROZEN);
         }
       } else {
-        sender.sendMessage(
-            new TextComponentString(
-                getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0])));
+        ChatHelper.sendMessage(sender,
+            getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(sender));
     }
   }
 }
