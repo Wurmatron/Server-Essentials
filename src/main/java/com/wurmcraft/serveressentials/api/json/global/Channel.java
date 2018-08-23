@@ -9,7 +9,7 @@ public class Channel implements IDataType {
 
   private String name;
   private String prefix;
-  private boolean chatFillter;
+  private boolean chatFilter;
   private boolean logChat;
   private Type type;
   private String typeData;
@@ -22,24 +22,24 @@ public class Channel implements IDataType {
    *
    * @param name Name of Channel (Used for Commands)
    * @param prefix Added before the player's name in chat
-   * @param chatFillter Is the chat filter acive in this channel
+   * @param chatFilter Is the chat filter active in this channel
    * @param logChat Chat logged to a file
    * @param type Type of channel
    * @param data Stores the data about the type (IE: Pass = "Password", TeamCommand = "teamName",
    *     Rank = "Rank Name")
-   * @param filter Replaces Words in chat with diffrent ones based on this filter
+   * @param filter Replaces Words in chat with different ones based on this filter
    */
   public Channel(
       String name,
       String prefix,
-      boolean chatFillter,
+      boolean chatFilter,
       boolean logChat,
       Type type,
       String data,
       String[] filter) {
     this.name = name;
     this.prefix = prefix;
-    this.chatFillter = chatFillter;
+    this.chatFilter = chatFilter;
     this.logChat = logChat;
     this.type = type;
     this.typeData = data;
@@ -49,10 +49,20 @@ public class Channel implements IDataType {
   public Channel(String name, String prefix, Type type, String data) {
     this.name = name;
     this.prefix = prefix;
-    this.chatFillter = true;
+    this.chatFilter = true;
     this.logChat = false;
     this.type = type;
     this.typeData = data;
+  }
+
+  public Channel(String name, String prefix, Type type, String data, String[] filter) {
+    this.name = name;
+    this.prefix = prefix;
+    this.chatFilter = true;
+    this.logChat = false;
+    this.type = type;
+    this.typeData = data;
+    this.filter = filter;
   }
 
   public String getName() {
@@ -71,12 +81,12 @@ public class Channel implements IDataType {
     this.prefix = prefix;
   }
 
-  public boolean isChatFillter() {
-    return chatFillter;
+  public boolean isChatFilter() {
+    return chatFilter;
   }
 
-  public void setChatFillter(boolean chatFillter) {
-    this.chatFillter = chatFillter;
+  public void setChatFilter(boolean chatFilter) {
+    this.chatFilter = chatFilter;
   }
 
   public boolean isLogChat() {

@@ -12,10 +12,7 @@ import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 @Command(moduleName = "General")
@@ -67,11 +64,10 @@ public class HelpCommand extends SECommand {
   private void displayPage(ICommandSender sender, int page) {
     String pageName = "Page " + page;
     String SPACER = getCurrentLanguage(sender).CHAT_SPACER;
-    String HALF_SPACER = SPACER.substring(0, (CHAT_WIDTH) + (pageName.length() / 2));
+    String HALF_SPACER = SPACER.substring(0, (CHAT_WIDTH / 2));
     String TOP_SPACER = (HALF_SPACER + " " + pageName + " " + HALF_SPACER);
     ChatHelper.sendMessage(sender, TOP_SPACER);
-    System.out.println("Length: " + TOP_SPACER.length() + " " + SPACER.length());
-    ChatHelper.sendMessage(sender,SPACER);
+    ChatHelper.sendMessage(sender, SPACER);
   }
 
   private HashMap<ICommand, String> getPageDisplay(ICommandSender sender, int page) {

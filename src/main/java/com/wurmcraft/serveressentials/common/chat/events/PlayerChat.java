@@ -177,11 +177,10 @@ public class PlayerChat {
         displayName = displayName + rank;
       }
       displayName = displayName + UsernameResolver.getNick(player.getGameProfile().getId());
-      displayName = displayName + rank.getSuffix();
+      if (rank != null && !rank.getSuffix().isEmpty()) displayName = displayName + rank.getSuffix();
       e.setDisplayname(displayName.replaceAll("&", "\u00A7"));
     }
   }
-
 
   private EntityPlayer getPlayer(String username) {
     for (EntityPlayer player :
