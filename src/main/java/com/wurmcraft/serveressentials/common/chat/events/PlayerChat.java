@@ -118,7 +118,9 @@ public class PlayerChat {
       chat[0] = message;
       lastChat.put(name, chat);
     }
-    if (isIgnored(name, message)) return false;
+    if (isIgnored(name, message)) {
+      return false;
+    }
     return true;
   }
 
@@ -169,18 +171,17 @@ public class PlayerChat {
   public void nameDisplay(PlayerEvent.NameFormat e) {
     EntityPlayer player = getPlayer(e.getUsername());
     if (player != null) {
+      String displayName = "";
       Rank rank = UserManager.getPlayerRank(player.getGameProfile().getId());
-      if (rank == null) {
-        rank = UserManager.getRank(ConfigHandler.defaultRank);
+      if (rank != null) {
+        displayName = displayName + rank;
       }
-      String name = UsernameResolver.getNick(player.getGameProfile().getId());
-      if (name.length() <= 0) name = e.getDisplayname();
-      e.setDisplayname(
-          TextFormatting.getTextWithoutFormattingCodes(rank.getPrefix().replaceAll("&", "\u00A7"))
-              + " "
-              + name);
+      displayName = displayName + UsernameResolver.getNick(player.getGameProfile().getId());
+      displayName = displayName + rank.getSuffix();
+      e.setDisplayname(displayName.replaceAll("&", "\u00A7"));
     }
   }
+
 
   private EntityPlayer getPlayer(String username) {
     for (EntityPlayer player :
@@ -197,7 +198,9 @@ public class PlayerChat {
     if (localUser != null && localUser.getIgnored() != null && localUser.getIgnored().length > 0) {
       for (String ignored : localUser.getIgnored()) {
         if (ignored.startsWith("[") && ignored.endsWith("]")) {
-          if (message.toLowerCase().contains(ignored)) return true;
+          if (message.toLowerCase().contains(ignored)) {
+            return true;
+          }
         } else if (message.substring(1).toLowerCase().startsWith(ignored)) {
           return true;
         }
