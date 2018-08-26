@@ -171,15 +171,25 @@ public class PlayerChat {
   public void nameDisplay(PlayerEvent.NameFormat e) {
     EntityPlayer player = getPlayer(e.getUsername());
     if (player != null) {
-      String displayName = "";
+      StringBuilder builder = new StringBuilder();
       Rank rank = UserManager.getPlayerRank(player.getGameProfile().getId());
       if (rank != null) {
-        displayName = displayName + rank;
+        builder.append(rank.getPrefix().replaceAll("&", "\u00A7"));
       }
-      displayName = displayName + UsernameResolver.getNick(player.getGameProfile().getId());
-      if (rank != null && !rank.getSuffix().isEmpty()) displayName = displayName + rank.getSuffix();
-      e.setDisplayname(displayName.replaceAll("&", "\u00A7"));
+      builder.append(getName(player));
+      if (!rank.getSuffix().isEmpty()) {
+        builder.append(rank.getSuffix().replaceAll("&", "\u00A7"));
+      }
+      e.setDisplayname(builder.toString());
     }
+  }
+
+  private String getName(EntityPlayer player) {
+    String nick = UsernameResolver.getNick(player.getGameProfile().getId());
+    if (nick.isEmpty()) {
+      return UsernameResolver.getUsername(player.getGameProfile().getId());
+    }
+    return nick.replaceAll("&", "\u00A7");
   }
 
   private EntityPlayer getPlayer(String username) {
