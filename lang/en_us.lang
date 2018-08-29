@@ -138,5 +138,8 @@
   "UNVANISHED": "&dYou have unvanished",
   "SPAWN_SET": "Spawn set",
   "IGNORED": "&c%TYPE% has been ignored!",
-  "UNIGNORED": "&c%TYPE% has beem un-ignored"
+  "UNIGNORED": "&c%TYPE% has beem un-ignored",
+  "LOCKDOWN": "&cServer is currently in lockdown, You will be unable to do anything",
+  "LOCKDOWN_ENABLED": "&cLockdown mode enabled",
+  "LOCKDOWN_DISABLED": "&dLockdown mode disabled"
 }

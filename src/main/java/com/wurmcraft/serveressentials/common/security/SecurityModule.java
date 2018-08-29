@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 public class SecurityModule implements IModule {
 
   public static List<UUID> trusted = new ArrayList<>();
+  public static boolean lockdown = false;
 
   public static List<String> getPlayerMods(EntityPlayer player) {
     EntityPlayerMP playerMP = (EntityPlayerMP) player;

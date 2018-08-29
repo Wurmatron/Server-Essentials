@@ -34,6 +34,7 @@ public class Local {
   public String PERM_DEL;
   public String PERK_ADDED;
   public String PERK_DEL;
+  public String LOCKDOWN;
 
   // Chat
   public String CHAT_SPACER;
@@ -113,6 +114,8 @@ public class Local {
   public String SPAWN_SET;
   public String IGNORED;
   public String UNIGNORED;
+  public String LOCKDOWN_ENABLED;
+  public String LOCKDOWN_DISABLED;
 
   // Claiming
   public String CLAIM_BREAK;
