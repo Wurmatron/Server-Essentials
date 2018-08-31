@@ -18,6 +18,7 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+@Deprecated
 public class ClaimEvent {
 
   private static HashMap<EntityPlayer, ChunkPos> playerChunkLoc = new HashMap<>();

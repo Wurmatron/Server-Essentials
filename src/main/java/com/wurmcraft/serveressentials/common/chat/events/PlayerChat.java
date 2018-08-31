@@ -176,6 +176,7 @@ public class PlayerChat {
       if (rank != null) {
         builder.append(rank.getPrefix().replaceAll("&", "\u00A7"));
       }
+      builder.append(" ");
       builder.append(getName(player));
       if (!rank.getSuffix().isEmpty()) {
         builder.append(rank.getSuffix().replaceAll("&", "\u00A7"));

@@ -26,6 +26,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author DemiSan
  */
+@Deprecated
 public class ChunkManager {
 
   //              Region Location, Data

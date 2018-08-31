@@ -1,6 +1,0 @@
-Commands:
-  - Stocks
-  - Shop Renting /shop ?
-
-Perks:
- - Bank (Security)

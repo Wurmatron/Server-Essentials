@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
 // TODO Rework Command
+@Deprecated
 @Command(moduleName = "Claim")
 public class DelClaimCommand extends SECommand {
 

@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.security.events.LockDownEvents;
 import com.wurmcraft.serveressentials.common.security.events.SecurityEvents;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,5 +78,6 @@ public class SecurityModule implements IModule {
   public void setup() {
     loadTrustedStaff();
     MinecraftForge.EVENT_BUS.register(new SecurityEvents());
+    MinecraftForge.EVENT_BUS.register(new LockDownEvents());
   }
 }
