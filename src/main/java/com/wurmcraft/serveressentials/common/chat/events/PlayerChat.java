@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.common.chat.events;
 
 import com.wurmcraft.serveressentials.api.json.global.Channel;
+import com.wurmcraft.serveressentials.api.json.global.Channel.Type;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
@@ -140,7 +141,11 @@ public class PlayerChat {
           e.setCanceled(true);
           Channel ch = getUserChannel(e.getPlayer().getGameProfile().getId());
           for (EntityPlayerMP player : getPlayersInChannel(ch)) {
-            player.sendMessage(e.getComponent());
+            if (ch.getType().name().equals(Type.PUBLIC.name())) {
+              player.sendMessage(e.getComponent());
+            } else if (canSeeChannelMessage(ch, e.getPlayer(), player)) {
+              player.sendMessage(e.getComponent());
+            }
           }
         }
       } else {
@@ -167,6 +172,15 @@ public class PlayerChat {
     }
   }
 
+  public boolean canSeeChannelMessage(Channel channel, EntityPlayer sender, EntityPlayerMP player) {
+    GlobalUser senderUser = (GlobalUser) UserManager.getPlayerData(sender)[0];
+    GlobalUser user = (GlobalUser) UserManager.getPlayerData(player)[0];
+    if (channel.getType() == Type.TEAM) {
+      return senderUser.getTeam().equals(user.getTeam());
+    }
+    return false;
+  }
+
   @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void nameDisplay(PlayerEvent.NameFormat e) {
     EntityPlayer player = getPlayer(e.getUsername());
@@ -178,7 +192,7 @@ public class PlayerChat {
       }
       builder.append(" ");
       builder.append(getName(player));
-      if (!rank.getSuffix().isEmpty()) {
+      if (rank != null && !rank.getSuffix().isEmpty()) {
         builder.append(rank.getSuffix().replaceAll("&", "\u00A7"));
       }
       e.setDisplayname(builder.toString());

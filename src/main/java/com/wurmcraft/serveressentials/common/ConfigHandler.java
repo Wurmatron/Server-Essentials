@@ -48,7 +48,7 @@ public class ConfigHandler {
   public static String saveLocation = "Server-Essentials";
 
   @Comment("Default channel for users")
-  public static String defaultChannel = "local";
+  public static String defaultChannel = "global";
 
   @Comment("Forge default channel on join")
   public static boolean forceDefaultChannelOnJoin = true;

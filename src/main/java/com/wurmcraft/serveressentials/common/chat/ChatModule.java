@@ -21,9 +21,12 @@ public class ChatModule implements IModule {
   private void createDefaultChannels() {
     Channel global = new Channel("global", "&b[G]", Type.PUBLIC, "");
     Channel local = new Channel("local", "&e[L]", Type.PUBLIC, "");
+    Channel team = new Channel("team", "&2[T]", Type.TEAM, "");
     DataHelper.createIfNonExist(Keys.CHANNEL, global);
     DataHelper.createIfNonExist(Keys.CHANNEL, local);
+    DataHelper.createIfNonExist(Keys.CHANNEL, team);
     DataHelper.load(Keys.CHANNEL, global);
     DataHelper.load(Keys.CHANNEL, local);
+    DataHelper.load(Keys.CHANNEL, team);
   }
 }
