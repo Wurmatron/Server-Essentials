@@ -69,6 +69,7 @@ public class Local {
   public String UUID;
   public String USER_SYNC;
   public String CHAT_TIME;
+  public String WARP_SET;
 
   // Commands
   public String RANK_NULL;

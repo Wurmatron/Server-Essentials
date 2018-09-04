@@ -12,7 +12,7 @@
   "TELEPORT_TOP": "&dYou have been teleported to the top!",
   "HOME_NOTSET": "&dNo home has been set",
   "HOME_HOVER": "&dX: &9%X%\n&dY: &9%Y%\n&dZ: &9%Z%\n&dD: &9%DIMENSION%",
-  "HOME_CREATED": "&dHome &6%Name% &dcreated",
+  "HOME_CREATED": "&dHome &6%NAME% &dcreated",
   "HOME_FAILED": "&dFailed to create home %HOME%",
   "TP_HOME_OTHER": "'&6%FROM%&d' has been teleported to '&6%TO%&6'",
   "PERM_ADDED": "&dPermission &6'%PERM% added to &b'%PLAYER%'",
@@ -141,5 +141,6 @@
   "UNIGNORED": "&c%TYPE% has beem un-ignored",
   "LOCKDOWN": "&cServer is currently in lockdown, You will be unable to do anything",
   "LOCKDOWN_ENABLED": "&cLockdown mode enabled",
-  "LOCKDOWN_DISABLED": "&dLockdown mode disabled"
+  "LOCKDOWN_DISABLED": "&dLockdown mode disabled",
+"WARP_SET": "&dWarp %NAME% created!"
 }

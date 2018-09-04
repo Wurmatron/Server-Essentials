@@ -13,6 +13,10 @@ public class Warp extends Home implements IDataType {
     super(name, new LocationWrapper(location, dimension));
   }
 
+  public Warp(String name, LocationWrapper location) {
+    super(name, location);
+  }
+
   public String getID() {
     return getName();
   }
