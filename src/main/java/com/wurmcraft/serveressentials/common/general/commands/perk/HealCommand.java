@@ -26,13 +26,13 @@ public class HealCommand extends SECommand {
     super.execute(server, sender, args);
     if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      player.heal(Integer.MAX_VALUE);
+      player.setHealth(player.getMaxHealth());
       ChatHelper.sendMessage(
           player, LanguageModule.getLangfromUUID(player.getGameProfile().getId()).HEAL);
     } else if (args.length == 1) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
       if (player != null) {
-        player.heal(Integer.MAX_VALUE);
+        player.setHealth(player.getMaxHealth());
         ChatHelper.sendMessage(
             player, LanguageModule.getLangfromUUID(player.getGameProfile().getId()).HEAL);
         ChatHelper.sendMessage(
