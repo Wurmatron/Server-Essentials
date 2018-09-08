@@ -123,7 +123,7 @@ public class DataHelper {
 
   public static IDataType get(Keys key, String data) {
     List<IDataType> keyData = getData(key);
-    if (keyData.size() > 0) {
+    if (keyData != null && keyData.size() > 0) {
       for (IDataType d : keyData) {
         if (d.getID().equals(data)) {
           return d;

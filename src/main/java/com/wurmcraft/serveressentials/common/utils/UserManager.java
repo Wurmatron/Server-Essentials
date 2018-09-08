@@ -60,4 +60,8 @@ public class UserManager {
   public static Object[] getTeam(String name) {
     return teamCache.getOrDefault(name, new Object[0]);
   }
+
+  public static Rank[] getRanks() {
+    return rankCache.values().toArray(new Rank[0]);
+  }
 }

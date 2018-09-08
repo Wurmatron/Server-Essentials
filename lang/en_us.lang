@@ -56,7 +56,7 @@
   "GOD_ENABBLE": "&dGod Mode Enabled",
   "TPLOCK_DISABLED": "&dTP Lock Disabled &6(Tpa requests are automatically denied)",
   "TPLOCK_ENABLED": "&dTP Lock Enabled &6(Tpa requests are no longer denied)",
-  "INVALID_NUMBER": "%NUMBER% is not a valid number!",
+  "INVALID_NUMBER": "&cNUMBER%&d is not a valid number!",
   "MODE_INVALID": "&cInvalid Gamemode '%MODE%'",
   "MODE_CHANGED": "&dYou Gamemode has changed to %MODE%",
   "MODE_CHANGED_OTHER": "&dYou have changed %PLAYER% gamemode to %MODE%",
