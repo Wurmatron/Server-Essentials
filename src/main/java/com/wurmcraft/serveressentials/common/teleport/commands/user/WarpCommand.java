@@ -40,8 +40,8 @@ public class WarpCommand extends SECommand {
         TeleportUtils.teleportTo((EntityPlayerMP) player, ((Warp) warp).getPos(), true);
         ChatHelper.sendMessage(player, getCurrentLanguage(sender).TP.replaceAll("%NAME%", args[0]));
       } else {
-        ChatHelper
-            .sendMessage(sender, TextFormatting.LIGHT_PURPLE + Strings.join(listWarps(), ", "));
+        ChatHelper.sendMessage(
+            sender, TextFormatting.LIGHT_PURPLE + Strings.join(listWarps(), ", "));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
@@ -54,8 +54,8 @@ public class WarpCommand extends SECommand {
   }
 
   @Override
-  public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
-      String[] args, @Nullable BlockPos targetPos) {
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
     return Arrays.asList(listWarps());
   }
 

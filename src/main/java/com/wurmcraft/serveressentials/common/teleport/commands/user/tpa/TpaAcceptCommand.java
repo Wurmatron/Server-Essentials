@@ -50,4 +50,9 @@ public class TpaAcceptCommand extends SECommand {
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_TPAACCEPT;
   }
+
+  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    return true;
+  }
 }

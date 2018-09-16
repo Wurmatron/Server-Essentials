@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.common.general.commands.info;
 
+import com.feed_the_beast.ftbutilities.ranks.CommandOverride;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
@@ -23,7 +24,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Command(moduleName = "General")
 public class HelpCommand extends SECommand {
@@ -34,27 +34,39 @@ public class HelpCommand extends SECommand {
   private static final int CHAT_WIDTH = 150;
 
   public void init() {
-    HashMap<String, ICommand> tempSort = FMLCommonHandler.instance()
-        .getMinecraftServerInstance()
-        .commandManager
-        .getCommands()
-        .values().stream().collect(Collectors
-            .toMap(command -> command.getName().toLowerCase(), command -> command, (a, b) -> a,
-                HashMap::new));
+    HashMap<String, ICommand> tempSort = new HashMap<>();
+    for (ICommand command :
+        FMLCommonHandler.instance()
+            .getMinecraftServerInstance()
+            .commandManager
+            .getCommands()
+            .values()) {
+      tempSort.putIfAbsent(command.getName().toLowerCase(), command);
+    }
     sortedCommands = tempSort.values().toArray(new ICommand[0]);
     sortedRankCommands = new HashMap<>();
-    Arrays.stream(UserManager.getRanks())
-        .forEach(rank -> sortedRankCommands.put(rank, getRankExclusiveCommands(rank)));
+    for (Rank rank : UserManager.getRanks()) {
+      sortedRankCommands.put(rank, getRankExclusiveCommands(rank));
+    }
   }
 
   private ICommand[] getRankExclusiveCommands(Rank rank) {
     HashMap<String, ICommand> tempSort = new HashMap<>();
-    for (String perm : rank.getPermission()) {
-      if(perm.equalsIgnoreCase("*"))
+    for (String node : rank.getPermission()) {
+      if (node.equalsIgnoreCase("*")) {
         return sortedCommands;
-      for (ICommand command : sortedCommands) {
-        if (command instanceof SECommand && ((SECommand) command).getCommandPerm().equalsIgnoreCase(perm)) {
-          tempSort.putIfAbsent(command.getName().toLowerCase(), command);
+      }
+    }
+    for (ICommand command : sortedCommands) {
+      if (command instanceof CommandOverride
+          && ((CommandOverride) command).mirrored instanceof SECommand) {
+        for (String perm : rank.getPermission()) {
+          // Yea this is def an thing FTB Utils
+          if (((SECommand) ((CommandOverride) command).mirrored)
+              .getCommandPerm()
+              .equalsIgnoreCase(perm)) {
+            tempSort.putIfAbsent(command.getName().toLowerCase(), command);
+          }
         }
       }
     }
@@ -82,8 +94,10 @@ public class HelpCommand extends SECommand {
   @Override
   public List<String> getTabCompletions(
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-    if(sender instanceof EntityPlayer) {
-      Rank rank = UserManager.getPlayerRank(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
+    if (sender instanceof EntityPlayer) {
+      Rank rank =
+          UserManager.getPlayerRank(
+              ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
       return IntStream.range(0, (sortedRankCommands.get(rank).length / COMMANDS_PER_PAGE))
           .mapToObj(index -> "" + index)
           .collect(Collectors.toList());
@@ -111,8 +125,9 @@ public class HelpCommand extends SECommand {
       init();
     }
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-      Rank rank = UserManager
-          .getPlayerRank(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
+      Rank rank =
+          UserManager.getPlayerRank(
+              ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
       if (args.length > 0) {
         try {
           displayPage(sender, rank, Integer.parseInt(args[0]));
@@ -160,12 +175,16 @@ public class HelpCommand extends SECommand {
                 ? ((SECommand) command).getDescription(sender)
                 : command.getUsage(sender);
         TextComponentTranslation msg = null;
+        if (description.length() <= 0) {
+          description = command.getUsage(sender);
+        }
         if (!(command instanceof SECommand)) {
           msg = new TextComponentTranslation(description);
           msg.getStyle().setColor(TextFormatting.LIGHT_PURPLE);
         } else {
-          msg = new TextComponentTranslation(
-              TextFormatting.LIGHT_PURPLE + "/" + command.getName() + " " + description);
+          msg =
+              new TextComponentTranslation(
+                  TextFormatting.LIGHT_PURPLE + "/" + command.getName() + " " + description);
         }
         msg.getStyle()
             .setClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, "/" + command.getName() + " "));
@@ -173,17 +192,18 @@ public class HelpCommand extends SECommand {
       }
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
     } else {
-      ChatHelper.sendMessage(sender,
-          getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", "" + pageNo));
+      ChatHelper.sendMessage(
+          sender, getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", "" + pageNo));
     }
   }
 
   private void displayPage(ICommandSender sender, Rank rank, int pageNo) {
-    if (pageNo-1 < (sortedRankCommands.get(rank).length / COMMANDS_PER_PAGE)) {
+    if (pageNo - 1 < (sortedRankCommands.get(rank).length / COMMANDS_PER_PAGE)) {
       ChatHelper.sendMessage(sender, generateSpacerWithPageNo(sender, pageNo));
       for (ICommand command : getCommandForRankPage(rank, pageNo)) {
-        if(command == null)
+        if (command == null) {
           continue;
+        }
         String description =
             command instanceof SECommand
                 ? ((SECommand) command).getDescription(sender)
@@ -193,8 +213,9 @@ public class HelpCommand extends SECommand {
           msg = new TextComponentTranslation(description);
           msg.getStyle().setColor(TextFormatting.LIGHT_PURPLE);
         } else {
-          msg = new TextComponentTranslation(
-              TextFormatting.LIGHT_PURPLE + "/" + command.getName() + " " + description);
+          msg =
+              new TextComponentTranslation(
+                  TextFormatting.LIGHT_PURPLE + "/" + command.getName() + " " + description);
         }
         msg.getStyle()
             .setClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, "/" + command.getName() + " "));
@@ -202,8 +223,8 @@ public class HelpCommand extends SECommand {
       }
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
     } else {
-      ChatHelper.sendMessage(sender,
-          getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", "" + pageNo));
+      ChatHelper.sendMessage(
+          sender, getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", "" + pageNo));
     }
   }
 
@@ -219,12 +240,16 @@ public class HelpCommand extends SECommand {
   }
 
   public ICommand[] getCommandForRankPage(Rank rank, int pageNo) {
-    return Arrays.copyOfRange(sortedRankCommands.get(rank), (pageNo * COMMANDS_PER_PAGE),
+    return Arrays.copyOfRange(
+        sortedRankCommands.get(rank),
+        (pageNo * COMMANDS_PER_PAGE),
         (pageNo * COMMANDS_PER_PAGE) + COMMANDS_PER_PAGE);
   }
 
   public ICommand[] getCommandForPage(int pageNo) {
-    return Arrays.copyOfRange(sortedCommands, (pageNo * COMMANDS_PER_PAGE),
+    return Arrays.copyOfRange(
+        sortedCommands,
+        (pageNo * COMMANDS_PER_PAGE),
         (pageNo * COMMANDS_PER_PAGE) + COMMANDS_PER_PAGE);
   }
 }

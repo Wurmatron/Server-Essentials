@@ -105,4 +105,9 @@ public class TpaCommand extends SECommand {
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
     return autoCompleteUsername(args, 0);
   }
+
+  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    return true;
+  }
 }
