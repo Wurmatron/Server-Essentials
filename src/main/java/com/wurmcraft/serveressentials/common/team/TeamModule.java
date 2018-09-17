@@ -98,9 +98,9 @@ public class TeamModule implements IModule {
       }
     } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       globalTeams = true;
-      if (Loader.isModLoaded("ftbutilities")) {
-        MinecraftForge.EVENT_BUS.register(new FTBUtilsEvents());
-      }
+      //      if (Loader.isModLoaded("ftbutilities")) {
+      MinecraftForge.EVENT_BUS.register(new FTBUtilsEvents());
+      //      }
     }
   }
 

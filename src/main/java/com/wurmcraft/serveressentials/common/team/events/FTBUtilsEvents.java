@@ -51,6 +51,7 @@ public class FTBUtilsEvents {
     DataHelper.load(Keys.LOCAL_TEAM, local);
     RequestHelper.TeamResponses.addTeam(global);
     TeamModule.loadRestTeam(e.getTeam().toString());
+    updatePlayer(e.getTeam().owner);
   }
 
   @SubscribeEvent
@@ -66,10 +67,26 @@ public class FTBUtilsEvents {
             });
       }
     }
-    team = (GlobalTeam) UserManager.getTeam(e.getTeam().toString())[0];
-    team.addMember(e.getPlayer().getId().toString());
-    RequestHelper.TeamResponses.overrideTeam(team);
-    updatePlayer(e.getTeam().owner);
+    Object[] teamData = UserManager.getTeam(e.getTeam().toString());
+    if (teamData == null) {
+      team =
+          new GlobalTeam(
+              e.getTeam().toString(),
+              new Bank(),
+              new String[] {},
+              e.getTeam().owner.getId(),
+              new String[] {e.getPlayer().entityPlayer.getGameProfile().getName()});
+      LocalTeam localTeam = new LocalTeam(e.getTeam().toString());
+      DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
+      RequestHelper.TeamResponses.overrideTeam(team);
+      updatePlayer(e.getPlayer());
+    }
+    if (teamData != null && teamData.length == 2) {
+      team = (GlobalTeam) teamData[0];
+      team.addMember(e.getPlayer().getId().toString());
+      RequestHelper.TeamResponses.overrideTeam(team);
+      updatePlayer(e.getTeam().owner);
+    }
   }
 
   @SubscribeEvent
@@ -85,9 +102,14 @@ public class FTBUtilsEvents {
             });
       }
     }
-    team = (GlobalTeam) UserManager.getTeam(e.getTeam().toString())[0];
-    team.delMember(e.getPlayer().getId().toString());
-    RequestHelper.TeamResponses.overrideTeam(team);
-    updatePlayer(e.getTeam().owner);
+    Object[] teamData = UserManager.getTeam(e.getTeam().toString());
+    if (teamData.length == 2) {
+      team = (GlobalTeam) teamData[0];
+      if (team != null) {
+        team.delMember(e.getPlayer().getId().toString());
+        RequestHelper.TeamResponses.overrideTeam(team);
+        updatePlayer(e.getTeam().owner);
+      }
+    }
   }
 }
