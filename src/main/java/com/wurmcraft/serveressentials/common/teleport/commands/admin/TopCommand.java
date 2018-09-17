@@ -21,7 +21,7 @@ public class TopCommand extends SECommand {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "/top";
+    return DEFAULT_COLOR + "/top";
   }
 
   @Override
@@ -29,6 +29,7 @@ public class TopCommand extends SECommand {
       throws CommandException {
     super.execute(server, sender, args);
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+    // TODO Possible CC Error
     TeleportUtils.teleportTo(
         (EntityPlayerMP) player,
         new LocationWrapper(

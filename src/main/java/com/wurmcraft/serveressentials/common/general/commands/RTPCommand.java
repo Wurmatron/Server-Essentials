@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fluids.BlockFluidBase;
 
-// TODO Rework Command
 @Command(moduleName = "General")
 public class RTPCommand extends SECommand {
 

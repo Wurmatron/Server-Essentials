@@ -5,7 +5,9 @@ import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,9 +25,24 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TeleportUtils {
 
-  public static void teleportTo(
+  public static boolean teleportTo(
       EntityPlayerMP player, LocationWrapper location, boolean teleportTimer) {
+    return teleportTo(player, location, teleportTimer, true);
+  }
+
+  public static boolean teleportTo(
+      EntityPlayerMP player, LocationWrapper location, boolean teleportTimer, boolean checkSafe) {
     if (canTeleport(player) && location != null) {
+      if (checkSafe && !safeToTeleport(player, location)) {
+        ChatHelper.sendMessage(
+            player,
+            LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                .TPA_NOTSAFE
+                .replaceAll(
+                    "%PLAYER%",
+                    "[" + location.getX() + ", " + location.getY() + ", " + location.getZ() + "]"));
+        return false;
+      }
       setLastLocation(player, player.getPosition());
       player.connection.setPlayerLocation(
           location.getX(),
@@ -79,10 +96,11 @@ public class TeleportUtils {
         setTeleportTimer(player);
       }
     }
+    return true;
   }
 
-  public static void teleportTo(EntityPlayer teleporter, EntityPlayer toPlayer) {
-    teleportTo(
+  public static boolean teleportTo(EntityPlayer teleporter, EntityPlayer toPlayer) {
+    return teleportTo(
         (EntityPlayerMP) teleporter,
         new LocationWrapper(toPlayer.posX, toPlayer.posY, toPlayer.posZ, toPlayer.dimension),
         true);
@@ -136,9 +154,16 @@ public class TeleportUtils {
     boolean suffCheck =
         world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState()
             && world.getBlockState(location.getPos().up()) == Blocks.AIR.getDefaultState();
-    boolean fluid =
-        world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock
-            || world.getBlockState(location.getPos().down(2)).getBlock() instanceof IFluidBlock;
-    return suffCheck && !fluid;
+    return suffCheck && !isFluidBelow(world, location);
+  }
+
+  private static boolean isFluidBelow(World world, LocationWrapper loc) {
+    // TODO CC Support
+    if (world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock() != Blocks.AIR
+        && !(world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock()
+            instanceof IFluidBlock)) {
+      return true;
+    }
+    return false;
   }
 }

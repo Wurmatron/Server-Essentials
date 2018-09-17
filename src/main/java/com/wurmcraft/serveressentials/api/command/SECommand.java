@@ -22,9 +22,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class SECommand implements ICommand {
+
+  protected static final TextFormatting DEFAULT_COLOR = TextFormatting.LIGHT_PURPLE;
+  protected static final TextFormatting DEFAULT_USAGE_COLOR = TextFormatting.GOLD;
 
   protected static Local getCurrentLanguage(ICommandSender sender) {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {

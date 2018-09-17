@@ -9,6 +9,7 @@ import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.List;
 import javax.annotation.Nullable;
+import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,16 +33,7 @@ public class TpCommand extends SECommand {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       if (player != null) {
         EntityPlayer p = UsernameResolver.getPlayer(args[0]);
-        TeleportUtils.teleportTo(
-            (EntityPlayerMP) player,
-            new LocationWrapper(new BlockPos(p.posX, p.posY, p.posZ), p.dimension),
-            false);
-        ChatHelper.sendMessage(
-            sender,
-            LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                .TP_HOME
-                .replaceAll("%HOME%", p.getDisplayNameString())
-                .replaceAll("&", "\u00A7"));
+        teleportToPlayer(player, p, 1);
       } else {
         ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
       }
@@ -49,71 +41,102 @@ public class TpCommand extends SECommand {
       EntityPlayer from = UsernameResolver.getPlayer(args[0]);
       EntityPlayer to = UsernameResolver.getPlayer(args[1]);
       if (from != null && to != null) {
-        TeleportUtils.teleportTo(
-            (EntityPlayerMP) from,
-            new LocationWrapper(new BlockPos(to.posX, to.posY, to.posZ), to.dimension),
-            false);
-        ChatHelper.sendMessage(
-            sender,
-            getCurrentLanguage(sender)
-                .TP_HOME_OTHER
-                .replaceAll("%FROM%", from.getDisplayNameString())
-                .replaceAll("%TO%", to.getDisplayNameString())
-                .replaceAll("%HOME%", to.getDisplayNameString())
-                .replaceAll("&", "\u00A7"));
-        ChatHelper.sendMessage(
-            from,
-            LanguageModule.getLangfromUUID(from.getGameProfile().getId())
-                .TP_HOME
-                .replaceAll("%HOME%", to.getDisplayNameString())
-                .replaceAll("&", "\u00A7"));
+        teleportToPlayer(from, to, 2);
       } else {
         ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
       }
     } else if (args.length == 3 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       try {
-        int x = Integer.parseInt(args[0]);
-        int y = Integer.parseInt(args[1]);
-        int z = Integer.parseInt(args[2]);
-        if (x != -1 && y != -1 & z != -1) {
-          TeleportUtils.teleportTo(
-              (EntityPlayerMP) player,
-              new LocationWrapper(new BlockPos(x, y, z), player.dimension),
-              false);
-          ChatHelper.sendMessage(
-              sender,
-              LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                  .TP_HOME
-                  .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
-                  .replaceAll("&", "\u00A7"));
-        }
+        teleportToCords(
+            player,
+            new LocationWrapper(
+                Integer.parseInt(args[0]),
+                Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),
+                player.dimension),
+            1);
       } catch (NumberFormatException e) {
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .INVALID_NUMBER
+                .replaceAll("%NUMBER%", Strings.join(args, " ")));
       }
     } else if (args.length == 4) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
-      if (player != null) {
-        try {
-          int x = Integer.parseInt(args[0]);
-          int y = Integer.parseInt(args[1]);
-          int z = Integer.parseInt(args[2]);
-          if (x != -1 && y != -1 & z != -1) {
-            TeleportUtils.teleportTo(
-                (EntityPlayerMP) player,
-                new LocationWrapper(new BlockPos(x, y, z), player.dimension),
-                false);
-            ChatHelper.sendMessage(
-                sender,
-                LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                    .TP_HOME
-                    .replaceAll("%HOME%", "[" + x + ", " + y + ", " + z + "]")
-                    .replaceAll("&", "\u00A7"));
-          }
-        } catch (NumberFormatException e) {
-        }
+      try {
+        teleportToCords(
+            player,
+            new LocationWrapper(
+                Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),
+                Integer.parseInt(args[3]),
+                player.dimension),
+            1);
+      } catch (NumberFormatException e) {
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .INVALID_NUMBER
+                .replaceAll("%NUMBER%", Strings.join(args, " ")));
+      }
+    } else if (args.length == 5) {
+      EntityPlayer player = UsernameResolver.getPlayer(args[0]);
+      try {
+        teleportToCords(
+            player,
+            new LocationWrapper(
+                Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),
+                Integer.parseInt(args[3]),
+                Integer.parseInt(args[4])),
+            1);
+      } catch (NumberFormatException e) {
+        ChatHelper.sendMessage(
+            sender,
+            getCurrentLanguage(sender)
+                .INVALID_NUMBER
+                .replaceAll("%NUMBER%", Strings.join(args, " ")));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
+    }
+  }
+
+  private void teleportToPlayer(EntityPlayer from, EntityPlayer to, int displayChat) {
+    if (TeleportUtils.teleportTo(from, to)) {
+      if (displayChat >= 1) {
+        ChatHelper.sendMessage(
+            from,
+            LanguageModule.getLangfromUUID(from.getGameProfile().getId())
+                .TP_HOME
+                .replaceAll("%HOME%", to.getDisplayNameString())
+                .replaceAll("&", "\u00A7"));
+      } else if (displayChat >= 2) {
+        ChatHelper.sendMessage(
+            from,
+            LanguageModule.getLangfromUUID(from.getGameProfile().getId())
+                .TP_HOME_OTHER
+                .replaceAll("%FROM%", from.getDisplayNameString())
+                .replaceAll("%TO%", to.getDisplayNameString())
+                .replaceAll("%HOME%", to.getDisplayNameString())
+                .replaceAll("&", "\u00A7"));
+      }
+    }
+  }
+
+  private void teleportToCords(EntityPlayer player, LocationWrapper cords, int displayChat) {
+    if (TeleportUtils.teleportTo((EntityPlayerMP) player, cords, true)) {
+      if (displayChat >= 1) {
+        ChatHelper.sendMessage(
+            player,
+            LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+                .TP_HOME
+                .replaceAll(
+                    "%HOME%", "[" + cords.getX() + ", " + cords.getY() + ", " + cords.getZ() + "]")
+                .replaceAll("&", "\u00A7"));
+      }
     }
   }
 
@@ -124,7 +147,10 @@ public class TpCommand extends SECommand {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "\u00A79/tp \u00A7b<to|x> <from|y> <z> <dimension>";
+    return DEFAULT_COLOR
+        + "/tp "
+        + DEFAULT_USAGE_COLOR
+        + "<toPlayer | fromPlayer|  x> <toPlayer | x |  y>  <z> <dim>";
   }
 
   @Override
@@ -135,6 +161,11 @@ public class TpCommand extends SECommand {
   @Override
   public List<String> getTabCompletions(
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
-    return autoCompleteUsername(args, 0);
+    if (args.length == 1) {
+      return autoCompleteUsername(args, 0);
+    } else if (args.length == 2) {
+      return autoCompleteUsername(args, 1);
+    }
+    return super.getTabCompletions(server, sender, args, pos);
   }
 }

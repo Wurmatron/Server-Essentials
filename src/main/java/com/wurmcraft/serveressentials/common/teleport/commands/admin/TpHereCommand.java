@@ -54,12 +54,12 @@ public class TpHereCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_TPHERE.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_TPHERE;
   }
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "\u00A79/tphere \u00A7b<player>";
+    return DEFAULT_COLOR + "/tphere " + DEFAULT_USAGE_COLOR + "<player>";
   }
 
   @Override
