@@ -1,8 +1,12 @@
 package com.wurmcraft.serveressentials.common.rest.events;
 
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.security.SecurityModule;
 import com.wurmcraft.serveressentials.common.team.TeamModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;
@@ -20,6 +24,13 @@ public class WorldEvent {
     RestModule.syncPlayer(e.player.getGameProfile().getId());
     if (!UserManager.joinTime.containsKey(e.player.getGameProfile().getId())) {
       UserManager.joinTime.put(e.player.getGameProfile().getId(), System.currentTimeMillis());
+    }
+    if (!RestModule.isValid && SecurityModule.isTrustedMember(e.player)) {
+      ChatHelper.sendMessage(
+          e.player,
+          LanguageModule.getLangfromUUID(e.player.getGameProfile().getId())
+              .REST_INVALID
+              .replaceAll("%URL%", ConfigHandler.restURL));
     }
   }
 

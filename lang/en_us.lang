@@ -142,5 +142,6 @@
   "LOCKDOWN": "&cServer is currently in lockdown, You will be unable to do anything",
   "LOCKDOWN_ENABLED": "&cLockdown mode enabled",
   "LOCKDOWN_DISABLED": "&dLockdown mode disabled",
-"WARP_SET": "&dWarp %NAME% created!"
+  "WARP_SET": "&dWarp %NAME% created!",
+  "REST_INVALID": "&cUnable to load &4REST API&cdata from %URL%, Check to make sure this is the rest URL!"
 }

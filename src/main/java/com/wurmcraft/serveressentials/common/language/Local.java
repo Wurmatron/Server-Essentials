@@ -70,6 +70,7 @@ public class Local {
   public String USER_SYNC;
   public String CHAT_TIME;
   public String WARP_SET;
+  public String REST_INVALID;
 
   // Commands
   public String RANK_NULL;

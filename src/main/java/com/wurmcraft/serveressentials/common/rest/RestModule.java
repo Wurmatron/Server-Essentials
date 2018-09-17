@@ -31,6 +31,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class RestModule implements IModule {
 
   public static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
+  public static volatile boolean isValid;
 
   public static void syncRanks() {
     executors.scheduleAtFixedRate(
@@ -43,6 +44,11 @@ public class RestModule implements IModule {
             }
             if (UserManager.rankCache.size() == 0) {
               createDefaultRanks();
+            }
+            if (allRanks.length == 0) {
+              isValid = false;
+            } else {
+              isValid = true;
             }
           } catch (Exception e) {
             e.printStackTrace();
