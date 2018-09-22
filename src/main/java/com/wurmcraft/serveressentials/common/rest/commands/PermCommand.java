@@ -14,12 +14,16 @@ import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
@@ -337,5 +341,17 @@ public class PermCommand extends SECommand {
   @Override
   public String getDescription(ICommandSender sender) {
     return getCurrentLanguage(sender).COMMAND_PERM.replaceAll("&", "\u00A7");
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    List<String> autoFill = new ArrayList<>();
+    if (args.length >= 1 && args[0].equalsIgnoreCase("user")) {
+      return autoCompleteUsername(args, 1);
+    } else if (args.length >= 1 && args[0].equalsIgnoreCase("group")) {
+      for (Rank rank : UserManager.getRanks()) autoFill.add(rank.getName());
+    }
+    return autoFill;
   }
 }

@@ -10,7 +10,6 @@ import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -58,9 +57,9 @@ public class RequestHelper {
       http.setDoOutput(true);
       String jsonData = GSON.toJson(data);
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
-      OutputStreamWriter out = new OutputStreamWriter(http.getOutputStream());
-      out.write(jsonData);
-      out.close();
+      connection.getOutputStream().write(jsonData.getBytes());
+      int status = ((HttpURLConnection) connection).getResponseCode();
+      System.out.println(status);
     } catch (Exception e) {
       e.printStackTrace();
     }

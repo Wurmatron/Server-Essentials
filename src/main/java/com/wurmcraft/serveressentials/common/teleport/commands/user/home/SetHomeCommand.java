@@ -77,7 +77,9 @@ public class SetHomeCommand extends SECommand {
     } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       LocalUser data = (LocalUser) UserManager.getPlayerData(player)[1];
       if (homeExists(name, data.getHomes())) {
-        return false;
+        data.delHome(name);
+        data.addHome(new Home(name, new LocationWrapper(player.getPosition(), player.dimension)));
+        return true;
       }
       GlobalUser global = (GlobalUser) UserManager.getPlayerData(player)[0];
       if (getMaxHomes(global) > data.getHomes().length) {

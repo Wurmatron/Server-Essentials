@@ -158,12 +158,21 @@ public class TeleportUtils {
   }
 
   private static boolean isFluidBelow(World world, LocationWrapper loc) {
-    // TODO CC Support
-    if (world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock() != Blocks.AIR
-        && !(world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock()
-            instanceof IFluidBlock)) {
+    for (int y = 0; y < 10; y++) {
+      if (world.getBlockState(loc.getPos()).getBlock() instanceof IFluidBlock) return true;
+      else if (world.getBlockState(loc.getPos()).getBlock() != Blocks.AIR
+          && !(world.getBlockState(loc.getPos()).getBlock() instanceof IFluidBlock)) {
+        return false;
+      }
       return true;
     }
+
+    // TODO CC Support
+    //    if (world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock() != Blocks.AIR
+    //        && !(world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock()
+    //            instanceof IFluidBlock)) {
+    //      return true;
+    //    }
     return false;
   }
 }
