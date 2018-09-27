@@ -35,6 +35,7 @@ public class SEClaim implements Claim {
   private List<Entity> currentEntities = new ArrayList<>();
   private List<EntityPlayer> currentPlayers = new ArrayList<>();
   private World world;
+  private boolean hasChanged;
 
   public SEClaim(
       UUID uniqueID,
@@ -163,6 +164,7 @@ public class SEClaim implements Claim {
     if (uuid != null && perms != null) {
       if (perms.length > 0) {
         trusted.put(uuid, perms);
+        hasChanged = true;
         return ClaimResponse.SUCCESSFUL;
       } else {
         return ClaimResponse.EMPTY;
@@ -203,6 +205,7 @@ public class SEClaim implements Claim {
       if (id instanceof UUID) {
         if (trusted.containsKey(id)) {
           trusted.remove(id);
+          hasChanged = true;
           return ClaimResponse.SUCCESSFUL;
         } else {
           return ClaimResponse.EMPTY;
@@ -210,6 +213,7 @@ public class SEClaim implements Claim {
       } else if (id instanceof String) {
         if (trusted.containsKey(UUID.fromString((String) id))) {
           trusted.remove(UUID.fromString((String) id));
+          hasChanged = true;
           return ClaimResponse.SUCCESSFUL;
         } else {
           return ClaimResponse.EMPTY;
@@ -292,6 +296,7 @@ public class SEClaim implements Claim {
               lowerBound.getY() - amount,
               lowerBound.getZ(),
               lowerBound.getDim());
+      hasChanged = true;
       return ClaimResponse.SUCCESSFUL;
     } else if (direction == 1) { // UP
       higherBound =
@@ -300,6 +305,7 @@ public class SEClaim implements Claim {
               higherBound.getY() + amount,
               higherBound.getZ(),
               higherBound.getDim());
+      hasChanged = true;
       return ClaimResponse.SUCCESSFUL;
     } else if (direction == 2) { // North
       lowerBound =
@@ -309,6 +315,7 @@ public class SEClaim implements Claim {
               lowerBound.getZ(),
               lowerBound.getDim());
       createBounding();
+      hasChanged = true;
       return ClaimResponse.SUCCESSFUL;
     } else if (direction == 3) { // South
       higherBound =
@@ -318,6 +325,7 @@ public class SEClaim implements Claim {
               higherBound.getZ(),
               higherBound.getDim());
       createBounding();
+      hasChanged = true;
       return ClaimResponse.SUCCESSFUL;
     } else if (direction == 4) { // West
       lowerBound =
@@ -327,6 +335,7 @@ public class SEClaim implements Claim {
               lowerBound.getZ() + amount,
               lowerBound.getDim());
       createBounding();
+      hasChanged = true;
       return ClaimResponse.SUCCESSFUL;
     } else if (direction == 5) { // East
       higherBound =
@@ -336,6 +345,7 @@ public class SEClaim implements Claim {
               higherBound.getZ() + amount,
               higherBound.getDim());
       createBounding();
+      hasChanged = true;
       return ClaimResponse.SUCCESSFUL;
     }
     return ClaimResponse.FAILED;
@@ -354,5 +364,16 @@ public class SEClaim implements Claim {
 
   public void setWorld(World world) {
     this.world = world;
+  }
+
+  @Override
+  public boolean isDirty() {
+    return hasChanged;
+  }
+
+  @Override
+  public ClaimResponse setDirty(boolean dirty) {
+    hasChanged = dirty;
+    return ClaimResponse.SUCCESSFUL;
   }
 }

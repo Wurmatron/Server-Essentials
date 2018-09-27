@@ -162,4 +162,14 @@ public interface Claim {
    * @return SUCCESSFUL or FAILED
    */
   ClaimResponse extend(int direction, int amount);
+
+  /** Used to check if the claim has been modified and needs to be saved */
+  boolean isDirty();
+
+  /**
+   * Sets if a claim needs to be saved or not
+   *
+   * @return SUCCESSFUL or FAILED
+   */
+  ClaimResponse setDirty(boolean dirty);
 }
