@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import net.minecraft.util.math.ChunkPos;
 import org.apache.commons.io.FileUtils;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -25,6 +26,7 @@ public class ClaimManager {
   private HashMap<String, List<UUID>> claimLookup = new HashMap<>();
   private HashMap<UUID, Claim> claimData = new HashMap<>();
   private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+  private List<ChunkPos> quickCheckCache = new ArrayList<>();
 
   public static ClaimManager getFromDimID(int id) {
     if (instances.get(id) == null) {
@@ -115,15 +117,26 @@ public class ClaimManager {
     return claimData.get(uuid);
   }
 
-  public static Claim getClaim(LocationWrapper loc) {
-    ClaimManager manger = getFromDimID(loc.getDim());
-    if (manger != null) {
-      for (UUID claimID : manger.claimLookup.get(getLocationIDForLocation(loc))) {
-        if (manger.getClaim(claimID).isWithin(loc)) {
-          return manger.getClaim(claimID);
+  public static Claim getClaim(ClaimManager manager, LocationWrapper loc) {
+    if (manager != null) {
+      for (UUID claimID : manager.claimLookup.get(getLocationIDForLocation(loc))) {
+        if (manager.getClaim(claimID).isWithin(loc)) {
+          return manager.getClaim(claimID);
         }
       }
     }
     return null;
+  }
+
+  public static Claim getClaim(ChunkPos quickCheck, LocationWrapper loc) {
+    ClaimManager manger = getFromDimID(loc.getDim());
+    if (manger.quickCheckCache.contains(quickCheck)) {
+      return getClaim(manger, loc);
+    }
+    return null;
+  }
+
+  public static Claim getClaim(LocationWrapper loc) {
+    return getClaim(new ChunkPos(loc.getX() >> 4, loc.getZ() >> 4), loc);
   }
 }

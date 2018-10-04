@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class LocationWrapper extends Location {
 
@@ -23,6 +24,12 @@ public class LocationWrapper extends Location {
     super((int) x, (int) z);
     this.y = (int) y;
     this.dim = dim;
+  }
+
+  public LocationWrapper(Vec3d vector, int dimension) {
+    super((int) vector.x, (int) vector.z);
+    this.y = (int) vector.y;
+    this.dim = dimension;
   }
 
   public int getY() {

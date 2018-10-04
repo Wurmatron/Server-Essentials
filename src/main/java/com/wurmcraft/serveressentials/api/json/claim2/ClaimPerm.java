@@ -1,3 +1,5 @@
 package com.wurmcraft.serveressentials.api.json.claim2;
 
-public enum ClaimPerm {}
+public enum ClaimPerm {
+  BREAK, PLACE, USE;
+}

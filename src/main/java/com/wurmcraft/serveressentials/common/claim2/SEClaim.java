@@ -112,7 +112,7 @@ public class SEClaim implements Claim {
   public int[] getWidth() {
     int xWidth = higherBound.getX() - lowerBound.getX();
     int zWidth = higherBound.getZ() - lowerBound.getZ();
-    return new int[] {xWidth, zWidth};
+    return new int[]{xWidth, zWidth};
   }
 
   @Override
@@ -176,7 +176,7 @@ public class SEClaim implements Claim {
   @Override
   public ClaimResponse addTrusted(UUID uuid) {
     // TODO Default Perms
-    return addTrusted(uuid, new ClaimPerm[] {});
+    return addTrusted(uuid, new ClaimPerm[]{});
   }
 
   @Override

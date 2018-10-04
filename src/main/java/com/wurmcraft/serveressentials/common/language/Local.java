@@ -128,6 +128,7 @@ public class Local {
   public String CHUNK_ALREADY_CLAIMED;
   public String CLAIM_REMOVED;
   public String MISSING_CLAIM;
+  public String CLAIM_POS_SET;
 
   // Eco
   public String PAYED;
