@@ -12,15 +12,12 @@ import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.SPacketEntityEffect;
 import net.minecraft.network.play.server.SPacketRespawn;
 import net.minecraft.network.play.server.SPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TeleportUtils {
@@ -149,30 +146,8 @@ public class TeleportUtils {
     }
   }
 
+  // TODO Redo this
   public static boolean safeToTeleport(EntityPlayer player, LocationWrapper location) {
-    World world = player.world;
-    boolean suffCheck =
-        world.getBlockState(location.getPos()) == Blocks.AIR.getDefaultState()
-            && world.getBlockState(location.getPos().up()) == Blocks.AIR.getDefaultState();
-    return suffCheck && !isFluidBelow(world, location);
-  }
-
-  private static boolean isFluidBelow(World world, LocationWrapper loc) {
-    for (int y = 0; y < 10; y++) {
-      if (world.getBlockState(loc.getPos()).getBlock() instanceof IFluidBlock) return true;
-      else if (world.getBlockState(loc.getPos()).getBlock() != Blocks.AIR
-          && !(world.getBlockState(loc.getPos()).getBlock() instanceof IFluidBlock)) {
-        return false;
-      }
-      return true;
-    }
-
-    // TODO CC Support
-    //    if (world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock() != Blocks.AIR
-    //        && !(world.getBlockState(world.getTopSolidOrLiquidBlock(loc.getPos())).getBlock()
-    //            instanceof IFluidBlock)) {
-    //      return true;
-    //    }
-    return false;
+    return true;
   }
 }

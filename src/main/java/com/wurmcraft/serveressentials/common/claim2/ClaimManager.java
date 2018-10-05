@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.claim2.Claim;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +20,7 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 public class ClaimManager {
 
   public static NonBlockingHashMap<Integer, ClaimManager> instances = new NonBlockingHashMap<>();
-  public static File saveDir;
+  public static File saveDir = new File(ConfigHandler.saveLocation + File.separator + "Claims");
 
   private int dimensionID;
   private HashMap<String, List<UUID>> claimLookup = new HashMap<>();
@@ -80,12 +80,14 @@ public class ClaimManager {
     }
   }
 
-  private void saveClaim(Claim claim) {
+  public void saveClaim(Claim claim) {
     File file =
         new File(getDimensionClaimDirectory() + File.separator + claim.getUniqueID() + ".json");
     try {
       file.createNewFile();
-      FileUtils.writeLines(file, Collections.singleton(GSON.toJson(claim)));
+      String line = GSON.toJson(claim);
+      FileUtils.write(file, line);
+      loadClaim(file);
     } catch (IOException e) {
       e.printStackTrace();
     }

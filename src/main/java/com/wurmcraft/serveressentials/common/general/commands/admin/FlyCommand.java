@@ -9,7 +9,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
 
 // TODO Rework Command
 @Command(moduleName = "General")
@@ -57,15 +56,15 @@ public class FlyCommand extends SECommand {
       if (!player.capabilities.isCreativeMode) {
         if (!player.capabilities.allowFlying) {
           player.capabilities.allowFlying = true;
-          player.sendMessage(new TextComponentString(getCurrentLanguage(sender).FLY_ENABLED));
+          ChatHelper.sendMessage(player, getCurrentLanguage(sender).FLY_ENABLED);
           player.sendPlayerAbilities();
         } else {
           player.capabilities.allowFlying = false;
-          player.sendMessage(new TextComponentString(getCurrentLanguage(sender).FLY_DISABLED));
+          ChatHelper.sendMessage(player, getCurrentLanguage(sender).FLY_DISABLED);
           player.sendPlayerAbilities();
         }
       } else {
-        player.sendMessage(new TextComponentString(getCurrentLanguage(sender).FLY_ENABLED));
+        ChatHelper.sendMessage(player, getCurrentLanguage(sender).FLY_ENABLED);
       }
     }
   }

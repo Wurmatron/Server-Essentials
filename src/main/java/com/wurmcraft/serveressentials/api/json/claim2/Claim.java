@@ -2,11 +2,8 @@ package com.wurmcraft.serveressentials.api.json.claim2;
 
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 
 /**
  * Used by claiming module to store all data related to a claimed area
@@ -52,15 +49,6 @@ public interface Claim {
 
   /** Height of claim in Blocks */
   int getHeight();
-
-  /** List of all entities within this Claim excluding players */
-  List<Entity> getEntities();
-
-  /** List of all players within the Claim */
-  List<EntityPlayer> getPlayers();
-
-  /** World instance for this Claim */
-  World getWorld();
 
   /**
    * Change the owner of a claim

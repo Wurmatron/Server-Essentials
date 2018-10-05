@@ -3,10 +3,13 @@ package com.wurmcraft.serveressentials.common.claim2.events;
 import com.wurmcraft.serveressentials.api.json.claim2.Claim;
 import com.wurmcraft.serveressentials.api.json.claim2.ClaimOwner;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
+import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.claim2.ClaimManager;
 import com.wurmcraft.serveressentials.common.claim2.SEClaim;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Global;
+import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,8 +24,8 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 @EventBusSubscriber(modid = Global.MODID)
 public class DisplayCreateClaimEvent {
 
-  private static NonBlockingHashMap<EntityPlayer, LocationWrapper[]> cache = new NonBlockingHashMap<>();
-  private static NonBlockingHashMap<EntityPlayer, Long> timeout = new NonBlockingHashMap<>();
+  private static NonBlockingHashMap<String, LocationWrapper[]> cache = new NonBlockingHashMap<>();
+  private static NonBlockingHashMap<String, Long> timeout = new NonBlockingHashMap<>();
 
   // TODO Config
   public static ItemStack clamingStack = new ItemStack(Items.GOLDEN_AXE);
@@ -34,27 +37,32 @@ public class DisplayCreateClaimEvent {
   @SubscribeEvent
   public void onInteractEvent(PlayerInteractEvent.RightClickBlock e) {
     if (e.getEntityPlayer().getHeldItemMainhand().isItemEqualIgnoreDurability(clamingStack)) {
-      if (cache.contains(e.getEntityPlayer())) {
+      if (cache.get(e.getEntityPlayer().getGameProfile().getId().toString()) != null) {
         // TODO Check for timeout
-        LocationWrapper loc = cache.get(e.getEntityPlayer())[0];
+        LocationWrapper loc = cache.get(e.getEntityPlayer().getGameProfile().getId().toString())[0];
         if (loc != null) {
-          cache.get(e.getEntityPlayer())[1] = new LocationWrapper(e.getPos(),
-              e.getEntityPlayer().dimension);
-          ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-              .getLangFromKey(e.getEntityPlayer().getGameProfile().getName()).CLAIM_POS_SET
-          );
-          timeout.put(e.getEntityPlayer(), System.currentTimeMillis());
+          cache.get(e.getEntityPlayer().getGameProfile().getId().toString())[1] =
+              new LocationWrapper(e.getPos(), e.getEntityPlayer().dimension);
+          ChatHelper.sendMessage(
+              e.getEntityPlayer(),
+              LanguageModule.getLangFromKey(e.getEntityPlayer().getGameProfile().getName())
+                  .CLAIM_POS_SET);
+          timeout.put(
+              e.getEntityPlayer().getGameProfile().getId().toString(), System.currentTimeMillis());
           updateClaimDisplay(e.getEntityPlayer());
         }
       } else {
-        cache.put(e.getEntityPlayer(),
-            new LocationWrapper[]{new LocationWrapper(e.getPos(), e.getEntityPlayer().dimension),
-                null});
-        timeout
-            .put(e.getEntityPlayer(), System.currentTimeMillis());
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangFromKey(e.getEntityPlayer().getGameProfile().getName()).CLAIM_POS_SET
-        );
+        cache.put(
+            e.getEntityPlayer().getGameProfile().getId().toString(),
+            new LocationWrapper[] {
+              new LocationWrapper(e.getPos(), e.getEntityPlayer().dimension), null
+            });
+        timeout.put(
+            e.getEntityPlayer().getGameProfile().getId().toString(), System.currentTimeMillis());
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangFromKey(e.getEntityPlayer().getGameProfile().getName())
+                .CLAIM_POS_SET);
         updateClaimDisplay(e.getEntityPlayer());
       }
       if (finished(e.getEntityPlayer())) {
@@ -67,24 +75,29 @@ public class DisplayCreateClaimEvent {
   public static void updateClaimDisplay(EntityPlayer player) {
     if (player.world.isRemote) {
       World world = player.world;
-      LocationWrapper[] loc = cache.get(player);
-      world.notifyBlockUpdate(loc[0].getPos(), world.getBlockState(loc[0].getPos()),
-          cornerBlocks.getDefaultState(), 3);
-      world.notifyBlockUpdate(loc[1].getPos(), world.getBlockState(loc[1].getPos()),
-          cornerBlocks.getDefaultState(), 3);
+      LocationWrapper[] loc = cache.get(player.getGameProfile().getId().toString());
+      world.notifyBlockUpdate(
+          loc[0].getPos(), world.getBlockState(loc[0].getPos()), cornerBlocks.getDefaultState(), 3);
+      world.notifyBlockUpdate(
+          loc[1].getPos(), world.getBlockState(loc[1].getPos()), cornerBlocks.getDefaultState(), 3);
     }
   }
 
   private static boolean finished(EntityPlayer player) {
-    LocationWrapper[] locations = cache.get(player);
+    LocationWrapper[] locations = cache.get(player.getGameProfile().getId().toString());
     return locations[0] != null && locations[1] != null;
   }
 
   private static void createClaim(EntityPlayer player) {
-    LocationWrapper[] locations = cache.get(player);
+    LocationWrapper[] locations = cache.get(player.getGameProfile().getId().toString());
     if (validClaimSize(locations[0], locations[1])) {
-      // TODO Get User Team.......
-//      Claim claim =  new SEClaim(new ClaimOwner())
+      GlobalUser user = (GlobalUser) UserManager.getPlayerData(player)[0];
+      Claim claim =
+          new SEClaim(
+              new ClaimOwner(user.getTeam(), player.getGameProfile().getId()),
+              locations[0],
+              locations[1]);
+      ClaimManager.getFromDimID(player.dimension).saveClaim(claim);
     }
   }
 

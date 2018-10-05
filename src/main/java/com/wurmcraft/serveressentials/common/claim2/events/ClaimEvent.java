@@ -15,6 +15,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -40,13 +41,15 @@ public class ClaimEvent {
   }
 
   @SubscribeEvent
-  public void onBlockBreak(BreakEvent e) {
-    Claim claim = ClaimManager
-        .getClaim(new LocationWrapper(e.getPlayer().getPosition(), e.getPlayer().dimension));
+  public void onBlockBreak(BlockEvent.BreakEvent e) {
+    Claim claim =
+        ClaimManager.getClaim(
+            new LocationWrapper(e.getPlayer().getPosition(), e.getPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getPlayer(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(e.getPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getPlayer(),
+        ChatHelper.sendMessage(
+            e.getPlayer(),
             LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_BREAK);
       }
     }
@@ -54,12 +57,14 @@ public class ClaimEvent {
 
   @SubscribeEvent
   public void onBlockPlace(BreakEvent e) {
-    Claim claim = ClaimManager
-        .getClaim(new LocationWrapper(e.getPlayer().getPosition(), e.getPlayer().dimension));
+    Claim claim =
+        ClaimManager.getClaim(
+            new LocationWrapper(e.getPlayer().getPosition(), e.getPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getPlayer(), new ClaimPerm[]{ClaimPerm.PLACE})) {
+      if (!claim.isTrusted(e.getPlayer(), new ClaimPerm[] {ClaimPerm.PLACE})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getPlayer(),
+        ChatHelper.sendMessage(
+            e.getPlayer(),
             LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_PLACE);
       }
     }
@@ -67,61 +72,64 @@ public class ClaimEvent {
 
   @SubscribeEvent
   public void oInteractRightAir(PlayerInteractEvent.RightClickEmpty e) {
-    Claim claim = ClaimManager
-        .getClaim(
+    Claim claim =
+        ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(),
-            LanguageModule
-                .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
 
-
   @SubscribeEvent
   public void oInteractLeftAir(PlayerInteractEvent.LeftClickEmpty e) {
-    Claim claim = ClaimManager
-        .getClaim(
+    Claim claim =
+        ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(),
-            LanguageModule
-                .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
 
   @SubscribeEvent
   public void oInteractRightBlock(PlayerInteractEvent.RightClickBlock e) {
-    Claim claim = ClaimManager
-        .getClaim(
+    Claim claim =
+        ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(),
-            LanguageModule
-                .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
 
   @SubscribeEvent
   public void oInteractLeftBlock(PlayerInteractEvent.LeftClickBlock e) {
-    Claim claim = ClaimManager
-        .getClaim(
+    Claim claim =
+        ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(),
-            LanguageModule
-                .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -129,31 +137,35 @@ public class ClaimEvent {
   // TODO Item Whitelist / BlackList
   @SubscribeEvent
   public void oInteractRightItem(PlayerInteractEvent.RightClickItem e) {
-    Claim claim = ClaimManager
-        .getClaim(
+    Claim claim =
+        ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
     if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(),
-            LanguageModule
-                .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
 
   @SubscribeEvent
   public void onExplosion(ExplosionEvent e) {
-    Claim claim = ClaimManager
-        .getClaim(new LocationWrapper(e.getExplosion().getPosition(),
-            e.getExplosion().getExplosivePlacedBy().dimension));
+    Claim claim =
+        ClaimManager.getClaim(
+            new LocationWrapper(
+                e.getExplosion().getPosition(), e.getExplosion().getExplosivePlacedBy().dimension));
     if (claim != null) {
-      if (!claim
-          .isTrusted(e.getExplosion().getExplosivePlacedBy(), new ClaimPerm[]{ClaimPerm.BREAK})) {
+      if (!claim.isTrusted(
+          e.getExplosion().getExplosivePlacedBy(), new ClaimPerm[] {ClaimPerm.BREAK})) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getExplosion().getExplosivePlacedBy(),
+        ChatHelper.sendMessage(
+            e.getExplosion().getExplosivePlacedBy(),
             LanguageModule.getLangfromUUID(
-                e.getExplosion().getExplosivePlacedBy().getPersistentID()).CLAIM_EXPLOSION);
+                    e.getExplosion().getExplosivePlacedBy().getPersistentID())
+                .CLAIM_EXPLOSION);
       }
     }
   }
@@ -167,10 +179,11 @@ public class ClaimEvent {
   }
 
   private String getClaimName(EntityPlayer player) {
-    Claim oldClaim = ClaimManager
-        .getClaim(new LocationWrapper(playerPos.get(player).getBlock(8, 0, 8), player.dimension));
-    Claim claim = ClaimManager
-        .getClaim(new LocationWrapper(player.getPosition(), player.dimension));
+    Claim oldClaim =
+        ClaimManager.getClaim(
+            new LocationWrapper(playerPos.get(player).getBlock(8, 0, 8), player.dimension));
+    Claim claim =
+        ClaimManager.getClaim(new LocationWrapper(player.getPosition(), player.dimension));
     if (oldClaim != null && claim != null) {
       return getOwnerName(claim.getOwner());
     }

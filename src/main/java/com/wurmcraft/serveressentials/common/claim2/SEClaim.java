@@ -6,15 +6,11 @@ import com.wurmcraft.serveressentials.api.json.claim2.ClaimPerm;
 import com.wurmcraft.serveressentials.api.json.claim2.ClaimResponse;
 import com.wurmcraft.serveressentials.api.json.claim2.ClaimType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public class SEClaim implements Claim {
 
@@ -31,10 +27,6 @@ public class SEClaim implements Claim {
   // Cached
   private AxisAlignedBB bouding;
 
-  // Dynamic
-  private List<Entity> currentEntities = new ArrayList<>();
-  private List<EntityPlayer> currentPlayers = new ArrayList<>();
-  private World world;
   private boolean hasChanged;
 
   public SEClaim(
@@ -52,12 +44,7 @@ public class SEClaim implements Claim {
   }
 
   public SEClaim(ClaimOwner owner, LocationWrapper lowerBound, LocationWrapper higherBound) {
-    this(
-        UUID.fromString(lowerBound.toString() + higherBound.toString()),
-        owner,
-        lowerBound,
-        higherBound,
-        new HashMap<>());
+    this(UUID.randomUUID(), owner, lowerBound, higherBound, new HashMap<>());
   }
 
   public SEClaim(
@@ -65,12 +52,7 @@ public class SEClaim implements Claim {
       LocationWrapper lowerBound,
       LocationWrapper higherBound,
       HashMap<UUID, ClaimPerm[]> trusted) {
-    this(
-        UUID.fromString(lowerBound.toString() + higherBound.toString()),
-        owner,
-        lowerBound,
-        higherBound,
-        trusted);
+    this(UUID.randomUUID(), owner, lowerBound, higherBound, trusted);
   }
 
   @Override
@@ -112,27 +94,12 @@ public class SEClaim implements Claim {
   public int[] getWidth() {
     int xWidth = higherBound.getX() - lowerBound.getX();
     int zWidth = higherBound.getZ() - lowerBound.getZ();
-    return new int[]{xWidth, zWidth};
+    return new int[] {xWidth, zWidth};
   }
 
   @Override
   public int getHeight() {
     return higherBound.getY() - lowerBound.getY();
-  }
-
-  @Override
-  public List<Entity> getEntities() {
-    return currentEntities;
-  }
-
-  @Override
-  public List<EntityPlayer> getPlayers() {
-    return currentPlayers;
-  }
-
-  @Override
-  public World getWorld() {
-    return world;
   }
 
   @Override
@@ -176,7 +143,7 @@ public class SEClaim implements Claim {
   @Override
   public ClaimResponse addTrusted(UUID uuid) {
     // TODO Default Perms
-    return addTrusted(uuid, new ClaimPerm[]{});
+    return addTrusted(uuid, new ClaimPerm[] {});
   }
 
   @Override
@@ -360,10 +327,6 @@ public class SEClaim implements Claim {
             higherBound.getX(),
             higherBound.getY(),
             higherBound.getZ());
-  }
-
-  public void setWorld(World world) {
-    this.world = world;
   }
 
   @Override
