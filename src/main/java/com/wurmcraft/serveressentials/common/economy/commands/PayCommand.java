@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.economy.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
@@ -9,7 +10,6 @@ import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;

@@ -1,11 +1,11 @@
 package com.wurmcraft.serveressentials.api.json.global;
 
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.Home;
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import net.minecraft.util.math.BlockPos;
 
-public class Warp extends Home implements IDataType {
+public class Warp extends Home implements DataType {
 
   public Warp() {}
 

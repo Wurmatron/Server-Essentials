@@ -1,8 +1,9 @@
 package com.wurmcraft.serveressentials.common.team;
 
+import static com.wurmcraft.serveressentials.api.json.global.Keys.TEAM;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
-import static com.wurmcraft.serveressentials.common.reference.Keys.TEAM;
 
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
@@ -11,7 +12,6 @@ import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.team.events.FTBUtilsEvents;

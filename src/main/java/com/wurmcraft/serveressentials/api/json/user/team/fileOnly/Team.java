@@ -1,12 +1,12 @@
 package com.wurmcraft.serveressentials.api.json.user.team.fileOnly;
 
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import java.util.ArrayList;
 import java.util.UUID;
 import net.minecraft.util.text.TextFormatting;
 
-public class Team implements IDataType, ITeam {
+public class Team implements DataType, ITeam {
 
   private String teamName;
   private UUID leader;

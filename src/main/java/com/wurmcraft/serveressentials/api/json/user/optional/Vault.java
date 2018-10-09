@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.api.json.user.optional;
 
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.common.utils.StackConverter;
 import net.minecraft.item.ItemStack;
 
-public class Vault implements IDataType {
+public class Vault implements DataType {
 
   private String name;
   private String[] items = new String[54];

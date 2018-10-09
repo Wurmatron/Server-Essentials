@@ -1,9 +1,9 @@
 package com.wurmcraft.serveressentials.api.json.user.team.restOnly;
 
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.Home;
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
 
-public class LocalTeam implements IDataType {
+public class LocalTeam implements DataType {
 
   public String name;
   public Home[] homes;

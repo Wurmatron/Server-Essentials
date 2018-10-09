@@ -1,8 +1,9 @@
 package com.wurmcraft.serveressentials.common.autorank;
 
+import static com.wurmcraft.serveressentials.api.json.global.Keys.AUTO_RANK;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
-import static com.wurmcraft.serveressentials.common.reference.Keys.AUTO_RANK;
 
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
@@ -12,7 +13,6 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.autorank.events.RankCheckupRestEvent;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;

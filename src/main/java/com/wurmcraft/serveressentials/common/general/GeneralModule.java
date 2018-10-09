@@ -1,9 +1,10 @@
 package com.wurmcraft.serveressentials.common.general;
 
+import static com.wurmcraft.serveressentials.api.json.global.Keys.KIT;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
-import static com.wurmcraft.serveressentials.common.reference.Keys.KIT;
 
 import com.wurmcraft.serveressentials.api.json.global.GlobalData;
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.global.Kit;
 import com.wurmcraft.serveressentials.api.json.global.Warp;
 import com.wurmcraft.serveressentials.api.module.IModule;
@@ -15,7 +16,6 @@ import com.wurmcraft.serveressentials.common.general.events.GlobaDataEvents;
 import com.wurmcraft.serveressentials.common.general.events.MOTDEvent;
 import com.wurmcraft.serveressentials.common.general.events.PlayerTickEvent;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

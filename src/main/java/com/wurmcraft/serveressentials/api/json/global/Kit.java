@@ -1,12 +1,12 @@
 package com.wurmcraft.serveressentials.api.json.global;
 
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.common.utils.StackConverter;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.item.ItemStack;
 
-public class Kit implements IDataType {
+public class Kit implements DataType {
 
   private String name;
   private String[] items;

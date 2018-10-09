@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.api.json.global;
 
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GlobalData implements IDataType {
+public class GlobalData implements DataType {
 
   private SpawnPoint spawn;
   private String[] rules;

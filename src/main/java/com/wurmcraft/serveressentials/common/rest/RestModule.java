@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.common.rest;
 
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
@@ -10,7 +11,6 @@ import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.team.TeamModule;

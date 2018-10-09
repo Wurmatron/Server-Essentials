@@ -2,11 +2,11 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.global.Warp;
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class WarpCommand extends SECommand {
     super.execute(server, sender, args);
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (args.length == 1) {
-      IDataType warp = DataHelper.get(Keys.WARP, args[0]);
+      DataType warp = DataHelper.get(Keys.WARP, args[0]);
       if (warp != null) {
         TeleportUtils.teleportTo((EntityPlayerMP) player, ((Warp) warp).getPos(), true);
         ChatHelper.sendMessage(player, getCurrentLanguage(sender).TP.replaceAll("%NAME%", args[0]));
@@ -61,7 +61,7 @@ public class WarpCommand extends SECommand {
 
   private String[] listWarps() {
     List<String> list = new ArrayList<>();
-    for (IDataType warp : DataHelper.getData(Keys.WARP)) {
+    for (DataType warp : DataHelper.getData(Keys.WARP)) {
       list.add(((Warp) warp).getName());
     }
     return list.toArray(new String[0]);

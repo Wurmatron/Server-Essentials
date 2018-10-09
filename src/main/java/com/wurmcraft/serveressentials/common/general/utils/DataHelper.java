@@ -3,10 +3,10 @@ package com.wurmcraft.serveressentials.common.general.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.global.GlobalData;
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.global.Keys;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,17 +21,17 @@ public class DataHelper {
   public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   public static GlobalData globalSettings;
   public static HashMap<Keys, HashMap<Object, Object>> tempData = new HashMap<>();
-  private static HashMap<Keys, List<IDataType>> loadedData = new HashMap<>();
+  private static HashMap<Keys, List<DataType>> loadedData = new HashMap<>();
 
-  public static List<IDataType> getData(Keys key) {
+  public static List<DataType> getData(Keys key) {
     return loadedData.get(key);
   }
 
-  public static <T extends IDataType> List<T> getData(Keys key, T type) {
+  public static <T extends DataType> List<T> getData(Keys key, T type) {
     return (List<T>) loadedData.get(key);
   }
 
-  public static void forceSave(File file, IDataType data) {
+  public static void forceSave(File file, DataType data) {
     if (!file.exists()) {
       file.mkdirs();
     }
@@ -44,7 +44,7 @@ public class DataHelper {
     }
   }
 
-  public static void forceSave(Keys key, IDataType data) {
+  public static void forceSave(Keys key, DataType data) {
     File file = new File(ConfigHandler.saveLocation + File.separator + key.name());
     if (!file.exists()) {
       file.mkdirs();
@@ -58,7 +58,7 @@ public class DataHelper {
     }
   }
 
-  public static <T extends IDataType> T load(File file, Keys key, T type) {
+  public static <T extends DataType> T load(File file, Keys key, T type) {
     if (file.exists()) {
       ServerEssentialsServer.logger.debug("Loading " + file.getAbsolutePath());
       try {
@@ -67,7 +67,7 @@ public class DataHelper {
         if (loadedData.containsKey(key) && !exists(key, type)) {
           loadedData.get(key).add(data);
         } else {
-          List<IDataType> dataList = new ArrayList<>();
+          List<DataType> dataList = new ArrayList<>();
           dataList.add(data);
           loadedData.put(key, dataList);
         }
@@ -79,8 +79,8 @@ public class DataHelper {
     return null;
   }
 
-  private static <T extends IDataType> boolean exists(Keys key, T type) {
-    for (IDataType d : loadedData.get(key)) {
+  private static <T extends DataType> boolean exists(Keys key, T type) {
+    for (DataType d : loadedData.get(key)) {
       if (d.getID().equalsIgnoreCase(type.getID())) {
         return true;
       }
@@ -88,7 +88,7 @@ public class DataHelper {
     return false;
   }
 
-  public static <T extends IDataType> T load(Keys key, T type) {
+  public static <T extends DataType> T load(Keys key, T type) {
     return load(
         new File(
             ConfigHandler.saveLocation
@@ -101,7 +101,7 @@ public class DataHelper {
         type);
   }
 
-  public static boolean createIfNonExist(File file, IDataType data) {
+  public static boolean createIfNonExist(File file, DataType data) {
     if (!new File(file + File.separator + data.getID() + ".json").exists()) {
       forceSave(file, data);
       return true;
@@ -109,7 +109,7 @@ public class DataHelper {
     return false;
   }
 
-  public static boolean createIfNonExist(Keys key, IDataType data) {
+  public static boolean createIfNonExist(Keys key, DataType data) {
     File file = new File(ConfigHandler.saveLocation + File.separator + key.name());
     File f = new File(file + File.separator + data.getID() + ".json");
     if (!f.exists()) {
@@ -121,10 +121,10 @@ public class DataHelper {
     return false;
   }
 
-  public static IDataType get(Keys key, String data) {
-    List<IDataType> keyData = getData(key);
+  public static DataType get(Keys key, String data) {
+    List<DataType> keyData = getData(key);
     if (keyData != null && keyData.size() > 0) {
-      for (IDataType d : keyData) {
+      for (DataType d : keyData) {
         if (d.getID().equals(data)) {
           return d;
         }
@@ -133,7 +133,7 @@ public class DataHelper {
     return null;
   }
 
-  public static void delete(Keys key, IDataType data) {
+  public static void delete(Keys key, DataType data) {
     File file =
         new File(
             ConfigHandler.saveLocation
@@ -148,7 +148,7 @@ public class DataHelper {
     loadedData.get(key).remove(data);
   }
 
-  public static void remove(Keys key, IDataType data) {
+  public static void remove(Keys key, DataType data) {
     loadedData.get(key).remove(data);
   }
 

@@ -1,8 +1,8 @@
 package com.wurmcraft.serveressentials.api.json.user.fileOnly;
 
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 
-public class AutoRank implements IDataType {
+public class AutoRank implements DataType {
 
   private int playTime;
   private int balance;

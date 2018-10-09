@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.common.teleport.utils;
 
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
@@ -8,7 +9,6 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

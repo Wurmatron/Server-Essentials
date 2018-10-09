@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -41,7 +42,7 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      System.out.println(status);
+      ServerEssentialsServer.logger.debug("Post Status: " + status);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -59,7 +60,7 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      System.out.println(status);
+      ServerEssentialsServer.logger.debug("Put Status: " + status);
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.common.rank;
 
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
 import com.wurmcraft.serveressentials.api.module.IModule;
@@ -8,7 +9,6 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.rank.events.WorldEvent;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
 import java.util.Objects;

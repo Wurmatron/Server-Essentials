@@ -1,7 +1,7 @@
 package com.wurmcraft.serveressentials.api.json.user.restOnly;
 
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.Home;
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.optional.Vault;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class LocalUser implements IDataType {
+public class LocalUser implements DataType {
 
   private UUID uuid;
   private long lastSeen;

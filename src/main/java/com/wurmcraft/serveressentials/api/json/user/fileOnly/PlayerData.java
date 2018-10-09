@@ -1,8 +1,8 @@
 package com.wurmcraft.serveressentials.api.json.user.fileOnly;
 
 import com.wurmcraft.serveressentials.api.json.global.Channel;
+import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.Home;
-import com.wurmcraft.serveressentials.api.json.user.IDataType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.Mail;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 /** Used to hold the data about a player */
-public class PlayerData implements IDataType {
+public class PlayerData implements DataType {
 
   private String rank;
   private String nickname = "";

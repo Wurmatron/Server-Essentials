@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.chat.events;
 
 import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.global.Channel.Type;
+import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
@@ -13,7 +14,6 @@ import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.chat.commands.MuteCommand;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.reference.Keys;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;

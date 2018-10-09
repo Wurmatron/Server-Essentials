@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Rank implements IDataType, Serializable {
+public class Rank implements DataType, Serializable {
 
   private String name;
   private String prefix;
