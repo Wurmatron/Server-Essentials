@@ -36,7 +36,8 @@ public class DisplayCreateClaimEvent {
 
   @SubscribeEvent
   public void onInteractEvent(PlayerInteractEvent.RightClickBlock e) {
-    if (e.getEntityPlayer().getHeldItemMainhand().isItemEqualIgnoreDurability(clamingStack)) {
+    if (!e.getEntityPlayer().world.isRemote
+        && e.getEntityPlayer().getHeldItemMainhand().isItemEqualIgnoreDurability(clamingStack)) {
       if (cache.get(e.getEntityPlayer().getGameProfile().getId().toString()) != null) {
         // TODO Check for timeout
         LocationWrapper loc = cache.get(e.getEntityPlayer().getGameProfile().getId().toString())[0];
@@ -67,6 +68,7 @@ public class DisplayCreateClaimEvent {
       }
       if (finished(e.getEntityPlayer())) {
         createClaim(e.getEntityPlayer());
+        ChatHelper.sendMessage(e.getEntityPlayer(), "Claim Created!");
       }
     }
   }

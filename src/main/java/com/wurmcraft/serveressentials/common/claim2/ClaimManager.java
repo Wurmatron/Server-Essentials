@@ -112,7 +112,7 @@ public class ClaimManager {
   }
 
   private static String getLocationIDForLocation(LocationWrapper loc) {
-    return (loc.getX() >> 5) + " " + (loc.getY() >> 5) + " " + (loc.getZ() >> 5);
+    return (loc.getX() >> 4) + " " + (loc.getY() >> 4) + " " + (loc.getZ() >> 4);
   }
 
   private Claim getClaim(UUID uuid) {
@@ -120,8 +120,10 @@ public class ClaimManager {
   }
 
   public static Claim getClaim(ClaimManager manager, LocationWrapper loc) {
-    if (manager != null) {
-      for (UUID claimID : manager.claimLookup.get(getLocationIDForLocation(loc))) {
+    if (manager != null && manager.claimLookup.size() > 0) {
+      String locationID = getLocationIDForLocation(loc);
+      List<UUID> claims = manager.claimLookup.getOrDefault(locationID, new ArrayList<>());
+      for (UUID claimID : claims) {
         if (manager.getClaim(claimID).isWithin(loc)) {
           return manager.getClaim(claimID);
         }
@@ -132,10 +134,7 @@ public class ClaimManager {
 
   public static Claim getClaim(ChunkPos quickCheck, LocationWrapper loc) {
     ClaimManager manger = getFromDimID(loc.getDim());
-    if (manger.quickCheckCache.contains(quickCheck)) {
-      return getClaim(manger, loc);
-    }
-    return null;
+    return getClaim(manger, loc);
   }
 
   public static Claim getClaim(LocationWrapper loc) {

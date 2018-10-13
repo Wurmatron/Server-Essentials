@@ -50,7 +50,9 @@ public class ClaimEvent {
         e.setCanceled(true);
         ChatHelper.sendMessage(
             e.getPlayer(),
-            LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_BREAK);
+            LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
+                .CLAIM_BREAK
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -65,7 +67,9 @@ public class ClaimEvent {
         e.setCanceled(true);
         ChatHelper.sendMessage(
             e.getPlayer(),
-            LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_PLACE);
+            LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
+                .CLAIM_PLACE
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -81,7 +85,8 @@ public class ClaimEvent {
         ChatHelper.sendMessage(
             e.getEntityPlayer(),
             LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT);
+                .CLAIM_INTERACT
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -97,7 +102,8 @@ public class ClaimEvent {
         ChatHelper.sendMessage(
             e.getEntityPlayer(),
             LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT);
+                .CLAIM_INTERACT
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -113,7 +119,8 @@ public class ClaimEvent {
         ChatHelper.sendMessage(
             e.getEntityPlayer(),
             LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT);
+                .CLAIM_INTERACT
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -129,7 +136,8 @@ public class ClaimEvent {
         ChatHelper.sendMessage(
             e.getEntityPlayer(),
             LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT);
+                .CLAIM_INTERACT
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -146,7 +154,8 @@ public class ClaimEvent {
         ChatHelper.sendMessage(
             e.getEntityPlayer(),
             LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT);
+                .CLAIM_INTERACT
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
@@ -165,7 +174,8 @@ public class ClaimEvent {
             e.getExplosion().getExplosivePlacedBy(),
             LanguageModule.getLangfromUUID(
                     e.getExplosion().getExplosivePlacedBy().getPersistentID())
-                .CLAIM_EXPLOSION);
+                .CLAIM_EXPLOSION
+                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
       }
     }
   }
