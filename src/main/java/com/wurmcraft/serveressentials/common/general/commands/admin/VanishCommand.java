@@ -49,7 +49,8 @@ public class VanishCommand extends SECommand {
       SPacketEntityStatus packet = new SPacketEntityStatus(player, (byte) 3);
       for (EntityPlayer otherPlayer :
           FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-        if (otherPlayer != player && !vanished.contains(otherPlayer)) {
+        if (otherPlayer.getGameProfile().getId().equals(player.getGameProfile().getId())
+            && !vanished.contains(otherPlayer)) {
           ((EntityPlayerMP) otherPlayer).connection.sendPacket(packet);
         }
       }
@@ -60,7 +61,7 @@ public class VanishCommand extends SECommand {
       WorldServer world = (WorldServer) player.world;
       for (EntityPlayerMP altPlayer :
           FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-        if (altPlayer != player) {
+        if (altPlayer.getGameProfile().getId().equals(player.getGameProfile().getId())) {
           world.getEntityTracker().removePlayerFromTrackers(altPlayer);
           world.getEntityTracker().updateVisibility((EntityPlayerMP) player);
         }

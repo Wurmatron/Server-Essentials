@@ -47,7 +47,7 @@ public class ModsCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_MODS.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_MODS.replaceAll("&", FORMATTING_CODE);
   }
 
   @Override

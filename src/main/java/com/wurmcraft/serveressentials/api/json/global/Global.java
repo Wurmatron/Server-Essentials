@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.reference;
+package com.wurmcraft.serveressentials.api.json.global;
 
 public class Global {
 

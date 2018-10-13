@@ -59,6 +59,6 @@ public class SpawnCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_SPAWN.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_SPAWN.replaceAll("&", FORMATTING_CODE);
   }
 }

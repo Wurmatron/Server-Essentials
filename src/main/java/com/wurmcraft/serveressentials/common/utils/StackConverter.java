@@ -44,22 +44,22 @@ public class StackConverter {
       boolean hasDedicatedStackSize = data.contains("x");
       String modid =
           data.substring(
-              hasDedicatedStackSize ? data.indexOf("x") + 1 : data.indexOf("<") + 1,
-              data.indexOf(":"));
+              hasDedicatedStackSize ? data.indexOf('x') + 1 : data.indexOf('<') + 1,
+              data.indexOf(':'));
       boolean hasMETA = data.contains("@");
       boolean hasNBT = data.contains("^");
       String name;
       if (hasMETA) {
-        name = data.substring(data.indexOf(":") + 1, data.indexOf("@"));
+        name = data.substring(data.indexOf(':') + 1, data.indexOf('@'));
       } else if (hasNBT) {
-        name = data.substring(data.indexOf(":") + 1, data.indexOf("^"));
+        name = data.substring(data.indexOf(':') + 1, data.indexOf('^'));
       } else {
-        name = data.substring(data.indexOf(":") + 1, data.indexOf(">"));
+        name = data.substring(data.indexOf(':') + 1, data.indexOf('>'));
       }
       return new DataWrapper(modid, name);
     } else if (data.contains("<")
         && data.contains(">")
-        && data.substring(data.indexOf("<") + 1, data.indexOf(">")).matches("<empty>")) {
+        && data.substring(data.indexOf('<') + 1, data.indexOf('>')).matches("<empty>")) {
       return new DataWrapper("empty", "empty");
     }
     return new DataWrapper("null", "null");
@@ -67,7 +67,7 @@ public class StackConverter {
 
   public static String getExtraData(String data) {
     if (data.contains("^")) {
-      return data.substring(data.indexOf("^") + 1, data.indexOf(">"));
+      return data.substring(data.indexOf('^') + 1, data.indexOf('>'));
     }
     return "";
   }
@@ -81,7 +81,7 @@ public class StackConverter {
   }
 
   public static ItemStack getData(String data) {
-    if (data.substring(data.indexOf("<") + 1, data.indexOf(">")).matches("<empty>")) {
+    if (data.substring(data.indexOf('<') + 1, data.indexOf('>')).matches("<empty>")) {
       return ItemStack.EMPTY;
     }
     return getItemStack(data);
@@ -89,7 +89,7 @@ public class StackConverter {
 
   private static ItemStack getItemStack(String data) {
     if (data.startsWith("<") && data.endsWith(">") && data.contains(":")) {
-      if (data.substring(data.indexOf("<") + 1, data.indexOf(">")).matches("<empty>")) {
+      if (data.substring(data.indexOf('<') + 1, data.indexOf('>')).matches("<empty>")) {
         return ItemStack.EMPTY;
       }
       Item item = getBasicData(data);

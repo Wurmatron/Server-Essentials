@@ -28,12 +28,12 @@ public class RenameCommand extends SECommand {
       if (player.getHeldItemMainhand() != null) {
         player
             .getHeldItemMainhand()
-            .setStackDisplayName(Strings.join(args, " ").replaceAll("&", "\u00A7"));
+            .setStackDisplayName(Strings.join(args, " ").replaceAll("&", FORMATTING_CODE));
         ChatHelper.sendMessage(
             player,
             getCurrentLanguage(sender)
                 .NAME_CHANGED
-                .replaceAll("%NAME%", Strings.join(args, " ").replaceAll("&", "\u00A7")));
+                .replaceAll("%NAME%", Strings.join(args, " ").replaceAll("&", FORMATTING_CODE)));
       } else {
         ChatHelper.sendMessage(sender, getCurrentLanguage(sender).NO_ITEM);
       }

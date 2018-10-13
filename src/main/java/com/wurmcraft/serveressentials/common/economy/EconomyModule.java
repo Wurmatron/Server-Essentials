@@ -24,7 +24,7 @@ public class EconomyModule implements IModule {
   }
 
   public static void syncCurrency() {
-    RestModule.executors.scheduleAtFixedRate(
+    RestModule.EXECUTORs.scheduleAtFixedRate(
         () -> {
           try {
             Currency[] autoCurrency = RequestHelper.EcoResponses.getAllCurrency();

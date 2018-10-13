@@ -201,7 +201,7 @@ public class SEClaim implements Claim {
       for (ClaimPerm perm : perms) {
         boolean found = false;
         for (ClaimPerm userPerms : trusted.get(uuid)) {
-          if (perm == userPerms) {
+          if (perm.equals(userPerms)) {
             found = true;
           }
         }

@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import net.minecraft.command.CommandException;
@@ -30,13 +31,13 @@ public class SpeedCommand extends SECommand {
       try {
         speed = Double.parseDouble(args[0]);
       } catch (NumberFormatException e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
         ChatHelper.sendMessage(
             sender,
             getCurrentLanguage(sender)
                 .INVALID_NUMBER
                 .replaceAll("%NUMBER%", args[0])
-                .replaceAll("&", "\u00A7"));
+                .replaceAll("&", FORMATTING_CODE));
         return;
       }
       NBTTagCompound tagCompound = new NBTTagCompound();
@@ -54,7 +55,7 @@ public class SpeedCommand extends SECommand {
           LanguageModule.getLangfromUUID(player.getGameProfile().getId())
               .SPEED_CHANGED
               .replaceAll("%SPEED%", "" + speed)
-              .replaceAll("&", "\u00A7"));
+              .replaceAll("&", FORMATTING_CODE));
     } else {
       NBTTagCompound tagCompound = new NBTTagCompound();
       player.capabilities.writeCapabilitiesToNBT(tagCompound);

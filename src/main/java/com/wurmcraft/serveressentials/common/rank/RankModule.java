@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.common.rank;
 
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;

@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.common.economy.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -31,7 +31,7 @@ public class BalanceCommand extends SECommand {
       GlobalUser gloal = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       sender.sendMessage(
           new TextComponentString(
-              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
       for (String active : ConfigHandler.activeCurrency) {
         sender.sendMessage(
             new TextComponentString(
@@ -43,12 +43,12 @@ public class BalanceCommand extends SECommand {
       }
       sender.sendMessage(
           new TextComponentString(
-              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
     } else if (args.length == 1) {
       GlobalUser user = forceUserFromUUID(UsernameResolver.getUUIDFromName(args[0]));
       sender.sendMessage(
           new TextComponentString(
-              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
       for (String active : ConfigHandler.activeCurrency) {
         sender.sendMessage(
             new TextComponentString(
@@ -60,7 +60,7 @@ public class BalanceCommand extends SECommand {
       }
       sender.sendMessage(
           new TextComponentString(
-              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+              getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }

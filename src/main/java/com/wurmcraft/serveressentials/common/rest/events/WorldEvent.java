@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.common.rest.events;
 
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
@@ -16,11 +16,8 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 public class WorldEvent {
 
-  public static long startTime;
-
   @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void onJoinEvent(PlayerEvent.PlayerLoggedInEvent e) {
-    startTime = System.currentTimeMillis();
     RestModule.syncPlayer(e.player.getGameProfile().getId());
     if (!UserManager.joinTime.containsKey(e.player.getGameProfile().getId())) {
       UserManager.joinTime.put(e.player.getGameProfile().getId(), System.currentTimeMillis());

@@ -5,8 +5,8 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import joptsimple.internal.Strings;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -35,29 +34,29 @@ public class PermCommand extends SECommand {
     GlobalUser user = forceUserFromUUID(uuid);
     Local lang = LanguageModule.getLangFromKey(user.getLang());
     return new String[] {
-      lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
+      lang.CHAT_SPACER.replaceAll("&", FORMATTING_CODE),
       TextFormatting.LIGHT_PURPLE + "UUID: " + TextFormatting.AQUA + uuid,
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_RANK.replaceAll("&", "\u00A7")
+          + lang.CHAT_RANK.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + user.getRank(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_TEAM.replaceAll("&", "\u00A7")
+          + lang.CHAT_TEAM.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + user.getTeam(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_LANG.replaceAll("&", "\u00A7")
+          + lang.CHAT_LANG.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + user.getLang(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_LASTSEEN.replaceAll("&", "\u00A7")
+          + lang.CHAT_LASTSEEN.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + new Date(user.getLastSeen()).toString(),
-      lang.CHAT_SPACER.replaceAll("&", "\u00A7")
+      lang.CHAT_SPACER.replaceAll("&", FORMATTING_CODE)
     };
   }
 
@@ -65,24 +64,24 @@ public class PermCommand extends SECommand {
     Local lang = getCurrentLanguage(sender);
     Rank rank = UserManager.getRank(r);
     return new String[] {
-      lang.CHAT_SPACER.replaceAll("&", "\u00A7"),
+      lang.CHAT_SPACER.replaceAll("&", FORMATTING_CODE),
       TextFormatting.LIGHT_PURPLE + lang.CHAT_NAME + ": " + TextFormatting.AQUA + rank.getName(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_PREFIX.replaceAll("&", "\u00A7")
+          + lang.CHAT_PREFIX.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + rank.getPrefix(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_SUFFIX.replaceAll("&", "\u00A7")
+          + lang.CHAT_SUFFIX.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + rank.getSuffix(),
       TextFormatting.LIGHT_PURPLE
-          + lang.CHAT_INHERITANCE.replaceAll("&", "\u00A7")
+          + lang.CHAT_INHERITANCE.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
           + Strings.join(rank.getInheritance(), " "),
-      lang.CHAT_SPACER.replaceAll("&", "\u00A7")
+      lang.CHAT_SPACER.replaceAll("&", FORMATTING_CODE)
     };
   }
 
@@ -95,12 +94,6 @@ public class PermCommand extends SECommand {
   public String getUsage(ICommandSender sender) {
 
     return "/perm <user|group> <name> <info|rank|perm|perk|sync> <add|del> <data>...";
-  }
-
-  @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
-      throws CommandException {
-    super.execute(server, sender, args);
   }
 
   @SubCommand
@@ -340,7 +333,7 @@ public class PermCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_PERM.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_PERM.replaceAll("&", FORMATTING_CODE);
   }
 
   @Override

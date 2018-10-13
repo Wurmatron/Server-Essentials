@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.common.rest.utils;
 
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 
 public class GlobalUserJson extends GlobalUser {
 

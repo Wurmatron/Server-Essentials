@@ -2,9 +2,9 @@ package com.wurmcraft.serveressentials.common;
 
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.modules;
 
+import com.wurmcraft.serveressentials.api.json.global.Global;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
-import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.CommandLoader;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class ServerEssentialsServer {
           }
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        logger.error(e.getLocalizedMessage());
       }
     }
     return activeModules;

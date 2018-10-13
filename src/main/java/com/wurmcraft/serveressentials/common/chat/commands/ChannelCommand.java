@@ -5,8 +5,8 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
@@ -64,7 +64,8 @@ public class ChannelCommand extends SECommand {
   public void list(ICommandSender sender, String[] args) {
     List<Channel> channels = DataHelper.getData(Keys.CHANNEL, new Channel());
     sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+        new TextComponentString(
+            getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
     for (Channel ch : channels) {
       TextComponentString msg =
           new TextComponentString(
@@ -73,13 +74,14 @@ public class ChannelCommand extends SECommand {
                   .replaceAll("%TYPE%", ch.getType().name())
                   .replaceAll("%PREFIX%", ch.getPrefix())
                   .replaceAll("%NAME%", ch.getName())
-                  .replaceAll("&", "\u00A7"));
+                  .replaceAll("&", FORMATTING_CODE));
       msg.getStyle()
           .setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/channel " + ch.getName()));
       sender.sendMessage(msg);
     }
     sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+        new TextComponentString(
+            getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
   }
 
   @Override
@@ -122,10 +124,11 @@ public class ChannelCommand extends SECommand {
         }
       }
     }
-    if (predictions.size() == 0) {
-      for (Channel ch : DataHelper.getData(Keys.CHANNEL, new Channel())) {
-        predictions.add(ch.getName());
-      }
+    if (predictions.isEmpty()) {
+      DataHelper.getData(Keys.CHANNEL, new Channel())
+          .stream()
+          .map(Channel::getName)
+          .forEach(predictions::add);
     }
     return predictions;
   }

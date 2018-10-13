@@ -4,8 +4,8 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Home;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
@@ -98,6 +98,6 @@ public class DelHomeCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_DELHOME.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_DELHOME.replaceAll("&", FORMATTING_CODE);
   }
 }

@@ -3,7 +3,7 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
@@ -56,13 +56,13 @@ public class TpaCommand extends SECommand {
                 System.currentTimeMillis(), new EntityPlayer[] {senderPlayer, player});
             sender.sendMessage(
                 new TextComponentString(
-                    getCurrentLanguage(sender).TPA_SENT.replaceAll("&", "\u00A7")));
+                    getCurrentLanguage(sender).TPA_SENT.replaceAll("&", FORMATTING_CODE)));
             TextComponentString msg =
                 new TextComponentString(
                     lang.TPA_Recive.replaceAll("%PLAYER%", senderPlayer.getDisplayNameString())
-                        .replaceAll("%ACCEPT%", lang.CHAT_ACCEPT.replaceAll("&", "\u00A7"))
-                        .replaceAll("%DENY%", lang.CHAT_DENY.replaceAll("&", "\u00A7"))
-                        .replaceAll("&", "\u00A7"));
+                        .replaceAll("%ACCEPT%", lang.CHAT_ACCEPT.replaceAll("&", FORMATTING_CODE))
+                        .replaceAll("%DENY%", lang.CHAT_DENY.replaceAll("&", FORMATTING_CODE))
+                        .replaceAll("&", FORMATTING_CODE));
             msg.getStyle().setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/tpaccept"));
             msg.getStyle()
                 .setHoverEvent(
@@ -83,7 +83,7 @@ public class TpaCommand extends SECommand {
             getCurrentLanguage(sender)
                 .PLAYER_NOT_FOUND
                 .replaceAll("%PLAYER%", args[0])
-                .replaceAll("&", "\u00A7"));
+                .replaceAll("&", FORMATTING_CODE));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));

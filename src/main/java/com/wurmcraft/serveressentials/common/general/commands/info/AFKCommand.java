@@ -14,7 +14,7 @@ import org.cliffc.high_scale_lib.NonBlockingHashSet;
 @Command(moduleName = "General")
 public class AFKCommand extends SECommand {
 
-  public static NonBlockingHashSet<EntityPlayer> afkPlayers = new NonBlockingHashSet<>();
+  private static final NonBlockingHashSet<EntityPlayer> afkPlayers = new NonBlockingHashSet<>();
 
   @Override
   public String getName() {
@@ -69,6 +69,6 @@ public class AFKCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_AFK.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_AFK.replaceAll("&", FORMATTING_CODE);
   }
 }

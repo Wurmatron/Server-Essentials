@@ -2,13 +2,13 @@ package com.wurmcraft.serveressentials.common.claim2.events;
 
 import com.wurmcraft.serveressentials.api.json.claim2.Claim;
 import com.wurmcraft.serveressentials.api.json.claim2.ClaimOwner;
+import com.wurmcraft.serveressentials.api.json.global.Global;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.claim2.ClaimManager;
 import com.wurmcraft.serveressentials.common.claim2.SEClaim;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

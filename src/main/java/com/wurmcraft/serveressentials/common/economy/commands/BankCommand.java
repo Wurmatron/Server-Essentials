@@ -5,17 +5,15 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.economy.EconomyModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 
 @Command(moduleName = "Economy")
 public class BankCommand extends SECommand {
@@ -36,12 +34,6 @@ public class BankCommand extends SECommand {
   @Override
   public String getUsage(ICommandSender sender) {
     return "/bank";
-  }
-
-  @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args)
-      throws CommandException {
-    super.execute(server, sender, args);
   }
 
   @SubCommand
@@ -71,8 +63,6 @@ public class BankCommand extends SECommand {
           Currency newCurrency = EconomyModule.getCurrency(args[2]);
           GlobalUser user =
               (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-          //          if(user.getBank().getCurrency(currentCurrency.name) >= amount) {
-
           user.getBank().spend(currentCurrency.name, amount);
           double amt = (currentCurrency.sell * amount) / newCurrency.buy;
           user.getBank().earn(newCurrency.name, amt);
@@ -88,9 +78,6 @@ public class BankCommand extends SECommand {
               player.getGameProfile().getId(),
               new Object[] {user, UserManager.playerData.get(player.getGameProfile().getId())[1]});
           RequestHelper.UserResponses.overridePlayerData(user);
-          //          }else {
-          //            ChatHelper.sendMessage(sender,getCurrentLanguage(sender).NO_MONEY);
-          //          }
         } catch (NumberFormatException e) {
           ChatHelper.sendMessage(
               sender, getCurrentLanguage(sender).INVALID_NUMBER.replaceAll("%NUMBER%", args[1]));

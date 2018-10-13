@@ -10,7 +10,7 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 @Module(name = "Teleportation")
 public class TeleportationModule implements IModule {
 
-  public static NonBlockingHashMap<Long, EntityPlayer[]> activeRequests =
+  public static final NonBlockingHashMap<Long, EntityPlayer[]> activeRequests =
       new NonBlockingHashMap<>();
 
   @Override

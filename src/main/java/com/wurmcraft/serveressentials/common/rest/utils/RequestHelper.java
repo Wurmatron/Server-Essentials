@@ -3,9 +3,9 @@ package com.wurmcraft.serveressentials.common.rest.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
@@ -44,7 +44,7 @@ public class RequestHelper {
       int status = ((HttpURLConnection) connection).getResponseCode();
       ServerEssentialsServer.logger.debug("Post Status: " + status);
     } catch (Exception e) {
-      e.printStackTrace();
+      ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
     }
   }
 
@@ -62,7 +62,7 @@ public class RequestHelper {
       int status = ((HttpURLConnection) connection).getResponseCode();
       ServerEssentialsServer.logger.debug("Put Status: " + status);
     } catch (Exception e) {
-      e.printStackTrace();
+      ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
     }
   }
 
@@ -82,7 +82,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -90,7 +90,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Rank.class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -109,7 +109,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -117,7 +117,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Rank[].class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return new Rank[0];
     }
@@ -139,7 +139,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -147,7 +147,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), GlobalUser.class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -174,7 +174,7 @@ public class RequestHelper {
           if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
               response.append(inputLine);
             }
@@ -182,7 +182,7 @@ public class RequestHelper {
             return GSON.fromJson(response.toString(), GlobalTeam.class);
           }
         } catch (Exception e) {
-          e.printStackTrace();
+          ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
         }
       }
       return null;
@@ -209,7 +209,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -217,7 +217,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), AutoRank.class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -236,7 +236,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -244,7 +244,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), AutoRank[].class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return new AutoRank[0];
     }
@@ -266,7 +266,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -274,7 +274,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Currency.class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -293,7 +293,7 @@ public class RequestHelper {
         if (responseCode == HttpURLConnection.HTTP_OK) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
-          StringBuffer response = new StringBuffer();
+          StringBuilder response = new StringBuilder();
           while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
           }
@@ -301,7 +301,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Currency[].class);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
       return new Currency[0];
     }

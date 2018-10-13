@@ -7,7 +7,6 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.claim2.ClaimManager;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.HashMap;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,11 +17,9 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-@EventBusSubscriber(modid = Global.MODID)
 public class ClaimEvent {
 
   private static HashMap<EntityPlayer, ChunkPos> playerPos = new HashMap<>();
@@ -62,15 +59,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getPlayer().getPosition(), e.getPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getPlayer(), new ClaimPerm[] {ClaimPerm.PLACE})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getPlayer(),
-            LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
-                .CLAIM_PLACE
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getPlayer(), new ClaimPerm[] {ClaimPerm.PLACE})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getPlayer(),
+          LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
+              .CLAIM_PLACE
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -79,15 +74,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getEntityPlayer(),
-            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getEntityPlayer(),
+          LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+              .CLAIM_INTERACT
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -96,15 +89,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getEntityPlayer(),
-            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getEntityPlayer(),
+          LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+              .CLAIM_INTERACT
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -113,15 +104,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getEntityPlayer(),
-            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getEntityPlayer(),
+          LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+              .CLAIM_INTERACT
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -130,15 +119,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getEntityPlayer(),
-            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getEntityPlayer(),
+          LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+              .CLAIM_INTERACT
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -148,15 +135,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getEntityPlayer().getPosition(), e.getEntityPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getEntityPlayer(),
-            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
-                .CLAIM_INTERACT
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getEntityPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getEntityPlayer(),
+          LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+              .CLAIM_INTERACT
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -166,17 +151,15 @@ public class ClaimEvent {
         ClaimManager.getClaim(
             new LocationWrapper(
                 e.getExplosion().getPosition(), e.getExplosion().getExplosivePlacedBy().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(
-          e.getExplosion().getExplosivePlacedBy(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getExplosion().getExplosivePlacedBy(),
-            LanguageModule.getLangfromUUID(
-                    e.getExplosion().getExplosivePlacedBy().getPersistentID())
-                .CLAIM_EXPLOSION
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null
+        && !claim.isTrusted(
+            e.getExplosion().getExplosivePlacedBy(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getExplosion().getExplosivePlacedBy(),
+          LanguageModule.getLangfromUUID(e.getExplosion().getExplosivePlacedBy().getPersistentID())
+              .CLAIM_EXPLOSION
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 

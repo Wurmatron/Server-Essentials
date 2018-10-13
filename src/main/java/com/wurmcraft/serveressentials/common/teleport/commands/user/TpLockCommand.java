@@ -3,8 +3,8 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
@@ -37,11 +37,11 @@ public class TpLockCommand extends SECommand {
       if (user.isTpLock()) {
         setLock(player, false);
         ChatHelper.sendMessage(
-            sender, getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7"));
+            sender, getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", FORMATTING_CODE));
       } else {
         setLock(player, true);
         ChatHelper.sendMessage(
-            sender, getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7"));
+            sender, getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", FORMATTING_CODE));
       }
     } else if (args.length == 1) {
       EntityPlayer player = UsernameResolver.getPlayer(args[0]);
@@ -51,11 +51,11 @@ public class TpLockCommand extends SECommand {
         if (data.isTpLock()) {
           setLock(player, false);
           ChatHelper.sendMessage(
-              sender, getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", "\u00A7"));
+              sender, getCurrentLanguage(sender).TPLOCK_DISABLED.replaceAll("&", FORMATTING_CODE));
         } else {
           setLock(player, true);
           ChatHelper.sendMessage(
-              sender, getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", "\u00A7"));
+              sender, getCurrentLanguage(sender).TPLOCK_ENABLED.replaceAll("&", FORMATTING_CODE));
         }
       } else {
         ChatHelper.sendMessage(
@@ -78,7 +78,7 @@ public class TpLockCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_TPLOCK.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_TPLOCK.replaceAll("&", FORMATTING_CODE);
   }
 
   @Override

@@ -36,6 +36,6 @@ public class MotdCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_MOTD.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_MOTD.replaceAll("&", FORMATTING_CODE);
   }
 }

@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.common.team;
 
+import static com.wurmcraft.serveressentials.api.json.global.Keys.LOCAL_TEAM;
 import static com.wurmcraft.serveressentials.api.json.global.Keys.TEAM;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 
-import com.wurmcraft.serveressentials.api.json.global.Keys;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.LocalTeam;
@@ -35,12 +35,12 @@ public class TeamModule implements IModule {
       GlobalUser globalUser = (GlobalUser) UserManager.getPlayerData(uuid)[0];
       GlobalTeam globalTeam = RequestHelper.TeamResponses.getTeam(globalUser.getTeam());
       if (globalTeam != null) {
-        LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(globalUser.getTeam()));
+        LocalTeam localTeam = DataHelper.load(LOCAL_TEAM, new LocalTeam(globalUser.getTeam()));
         if (localTeam != null) {
           UserManager.teamCache.put(globalUser.getTeam(), new Object[] {globalTeam, localTeam});
         } else {
           localTeam = new LocalTeam(globalUser.getTeam());
-          DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
+          DataHelper.forceSave(LOCAL_TEAM, localTeam);
           UserManager.teamCache.put(globalUser.getTeam(), new Object[] {globalTeam, localTeam});
         }
       }
@@ -51,12 +51,12 @@ public class TeamModule implements IModule {
     if (globalTeams) {
       GlobalTeam globalTeam = RequestHelper.TeamResponses.getTeam(team);
       if (!team.isEmpty() && globalTeam != null) {
-        LocalTeam localTeam = DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(team));
+        LocalTeam localTeam = DataHelper.load(LOCAL_TEAM, new LocalTeam(team));
         if (localTeam != null) {
           UserManager.teamCache.put(team, new Object[] {globalTeam, localTeam});
         } else {
           localTeam = new LocalTeam(team);
-          DataHelper.forceSave(Keys.LOCAL_TEAM, localTeam);
+          DataHelper.forceSave(LOCAL_TEAM, localTeam);
           UserManager.teamCache.put(team, new Object[] {globalTeam, localTeam});
         }
       }
@@ -65,7 +65,7 @@ public class TeamModule implements IModule {
 
   public static void unloadRestTeam(GlobalUser user) {
     if (globalTeams) {
-      RestModule.executors.schedule(
+      RestModule.EXECUTORs.schedule(
           () -> {
             int userLoadingTotal = isTeamLoaded(user.getTeam());
             if (userLoadingTotal <= 1) {
@@ -98,9 +98,9 @@ public class TeamModule implements IModule {
       }
     } else if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       globalTeams = true;
-      //      if (Loader.isModLoaded("ftbutilities")) {
-      MinecraftForge.EVENT_BUS.register(new FTBUtilsEvents());
-      //      }
+      if (Loader.isModLoaded("ftbutilities")) {
+        MinecraftForge.EVENT_BUS.register(new FTBUtilsEvents());
+      }
     }
   }
 
@@ -108,7 +108,7 @@ public class TeamModule implements IModule {
     File teamDir = new File(saveLocation + File.separator + TEAM.name());
     if (teamDir.exists()) {
       for (File file : Objects.requireNonNull(teamDir.listFiles())) {
-        Team team = DataHelper.load(file, Keys.TEAM, new Team());
+        Team team = DataHelper.load(file, TEAM, new Team());
         UserManager.teamCache.put(team.getName(), new Object[] {team});
       }
     } else {

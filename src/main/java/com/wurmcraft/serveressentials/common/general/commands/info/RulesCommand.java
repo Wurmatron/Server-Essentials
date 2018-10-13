@@ -20,7 +20,7 @@ public class RulesCommand extends SECommand {
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
     for (String rulesNo : DataHelper.globalSettings.getRules()) {
-      ChatHelper.sendMessage(sender, rulesNo.replaceAll("&", "\u00A7"));
+      ChatHelper.sendMessage(sender, rulesNo.replaceAll("&", FORMATTING_CODE));
     }
   }
 }

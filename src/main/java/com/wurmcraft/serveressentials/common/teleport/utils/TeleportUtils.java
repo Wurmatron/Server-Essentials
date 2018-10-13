@@ -2,9 +2,9 @@ package com.wurmcraft.serveressentials.common.teleport.utils;
 
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
@@ -156,10 +156,8 @@ public class TeleportUtils {
     World world = player.world;
     if (world.getBlockState(location.getPos().up()).getBlock() instanceof BlockAir
         && world.getBlockState(location.getPos()).getBlock() instanceof BlockAir) {
-      if (!(world.getBlockState(location.getPos().down()).getBlock() instanceof BlockAir)
-          && !(world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock)) {
-        return true;
-      }
+      return !(world.getBlockState(location.getPos().down()).getBlock() instanceof BlockAir)
+          && !(world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock);
     }
     return false;
   }

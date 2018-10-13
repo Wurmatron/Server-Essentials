@@ -1,7 +1,7 @@
 package com.wurmcraft.serveressentials.common.rank.events;
 
 import com.wurmcraft.serveressentials.api.json.global.Keys;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;

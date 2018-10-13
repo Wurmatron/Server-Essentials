@@ -32,13 +32,13 @@ public class SetMOTDCommand extends SECommand {
           StringBuilder l = new StringBuilder();
           for (String line : args) {
             if (line.contains("\n")) {
-              l.append(line, 0, line.indexOf("\n"));
+              l.append(line, 0, line.indexOf('\n'));
               if (!line.endsWith("\n")) {
                 lines.add(l.toString());
                 changeMOTDLine(l.toString(), index);
                 l.setLength(0);
                 index++;
-                l.append(line.substring(line.indexOf("\n") + 1));
+                l.append(line.substring(line.indexOf('\n') + 1));
               } else {
                 lines.add(l.toString());
                 changeMOTDLine(l.toString(), index);

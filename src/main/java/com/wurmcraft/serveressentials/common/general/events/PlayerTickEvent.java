@@ -1,8 +1,8 @@
 package com.wurmcraft.serveressentials.common.general.events;
 
 import com.wurmcraft.serveressentials.api.json.global.Keys;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.commands.utils.PlayerInventory;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;

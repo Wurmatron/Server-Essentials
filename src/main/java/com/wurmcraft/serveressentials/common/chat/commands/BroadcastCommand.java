@@ -28,7 +28,8 @@ public class BroadcastCommand extends SECommand {
           .getMinecraftServerInstance()
           .getPlayerList()
           .sendMessage(
-              ForgeHooks.newChatWithLinks(Strings.join(args, " ").replaceAll("&", "\u00A7")), true);
+              ForgeHooks.newChatWithLinks(Strings.join(args, " ").replaceAll("&", FORMATTING_CODE)),
+              true);
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
     }

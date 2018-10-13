@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.api.json.user;
 
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 
 public interface IPerk {
 

@@ -10,7 +10,6 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
@@ -150,7 +149,6 @@ public class ChunkManager {
               Strings.join(IOUtils.readLines(new FileInputStream(regionFile)), ""),
               RegionData.class);
       addLoadedRegion(loc, data);
-    } catch (FileNotFoundException e) {
     } catch (IOException e) {
     }
   }

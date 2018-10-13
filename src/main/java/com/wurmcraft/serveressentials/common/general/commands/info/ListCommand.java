@@ -3,8 +3,8 @@ package com.wurmcraft.serveressentials.common.general.commands.info;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
@@ -71,6 +71,6 @@ public class ListCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_LIST.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_LIST.replaceAll("&", FORMATTING_CODE);
   }
 }

@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.api.json.user.fileOnly;
+package com.wurmcraft.serveressentials.api.json.user.file;
 
 import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.user.DataType;
@@ -72,33 +72,25 @@ public class PlayerData implements DataType {
   }
 
   public void addHome(Home home) {
-    //    if (home != null && homes != null && home.getName() != null) {
-    //      for (int index = 0; index < homes.length; index++) {
-    //        if (homes[index] != null && homes[index].getName().equalsIgnoreCase(home.getName())) {
-    //          homes[index] = home;
-    //          return LanguageModule.getLangFromKey(lang).HOME_REPLACED.replaceAll("#", home.getName());
-    //        } else if (homes[index] == null) {
-    //          homes[index] = home;
-    //          return LanguageModule.getLangFromKey(lang).HOME_SET.replaceAll("#", home.getName());
-    //        }
-    //      }
-    //      return LanguageModule.getLangFromKey(lang)
-    //          .HOME_MAX
-    //          .replaceAll("#", Integer.toString(max_homes));
-    //    }
-    //    return LanguageModule.getLangFromKey(lang).HOME_INVALID;
+    if (home != null && homes != null && home.getName() != null) {
+      for (int index = 0; index < homes.length; index++) {
+        if (homes[index] != null && homes[index].getName().equalsIgnoreCase(home.getName())) {
+          homes[index] = home;
+        } else if (homes[index] == null) {
+          homes[index] = home;
+        }
+      }
+    }
   }
 
   public void delHome(String name) {
-    //    if (name != null && homes != null) {
-    //      for (int index = 0; index < homes.length; index++) {
-    //        if (homes[index] != null && homes[index].getName().equalsIgnoreCase(name)) {
-    //          homes[index] = null;
-    //          return LanguageModule.getLangFromKey(lang).HOME_DELETED.replaceAll("#", name);
-    //        }
-    //      }
-    //    }
-    //    return LanguageModule.getLangFromKey(lang).HOME_ERROR_DELETION.replaceAll("#", name);
+    if (name != null && homes != null) {
+      for (int index = 0; index < homes.length; index++) {
+        if (homes[index] != null && homes[index].getName().equalsIgnoreCase(name)) {
+          homes[index] = null;
+        }
+      }
+    }
   }
 
   public long getTeleportTimer() {

@@ -2,9 +2,9 @@ package com.wurmcraft.serveressentials.common.rest.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
@@ -41,7 +41,7 @@ public class OnlineTimeCommand extends SECommand {
               (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
           sender.sendMessage(
               new TextComponentString(
-                  getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+                  getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
           String formattedGlobal =
               DurationFormatUtils.formatDuration(global.getOnlineTime() * 60000, "d%:H$:m#:s@")
                   .replace('%', 'D')
@@ -64,9 +64,9 @@ public class OnlineTimeCommand extends SECommand {
               getCurrentLanguage(sender).LOCAL
                   + ": "
                   + TextFormatting.AQUA
-                  + formattedLocal.replaceAll("&", "\u00A7"));
+                  + formattedLocal.replaceAll("&", FORMATTING_CODE));
           ChatHelper.sendMessage(
-              sender, getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7"));
+              sender, getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE));
         } else {
           ChatHelper.sendMessage(
               sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
@@ -92,7 +92,7 @@ public class OnlineTimeCommand extends SECommand {
               getCurrentLanguage(sender).LOCAL
                   + ": "
                   + TextFormatting.AQUA
-                  + formattedLocal.replaceAll("&", "\u00A7"));
+                  + formattedLocal.replaceAll("&", FORMATTING_CODE));
         } else {
           ChatHelper.sendMessage(
               sender, getCurrentLanguage(sender).PLAYER_NOT_FOUND.replaceAll("%PLAYER%", args[0]));
@@ -119,6 +119,6 @@ public class OnlineTimeCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_ONLINETIME.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_ONLINETIME.replaceAll("&", FORMATTING_CODE);
   }
 }

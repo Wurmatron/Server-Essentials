@@ -4,8 +4,8 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.Home;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
@@ -71,7 +71,7 @@ public class HomeCommand extends SECommand {
       }
       if (homes.length == 0) {
         ChatHelper.sendMessage(
-            sender, getCurrentLanguage(sender).HOME_NOTSET.replaceAll("&", "\u00A7"));
+            sender, getCurrentLanguage(sender).HOME_NOTSET.replaceAll("&", FORMATTING_CODE));
       }
     }
   }
@@ -86,21 +86,21 @@ public class HomeCommand extends SECommand {
     Home[] homes =
         getPlayerHomes(((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId());
     sender.sendMessage(
-        new TextComponentString(getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7")));
+        new TextComponentString(
+            getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
     for (Home home : homes) {
       TextComponentString msg =
           new TextComponentString(
               getCurrentLanguage(sender)
                   .HOME_LIST
                   .replaceAll("%HOME%", home.getName())
-                  .replaceAll("&", "\u00A7"));
+                  .replaceAll("&", FORMATTING_CODE));
       msg.getStyle()
           .setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/home " + home.getName()));
       sender.sendMessage(msg);
     }
     ChatHelper.sendMessage(
-        sender, getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", "\u00A7"));
-    ;
+        sender, getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE));
   }
 
   @Override
@@ -148,7 +148,7 @@ public class HomeCommand extends SECommand {
             getCurrentLanguage(sender)
                 .TP_HOME
                 .replaceAll("%HOME%", home.getName())
-                .replaceAll("&", "\u00A7"));
+                .replaceAll("&", FORMATTING_CODE));
     msg.getStyle()
         .setHoverEvent(
             new HoverEvent(
@@ -160,12 +160,12 @@ public class HomeCommand extends SECommand {
                         .replaceAll("%Y%", String.valueOf(home.getPos().getY()))
                         .replaceAll("%Z%", String.valueOf(home.getPos().getZ()))
                         .replaceAll("%DIMENSION%", String.valueOf(home.getPos().getDim()))
-                        .replaceAll("&", "\u00A7"))));
+                        .replaceAll("&", FORMATTING_CODE))));
     return msg;
   }
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_HOME.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_HOME.replaceAll("&", FORMATTING_CODE);
   }
 }

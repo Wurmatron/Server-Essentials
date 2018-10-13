@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.common.rest.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.Date;
@@ -36,14 +36,14 @@ public class SeenCommand extends SECommand {
             getCurrentLanguage(sender).CHAT_LASTSEEN
                 + ": "
                 + TextFormatting.AQUA
-                + new Date(global.getLastSeen()).toString().replaceAll("&", "\u00A7"));
+                + new Date(global.getLastSeen()).toString().replaceAll("&", FORMATTING_CODE));
       } else {
         ChatHelper.sendMessage(
             sender,
             getCurrentLanguage(sender)
                 .PLAYER_NOT_FOUND
                 .replaceAll("%PLAYER%", args[0])
-                .replaceAll("&", "\u00A7"));
+                .replaceAll("&", FORMATTING_CODE));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
@@ -57,7 +57,7 @@ public class SeenCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_SEEN.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_SEEN.replaceAll("&", FORMATTING_CODE);
   }
 
   @Override

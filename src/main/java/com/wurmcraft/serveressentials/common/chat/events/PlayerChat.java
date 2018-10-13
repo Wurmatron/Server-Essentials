@@ -4,9 +4,9 @@ import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.global.Channel.Type;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -19,6 +19,7 @@ import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,7 +34,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PlayerChat {
 
-  public static HashMap<UUID, String[]> lastChat = new HashMap<>();
+  protected static Map<UUID, String[]> lastChat = new HashMap<>();
 
   public static boolean proccessRest(ServerChatEvent e) {
     GlobalUser global =
@@ -62,10 +63,7 @@ public class PlayerChat {
                     : new Team(),
                 e.getMessage()),
             true));
-    if (currentChannel.getName().equalsIgnoreCase(ConfigHandler.globalChannel)) {
-      return false;
-    }
-    return true;
+    return currentChannel.getName().equalsIgnoreCase(ConfigHandler.globalChannel);
   }
 
   private static boolean proccessFile(ServerChatEvent e) {
@@ -119,10 +117,7 @@ public class PlayerChat {
       chat[0] = message;
       lastChat.put(name, chat);
     }
-    if (isIgnored(name, message)) {
-      return false;
-    }
-    return true;
+    return isIgnored(name, message);
   }
 
   @SubscribeEvent(priority = EventPriority.HIGHEST)

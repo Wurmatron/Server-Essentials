@@ -112,7 +112,7 @@ public class TpCommand extends SECommand {
             LanguageModule.getLangfromUUID(from.getGameProfile().getId())
                 .TP_HOME
                 .replaceAll("%HOME%", to.getDisplayNameString())
-                .replaceAll("&", "\u00A7"));
+                .replaceAll("&", FORMATTING_CODE));
       } else if (displayChat >= 2) {
         ChatHelper.sendMessage(
             from,
@@ -121,22 +121,20 @@ public class TpCommand extends SECommand {
                 .replaceAll("%FROM%", from.getDisplayNameString())
                 .replaceAll("%TO%", to.getDisplayNameString())
                 .replaceAll("%HOME%", to.getDisplayNameString())
-                .replaceAll("&", "\u00A7"));
+                .replaceAll("&", FORMATTING_CODE));
       }
     }
   }
 
   private void teleportToCords(EntityPlayer player, LocationWrapper cords, int displayChat) {
-    if (TeleportUtils.teleportTo((EntityPlayerMP) player, cords, true)) {
-      if (displayChat >= 1) {
-        ChatHelper.sendMessage(
-            player,
-            LanguageModule.getLangfromUUID(player.getGameProfile().getId())
-                .TP_HOME
-                .replaceAll(
-                    "%HOME%", "[" + cords.getX() + ", " + cords.getY() + ", " + cords.getZ() + "]")
-                .replaceAll("&", "\u00A7"));
-      }
+    if (TeleportUtils.teleportTo((EntityPlayerMP) player, cords, true) && displayChat >= 1) {
+      ChatHelper.sendMessage(
+          player,
+          LanguageModule.getLangfromUUID(player.getGameProfile().getId())
+              .TP_HOME
+              .replaceAll(
+                  "%HOME%", "[" + cords.getX() + ", " + cords.getY() + ", " + cords.getZ() + "]")
+              .replaceAll("&", FORMATTING_CODE));
     }
   }
 
@@ -155,7 +153,7 @@ public class TpCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_TP.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_TP.replaceAll("&", FORMATTING_CODE);
   }
 
   @Override

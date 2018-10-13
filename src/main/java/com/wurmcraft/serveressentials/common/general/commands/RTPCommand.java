@@ -56,7 +56,7 @@ public class RTPCommand extends SECommand {
     TeleportUtils.teleportTo(
         (EntityPlayerMP) player, new LocationWrapper(teleportPos, player.dimension), true);
     player.addPotionEffect(new PotionEffect(Potion.getPotionById(22), 20, 4));
-    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).RTP.replaceAll("&", "\u00A7"));
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).RTP.replaceAll("&", FORMATTING_CODE));
   }
 
   private boolean safeTeleport(EntityPlayer player, LocationWrapper loc) {
@@ -113,7 +113,7 @@ public class RTPCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_RTP.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_RTP.replaceAll("&", FORMATTING_CODE);
   }
 
   //  @Override

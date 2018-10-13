@@ -1,18 +1,18 @@
 // Config
 const port = 8080;
-const ranksDir = './ranks';
-const userDir = './users';
-const teamDir = './teams';
-const autorankDir = './autorank';
-const apiKey = 'keys';
-const currentEconomy = './economy';
+const ranksDir = "./ranks";
+const userDir = "./users";
+const teamDir = "./teams";
+const autorankDir = "./autorank";
+const apiKey = "keys";
+const currentEconomy = "./economy";
 
 // Require / Imports
-const express = require('express');
-const morgan = require('morgan');
-const levelup = require('levelup');
-const leveldown = require('leveldown');
-const bodyParser = require('body-parser');
+const express = require("express");
+const morgan = require("morgan");
+const levelup = require("levelup");
+const leveldown = require("leveldown");
+const bodyParser = require("body-parser");
 
 // Setup
 const app = express();
@@ -27,14 +27,35 @@ const urlencoder = bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(morgan('short'));
 app.set('json spaces', 2);
-var apiKeys = require('fs').readFileSync(apiKey).toString();
+var apiKeys = require("fs").readFileSync(apiKey).toString();
+
+/**
+ * Add an entry to the rank DataBase
+ *
+ * 201 if rank is added
+ * 400 Invalid request, missing rank name
+ */
+function addRankEntry(req, res) {
+  console.log("Adding entry '" + req.body.name + "'");
+  ranksDB.put(req.body.name, JSON.stringify({
+    name: req.body.name,
+    prefix: req.body.prefix,
+    suffix: req.body.suffix,
+    inheritance: req.body.inheritance,
+    permission: req.body.permission
+  }), function (err) {
+    if (err)
+      res.req.sendStatus(400);
+  });
+  res.sendStatus(201);
+}
 
 /**
  * Gets Rank from name
  *
  * 404 if rank name is not found
  */
-app.get('/rank/find/:name', (req, res) => {
+app.get("/rank/find/:name", (req, res) => {
     const rank = ranksDB.get(req.params.name);
     rank.then(function (result) {
         res.json(JSON.parse(result.toString('utf8')))
@@ -50,13 +71,13 @@ app.get('/rank/find/:name', (req, res) => {
  * 201 Created
  * 400 Invalid Request missing rank name
  */
-app.post('/rank/add', urlencoder, (req, res) => {
+app.post("/rank/add", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const rank = ranksDB.get(req.body.name)
             rank.then(function (result) {
                 if (!rank) {
-                    addRankEntry(req, res)
+                    addRankEntry(req, res);
                 } else {
                     res.sendStatus(409)
                 }
@@ -74,7 +95,7 @@ app.post('/rank/add', urlencoder, (req, res) => {
  *
  * 304 Ranks sent
  */
-app.get('/rank/find', urlencoder, (req, res) => {
+app.get("/rank/find", urlencoder, (req, res) => {
     var allRanks = []
     ranksDB.createReadStream()
         .on('data', function (data) {
@@ -88,12 +109,12 @@ app.get('/rank/find', urlencoder, (req, res) => {
             })
         })
         .on('error', function (err) {
-            console.log('Error, ', err)
+            console.log('Error, ', err);
         })
         .on('close', function () {
         })
         .on('end', function () {
-            res.json(allRanks)
+            res.json(allRanks);
         })
 })
 
@@ -104,7 +125,7 @@ app.get('/rank/find', urlencoder, (req, res) => {
  * 404 Rank does not exist
  * 400 Invalid Request missing rank name
  */
-app.delete('/rank/delete', urlencoder, (req, res) => {
+app.delete("/rank/delete", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const rank = ranksDB.get(req.body.name)
@@ -129,7 +150,7 @@ app.delete('/rank/delete', urlencoder, (req, res) => {
  * 400 Invalid Request missing rank name
  * 201 Rank Overridden / Created
  */
-app.put('/rank/override', urlencoder, (req, res) => {
+app.put("/rank/override", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             addRankEntry(req, res)
@@ -141,27 +162,6 @@ app.put('/rank/override', urlencoder, (req, res) => {
     }
 });
 
-/**
- * Add an entry to the rank DataBase
- *
- * 201 if rank is added
- * 400 Invalid request, missing rank name
- */
-function addRankEntry(req, res) {
-    console.log("Adding entry '" + req.body.name + "'");
-    ranksDB.put(req.body.name, JSON.stringify({
-        name: req.body.name,
-        prefix: req.body.prefix,
-        suffix: req.body.suffix,
-        inheritance: req.body.inheritance,
-        permission: req.body.permission
-    }), function (err) {
-        if (err)
-            res.req.sendStatus(400);
-    });
-    res.sendStatus(201);
-}
-
 // =-=-=-=-=-=-=-=-=-=-=-=-=
 //        User
 // =-=-=-=-=-=-=-=-=-=-=-=-=
@@ -170,7 +170,7 @@ function addRankEntry(req, res) {
  *
  * 404 if uuid / player is not found
  */
-app.get('/user/find/:uuid', (req, res) => {
+app.get("/user/find/:uuid", (req, res) => {
     const user = userDB.get(req.params.uuid);
     user.then(function (result) {
         res.json(JSON.parse(result.toString('utf8')))
@@ -187,7 +187,7 @@ app.get('/user/find/:uuid', (req, res) => {
  * 201 Created
  * 400 Invalid Request missing uuid
  */
-app.post('/user/add', urlencoder, (req, res) => {
+app.post("/user/add", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.uuid) {
             const user = userDB.get(req.body.uuid)
@@ -213,7 +213,7 @@ app.post('/user/add', urlencoder, (req, res) => {
  *
  * 304 User sent
  */
-app.get('/user/find', urlencoder, (req, res) => {
+app.get("/user/find", urlencoder, (req, res) => {
     var allUsers = []
     userDB.createReadStream()
         .on('data', function (data) {
@@ -225,7 +225,7 @@ app.get('/user/find', urlencoder, (req, res) => {
             })
         })
         .on('error', function (err) {
-            console.log('Error!, ', err)
+            console.log('Error!, ', err);
         })
         .on('close', function () {
         })
@@ -241,7 +241,7 @@ app.get('/user/find', urlencoder, (req, res) => {
  * 404 User does not exist
  * 400 Invalid Request missing user
  */
-app.delete('/user/delete', urlencoder, (req, res) => {
+app.delete("/user/delete", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.uuid) {
             const user = userDB.get(req.body.uuid)
@@ -265,7 +265,7 @@ app.delete('/user/delete', urlencoder, (req, res) => {
  * 400 Invalid Request missing rank name
  * 201 User Overridden / Created
  */
-app.put('/user/override', urlencoder, (req, res) => {
+app.put("/user/override", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.uuid) {
             addUserEntry(req, res, true)
@@ -317,7 +317,7 @@ function addUserEntry(req, res, override) {
  *
  * 404 if team name is not found
  */
-app.get('/team/find/:name', (req, res) => {
+app.get("/team/find/:name", (req, res) => {
     const team = teamDB.get(req.params.name);
     team.then(function (result) {
         res.json(JSON.parse(result.toString('utf8')))
@@ -334,7 +334,7 @@ app.get('/team/find/:name', (req, res) => {
  * 201 Created
  * 400 Invalid Request missing uuid
  */
-app.post('/team/add', urlencoder, (req, res) => {
+app.post("/team/add", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const team = teamDB.get(req.body.name)
@@ -359,7 +359,7 @@ app.post('/team/add', urlencoder, (req, res) => {
  *
  * 304 Team sent
  */
-app.get('/team/find', urlencoder, (req, res) => {
+app.get("/team/find", urlencoder, (req, res) => {
     var allTeams = []
     teamDB.createReadStream()
         .on('data', function (data) {
@@ -386,7 +386,7 @@ app.get('/team/find', urlencoder, (req, res) => {
  * 404 Team does not exist
  * 400 Invalid Request missing team name
  */
-app.delete('/team/delete', urlencoder, (req, res) => {
+app.delete("/team/delete", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const team = teamDB.get(req.body.name)
@@ -411,7 +411,7 @@ app.delete('/team/delete', urlencoder, (req, res) => {
  * 400 Invalid Request Invalid Team name
  * 201 Team Overridden / Created
  */
-app.put('/team/override', urlencoder, (req, res) => {
+app.put("/team/override", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             addTeamEntry(req, res, true)
@@ -458,7 +458,7 @@ function addTeamEntry(req, res, override) {
  * 201 Created
  * 400 Invalid Request missing Autorank nextRank
  */
-app.post('/autorank/add', urlencoder, (req, res) => {
+app.post("/autorank/add", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.nextRank) {
             const rank = autorankDB.get(req.body.nextRank)
@@ -481,7 +481,7 @@ app.post('/autorank/add', urlencoder, (req, res) => {
  *
  * 304 AutoRanks sent
  */
-app.get('/autorank/find', urlencoder, (req, res) => {
+app.get("/autorank/find", urlencoder, (req, res) => {
     var allRanks = []
     autorankDB.createReadStream()
         .on('data', function (data) {
@@ -511,7 +511,7 @@ app.get('/autorank/find', urlencoder, (req, res) => {
  * 404 AutoRank does not exist
  * 400 Invalid Request missing nextRank
  */
-app.delete('/autorank/delete', urlencoder, (req, res) => {
+app.delete("/autorank/delete", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.nextRank) {
             const rank = autorankDB.get(req.body.nextRank)
@@ -537,7 +537,7 @@ app.delete('/autorank/delete', urlencoder, (req, res) => {
  * 400 Invalid Request missing nextRank
  * 201 AutoRank Overridden / Created
  */
-app.put('/autorank/override', urlencoder, (req, res) => {
+app.put("/autorank/override", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.nextRank) {
             addAutoRankEntry(req, res, true)
@@ -581,7 +581,7 @@ function addAutoRankEntry(req, res, override) {
  *
  * 404 if rank name is not found
  */
-app.get('/eco/find/:name', (req, res) => {
+app.get("/eco/find/:name", (req, res) => {
     const eco = ecoDB.get(req.params.name);
     eco.then(function (result) {
         res.json(JSON.parse(result.toString('utf8')))
@@ -597,7 +597,7 @@ app.get('/eco/find/:name', (req, res) => {
  * 201 Created
  * 400 Invalid Request missing rank name
  */
-app.post('/eco/add', urlencoder, (req, res) => {
+app.post("/eco/add", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const rank = ecoDB.get(req.body.name)
@@ -621,7 +621,7 @@ app.post('/eco/add', urlencoder, (req, res) => {
  *
  * 304 Ecos sent
  */
-app.get('/eco/find', urlencoder, (req, res) => {
+app.get("/eco/find", urlencoder, (req, res) => {
     var allEcos = []
     ecoDB.createReadStream()
         .on('data', function (data) {
@@ -649,7 +649,7 @@ app.get('/eco/find', urlencoder, (req, res) => {
  * 404 Eco does not exist
  * 400 Invalid Request missing eco name
  */
-app.delete('/eco/delete', urlencoder, (req, res) => {
+app.delete("/eco/delete", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             const eco = ecoDB.get(req.body.name)
@@ -674,7 +674,7 @@ app.delete('/eco/delete', urlencoder, (req, res) => {
  * 400 Invalid Request missing eco name
  * 201 Eco Overridden / Created
  */
-app.put('/eco/override', urlencoder, (req, res) => {
+app.put("/eco/override", urlencoder, (req, res) => {
     if (apiKeys.indexOf(req.body.authKey) > -1) {
         if (req.body.name) {
             addEcoEntry(req, res)

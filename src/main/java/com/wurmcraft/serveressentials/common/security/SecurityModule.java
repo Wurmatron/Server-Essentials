@@ -32,26 +32,26 @@ public class SecurityModule implements IModule {
 
   private static void loadTrustedStaff() {
     if (ConfigHandler.trustedStaff != null && ConfigHandler.trustedStaff.length() > 0) {
-      if (trusted.size() > 0) {
+      if (trusted.isEmpty()) {
         trusted.clear();
       }
       try {
         URL url = new URL(ConfigHandler.trustedStaff);
-        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-          try {
-            UUID uuid = UUID.fromString(inputLine);
-            trusted.add(uuid);
-            ServerEssentialsServer.logger.debug(
-                "\"" + uuid + "\" has been added to the trusted staff list");
-          } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+          String inputLine;
+          while ((inputLine = in.readLine()) != null) {
+            try {
+              UUID uuid = UUID.fromString(inputLine);
+              trusted.add(uuid);
+              ServerEssentialsServer.logger.debug(
+                  "\"" + uuid + "\" has been added to the trusted staff list");
+            } catch (IllegalArgumentException e) {
+              ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+            }
           }
         }
-        in.close();
       } catch (IOException e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
     }
   }

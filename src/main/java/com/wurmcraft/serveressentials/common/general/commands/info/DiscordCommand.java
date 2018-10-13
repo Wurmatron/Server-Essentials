@@ -44,6 +44,6 @@ public class DiscordCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_DISCORD.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_DISCORD.replaceAll("&", FORMATTING_CODE);
   }
 }

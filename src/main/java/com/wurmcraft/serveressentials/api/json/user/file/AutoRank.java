@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.api.json.user.fileOnly;
+package com.wurmcraft.serveressentials.api.json.user.file;
 
 import com.wurmcraft.serveressentials.api.json.user.DataType;
 
@@ -79,6 +79,6 @@ public class AutoRank implements DataType {
 
   @Override
   public String getID() {
-    return nextRank;
+    return nextRank + "_" + rank;
   }
 }

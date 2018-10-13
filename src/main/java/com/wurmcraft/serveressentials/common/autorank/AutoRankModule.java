@@ -5,8 +5,8 @@ import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -26,7 +26,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class AutoRankModule implements IModule {
 
   public static void syncAutoRanks() {
-    RestModule.executors.scheduleAtFixedRate(
+    RestModule.EXECUTORs.scheduleAtFixedRate(
         () -> {
           try {
             AutoRank[] allAutoRanks = RequestHelper.AutoRankResponses.getAllAutoRanks();
@@ -38,7 +38,7 @@ public class AutoRankModule implements IModule {
               ServerEssentialsServer.logger.debug("No AutoRank Found within the database");
             }
           } catch (Exception e) {
-            e.printStackTrace();
+            ServerEssentialsServer.logger.error(e.getLocalizedMessage());
           }
         },
         0L,

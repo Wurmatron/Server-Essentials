@@ -3,8 +3,8 @@ package com.wurmcraft.serveressentials.common.teleport.commands.user;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
@@ -45,10 +45,11 @@ public class BackCommand extends SECommand {
     if (location != null && location.getY() > 0) {
       player.addPotionEffect(new PotionEffect(Potion.getPotionById(22), 100, 4));
       TeleportUtils.teleportTo((EntityPlayerMP) player, location, true);
-      ChatHelper.sendMessage(sender, getCurrentLanguage(sender).TP_BACK.replaceAll("&", "\u00A7"));
+      ChatHelper.sendMessage(
+          sender, getCurrentLanguage(sender).TP_BACK.replaceAll("&", FORMATTING_CODE));
     } else {
       ChatHelper.sendMessage(
-          sender, getCurrentLanguage(sender).TP_BACK_FAIL.replaceAll("&", "\u00A7"));
+          sender, getCurrentLanguage(sender).TP_BACK_FAIL.replaceAll("&", FORMATTING_CODE));
     }
   }
 
@@ -64,7 +65,7 @@ public class BackCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_BACK.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_BACK.replaceAll("&", FORMATTING_CODE);
   }
 
   @Override

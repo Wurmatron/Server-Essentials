@@ -1,7 +1,7 @@
 package com.wurmcraft.serveressentials.common.utils;
 
 import com.wurmcraft.serveressentials.api.json.user.Rank;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,15 +10,16 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 public class UserManager {
 
   // User Cache
-  public static NonBlockingHashMap<UUID, Rank> userRanks = new NonBlockingHashMap<>();
-  public static NonBlockingHashMap<UUID, Object[]> playerData = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<UUID, Rank> userRanks = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<UUID, Object[]> playerData = new NonBlockingHashMap<>();
   // Rank Cache
-  public static NonBlockingHashMap<String, Rank> rankCache = new NonBlockingHashMap<>();
-  public static NonBlockingHashMap<String, AutoRank> autoRankCache = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, Rank> rankCache = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, AutoRank> autoRankCache =
+      new NonBlockingHashMap<>();
   // TeamCommand Cache
-  public static NonBlockingHashMap<String, Object[]> teamCache = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, Object[]> teamCache = new NonBlockingHashMap<>();
 
-  public static NonBlockingHashMap<UUID, Long> joinTime = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<UUID, Long> joinTime = new NonBlockingHashMap<>();
 
   public static Rank getPlayerRank(UUID uuid) {
     return userRanks.get(uuid);

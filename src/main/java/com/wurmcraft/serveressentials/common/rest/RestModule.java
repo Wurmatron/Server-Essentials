@@ -4,8 +4,8 @@ import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -30,11 +30,11 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 @Module(name = "Rest")
 public class RestModule implements IModule {
 
-  public static ScheduledExecutorService executors = Executors.newScheduledThreadPool(1);
+  public static final ScheduledExecutorService EXECUTORs = Executors.newScheduledThreadPool(1);
   public static volatile boolean isValid;
 
   public static void syncRanks() {
-    executors.scheduleAtFixedRate(
+    EXECUTORs.scheduleAtFixedRate(
         () -> {
           try {
             Rank[] allRanks = RequestHelper.RankResponses.getAllRanks();
@@ -60,7 +60,7 @@ public class RestModule implements IModule {
   }
 
   public static void syncPlayer(UUID uuid) {
-    executors.scheduleAtFixedRate(
+    EXECUTORs.scheduleAtFixedRate(
         () -> {
           try {
             GlobalUser globalUser = RequestHelper.UserResponses.getPlayerData(uuid);
@@ -81,8 +81,6 @@ public class RestModule implements IModule {
               UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
               TeamModule.loadRestTeam(uuid);
             }
-            ServerEssentialsServer.logger.debug(
-                "Sync Time: " + (System.currentTimeMillis() - WorldEvent.startTime));
           } catch (Exception e) {
             createNewUser(uuid);
           }
@@ -95,7 +93,7 @@ public class RestModule implements IModule {
   }
 
   public static void deletePlayerData(UUID uuid) {
-    executors.schedule(
+    EXECUTORs.schedule(
         () -> {
           if (!isPlayerOnline(uuid)) {
             UserManager.userRanks.remove(uuid);

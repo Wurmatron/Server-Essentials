@@ -5,9 +5,9 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 /** Used to store the value of the world spawn */
 public class SpawnPoint {
 
-  public LocationWrapper location;
-  public float yaw;
-  public float pitch;
+  public final LocationWrapper location;
+  public final float yaw;
+  public final float pitch;
 
   public SpawnPoint(LocationWrapper location, float yaw, float pitch) {
     this.location = location;

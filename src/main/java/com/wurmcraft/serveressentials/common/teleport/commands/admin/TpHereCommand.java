@@ -35,13 +35,13 @@ public class TpHereCommand extends SECommand {
           getCurrentLanguage(sender)
               .TP_HERE
               .replaceAll("%PLAYER%", herePlayer.getDisplayNameString())
-              .replaceAll("&", "\u00A7"));
+              .replaceAll("&", FORMATTING_CODE));
       ChatHelper.sendMessage(
           herePlayer,
           LanguageModule.getLangfromUUID(herePlayer.getGameProfile().getId())
               .TP
               .replaceAll("%NAME%", player.getDisplayNameString())
-              .replaceAll("&", "\u00A7"));
+              .replaceAll("&", FORMATTING_CODE));
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
     }

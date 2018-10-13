@@ -1,13 +1,13 @@
 package com.wurmcraft.serveressentials.common.language;
 
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.global.Global;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
-import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,7 +58,7 @@ public class LanguageModule implements IModule {
   public void setup() {
     for (String langKey : ConfigHandler.supportedLanguages) {
       save(
-          Global.LOCAL_WEB + langKey + ".lang",
+          Global.LOCAL_WEB + langKey + ".json",
           new File(
               ConfigHandler.saveLocation
                   + File.separator
@@ -76,7 +76,7 @@ public class LanguageModule implements IModule {
     try {
       textFile = new URL(webFile);
     } catch (MalformedURLException e) {
-      e.printStackTrace();
+      ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
     }
     location = saveLocation;
     if (location != null) {
@@ -86,7 +86,7 @@ public class LanguageModule implements IModule {
         }
       } catch (IOException e) {
         ServerEssentialsServer.logger.error("Cannot read " + textFile.getPath() + " I/O Exception");
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
     }
   }
@@ -107,7 +107,7 @@ public class LanguageModule implements IModule {
                 Local.class);
         loadedLanguages.put(langKey, local);
       } catch (FileNotFoundException e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
       }
     }
   }

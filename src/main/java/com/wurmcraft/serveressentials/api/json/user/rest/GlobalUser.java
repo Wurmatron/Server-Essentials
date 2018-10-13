@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.api.json.user.restOnly;
+package com.wurmcraft.serveressentials.api.json.user.rest;
 
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Share;

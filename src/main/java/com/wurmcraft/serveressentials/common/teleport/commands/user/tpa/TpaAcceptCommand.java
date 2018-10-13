@@ -28,9 +28,9 @@ public class TpaAcceptCommand extends SECommand {
         EntityPlayer[] players = TeleportationModule.activeRequests.get(time);
         if (players[1].getGameProfile().getId().equals(player.getGameProfile().getId())) {
           ChatHelper.sendMessage(
-              player, getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7"));
+              player, getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", FORMATTING_CODE));
           ChatHelper.sendMessage(
-              players[0], getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", "\u00A7"));
+              players[0], getCurrentLanguage(sender).TPA_ACCEPT.replaceAll("&", FORMATTING_CODE));
           TeleportUtils.teleportTo(players[0], players[1]);
           TeleportationModule.activeRequests.remove(time);
           break;

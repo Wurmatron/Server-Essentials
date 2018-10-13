@@ -170,6 +170,7 @@ public class Local {
   public String COMMAND_LIST;
   public String COMMAND_MOTD;
   public String COMMAND_AUTORANK;
+  public String COMMAND_WEBSITE;
 
   public static Local load(String langKey) {
     boolean valid = false;

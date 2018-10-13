@@ -1,7 +1,7 @@
 package com.wurmcraft.serveressentials.common.general.commands.utils;
 
 import com.wurmcraft.serveressentials.api.json.user.IPerk;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 
 public class Perk implements IPerk {
 

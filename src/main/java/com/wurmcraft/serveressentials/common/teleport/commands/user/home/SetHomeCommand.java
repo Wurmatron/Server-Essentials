@@ -5,9 +5,9 @@ import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import com.wurmcraft.serveressentials.api.json.user.fileOnly.PlayerData;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.restOnly.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
@@ -25,7 +25,7 @@ public class SetHomeCommand extends SECommand {
   private static int getMaxHomes(GlobalUser user) {
     for (String perk : user.getPerks()) {
       if (perk.startsWith("home.amount.")) {
-        return Integer.parseInt(perk.substring(perk.lastIndexOf(".") + 1, perk.length()));
+        return Integer.parseInt(perk.substring(perk.lastIndexOf('.') + 1));
       }
     }
     return 1;
@@ -51,14 +51,14 @@ public class SetHomeCommand extends SECommand {
           getCurrentLanguage(sender)
               .HOME_CREATED
               .replaceAll("%NAME%", homeName)
-              .replaceAll("&", "\u00A7"));
+              .replaceAll("&", FORMATTING_CODE));
     } else {
       ChatHelper.sendMessage(
           sender,
           getCurrentLanguage(sender)
               .HOME_FAILED
               .replaceAll("%NAME%", homeName)
-              .replaceAll("&", "\u00A7"));
+              .replaceAll("&", FORMATTING_CODE));
     }
   }
 
@@ -114,7 +114,7 @@ public class SetHomeCommand extends SECommand {
 
   @Override
   public String getDescription(ICommandSender sender) {
-    return getCurrentLanguage(sender).COMMAND_SETHOME.replaceAll("&", "\u00A7");
+    return getCurrentLanguage(sender).COMMAND_SETHOME.replaceAll("&", FORMATTING_CODE);
   }
 
   private static boolean homeExists(String name, Home[] homes) {

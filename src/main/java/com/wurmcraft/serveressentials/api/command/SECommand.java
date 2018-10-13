@@ -1,12 +1,13 @@
 package com.wurmcraft.serveressentials.api.command;
 
-import com.wurmcraft.serveressentials.api.json.user.restOnly.GlobalUser;
+import static com.wurmcraft.serveressentials.common.security.SecurityModule.*;
+
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
-import com.wurmcraft.serveressentials.common.security.SecurityModule;
 import com.wurmcraft.serveressentials.common.utils.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.lang.reflect.Method;
@@ -29,6 +30,7 @@ public abstract class SECommand implements ICommand {
 
   protected static final TextFormatting DEFAULT_COLOR = TextFormatting.LIGHT_PURPLE;
   protected static final TextFormatting DEFAULT_USAGE_COLOR = TextFormatting.GOLD;
+  protected static final String FORMATTING_CODE = "\u00A7";
 
   protected static Local getCurrentLanguage(ICommandSender sender) {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
@@ -119,22 +121,18 @@ public abstract class SECommand implements ICommand {
     if (canConsoleRun() && sender.getCommandSenderEntity() == null) {
       return true;
     }
-    if (SecurityModule.trusted.size() > 0
-        && getClass().getAnnotation(Command.class).trustedRequired()) {
-      if (sender instanceof EntityPlayer) {
-        return SecurityModule.isTrustedMember((EntityPlayer) sender.getCommandSenderEntity());
-      }
+    if (trusted.isEmpty()
+        && getClass().getAnnotation(Command.class).trustedRequired()
+        && sender instanceof EntityPlayer) {
+      return isTrustedMember((EntityPlayer) sender.getCommandSenderEntity());
     }
-    if (CommandUtils.hasPerm(getCommandPerm(), sender)) {
-      return true;
-    }
-    return false;
+    return CommandUtils.hasPerm(getCommandPerm(), sender);
   }
 
   @Override
   public List<String> getTabCompletions(
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-    return null;
+    return new ArrayList<>();
   }
 
   public String getCommandPerm() {
@@ -179,13 +177,11 @@ public abstract class SECommand implements ICommand {
 
   protected static List<String> predictName(String current, List<String> possibleNames) {
     List<String> predictedNames = new ArrayList<>();
-    for (String name : possibleNames) {
-      if (name.toLowerCase().startsWith(current.toLowerCase())) {
-        predictedNames.add(name);
-      } else if (name.toLowerCase().endsWith(current.toLowerCase())) {
+    for (String name : possibleNames)
+      if (name.toLowerCase().startsWith(current.toLowerCase())
+          || name.toLowerCase().endsWith(current.toLowerCase())) {
         predictedNames.add(name);
       }
-    }
     return predictedNames;
   }
 }
