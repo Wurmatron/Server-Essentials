@@ -50,14 +50,14 @@ public class SetHomeCommand extends SECommand {
           sender,
           getCurrentLanguage(sender)
               .HOME_CREATED
-              .replaceAll("%HOME%", homeName)
+              .replaceAll("%NAME%", homeName)
               .replaceAll("&", "\u00A7"));
     } else {
       ChatHelper.sendMessage(
           sender,
           getCurrentLanguage(sender)
               .HOME_FAILED
-              .replaceAll("%HOME%", homeName)
+              .replaceAll("%NAME%", homeName)
               .replaceAll("&", "\u00A7"));
     }
   }
