@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.chat.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
@@ -9,6 +8,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.UUID;
@@ -54,7 +54,7 @@ public class NickCommand extends SECommand {
       GlobalUser user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
       user.setNick(nick);
       RequestHelper.UserResponses.overridePlayerData(user);
-      UserManager.playerData.put(
+      UserManager.PLAYER_DATA.put(
           uuid, new Object[] {user, DataHelper.get(Keys.LOCAL_USER, uuid.toString())});
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];

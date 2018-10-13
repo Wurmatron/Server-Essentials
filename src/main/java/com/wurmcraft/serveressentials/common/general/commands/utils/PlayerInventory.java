@@ -7,8 +7,8 @@ import net.minecraft.inventory.InventoryBasic;
 
 public class PlayerInventory extends InventoryBasic {
 
-  public EntityPlayerMP viewer;
-  public EntityPlayerMP owner;
+  public final EntityPlayerMP viewer;
+  public final EntityPlayerMP owner;
   public boolean allowUpdate;
   public boolean echest;
 

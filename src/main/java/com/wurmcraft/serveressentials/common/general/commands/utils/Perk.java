@@ -31,9 +31,8 @@ public class Perk implements IPerk {
   public double getCost(GlobalUser user) {
     if (scale > 0) {
       for (String perk : user.getPerks()) {
-        int currenctLvl =
-            Integer.parseInt(perk.substring(perk.lastIndexOf(".") + 1, perk.length()));
-        return (currenctLvl + 1) * scale;
+        int currentLvl = Integer.parseInt(perk.substring(perk.lastIndexOf('.') + 1));
+        return (currentLvl + 1) * scale;
       }
     }
     return initialCost;

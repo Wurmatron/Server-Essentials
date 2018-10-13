@@ -8,8 +8,8 @@ import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.LocalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.LocalTeam;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.team.TeamModule;
@@ -32,7 +32,7 @@ public class FTBUtilsEvents {
     GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getId())[0];
     user.setTeam(player.team.toString());
     RequestHelper.UserResponses.overridePlayerData(user);
-    UserManager.playerData.put(
+    UserManager.PLAYER_DATA.put(
         player.getId(),
         new Object[] {user, (LocalUser) UserManager.getPlayerData(player.getId())[1]});
   }
@@ -60,7 +60,7 @@ public class FTBUtilsEvents {
     if (UserManager.getTeam(e.getTeam().toString()) == null) {
       team = RequestHelper.TeamResponses.getTeam(e.getTeam().toString());
       if (team != null) {
-        UserManager.teamCache.put(
+        UserManager.TEAM_CACHE.put(
             e.getTeam().toString(),
             new Object[] {
               team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))
@@ -95,7 +95,7 @@ public class FTBUtilsEvents {
     if (UserManager.getTeam(e.getTeam().toString()) == null) {
       team = RequestHelper.TeamResponses.getTeam(e.getTeam().toString());
       if (team != null) {
-        UserManager.teamCache.put(
+        UserManager.TEAM_CACHE.put(
             e.getTeam().toString(),
             new Object[] {
               team, DataHelper.load(Keys.LOCAL_TEAM, new LocalTeam(e.getTeam().toString()))

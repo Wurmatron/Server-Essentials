@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Bank {
 
-  public Coin[] currency;
+  private Coin[] currency;
 
   public Bank() {
     currency = new Coin[0];
@@ -19,8 +19,8 @@ public class Bank {
 
   public double getCurrency(String name) {
     for (Coin coin : currency) {
-      if (coin.name.equalsIgnoreCase(name)) {
-        return coin.amount;
+      if (coin.getName().equalsIgnoreCase(name)) {
+        return coin.getAmount();
       }
     }
     return 0;
@@ -36,8 +36,8 @@ public class Bank {
 
   public void spend(String name, double amount) {
     for (Coin coin : currency) {
-      if (coin.name.equalsIgnoreCase(name.replaceAll(" ", "_"))) {
-        coin.setAmount(coin.amount - amount);
+      if (coin.getName().equalsIgnoreCase(name.replaceAll(" ", "_"))) {
+        coin.setAmount(coin.getAmount() - amount);
       }
     }
   }
@@ -45,9 +45,9 @@ public class Bank {
   public void earn(String name, double amount) {
     boolean found = false;
     for (Coin coin : currency) {
-      if (coin.name.equalsIgnoreCase(name.replaceAll(" ", "_"))) {
+      if (coin.getName().equalsIgnoreCase(name.replaceAll(" ", "_"))) {
         cleanCurrency();
-        coin.setAmount(coin.amount + amount);
+        coin.setAmount(coin.getAmount() + amount);
         found = true;
       }
     }
@@ -66,21 +66,19 @@ public class Bank {
 
   private void cleanCurrency() {
     List<Coin> activeCurr = new ArrayList<>();
-    List<String> tested = new ArrayList<>();
     for (String name : ConfigHandler.activeCurrency) {
       for (Coin coin : currency) {
-        if (coin.name.equalsIgnoreCase(name) && !coinExists(coin)) {
+        if (coin.getName().equalsIgnoreCase(name) && !coinExists(coin)) {
           activeCurr.add(coin);
-          tested.add(coin.name);
         }
       }
     }
     currency = activeCurr.toArray(new Coin[0]);
   }
 
-  public boolean coinExists(Coin coin) {
+  private boolean coinExists(Coin coin) {
     for (Coin c : currency) {
-      if (coin.name.equalsIgnoreCase(c.name)) {
+      if (coin.getName().equalsIgnoreCase(c.getName())) {
         return true;
       }
     }

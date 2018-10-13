@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
@@ -11,9 +10,12 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.UUID;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -55,9 +57,13 @@ public class DPFCommand extends SECommand {
                   + File.separator
                   + player.getGameProfile().getId().toString()
                   + ".dat");
-      ServerEssentialsServer.logger.info(
+      ServerEssentialsServer.LOGGER.info(
           "Deleting " + player.getDisplayNameString() + "'s player file");
-      playerFile.delete();
+      try {
+        Files.delete(playerFile.toPath());
+      } catch (IOException e) {
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
+      }
       ChatHelper.sendMessage(
           sender,
           getCurrentLanguage(sender)

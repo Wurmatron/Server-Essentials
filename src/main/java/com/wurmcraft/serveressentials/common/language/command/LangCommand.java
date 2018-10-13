@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.language.command;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
@@ -11,6 +10,7 @@ import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.UUID;

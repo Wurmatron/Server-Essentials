@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.teleport.commands.user.home;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
@@ -11,6 +10,7 @@ import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class SetHomeCommand extends SECommand {
       if (getMaxHomes(global) > data.getHomes().length) {
         data.addHome(new Home(name, new LocationWrapper(player.getPosition(), player.dimension)));
         DataHelper.forceSave(Keys.LOCAL_USER, data);
-        UserManager.playerData.put(player.getGameProfile().getId(), new Object[] {global, data});
+        UserManager.PLAYER_DATA.put(player.getGameProfile().getId(), new Object[] {global, data});
         return true;
       } else {
         return false;

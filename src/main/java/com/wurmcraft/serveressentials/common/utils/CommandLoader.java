@@ -2,7 +2,6 @@ package com.wurmcraft.serveressentials.common.utils;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
@@ -13,6 +12,8 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 public class CommandLoader {
+
+  private CommandLoader() {}
 
   public static List<SECommand> loadedCommands;
 
@@ -39,30 +40,30 @@ public class CommandLoader {
         } else {
           activeCommands.add(command);
         }
-        ServerEssentialsServer.logger.debug(
+        ServerEssentialsServer.LOGGER.debug(
             "Loading Command '"
                 + command.getName()
                 + " with permission "
                 + command.getCommandPerm());
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
     loadedCommands = activeCommands;
   }
 
   public static void registerCommands(FMLServerStartingEvent e) {
-    if (loadedCommands.size() > 0) {
+    if (loadedCommands.isEmpty()) {
       for (SECommand command : loadedCommands) {
         e.registerServerCommand(command);
-        ServerEssentialsServer.logger.debug(
+        ServerEssentialsServer.LOGGER.debug(
             "Registered Command '"
                 + command.getName()
                 + " with permission "
                 + command.getCommandPerm());
       }
     } else {
-      ServerEssentialsServer.logger.error("No Commands Loaded / Found!");
+      ServerEssentialsServer.LOGGER.error("No Commands Loaded / Found!");
     }
   }
 }

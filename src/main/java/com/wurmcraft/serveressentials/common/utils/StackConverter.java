@@ -12,11 +12,13 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class StackConverter {
 
+  private StackConverter() {}
+
   public static int getMeta(String data) {
     if (data.contains("@")) {
       boolean hasNBT = data.contains("^");
       String meta =
-          data.substring(data.indexOf("@") + 1, hasNBT ? data.indexOf("^") : data.indexOf(">"));
+          data.substring(data.indexOf('@') + 1, hasNBT ? data.indexOf('^') : data.indexOf('>'));
       try {
         int d = Integer.parseInt(meta);
         return d >= OreDictionary.WILDCARD_VALUE ? OreDictionary.WILDCARD_VALUE : d;
@@ -29,7 +31,7 @@ public class StackConverter {
 
   public static int getDataSize(String data) {
     if (data.contains("x")) {
-      String stackSize = data.substring(data.indexOf("<") + 1, data.indexOf("x"));
+      String stackSize = data.substring(data.indexOf('<') + 1, data.indexOf('x'));
       try {
         return Integer.parseInt(stackSize);
       } catch (NumberFormatException e) {

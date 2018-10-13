@@ -8,7 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
-import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
+import com.wurmcraft.serveressentials.api.json.user.team.file.Team;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.chat.commands.MuteCommand;

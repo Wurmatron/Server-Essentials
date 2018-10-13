@@ -6,12 +6,12 @@ public class ClaimOwner {
 
   private String team;
   private UUID owner;
-  private String[] claimSettings;
+  private ClaimPerm[] claimSettings;
 
   public ClaimOwner(String team, UUID owner) {
     this.team = team;
     this.owner = owner;
-    claimSettings = new String[0];
+    claimSettings = new ClaimPerm[0];
   }
 
   public boolean isOwner(UUID uuid) {
@@ -27,12 +27,25 @@ public class ClaimOwner {
   }
 
   public boolean hasPermission(UUID uuid, ClaimPerm permToCheck) {
-    for (ClaimPerm perm : getPerms()) {}
-
+    if (uuid == owner) {
+      for (ClaimPerm perm : getPerms()) {
+        if (perm == permToCheck) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
   public ClaimPerm[] getPerms() {
-    return null;
+    return claimSettings;
+  }
+
+  public String getTeam() {
+    return team;
+  }
+
+  public void setTeam(String team) {
+    this.team = team;
   }
 }

@@ -15,7 +15,7 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 @Module(name = "Economy")
 public class EconomyModule implements IModule {
 
-  public static NonBlockingHashMap<String, Currency> currency = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, Currency> currency = new NonBlockingHashMap<>();
 
   @Override
   public void setup() {
@@ -30,10 +30,10 @@ public class EconomyModule implements IModule {
             Currency[] autoCurrency = RequestHelper.EcoResponses.getAllCurrency();
             currency.clear();
             for (Currency c : autoCurrency) {
-              currency.put(c.name, c);
+              currency.put(c.getName(), c);
             }
             if (currency.size() == 0) {
-              ServerEssentialsServer.logger.debug("No Currency Found within the database");
+              ServerEssentialsServer.LOGGER.debug("No Currency Found within the database");
             }
           } catch (Exception e) {
             e.printStackTrace();
@@ -42,12 +42,12 @@ public class EconomyModule implements IModule {
         0L,
         ConfigHandler.syncPeriod,
         TimeUnit.MINUTES);
-    ServerEssentialsServer.logger.debug("Synced AutoRanks with REST API");
+    ServerEssentialsServer.LOGGER.debug("Synced AutoRanks with REST API");
   }
 
   public static Currency getCurrency(String name) {
     for (Currency currency : currency.values()) {
-      if (currency.name.equalsIgnoreCase(name)) {
+      if (currency.getName().equalsIgnoreCase(name)) {
         return currency;
       }
     }

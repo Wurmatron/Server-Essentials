@@ -1,8 +1,8 @@
 package com.wurmcraft.serveressentials.common.chat.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import java.util.ArrayList;
 import java.util.List;
 import joptsimple.internal.Strings;

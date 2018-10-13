@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;
 
+@Deprecated
 public class Claim {
 
   private String team;

@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.teleport.commands.user.tpa;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -9,6 +8,7 @@ import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.List;

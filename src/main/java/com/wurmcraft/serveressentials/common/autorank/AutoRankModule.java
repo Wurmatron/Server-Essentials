@@ -30,21 +30,21 @@ public class AutoRankModule implements IModule {
         () -> {
           try {
             AutoRank[] allAutoRanks = RequestHelper.AutoRankResponses.getAllAutoRanks();
-            UserManager.autoRankCache.clear();
+            UserManager.AUTO_RANK_CACHE.clear();
             for (AutoRank rank : allAutoRanks) {
-              UserManager.autoRankCache.put(rank.getID(), rank);
+              UserManager.AUTO_RANK_CACHE.put(rank.getID(), rank);
             }
-            if (UserManager.rankCache.size() == 0) {
-              ServerEssentialsServer.logger.debug("No AutoRank Found within the database");
+            if (UserManager.RANK_CACHE.size() == 0) {
+              ServerEssentialsServer.LOGGER.debug("No AutoRank Found within the database");
             }
           } catch (Exception e) {
-            ServerEssentialsServer.logger.error(e.getLocalizedMessage());
+            ServerEssentialsServer.LOGGER.error(e.getLocalizedMessage());
           }
         },
         0L,
         ConfigHandler.syncPeriod,
         TimeUnit.MINUTES);
-    ServerEssentialsServer.logger.debug("Synced AutoRanks with REST API");
+    ServerEssentialsServer.LOGGER.debug("Synced AutoRanks with REST API");
   }
 
   private static void loadAutoRanks() {
@@ -52,7 +52,7 @@ public class AutoRankModule implements IModule {
     if (autoRankDir.exists()) {
       for (File file : Objects.requireNonNull(autoRankDir.listFiles())) {
         AutoRank rank = DataHelper.load(file, Keys.AUTO_RANK, new AutoRank());
-        UserManager.autoRankCache.put(rank.getID(), rank);
+        UserManager.AUTO_RANK_CACHE.put(rank.getID(), rank);
       }
     } else {
       autoRankDir.mkdirs();
@@ -77,7 +77,7 @@ public class AutoRankModule implements IModule {
   }
 
   public static AutoRank getAutorankFromRank(Rank rank) {
-    for (AutoRank auto : UserManager.autoRankCache.values()) {
+    for (AutoRank auto : UserManager.AUTO_RANK_CACHE.values()) {
       if (auto.getRank().equalsIgnoreCase(rank.getName())) {
         return auto;
       }
@@ -86,7 +86,7 @@ public class AutoRankModule implements IModule {
   }
 
   public static AutoRank getAutorankFromRank(String rank) {
-    for (AutoRank auto : UserManager.autoRankCache.values()) {
+    for (AutoRank auto : UserManager.AUTO_RANK_CACHE.values()) {
       if (auto.getRank().equalsIgnoreCase(rank)) {
         return auto;
       }

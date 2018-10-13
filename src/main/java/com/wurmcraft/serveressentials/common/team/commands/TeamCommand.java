@@ -1,11 +1,11 @@
 package com.wurmcraft.serveressentials.common.team.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.Local;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.command.CommandException;

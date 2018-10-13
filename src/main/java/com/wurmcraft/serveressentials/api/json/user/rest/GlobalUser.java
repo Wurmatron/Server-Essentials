@@ -249,8 +249,8 @@ public class GlobalUser implements Serializable {
     List<String> currentPerks = new ArrayList<>();
     for (String perm : perks) {
       if (perk.contains("%LEVEL%")) {
-        if (perm.substring(perm.lastIndexOf("."))
-            .equalsIgnoreCase(perk.substring(perm.lastIndexOf(".")))) currentPerks.add(perm);
+        if (perm.substring(perm.lastIndexOf('.'))
+            .equalsIgnoreCase(perk.substring(perm.lastIndexOf('.')))) currentPerks.add(perm);
       } else if (!perm.equalsIgnoreCase(perk)) {
         currentPerks.add(perm);
       }

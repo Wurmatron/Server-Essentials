@@ -25,6 +25,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TeleportUtils {
 
+  private TeleportUtils() {}
+
   public static boolean teleportTo(
       EntityPlayerMP player, LocationWrapper location, boolean teleportTimer) {
     return teleportTo(player, location, teleportTimer, true);
@@ -67,7 +69,7 @@ public class TeleportUtils {
           newWorld.spawnEntity(player);
           player.setLocationAndAngles(
               location.getX() + 0.5,
-              location.getY() + 1,
+              location.getY() + 1d,
               location.getZ() + 0.5,
               player.rotationYaw,
               player.rotationPitch);
@@ -77,7 +79,7 @@ public class TeleportUtils {
         player.mcServer.getPlayerList().preparePlayer(player, oldWorld);
         player.connection.setPlayerLocation(
             location.getX() + 0.5,
-            location.getY() + 1,
+            location.getY() + 1d,
             location.getZ() + 0.5,
             player.rotationYaw,
             player.rotationPitch);

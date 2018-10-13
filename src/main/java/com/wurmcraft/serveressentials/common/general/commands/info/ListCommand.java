@@ -1,12 +1,12 @@
 package com.wurmcraft.serveressentials.common.general.commands.info;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ListCommand extends SECommand {
       Rank userRank = getPlayerRank(name);
       ChatHelper.sendMessage(
           sender,
-          userRank.getPrefix()
+          (userRank != null ? userRank.getPrefix() : "")
               + ": "
               + TextFormatting.LIGHT_PURPLE
               + UsernameCache.getLastKnownUsername(name));

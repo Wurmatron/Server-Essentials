@@ -28,16 +28,16 @@ public class DisplayCreateClaimEvent {
   private static NonBlockingHashMap<String, Long> timeout = new NonBlockingHashMap<>();
 
   // TODO Config
-  public static ItemStack clamingStack = new ItemStack(Items.GOLDEN_AXE);
-  public static Block cornerBlocks = Blocks.OBSIDIAN;
-  public static final int xMinLength = 12;
-  public static final int yMinLength = 8;
-  public static final int zMinLength = 12;
+  public static final ItemStack CLAMING_STACK = new ItemStack(Items.GOLDEN_AXE);
+  public static final Block CORNER_BLOCKS = Blocks.OBSIDIAN;
+  public static final int X_MIN_LENGTH = 12;
+  public static final int Y_MIN_LENGTH = 8;
+  public static final int Z_MIN_LENGTH = 12;
 
   @SubscribeEvent
   public void onInteractEvent(PlayerInteractEvent.RightClickBlock e) {
     if (!e.getEntityPlayer().world.isRemote
-        && e.getEntityPlayer().getHeldItemMainhand().isItemEqualIgnoreDurability(clamingStack)) {
+        && e.getEntityPlayer().getHeldItemMainhand().isItemEqualIgnoreDurability(CLAMING_STACK)) {
       if (cache.get(e.getEntityPlayer().getGameProfile().getId().toString()) != null) {
         // TODO Check for timeout
         LocationWrapper loc = cache.get(e.getEntityPlayer().getGameProfile().getId().toString())[0];
@@ -79,9 +79,15 @@ public class DisplayCreateClaimEvent {
       World world = player.world;
       LocationWrapper[] loc = cache.get(player.getGameProfile().getId().toString());
       world.notifyBlockUpdate(
-          loc[0].getPos(), world.getBlockState(loc[0].getPos()), cornerBlocks.getDefaultState(), 3);
+          loc[0].getPos(),
+          world.getBlockState(loc[0].getPos()),
+          CORNER_BLOCKS.getDefaultState(),
+          3);
       world.notifyBlockUpdate(
-          loc[1].getPos(), world.getBlockState(loc[1].getPos()), cornerBlocks.getDefaultState(), 3);
+          loc[1].getPos(),
+          world.getBlockState(loc[1].getPos()),
+          CORNER_BLOCKS.getDefaultState(),
+          3);
     }
   }
 
@@ -107,6 +113,6 @@ public class DisplayCreateClaimEvent {
     int xCheck = Math.abs(a.getX() - b.getX());
     int yCheck = Math.abs(a.getY() - b.getY());
     int zCheck = Math.abs(a.getZ() - b.getZ());
-    return xCheck >= xMinLength && yCheck >= yMinLength && zCheck >= zMinLength;
+    return xCheck >= X_MIN_LENGTH && yCheck >= Y_MIN_LENGTH && zCheck >= Z_MIN_LENGTH;
   }
 }

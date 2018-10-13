@@ -14,14 +14,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import joptsimple.internal.Strings;
 
 public class DataHelper {
 
+  private DataHelper() {}
+
   public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   public static GlobalData globalSettings;
-  public static HashMap<Keys, HashMap<Object, Object>> tempData = new HashMap<>();
-  private static HashMap<Keys, List<DataType>> loadedData = new HashMap<>();
+  private static final HashMap<Keys, HashMap<Object, Object>> tempData = new HashMap<>();
+  private static final HashMap<Keys, List<DataType>> loadedData = new HashMap<>();
 
   public static List<DataType> getData(Keys key) {
     return loadedData.get(key);
@@ -40,7 +43,7 @@ public class DataHelper {
       dataFile.createNewFile();
       Files.write(Paths.get(dataFile.getAbsolutePath()), GSON.toJson(data).getBytes());
     } catch (IOException e) {
-      e.printStackTrace();
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
   }
 
@@ -54,13 +57,13 @@ public class DataHelper {
       dataFile.createNewFile();
       Files.write(Paths.get(dataFile.getAbsolutePath()), GSON.toJson(data).getBytes());
     } catch (IOException e) {
-      e.printStackTrace();
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
   }
 
   public static <T extends DataType> T load(File file, Keys key, T type) {
     if (file.exists()) {
-      ServerEssentialsServer.logger.debug("Loading " + file.getAbsolutePath());
+      ServerEssentialsServer.LOGGER.debug("Loading " + file.getAbsolutePath());
       try {
         String fileData = Strings.join(Files.readAllLines(Paths.get(file.getAbsolutePath())), "");
         T data = GSON.fromJson(fileData, (Class<T>) type.getClass());
@@ -73,7 +76,7 @@ public class DataHelper {
         }
         return data;
       } catch (IOException e) {
-        e.printStackTrace();
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
     return null;
@@ -123,7 +126,7 @@ public class DataHelper {
 
   public static DataType get(Keys key, String data) {
     List<DataType> keyData = getData(key);
-    if (keyData != null && keyData.size() > 0) {
+    if (keyData != null && keyData.isEmpty()) {
       for (DataType d : keyData) {
         if (d.getID().equals(data)) {
           return d;
@@ -142,8 +145,10 @@ public class DataHelper {
                 + File.separator
                 + data.getID()
                 + ".json");
-    if (file.exists()) {
-      file.delete();
+    try {
+      Files.delete(file.toPath());
+    } catch (IOException e) {
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
     loadedData.get(key).remove(data);
   }
@@ -160,11 +165,11 @@ public class DataHelper {
     return null;
   }
 
-  public static <T> HashMap<T, Object> getTemp(Keys key, T keyType) {
+  public static <T> Map<T, Object> getTemp(Keys key, T keyType) {
     return (HashMap<T, Object>) tempData.getOrDefault(key, new HashMap<>());
   }
 
-  public static <T> void addTemp(Keys key, Object dataKey, Object data, boolean remove) {
+  public static void addTemp(Keys key, Object dataKey, Object data, boolean remove) {
     HashMap<Object, Object> temp;
     if (tempData.size() > 0) {
       temp = tempData.get(key);

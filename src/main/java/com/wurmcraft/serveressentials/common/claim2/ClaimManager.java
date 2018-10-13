@@ -5,12 +5,15 @@ import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.claim2.Claim;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import net.minecraft.util.math.ChunkPos;
@@ -19,14 +22,15 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class ClaimManager {
 
-  public static NonBlockingHashMap<Integer, ClaimManager> instances = new NonBlockingHashMap<>();
-  public static File saveDir = new File(ConfigHandler.saveLocation + File.separator + "Claims");
+  private static final NonBlockingHashMap<Integer, ClaimManager> instances =
+      new NonBlockingHashMap<>();
+  public static final File saveDir =
+      new File(ConfigHandler.saveLocation + File.separator + "Claims");
 
   private int dimensionID;
-  private HashMap<String, List<UUID>> claimLookup = new HashMap<>();
-  private HashMap<UUID, Claim> claimData = new HashMap<>();
+  private Map<String, List<UUID>> claimLookup = new HashMap<>();
+  private Map<UUID, Claim> claimData = new HashMap<>();
   private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-  private List<ChunkPos> quickCheckCache = new ArrayList<>();
 
   public static ClaimManager getFromDimID(int id) {
     if (instances.get(id) == null) {
@@ -41,7 +45,6 @@ public class ClaimManager {
   }
 
   private void loadAllClaims() {
-
     File dimensionDir = getDimensionClaimDirectory();
     if (dimensionDir.exists()) {
       for (File file : Objects.requireNonNull(dimensionDir.listFiles())) {
@@ -64,7 +67,7 @@ public class ClaimManager {
           addClaimToKey(higherKey, claim);
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
   }
@@ -86,10 +89,10 @@ public class ClaimManager {
     try {
       file.createNewFile();
       String line = GSON.toJson(claim);
-      FileUtils.write(file, line);
+      FileUtils.write(file, line, StandardCharsets.UTF_8);
       loadClaim(file);
     } catch (IOException e) {
-      e.printStackTrace();
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
   }
 

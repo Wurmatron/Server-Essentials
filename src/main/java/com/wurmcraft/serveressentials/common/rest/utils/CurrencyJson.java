@@ -4,10 +4,10 @@ import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 
 public class CurrencyJson extends Currency {
 
-  public String authKey;
+  private final String authKey;
 
   public CurrencyJson(Currency currency, String authKey) {
-    super(currency.name, currency.sell, currency.buy);
+    super(currency.getName(), currency.getSell(), currency.getBuy());
     this.authKey = authKey;
   }
 }

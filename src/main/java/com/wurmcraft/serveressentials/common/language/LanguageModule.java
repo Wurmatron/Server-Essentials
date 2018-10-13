@@ -16,13 +16,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 
 @Module(name = "Language")
 public class LanguageModule implements IModule {
 
-  public static HashMap<String, Local> loadedLanguages = new HashMap<>();
+  private static Map<String, Local> loadedLanguages = new HashMap<>();
 
   public static Local getLangfromUUID(UUID uuid) {
     return loadedLanguages.getOrDefault(
@@ -76,7 +77,7 @@ public class LanguageModule implements IModule {
     try {
       textFile = new URL(webFile);
     } catch (MalformedURLException e) {
-      ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
     location = saveLocation;
     if (location != null) {
@@ -85,8 +86,8 @@ public class LanguageModule implements IModule {
           FileUtils.copyURLToFile(textFile, location, 10000, 12000);
         }
       } catch (IOException e) {
-        ServerEssentialsServer.logger.error("Cannot read " + textFile.getPath() + " I/O Exception");
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.error("Cannot read " + textFile.getPath() + " I/O Exception");
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
   }
@@ -107,7 +108,7 @@ public class LanguageModule implements IModule {
                 Local.class);
         loadedLanguages.put(langKey, local);
       } catch (FileNotFoundException e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
   }

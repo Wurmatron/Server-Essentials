@@ -54,7 +54,7 @@ public class GeneralModule implements IModule {
         DataHelper.globalSettings =
             DataHelper.GSON.fromJson(new FileReader(global), GlobalData.class);
       } catch (FileNotFoundException e) {
-        ServerEssentialsServer.logger.warn("Failed to load '" + global.getAbsolutePath() + "'");
+        ServerEssentialsServer.LOGGER.warn("Failed to load '" + global.getAbsolutePath() + "'");
       }
     } else {
       GlobalData globalData =

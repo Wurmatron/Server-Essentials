@@ -7,10 +7,12 @@ import java.util.List;
 
 public class RankUtils {
 
-  public static Rank[] getAllLower(Rank rank, List<Rank> ranks) {
+  private RankUtils() {}
+
+  private static Rank[] getAllLower(Rank rank, List<Rank> ranks) {
     if (rank.getName().equalsIgnoreCase(ConfigHandler.defaultRank)
         || rank.getInheritance() == null) {
-      return null;
+      return new Rank[0];
     }
     if (ranks == null) {
       ranks = new ArrayList<>();
@@ -25,10 +27,10 @@ public class RankUtils {
         }
       }
     }
-    if (ranks.size() > 0) {
+    if (ranks.isEmpty()) {
       return ranks.toArray(new Rank[0]);
     }
-    return null;
+    return new Rank[0];
   }
 
   public static boolean isMore(Rank higherRank, Rank lowerRank) {

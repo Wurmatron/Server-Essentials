@@ -38,11 +38,11 @@ public class RestModule implements IModule {
         () -> {
           try {
             Rank[] allRanks = RequestHelper.RankResponses.getAllRanks();
-            UserManager.rankCache.clear();
+            UserManager.RANK_CACHE.clear();
             for (Rank rank : allRanks) {
-              UserManager.rankCache.put(rank.getName(), rank);
+              UserManager.RANK_CACHE.put(rank.getName(), rank);
             }
-            if (UserManager.rankCache.size() == 0) {
+            if (UserManager.RANK_CACHE.size() == 0) {
               createDefaultRanks();
             }
             if (allRanks.length == 0) {
@@ -51,7 +51,7 @@ public class RestModule implements IModule {
               isValid = true;
             }
           } catch (Exception e) {
-            e.printStackTrace();
+            ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
           }
         },
         0L,
@@ -72,13 +72,13 @@ public class RestModule implements IModule {
                 user = new LocalUser(uuid);
                 DataHelper.forceSave(Keys.LOCAL_USER, user);
               }
-              UserManager.playerData.put(
+              UserManager.PLAYER_DATA.put(
                   uuid,
                   new Object[] {
                     globalUser,
-                    UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, user})[1]
+                    UserManager.PLAYER_DATA.getOrDefault(uuid, new Object[] {globalUser, user})[1]
                   });
-              UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
+              UserManager.USER_RANKS.put(uuid, UserManager.getRank(globalUser.rank));
               TeamModule.loadRestTeam(uuid);
             }
           } catch (Exception e) {
@@ -88,7 +88,7 @@ public class RestModule implements IModule {
         0L,
         ConfigHandler.syncPeriod,
         TimeUnit.MINUTES);
-    ServerEssentialsServer.logger.debug(
+    ServerEssentialsServer.LOGGER.debug(
         "Synced Player '" + UsernameCache.getLastKnownUsername(uuid) + "' with REST API");
   }
 
@@ -96,11 +96,11 @@ public class RestModule implements IModule {
     EXECUTORs.schedule(
         () -> {
           if (!isPlayerOnline(uuid)) {
-            UserManager.userRanks.remove(uuid);
-            UserManager.playerData.remove(uuid);
+            UserManager.USER_RANKS.remove(uuid);
+            UserManager.PLAYER_DATA.remove(uuid);
           }
         },
-        ConfigHandler.syncPeriod + 5,
+        ConfigHandler.syncPeriod + (long) 5,
         TimeUnit.MINUTES);
   }
 
@@ -126,15 +126,15 @@ public class RestModule implements IModule {
       LocalUser localUser = new LocalUser(uuid);
       DataHelper.createIfNonExist(Keys.LOCAL_USER, localUser);
       RequestHelper.UserResponses.addPlayerData(globalUser);
-      UserManager.playerData.put(
+      UserManager.PLAYER_DATA.put(
           uuid,
           new Object[] {
             globalUser,
-            UserManager.playerData.getOrDefault(uuid, new Object[] {globalUser, localUser})[1]
+            UserManager.PLAYER_DATA.getOrDefault(uuid, new Object[] {globalUser, localUser})[1]
           });
-      UserManager.userRanks.put(uuid, UserManager.getRank(globalUser.rank));
+      UserManager.USER_RANKS.put(uuid, UserManager.getRank(globalUser.rank));
     } catch (Exception e) {
-      e.printStackTrace();
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
   }
 
@@ -167,14 +167,14 @@ public class RestModule implements IModule {
       if (ConfigHandler.restURL.startsWith("http://")
           || ConfigHandler.restURL.startsWith("https://")) {
         MinecraftForge.EVENT_BUS.register(new WorldEvent());
-        ServerEssentialsServer.logger.info("Creating Default Ranks");
+        ServerEssentialsServer.LOGGER.info("Creating Default Ranks");
         syncRanks();
       } else {
-        ServerEssentialsServer.logger.warn(
+        ServerEssentialsServer.LOGGER.warn(
             "Rest API Unable to load due to invalid Endpoint '" + ConfigHandler.restURL + "'");
       }
     } else {
-      ServerEssentialsServer.logger.debug(
+      ServerEssentialsServer.LOGGER.debug(
           "Rest API is enabled but not used for UserData or Ranks'" + ConfigHandler.restURL + "'");
     }
   }

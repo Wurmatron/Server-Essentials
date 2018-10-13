@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.api.json.user.team.fileOnly;
+package com.wurmcraft.serveressentials.api.json.user.team.file;
 
 import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;

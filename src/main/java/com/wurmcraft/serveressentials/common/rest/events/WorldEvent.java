@@ -19,8 +19,8 @@ public class WorldEvent {
   @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void onJoinEvent(PlayerEvent.PlayerLoggedInEvent e) {
     RestModule.syncPlayer(e.player.getGameProfile().getId());
-    if (!UserManager.joinTime.containsKey(e.player.getGameProfile().getId())) {
-      UserManager.joinTime.put(e.player.getGameProfile().getId(), System.currentTimeMillis());
+    if (!UserManager.JOIN_TIME.containsKey(e.player.getGameProfile().getId())) {
+      UserManager.JOIN_TIME.put(e.player.getGameProfile().getId(), System.currentTimeMillis());
     }
     if (!RestModule.isValid && SecurityModule.isTrustedMember(e.player)) {
       ChatHelper.sendMessage(
@@ -33,20 +33,20 @@ public class WorldEvent {
 
   @SubscribeEvent
   public void onLeaveEvent(PlayerEvent.PlayerLoggedOutEvent e) {
-    if (UserManager.playerData.containsKey(e.player.getGameProfile().getId())) {
+    if (UserManager.PLAYER_DATA.containsKey(e.player.getGameProfile().getId())) {
       GlobalUser globalUser =
           (GlobalUser) UserManager.getPlayerData(e.player.getGameProfile().getId())[0];
       globalUser.setLastSeen(System.currentTimeMillis());
       globalUser.setOnlineTime(
           globalUser.getOnlineTime() + calculateOnTime(e.player.getGameProfile().getId()));
       RequestHelper.UserResponses.overridePlayerData(globalUser);
-      UserManager.joinTime.remove(e.player.getGameProfile().getId());
+      UserManager.JOIN_TIME.remove(e.player.getGameProfile().getId());
       TeamModule.unloadRestTeam(globalUser);
       RestModule.deletePlayerData(e.player.getGameProfile().getId());
     }
   }
 
   private long calculateOnTime(UUID uuid) {
-    return (System.currentTimeMillis() - UserManager.joinTime.getOrDefault(uuid, 0L)) / 60000;
+    return (System.currentTimeMillis() - UserManager.JOIN_TIME.getOrDefault(uuid, 0L)) / 60000;
   }
 }

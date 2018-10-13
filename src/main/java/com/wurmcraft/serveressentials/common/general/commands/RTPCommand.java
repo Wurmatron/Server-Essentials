@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.common.general.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import java.util.Random;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -29,10 +29,7 @@ public class RTPCommand extends SECommand {
         || world.getBlockState(pos.up()).getBlock() != Blocks.AIR) {
       return false;
     }
-    if (world.getBiome(pos.down()).topBlock.getBlock() instanceof BlockFluidBase) {
-      return false;
-    }
-    return true;
+    return world.getBiome(pos.down()).topBlock.getBlock() instanceof BlockFluidBase;
   }
 
   @Override

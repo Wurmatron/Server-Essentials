@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.api.json.user.team.restOnly;
+package com.wurmcraft.serveressentials.api.json.user.team.rest;
 
 import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.Home;

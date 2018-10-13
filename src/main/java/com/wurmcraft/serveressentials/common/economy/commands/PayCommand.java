@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.economy.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
@@ -11,6 +10,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import net.minecraft.command.CommandException;
@@ -26,18 +26,18 @@ public class PayCommand extends SECommand {
 
   public static boolean setCurrency(Bank bank, String currencyName, double amount, boolean add) {
     boolean completed = false;
-    if (bank.currency.length == 0) {
+    if (bank.getCurrency().length == 0) {
       bank = initBank(bank);
     }
-    for (Coin c : bank.currency) {
-      if (c.name.equalsIgnoreCase(currencyName)) {
-        if (!add && c.amount - amount > 0) {
+    for (Coin c : bank.getCurrency()) {
+      if (c.getName().equalsIgnoreCase(currencyName)) {
+        if (!add && c.getAmount() - amount > 0) {
           return false;
         }
         if (add) {
-          c.amount += amount;
+          c.setAmount(c.getAmount() + amount);
         } else {
-          c.amount -= amount;
+          c.setAmount(c.getAmount() - amount);
         }
         completed = true;
         break;
@@ -51,7 +51,7 @@ public class PayCommand extends SECommand {
     for (int index = 0; index < ConfigHandler.activeCurrency.length; index++) {
       coins[index] = new Coin(ConfigHandler.activeCurrency[index], 0);
     }
-    bank.currency = coins;
+    bank.setCurrency(coins);
     return bank;
   }
 
@@ -80,7 +80,7 @@ public class PayCommand extends SECommand {
             setCurrency(user.getBank(), currency, amount, true);
             RequestHelper.UserResponses.overridePlayerData(user);
             RequestHelper.UserResponses.overridePlayerData(global);
-            UserManager.playerData.put(
+            UserManager.PLAYER_DATA.put(
                 player.getGameProfile().getId(),
                 new Object[] {
                   global,

@@ -19,14 +19,14 @@ public class WorldEvent {
     PlayerData playerData =
         (PlayerData) DataHelper.get(Keys.PLAYER_DATA, e.player.getGameProfile().getId().toString());
     if (playerData != null) {
-      UserManager.playerData.put(e.player.getGameProfile().getId(), new Object[] {playerData});
-      UserManager.userRanks.put(e.player.getGameProfile().getId(), playerData.getRank());
+      UserManager.PLAYER_DATA.put(e.player.getGameProfile().getId(), new Object[] {playerData});
+      UserManager.USER_RANKS.put(e.player.getGameProfile().getId(), playerData.getRank());
       if (newPlayer) {
         playerData.setFirstJoin();
       }
       playerData.setLastseen(System.currentTimeMillis());
-      if (!UserManager.joinTime.containsKey(e.player.getGameProfile().getId())) {
-        UserManager.joinTime.put(e.player.getGameProfile().getId(), System.currentTimeMillis());
+      if (!UserManager.JOIN_TIME.containsKey(e.player.getGameProfile().getId())) {
+        UserManager.JOIN_TIME.put(e.player.getGameProfile().getId(), System.currentTimeMillis());
       }
     }
   }
@@ -39,13 +39,13 @@ public class WorldEvent {
       data.setLastseen(System.currentTimeMillis());
       data.setOnlineTime(
           (int) (data.getOnlineTime() + calculateOnTime(e.player.getGameProfile().getId())));
-      UserManager.joinTime.remove(e.player.getGameProfile().getId());
+      UserManager.JOIN_TIME.remove(e.player.getGameProfile().getId());
       DataHelper.forceSave(
           Keys.PLAYER_DATA, DataHelper.get(Keys.PLAYER_DATA, e.player.getGameProfile().getName()));
     }
   }
 
   private long calculateOnTime(UUID uuid) {
-    return (System.currentTimeMillis() - UserManager.joinTime.get(uuid)) / 3600;
+    return (System.currentTimeMillis() - UserManager.JOIN_TIME.get(uuid)) / 3600;
   }
 }

@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.json.user.Location;
 import com.wurmcraft.serveressentials.common.claim.ChunkManager;
 import net.minecraft.util.math.BlockPos;
 
+@Deprecated
 public class RegionData {
 
   private Claim[] claims = new Claim[1024];

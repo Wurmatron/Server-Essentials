@@ -1,9 +1,9 @@
 package com.wurmcraft.serveressentials.common.security.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.security.SecurityModule;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.List;
 import javax.annotation.Nullable;

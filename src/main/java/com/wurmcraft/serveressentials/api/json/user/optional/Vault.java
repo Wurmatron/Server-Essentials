@@ -19,10 +19,10 @@ public class Vault implements DataType {
     for (int index = 0; index < items.length; index++) {
       outputStacks[index] = StackConverter.getData(items[index]);
     }
-    if (outputStacks != null) {
+    if (outputStacks != null && outputStacks.length > 0) {
       return outputStacks;
     }
-    return null;
+    return new ItemStack[0];
   }
 
   public void setItems(ItemStack[] stacks) {

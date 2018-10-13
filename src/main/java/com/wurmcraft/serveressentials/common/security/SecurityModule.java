@@ -43,15 +43,15 @@ public class SecurityModule implements IModule {
             try {
               UUID uuid = UUID.fromString(inputLine);
               trusted.add(uuid);
-              ServerEssentialsServer.logger.debug(
+              ServerEssentialsServer.LOGGER.debug(
                   "\"" + uuid + "\" has been added to the trusted staff list");
             } catch (IllegalArgumentException e) {
-              ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+              ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
             }
           }
         }
       } catch (IOException e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
   }

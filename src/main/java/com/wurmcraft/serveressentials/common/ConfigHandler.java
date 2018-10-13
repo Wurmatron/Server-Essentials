@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.common;
 
-import com.wurmcraft.serveressentials.common.reference.Global;
+import com.wurmcraft.serveressentials.api.json.global.Global;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
 

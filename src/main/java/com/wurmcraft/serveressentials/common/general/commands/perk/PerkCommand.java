@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.general.commands.perk;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.IPerk;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
@@ -9,6 +8,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.commands.utils.Perk;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 @Command(moduleName = "General")
 public class PerkCommand extends SECommand {
 
-  public static NonBlockingHashMap<String, IPerk> perks = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, IPerk> perks = new NonBlockingHashMap<>();
 
   @Override
   public String getName() {
@@ -105,10 +105,10 @@ public class PerkCommand extends SECommand {
 
   private int getLevel(GlobalUser user, Perk perk) {
     for (String perm : user.getPerks()) {
-      String a = perm.substring(0, perm.lastIndexOf("."));
-      String b = perk.getPerk().substring(0, perk.getPerk().lastIndexOf("."));
+      String a = perm.substring(0, perm.lastIndexOf('.'));
+      String b = perk.getPerk().substring(0, perk.getPerk().lastIndexOf('.'));
       if (a.equalsIgnoreCase(b)) {
-        return Integer.parseInt(perm.substring(perm.lastIndexOf(".") + 1));
+        return Integer.parseInt(perm.substring(perm.lastIndexOf('.') + 1));
       }
     }
     return 0;

@@ -12,6 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class CommandUtils {
 
+  private CommandUtils() {}
+
   public static String[] getArgsAfterCommand(int argPos, String[] args) {
     if (argPos < args.length) {
       return ArrayUtils.splice(args, argPos, args.length - 1);
@@ -55,8 +57,8 @@ public class CommandUtils {
       if (p.contains("*")
           && p.contains(".")
           && perm.contains(".")
-          && p.substring(0, p.lastIndexOf("."))
-              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf(".")))) {
+          && p.substring(0, p.lastIndexOf('.'))
+              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
         return true;
       }
     }

@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.common.rest.utils;
 
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 
 public class GlobalTeamJson extends GlobalTeam {
 
-  public String authKey;
+  private final String authKey;
 
   public GlobalTeamJson(GlobalTeam team, String authKey) {
     super(team);

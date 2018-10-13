@@ -20,6 +20,8 @@ public class ChatHelper {
   public static final String RANK_SUFFIX_KEY = "%rankSuffix%";
   public static final String TEAM_KEY = "%team%";
 
+  private ChatHelper() {}
+
   public static String format(
       String username, Rank rank, Channel channel, int dimension, ITeam team, String message) {
     String format = "";
@@ -53,7 +55,7 @@ public class ChatHelper {
                   team.getName().length() > 0
                       ? TextFormatting.GRAY
                           + team.getName().substring(0, 1).toUpperCase()
-                          + team.getName().substring(1, team.getName().length()).toLowerCase()
+                          + team.getName().substring(1).toLowerCase()
                           + TextFormatting.RESET
                       : ""
                 });

@@ -1,17 +1,17 @@
 package com.wurmcraft.serveressentials.common.claim.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.claim.Claim;
 import com.wurmcraft.serveressentials.api.json.claim.RegionData;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.ITeam;
-import com.wurmcraft.serveressentials.api.json.user.team.fileOnly.Team;
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.file.Team;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.claim.ChunkManager;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;
 import net.minecraft.command.CommandException;

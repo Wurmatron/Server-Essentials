@@ -1,13 +1,13 @@
 package com.wurmcraft.serveressentials.common.teleport.commands.user;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;
@@ -92,14 +92,14 @@ public class TpLockCommand extends SECommand {
       LocalUser user = (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
       user.setTpLock(lock);
       DataHelper.forceSave(Keys.LOCAL_USER, user);
-      UserManager.playerData.put(
+      UserManager.PLAYER_DATA.put(
           player.getGameProfile().getId(),
           new Object[] {UserManager.getPlayerData(player.getGameProfile().getId())[0], user});
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       data.setTpLock(lock);
       DataHelper.forceSave(Keys.PLAYER_DATA, data);
-      UserManager.playerData.put(player.getGameProfile().getId(), new Object[] {data});
+      UserManager.PLAYER_DATA.put(player.getGameProfile().getId(), new Object[] {data});
     }
   }
 

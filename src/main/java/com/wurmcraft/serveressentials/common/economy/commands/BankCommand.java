@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.economy.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
@@ -9,6 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.economy.EconomyModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,20 +63,20 @@ public class BankCommand extends SECommand {
           Currency newCurrency = EconomyModule.getCurrency(args[2]);
           GlobalUser user =
               (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-          user.getBank().spend(currentCurrency.name, amount);
-          double amt = (currentCurrency.sell * amount) / newCurrency.buy;
-          user.getBank().earn(newCurrency.name, amt);
+          user.getBank().spend(currentCurrency.getName(), amount);
+          double amt = (currentCurrency.getSell() * amount) / newCurrency.getBuy();
+          user.getBank().earn(newCurrency.getName(), amt);
           ChatHelper.sendMessage(
               sender,
               getCurrentLanguage(sender)
                   .CURRENCY_CONVERT
-                  .replaceAll("%CURRENCY%", currentCurrency.name)
+                  .replaceAll("%CURRENCY%", currentCurrency.getName())
                   .replaceAll("%AMOUNT%", "" + amount)
                   .replaceAll("%AMOUNT2%", "" + amt)
-                  .replaceAll("%CURRENCY2%", newCurrency.name));
-          UserManager.playerData.put(
+                  .replaceAll("%CURRENCY2%", newCurrency.getName()));
+          UserManager.PLAYER_DATA.put(
               player.getGameProfile().getId(),
-              new Object[] {user, UserManager.playerData.get(player.getGameProfile().getId())[1]});
+              new Object[] {user, UserManager.PLAYER_DATA.get(player.getGameProfile().getId())[1]});
           RequestHelper.UserResponses.overridePlayerData(user);
         } catch (NumberFormatException e) {
           ChatHelper.sendMessage(

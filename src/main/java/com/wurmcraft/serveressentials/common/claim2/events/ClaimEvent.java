@@ -42,15 +42,13 @@ public class ClaimEvent {
     Claim claim =
         ClaimManager.getClaim(
             new LocationWrapper(e.getPlayer().getPosition(), e.getPlayer().dimension));
-    if (claim != null) {
-      if (!claim.isTrusted(e.getPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
-        e.setCanceled(true);
-        ChatHelper.sendMessage(
-            e.getPlayer(),
-            LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
-                .CLAIM_BREAK
-                .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
-      }
+    if (claim != null && !claim.isTrusted(e.getPlayer(), new ClaimPerm[] {ClaimPerm.BREAK})) {
+      e.setCanceled(true);
+      ChatHelper.sendMessage(
+          e.getPlayer(),
+          LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId())
+              .CLAIM_BREAK
+              .replaceAll("%PLAYER%", getOwnerName(claim.getOwner())));
     }
   }
 
@@ -180,7 +178,7 @@ public class ClaimEvent {
     if (oldClaim != null && claim != null) {
       return getOwnerName(claim.getOwner());
     }
-    if (oldClaim != null && claim == null) {
+    if (oldClaim != null) {
       return "Wild";
     }
     return null;

@@ -39,10 +39,10 @@ public class ServerEssentialsServer {
   @SidedProxy(serverSide = Global.COMMON_PROXY, clientSide = Global.CLIENT_PROXY)
   public static CommonProxy proxy;
 
-  public static Logger logger = LogManager.getLogger(Global.NAME);
+  public static final Logger LOGGER = LogManager.getLogger(Global.NAME);
 
   private static List<IModule> loadModules(ASMDataTable asmData) {
-    logger.info("Loading Modules");
+    LOGGER.info("Loading Modules");
     List<IModule> activeModules = new ArrayList<>();
     for (ASMData data : asmData.getAll(Module.class.getName())) {
       try {
@@ -53,13 +53,13 @@ public class ServerEssentialsServer {
         for (String activeModule : ConfigHandler.modules) {
           if (name.equalsIgnoreCase(activeModule)) {
             activeModules.add(module);
-            logger.info("Loading Module '" + name + "'");
+            LOGGER.info("Loading Module '" + name + "'");
           } else {
-            logger.debug("Prevented module '" + name + "' from loading due to config");
+            LOGGER.debug("Prevented module '" + name + "' from loading due to config");
           }
         }
       } catch (Exception e) {
-        logger.error(e.getLocalizedMessage());
+        LOGGER.error(e.getLocalizedMessage());
       }
     }
     return activeModules;
@@ -67,14 +67,14 @@ public class ServerEssentialsServer {
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
-    logger.info("Starting PreInit");
+    LOGGER.info("Starting PreInit");
     modules = loadModules(e.getAsmData());
     CommandLoader.locateCommands(e.getAsmData());
   }
 
   @EventHandler
   public void init(FMLInitializationEvent e) {
-    logger.info("Starting Init");
+    LOGGER.info("Starting Init");
     for (IModule module : modules) {
       module.setup();
     }
@@ -82,12 +82,12 @@ public class ServerEssentialsServer {
 
   @EventHandler
   public void postInit(FMLPostInitializationEvent e) {
-    logger.info("Starting PostInit");
+    LOGGER.info("Starting PostInit");
   }
 
   @EventHandler
   public void serverStarting(FMLServerStartingEvent e) {
-    logger.info("Server Starting");
+    LOGGER.info("Server Starting");
     CommandLoader.registerCommands(e);
   }
 

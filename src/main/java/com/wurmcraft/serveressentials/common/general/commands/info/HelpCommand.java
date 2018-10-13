@@ -2,9 +2,9 @@ package com.wurmcraft.serveressentials.common.general.commands.info;
 
 import com.feed_the_beast.ftbutilities.ranks.CommandOverride;
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.Arrays;

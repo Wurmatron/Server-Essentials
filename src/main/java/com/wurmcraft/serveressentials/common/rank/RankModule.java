@@ -24,7 +24,7 @@ public class RankModule implements IModule {
       setupAutoRanks();
       MinecraftForge.EVENT_BUS.register(new WorldEvent());
     } else {
-      ServerEssentialsServer.logger.debug(
+      ServerEssentialsServer.LOGGER.debug(
           "Rank Module enabled but not used for UserData or Ranks'" + ConfigHandler.restURL + "'");
     }
   }
@@ -34,7 +34,7 @@ public class RankModule implements IModule {
     if (rankDir.exists()) {
       for (File file : Objects.requireNonNull(rankDir.listFiles())) {
         Rank rank = DataHelper.load(file, Keys.RANK, new Rank());
-        UserManager.rankCache.put(rank.getName(), rank);
+        UserManager.RANK_CACHE.put(rank.getName(), rank);
       }
     } else {
       rankDir.mkdirs();

@@ -4,7 +4,7 @@ import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 
 public class GlobalUserJson extends GlobalUser {
 
-  public String authKey;
+  private final String authKey;
 
   public GlobalUserJson(GlobalUser user, String authKey) {
     super(user);

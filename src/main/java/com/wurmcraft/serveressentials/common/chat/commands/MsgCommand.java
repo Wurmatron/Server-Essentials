@@ -1,11 +1,11 @@
 package com.wurmcraft.serveressentials.common.chat.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -37,8 +37,7 @@ public class MsgCommand extends SECommand {
           lines[index - 1] = args[index];
         }
         String message = Strings.join(lines, " ");
-        if (sender.getCommandSenderEntity() != null
-            && sender.getCommandSenderEntity() instanceof EntityPlayer) {
+        if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
           EntityPlayer entitySender = (EntityPlayer) sender.getCommandSenderEntity();
           ChatHelper.sendMessage(
               reciv,

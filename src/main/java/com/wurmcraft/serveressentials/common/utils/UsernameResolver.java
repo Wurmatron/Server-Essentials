@@ -17,6 +17,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class UsernameResolver {
 
+  private UsernameResolver() {}
+
   public static EntityPlayer getPlayer(String name) {
     UUID uuid = getUUIDFromName(name);
     return FMLCommonHandler.instance()
@@ -72,11 +74,7 @@ public class UsernameResolver {
   public static final class AbstractUsernameCollection<T extends String>
       extends AbstractCollection<T> {
 
-    List<T> names;
-
-    {
-      names = new LinkedList<>();
-    }
+    List<T> names = new LinkedList<>();
 
     public AbstractUsernameCollection(Collection<T> values) {
       for (T value : values) {

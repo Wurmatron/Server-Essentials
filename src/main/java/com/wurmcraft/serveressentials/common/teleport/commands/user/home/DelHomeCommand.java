@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.teleport.commands.user.home;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Home;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
@@ -9,6 +8,7 @@ import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class DelHomeCommand extends SECommand {
       LocalUser user = (LocalUser) UserManager.getPlayerData(uuid)[1];
       user.delHome(name);
       DataHelper.forceSave(Keys.LOCAL_USER, user);
-      UserManager.playerData.put(uuid, new Object[] {forceUserFromUUID(uuid), user});
+      UserManager.PLAYER_DATA.put(uuid, new Object[] {forceUserFromUUID(uuid), user});
       return true;
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData data = (PlayerData) UserManager.getPlayerData(uuid)[0];
@@ -74,7 +74,7 @@ public class DelHomeCommand extends SECommand {
         }
       }
     }
-    if (predictions.size() == 0) {
+    if (predictions.isEmpty()) {
       for (Home home : homes) {
         predictions.add(home.getName());
       }

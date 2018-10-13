@@ -1,9 +1,9 @@
 package com.wurmcraft.serveressentials.common.general.commands.info;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.command.CommandException;

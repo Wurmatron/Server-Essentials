@@ -18,7 +18,7 @@ public class Home {
   }
 
   public String setName(String name) {
-    this.name = name.replaceAll("[^a-zA-Z0-9-_\\.]", "_");
+    this.name = name.replaceAll("[^a-zA-Z0-9-_.]", "_");
     return getName();
   }
 

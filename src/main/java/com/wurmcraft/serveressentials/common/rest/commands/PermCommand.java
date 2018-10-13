@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.common.rest.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
@@ -12,6 +11,7 @@ import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
 import java.util.ArrayList;
@@ -146,13 +146,13 @@ public class PermCommand extends SECommand {
       } else if (args.length == 2 && args[1].equalsIgnoreCase("sync")) {
         Rank rank = RequestHelper.RankResponses.getRank(args[0]);
         if (rank != null) {
-          UserManager.rankCache.put(rank.getName(), rank);
+          UserManager.RANK_CACHE.put(rank.getName(), rank);
         }
       } else if (args.length == 1 && args[0].equalsIgnoreCase("syncAll")) {
         Rank[] ranks = RequestHelper.RankResponses.getAllRanks();
-        UserManager.rankCache.clear();
+        UserManager.RANK_CACHE.clear();
         for (Rank rank : ranks) {
-          UserManager.rankCache.put(rank.getName(), rank);
+          UserManager.RANK_CACHE.put(rank.getName(), rank);
         }
       }
     }
@@ -219,11 +219,11 @@ public class PermCommand extends SECommand {
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
                                   + TextFormatting.LIGHT_PURPLE));
-              UserManager.playerData.put(
+              UserManager.PLAYER_DATA.put(
                   uuid,
                   new Object[] {
                     selectedUser,
-                    UserManager.playerData
+                    UserManager.PLAYER_DATA
                         .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             } else {
@@ -239,8 +239,8 @@ public class PermCommand extends SECommand {
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
                                   + TextFormatting.LIGHT_PURPLE));
-              UserManager.playerData.put(
-                  uuid, new Object[] {selectedUser, UserManager.playerData.get(uuid)[1]});
+              UserManager.PLAYER_DATA.put(
+                  uuid, new Object[] {selectedUser, UserManager.PLAYER_DATA.get(uuid)[1]});
             }
             RequestHelper.UserResponses.overridePlayerData(selectedUser);
           }
@@ -270,11 +270,11 @@ public class PermCommand extends SECommand {
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
                                   + TextFormatting.LIGHT_PURPLE));
-              UserManager.playerData.put(
+              UserManager.PLAYER_DATA.put(
                   uuid,
                   new Object[] {
                     selectedUser,
-                    UserManager.playerData
+                    UserManager.PLAYER_DATA
                         .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             } else {
@@ -290,11 +290,11 @@ public class PermCommand extends SECommand {
                               TextFormatting.GOLD
                                   + UsernameCache.getLastKnownUsername(uuid)
                                   + TextFormatting.LIGHT_PURPLE));
-              UserManager.playerData.put(
+              UserManager.PLAYER_DATA.put(
                   uuid,
                   new Object[] {
                     selectedUser,
-                    UserManager.playerData
+                    UserManager.PLAYER_DATA
                         .getOrDefault(uuid, new Object[] {selectedUser, new LocalUser(uuid)})[1]
                   });
             }
@@ -311,7 +311,7 @@ public class PermCommand extends SECommand {
         UUID uuid = UsernameResolver.getUUIDFromName(args[0]);
         GlobalUser user = RequestHelper.UserResponses.getPlayerData(uuid);
         LocalUser local = DataHelper.load(Keys.LOCAL_USER, new LocalUser(uuid));
-        UserManager.playerData.put(uuid, new Object[] {user, local});
+        UserManager.PLAYER_DATA.put(uuid, new Object[] {user, local});
         ChatHelper.sendMessage(
             sender,
             getCurrentLanguage(sender)

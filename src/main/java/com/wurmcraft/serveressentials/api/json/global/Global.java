@@ -2,6 +2,8 @@ package com.wurmcraft.serveressentials.api.json.global;
 
 public class Global {
 
+  private Global() {}
+
   // @Mod
   public static final String MODID = "serveressentials";
   public static final String NAME = "Server Essentials";

@@ -6,7 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.io.BufferedReader;
@@ -17,6 +17,8 @@ import java.net.URLConnection;
 import java.util.UUID;
 
 public class RequestHelper {
+
+  private RequestHelper() {}
 
   private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -42,9 +44,9 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      ServerEssentialsServer.logger.debug("Post Status: " + status);
+      ServerEssentialsServer.LOGGER.debug("Post Status: " + status);
     } catch (Exception e) {
-      ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
   }
 
@@ -60,9 +62,9 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      ServerEssentialsServer.logger.debug("Put Status: " + status);
+      ServerEssentialsServer.LOGGER.debug("Put Status: " + status);
     } catch (Exception e) {
-      ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
   }
 
@@ -90,7 +92,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Rank.class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -117,7 +119,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Rank[].class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return new Rank[0];
     }
@@ -147,7 +149,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), GlobalUser.class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -182,7 +184,7 @@ public class RequestHelper {
             return GSON.fromJson(response.toString(), GlobalTeam.class);
           }
         } catch (Exception e) {
-          ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+          ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
         }
       }
       return null;
@@ -217,7 +219,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), AutoRank.class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -244,7 +246,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), AutoRank[].class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return new AutoRank[0];
     }
@@ -274,7 +276,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Currency.class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return null;
     }
@@ -301,7 +303,7 @@ public class RequestHelper {
           return GSON.fromJson(response.toString(), Currency[].class);
         }
       } catch (Exception e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return new Currency[0];
     }

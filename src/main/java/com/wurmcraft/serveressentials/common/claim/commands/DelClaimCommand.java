@@ -1,11 +1,11 @@
 package com.wurmcraft.serveressentials.common.claim.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.api.json.claim.Claim;
 import com.wurmcraft.serveressentials.api.json.claim.RegionData;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.claim.ChunkManager;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

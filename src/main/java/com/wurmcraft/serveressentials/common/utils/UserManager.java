@@ -9,33 +9,35 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class UserManager {
 
+  private UserManager() {}
+
   // User Cache
-  public static final NonBlockingHashMap<UUID, Rank> userRanks = new NonBlockingHashMap<>();
-  public static final NonBlockingHashMap<UUID, Object[]> playerData = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<UUID, Rank> USER_RANKS = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<UUID, Object[]> PLAYER_DATA = new NonBlockingHashMap<>();
   // Rank Cache
-  public static final NonBlockingHashMap<String, Rank> rankCache = new NonBlockingHashMap<>();
-  public static final NonBlockingHashMap<String, AutoRank> autoRankCache =
+  public static final NonBlockingHashMap<String, Rank> RANK_CACHE = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, AutoRank> AUTO_RANK_CACHE =
       new NonBlockingHashMap<>();
   // TeamCommand Cache
-  public static final NonBlockingHashMap<String, Object[]> teamCache = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<String, Object[]> TEAM_CACHE = new NonBlockingHashMap<>();
 
-  public static final NonBlockingHashMap<UUID, Long> joinTime = new NonBlockingHashMap<>();
+  public static final NonBlockingHashMap<UUID, Long> JOIN_TIME = new NonBlockingHashMap<>();
 
   public static Rank getPlayerRank(UUID uuid) {
-    return userRanks.get(uuid);
+    return USER_RANKS.get(uuid);
   }
 
   public static Rank getRank(String name) {
-    for (String key : rankCache.keySet()) {
+    for (String key : RANK_CACHE.keySet()) {
       if (key.equalsIgnoreCase(name)) {
-        return rankCache.get(key);
+        return RANK_CACHE.get(key);
       }
     }
-    return rankCache.size() == 0 ? null : getDefaultRank();
+    return RANK_CACHE.size() == 0 ? null : getDefaultRank();
   }
 
   public static boolean isValidRank(String name) {
-    for (String key : rankCache.keySet()) {
+    for (String key : RANK_CACHE.keySet()) {
       if (key.equalsIgnoreCase(name)) {
         return true;
       }
@@ -45,7 +47,7 @@ public class UserManager {
 
   public static Object[] getPlayerData(UUID uuid) {
     if (uuid != null) {
-      return playerData.getOrDefault(uuid, new Object[0]);
+      return PLAYER_DATA.getOrDefault(uuid, new Object[0]);
     }
     return new Object[0];
   }
@@ -59,10 +61,10 @@ public class UserManager {
   }
 
   public static Object[] getTeam(String name) {
-    return teamCache.getOrDefault(name, new Object[0]);
+    return TEAM_CACHE.getOrDefault(name, new Object[0]);
   }
 
   public static Rank[] getRanks() {
-    return rankCache.values().toArray(new Rank[0]);
+    return RANK_CACHE.values().toArray(new Rank[0]);
   }
 }

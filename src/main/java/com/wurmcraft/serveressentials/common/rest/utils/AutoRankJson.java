@@ -4,7 +4,7 @@ import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 
 public class AutoRankJson extends AutoRank {
 
-  private String authKey;
+  private final String authKey;
 
   public AutoRankJson(AutoRank auto, String authKey) {
     super(auto);

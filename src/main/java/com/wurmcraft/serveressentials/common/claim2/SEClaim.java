@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.json.claim2.ClaimResponse;
 import com.wurmcraft.serveressentials.api.json.claim2.ClaimType;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -22,7 +23,7 @@ public class SEClaim implements Claim {
   private ClaimOwner owner;
   private LocationWrapper lowerBound;
   private LocationWrapper higherBound;
-  private HashMap<UUID, ClaimPerm[]> trusted;
+  private Map<UUID, ClaimPerm[]> trusted;
 
   // Cached
   private AxisAlignedBB bouding;
@@ -34,7 +35,7 @@ public class SEClaim implements Claim {
       ClaimOwner owner,
       LocationWrapper lowerBound,
       LocationWrapper higherBound,
-      HashMap<UUID, ClaimPerm[]> trusted) {
+      Map<UUID, ClaimPerm[]> trusted) {
     this.uniqueID = uniqueID;
     this.owner = owner;
     this.lowerBound = lowerBound;
@@ -51,7 +52,7 @@ public class SEClaim implements Claim {
       ClaimOwner owner,
       LocationWrapper lowerBound,
       LocationWrapper higherBound,
-      HashMap<UUID, ClaimPerm[]> trusted) {
+      Map<UUID, ClaimPerm[]> trusted) {
     this(UUID.randomUUID(), owner, lowerBound, higherBound, trusted);
   }
 
@@ -113,7 +114,7 @@ public class SEClaim implements Claim {
   }
 
   @Override
-  public HashMap<UUID, ClaimPerm[]> getTrusted() {
+  public Map<UUID, ClaimPerm[]> getTrusted() {
     return trusted;
   }
 

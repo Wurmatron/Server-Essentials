@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.command.SECommand;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.utils.SECommand;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ public class SpeedCommand extends SECommand {
       try {
         speed = Double.parseDouble(args[0]);
       } catch (NumberFormatException e) {
-        ServerEssentialsServer.logger.warn(e.getLocalizedMessage());
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
         ChatHelper.sendMessage(
             sender,
             getCurrentLanguage(sender)

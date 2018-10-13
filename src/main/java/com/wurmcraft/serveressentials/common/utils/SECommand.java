@@ -1,15 +1,17 @@
-package com.wurmcraft.serveressentials.api.command;
+package com.wurmcraft.serveressentials.common.utils;
 
 import static com.wurmcraft.serveressentials.common.security.SecurityModule.*;
 
+import com.wurmcraft.serveressentials.api.command.Command;
+import com.wurmcraft.serveressentials.api.command.ModuleCommand;
+import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
-import com.wurmcraft.serveressentials.api.json.user.team.restOnly.GlobalTeam;
+import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.language.Local;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
-import com.wurmcraft.serveressentials.common.utils.CommandUtils;
-import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +28,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class SECommand implements ICommand {
+public abstract class SECommand implements ICommand, ModuleCommand {
 
   protected static final TextFormatting DEFAULT_COLOR = TextFormatting.LIGHT_PURPLE;
   protected static final TextFormatting DEFAULT_USAGE_COLOR = TextFormatting.GOLD;
@@ -53,7 +55,7 @@ public abstract class SECommand implements ICommand {
 
   protected static GlobalTeam forceTeamFromName(String name) {
     GlobalTeam team = null;
-    if (UserManager.teamCache.get(name) != null && UserManager.teamCache.get(name).length > 0) {
+    if (UserManager.TEAM_CACHE.get(name) != null && UserManager.TEAM_CACHE.get(name).length > 0) {
       team = (GlobalTeam) UserManager.getTeam(name)[0];
     }
     if (team == null) {
@@ -107,7 +109,7 @@ public abstract class SECommand implements ICommand {
             method.invoke(this, sender, CommandUtils.getArgsAfterCommand(1, args));
             return;
           } catch (Exception e) {
-            e.printStackTrace();
+            ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
           }
         }
       }
@@ -177,11 +179,12 @@ public abstract class SECommand implements ICommand {
 
   protected static List<String> predictName(String current, List<String> possibleNames) {
     List<String> predictedNames = new ArrayList<>();
-    for (String name : possibleNames)
+    for (String name : possibleNames) {
       if (name.toLowerCase().startsWith(current.toLowerCase())
           || name.toLowerCase().endsWith(current.toLowerCase())) {
         predictedNames.add(name);
       }
+    }
     return predictedNames;
   }
 }

@@ -1,6 +1,8 @@
 package com.wurmcraft.serveressentials.common.general.events;
 
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -14,13 +16,11 @@ public class MOTDEvent {
     if (DataHelper.globalSettings.getGlobalMOTD() != null
         && DataHelper.globalSettings.getGlobalMOTD().length > 0) {
       MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-      StringBuilder builder = new StringBuilder();
-      for (String txt : DataHelper.globalSettings.getGlobalMOTD()) {
-        builder.append(txt.replaceAll("&", "\u00A7") + "\n");
-      }
-      server
-          .getServerStatusResponse()
-          .setServerDescription(new TextComponentString(builder.toString()));
+      String builder =
+          Arrays.stream(DataHelper.globalSettings.getGlobalMOTD())
+              .map(txt -> txt.replaceAll("&", "\u00A7") + "\n")
+              .collect(Collectors.joining());
+      server.getServerStatusResponse().setServerDescription(new TextComponentString(builder));
     }
   }
 }

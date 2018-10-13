@@ -1,7 +1,7 @@
 package com.wurmcraft.serveressentials.api.json.claim2;
 
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -62,7 +62,7 @@ public interface Claim {
    *
    * @see Claim#isTrusted(UUID, ClaimPerm[])
    */
-  HashMap<UUID, ClaimPerm[]> getTrusted();
+  Map<UUID, ClaimPerm[]> getTrusted();
 
   /**
    * Removes / Clears all the trusted users
