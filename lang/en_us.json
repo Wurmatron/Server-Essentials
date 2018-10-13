@@ -145,5 +145,6 @@
   "WARP_SET": "&dWarp %NAME% created!",
   "REST_INVALID": "&cUnable to load &4REST API&cdata from %URL%, Check to make sure this is the rest URL!",
   "CLAIM_POS_SET": "&dClaim position set!",
-  "COMMAND_WEBSITE": "&9Displays the current server's website"
+  "COMMAND_WEBSITE": "&9Displays the current server's website",
+  "COMMAND_SMITE": "&9Sends lightning to a certain players location"
 }

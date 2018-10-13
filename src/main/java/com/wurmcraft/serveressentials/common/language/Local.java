@@ -171,6 +171,7 @@ public class Local {
   public String COMMAND_MOTD;
   public String COMMAND_AUTORANK;
   public String COMMAND_WEBSITE;
+  public String COMMAND_SMITE;
 
   public static Local load(String langKey) {
     boolean valid = false;
