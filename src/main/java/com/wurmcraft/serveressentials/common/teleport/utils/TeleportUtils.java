@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketEntityEffect;
@@ -17,7 +18,9 @@ import net.minecraft.network.play.server.SPacketRespawn;
 import net.minecraft.network.play.server.SPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TeleportUtils {
@@ -146,8 +149,18 @@ public class TeleportUtils {
     }
   }
 
-  // TODO Redo this
   public static boolean safeToTeleport(EntityPlayer player, LocationWrapper location) {
-    return true;
+    if (ConfigHandler.safeTeleport) {
+      return true;
+    }
+    World world = player.world;
+    if (world.getBlockState(location.getPos().up()).getBlock() instanceof BlockAir
+        && world.getBlockState(location.getPos()).getBlock() instanceof BlockAir) {
+      if (!(world.getBlockState(location.getPos().down()).getBlock() instanceof BlockAir)
+          && !(world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -95,4 +95,7 @@ public class ConfigHandler {
 
   @Comment("Makes sure any Trusted User is OP'd upon joining")
   public static boolean autoOP = true;
+
+  @Comment("Check if its safe before teleporting")
+  public static boolean safeTeleport = true;
 }
