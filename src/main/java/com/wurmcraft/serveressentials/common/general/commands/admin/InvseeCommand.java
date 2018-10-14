@@ -34,7 +34,7 @@ public class InvseeCommand extends SECommand {
     if (args.length == 1) {
       EntityPlayerMP player = (EntityPlayerMP) sender;
       PlayerList players = server.getServer().getPlayerList();
-      if (players.getPlayers().isEmpty()) {
+      if (!players.getPlayers().isEmpty()) {
         boolean open = false;
         EntityPlayer victim = UsernameResolver.getPlayer(args[0]);
         if (victim != null) {

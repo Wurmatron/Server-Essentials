@@ -32,7 +32,7 @@ public class SecurityModule implements IModule {
 
   private static void loadTrustedStaff() {
     if (ConfigHandler.trustedStaff != null && ConfigHandler.trustedStaff.length() > 0) {
-      if (trusted.isEmpty()) {
+      if (!trusted.isEmpty()) {
         trusted.clear();
       }
       try {

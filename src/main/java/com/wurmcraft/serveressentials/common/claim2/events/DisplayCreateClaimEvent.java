@@ -2,7 +2,6 @@ package com.wurmcraft.serveressentials.common.claim2.events;
 
 import com.wurmcraft.serveressentials.api.json.claim2.Claim;
 import com.wurmcraft.serveressentials.api.json.claim2.ClaimOwner;
-import com.wurmcraft.serveressentials.api.json.global.Global;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -17,11 +16,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
-@EventBusSubscriber(modid = Global.MODID)
 public class DisplayCreateClaimEvent {
 
   private static NonBlockingHashMap<String, LocationWrapper[]> cache = new NonBlockingHashMap<>();

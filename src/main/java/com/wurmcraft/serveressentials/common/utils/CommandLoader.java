@@ -53,7 +53,7 @@ public class CommandLoader {
   }
 
   public static void registerCommands(FMLServerStartingEvent e) {
-    if (loadedCommands.isEmpty()) {
+    if (!loadedCommands.isEmpty()) {
       for (SECommand command : loadedCommands) {
         e.registerServerCommand(command);
         ServerEssentialsServer.LOGGER.debug(

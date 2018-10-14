@@ -22,7 +22,7 @@ public class RankCheckupRestEvent {
   public void onWorldTickEvent(LivingUpdateEvent e) {
     if (e.getEntityLiving() instanceof EntityPlayer) {
       EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-      if (UserManager.AUTO_RANK_CACHE.isEmpty()
+      if (!UserManager.AUTO_RANK_CACHE.isEmpty()
           && p.world.getTotalWorldTime() % (ConfigHandler.syncPeriod * 20) == 0) {
         for (EntityPlayer player : p.world.getMinecraftServer().getPlayerList().getPlayers()) {
           if (UserManager.getPlayerData(player.getGameProfile().getId()).length > 0) {

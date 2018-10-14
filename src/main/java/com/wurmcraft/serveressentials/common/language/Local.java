@@ -118,6 +118,7 @@ public class Local {
   public String UNIGNORED;
   public String LOCKDOWN_ENABLED;
   public String LOCKDOWN_DISABLED;
+  public String MOTD_CHANGED;
 
   // Claiming
   public String CLAIM_BREAK;
@@ -172,6 +173,7 @@ public class Local {
   public String COMMAND_AUTORANK;
   public String COMMAND_WEBSITE;
   public String COMMAND_SMITE;
+  public String COMMAND_SERVER_MOTD;
 
   public static Local load(String langKey) {
     boolean valid = false;

@@ -18,14 +18,6 @@ public class GlobalData implements DataType {
   private String[] bannedMods;
   private String[] globalMOTD;
 
-  public String[] getGlobalMOTD() {
-    return globalMOTD;
-  }
-
-  public void setGlobalMOTD(String[] globalMOTD) {
-    this.globalMOTD = globalMOTD;
-  }
-
   public GlobalData(SpawnPoint spawn, String[] rules, String[] motd, String website) {
     this.spawn = spawn;
     this.rules = rules;
@@ -137,5 +129,14 @@ public class GlobalData implements DataType {
   @Override
   public String getID() {
     return "Global";
+  }
+
+  public String[] getGlobalMOTD() {
+    return globalMOTD;
+  }
+
+  public void setGlobalMOTD(String[] globalMOTD) {
+    this.globalMOTD = globalMOTD;
+    DataHelper.forceSave(new File(ConfigHandler.saveLocation), this);
   }
 }
