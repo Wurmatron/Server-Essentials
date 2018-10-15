@@ -28,8 +28,8 @@ public class ChatHelper {
     if (team != null) {
       if (rank.getSuffix() != null && !rank.getSuffix().equals("")) {
         if (channel.getFilter() != null) {
-          for (String replacment : channel.getFilter()) {
-            String[] split = replacment.split(" ");
+          for (String replacement : channel.getFilter()) {
+            String[] split = replacement.split(" ");
             message = message.replaceAll(split[0], split[1]);
           }
         }
