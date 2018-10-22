@@ -1,17 +1,16 @@
 {
   "name": "serveressentials-rest",
-  "version": "0.0.0",
-  "description": "Rest API for use with Server Essentials",
+  "version": "0.0.2",
+  "description": "Server Essentials Rest Module, Rest API used for Ranks, Permissions, User Data and Economy",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "Wurmatron",
-  "license": "",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "level": "^4.0.0",
-    "morgan": "^1.9.0"
+    "express": "^4.16.4",
+    "express-promise-router": "^3.0.3",
+    "leveldown": "^4.0.1",
+    "levelup": "^3.1.1",
+    "morgan": "^1.9.1"
   }
 }

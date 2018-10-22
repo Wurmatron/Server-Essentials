@@ -39,12 +39,16 @@ public class RequestHelper {
       HttpURLConnection http = (HttpURLConnection) connection;
       http.setRequestMethod("POST");
       http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+      http.setRequestProperty("authKey", ConfigHandler.restAuthKey);
       http.setDoOutput(true);
       String jsonData = GSON.toJson(data);
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
       ServerEssentialsServer.LOGGER.debug("Post Status: " + status);
+      if (status == 401) {
+        ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Post");
+      }
     } catch (Exception e) {
       ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
@@ -57,12 +61,14 @@ public class RequestHelper {
       HttpURLConnection http = (HttpURLConnection) connection;
       http.setRequestMethod("PUT");
       http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+      http.setRequestProperty("authKey", ConfigHandler.restAuthKey);
       http.setDoOutput(true);
       String jsonData = GSON.toJson(data);
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
       ServerEssentialsServer.LOGGER.debug("Put Status: " + status);
+      ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Put");
     } catch (Exception e) {
       ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }
@@ -128,12 +134,12 @@ public class RequestHelper {
   public static class UserResponses {
 
     public static void addPlayerData(GlobalUser user) {
-      post("user/add", new GlobalUserJson(user, ConfigHandler.restAuthKey));
+      post("users/add", new GlobalUserJson(user, ConfigHandler.restAuthKey));
     }
 
     public static GlobalUser getPlayerData(UUID uuid) {
       try {
-        URL obj = new URL(getBaseURL() + "user/find/" + uuid.toString());
+        URL obj = new URL(getBaseURL() + "users/find/" + uuid.toString());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -155,7 +161,7 @@ public class RequestHelper {
     }
 
     public static void overridePlayerData(GlobalUser user) {
-      put("user/override", new GlobalUserJson(user, ConfigHandler.restAuthKey));
+      put("users/find/" + user.getUuid() + "/override", user);
     }
   }
 

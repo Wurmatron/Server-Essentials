@@ -17,8 +17,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class UsernameResolver {
 
-  private UsernameResolver() {
-  }
+  private UsernameResolver() {}
 
   public static EntityPlayer getPlayer(String name) {
     UUID uuid = getUUIDFromName(name);
@@ -33,8 +32,8 @@ public class UsernameResolver {
         && UserManager.getPlayerData(uuid).length > 0) {
       return ((GlobalUser) UserManager.getPlayerData(uuid)[0]).getNick();
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")
-        && UserManager.getPlayerData(uuid) != null &&
-        UserManager.getPlayerData(uuid).length > 0
+        && UserManager.getPlayerData(uuid) != null
+        && UserManager.getPlayerData(uuid).length > 0
         && ((PlayerData) UserManager.getPlayerData(uuid)[0]).getNickname().length() > 0) {
       return ((PlayerData) UserManager.getPlayerData(uuid)[0]).getNickname();
     }
