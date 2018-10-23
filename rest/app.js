@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/users",require("./routes/users"));
+app.use("/ranks",require("./routes/ranks"));
 
 // Start Server
 const port = 8080;

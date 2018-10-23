@@ -77,12 +77,12 @@ public class RequestHelper {
   public static class RankResponses {
 
     public static void addRank(Rank rank) {
-      post("rank/add", new RankJson(rank, ConfigHandler.restAuthKey));
+      post("ranks/add", rank);
     }
 
     public static Rank getRank(String name) {
       try {
-        URL obj = new URL(getBaseURL() + "rank/find/" + name);
+        URL obj = new URL(getBaseURL() + "ranks/find/" + name);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -104,12 +104,12 @@ public class RequestHelper {
     }
 
     public static void overrideRank(Rank rank) {
-      put("rank/override", new RankJson(rank, ConfigHandler.restAuthKey));
+      put("ranks" + rank.getName() + "/override", rank);
     }
 
     public static Rank[] getAllRanks() {
       try {
-        URL obj = new URL(getBaseURL() + "rank/find");
+        URL obj = new URL(getBaseURL() + "ranks/find");
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
