@@ -18,7 +18,8 @@ import java.util.UUID;
 
 public class RequestHelper {
 
-  private RequestHelper() {}
+  private RequestHelper() {
+  }
 
   private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -168,13 +169,13 @@ public class RequestHelper {
   public static class TeamResponses {
 
     public static void addTeam(GlobalTeam team) {
-      post("team/add", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
+      post("teams/add", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
     }
 
     public static GlobalTeam getTeam(String name) {
       if (!name.isEmpty()) {
         try {
-          URL obj = new URL(getBaseURL() + "team/find/" + name);
+          URL obj = new URL(getBaseURL() + "teams/find/" + name);
           HttpURLConnection con = (HttpURLConnection) obj.openConnection();
           con.setRequestMethod("GET");
           con.setRequestProperty("User-Agent", USER_AGENT);
@@ -197,7 +198,7 @@ public class RequestHelper {
     }
 
     public static void overrideTeam(GlobalTeam team) {
-      post("team/override", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
+      put("teams" + team.getName() + "/override", team);
     }
   }
 
@@ -231,7 +232,7 @@ public class RequestHelper {
     }
 
     public static void overrideAutoRank(AutoRank rank) {
-      put("autoranks/override", new AutoRankJson(rank, ConfigHandler.restAuthKey));
+      put("ranks" + rank.getID() + "/override", rank);
     }
 
     public static AutoRank[] getAllAutoRanks() {
@@ -288,7 +289,7 @@ public class RequestHelper {
     }
 
     public static void overrideEco(Currency currency) {
-      put("eco/override", new CurrencyJson(currency, ConfigHandler.restAuthKey));
+      put("ranks" + currency.getName() + "/override", currency);
     }
 
     public static Currency[] getAllCurrency() {
