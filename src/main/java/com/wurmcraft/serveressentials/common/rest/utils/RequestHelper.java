@@ -204,12 +204,12 @@ public class RequestHelper {
   public static class AutoRankResponses {
 
     public static void addAutoRank(AutoRank rank) {
-      post("autorank/add", new AutoRankJson(rank, ConfigHandler.restAuthKey));
+      post("autoranks/add", new AutoRankJson(rank, ConfigHandler.restAuthKey));
     }
 
     public static AutoRank getAutoRank(String name) {
       try {
-        URL obj = new URL(getBaseURL() + "autorank/find/" + name);
+        URL obj = new URL(getBaseURL() + "autoranks/find/" + name);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -231,12 +231,12 @@ public class RequestHelper {
     }
 
     public static void overrideAutoRank(AutoRank rank) {
-      put("autorank/override", new AutoRankJson(rank, ConfigHandler.restAuthKey));
+      put("autoranks/override", new AutoRankJson(rank, ConfigHandler.restAuthKey));
     }
 
     public static AutoRank[] getAllAutoRanks() {
       try {
-        URL obj = new URL(getBaseURL() + "autorank/find");
+        URL obj = new URL(getBaseURL() + "autoranks/find");
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);

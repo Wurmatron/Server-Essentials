@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 // Routes
 app.use("/users",require("./routes/users"));
 app.use("/ranks",require("./routes/ranks"));
+app.use("/autoranks",require("./routes/autoranks"));
 
 // Start Server
 const port = 8080;
