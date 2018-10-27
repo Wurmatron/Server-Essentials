@@ -2,16 +2,17 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/bwmarrin/discordgo"
+	"github.com/google/uuid"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
-
-	"github.com/bwmarrin/discordgo"
 )
 
 var (
@@ -51,11 +52,15 @@ func messageCreate(s *discordgo.Session, msg *discordgo.MessageCreate) {
 	if msg.Author.ID == s.State.User.ID {
 		return
 	}
-
 	if strings.HasPrefix(msg.Content, "!lookup ") {
 		s.ChannelTyping(msg.ChannelID)
-		fmt.Println(msg.Content[9:45])
-		s.ChannelMessageSend(msg.ChannelID, getUserData(msg.Content[9:45]))
+		input := strings.Fields(msg.Content)[1]
+		if IsValidUUID(input) {
+			s.ChannelMessageSend(msg.ChannelID, getUserData(input))
+		} else {
+			fmt.Println(getUUIDFromUserName(input))
+			s.ChannelMessageSend(msg.ChannelID, getUserData(getUUIDFromUserName(input)))
+		}
 	}
 }
 
@@ -70,12 +75,36 @@ func getUserData(uuid string) string {
 	}
 }
 
+func getUUIDFromUserName(name string) string {
+	response, err := http.Get(strings.Join([]string{"https://mcapi.de/api/user/", name}, ""))
+	if err != nil {
+		fmt.Println(err)
+		return "The HTTP request failed"
+	} else {
+		f, _ := ioutil.ReadAll(response.Body)
+		data := make(map[string]interface{})
+		err := json.Unmarshal(f, &data)
+		if err != nil {
+			fmt.Println(err)
+			return "The HTTP request failed"
+		}
+		userUUID := data["uuid"].(string)
+		return uuid.MustParse(userUUID).String()
+	}
+}
+
 func postUserData(uuid string, json string) string {
-	response, err := http.Post(strings.Join([]string{Url, "/user/add/"}, ""), "application/json", bytes.NewBufferString(json))
+	// TODO Header API Key
+	response, err := http.Post(strings.Join([]string{Url, "/users/add/"}, ""), "application/json;", bytes.NewBufferString(json))
 	if err != nil {
 		return "The HTTP post request failed"
 	} else {
 		data, _ := ioutil.ReadAll(response.Body)
 		return string(data)
 	}
+}
+
+func IsValidUUID(u string) bool {
+	_, err := uuid.Parse(u)
+	return err == nil
 }
