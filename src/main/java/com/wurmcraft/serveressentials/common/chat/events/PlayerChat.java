@@ -36,7 +36,7 @@ public class PlayerChat {
 
   protected static Map<UUID, String[]> lastChat = new HashMap<>();
 
-  public static boolean proccessRest(ServerChatEvent e) {
+  public static boolean processRest(ServerChatEvent e) {
     GlobalUser global =
         (GlobalUser) UserManager.getPlayerData(e.getPlayer().getGameProfile().getId())[0];
     LocalUser local =
@@ -66,7 +66,7 @@ public class PlayerChat {
     return currentChannel.getName().equalsIgnoreCase(ConfigHandler.globalChannel);
   }
 
-  private static boolean proccessFile(ServerChatEvent e) {
+  private static boolean processFile(ServerChatEvent e) {
     return false;
   }
 
@@ -117,7 +117,7 @@ public class PlayerChat {
       chat[0] = message;
       lastChat.put(name, chat);
     }
-    return isIgnored(name, message);
+    return !isIgnored(name, message);
   }
 
   @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -132,7 +132,7 @@ public class PlayerChat {
     }
     if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
       if (handleMessage(e.getPlayer().getGameProfile().getId(), e.getMessage())) {
-        if (proccessRest(e)) {
+        if (processRest(e)) {
           e.setCanceled(true);
           Channel ch = getUserChannel(e.getPlayer().getGameProfile().getId());
           for (EntityPlayerMP player : getPlayersInChannel(ch)) {
@@ -153,7 +153,7 @@ public class PlayerChat {
       }
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       if (handleMessage(e.getPlayer().getGameProfile().getId(), e.getMessage())) {
-        if (proccessFile(e)) {
+        if (processFile(e)) {
           e.setCanceled(true);
         }
       } else {

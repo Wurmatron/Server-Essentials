@@ -54,7 +54,7 @@ module.exports = {
     },
 
     delete: async (req, res, next) => {
-        if (apiKeys.indexOf(req.header.authKey) > -1) {
+        if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
                 const team = teamDB.get(req.params.name);
                 team.then(function (result) {
@@ -72,9 +72,9 @@ module.exports = {
     },
 
     override: async (req, res, next) => {
-        if (apiKeys.indexOf(req.header.authKey) > -1) {
+        if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
-                addTeamEntry(req, res, true)
+                addTeamEntry(req, res)
             } else {
                 res.sendStatus(400)
             }

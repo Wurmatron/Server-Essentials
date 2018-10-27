@@ -40,7 +40,11 @@ module.exports = {
             .on('data', function (data) {
                 const rankData = JSON.parse(data.value.toString('utf8'));
                 allRanks.push({
-                    name: rankData.name
+                    name: rankData.name,
+                    prefix: rankData.prefix,
+                    suffix: rankData.suffix,
+                    inheritance: rankData.inheritance,
+                    permission: rankData.permission
                 })
             })
             .on('error', function (err) {
@@ -54,7 +58,7 @@ module.exports = {
     },
 
     delete: async (req, res, next) => {
-        if (apiKeys.indexOf(req.header.authKey) > -1) {
+        if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
                 const rank = rankDB.get(req.params.name);
                 rank.then(function (result) {
@@ -72,9 +76,9 @@ module.exports = {
     },
 
     override: async (req, res, next) => {
-        if (apiKeys.indexOf(req.header.authKey) > -1) {
+        if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
-                addRankEntry(req, res, true)
+                addRankEntry(req, res)
             } else {
                 res.sendStatus(400)
             }
@@ -84,7 +88,6 @@ module.exports = {
 };
 
 function addRankEntry(req, res) {
-    console.log("Adding entry '" + req.body.name + "'");
     rankDB.put(req.body.name, JSON.stringify({
         name: req.body.name,
         prefix: req.body.prefix,

@@ -126,7 +126,7 @@ public class DataHelper {
 
   public static DataType get(Keys key, String data) {
     List<DataType> keyData = getData(key);
-    if (keyData != null && keyData.isEmpty()) {
+    if (keyData != null && !keyData.isEmpty()) {
       for (DataType d : keyData) {
         if (d.getID().equals(data)) {
           return d;
@@ -157,7 +157,7 @@ public class DataHelper {
     loadedData.get(key).remove(data);
   }
 
-  public static <T> T getTemp(Keys key, Object dataKey, T dataType) {
+  public static <T> T getTemp(Keys key, java.util.UUID dataKey, T dataType) {
     if (tempData.get(key) != null && tempData.get(key).size() > 0) {
       HashMap<Object, T> data = (HashMap<Object, T>) tempData.get(key);
       return data.getOrDefault(dataKey, null);
@@ -169,7 +169,8 @@ public class DataHelper {
     return (HashMap<T, Object>) tempData.getOrDefault(key, new HashMap<>());
   }
 
-  public static void addTemp(Keys key, Object dataKey, Object data, boolean remove) {
+  public static void addTemp(
+      Keys key, java.util.UUID dataKey, java.util.UUID data, boolean remove) {
     HashMap<Object, Object> temp;
     if (tempData.size() > 0) {
       temp = tempData.get(key);

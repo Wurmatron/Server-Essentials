@@ -18,8 +18,7 @@ import java.util.UUID;
 
 public class RequestHelper {
 
-  private RequestHelper() {
-  }
+  private RequestHelper() {}
 
   private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -68,8 +67,10 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      ServerEssentialsServer.LOGGER.debug("Put Status: " + status);
-      ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Put");
+      ServerEssentialsServer.LOGGER.error("Put Status: " + status);
+      if (status == 401) {
+        ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Put");
+      }
     } catch (Exception e) {
       ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
     }

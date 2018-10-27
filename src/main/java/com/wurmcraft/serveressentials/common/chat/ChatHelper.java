@@ -25,7 +25,7 @@ public class ChatHelper {
   public static String format(
       String username, Rank rank, Channel channel, int dimension, ITeam team, String message) {
     String format = "";
-    if (team != null) {
+    if (team != null && team.getName() != null && team.getName().length() > 0) {
       if (rank.getSuffix() != null && !rank.getSuffix().equals("")) {
         if (channel.getFilter() != null) {
           for (String replacement : channel.getFilter()) {
@@ -61,8 +61,8 @@ public class ChatHelper {
                 });
       } else {
         if (channel.getFilter() != null) {
-          for (String replacment : channel.getFilter()) {
-            String[] split = replacment.split(" ");
+          for (String replacement : channel.getFilter()) {
+            String[] split = replacement.split(" ");
             message = message.replaceAll(split[0], split[1]);
           }
         }
@@ -88,8 +88,8 @@ public class ChatHelper {
     } else {
       if (rank.getSuffix() != null && !rank.getSuffix().equals("")) {
         if (channel.getFilter() != null) {
-          for (String replacment : channel.getFilter()) {
-            String[] split = replacment.split(" ");
+          for (String replacement : channel.getFilter()) {
+            String[] split = replacement.split(" ");
             message = message.replaceAll(split[0], split[1]);
           }
         }
@@ -114,14 +114,14 @@ public class ChatHelper {
                 });
       } else {
         if (channel.getFilter() != null) {
-          for (String replacment : channel.getFilter()) {
-            String[] split = replacment.split(" ");
+          for (String replacement : channel.getFilter()) {
+            String[] split = replacement.split(" ");
             message = message.replaceAll(split[0], split[1]);
           }
         }
         if (channel.getFilter() != null) {
-          for (String replacment : channel.getFilter()) {
-            String[] split = replacment.split(" ");
+          for (String replacement : channel.getFilter()) {
+            String[] split = replacement.split(" ");
             message = message.replaceAll(split[0], split[1]);
           }
         }

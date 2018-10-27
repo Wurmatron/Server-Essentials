@@ -10,12 +10,12 @@ module.exports = {
                 const rank = autoRanksDB.get(req.body.name);
                 rank.then(function (result) {
                     if (!rank) {
-                        addRankEntry(req, res, false)
+                        addAutoRankEntry(req, res, false)
                     } else {
                         res.sendStatus(409)
                     }
                 }, function (err) {
-                    addRankEntry(req, res, false)
+                    addAutoRankEntry(req, res, false)
                 })
             } else {
                 res.sendStatus(400)
@@ -54,7 +54,7 @@ module.exports = {
     },
 
     delete: async (req, res, next) => {
-        if (apiKeys.indexOf(req.header.authKey) > -1) {
+        if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
                 const rank = autoRanksDB.get(req.params.name);
                 rank.then(function (result) {
@@ -72,9 +72,9 @@ module.exports = {
     },
 
     override: async (req, res, next) => {
-        if (apiKeys.indexOf(req.header.authKey) > -1) {
+        if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
-                addRankEntry(req, res, true)
+                addAutoRankEntry(req, res)
             } else {
                 res.sendStatus(400)
             }
@@ -83,17 +83,19 @@ module.exports = {
     }
 };
 
-function addRankEntry(req, res) {
-    console.log("Adding entry '" + req.body.name + "'");
-    autoRanksDB.put(req.body.name, JSON.stringify({
-        name: req.body.name,
-        prefix: req.body.prefix,
-        suffix: req.body.suffix,
-        inheritance: req.body.inheritance,
-        permission: req.body.permission
+function addAutoRankEntry(req, res, override) {
+    if (!override) {
+        console.log("Adding AutoRank '" + req.body.name + "'");
+    }
+    autorankDB.put(req.body.nextRank, JSON.stringify({
+        playTime: req.body.playTime,
+        balance: req.body.balance,
+        exp: req.body.exp,
+        rank: req.body.rank,
+        nextRank: req.body.nextRank
     }), function (err) {
         if (err)
-            res.req.sendStatus(400);
+            req.sendStatus(400);
     });
     res.sendStatus(201);
 }
