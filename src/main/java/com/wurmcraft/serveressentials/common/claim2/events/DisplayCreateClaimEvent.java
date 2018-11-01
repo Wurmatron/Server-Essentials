@@ -30,13 +30,15 @@ public class DisplayCreateClaimEvent {
   public static final int X_MIN_LENGTH = 12;
   public static final int Y_MIN_LENGTH = 8;
   public static final int Z_MIN_LENGTH = 12;
+  public static final int TIMEOUT_TIMER = 300000;
 
   @SubscribeEvent
   public void onInteractEvent(PlayerInteractEvent.RightClickBlock e) {
     if (!e.getEntityPlayer().world.isRemote
         && e.getEntityPlayer().getHeldItemMainhand().isItemEqualIgnoreDurability(CLAMING_STACK)) {
-      if (cache.get(e.getEntityPlayer().getGameProfile().getId().toString()) != null) {
-        // TODO Check for timeout
+      if (cache.get(e.getEntityPlayer().getGameProfile().getId().toString()) != null
+          && timeout.get(e.getEntityPlayer().getGameProfile().getId().toString()) + TIMEOUT_TIMER
+              > System.currentTimeMillis()) {
         LocationWrapper loc = cache.get(e.getEntityPlayer().getGameProfile().getId().toString())[0];
         if (loc != null) {
           cache.get(e.getEntityPlayer().getGameProfile().getId().toString())[1] =

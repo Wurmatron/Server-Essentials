@@ -60,16 +60,28 @@ public class ClaimManager {
       try {
         Claim claim = GSON.fromJson(new FileReader(file), SEClaim.class);
         claimData.put(claim.getUniqueID(), claim);
-        String lowerKey = getLocationIDForLocation(claim.getLowerCorner());
-        String higherKey = getLocationIDForLocation(claim.getLowerCorner());
-        addClaimToKey(lowerKey, claim);
-        if (!lowerKey.equals(higherKey)) {
-          addClaimToKey(higherKey, claim);
+        for (String key : getClaimKeys(claim)) {
+          addClaimToKey(key, claim);
         }
       } catch (Exception e) {
         ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
+  }
+
+  private String[] getClaimKeys(Claim claim) {
+    if (claim.getLowerCorner().equals(claim.getHigherCorner())) {
+      return new String[] {
+        claim.getLowerCorner().getX()
+            + " "
+            + claim.getLowerCorner().getY()
+            + " "
+            + claim.getLowerCorner().getZ()
+      };
+    }
+    List<String> keys = new ArrayList<>();
+    // TODO Add the rest of this
+    return keys.toArray(new String[0]);
   }
 
   private void addClaimToKey(String key, Claim claim) {

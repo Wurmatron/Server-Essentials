@@ -93,14 +93,14 @@ public class SEClaim implements Claim {
 
   @Override
   public int[] getWidth() {
-    int xWidth = higherBound.getX() - lowerBound.getX();
-    int zWidth = higherBound.getZ() - lowerBound.getZ();
+    int xWidth = Math.abs(higherBound.getX() - lowerBound.getX());
+    int zWidth = Math.abs(higherBound.getZ() - lowerBound.getZ());
     return new int[] {xWidth, zWidth};
   }
 
   @Override
   public int getHeight() {
-    return higherBound.getY() - lowerBound.getY();
+    return Math.abs(higherBound.getY() - lowerBound.getY());
   }
 
   @Override
