@@ -12,7 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class CommandUtils {
 
-  private CommandUtils() {}
+  private CommandUtils() {
+  }
 
   public static String[] getArgsAfterCommand(int argPos, String[] args) {
     if (argPos < args.length) {
@@ -48,6 +49,18 @@ public class CommandUtils {
     return new String[0];
   }
 
+  public static String[] getPermissions(Rank rank) {
+    List<String> perms = new ArrayList<>();
+    Collections.addAll(perms, rank.getPermission());
+    for (String inheritance : rank.getInheritance()) {
+      Rank lowerRank = UserManager.getRank(inheritance);
+      if (lowerRank != null) {
+        Collections.addAll(perms, lowerRank.getPermission());
+      }
+    }
+    return perms.toArray(new String[0]);
+  }
+
   public static boolean hasPerm(String perm, ICommandSender sender) {
     String[] perms = getSenderPermissions(sender);
     for (String p : perms) {
@@ -58,7 +71,20 @@ public class CommandUtils {
           && p.contains(".")
           && perm.contains(".")
           && p.substring(0, p.lastIndexOf('.'))
-              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
+          .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean hasPerm(String perm, Rank rank) {
+    for (String p : getPermissions(rank)) {
+      if (p.contains("*")
+          && p.contains(".")
+          && perm.contains(".")
+          && p.substring(0, p.lastIndexOf('.'))
+          .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
         return true;
       }
     }

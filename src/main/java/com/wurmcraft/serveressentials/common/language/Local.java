@@ -35,6 +35,7 @@ public class Local {
   public String PERK_ADDED;
   public String PERK_DEL;
   public String LOCKDOWN;
+  public String TRUSTED_USER;
 
   // Chat
   public String CHAT_SPACER;
@@ -71,6 +72,7 @@ public class Local {
   public String CHAT_TIME;
   public String WARP_SET;
   public String REST_INVALID;
+  public String POSSIBLY_ALT;
 
   // Commands
   public String RANK_NULL;

@@ -148,5 +148,7 @@
   "COMMAND_WEBSITE": "&9Displays the current server's website",
   "COMMAND_SMITE": "&9Sends lightning to a certain players location",
   "COMMAND_SERVER_MOTD": "&9Changes the Server MOTD on the multiplayer menu",
-  "MOTD_CHANGED": "&dThe Global Motd has been changed"
+  "MOTD_CHANGED": "&dThe Global Motd has been changed",
+  "TRUSTED_USER": "&dYou are trusted by the server. This gives you the ability to use 'Trusted' only commands like /perm",
+  "POSSIBLY_ALT": "&d%PLAYER% &cmay be an alt!"
 }
