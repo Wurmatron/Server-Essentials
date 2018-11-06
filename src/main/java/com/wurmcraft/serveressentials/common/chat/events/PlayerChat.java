@@ -213,17 +213,24 @@ public class PlayerChat {
   }
 
   public static boolean isIgnored(UUID user, String message) {
-    LocalUser localUser = (LocalUser) UserManager.getPlayerData(user)[1];
-    if (localUser != null && localUser.getIgnored() != null && localUser.getIgnored().length > 0) {
-      for (String ignored : localUser.getIgnored()) {
-        if (ignored.startsWith("[") && ignored.endsWith("]")) {
-          if (message.toLowerCase().contains(ignored)) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      LocalUser localUser = (LocalUser) UserManager.getPlayerData(user)[1];
+      if (localUser != null
+          && localUser.getIgnored() != null
+          && localUser.getIgnored().length > 0) {
+        for (String ignored : localUser.getIgnored()) {
+          if (ignored.startsWith("[") && ignored.endsWith("]")) {
+            if (message.toLowerCase().contains(ignored)) {
+              return true;
+            }
+          } else if (message.substring(1).toLowerCase().startsWith(ignored)) {
             return true;
           }
-        } else if (message.substring(1).toLowerCase().startsWith(ignored)) {
-          return true;
         }
       }
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData userData = (PlayerData) UserManager.getPlayerData(user)[0];
+      return userData != null;
     }
     return false;
   }

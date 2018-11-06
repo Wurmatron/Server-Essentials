@@ -5,6 +5,7 @@ import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.modules;
 import com.wurmcraft.serveressentials.api.json.global.Global;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
+import com.wurmcraft.serveressentials.common.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.utils.CommandLoader;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,12 @@ public class ServerEssentialsServer {
   @EventHandler
   public void postInit(FMLPostInitializationEvent e) {
     LOGGER.info("Starting PostInit");
+    if (LanguageModule.getLangFromKey(ConfigHandler.defaultLanguage) == null) {
+      LOGGER.error(
+          "Unable to load "
+              + ConfigHandler.defaultLanguage
+              + ", this will be break anything to do with chat!");
+    }
   }
 
   @EventHandler

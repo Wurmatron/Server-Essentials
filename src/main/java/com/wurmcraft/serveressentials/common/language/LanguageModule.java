@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 
+/** TODO - Reload Language files command */
 @Module(name = "Language")
 public class LanguageModule implements IModule {
 
@@ -106,10 +108,27 @@ public class LanguageModule implements IModule {
                             + langKey
                             + ".json")),
                 Local.class);
-        loadedLanguages.put(langKey, local);
+        loadedLanguages.put(langKey, verifyAndCleanupLocal(local));
       } catch (FileNotFoundException e) {
         ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
     }
+  }
+
+  private Local verifyAndCleanupLocal(Local local) {
+    Field[] vars = local.getClass().getDeclaredFields();
+    for (Field field : vars) {
+      try {
+        if (field.get(local) instanceof String) {
+          String localKey = (String) field.get(local);
+          if (localKey == null) {
+            field.set(local, "");
+          }
+        }
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+    }
+    return local;
   }
 }

@@ -12,8 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class CommandUtils {
 
-  private CommandUtils() {
-  }
+  private CommandUtils() {}
 
   public static String[] getArgsAfterCommand(int argPos, String[] args) {
     if (argPos < args.length) {
@@ -71,7 +70,7 @@ public class CommandUtils {
           && p.contains(".")
           && perm.contains(".")
           && p.substring(0, p.lastIndexOf('.'))
-          .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
+              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
         return true;
       }
     }
@@ -84,7 +83,7 @@ public class CommandUtils {
           && p.contains(".")
           && perm.contains(".")
           && p.substring(0, p.lastIndexOf('.'))
-          .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
+              .equalsIgnoreCase(perm.substring(0, perm.lastIndexOf('.')))) {
         return true;
       }
     }

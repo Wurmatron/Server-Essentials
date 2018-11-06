@@ -2,6 +2,8 @@ package com.wurmcraft.serveressentials.common.utils;
 
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
+import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +26,22 @@ public class UserManager {
   public static final NonBlockingHashMap<UUID, Long> JOIN_TIME = new NonBlockingHashMap<>();
 
   public static Rank getPlayerRank(UUID uuid) {
-    return USER_RANKS.get(uuid);
+    Rank rank = USER_RANKS.get(uuid);
+    if (rank != null) {
+      return rank;
+    }
+    if (UserManager.getPlayerData(uuid) != null && UserManager.getPlayerData(uuid).length > 0) {
+      if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+        GlobalUser user = (GlobalUser) UserManager.getPlayerData(uuid)[0];
+        USER_RANKS.put(uuid, UserManager.getRank(user.getRank()));
+        return UserManager.getRank(user.getRank());
+      } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+        PlayerData user = (PlayerData) UserManager.getPlayerData(uuid)[0];
+        USER_RANKS.put(uuid, user.getRank());
+        return user.getRank();
+      }
+    }
+    return UserManager.getRank(ConfigHandler.defaultRank);
   }
 
   public static Rank getRank(String name) {
