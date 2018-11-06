@@ -150,5 +150,8 @@
   "COMMAND_SERVER_MOTD": "&9Changes the Server MOTD on the multiplayer menu",
   "MOTD_CHANGED": "&dThe Global Motd has been changed",
   "TRUSTED_USER": "&dYou are trusted by the server. This gives you the ability to use 'Trusted' only commands like /perm",
-  "POSSIBLY_ALT": "&d%PLAYER% &cmay be an alt!"
+  "POSSIBLY_ALT": "&d%PLAYER% &cmay be an alt!",
+  "COMMAND_TOWN": "&dUsed to manage a town.",
+  "PROTECT_TOWN_CREATE": "&dTown %TOWN% created!",
+  "PROTECT_TOWN_NON_EXISTENT": "&c%TOWN% does not exist"
 }

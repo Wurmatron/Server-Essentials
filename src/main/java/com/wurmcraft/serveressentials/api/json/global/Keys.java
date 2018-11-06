@@ -14,7 +14,8 @@ public enum Keys {
   SPY("spy"),
   AFK("afk"),
   VAULT("vault"),
-  TPA("tpa");
+  TPA("tpa"),
+  TOWN("town");
 
   private String name;
 

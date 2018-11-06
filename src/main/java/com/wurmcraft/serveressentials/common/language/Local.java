@@ -176,6 +176,11 @@ public class Local {
   public String COMMAND_WEBSITE;
   public String COMMAND_SMITE;
   public String COMMAND_SERVER_MOTD;
+  public String COMMAND_TOWN;
+
+  // Protect
+  public String PROTECT_TOWN_CREATE;
+  public String PROTECT_TOWN_NON_EXISTENT;
 
   public static Local load(String langKey) {
     boolean valid = false;
