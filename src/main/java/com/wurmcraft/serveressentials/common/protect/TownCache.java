@@ -1,6 +1,8 @@
 package com.wurmcraft.serveressentials.common.protect;
 
+import com.wurmcraft.serveressentials.api.protection.ClaimedArea;
 import com.wurmcraft.serveressentials.api.protection.Town;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -13,15 +15,14 @@ public class TownCache extends Town {
 
   public TownCache(Town town) {
     this.town = town;
+    claimedAreas = new ArrayList<>();
     updateClaimedAreaCache();
   }
 
   public void updateClaimedAreaCache() {
-    town.getClaimedArea()
-        .forEach(
-            area ->
-                claimedAreas.add(
-                    new AxisAlignedBB(area.locationA.getPos(), area.locationB.getPos())));
+    for (ClaimedArea area : town.getClaimedArea()) {
+      claimedAreas.add(new AxisAlignedBB(area.locationA.getPos(), area.locationB.getPos()));
+    }
   }
 
   public boolean isAreaClaimed(BlockPos pos) {

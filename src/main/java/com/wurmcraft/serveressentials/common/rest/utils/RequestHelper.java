@@ -136,7 +136,7 @@ public class RequestHelper {
   public static class UserResponses {
 
     public static void addPlayerData(GlobalUser user) {
-      post("users/add", new GlobalUserJson(user, ConfigHandler.restAuthKey));
+      post("users/add", user);
     }
 
     public static GlobalUser getPlayerData(UUID uuid) {
@@ -170,7 +170,7 @@ public class RequestHelper {
   public static class TeamResponses {
 
     public static void addTeam(GlobalTeam team) {
-      post("teams/add", new GlobalTeamJson(team, ConfigHandler.restAuthKey));
+      post("teams/add", team);
     }
 
     public static GlobalTeam getTeam(String name) {
@@ -206,7 +206,7 @@ public class RequestHelper {
   public static class AutoRankResponses {
 
     public static void addAutoRank(AutoRank rank) {
-      post("autoranks/add", new AutoRankJson(rank, ConfigHandler.restAuthKey));
+      post("autoranks/add", rank);
     }
 
     public static AutoRank getAutoRank(String name) {
@@ -263,7 +263,7 @@ public class RequestHelper {
   public static class EcoResponses {
 
     public static void addEco(Currency coin) {
-      post("eco/add", new CurrencyJson(coin, ConfigHandler.restAuthKey));
+      post("eco/add", coin);
     }
 
     public static Currency getEco(String name) {

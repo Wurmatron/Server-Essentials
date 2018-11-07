@@ -8,8 +8,8 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import java.io.File;
 import java.util.Arrays;
-import java.util.Objects;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Module(name = "Protection")
@@ -21,13 +21,15 @@ public class ProtectionModule implements IModule {
   @Override
   public void setup() {
     loadAllTowns();
+    MinecraftForge.EVENT_BUS.register(new ProtectionEvents());
   }
 
   private void loadAllTowns() {
+    if (!new File(ConfigHandler.saveLocation + File.separator + Keys.TOWN.name()).exists()) {
+      new File(ConfigHandler.saveLocation + File.separator + Keys.TOWN.name()).mkdirs();
+    }
     Arrays.stream(
-            Objects.requireNonNull(
-                new File(ConfigHandler.saveLocation + File.separator + Keys.TOWN.name())
-                    .listFiles()))
+            new File(ConfigHandler.saveLocation + File.separator + Keys.TOWN.name()).listFiles())
         .filter(file -> file.getName().endsWith(".json"))
         .forEach(
             file -> {
@@ -44,14 +46,14 @@ public class ProtectionModule implements IModule {
   public static Town getTownForPos(BlockPos pos) {
     for (TownCache cache : townNameCache.values()) {
       if (cache.isAreaClaimed(pos)) {
-        return cache;
+        return cache.town;
       }
     }
     return null;
   }
 
   public static boolean createTown(Town town) {
-    if (doesTownNameExist(town.getID())) {
+    if (!doesTownNameExist(town.getID())) {
       DataHelper.forceSave(Keys.TOWN, town);
       townNameCache.putIfAbsent(town.getID(), new TownCache(town));
       townOwnerCache.putIfAbsent(town.getOwnerID(), town);
@@ -66,5 +68,17 @@ public class ProtectionModule implements IModule {
 
   public static TownCache getTownFromName(String name) {
     return townNameCache.get(name);
+  }
+
+  public static Town getTownFromOwner(String ownerID) {
+    return townOwnerCache.get(ownerID);
+  }
+
+  public static void updateTown(Town town) {
+    DataHelper.forceSave(Keys.TOWN, town);
+    townNameCache.remove(town.getID());
+    townNameCache.put(town.getID(), new TownCache(town));
+    townOwnerCache.remove(town.getOwnerID());
+    townOwnerCache.put(town.getOwnerID(), town);
   }
 }

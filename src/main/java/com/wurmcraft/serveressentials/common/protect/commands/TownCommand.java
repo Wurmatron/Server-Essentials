@@ -2,6 +2,8 @@ package com.wurmcraft.serveressentials.common.protect.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
+import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
+import com.wurmcraft.serveressentials.api.protection.ClaimedArea;
 import com.wurmcraft.serveressentials.api.protection.Town;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.protect.ProtectionModule;
@@ -83,6 +85,27 @@ public class TownCommand extends SECommand {
           e.printStackTrace();
         }
         ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
+      }
+    } else {
+      ChatHelper.sendMessage(sender, getUsage(sender));
+    }
+  }
+
+  @SubCommand
+  public void claim(ICommandSender sender, String[] args) {
+    if (args.length == 1) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      try {
+        int size = Integer.parseInt(args[0]);
+        Town town = ProtectionModule.getTownFromOwner(player.getGameProfile().getId().toString());
+        ClaimedArea area =
+            new ClaimedArea(
+                new LocationWrapper(
+                    player.getPosition().add(-size, -size, -size), player.dimension),
+                new LocationWrapper(player.getPosition().add(size, size, size), player.dimension));
+        town.addClaimedArea(area);
+        ProtectionModule.updateTown(town);
+      } catch (NumberFormatException e) {
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
