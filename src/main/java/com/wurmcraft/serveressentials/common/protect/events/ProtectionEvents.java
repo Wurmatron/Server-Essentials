@@ -1,8 +1,9 @@
-package com.wurmcraft.serveressentials.common.protect;
+package com.wurmcraft.serveressentials.common.protect.events;
 
 import com.wurmcraft.serveressentials.api.protection.Town;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.protect.ProtectionModule;
 import com.wurmcraft.serveressentials.common.utils.CommandUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;

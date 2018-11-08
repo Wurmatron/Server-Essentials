@@ -6,6 +6,8 @@ import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.api.protection.Town;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.protect.events.PlayerTrackerEvents;
+import com.wurmcraft.serveressentials.common.protect.events.ProtectionEvents;
 import java.io.File;
 import java.util.Arrays;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +24,7 @@ public class ProtectionModule implements IModule {
   public void setup() {
     loadAllTowns();
     MinecraftForge.EVENT_BUS.register(new ProtectionEvents());
+    MinecraftForge.EVENT_BUS.register(new PlayerTrackerEvents());
   }
 
   private void loadAllTowns() {
