@@ -28,7 +28,8 @@ public class ProtectionEvents {
       if (!town.getOwnerID().equalsIgnoreCase(e.getPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getPlayer(),
+        ChatHelper.sendMessage(
+            e.getPlayer(),
             LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_BREAK);
       }
     }
@@ -41,7 +42,8 @@ public class ProtectionEvents {
       if (!town.getOwnerID().equalsIgnoreCase(e.getPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getPlayer(),
+        ChatHelper.sendMessage(
+            e.getPlayer(),
             LanguageModule.getLangfromUUID(e.getPlayer().getGameProfile().getId()).CLAIM_PLACE);
       }
     }
@@ -52,11 +54,13 @@ public class ProtectionEvents {
     if (ProtectionModule.isAreaClaimed(e.getPos())) {
       Town town = ProtectionModule.getTownForPos(e.getPos());
       if (!town.getOwnerID()
-          .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
+              .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getEntityPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -66,11 +70,13 @@ public class ProtectionEvents {
     if (ProtectionModule.isAreaClaimed(e.getPos())) {
       Town town = ProtectionModule.getTownForPos(e.getPos());
       if (!town.getOwnerID()
-          .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
+              .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getEntityPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -80,11 +86,13 @@ public class ProtectionEvents {
     if (ProtectionModule.isAreaClaimed(e.getPos())) {
       Town town = ProtectionModule.getTownForPos(e.getPos());
       if (!town.getOwnerID()
-          .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
+              .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getEntityPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -94,11 +102,13 @@ public class ProtectionEvents {
     if (ProtectionModule.isAreaClaimed(e.getPos())) {
       Town town = ProtectionModule.getTownForPos(e.getPos());
       if (!town.getOwnerID()
-          .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
+              .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getEntityPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -108,11 +118,13 @@ public class ProtectionEvents {
     if (ProtectionModule.isAreaClaimed(e.getPos())) {
       Town town = ProtectionModule.getTownForPos(e.getPos());
       if (!town.getOwnerID()
-          .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
+              .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getEntityPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -122,11 +134,13 @@ public class ProtectionEvents {
     if (ProtectionModule.isAreaClaimed(e.getPos())) {
       Town town = ProtectionModule.getTownForPos(e.getPos());
       if (!town.getOwnerID()
-          .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
+              .equalsIgnoreCase(e.getEntityPlayer().getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", e.getEntityPlayer())) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule
-            .getLangfromUUID(e.getEntityPlayer().getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            e.getEntityPlayer(),
+            LanguageModule.getLangfromUUID(e.getEntityPlayer().getGameProfile().getId())
+                .CLAIM_INTERACT);
       }
     }
   }
@@ -146,12 +160,11 @@ public class ProtectionEvents {
     if (e.getEntity() instanceof EntityPlayer && ProtectionModule.isAreaClaimed(e.getPos())) {
       EntityPlayer player = (EntityPlayer) e.getEntity();
       Town town = ProtectionModule.getTownForPos(e.getPos());
-      if (!town.getOwnerID()
-          .equalsIgnoreCase(player.getGameProfile().getId().toString())
+      if (!town.getOwnerID().equalsIgnoreCase(player.getGameProfile().getId().toString())
           || CommandUtils.hasPerm("protection.bypass", player)) {
         e.setCanceled(true);
-        ChatHelper.sendMessage(player, LanguageModule
-            .getLangfromUUID(player.getGameProfile().getId()).CLAIM_INTERACT);
+        ChatHelper.sendMessage(
+            player, LanguageModule.getLangfromUUID(player.getGameProfile().getId()).CLAIM_INTERACT);
       }
     }
   }
@@ -162,6 +175,4 @@ public class ProtectionEvents {
       e.setCanceled(true);
     }
   }
-
-
 }

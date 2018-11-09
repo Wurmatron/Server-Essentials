@@ -40,8 +40,7 @@ public class WorldEvent {
       data.setOnlineTime(
           (int) (data.getOnlineTime() + calculateOnTime(e.player.getGameProfile().getId())));
       UserManager.JOIN_TIME.remove(e.player.getGameProfile().getId());
-      DataHelper.forceSave(
-          Keys.PLAYER_DATA, DataHelper.get(Keys.PLAYER_DATA, e.player.getGameProfile().getName()));
+      DataHelper.forceSave(Keys.PLAYER_DATA, data);
     }
   }
 
