@@ -19,7 +19,8 @@ public class ConfigHandler {
         "Rank",
         "Security",
         "TeamCommand",
-        "Teleportation"
+        "Teleportation",
+        "Protect"
       };
 
   @Comment("How the data is stored (File, Rest)")

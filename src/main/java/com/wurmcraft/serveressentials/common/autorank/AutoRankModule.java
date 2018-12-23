@@ -3,7 +3,6 @@ package com.wurmcraft.serveressentials.common.autorank;
 import static com.wurmcraft.serveressentials.api.json.global.Keys.AUTO_RANK;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 
-import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
@@ -51,7 +50,7 @@ public class AutoRankModule implements IModule {
     File autoRankDir = new File(saveLocation + File.separator + AUTO_RANK.name());
     if (autoRankDir.exists()) {
       for (File file : Objects.requireNonNull(autoRankDir.listFiles())) {
-        AutoRank rank = DataHelper.load(file, Keys.AUTO_RANK, new AutoRank());
+        AutoRank rank = DataHelper.load(file, AUTO_RANK, new AutoRank());
         UserManager.AUTO_RANK_CACHE.put(rank.getID(), rank);
       }
     } else {

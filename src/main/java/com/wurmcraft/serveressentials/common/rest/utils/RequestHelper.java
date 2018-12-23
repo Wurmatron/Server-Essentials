@@ -18,11 +18,10 @@ import java.util.UUID;
 
 public class RequestHelper {
 
-  private RequestHelper() {}
-
   private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
   private static final String USER_AGENT = "Mozilla/5.0";
+
+  private RequestHelper() {}
 
   private static String getBaseURL() {
     if (ConfigHandler.restURL.endsWith("/")) {

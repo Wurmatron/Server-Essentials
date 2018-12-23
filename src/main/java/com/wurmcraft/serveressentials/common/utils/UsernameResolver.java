@@ -77,7 +77,7 @@ public class UsernameResolver {
   public static final class AbstractUsernameCollection<T extends String>
       extends AbstractCollection<T> {
 
-    List<T> names = new LinkedList<>();
+    private List<T> names = new LinkedList<>();
 
     public AbstractUsernameCollection(Collection<T> values) {
       for (T value : values) {

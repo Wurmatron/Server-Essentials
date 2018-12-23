@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.utils;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RankUtils {
@@ -48,5 +49,9 @@ public class RankUtils {
     }
 
     return false;
+  }
+
+  public static boolean hasPerk(String perk, String[] perks) {
+    return Arrays.stream(perks).anyMatch(p -> p.equalsIgnoreCase(perk));
   }
 }

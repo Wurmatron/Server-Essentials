@@ -9,6 +9,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.utils.RankUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.player.EntityPlayer;
@@ -135,8 +136,15 @@ public class TeleportUtils {
   }
 
   private static boolean bypassTeleportCooldown(EntityPlayer player) {
-    GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-    return user.hasPerk("teleport.noCooldown") || user.hasPerk("teleport.*");
+    if (ConfigHandler.storageType.equalsIgnoreCase("Rest")) {
+      GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
+      return user.hasPerk("teleport.noCooldown") || user.hasPerk("teleport.*");
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
+      PlayerData user = (PlayerData) UserManager.getPlayerData(player.getGameProfile().getId())[0];
+      return RankUtils.hasPerk("teleport.noCooldown", user.getCustomData())
+          || RankUtils.hasPerk("teleport.*", user.getCustomData());
+    }
+    return false;
   }
 
   private static void setTeleportTimer(EntityPlayer player) {

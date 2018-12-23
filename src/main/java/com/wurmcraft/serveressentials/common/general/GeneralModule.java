@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.common.general;
 
 import static com.wurmcraft.serveressentials.api.json.global.Keys.KIT;
+import static com.wurmcraft.serveressentials.api.json.global.Keys.WARP;
 import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 
 import com.wurmcraft.serveressentials.api.json.global.GlobalData;
-import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.global.Kit;
 import com.wurmcraft.serveressentials.api.json.global.Warp;
 import com.wurmcraft.serveressentials.api.module.IModule;
@@ -40,7 +40,7 @@ public class GeneralModule implements IModule {
     File kitDir = new File(saveLocation + File.separator + KIT.name());
     if (kitDir.exists()) {
       for (File file : Objects.requireNonNull(kitDir.listFiles())) {
-        DataHelper.load(file, Keys.KIT, new Kit());
+        DataHelper.load(file, KIT, new Kit());
       }
     } else {
       kitDir.mkdirs();
@@ -69,10 +69,10 @@ public class GeneralModule implements IModule {
   }
 
   private void setupWarps() {
-    File warpDir = new File(saveLocation + File.separator + Keys.WARP.name());
+    File warpDir = new File(saveLocation + File.separator + WARP.name());
     if (warpDir.exists()) {
       for (File file : Objects.requireNonNull(warpDir.listFiles())) {
-        DataHelper.load(file, Keys.WARP, new Warp());
+        DataHelper.load(file, WARP, new Warp());
       }
     } else {
       warpDir.mkdirs();

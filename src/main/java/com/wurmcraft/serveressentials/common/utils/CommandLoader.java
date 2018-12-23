@@ -13,9 +13,9 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 public class CommandLoader {
 
-  private CommandLoader() {}
-
   public static List<SECommand> loadedCommands;
+
+  private CommandLoader() {}
 
   public static void locateCommands(ASMDataTable asmData) {
     List<SECommand> activeCommands = new ArrayList<>();

@@ -19,12 +19,12 @@ import joptsimple.internal.Strings;
 
 public class DataHelper {
 
-  private DataHelper() {}
-
   public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   public static GlobalData globalSettings;
   private static final HashMap<Keys, HashMap<Object, Object>> tempData = new HashMap<>();
   private static final HashMap<Keys, List<DataType>> loadedData = new HashMap<>();
+
+  private DataHelper() {}
 
   public static List<DataType> getData(Keys key) {
     return loadedData.get(key);
