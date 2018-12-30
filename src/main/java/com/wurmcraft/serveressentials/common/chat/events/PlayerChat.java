@@ -116,8 +116,8 @@ public class PlayerChat {
       String[] chat = new String[ConfigHandler.spamLimit];
       chat[0] = message;
       lastChat.put(name, chat);
+      return !isIgnored(name, message);
     }
-    return !isIgnored(name, message);
   }
 
   @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -230,7 +230,7 @@ public class PlayerChat {
       }
     } else if (ConfigHandler.storageType.equalsIgnoreCase("File")) {
       PlayerData userData = (PlayerData) UserManager.getPlayerData(user)[0];
-      return userData != null;
+      return userData == null;
     }
     return false;
   }
