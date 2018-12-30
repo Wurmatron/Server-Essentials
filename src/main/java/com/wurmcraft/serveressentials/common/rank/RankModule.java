@@ -47,9 +47,46 @@ public class RankModule implements IModule {
     if (!groupLocation.exists() || groupLocation.listFiles().length <= 0) {
       Rank defaultGroup =
           new Rank(
-              "Default", "[Default]", "", null, new String[] {"common.*", "teleport.*", "claim.*"});
+              "Default",
+              "[Default]",
+              "",
+              null,
+              new String[] {
+                "autorank.autorank",
+                "chat.msg",
+                "chat.reply",
+                "economy.balance",
+                "economy.bank",
+                "economy.bank",
+                "general.afk",
+                "general.discord",
+                "general.help",
+                "general.list",
+                "general.motd",
+                "general.ping",
+                "general.rules",
+                "general.spawn",
+                "general.website",
+                "language.lang",
+                "protect.town",
+                "team.team",
+                "teleportation.delhome",
+                "teleportation.home",
+                "teleportation.sethome",
+                "teleportation.tpaccept",
+                "teleportation.tpa",
+                "teleportation.tpdeny",
+                "teleportation.back",
+                "teleportation.warp",
+                "general.perk"
+              });
       Rank memberGroup =
-          new Rank("Member", "[Member]", "", new String[] {"Default"}, new String[] {"perk.*"});
+          new Rank(
+              "Member",
+              "[Member]",
+              "",
+              new String[] {"Default"},
+              new String[] {"teleportation.tplock", "general.feed", "general.hat", "general.heal"});
       Rank adminGroup =
           new Rank(
               "Admin", "[Admin]", "", new String[] {defaultGroup.getName()}, new String[] {"*"});
