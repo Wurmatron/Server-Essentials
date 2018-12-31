@@ -9,5 +9,6 @@ router.route("/find").get(UsersController.findAll);
 router.route("").get(UsersController.findAll);
 router.route("/find/:uuid/delete").delete(UsersController.delete);
 router.route("/find/:uuid/override").put(UsersController.override);
+router.route("/findEco").get(UsersController.findAllEco);
 
 module.exports = router;

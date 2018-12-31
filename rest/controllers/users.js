@@ -55,6 +55,26 @@ module.exports = {
             })
     },
 
+    findAllEco: async (req, res, next) => {
+        var allUsers = [];
+        userDB.createReadStream()
+            .on('data', function (data) {
+                const userData = JSON.parse(data.value.toString('utf8'));
+                allUsers.push({
+                    uuid: userData.uuid,
+                    bank: userData.bank
+                })
+            })
+            .on('error', function (err) {
+                console.log('Error!, ', err);
+            })
+            .on('close', function () {
+            })
+            .on('end', function () {
+                res.json(allUsers)
+            })
+    },
+
     delete: async (req, res, next) => {
         if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.uuid) {

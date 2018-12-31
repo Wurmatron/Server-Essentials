@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
+import com.wurmcraft.serveressentials.api.json.user.optional.PlayerBank;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -313,6 +314,29 @@ public class RequestHelper {
         ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
       return new Currency[0];
+    }
+
+    public static PlayerBank[] getAllPlayerBanks() {
+      try {
+        URL obj = new URL(getBaseURL() + "users/findEco");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuilder response = new StringBuilder();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return GSON.fromJson(response.toString(), PlayerBank[].class);
+        }
+      } catch (Exception e) {
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
+      }
+      return new PlayerBank[0];
     }
   }
 }
