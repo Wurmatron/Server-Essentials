@@ -58,7 +58,7 @@ public class MarketEvent {
       EntityPlayer player, IBlockState state, TileEntitySign sign) {
     if (player.getHeldItemMainhand() != ItemStack.EMPTY) {
       try {
-        sign.signText[0] = new TextComponentString(TextFormatting.GOLD + "[ISell]");
+        sign.signText[0] = new TextComponentString(TextFormatting.GOLD + "[adminSell]");
         double cost = Double.parseDouble(sign.signText[3].getUnformattedComponentText());
         sign.signText[3] = new TextComponentString(TextFormatting.LIGHT_PURPLE + "" + cost);
         sign.getTileData()
@@ -67,7 +67,7 @@ public class MarketEvent {
         player.world.notifyBlockUpdate(sign.getPos(), state, state, 3);
         return LanguageModule.getLangfromUUID(player.getGameProfile().getId())
             .SIGN_CREATED
-            .replaceAll("%TYPE%", "ISell");
+            .replaceAll("%TYPE%", "adminSell");
       } catch (Exception e) {
         return LanguageModule.getLangfromUUID(player.getGameProfile().getId())
             .INVALID_NUMBER
@@ -105,7 +105,7 @@ public class MarketEvent {
     return false;
   }
 
-  private static boolean ISell(EntityPlayer player, TileEntitySign sign) {
+  private static boolean adminSell(EntityPlayer player, TileEntitySign sign) {
     GlobalUser global = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
     double sellAmount =
         Double.parseDouble(
@@ -180,7 +180,7 @@ public class MarketEvent {
                 .sendMessage(
                     new TextComponentString(createBuySign(e.getEntityPlayer(), state, sign)));
           } else if (userHasPerm(e.getEntityPlayer(), "economy.isell")
-              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[ISell]")) {
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[adminSell]")) {
             e.getEntityPlayer()
                 .sendMessage(
                     new TextComponentString(createISellSign(e.getEntityPlayer(), state, sign)));
@@ -214,8 +214,8 @@ public class MarketEvent {
                                   e.getEntityPlayer().getGameProfile().getId())
                               .NO_MONEY));
             }
-          } else if (txt.equalsIgnoreCase("[ISell]")) {
-            if (ISell(e.getEntityPlayer(), sign)) {
+          } else if (txt.equalsIgnoreCase("[adminSell]")) {
+            if (adminSell(e.getEntityPlayer(), sign)) {
               e.getEntityPlayer()
                   .sendMessage(
                       new TextComponentString(

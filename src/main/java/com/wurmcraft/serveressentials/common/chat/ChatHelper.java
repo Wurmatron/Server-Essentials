@@ -166,7 +166,7 @@ public class ChatHelper {
   }
 
   private static boolean isStaff(EntityPlayerMP player) {
-    if (ConfigHandler.storageType.equals("Rest")) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("rest")) {
       return CommandUtils.hasPerm(
           "staff.notify", UserManager.getPlayerRank(player.getGameProfile().getId()));
     }

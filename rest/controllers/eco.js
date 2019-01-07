@@ -10,25 +10,25 @@ module.exports = {
                 const eco = ecoDB.get(req.body.name);
                 eco.then(function (result) {
                     if (!eco) {
-                        addEcoEntry(req, res, false)
+                        addEcoEntry(req, res, false);
                     } else {
-                        res.sendStatus(409)
+                        res.sendStatus(409);
                     }
                 }, function (err) {
-                    addEcoEntry(req, res, false)
+                    addEcoEntry(req, res, false);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else {
-            res.sendStatus(401)
+            res.sendStatus(401);
         }
     },
 
     find: async (req, res, next) => {
         const eco = ecoDB.get(req.params.name);
         eco.then(function (result) {
-            res.json(JSON.parse(result.toString('utf8')))
+            res.json(JSON.parse(result.toString('utf8')));
         }, function (err) {
             res.sendStatus(404);
         })
@@ -44,12 +44,12 @@ module.exports = {
                 })
             })
             .on('error', function (err) {
-                console.log('Error!, ', err);
+                console.log("Error!, ", err);
             })
             .on('close', function () {
             })
             .on('end', function () {
-                res.json(autoecos)
+                res.json(autoecos);\\
             })
     },
 

@@ -10,25 +10,25 @@ module.exports = {
                 const rank = autoRanksDB.get(req.body.name);
                 rank.then(function (result) {
                     if (!rank) {
-                        addAutoRankEntry(req, res, false)
+                        addAutoRankEntry(req, res, false);
                     } else {
-                        res.sendStatus(409)
+                        res.sendStatus(409);
                     }
                 }, function (err) {
-                    addAutoRankEntry(req, res, false)
+                    addAutoRankEntry(req, res, false);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else {
-            res.sendStatus(401)
+            res.sendStatus(401);
         }
     },
 
     find: async (req, res, next) => {
         const rank = autoRanksDB.get(req.params.name);
         rank.then(function (result) {
-            res.json(JSON.parse(result.toString('utf8')))
+            res.json(JSON.parse(result.toString('utf8')));
         }, function (err) {
             res.sendStatus(404);
         })
@@ -44,7 +44,7 @@ module.exports = {
                 })
             })
             .on('error', function (err) {
-                console.log('Error!, ', err);
+                console.log("Error!, ", err);
             })
             .on('close', function () {
             })
@@ -60,26 +60,26 @@ module.exports = {
                 rank.then(function (result) {
                     console.log("Removing Rank '" + req.body.name + "'");
                     autoRanksDB.del(req.body.name);
-                    res.sendStatus(200)
+                    res.sendStatus(200);
                 }, function (err) {
-                    res.sendStatus(404)
+                    res.sendStatus(404);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else
-            res.sendStatus(401)
+            res.sendStatus(401);
     },
 
     override: async (req, res, next) => {
         if (apiKeys.indexOf(req.get("authKey")) > -1) {
             if (req.params.name) {
-                addAutoRankEntry(req, res)
+                addAutoRankEntry(req, res);
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else
-            res.sendStatus(401)
+            res.sendStatus(401);
     }
 };
 

@@ -73,7 +73,7 @@ public class PerkCommand extends SECommand {
       if (perk != null) {
         double cost = perk.getCost(user);
         double amt = user.getBank().getCurrency(ConfigHandler.globalCurrency);
-        if (perk.getCost(user) <= user.getBank().getCurrency(ConfigHandler.globalCurrency)) {
+        if (cost <= amt) {
           int currentLvl = getLevel(user, perk);
           user.delPerk(perk.perk);
           currentLvl++;
@@ -94,7 +94,7 @@ public class PerkCommand extends SECommand {
     }
   }
 
-  public Perk getPerk(String key) {
+  private Perk getPerk(String key) {
     for (String name : perks.keySet()) {
       if (name.equalsIgnoreCase(key)) {
         return (Perk) perks.get(name);

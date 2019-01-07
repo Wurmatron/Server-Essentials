@@ -10,25 +10,25 @@ module.exports = {
                 const user = userDB.get(req.body.uuid);
                 user.then(function (result) {
                     if (!user) {
-                        addUserEntry(req, res, false)
+                        addUserEntry(req, res, false);
                     } else {
-                        res.sendStatus(409)
+                        res.sendStatus(409);
                     }
                 }, function (err) {
-                    addUserEntry(req, res, false)
+                    addUserEntry(req, res, false);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else {
-            res.sendStatus(401)
+            res.sendStatus(401);
         }
     },
 
     find: async (req, res, next) => {
         const user = userDB.get(req.params.uuid);
         user.then(function (result) {
-            res.json(JSON.parse(result.toString('utf8')))
+            res.json(JSON.parse(result.toString('utf8')));
         }, function (err) {
             res.sendStatus(404);
         })
@@ -46,7 +46,7 @@ module.exports = {
                 })
             })
             .on('error', function (err) {
-                console.log('Error!, ', err);
+                console.log("Error!, ", err);
             })
             .on('close', function () {
             })
@@ -66,7 +66,7 @@ module.exports = {
                 })
             })
             .on('error', function (err) {
-                console.log('Error!, ', err);
+                console.log("Error!, ", err);
             })
             .on('close', function () {
             })
@@ -82,15 +82,15 @@ module.exports = {
                 user.then(function (result) {
                     console.log("Removing User '" + req.body.uuid + "'");
                     userDB.del(req.body.uuid);
-                    res.sendStatus(200)
+                    res.sendStatus(200);
                 }, function (err) {
-                    res.sendStatus(404)
+                    res.sendStatus(404);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else
-            res.sendStatus(401)
+            res.sendStatus(401);
     },
 
     override: async (req, res, next) => {
@@ -98,10 +98,10 @@ module.exports = {
             if (req.params.uuid) {
                 addUserEntry(req, res)
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else
-            res.sendStatus(401)
+            res.sendStatus(401);
     }
 };
 

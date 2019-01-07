@@ -11,8 +11,6 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class UserManager {
 
-  private UserManager() {}
-
   // User Cache
   public static final NonBlockingHashMap<UUID, Rank> USER_RANKS = new NonBlockingHashMap<>();
   public static final NonBlockingHashMap<UUID, Object[]> PLAYER_DATA = new NonBlockingHashMap<>();
@@ -24,6 +22,8 @@ public class UserManager {
   public static final NonBlockingHashMap<String, Object[]> TEAM_CACHE = new NonBlockingHashMap<>();
 
   public static final NonBlockingHashMap<UUID, Long> JOIN_TIME = new NonBlockingHashMap<>();
+
+  private UserManager() {}
 
   public static Rank getPlayerRank(UUID uuid) {
     Rank rank = USER_RANKS.get(uuid);

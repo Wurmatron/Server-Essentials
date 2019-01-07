@@ -10,18 +10,18 @@ module.exports = {
                 const rank = rankDB.get(req.body.name);
                 rank.then(function (result) {
                     if (!rank) {
-                        addRankEntry(req, res, false)
+                        addRankEntry(req, res, false);
                     } else {
-                        res.sendStatus(409)
+                        res.sendStatus(409);
                     }
                 }, function (err) {
-                    addRankEntry(req, res, false)
+                    addRankEntry(req, res, false);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else {
-            res.sendStatus(401)
+            res.sendStatus(401);
         }
     },
 
@@ -64,15 +64,15 @@ module.exports = {
                 rank.then(function (result) {
                     console.log("Removing Rank '" + req.body.name + "'");
                     rankDB.del(req.body.name);
-                    res.sendStatus(200)
+                    res.sendStatus(200);
                 }, function (err) {
-                    res.sendStatus(404)
+                    res.sendStatus(404);
                 })
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else
-            res.sendStatus(401)
+            res.sendStatus(401);
     },
 
     override: async (req, res, next) => {
@@ -80,10 +80,10 @@ module.exports = {
             if (req.params.name) {
                 addRankEntry(req, res)
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         } else
-            res.sendStatus(401)
+            res.sendStatus(401);
     }
 };
 
