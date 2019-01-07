@@ -55,7 +55,7 @@ module.exports = {
             })
     },
 
-    findAllEco: async (req, res, next) => {
+    findEco: async (req, res, next) => {
         var allUsers = [];
         userDB.createReadStream()
             .on('data', function (data) {
