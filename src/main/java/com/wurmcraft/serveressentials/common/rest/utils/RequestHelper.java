@@ -32,12 +32,12 @@ public class RequestHelper {
     }
   }
 
-  private static void post(String URL, Object data) {
+  private static void post(String type, String URL, Object data) {
     try {
       URL postURL = new URL(getBaseURL() + URL);
       URLConnection connection = postURL.openConnection();
       HttpURLConnection http = (HttpURLConnection) connection;
-      http.setRequestMethod("POST");
+      http.setRequestMethod(type.toUpperCase());
       http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
       http.setRequestProperty("authKey", ConfigHandler.restAuthKey);
       http.setDoOutput(true);
@@ -45,29 +45,7 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      ServerEssentialsServer.LOGGER.debug("Post Status: " + status);
-      if (status == 401) {
-        ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Post");
-      }
-    } catch (Exception e) {
-      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-    }
-  }
-
-  private static void put(String URL, Object data) {
-    try {
-      URL postURL = new URL(getBaseURL() + URL);
-      URLConnection connection = postURL.openConnection();
-      HttpURLConnection http = (HttpURLConnection) connection;
-      http.setRequestMethod("PUT");
-      http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-      http.setRequestProperty("authKey", ConfigHandler.restAuthKey);
-      http.setDoOutput(true);
-      String jsonData = GSON.toJson(data);
-      connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
-      connection.getOutputStream().write(jsonData.getBytes());
-      int status = ((HttpURLConnection) connection).getResponseCode();
-      ServerEssentialsServer.LOGGER.error("Put Status: " + status);
+      ServerEssentialsServer.LOGGER.error(type + " Status: " + status);
       if (status == 401) {
         ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Put");
       }
@@ -76,15 +54,14 @@ public class RequestHelper {
     }
   }
 
-  public static class RankResponses {
+  private static void post(String URL, Object data) {
+    post("post", URL, data);
+  }
 
-    public static void addRank(Rank rank) {
-      post("ranks/add", rank);
-    }
-
-    public static Rank getRank(String name) {
+  private static <T extends Object> T get(String URL, String dataName, Class<T> type) {
+    if (!URL.isEmpty()) {
       try {
-        URL obj = new URL(getBaseURL() + "ranks/find/" + name);
+        URL obj = new URL(getBaseURL() + URL + dataName);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -97,39 +74,31 @@ public class RequestHelper {
             response.append(inputLine);
           }
           in.close();
-          return GSON.fromJson(response.toString(), Rank.class);
+          return GSON.fromJson(response.toString(), type);
         }
       } catch (Exception e) {
         ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
       }
-      return null;
+    }
+    return null;
+  }
+
+  public static class RankResponses {
+
+    public static void addRank(Rank rank) {
+      post("ranks/add", rank);
+    }
+
+    public static Rank getRank(String name) {
+      return get("ranks/find/", name, Rank.class);
     }
 
     public static void overrideRank(Rank rank) {
-      put("ranks" + rank.getName() + "/override", rank);
+      post("put", "ranks" + rank.getName() + "/override", rank);
     }
 
     public static Rank[] getAllRanks() {
-      try {
-        URL obj = new URL(getBaseURL() + "ranks/find");
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) { // success
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), Rank[].class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return new Rank[0];
+      return get("ranks/find", "", Rank[].class);
     }
   }
 
@@ -140,30 +109,11 @@ public class RequestHelper {
     }
 
     public static GlobalUser getPlayerData(UUID uuid) {
-      try {
-        URL obj = new URL(getBaseURL() + "users/find/" + uuid.toString());
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), GlobalUser.class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return null;
+      return get("users/find/", uuid.toString(), GlobalUser.class);
     }
 
     public static void overridePlayerData(GlobalUser user) {
-      put("users/find/" + user.getUuid() + "/override", user);
+      post("put", "users/find/" + user.getUuid() + "/override", user);
     }
   }
 
@@ -175,31 +125,13 @@ public class RequestHelper {
 
     public static GlobalTeam getTeam(String name) {
       if (!name.isEmpty()) {
-        try {
-          URL obj = new URL(getBaseURL() + "teams/find/" + name);
-          HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-          con.setRequestMethod("GET");
-          con.setRequestProperty("User-Agent", USER_AGENT);
-          int responseCode = con.getResponseCode();
-          if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-              response.append(inputLine);
-            }
-            in.close();
-            return GSON.fromJson(response.toString(), GlobalTeam.class);
-          }
-        } catch (Exception e) {
-          ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-        }
+        return get("teams/find/", name, GlobalTeam.class);
       }
       return null;
     }
 
     public static void overrideTeam(GlobalTeam team) {
-      put("teams" + team.getName() + "/override", team);
+      post("put", "teams" + team.getName() + "/override", team);
     }
   }
 
@@ -210,53 +142,15 @@ public class RequestHelper {
     }
 
     public static AutoRank getAutoRank(String name) {
-      try {
-        URL obj = new URL(getBaseURL() + "autoranks/find/" + name);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), AutoRank.class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return null;
+      return get("autoranks/find/", name, AutoRank.class);
     }
 
     public static void overrideAutoRank(AutoRank rank) {
-      put("ranks" + rank.getID() + "/override", rank);
+      post("put", "ranks" + rank.getID() + "/override", rank);
     }
 
     public static AutoRank[] getAllAutoRanks() {
-      try {
-        URL obj = new URL(getBaseURL() + "autoranks/find");
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) { // success
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), AutoRank[].class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return new AutoRank[0];
+      return get("autoranks/find", "", AutoRank[].class);
     }
   }
 
@@ -267,76 +161,19 @@ public class RequestHelper {
     }
 
     public static Currency getEco(String name) {
-      try {
-        URL obj = new URL(getBaseURL() + "eco/find/" + name);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), Currency.class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return null;
+      return get("eco/find/", name, Currency.class);
     }
 
     public static void overrideEco(Currency currency) {
-      put("ranks" + currency.getName() + "/override", currency);
+      post("put", "ranks" + currency.getName() + "/override", currency);
     }
 
     public static Currency[] getAllCurrency() {
-      try {
-        URL obj = new URL(getBaseURL() + "eco/find");
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), Currency[].class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return new Currency[0];
+      return get("eco/find", "", Currency[].class);
     }
 
     public static PlayerBank[] getAllPlayerBanks() {
-      try {
-        URL obj = new URL(getBaseURL() + "users/findEco");
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-          String inputLine;
-          StringBuilder response = new StringBuilder();
-          while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-          }
-          in.close();
-          return GSON.fromJson(response.toString(), PlayerBank[].class);
-        }
-      } catch (Exception e) {
-        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
-      }
-      return new PlayerBank[0];
+      return get("users/findEco", "", PlayerBank[].class);
     }
   }
 }
