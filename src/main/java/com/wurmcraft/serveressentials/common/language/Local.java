@@ -73,6 +73,8 @@ public class Local {
   public String WARP_SET;
   public String REST_INVALID;
   public String POSSIBLY_ALT;
+  public String CHANNEL_EXISTS;
+  public String CHANNEL_TYPE;
 
   // Commands
   public String RANK_NULL;

@@ -153,5 +153,7 @@
   "POSSIBLY_ALT": "&d%PLAYER% &cmay be an alt!",
   "COMMAND_TOWN": "&dUsed to manage a town.",
   "PROTECT_TOWN_CREATE": "&dTown %TOWN% created!",
-  "PROTECT_TOWN_NON_EXISTENT": "&c%TOWN% does not exist"
+  "PROTECT_TOWN_NON_EXISTENT": "&c%TOWN% does not exist",
+  "CHANNEL_EXISTS": "&c%CHANNEL% already Exists!",
+  "CHANNEL_TYPE": "&cInvalid Type, try %TYPES%"
 }
