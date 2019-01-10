@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.common.protect.events.PlayerTrackerEvents;
 import com.wurmcraft.serveressentials.common.protect.events.ProtectionEvents;
 import java.io.File;
 import java.util.Arrays;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -44,6 +45,13 @@ public class ProtectionModule implements IModule {
 
   public static boolean isAreaClaimed(BlockPos pos) {
     return getTownForPos(pos) != null;
+  }
+
+  public static boolean hasPermission(EntityPlayer player, BlockPos pos) {
+    Town town = getTownForPos(pos);
+    if (town != null && town.getOwnerID().equals(player.getGameProfile().getId().toString()))
+      return true;
+    return false;
   }
 
   public static Town getTownForPos(BlockPos pos) {
