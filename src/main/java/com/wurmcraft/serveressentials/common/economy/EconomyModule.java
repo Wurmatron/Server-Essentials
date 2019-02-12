@@ -24,7 +24,7 @@ public class EconomyModule implements IModule {
   public void setup() {
     MinecraftForge.EVENT_BUS.register(new MarketEvent());
     syncCurrency();
-    syncPlayerBalances();
+    //    syncPlayerBalances();
   }
 
   public static void syncCurrency() {
@@ -49,24 +49,24 @@ public class EconomyModule implements IModule {
     ServerEssentialsServer.LOGGER.debug("Synced AutoRanks with REST API");
   }
 
-  public static void syncPlayerBalances() {
-    RestModule.EXECUTORs.scheduleAtFixedRate(
-        () -> {
-          try {
-            PlayerBank[] allPlayerBanks = RequestHelper.EcoResponses.getAllPlayerBanks();
-            playerBanks = Arrays.asList(allPlayerBanks);
-            if (currency.size() == 0) {
-              ServerEssentialsServer.LOGGER.debug("No Player Bank's Found within the database");
-            }
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        },
-        0L,
-        ConfigHandler.syncPeriod,
-        TimeUnit.MINUTES);
-    ServerEssentialsServer.LOGGER.debug("Synced AutoRanks with REST API");
-  }
+  //  public static void syncPlayerBalances() {
+  //    RestModule.EXECUTORs.scheduleAtFixedRate(
+  //        () -> {
+  //          try {
+  //            PlayerBank[] allPlayerBanks = RequestHelper.EcoResponses.getAllPlayerBanks();
+  //            playerBanks = Arrays.asList(allPlayerBanks);
+  //            if (currency.size() == 0) {
+  //              ServerEssentialsServer.LOGGER.debug("No Player Bank's Found within the database");
+  //            }
+  //          } catch (Exception e) {
+  //            e.printStackTrace();
+  //          }
+  //        },
+  //        0L,
+  //        ConfigHandler.syncPeriod,
+  //        TimeUnit.MINUTES);
+  //    ServerEssentialsServer.LOGGER.debug("Synced AutoRanks with REST API");
+  //  }
 
   public static Currency getCurrency(String name) {
     for (Currency currency : currency.values()) {

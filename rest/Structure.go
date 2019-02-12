@@ -45,6 +45,7 @@ type UserSimple struct {
 	UUID    string `json:"uuid"`
 	Rank    string `json:"rank"`
 	Discord string `json:"discord"`
+	Bank    Bank   `json:"bank"`
 }
 
 // Rank

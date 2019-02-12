@@ -30,7 +30,7 @@ public class ConfigHandler {
   public static String restURL = "";
 
   @Comment("Rest API Auth Key")
-  public static String restAuthKey = "someRandomAuthKey123";
+  public static String restLogin = "test:password";
 
   @Comment("Default Language")
   public static String defaultLanguage = "en_us";

@@ -57,6 +57,7 @@ func GetAllUsers(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
 			UUID:    globalUser.UUID,
 			Rank:    globalUser.Rank,
 			Discord: globalUser.Discord,
+			Bank:    globalUser.Bank,
 		})
 	}
 	playerData := AllPlayers{Players: data}

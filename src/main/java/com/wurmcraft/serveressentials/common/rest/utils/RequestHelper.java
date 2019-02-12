@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
-import com.wurmcraft.serveressentials.api.json.user.optional.PlayerBank;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.team.rest.GlobalTeam;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -15,12 +14,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Base64;
 import java.util.UUID;
+import javax.net.ssl.HttpsURLConnection;
 
 public class RequestHelper {
 
   private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   private static final String USER_AGENT = "Mozilla/5.0";
+  private static final String AUTH =
+      "Basic " + Base64.getEncoder().encodeToString(ConfigHandler.restLogin.getBytes());
 
   private RequestHelper() {}
 
@@ -39,8 +42,9 @@ public class RequestHelper {
       HttpURLConnection http = (HttpURLConnection) connection;
       http.setRequestMethod(type.toUpperCase());
       http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-      http.setRequestProperty("authKey", ConfigHandler.restAuthKey);
+      http.setRequestProperty("authKey", ConfigHandler.restLogin);
       http.setDoOutput(true);
+      http.setRequestProperty("Authorization", AUTH);
       String jsonData = GSON.toJson(data);
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
@@ -62,7 +66,7 @@ public class RequestHelper {
     if (!URL.isEmpty()) {
       try {
         URL obj = new URL(getBaseURL() + URL + dataName);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
         int responseCode = con.getResponseCode();
@@ -90,67 +94,67 @@ public class RequestHelper {
     }
 
     public static Rank getRank(String name) {
-      return get("ranks/find/", name, Rank.class);
+      return get("rank/", name, Rank.class);
     }
 
     public static void overrideRank(Rank rank) {
-      post("put", "ranks" + rank.getName() + "/override", rank);
+      post("put", "rank" + rank.getName() + "/override", rank);
     }
 
     public static Rank[] getAllRanks() {
-      return get("ranks/find", "", Rank[].class);
+      return get("rank/", "", Rank[].class);
     }
   }
 
   public static class UserResponses {
 
     public static void addPlayerData(GlobalUser user) {
-      post("users/add", user);
+      post("user/add", user);
     }
 
     public static GlobalUser getPlayerData(UUID uuid) {
-      return get("users/find/", uuid.toString(), GlobalUser.class);
+      return get("user/", uuid.toString(), GlobalUser.class);
     }
 
     public static void overridePlayerData(GlobalUser user) {
-      post("put", "users/find/" + user.getUuid() + "/override", user);
+      post("put", "user/" + user.getUuid() + "/override", user);
     }
   }
 
   public static class TeamResponses {
 
     public static void addTeam(GlobalTeam team) {
-      post("teams/add", team);
+      post("team/add", team);
     }
 
     public static GlobalTeam getTeam(String name) {
       if (!name.isEmpty()) {
-        return get("teams/find/", name, GlobalTeam.class);
+        return get("team/", name, GlobalTeam.class);
       }
       return null;
     }
 
     public static void overrideTeam(GlobalTeam team) {
-      post("put", "teams" + team.getName() + "/override", team);
+      post("put", "team/" + team.getName() + "/override", team);
     }
   }
 
   public static class AutoRankResponses {
 
     public static void addAutoRank(AutoRank rank) {
-      post("autoranks/add", rank);
+      post("autorank/add", rank);
     }
 
     public static AutoRank getAutoRank(String name) {
-      return get("autoranks/find/", name, AutoRank.class);
+      return get("autorank/", name, AutoRank.class);
     }
 
     public static void overrideAutoRank(AutoRank rank) {
-      post("put", "ranks" + rank.getID() + "/override", rank);
+      post("put", "autorank/" + rank.getID() + "/override", rank);
     }
 
     public static AutoRank[] getAllAutoRanks() {
-      return get("autoranks/find", "", AutoRank[].class);
+      return get("autorank/", "", AutoRank[].class);
     }
   }
 
@@ -161,19 +165,15 @@ public class RequestHelper {
     }
 
     public static Currency getEco(String name) {
-      return get("eco/find/", name, Currency.class);
+      return get("eco/", name, Currency.class);
     }
 
     public static void overrideEco(Currency currency) {
-      post("put", "ranks" + currency.getName() + "/override", currency);
+      post("put", "eco/" + currency.getName() + "/override", currency);
     }
 
     public static Currency[] getAllCurrency() {
-      return get("eco/find", "", Currency[].class);
-    }
-
-    public static PlayerBank[] getAllPlayerBanks() {
-      return get("users/findEco", "", PlayerBank[].class);
+      return get("eco", "", Currency[].class);
     }
   }
 }
