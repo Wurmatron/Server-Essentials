@@ -6,6 +6,8 @@ import com.wurmcraft.serveressentials.api.json.global.Global;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.track.TrackModule;
 import com.wurmcraft.serveressentials.common.utils.CommandLoader;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,9 @@ public class ServerEssentialsServer {
     LOGGER.info("Starting PreInit");
     modules = loadModules(e.getAsmData());
     CommandLoader.locateCommands(e.getAsmData());
+    if (isModuleActive("track")) {
+      RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("PreInit"));
+    }
   }
 
   @EventHandler
@@ -78,6 +83,9 @@ public class ServerEssentialsServer {
     LOGGER.info("Starting Init");
     for (IModule module : modules) {
       module.setup();
+    }
+    if (isModuleActive("track")) {
+      RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("Init"));
     }
   }
 
@@ -90,12 +98,18 @@ public class ServerEssentialsServer {
               + ConfigHandler.defaultLanguage
               + ", this will be break anything to do with chat!");
     }
+    if (isModuleActive("track")) {
+      RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("PostInit"));
+    }
   }
 
   @EventHandler
   public void serverStarting(FMLServerStartingEvent e) {
     LOGGER.info("Server Starting");
     CommandLoader.registerCommands(e);
+    if (isModuleActive("track")) {
+      RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("ServerStarting"));
+    }
   }
 
   @EventHandler
@@ -105,5 +119,17 @@ public class ServerEssentialsServer {
       player.connection.disconnect(
           new TextComponentString(ConfigHandler.shutdownMessage.replaceAll("&", "\u00A7")));
     }
+    if (isModuleActive("track")) {
+      RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("Offline"));
+    }
+  }
+
+  public boolean isModuleActive(String moduleName) {
+    for (String activeModule : ConfigHandler.modules) {
+      if (moduleName.equalsIgnoreCase(activeModule)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -103,4 +103,7 @@ public class ConfigHandler {
   @Comment(
       "Checks for duplicated ip addresses on the server, which may mean the user is using an alt")
   public static boolean altCheck = false;
+
+  @Comment("Servers name when viewed from others")
+  public static String serverName = "";
 }

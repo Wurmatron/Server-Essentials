@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.rest.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wurmcraft.serveressentials.api.json.rest.ServerStatus;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.file.AutoRank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
@@ -174,6 +175,13 @@ public class RequestHelper {
 
     public static Currency[] getAllCurrency() {
       return get("eco", "", Currency[].class);
+    }
+  }
+
+  public static class TrackResponces {
+
+    public static void syncServer(ServerStatus status) {
+      post("/status", status);
     }
   }
 }
