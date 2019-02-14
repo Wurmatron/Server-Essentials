@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
 import com.wurmcraft.serveressentials.api.json.user.optional.Coin;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
+import com.wurmcraft.serveressentials.api.json.user.rest.ServerTime;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
@@ -38,6 +39,10 @@ public class RestModule implements IModule {
         () -> {
           try {
             Rank[] allRanks = RequestHelper.RankResponses.getAllRanks();
+            if (allRanks == null) {
+              createDefaultRanks();
+              allRanks = RequestHelper.RankResponses.getAllRanks();
+            }
             UserManager.RANK_CACHE.clear();
             for (Rank rank : allRanks) {
               UserManager.RANK_CACHE.put(rank.getName(), rank);
@@ -51,7 +56,7 @@ public class RestModule implements IModule {
               isValid = true;
             }
           } catch (Exception e) {
-            ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
+            ServerEssentialsServer.LOGGER.warn(e.getMessage());
           }
         },
         0L,
@@ -123,6 +128,13 @@ public class RestModule implements IModule {
       }
       Bank bank = new Bank(coins.toArray(new Coin[0]));
       globalUser.setBank(bank);
+      globalUser.addServerData(
+          new ServerTime(
+              ConfigHandler.serverName,
+              0,
+              System.currentTimeMillis(),
+              System.currentTimeMillis(),
+              0));
       LocalUser localUser = new LocalUser(uuid);
       DataHelper.createIfNonExist(Keys.LOCAL_USER, localUser);
       RequestHelper.UserResponses.addPlayerData(globalUser);

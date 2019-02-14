@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
@@ -55,7 +56,7 @@ public class PermCommand extends SECommand {
           + lang.CHAT_LASTSEEN.replaceAll("&", FORMATTING_CODE)
           + ": "
           + TextFormatting.AQUA
-          + new Date(user.getLastSeen()).toString(),
+          + new Date(user.getServerData(ConfigHandler.serverName).getLastSeen()).toString(),
       lang.CHAT_SPACER.replaceAll("&", FORMATTING_CODE)
     };
   }

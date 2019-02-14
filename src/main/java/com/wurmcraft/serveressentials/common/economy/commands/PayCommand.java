@@ -26,10 +26,10 @@ public class PayCommand extends SECommand {
 
   public static boolean setCurrency(Bank bank, String currencyName, double amount, boolean add) {
     boolean completed = false;
-    if (bank.getCurrency().length == 0) {
+    if (bank.getCoin().length == 0) {
       bank = initBank(bank);
     }
-    for (Coin c : bank.getCurrency()) {
+    for (Coin c : bank.getCoin()) {
       if (c.getName().equalsIgnoreCase(currencyName)) {
         if (!add && c.getAmount() - amount > 0) {
           return false;
@@ -51,7 +51,7 @@ public class PayCommand extends SECommand {
     for (int index = 0; index < ConfigHandler.activeCurrency.length; index++) {
       coins[index] = new Coin(ConfigHandler.activeCurrency[index], 0);
     }
-    bank.setCurrency(coins);
+    bank.setCoin(coins);
     return bank;
   }
 

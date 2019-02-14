@@ -71,7 +71,8 @@ public class AutoRankModule implements IModule {
   public static boolean verifyAutoRank(AutoRank rank, EntityPlayer player, GlobalUser user) {
     boolean balance = rank.getBalance() == user.getBank().getCurrency(ConfigHandler.serverCurrency);
     boolean exp = rank.getExp() <= player.experienceLevel;
-    boolean playTime = rank.getPlayTime() <= user.getOnlineTime();
+    boolean playTime =
+        rank.getPlayTime() <= user.getServerData(ConfigHandler.serverName).getOnlineTime();
     return balance && exp && playTime;
   }
 

@@ -10,7 +10,7 @@ import (
 
 // Rest Config
 const version string = "0.0.1"
-const address string = ":8080"
+const address string = ":5050"
 const httpsCert string = "server.crt"
 const httpsKey string = "server.key"
 

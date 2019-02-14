@@ -3,12 +3,15 @@ package com.wurmcraft.serveressentials.common;
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.modules;
 
 import com.wurmcraft.serveressentials.api.json.global.Global;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.track.TrackModule;
 import com.wurmcraft.serveressentials.common.utils.CommandLoader;
+import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,6 +25,7 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.LogManager;
@@ -113,11 +117,26 @@ public class ServerEssentialsServer {
   }
 
   @EventHandler
+  public void serverStarted(FMLServerStartedEvent e) {
+    if (isModuleActive("track")) {
+      RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("Online"));
+      TrackModule.startStatusUpdater();
+    }
+  }
+
+  @EventHandler
   public void serverStopping(FMLServerStoppingEvent e) {
     for (EntityPlayerMP player :
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
       player.connection.disconnect(
           new TextComponentString(ConfigHandler.shutdownMessage.replaceAll("&", "\u00A7")));
+      if (UserManager.PLAYER_DATA.containsKey(player.getGameProfile().getId())) {
+        GlobalUser globalUser =
+            (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
+        globalUser.updateServerData(
+            globalUser.getServerData(ConfigHandler.serverName).getOnlineTime()
+                + WorldEvent.calculateOnTime(player.getGameProfile().getId()));
+      }
     }
     if (isModuleActive("track")) {
       RequestHelper.TrackResponces.syncServer(TrackModule.createStatus("Offline"));

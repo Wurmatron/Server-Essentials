@@ -36,9 +36,9 @@ public class WorldEvent {
     if (UserManager.PLAYER_DATA.containsKey(e.player.getGameProfile().getId())) {
       GlobalUser globalUser =
           (GlobalUser) UserManager.getPlayerData(e.player.getGameProfile().getId())[0];
-      globalUser.setLastSeen(System.currentTimeMillis());
-      globalUser.setOnlineTime(
-          globalUser.getOnlineTime() + calculateOnTime(e.player.getGameProfile().getId()));
+      globalUser.updateServerData(
+          globalUser.getServerData(ConfigHandler.serverName).getOnlineTime()
+              + calculateOnTime(e.player.getGameProfile().getId()));
       RequestHelper.UserResponses.overridePlayerData(globalUser);
       UserManager.JOIN_TIME.remove(e.player.getGameProfile().getId());
       TeamModule.unloadRestTeam(globalUser);
@@ -46,7 +46,7 @@ public class WorldEvent {
     }
   }
 
-  private long calculateOnTime(UUID uuid) {
+  public static long calculateOnTime(UUID uuid) {
     return (System.currentTimeMillis() - UserManager.JOIN_TIME.getOrDefault(uuid, 0L)) / 60000;
   }
 }

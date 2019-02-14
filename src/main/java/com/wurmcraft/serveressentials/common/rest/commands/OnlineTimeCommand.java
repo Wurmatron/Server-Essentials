@@ -43,7 +43,10 @@ public class OnlineTimeCommand extends SECommand {
               new TextComponentString(
                   getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));
           String formattedGlobal =
-              DurationFormatUtils.formatDuration(global.getOnlineTime() * 60000, "d%:H$:m#:s@")
+              DurationFormatUtils.formatDuration(
+                      (long)
+                          (global.getServerData(ConfigHandler.serverName).getOnlineTime() * 60000),
+                      "d%:H$:m#:s@")
                   .replace('%', 'D')
                   .replace('$', 'H')
                   .replace('#', 'M')

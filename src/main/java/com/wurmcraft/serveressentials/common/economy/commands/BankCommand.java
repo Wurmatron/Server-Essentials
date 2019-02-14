@@ -42,7 +42,7 @@ public class BankCommand extends SECommand {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       GlobalUser data = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).CHAT_SPACER);
-      for (Coin coin : data.getBank().getCurrency()) {
+      for (Coin coin : data.getBank().getCoin()) {
         ChatHelper.sendMessage(
             sender, coin.getName().replaceAll("_", "") + ": " + coin.getAmount());
       }

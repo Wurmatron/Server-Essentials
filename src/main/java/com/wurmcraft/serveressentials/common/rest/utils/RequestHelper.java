@@ -71,7 +71,7 @@ public class RequestHelper {
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
         int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
+        if (responseCode == HttpsURLConnection.HTTP_OK) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
           StringBuilder response = new StringBuilder();
@@ -91,7 +91,7 @@ public class RequestHelper {
   public static class RankResponses {
 
     public static void addRank(Rank rank) {
-      post("ranks/add", rank);
+      post("rank/add", rank);
     }
 
     public static Rank getRank(String name) {
@@ -103,7 +103,7 @@ public class RequestHelper {
     }
 
     public static Rank[] getAllRanks() {
-      return get("rank/", "", Rank[].class);
+      return get("rank", "", Rank[].class);
     }
   }
 

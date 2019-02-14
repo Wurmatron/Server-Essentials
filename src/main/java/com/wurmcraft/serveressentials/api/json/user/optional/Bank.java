@@ -7,18 +7,18 @@ import java.util.List;
 
 public class Bank {
 
-  private Coin[] currency;
+  private Coin[] coin;
 
   public Bank() {
-    currency = new Coin[0];
+    coin = new Coin[0];
   }
 
   public Bank(Coin[] currency) {
-    this.currency = currency;
+    this.coin = currency;
   }
 
   public double getCurrency(String name) {
-    for (Coin coin : currency) {
+    for (Coin coin : coin) {
       if (coin.getName().equalsIgnoreCase(name)) {
         return coin.getAmount();
       }
@@ -26,16 +26,16 @@ public class Bank {
     return 0;
   }
 
-  public Coin[] getCurrency() {
-    return currency;
+  public Coin[] getCoin() {
+    return coin;
   }
 
-  public void setCurrency(Coin[] currency) {
-    this.currency = currency;
+  public void setCoin(Coin[] coin) {
+    this.coin = coin;
   }
 
   public void spend(String name, double amount) {
-    for (Coin coin : currency) {
+    for (Coin coin : coin) {
       if (coin.getName().equalsIgnoreCase(name.replaceAll(" ", "_"))) {
         coin.setAmount(coin.getAmount() - amount);
       }
@@ -44,7 +44,7 @@ public class Bank {
 
   public void earn(String name, double amount) {
     boolean found = false;
-    for (Coin coin : currency) {
+    for (Coin coin : coin) {
       if (coin.getName().equalsIgnoreCase(name.replaceAll(" ", "_"))) {
         cleanCurrency();
         coin.setAmount(coin.getAmount() + amount);
@@ -59,25 +59,25 @@ public class Bank {
   private void addCurrency(Coin coin) {
     cleanCurrency();
     List<Coin> coins = new ArrayList<>();
-    Collections.addAll(coins, currency);
+    Collections.addAll(coins, this.coin);
     coins.add(coin);
-    currency = coins.toArray(new Coin[0]);
+    this.coin = coins.toArray(new Coin[0]);
   }
 
   private void cleanCurrency() {
     List<Coin> activeCurr = new ArrayList<>();
     for (String name : ConfigHandler.activeCurrency) {
-      for (Coin coin : currency) {
+      for (Coin coin : coin) {
         if (coin.getName().equalsIgnoreCase(name) && !coinExists(coin)) {
           activeCurr.add(coin);
         }
       }
     }
-    currency = activeCurr.toArray(new Coin[0]);
+    coin = activeCurr.toArray(new Coin[0]);
   }
 
   private boolean coinExists(Coin coin) {
-    for (Coin c : currency) {
+    for (Coin c : this.coin) {
       if (coin.getName().equalsIgnoreCase(c.getName())) {
         return true;
       }

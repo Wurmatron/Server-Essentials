@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.rest.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -36,7 +37,9 @@ public class SeenCommand extends SECommand {
             getCurrentLanguage(sender).CHAT_LASTSEEN
                 + ": "
                 + TextFormatting.AQUA
-                + new Date(global.getLastSeen()).toString().replaceAll("&", FORMATTING_CODE));
+                + new Date(global.getServerData(ConfigHandler.serverName).getLastSeen())
+                    .toString()
+                    .replaceAll("&", FORMATTING_CODE));
       } else {
         ChatHelper.sendMessage(
             sender,

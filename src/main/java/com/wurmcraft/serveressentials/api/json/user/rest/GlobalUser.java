@@ -1,7 +1,6 @@
 package com.wurmcraft.serveressentials.api.json.user.rest;
 
 import com.wurmcraft.serveressentials.api.json.user.optional.Bank;
-import com.wurmcraft.serveressentials.api.json.user.optional.Share;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,18 +10,14 @@ import java.util.List;
 
 public class GlobalUser implements Serializable {
 
-  public String rank;
   private String uuid;
+  public String rank;
   private String nick;
   private Bank bank;
   private String team;
-  private long onlineTime;
-  private long lastSeen;
-  private Share[] stocks;
-  private int loadedChunks;
-  private long firstJoin;
+  private ServerTime[] serverData;
   private boolean muted;
-  private String lang;
+  private String language;
   private String discord;
   private String[] permission;
   private String[] perks;
@@ -35,13 +30,8 @@ public class GlobalUser implements Serializable {
     this.nick = user.nick;
     this.bank = user.bank;
     this.team = user.team;
-    this.onlineTime = user.onlineTime;
-    this.lastSeen = user.lastSeen;
-    this.stocks = user.stocks;
-    this.loadedChunks = user.loadedChunks;
-    this.firstJoin = user.firstJoin;
     this.muted = user.muted;
-    this.lang = user.lang;
+    this.language = user.language;
     this.discord = user.discord;
     this.permission = user.permission;
     this.perks = user.perks;
@@ -53,16 +43,12 @@ public class GlobalUser implements Serializable {
     this.nick = "";
     this.bank = new Bank();
     this.team = "";
-    this.onlineTime = 0;
-    this.lastSeen = System.currentTimeMillis();
-    this.stocks = new Share[0];
-    this.loadedChunks = 0;
-    this.firstJoin = System.currentTimeMillis();
     this.muted = false;
-    this.lang = ConfigHandler.defaultLanguage;
+    this.language = ConfigHandler.defaultLanguage;
     this.discord = "";
     this.permission = new String[0];
     this.perks = new String[0];
+    serverData = new ServerTime[0];
   }
 
   public GlobalUser(
@@ -71,11 +57,6 @@ public class GlobalUser implements Serializable {
       String nick,
       Bank bank,
       String team,
-      long onlineTime,
-      long lastSeen,
-      Share[] stocks,
-      int loadedChunks,
-      long firstJoin,
       boolean muted,
       String lang,
       String discord,
@@ -86,16 +67,12 @@ public class GlobalUser implements Serializable {
     this.nick = nick;
     this.bank = bank;
     this.team = team;
-    this.onlineTime = onlineTime;
-    this.lastSeen = lastSeen;
-    this.stocks = stocks;
-    this.loadedChunks = loadedChunks;
-    this.firstJoin = firstJoin;
     this.muted = muted;
-    this.lang = lang;
+    this.language = lang;
     this.discord = discord;
     this.permission = permission;
     this.perks = perks;
+    serverData = new ServerTime[0];
   }
 
   public String getUuid() {
@@ -138,46 +115,6 @@ public class GlobalUser implements Serializable {
     this.team = team;
   }
 
-  public long getOnlineTime() {
-    return onlineTime;
-  }
-
-  public void setOnlineTime(long onlineTime) {
-    this.onlineTime = onlineTime;
-  }
-
-  public long getLastSeen() {
-    return lastSeen;
-  }
-
-  public void setLastSeen(long lastSeen) {
-    this.lastSeen = lastSeen;
-  }
-
-  public Share[] getStocks() {
-    return stocks;
-  }
-
-  public void setStocks(Share[] stocks) {
-    this.stocks = stocks;
-  }
-
-  public int getLoadedChunks() {
-    return loadedChunks;
-  }
-
-  public void setLoadedChunks(int loadedChunks) {
-    this.loadedChunks = loadedChunks;
-  }
-
-  public long getFirstJoin() {
-    return firstJoin;
-  }
-
-  public void setFirstJoin(long firstJoin) {
-    this.firstJoin = firstJoin;
-  }
-
   public boolean isMuted() {
     return muted;
   }
@@ -187,11 +124,11 @@ public class GlobalUser implements Serializable {
   }
 
   public String getLang() {
-    return lang;
+    return language;
   }
 
   public void setLang(String lang) {
-    this.lang = lang;
+    this.language = lang;
   }
 
   public String getDiscord() {
@@ -203,6 +140,9 @@ public class GlobalUser implements Serializable {
   }
 
   public String[] getPermission() {
+    if (permission == null) {
+      return new String[0];
+    }
     return permission;
   }
 
@@ -250,7 +190,9 @@ public class GlobalUser implements Serializable {
     for (String perm : perks) {
       if (perk.contains("%LEVEL%")) {
         if (perm.substring(perm.lastIndexOf('.'))
-            .equalsIgnoreCase(perk.substring(perm.lastIndexOf('.')))) currentPerks.add(perm);
+            .equalsIgnoreCase(perk.substring(perm.lastIndexOf('.')))) {
+          currentPerks.add(perm);
+        }
       } else if (!perm.equalsIgnoreCase(perk)) {
         currentPerks.add(perm);
       }
@@ -260,5 +202,52 @@ public class GlobalUser implements Serializable {
 
   public boolean hasPerk(String perk) {
     return Arrays.stream(perks).anyMatch(p -> p.equalsIgnoreCase(perk));
+  }
+
+  public ServerTime[] getServerData() {
+    if (serverData == null || serverData.length <= 0) {
+      addServerData(
+          new ServerTime(
+              ConfigHandler.serverName,
+              0,
+              System.currentTimeMillis(),
+              System.currentTimeMillis(),
+              0));
+    }
+    return serverData;
+  }
+
+  public void setServerData(ServerTime[] serverData) {
+    this.serverData = serverData;
+  }
+
+  public void addServerData(ServerTime data) {
+    List<ServerTime> current = new ArrayList<>();
+    if (serverData != null) {
+      Collections.addAll(current, serverData);
+    }
+    current
+        .stream()
+        .filter(time -> time.getServerID().equalsIgnoreCase(data.getServerID()))
+        .forEachOrdered(current::remove);
+    current.add(data);
+    serverData = current.toArray(new ServerTime[0]);
+  }
+
+  public void updateServerData(double onlineTime) {
+    ServerTime time = getServerData(ConfigHandler.serverName);
+    if (time != null) {
+      time.setLastSeen(System.currentTimeMillis());
+      time.setOnlineTime(onlineTime);
+    }
+  }
+
+  public ServerTime getServerData(String name) {
+    for (ServerTime data : getServerData()) {
+      if (data.getServerID().equalsIgnoreCase(name)) {
+        return data;
+      }
+    }
+    return null;
   }
 }

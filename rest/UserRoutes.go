@@ -30,17 +30,20 @@ func SetGlobalUser(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 	if err != nil {
+		fmt.Println(err.Error())
 		http.Error(w, err.Error(), 500)
 		return
 	}
 	var globalUser GlobalUser
 	err = json.Unmarshal(b, &globalUser)
 	if err != nil {
+		fmt.Println(err.Error())
 		http.Error(w, err.Error(), 500)
 		return
 	}
 	output, err := json.Marshal(globalUser)
 	if err != nil {
+		fmt.Println(err.Error())
 		http.Error(w, err.Error(), 500)
 		return
 	}
