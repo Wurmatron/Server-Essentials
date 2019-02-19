@@ -15,24 +15,21 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class TrackModule implements IModule {
 
   @Override
-  public void setup() {}
+  public void setup() {
+  }
 
   public static ServerStatus createStatus(String status) {
     if (status.equalsIgnoreCase("Online")) {
       MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-      double tickSum = 0;
-      for (int time = 0; time < server.tickTimeArray.length; ++time) {
-        tickSum += server.tickTimeArray[time];
+      double tps = 20;
+      for (int index = 0; index < server.tickTimeArray.length; ++index) {
+        tps += server.tickTimeArray[index];
       }
-      tickSum /= server.tickTimeArray.length;
-      double tps = 1000000000 / tickSum;
-      if (tickSum == 0) {
-        tps = 0;
-      }
+      tps /= server.tickTimeArray.length;
       return new ServerStatus(
           ConfigHandler.serverName,
           status,
-          tps,
+          tps ,
           FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames(),
           System.currentTimeMillis());
     } else {

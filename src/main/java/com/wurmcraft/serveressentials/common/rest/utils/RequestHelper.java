@@ -26,7 +26,8 @@ public class RequestHelper {
   private static final String AUTH =
       "Basic " + Base64.getEncoder().encodeToString(ConfigHandler.restLogin.getBytes());
 
-  private RequestHelper() {}
+  private RequestHelper() {
+  }
 
   private static String getBaseURL() {
     if (ConfigHandler.restURL.endsWith("/")) {
@@ -50,8 +51,7 @@ public class RequestHelper {
       connection.setRequestProperty("Content-Length", String.valueOf(jsonData.length()));
       connection.getOutputStream().write(jsonData.getBytes());
       int status = ((HttpURLConnection) connection).getResponseCode();
-      ServerEssentialsServer.LOGGER.error(type + " Status: " + status);
-      if (status == 401) {
+      if (status == HttpsURLConnection.HTTP_UNAUTHORIZED) {
         ServerEssentialsServer.LOGGER.error("Invalid Rest API Key, Unable to Put");
       }
     } catch (Exception e) {
@@ -71,7 +71,8 @@ public class RequestHelper {
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
         int responseCode = con.getResponseCode();
-        if (responseCode == HttpsURLConnection.HTTP_OK) {
+        if (responseCode == HttpsURLConnection.HTTP_OK
+            || responseCode == HttpsURLConnection.HTTP_ACCEPTED) {
           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
           String inputLine;
           StringBuilder response = new StringBuilder();
