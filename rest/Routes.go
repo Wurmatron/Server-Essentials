@@ -217,7 +217,7 @@ func auth(pass mux.Handle) mux.Handle {
 }
 
 func validate(server, authKey string) bool {
-	if server == "test" && authKey == "password" {
+	if server == "server" && authKey == "drowssap" {
 		return true
 	}
 	return false

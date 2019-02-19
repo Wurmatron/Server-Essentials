@@ -21,6 +21,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -99,6 +100,10 @@ public class TeleportUtils {
         setTeleportTimer(player);
       }
     }
+    if (!isWithinBorder(location)) {
+      ChatHelper.sendMessage(
+          player, LanguageModule.getLangfromUUID(player.getGameProfile().getId()).TP_WORLDBORDER);
+    }
     return true;
   }
 
@@ -170,5 +175,18 @@ public class TeleportUtils {
           && !(world.getBlockState(location.getPos().down()).getBlock() instanceof IFluidBlock);
     }
     return false;
+  }
+
+  public static boolean isWithinBorder(LocationWrapper location) {
+    WorldBorder border =
+        FMLCommonHandler.instance()
+            .getMinecraftServerInstance()
+            .getWorld(location.getDim())
+            .getWorldBorder();
+    BlockPos pos = location.getPos();
+    return border.minX() <= pos.getX()
+        && border.maxX() >= pos.getX()
+        && border.minZ() <= pos.getZ()
+        && border.maxZ() >= pos.getZ();
   }
 }

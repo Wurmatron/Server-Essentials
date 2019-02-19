@@ -155,5 +155,6 @@
   "PROTECT_TOWN_CREATE": "&dTown %TOWN% created!",
   "PROTECT_TOWN_NON_EXISTENT": "&c%TOWN% does not exist",
   "CHANNEL_EXISTS": "&c%CHANNEL% already Exists!",
-  "CHANNEL_TYPE": "&cInvalid Type, try %TYPES%"
+  "CHANNEL_TYPE": "&cInvalid Type, try %TYPES%",
+  "TP_WORLDBORDER": "&cThis location is outside of the WorldBorder!"
 }

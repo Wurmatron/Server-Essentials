@@ -28,6 +28,7 @@ public class Local {
   public String HOME_FAILED;
   public String TP_HOME_OTHER;
   public String TPA_NOTSAFE;
+  public String TP_WORLDBORDER;
 
   // Permissions
   public String PERM_ADDED;
