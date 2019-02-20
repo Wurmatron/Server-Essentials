@@ -5,10 +5,13 @@ import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
+import com.wurmcraft.serveressentials.api.module.DelayedTeleport;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.teleport.TeleportationModule;
+import com.wurmcraft.serveressentials.common.teleport.events.TeleportEvents;
 import com.wurmcraft.serveressentials.common.utils.RankUtils;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import net.minecraft.block.BlockAir;
@@ -108,10 +111,24 @@ public class TeleportUtils {
   }
 
   public static boolean teleportTo(EntityPlayer teleporter, EntityPlayer toPlayer) {
-    return teleportTo(
-        (EntityPlayerMP) teleporter,
-        new LocationWrapper(toPlayer.posX, toPlayer.posY, toPlayer.posZ, toPlayer.dimension),
-        true);
+    return teleportTo(teleporter, toPlayer, false);
+  }
+
+  public static boolean teleportTo(
+      EntityPlayer teleporter, EntityPlayer toPlayer, boolean bypassDelay) {
+    if (ConfigHandler.teleportDelay > 0 && !bypassTeleportCooldown(teleporter) && !bypassDelay) {
+      TeleportationModule.teleportDelay.put(
+          System.currentTimeMillis(),
+          new DelayedTeleport(
+              System.currentTimeMillis(), ConfigHandler.teleportDelay, teleporter, toPlayer));
+      TeleportEvents.playerPositionTracker.put(teleporter, teleporter.getPosition());
+      return true;
+    } else {
+      return teleportTo(
+          (EntityPlayerMP) teleporter,
+          new LocationWrapper(toPlayer.posX, toPlayer.posY, toPlayer.posZ, toPlayer.dimension),
+          true);
+    }
   }
 
   private static boolean canTeleport(EntityPlayer player) {
@@ -188,5 +205,12 @@ public class TeleportUtils {
         && border.maxX() >= pos.getX()
         && border.minZ() <= pos.getZ()
         && border.maxZ() >= pos.getZ();
+  }
+
+  public static boolean handleDelayedTeleport(DelayedTeleport tp) {
+    if ((tp.startTime + tp.time) <= System.currentTimeMillis()) {
+      return teleportTo(tp.A, tp.B, true);
+    }
+    return false;
   }
 }

@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.minecraft.entity.player.EntityPlayer;
 import org.apache.commons.io.FileUtils;
 
 /** TODO - Reload Language files command */
@@ -30,6 +31,10 @@ public class LanguageModule implements IModule {
   public static Local getLangfromUUID(UUID uuid) {
     return loadedLanguages.getOrDefault(
         getPlayerLang(uuid), loadedLanguages.get(ConfigHandler.defaultLanguage));
+  }
+
+  public static Local getLangFromPlayer(EntityPlayer player) {
+    return loadedLanguages.get(getPlayerLang(player.getGameProfile().getId()));
   }
 
   public static Local getLangFromKey(String langKey) {

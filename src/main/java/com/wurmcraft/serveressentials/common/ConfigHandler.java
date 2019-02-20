@@ -60,6 +60,9 @@ public class ConfigHandler {
   @Comment("How many seconds before another teleport can be completed")
   public static int teleportTimer = 4;
 
+  @Comment(("How long you have to stay still to teleport"))
+  public static int teleportDelay = 0;
+
   @Comment("Default home name")
   public static String defaultHome = "home";
 
