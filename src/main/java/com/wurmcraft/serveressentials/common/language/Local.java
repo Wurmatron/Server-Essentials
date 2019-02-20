@@ -77,6 +77,7 @@ public class Local {
   public String POSSIBLY_ALT;
   public String CHANNEL_EXISTS;
   public String CHANNEL_TYPE;
+  public String LANG_RELOAD;
 
   // Commands
   public String RANK_NULL;
@@ -181,6 +182,10 @@ public class Local {
   public String COMMAND_SMITE;
   public String COMMAND_SERVER_MOTD;
   public String COMMAND_TOWN;
+  public String COMMAND_MUTE;
+  public String COMMAND_NICK;
+  public String COMMAND_REPLY;
+  public String COMMAND_LANG;
 
   // Protect
   public String PROTECT_TOWN_CREATE;

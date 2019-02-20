@@ -14,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-// TODO Rework Command
 @Command(moduleName = "Chat")
 public class ReplyCommand extends SECommand {
 
@@ -57,5 +56,15 @@ public class ReplyCommand extends SECommand {
     List<String> alts = new ArrayList<>();
     alts.add("r");
     return alts;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/r <msg>";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_REPLY;
   }
 }

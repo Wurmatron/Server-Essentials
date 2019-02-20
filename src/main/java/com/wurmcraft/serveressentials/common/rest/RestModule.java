@@ -85,6 +85,7 @@ public class RestModule implements IModule {
                   });
               UserManager.USER_RANKS.put(uuid, UserManager.getRank(globalUser.rank));
               TeamModule.loadRestTeam(uuid);
+              WorldEvent.updateOnlineTime(uuid);
             }
           } catch (Exception e) {
             createNewUser(uuid);

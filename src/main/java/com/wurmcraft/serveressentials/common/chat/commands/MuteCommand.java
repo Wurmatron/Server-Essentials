@@ -12,13 +12,15 @@ import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
-// TODO Rework Command
 @Command(moduleName = "Chat")
 public class MuteCommand extends SECommand {
 
@@ -112,5 +114,16 @@ public class MuteCommand extends SECommand {
       return data.isMuted();
     }
     return false;
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_MUTE;
+  }
+
+  @Override
+  public List<String> getTabCompletions(
+      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    return autoCompleteUsername(args, 0);
   }
 }

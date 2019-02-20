@@ -18,10 +18,14 @@ public class Bank {
   }
 
   public double getCurrency(String name) {
-    for (Coin coin : coin) {
-      if (coin.getName().equalsIgnoreCase(name)) {
-        return coin.getAmount();
+    if (coin != null) {
+      for (Coin coin : coin) {
+        if (coin.getName().equalsIgnoreCase(name)) {
+          return coin.getAmount();
+        }
       }
+    } else {
+      coin = new Coin[0];
     }
     return 0;
   }

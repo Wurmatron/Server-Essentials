@@ -16,17 +16,15 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import org.apache.commons.io.FileUtils;
+import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
-/** TODO - Reload Language files command */
 @Module(name = "Language")
 public class LanguageModule implements IModule {
 
-  private static Map<String, Local> loadedLanguages = new HashMap<>();
+  private static NonBlockingHashMap<String, Local> loadedLanguages = new NonBlockingHashMap<>();
 
   public static Local getLangfromUUID(UUID uuid) {
     return loadedLanguages.getOrDefault(
@@ -135,5 +133,10 @@ public class LanguageModule implements IModule {
       }
     }
     return local;
+  }
+
+  public static void reload() {
+    loadedLanguages.clear();
+    new LanguageModule().setup();
   }
 }

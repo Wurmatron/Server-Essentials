@@ -157,5 +157,10 @@
   "CHANNEL_EXISTS": "&c%CHANNEL% already Exists!",
   "CHANNEL_TYPE": "&cInvalid Type, try %TYPES%",
   "TP_WORLDBORDER": "&cThis location is outside of the WorldBorder!",
-  "TP_DELAY_FAILED": "You moved, Failed to Teleport"
+  "TP_DELAY_FAILED": "You moved, Failed to Teleport",
+  "COMMAND_MUTE": "&dMue/UnMute a player from talking in chat",
+  "COMMAND_NICK": "&dNickname a player",
+  "COMMAND_REPLY": "&dEasily send a message to the last known player",
+  "COMMAND_LANG": "&dChange your current language",
+  "LANG_RELOAD": "&cAll language files reloaded!"
 }

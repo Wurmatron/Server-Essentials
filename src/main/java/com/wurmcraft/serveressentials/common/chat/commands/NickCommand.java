@@ -17,7 +17,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
-// TODO Rework Command
 @Command(moduleName = "Chat")
 public class NickCommand extends SECommand {
 
@@ -66,5 +65,15 @@ public class NickCommand extends SECommand {
   @Override
   public boolean canConsoleRun() {
     return true;
+  }
+
+  @Override
+  public String getUsage(ICommandSender sender) {
+    return "/nick <player> <nick>";
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_NICK;
   }
 }

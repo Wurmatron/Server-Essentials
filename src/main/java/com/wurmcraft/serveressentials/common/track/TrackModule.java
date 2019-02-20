@@ -15,8 +15,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class TrackModule implements IModule {
 
   @Override
-  public void setup() {
-  }
+  public void setup() {}
 
   public static ServerStatus createStatus(String status) {
     if (status.equalsIgnoreCase("Online")) {
@@ -29,7 +28,7 @@ public class TrackModule implements IModule {
       return new ServerStatus(
           ConfigHandler.serverName,
           status,
-          tps ,
+          tps,
           FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames(),
           System.currentTimeMillis());
     } else {

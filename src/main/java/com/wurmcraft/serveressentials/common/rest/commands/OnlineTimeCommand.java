@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
+import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
@@ -39,6 +40,7 @@ public class OnlineTimeCommand extends SECommand {
               (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
           LocalUser local =
               (LocalUser) UserManager.getPlayerData(player.getGameProfile().getId())[1];
+          WorldEvent.updateOnlineTime(player);
           sender.sendMessage(
               new TextComponentString(
                   getCurrentLanguage(sender).CHAT_SPACER.replaceAll("&", FORMATTING_CODE)));

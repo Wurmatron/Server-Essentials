@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.json.global.Channel;
 import com.wurmcraft.serveressentials.api.json.global.Channel.Type;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
+import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.api.json.user.rest.LocalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
@@ -55,12 +56,28 @@ public class ChannelCommand extends SECommand {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     } else if (args.length == 1 && !args[0].equalsIgnoreCase("list")) {
       Channel ch = (Channel) DataHelper.get(Keys.CHANNEL, args[0]);
-      // TODO Support for different channel types
       if (ch != null) {
-        setUserChannel((EntityPlayer) sender.getCommandSenderEntity(), ch);
+        if (ch.getType() == Type.PUBLIC
+            || sender.getCommandSenderEntity() instanceof EntityPlayer
+                && ch.getType() == Type.TEAM
+                && getUserTeam((EntityPlayer) sender.getCommandSenderEntity())
+                    .equalsIgnoreCase(ch.getTypeData())
+            || sender.getCommandSenderEntity() instanceof EntityPlayer
+                && ch.getType() == Type.RANK
+                && UserManager.getPlayerRank(
+                        ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId())
+                    .getName()
+                    .equalsIgnoreCase(ch.getTypeData())) {
+          setUserChannel((EntityPlayer) sender.getCommandSenderEntity(), ch);
+        }
         ChatHelper.sendMessage(
             sender,
             getCurrentLanguage(sender).CHANNEL_CHANGED.replaceAll("%CHANNEL%", ch.getName()));
+      }
+    } else if (args.length > 1) {
+      Channel ch = (Channel) DataHelper.get(Keys.CHANNEL, args[0]);
+      if (ch != null && ch.getType() == Type.PASS && ch.getTypeData().equalsIgnoreCase(args[1])) {
+        setUserChannel((EntityPlayer) sender.getCommandSenderEntity(), ch);
       }
     }
   }
@@ -208,5 +225,16 @@ public class ChannelCommand extends SECommand {
                 .listFiles())) {
       DataHelper.load(file, Keys.CHANNEL, new Channel());
     }
+  }
+
+  private String getUserTeam(EntityPlayer player) {
+    if (ConfigHandler.storageType.equalsIgnoreCase("rest")) {
+      GlobalUser user = (GlobalUser) UserManager.getPlayerData(player)[0];
+      return user.getTeam();
+    } else if (ConfigHandler.storageType.equalsIgnoreCase("file")) {
+      PlayerData user = (PlayerData) UserManager.getPlayerData(player)[0];
+      return user.getTeam();
+    }
+    return "";
   }
 }

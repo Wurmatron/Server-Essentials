@@ -29,7 +29,7 @@ public class AutoRankCommand extends SECommand {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "\u00A7b/ar check";
+    return "\u00A7b/ar <player>";
   }
 
   @Override
@@ -46,7 +46,6 @@ public class AutoRankCommand extends SECommand {
     return true;
   }
 
-  // TODO Non Rest Support
   @SubCommand
   public void check(ICommandSender sender, String[] args) {
     if (args.length == 0) {

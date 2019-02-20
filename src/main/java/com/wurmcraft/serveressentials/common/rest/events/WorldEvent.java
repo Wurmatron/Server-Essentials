@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.common.security.SecurityModule;
 import com.wurmcraft.serveressentials.common.team.TeamModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -36,9 +37,7 @@ public class WorldEvent {
     if (UserManager.PLAYER_DATA.containsKey(e.player.getGameProfile().getId())) {
       GlobalUser globalUser =
           (GlobalUser) UserManager.getPlayerData(e.player.getGameProfile().getId())[0];
-      globalUser.updateServerData(
-          globalUser.getServerData(ConfigHandler.serverName).getOnlineTime()
-              + calculateOnTime(e.player.getGameProfile().getId()));
+      updateOnlineTime(e.player);
       RequestHelper.UserResponses.overridePlayerData(globalUser);
       UserManager.JOIN_TIME.remove(e.player.getGameProfile().getId());
       TeamModule.unloadRestTeam(globalUser);
@@ -48,5 +47,15 @@ public class WorldEvent {
 
   public static long calculateOnTime(UUID uuid) {
     return (System.currentTimeMillis() - UserManager.JOIN_TIME.getOrDefault(uuid, 0L)) / 60000;
+  }
+
+  public static void updateOnlineTime(UUID uuid) {
+    GlobalUser globalUser = (GlobalUser) UserManager.getPlayerData(uuid)[0];
+    globalUser.updateServerData(
+        globalUser.getServerData(ConfigHandler.serverName).getOnlineTime() + calculateOnTime(uuid));
+  }
+
+  public static void updateOnlineTime(EntityPlayer player) {
+    updateOnlineTime(player.getGameProfile().getId());
   }
 }

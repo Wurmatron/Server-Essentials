@@ -26,8 +26,7 @@ public class RequestHelper {
   private static final String AUTH =
       "Basic " + Base64.getEncoder().encodeToString(ConfigHandler.restLogin.getBytes());
 
-  private RequestHelper() {
-  }
+  private RequestHelper() {}
 
   private static String getBaseURL() {
     if (ConfigHandler.restURL.endsWith("/")) {

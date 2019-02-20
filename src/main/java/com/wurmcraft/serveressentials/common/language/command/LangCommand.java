@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.common.language.command;
 
 import com.wurmcraft.serveressentials.api.command.Command;
+import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.file.PlayerData;
 import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
@@ -19,7 +20,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
-// TODO Rework Command
 @Command(moduleName = "Language")
 public class LangCommand extends SECommand {
 
@@ -42,14 +42,16 @@ public class LangCommand extends SECommand {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return "/lang <key> | <username>";
+    return "/lang <key|reload> | <username>";
   }
 
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
     super.execute(server, sender, args);
-    if (args.length == 1 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
+    if (args.length == 1
+        && sender.getCommandSenderEntity() instanceof EntityPlayer
+        && !args[0].equalsIgnoreCase("reload")) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       Local lang = LanguageModule.getLangFromKey(args[0]);
       if (LanguageModule.isValidLangKey(args[0]) && lang != null) {
@@ -63,11 +65,28 @@ public class LangCommand extends SECommand {
       Local lang = LanguageModule.getLangFromKey(args[0]);
       if (lang != null) {
         ChatHelper.sendMessage(sender, lang.LANGUAGE_CHANGED.replaceAll("%LANG%", args[0]));
+        setUserLang(uuid, args[0]);
       } else {
         ChatHelper.sendMessage(sender, lang.INVALID_LANG.replaceAll("%LANG%", args[0]));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(sender));
     }
+  }
+
+  @Override
+  public String getDescription(ICommandSender sender) {
+    return getCurrentLanguage(sender).COMMAND_LANG;
+  }
+
+  @Override
+  public boolean hasSubCommand() {
+    return true;
+  }
+
+  @SubCommand
+  public void reload(ICommandSender sender, String[] args) {
+    LanguageModule.reload();
+    ChatHelper.sendMessage(sender, getCurrentLanguage(sender).LANG_RELOAD);
   }
 }
