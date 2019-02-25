@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.general.utils;
+package com.wurmcraft.serveressentials.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

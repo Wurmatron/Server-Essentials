@@ -162,5 +162,6 @@
   "COMMAND_NICK": "&dNickname a player",
   "COMMAND_REPLY": "&dEasily send a message to the last known player",
   "COMMAND_LANG": "&dChange your current language",
-  "LANG_RELOAD": "&cAll language files reloaded!"
+  "LANG_RELOAD": "&cAll language files reloaded!",
+  "INVALID_PERK": "%PERK% is not a valid Perk"
 }

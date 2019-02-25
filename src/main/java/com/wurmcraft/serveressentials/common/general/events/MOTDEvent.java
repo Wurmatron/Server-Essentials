@@ -1,6 +1,6 @@
 package com.wurmcraft.serveressentials.common.general.events;
 
-import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import net.minecraft.server.MinecraftServer;

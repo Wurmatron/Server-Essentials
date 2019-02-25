@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.general.commands.perk;
+package com.wurmcraft.serveressentials.common.economy.commands;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
@@ -7,12 +7,12 @@ import com.wurmcraft.serveressentials.api.json.user.rest.GlobalUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
 import com.wurmcraft.serveressentials.common.general.commands.utils.Perk;
-import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
+import joptsimple.internal.Strings;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,25 +69,27 @@ public class PerkCommand extends SECommand {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-      Perk perk = getPerk(args[0]);
-      if (perk != null) {
-        double cost = perk.getCost(user);
-        double amt = user.getBank().getCurrency(ConfigHandler.globalCurrency);
-        if (cost <= amt) {
-          int currentLvl = getLevel(user, perk);
-          user.delPerk(perk.perk);
-          currentLvl++;
-          user.addPerk(perk.getPerk().replace("%LEVEL%", currentLvl + ""));
-          RequestHelper.UserResponses.overridePlayerData(user);
-          ChatHelper.sendMessage(
-              sender,
-              getCurrentLanguage(sender)
-                  .BUY_PERK
-                  .replaceAll("%PERK%", perk.name)
-                  .replaceAll("%COST%", "" + perk.getCost(user)));
+      if (args.length > 0) {
+        Perk perk = getPerk(args[0]);
+        if (perk != null) {
+          if (perk.getCost(user) <= user.getBank().getCurrency(ConfigHandler.globalCurrency)) {
+            user.getBank().spend(ConfigHandler.globalCurrency, perk.getCost(user));
+            ChatHelper.sendMessage(
+                sender,
+                getCurrentLanguage(sender)
+                    .BUY_PERK
+                    .replaceAll("%PERK%", perk.name)
+                    .replaceAll("%COST%", "" + perk.getCost(user)));
+            user.addPerk(perk.getPerk().replace("%LEVEL%", "" + getLevel(user, perk)));
+          } else {
+            ChatHelper.sendMessage(sender, getCurrentLanguage(sender).NO_MONEY);
+          }
         } else {
-          ChatHelper.sendMessage(sender, getCurrentLanguage(sender).NO_MONEY);
+          ChatHelper.sendMessage(
+              sender, getCurrentLanguage(sender).INVALID_PERK.replaceAll("%PERK%", args[0]));
         }
+      } else {
+        ChatHelper.sendMessage(sender, TextFormatting.RED + Strings.join(perks.keySet(), ", "));
       }
     } else {
       ChatHelper.sendMessage(sender, getCurrentLanguage(sender).PLAYER_ONLY);
@@ -123,8 +125,10 @@ public class PerkCommand extends SECommand {
   public List<String> getTabCompletions(
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
     List<String> possible = new ArrayList<>();
-    if (args.length >= 1 && args[0].equalsIgnoreCase("buy")) {
-      for (String name : perks.keySet()) possible.add(name);
+    if (args.length > 1 && args[0].equalsIgnoreCase("buy")) {
+      for (String name : perks.keySet()) {
+        possible.add(name);
+      }
     }
     return possible;
   }

@@ -41,7 +41,7 @@ func SetGlobalUser(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	output, err := json.Marshal(globalUser)
+	output, err := json.MarshalIndent(globalUser, " ", " ")
 	if err != nil {
 		fmt.Println(err.Error())
 		http.Error(w, err.Error(), 500)

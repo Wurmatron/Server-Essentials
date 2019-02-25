@@ -4,7 +4,7 @@ import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.api.json.user.Rank;
 import com.wurmcraft.serveressentials.api.module.IModule;
-import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.List;
 import java.util.UUID;

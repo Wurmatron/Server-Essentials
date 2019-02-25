@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.common.general.commands.admin;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
-import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import java.util.ArrayList;
 import java.util.List;

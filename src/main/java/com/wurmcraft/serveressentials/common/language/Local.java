@@ -148,6 +148,7 @@ public class Local {
   public String NO_ITEM;
   public String CURRENCY_CONVERT;
   public String BUY_PERK;
+  public String INVALID_PERK;
 
   // Item
   public String SKULL;

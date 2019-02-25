@@ -5,7 +5,7 @@ import com.wurmcraft.serveressentials.api.json.global.Keys;
 import com.wurmcraft.serveressentials.api.json.global.Warp;
 import com.wurmcraft.serveressentials.api.json.user.LocationWrapper;
 import com.wurmcraft.serveressentials.common.chat.ChatHelper;
-import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

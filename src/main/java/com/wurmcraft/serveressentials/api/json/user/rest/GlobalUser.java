@@ -179,6 +179,11 @@ public class GlobalUser implements Serializable {
   }
 
   public void addPerk(String... perk) {
+    for (String p : perk) {
+      if (p.contains(".")) {
+        delPerk(p.substring(0, p.indexOf(".")));
+      }
+    }
     List<String> currentPerks = new ArrayList<>();
     Collections.addAll(currentPerks, getPerks());
     Collections.addAll(currentPerks, perk);

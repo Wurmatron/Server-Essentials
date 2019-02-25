@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.api.json.global;
 
 import com.wurmcraft.serveressentials.api.json.user.DataType;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
-import com.wurmcraft.serveressentials.common.general.utils.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
