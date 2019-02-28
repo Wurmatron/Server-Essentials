@@ -165,5 +165,7 @@
   "LANG_RELOAD": "&cAll language files reloaded!",
   "INVALID_PERK": "%PERK% is not a valid Perk",
   "INVALID_REWARDS": "&cInvalid, Missing Rewards",
-  "REWARD_ADDED": "&dReward Added"
+  "REWARD_ADDED": "&dReward Added",
+  "JUMPED": "&dYou have jumped",
+  "COMMAND_JUMP": "Teleports you to the location you are looking at"
 }

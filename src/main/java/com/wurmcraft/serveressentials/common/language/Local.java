@@ -128,6 +128,7 @@ public class Local {
   public String MOTD_CHANGED;
   public String INVALID_REWARDS;
   public String REWARD_ADDED;
+  public String JUMPED;
 
   // Claiming
   public String CLAIM_BREAK;
@@ -189,6 +190,7 @@ public class Local {
   public String COMMAND_NICK;
   public String COMMAND_REPLY;
   public String COMMAND_LANG;
+  public String COMMAND_JUMP;
 
   // Protect
   public String PROTECT_TOWN_CREATE;

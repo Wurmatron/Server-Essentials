@@ -33,10 +33,12 @@ public class Reward implements DataType {
   }
 
   public ItemStack getItem() {
-    try {
-      return new ItemStack(JsonToNBT.getTagFromJson(itemNBT));
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (itemNBT != null && itemNBT.length() > 0) {
+      try {
+        return new ItemStack(JsonToNBT.getTagFromJson(itemNBT));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
     return ItemStack.EMPTY;
   }
