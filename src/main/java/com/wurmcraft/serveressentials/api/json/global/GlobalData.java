@@ -6,7 +6,9 @@ import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class GlobalData implements DataType {
 
@@ -17,6 +19,7 @@ public class GlobalData implements DataType {
   private boolean lockdown;
   private String[] bannedMods;
   private String[] globalMOTD;
+  private HashMap<String, Integer> playerRewards = new HashMap<>();
 
   public GlobalData(SpawnPoint spawn, String[] rules, String[] motd, String website) {
     this.spawn = spawn;
@@ -138,5 +141,17 @@ public class GlobalData implements DataType {
   public void setGlobalMOTD(String[] globalMOTD) {
     this.globalMOTD = globalMOTD;
     DataHelper.forceSave(new File(ConfigHandler.saveLocation), this);
+  }
+
+  public HashMap<String, Integer> getPlayerRewards() {
+    return playerRewards;
+  }
+
+  public void setPlayerRewards(HashMap<String, Integer> playerRewards) {
+    this.playerRewards = playerRewards;
+  }
+
+  public void addPlayerReward(UUID player, int amount) {
+    playerRewards.put(player.toString(), playerRewards.getOrDefault(player.toString(), 0) + amount);
   }
 }

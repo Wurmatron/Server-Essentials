@@ -1,5 +1,9 @@
 package com.wurmcraft.serveressentials.common.economy;
 
+import static com.wurmcraft.serveressentials.api.json.global.Keys.REWARD;
+import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
+
+import com.wurmcraft.serveressentials.api.json.global.Reward;
 import com.wurmcraft.serveressentials.api.json.user.optional.Currency;
 import com.wurmcraft.serveressentials.api.module.IModule;
 import com.wurmcraft.serveressentials.api.module.Module;
@@ -8,6 +12,8 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.economy.events.MarketEvent;
 import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
+import com.wurmcraft.serveressentials.common.utils.DataHelper;
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +28,7 @@ public class EconomyModule implements IModule {
   public void setup() {
     MinecraftForge.EVENT_BUS.register(new MarketEvent());
     syncCurrency();
+    loadAllRewards();
   }
 
   public static void syncCurrency() {
@@ -55,5 +62,16 @@ public class EconomyModule implements IModule {
       }
     }
     return null;
+  }
+
+  private void loadAllRewards() {
+    File rewardDir = new File(saveLocation + File.separator + REWARD.name());
+    if (rewardDir.exists()) {
+      for (File file : Objects.requireNonNull(rewardDir.listFiles())) {
+        DataHelper.load(file, REWARD, new Reward());
+      }
+    } else {
+      rewardDir.mkdirs();
+    }
   }
 }

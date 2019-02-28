@@ -126,6 +126,8 @@ public class Local {
   public String LOCKDOWN_ENABLED;
   public String LOCKDOWN_DISABLED;
   public String MOTD_CHANGED;
+  public String INVALID_REWARDS;
+  public String REWARD_ADDED;
 
   // Claiming
   public String CLAIM_BREAK;

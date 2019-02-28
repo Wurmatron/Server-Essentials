@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
-@Command(moduleName = "General")
+@Command(moduleName = "Economy")
 public class PerkCommand extends SECommand {
 
   public static final NonBlockingHashMap<String, IPerk> perks = new NonBlockingHashMap<>();
