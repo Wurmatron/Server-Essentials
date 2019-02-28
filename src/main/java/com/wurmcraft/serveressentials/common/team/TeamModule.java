@@ -47,7 +47,7 @@ public class TeamModule implements IModule {
     }
   }
 
-  public static void loadRestTeam(String team) {
+  public static GlobalTeam loadRestTeam(String team) {
     if (globalTeams) {
       GlobalTeam globalTeam = RequestHelper.TeamResponses.getTeam(team);
       if (!team.isEmpty() && globalTeam != null) {
@@ -59,8 +59,10 @@ public class TeamModule implements IModule {
           DataHelper.forceSave(LOCAL_TEAM, localTeam);
           UserManager.TEAM_CACHE.put(team, new Object[] {globalTeam, localTeam});
         }
+        return globalTeam;
       }
     }
+    return null;
   }
 
   public static void unloadRestTeam(GlobalUser user) {
