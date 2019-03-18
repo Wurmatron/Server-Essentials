@@ -14,6 +14,7 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.rest.events.WorldEvent;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.team.TeamModule;
+import com.wurmcraft.serveressentials.common.teleport.utils.TeleportUtils;
 import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.io.File;
@@ -71,6 +72,13 @@ public class RestModule implements IModule {
             GlobalUser globalUser = RequestHelper.UserResponses.getPlayerData(uuid);
             if (globalUser == null) {
               createNewUser(uuid);
+              TeleportUtils.teleportTo(
+                  FMLCommonHandler.instance()
+                      .getMinecraftServerInstance()
+                      .getPlayerList()
+                      .getPlayerByUUID(uuid),
+                  DataHelper.globalSettings.getSpawn().location,
+                  false);
             } else {
               LocalUser user = loadLocalUser(uuid);
               if (user == null) {

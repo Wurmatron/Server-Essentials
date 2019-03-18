@@ -51,6 +51,15 @@ func SetGlobalUser(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+func OverrideGlobalUser(w http.ResponseWriter, r *http.Request, p mux.Params) {
+	b, _ := ioutil.ReadAll(r.Body)
+	if redisDBUser.Keys(string(b)) != nil {
+		SetGlobalUser(w, r, p)
+	} else {
+		http.Error(w, string(b), 500)
+	}
+}
+
 func GetAllUsers(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
 	var data []UserSimple
 	for entry := range redisDBuser.Keys("*").Val() {

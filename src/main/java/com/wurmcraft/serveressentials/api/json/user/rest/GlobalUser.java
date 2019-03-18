@@ -247,6 +247,14 @@ public class GlobalUser implements Serializable {
     }
   }
 
+  public void updateServerData(int chunkAmount) {
+    ServerTime serverData = getServerData(ConfigHandler.serverName);
+    if (serverData != null) {
+      int chunkCount = serverData.getLoadedChunks() + chunkAmount;
+      serverData.setLoadedChunks(chunkCount > 0 ? chunkCount : 0);
+    }
+  }
+
   public ServerTime getServerData(String name) {
     for (ServerTime data : getServerData()) {
       if (data.getServerID().equalsIgnoreCase(name)) {

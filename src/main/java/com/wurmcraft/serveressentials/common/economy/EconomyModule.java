@@ -14,7 +14,7 @@ import com.wurmcraft.serveressentials.common.rest.RestModule;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import com.wurmcraft.serveressentials.common.utils.DataHelper;
 import java.io.File;
-import java.util.*;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;

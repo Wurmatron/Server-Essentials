@@ -6,6 +6,8 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.utils.SECommand;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import com.wurmcraft.serveressentials.common.utils.UsernameResolver;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -66,5 +68,12 @@ public class BalanceCommand extends SECommand {
     } else {
       sender.sendMessage(new TextComponentString(getUsage(sender)));
     }
+  }
+
+  @Override
+  public List<String> getAltNames() {
+    List<String> alt = new ArrayList<>();
+    alt.add("bal");
+    return alt;
   }
 }

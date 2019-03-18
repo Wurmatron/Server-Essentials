@@ -50,7 +50,7 @@ public class Bank {
     boolean found = false;
     for (Coin coin : coin) {
       if (coin.getName().equalsIgnoreCase(name.replaceAll(" ", "_"))) {
-        cleanCurrency();
+        //        cleanCurrency();
         coin.setAmount(coin.getAmount() + amount);
         found = true;
       }

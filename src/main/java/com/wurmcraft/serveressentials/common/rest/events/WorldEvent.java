@@ -11,6 +11,7 @@ import com.wurmcraft.serveressentials.common.team.TeamModule;
 import com.wurmcraft.serveressentials.common.utils.UserManager;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -58,4 +59,12 @@ public class WorldEvent {
   public static void updateOnlineTime(EntityPlayer player) {
     updateOnlineTime(player.getGameProfile().getId());
   }
+
+  // TODO Implement
+  @SubscribeEvent
+  public void forceLoadChunk(ForceChunkEvent e) {}
+
+  // TODO Implement
+  @SubscribeEvent
+  public void unloadLoadedChunk(ForceChunkEvent e) {}
 }

@@ -58,7 +58,7 @@ public class MarketEvent {
       EntityPlayer player, IBlockState state, TileEntitySign sign) {
     if (player.getHeldItemMainhand() != ItemStack.EMPTY) {
       try {
-        sign.signText[0] = new TextComponentString(TextFormatting.GOLD + "[adminSell]");
+        sign.signText[0] = new TextComponentString(TextFormatting.GOLD + "[ISell]");
         double cost = Double.parseDouble(sign.signText[3].getUnformattedComponentText());
         sign.signText[3] = new TextComponentString(TextFormatting.LIGHT_PURPLE + "" + cost);
         sign.getTileData()
@@ -67,7 +67,7 @@ public class MarketEvent {
         player.world.notifyBlockUpdate(sign.getPos(), state, state, 3);
         return LanguageModule.getLangfromUUID(player.getGameProfile().getId())
             .SIGN_CREATED
-            .replaceAll("%TYPE%", "adminSell");
+            .replaceAll("%TYPE%", "ISell");
       } catch (Exception e) {
         return LanguageModule.getLangfromUUID(player.getGameProfile().getId())
             .INVALID_NUMBER
@@ -105,30 +105,56 @@ public class MarketEvent {
     return false;
   }
 
-  private static boolean adminSell(EntityPlayer player, TileEntitySign sign) {
-    GlobalUser global = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
-    double sellAmount =
-        Double.parseDouble(
-            TextFormatting.getTextWithoutFormattingCodes(
-                sign.signText[3].getUnformattedComponentText()));
-    ItemStack sellItem = StackConverter.getData(sign.getTileData().getString("shopData"));
-    int amountToSell = 0;
-    if (player.inventory.hasItemStack(sellItem)) {
+  private static boolean ISell(EntityPlayer player, TileEntitySign sign) {
+    GlobalUser user = (GlobalUser) UserManager.getPlayerData(player.getGameProfile().getId())[0];
+    String[] signData = readSign(sign);
+    double sellAmount = Double.parseDouble(signData[3]);
+    ItemStack itemToSell = StackConverter.getData(sign.getTileData().getString("shopData"));
+    int amountDetectedInPlayer = 0;
+    if (player.inventory.hasItemStack(itemToSell)) {
       for (int index = 0; index < player.inventory.mainInventory.size(); index++) {
-        if (player.inventory.mainInventory.get(index).isItemEqual(sellItem)) {
-          amountToSell +=
-              (player.inventory.mainInventory.get(index).getCount() / sellItem.getCount()) + 1;
-          player.inventory.mainInventory.set(index, ItemStack.EMPTY);
-          if (!player.isSneaking()) {
-            break;
+        if (player.inventory.getStackInSlot(index).isItemEqual(itemToSell)) {
+          if (consumeOneAmount(player, itemToSell, index)) {
+            amountDetectedInPlayer++;
+            if (!player.isSneaking()) {
+              break;
+            }
           }
         }
       }
-      global.getBank().earn(ConfigHandler.serverCurrency, amountToSell * sellAmount);
-      RequestHelper.UserResponses.overridePlayerData(global);
-      return true;
+      user.getBank().earn(ConfigHandler.serverCurrency, sellAmount * amountDetectedInPlayer);
+      UserManager.PLAYER_DATA.put(
+          player.getGameProfile().getId(),
+          new Object[] {user, UserManager.getPlayerData(player.getGameProfile().getId())[1]});
+      RequestHelper.UserResponses.overridePlayerData(user);
+      return amountDetectedInPlayer > 0;
     }
     return false;
+  }
+
+  public static boolean consumeOneAmount(
+      EntityPlayer player, ItemStack stackToTerminate, int startIndex) {
+    for (int index = startIndex; index < player.inventory.mainInventory.size(); index++) {
+      if (player.inventory.getStackInSlot(index).isItemEqual(stackToTerminate)) {
+        ItemStack newStack = player.inventory.getStackInSlot(index);
+        newStack.setCount(newStack.getCount() - stackToTerminate.getCount());
+        if (newStack.getCount() == 0) {
+          newStack = ItemStack.EMPTY;
+        }
+        player.inventory.setInventorySlotContents(index, newStack);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static String[] readSign(TileEntitySign sign) {
+    String[] data = new String[4];
+    for (int index = 0; index < 4; index++) {
+      data[index] =
+          TextFormatting.getTextWithoutFormattingCodes(sign.signText[index].getUnformattedText());
+    }
+    return data;
   }
 
   private static String[] getUserPerms(EntityPlayer player) {
@@ -180,7 +206,7 @@ public class MarketEvent {
                 .sendMessage(
                     new TextComponentString(createBuySign(e.getEntityPlayer(), state, sign)));
           } else if (userHasPerm(e.getEntityPlayer(), "economy.isell")
-              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[adminSell]")) {
+              && sign.signText[0].getUnformattedComponentText().equalsIgnoreCase("[ISell]")) {
             e.getEntityPlayer()
                 .sendMessage(
                     new TextComponentString(createISellSign(e.getEntityPlayer(), state, sign)));
@@ -214,8 +240,8 @@ public class MarketEvent {
                                   e.getEntityPlayer().getGameProfile().getId())
                               .NO_MONEY));
             }
-          } else if (txt.equalsIgnoreCase("[adminSell]")) {
-            if (adminSell(e.getEntityPlayer(), sign)) {
+          } else if (txt.equalsIgnoreCase("[ISell]")) {
+            if (ISell(e.getEntityPlayer(), sign)) {
               e.getEntityPlayer()
                   .sendMessage(
                       new TextComponentString(
