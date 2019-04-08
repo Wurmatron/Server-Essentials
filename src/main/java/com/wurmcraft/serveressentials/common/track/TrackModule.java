@@ -30,10 +30,16 @@ public class TrackModule implements IModule {
           status,
           tps,
           FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames(),
-          System.currentTimeMillis());
+          System.currentTimeMillis(),
+          getModpackVersion());
     } else {
       return new ServerStatus(
-          ConfigHandler.serverName, status, 0, new String[0], System.currentTimeMillis());
+          ConfigHandler.serverName,
+          status,
+          0,
+          new String[0],
+          System.currentTimeMillis(),
+          getModpackVersion());
     }
   }
 
@@ -43,5 +49,9 @@ public class TrackModule implements IModule {
         0L,
         90,
         TimeUnit.SECONDS);
+  }
+
+  private static String getModpackVersion() {
+    return ConfigHandler.modpackVersion;
   }
 }

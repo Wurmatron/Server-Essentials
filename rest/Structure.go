@@ -89,4 +89,5 @@ type ServerStatus struct {
 	Time       float64  `json:"time"`
 	Players    []string `json:"players"`
 	LastUpdate float64  `json:"lastUpdate"`
+	Version    string   `json:"version"`
 }

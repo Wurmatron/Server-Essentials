@@ -7,13 +7,20 @@ public class ServerStatus {
   public double time;
   public String[] players;
   public double lastUpdate;
+  public String version;
 
   public ServerStatus(
-      String name, String status, double time, String[] players, double lastUpdate) {
+      String name,
+      String status,
+      double time,
+      String[] players,
+      double lastUpdate,
+      String version) {
     this.name = name;
     this.status = status;
     this.time = time;
     this.players = players;
     this.lastUpdate = lastUpdate;
+    this.version = version;
   }
 }

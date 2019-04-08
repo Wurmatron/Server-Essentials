@@ -109,4 +109,7 @@ public class ConfigHandler {
 
   @Comment("Servers name when viewed from others")
   public static String serverName = "";
+
+  @Comment("Current Modpack version of this server")
+  public static String modpackVersion = "";
 }
