@@ -8,7 +8,6 @@ import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.rest.utils.RequestHelper;
 import java.util.concurrent.TimeUnit;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 @Module(name = "track")
@@ -19,16 +18,10 @@ public class TrackModule implements IModule {
 
   public static ServerStatus createStatus(String status) {
     if (status.equalsIgnoreCase("Online")) {
-      MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-      double tps = 20;
-      for (int index = 0; index < server.tickTimeArray.length; ++index) {
-        tps += server.tickTimeArray[index];
-      }
-      tps /= server.tickTimeArray.length;
       return new ServerStatus(
           ConfigHandler.serverName,
           status,
-          tps,
+          calculateTPS(),
           FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames(),
           System.currentTimeMillis(),
           getModpackVersion());
@@ -53,5 +46,30 @@ public class TrackModule implements IModule {
 
   private static String getModpackVersion() {
     return ConfigHandler.modpackVersion;
+  }
+
+  private static double calculateTPS() {
+    return getSum(
+            FMLCommonHandler.instance()
+                .getMinecraftServerInstance()
+                .worldTickTimes
+                .get(
+                    FMLCommonHandler.instance()
+                        .getMinecraftServerInstance()
+                        .getWorld(0)
+                        .provider
+                        .getDimension()))
+        * 1.0E-006D;
+  }
+
+  private static double getSum(long[] times) {
+    long timesum = 0L;
+    for (long time : times) {
+      timesum += time;
+    }
+    if (times == null) {
+      return 0;
+    }
+    return timesum / times.length;
   }
 }
