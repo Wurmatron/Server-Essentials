@@ -41,7 +41,7 @@ func SetGlobalUser(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	output, err := json.MarshalIndent(globalUser, " ", " ")
+	output, err := json.MarshalIndent(globalUser, "", " ")
 	if err != nil {
 		fmt.Println(err.Error())
 		http.Error(w, err.Error(), 500)
@@ -49,15 +49,6 @@ func SetGlobalUser(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	}
 	redisDBuser.Set(globalUser.UUID, output, 0)
 	w.WriteHeader(http.StatusCreated)
-}
-
-func OverrideGlobalUser(w http.ResponseWriter, r *http.Request, p mux.Params) {
-	b, _ := ioutil.ReadAll(r.Body)
-	if redisDBUser.Keys(string(b)) != nil {
-		SetGlobalUser(w, r, p)
-	} else {
-		http.Error(w, string(b), 500)
-	}
 }
 
 func GetAllUsers(w http.ResponseWriter, _ *http.Request, _ mux.Params) {

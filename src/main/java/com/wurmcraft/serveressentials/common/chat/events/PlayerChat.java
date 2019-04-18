@@ -63,7 +63,7 @@ public class PlayerChat {
                     : new Team(),
                 e.getMessage()),
             true));
-    return currentChannel.getName().equalsIgnoreCase(ConfigHandler.globalChannel);
+    return !currentChannel.getName().equalsIgnoreCase(ConfigHandler.globalChannel);
   }
 
   private static boolean processFile(ServerChatEvent e) {

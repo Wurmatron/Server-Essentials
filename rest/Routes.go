@@ -53,7 +53,7 @@ var routes = Routes{
 		"PUT",
 		"/user/:uuid/override",
 		true,
-		OverrideGlobalUser,
+		SetGlobalUser,
 	},
 	Route{
 		"AllUsers",

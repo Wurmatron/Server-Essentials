@@ -94,6 +94,7 @@ public class CommandUtils {
     if (commandArgs != null && commandArgs.length >= index) {
       try {
         Integer.parseInt(commandArgs[index]);
+        return true;
       } catch (NumberFormatException e) {
       }
     }

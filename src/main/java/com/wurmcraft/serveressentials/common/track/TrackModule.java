@@ -56,15 +56,15 @@ public class TrackModule implements IModule {
 
   private static double calculateTPS() {
     return getSum(
-        FMLCommonHandler.instance()
-            .getMinecraftServerInstance()
-            .worldTickTimes
-            .get(
-                FMLCommonHandler.instance()
-                    .getMinecraftServerInstance()
-                    .getWorld(0)
-                    .provider
-                    .getDimension()))
+            FMLCommonHandler.instance()
+                .getMinecraftServerInstance()
+                .worldTickTimes
+                .get(
+                    FMLCommonHandler.instance()
+                        .getMinecraftServerInstance()
+                        .getWorld(0)
+                        .provider
+                        .getDimension()))
         * 1.0E-006D;
   }
 
