@@ -28,7 +28,7 @@ public class GeneralModule implements IModule {
   @Override
   public void setup() {
     setupKits();
-    setupGlobal();
+    setupOrReloadGlobal();
     setupWarps();
     MinecraftForge.EVENT_BUS.register(new GlobaDataEvents());
     MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
@@ -47,7 +47,7 @@ public class GeneralModule implements IModule {
     }
   }
 
-  private void setupGlobal() {
+  public static void setupOrReloadGlobal() {
     File global = new File(saveLocation + File.separator + "Global.json");
     if (global.exists()) {
       try {
@@ -64,7 +64,7 @@ public class GeneralModule implements IModule {
               new String[] {},
               "https://github.com/Wurmcraft/Server-Essentials/");
       DataHelper.forceSave(new File(saveLocation), globalData);
-      setupGlobal();
+      setupOrReloadGlobal();
     }
   }
 

@@ -167,5 +167,6 @@
   "INVALID_REWARDS": "&cInvalid, Missing Rewards",
   "REWARD_ADDED": "&dReward Added",
   "JUMPED": "&dYou have jumped",
-  "COMMAND_JUMP": "Teleports you to the location you are looking at"
+  "COMMAND_JUMP": "Teleports you to the location you are looking at",
+  "RELOAD_GLOBAL": "&cGlobal.json Reloaded"
 }

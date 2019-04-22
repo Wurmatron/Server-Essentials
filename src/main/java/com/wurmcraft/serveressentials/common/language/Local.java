@@ -129,6 +129,7 @@ public class Local {
   public String INVALID_REWARDS;
   public String REWARD_ADDED;
   public String JUMPED;
+  public String RELOAD_GLOBAL;
 
   // Claiming
   public String CLAIM_BREAK;
