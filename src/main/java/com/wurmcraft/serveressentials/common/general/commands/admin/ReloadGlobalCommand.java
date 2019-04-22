@@ -16,7 +16,6 @@ public class ReloadGlobalCommand extends SECommand {
     return "reloadGlobal";
   }
 
-
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
