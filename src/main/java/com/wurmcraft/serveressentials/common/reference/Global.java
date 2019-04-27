@@ -1,7 +1,6 @@
-package com.wurmcraft.serveressentials.api.json.global;
+package com.wurmcraft.serveressentials.common.reference;
 
 public class Global {
-
   // @Mod
   public static final String MODID = "serveressentials";
   public static final String NAME = "Server Essentials";
@@ -9,9 +8,4 @@ public class Global {
   // Proxy
   public static final String COMMON_PROXY = "com.wurmcraft.serveressentials.common.CommonProxy";
   public static final String CLIENT_PROXY = "com.wurmcraft.serveressentials.client.ClientProxy";
-  // Language
-  public static final String LOCAL_WEB =
-      "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/Rest-Rework/lang/";
-
-  private Global() {}
 }
