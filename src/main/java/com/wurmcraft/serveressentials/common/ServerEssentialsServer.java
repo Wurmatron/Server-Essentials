@@ -5,8 +5,11 @@ import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.modules;
 
 import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.AnnotationLoader;
+import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,11 +22,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(
-    modid = Global.MODID,
-    name = Global.NAME,
-    version = Global.VERSION,
-    serverSideOnly = true,
-    acceptableRemoteVersions = "*"
+  modid = Global.MODID,
+  name = Global.NAME,
+  version = Global.VERSION,
+  serverSideOnly = true,
+  acceptableRemoteVersions = "*"
 )
 public class ServerEssentialsServer {
 
@@ -36,6 +39,7 @@ public class ServerEssentialsServer {
   public static final Logger LOGGER = LogManager.getLogger(Global.NAME);
 
   private List<Object> activeModules = new ArrayList<>();
+  public ExecutorService executors;
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
@@ -43,6 +47,7 @@ public class ServerEssentialsServer {
     activeModules = AnnotationLoader.loadModules(e.getAsmData());
     modules = AnnotationLoader.moduleListToName(activeModules);
     commands = AnnotationLoader.loadCommands(e.getAsmData());
+    executors = Executors.newFixedThreadPool(ConfigHandler.maxProcessingThreads);
   }
 
   @EventHandler
@@ -58,9 +63,9 @@ public class ServerEssentialsServer {
   @EventHandler
   public void serverStarting(FMLServerStartingEvent e) {
     LOGGER.info("Server Starting");
+    CommandUtils.generateListOfCommandWrappers(commands).forEach(e::registerServerCommand);
   }
 
   @EventHandler
-  public void serverStopping(FMLServerStoppingEvent e) {
-  }
+  public void serverStopping(FMLServerStoppingEvent e) {}
 }

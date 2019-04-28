@@ -2,7 +2,7 @@ package com.wurmcraft.serveressentials.common.utils;
 
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.isModuleLoaded;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGER;
-import static com.wurmcraft.serveressentials.common.utils.CommandUtils.isCommandDisabled;
+import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.isCommandDisabled;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.CommandLoadEvent;
@@ -18,8 +18,7 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 
 public class AnnotationLoader {
 
-  private AnnotationLoader() {
-  }
+  private AnnotationLoader() {}
 
   private static List<Object> getAnnotations(ASMDataTable asmTable, String annotationName) {
     List<Object> modules = new ArrayList<>();
@@ -37,10 +36,15 @@ public class AnnotationLoader {
   public static List<Object> loadModules(ASMDataTable asmTable) {
     List<Object> activeModules = new ArrayList<>();
     getAnnotations(asmTable, Module.class.getName())
-        .forEach(module ->
-            Arrays.stream(ConfigHandler.modules).filter(activeModule -> activeModule
-                .equalsIgnoreCase(module.getClass().getAnnotation(Module.class).name()))
-                .map(activeModule -> module).forEach(activeModules::add));
+        .forEach(
+            module ->
+                Arrays.stream(ConfigHandler.modules)
+                    .filter(
+                        activeModule ->
+                            activeModule.equalsIgnoreCase(
+                                module.getClass().getAnnotation(Module.class).name()))
+                    .map(activeModule -> module)
+                    .forEach(activeModules::add));
     return activeModules;
   }
 
@@ -50,9 +54,12 @@ public class AnnotationLoader {
     for (Object command : getAnnotations(asmTable, ModuleCommand.class.getName())) {
       String commandModule = command.getClass().getAnnotation(ModuleCommand.class).moduleName();
       if (isModuleLoaded(commandModule) && command instanceof Command) {
-        CommandLoadEvent commandLoad = new CommandLoadEvent(commandModule, (Command) command,
-            command.getClass().getAnnotation(ModuleCommand.class).perm(),
-            command.getClass().getAnnotation(ModuleCommand.class).trustedRequired());
+        CommandLoadEvent commandLoad =
+            new CommandLoadEvent(
+                commandModule,
+                (Command) command,
+                command.getClass().getAnnotation(ModuleCommand.class).perm(),
+                command.getClass().getAnnotation(ModuleCommand.class).trustedRequired());
         MinecraftForge.EVENT_BUS.post(commandLoad);
         if (!commandLoad.isCanceled() && !isCommandDisabled(((Command) command).getName())) {
           commands.add((Command) command);
@@ -65,7 +72,9 @@ public class AnnotationLoader {
   // Convert an list of Module instances into its names
   public static List<String> moduleListToName(List<Object> activeModules) {
     List<String> modules = new ArrayList<>();
-    activeModules.stream().map(module -> module.getClass().getAnnotation(Module.class).name())
+    activeModules
+        .stream()
+        .map(module -> module.getClass().getAnnotation(Module.class).name())
         .forEach(activeModules::add);
     return modules;
   }
