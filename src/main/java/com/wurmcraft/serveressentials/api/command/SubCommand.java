@@ -17,9 +17,9 @@ import net.minecraft.server.MinecraftServer;
  * ICommandSender,String[]) and will function exactly the same as
  * oduleCommand#execute(MinecraftServer, ICommandSender, String[])
  *
- * @see ModuleCommand#execute(MinecraftServer, ICommandSender, String[])
- * @see ModuleCommand
+ * @see Command#execute(MinecraftServer, ICommandSender, String[])
  * @see Command
+ * @see ModuleCommand
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -33,7 +33,7 @@ public @interface SubCommand {
    * String[]) were the last argument has lost an input used by this subCommand.
    *
    * @return list of aliases for this command ignoredCase
-   * @see ModuleCommand#execute(MinecraftServer, ICommandSender, String[])
+   * @see Command#execute(MinecraftServer, ICommandSender, String[])
    */
   String[] getAliases();
 }
