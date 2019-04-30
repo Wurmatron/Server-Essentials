@@ -3,6 +3,8 @@ package com.wurmcraft.serveressentials.common;
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.commands;
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.modules;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.utils.AnnotationLoader;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
@@ -40,6 +42,7 @@ public class ServerEssentialsServer {
 
   private List<Object> activeModules = new ArrayList<>();
   public ExecutorService executors;
+  public final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
