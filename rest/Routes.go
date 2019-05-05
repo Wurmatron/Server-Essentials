@@ -91,6 +91,13 @@ var routes = Routes{
 		false,
 		GetAllRanks,
 	},
+	Route{
+		"DelRank",
+		"Post",
+		"/rank/del",
+		false,
+		DelRank,
+	},
 	// AutoRanks
 	Route{
 		"GetRank",

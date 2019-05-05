@@ -3,6 +3,9 @@ package com.wurmcraft.serveressentials.common.storage.rest;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGER;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.instance;
 
+import com.wurmcraft.serveressentials.api.Validation;
+import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
+import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
+import net.minecraftforge.common.MinecraftForge;
 
 public class RequestGenerator {
 
@@ -56,7 +60,8 @@ public class RequestGenerator {
    * @param type type of request (PUT, POST)
    * @param url additional info in the url
    * @param data object to send to the url
-   * @return https status code for https connection
+   * @return https status code for https connection, if its a teapot then its not getting a response
+   *     back
    */
   private int send(String type, String url, Object data) {
     try {
@@ -80,12 +85,12 @@ public class RequestGenerator {
     return 418; //  I'm a teapot
   }
 
-  public void post(String url, Object data) {
-    send("post", url, data);
+  public int post(String url, Object data) {
+    return send("post", url, data);
   }
 
-  public void put(String url, Object data) {
-    send("put", url, data);
+  public int put(String url, Object data) {
+    return send("put", url, data);
   }
 
   /**
@@ -119,5 +124,60 @@ public class RequestGenerator {
       }
     }
     return null;
+  }
+
+  public static class User {
+
+    public static GlobalRestUser getUser(String uuid) {
+      return INSTANCE.get(INSTANCE.baseURL + "user/" + uuid, GlobalRestUser.class);
+    }
+
+    public static int addNewPlayer(GlobalRestUser globalUser) {
+      return INSTANCE.post(INSTANCE.baseURL + "user/add", globalUser);
+    }
+
+    public static int overridePlayer(GlobalRestUser globalUser) {
+      GlobalRestUser currentRestUser = getUser(globalUser.getUuid());
+      UserSyncEvent sync = new UserSyncEvent(globalUser, currentRestUser);
+      MinecraftForge.EVENT_BUS.post(sync);
+      if (!sync.isCanceled()) {
+        return INSTANCE.put(
+            INSTANCE.baseURL + "user/" + globalUser.getUuid() + "/override", currentRestUser);
+      }
+      return 418; //  I'm a teapot
+    }
+  }
+
+  public static class Rank {
+
+    public static com.wurmcraft.serveressentials.api.user.rank.Rank getRank(String name) {
+      return INSTANCE.get(
+          INSTANCE.baseURL + "rank/" + name,
+          com.wurmcraft.serveressentials.api.user.rank.Rank.class);
+    }
+
+    public static int addRank(com.wurmcraft.serveressentials.api.user.rank.Rank rank) {
+      return INSTANCE.post(INSTANCE.baseURL + "rank/add", rank);
+    }
+
+    public static int overrideRank(com.wurmcraft.serveressentials.api.user.rank.Rank rank) {
+      return INSTANCE.post(INSTANCE.baseURL + "rank/" + rank.getID() + "/override", rank);
+    }
+
+    public static int deleteRank(com.wurmcraft.serveressentials.api.user.rank.Rank rank) {
+      return INSTANCE.post(INSTANCE.baseURL + "rank/del", rank);
+    }
+
+    public static com.wurmcraft.serveressentials.api.user.rank.Rank[] getAllRanks() {
+      return INSTANCE.get(
+          INSTANCE.baseURL + "rank/", com.wurmcraft.serveressentials.api.user.rank.Rank[].class);
+    }
+  }
+
+  public static class Status {
+
+    public static Validation getValidation() {
+      return INSTANCE.get(INSTANCE.baseURL + "validate/", Validation.class);
+    }
   }
 }

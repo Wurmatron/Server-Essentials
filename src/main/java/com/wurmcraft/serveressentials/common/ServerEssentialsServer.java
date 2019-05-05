@@ -2,16 +2,20 @@ package com.wurmcraft.serveressentials.common;
 
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.commands;
 import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.modules;
+import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.storage;
+import static com.wurmcraft.serveressentials.api.ServerEssentialsAPI.storageType;
+import static com.wurmcraft.serveressentials.common.storage.StorageUtils.getActiveStorageType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.common.reference.Global;
+import com.wurmcraft.serveressentials.common.storage.StorageUtils;
 import com.wurmcraft.serveressentials.common.utils.AnnotationLoader;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -41,16 +45,21 @@ public class ServerEssentialsServer {
   public static final Logger LOGGER = LogManager.getLogger(Global.NAME);
 
   private List<Object> activeModules = new ArrayList<>();
-  public ExecutorService executors;
+  public ScheduledExecutorService executors;
   public final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
     LOGGER.info("Starting PreInit");
+    // Load Commands / Modules
     activeModules = AnnotationLoader.loadModules(e.getAsmData());
     modules = AnnotationLoader.moduleListToName(activeModules);
     commands = AnnotationLoader.loadCommands(e.getAsmData());
-    executors = Executors.newFixedThreadPool(ConfigHandler.maxProcessingThreads);
+    executors = Executors.newScheduledThreadPool(ConfigHandler.maxProcessingThreads);
+    // Setup Storage Type
+    storageType = getActiveStorageType();
+    storage = StorageUtils.setupStorage();
+    storage.setup();
   }
 
   @EventHandler

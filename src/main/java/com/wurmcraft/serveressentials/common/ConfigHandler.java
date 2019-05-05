@@ -38,5 +38,12 @@ public class ConfigHandler {
       "Currency that this server will accept as valid for the network, anything else is removed from the player")
   public static String[] activeCurrency = new String[] {};
 
+  @Comment("Save directory")
   public static String saveLocation = "ServerEssentials";
+
+  @Comment("Default server rank for new users")
+  public static String defaultRank = "default";
+
+  @Comment("Rank Sync Period in Seconds")
+  public static long rankSyncPeriod = 90;
 }
