@@ -7,9 +7,17 @@ public class UserSyncEvent extends Event {
 
   public GlobalRestUser localServerUser;
   public GlobalRestUser restUser;
+  public Type type;
 
-  public UserSyncEvent(GlobalRestUser localServerUser, GlobalRestUser restUser) {
+  public UserSyncEvent(GlobalRestUser localServerUser, GlobalRestUser restUser, Type type) {
     this.localServerUser = localServerUser;
     this.restUser = restUser;
+    this.type = type;
+  }
+
+  public enum Type {
+    LOGIN,
+    LOGOUT,
+    STANDARD;
   }
 }

@@ -19,27 +19,35 @@ public class RestRankManager implements IRankManager {
 
   @Override
   public boolean register(Rank rank) {
-    return false;
+    if (rankCache.containsKey(rank.getID())) {
+      return false;
+    }
+    rankCache.put(rank.getID(), rank);
+    return true;
   }
 
   @Override
   public boolean remove(Rank rank) {
+    if (rankCache.containsKey(rank.getID())) {
+      rankCache.remove(rank.getID());
+      return true;
+    }
     return false;
   }
 
   @Override
   public boolean exists(Rank rank) {
-    return false;
+    return exists(rank.getID()) || exists(rank.getName());
   }
 
   @Override
   public boolean exists(String name) {
-    return false;
+    return rankCache.keySet().stream().anyMatch(key -> key.equals(name));
   }
 
   @Override
   public Rank getRank(String rank) {
-    return null;
+    return rankCache.getOrDefault(rank, null);
   }
 
   private void loadRestRanks() {

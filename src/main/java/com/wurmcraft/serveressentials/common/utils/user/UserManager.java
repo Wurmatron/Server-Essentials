@@ -31,6 +31,10 @@ public class UserManager {
     loadedUserData.put(uuid, data);
   }
 
+  public static void setUserData(UUID uuid, Object[] data) {
+    setUserData(uuid.toString(), data);
+  }
+
   public static Rank getUserRank(String uuid) {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       return getRestRank(uuid);
@@ -47,5 +51,9 @@ public class UserManager {
 
   private static Rank getRestRank(String uuid) {
     return ServerEssentialsAPI.rankManager.getRank(((GlobalRestUser) getUserData(uuid)[0]).rank);
+  }
+
+  public static void deleteUser(UUID uuid) {
+    loadedUserData.remove(uuid);
   }
 }

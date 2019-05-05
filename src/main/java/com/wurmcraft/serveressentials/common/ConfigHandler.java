@@ -45,5 +45,8 @@ public class ConfigHandler {
   public static String defaultRank = "default";
 
   @Comment("Rank Sync Period in Seconds")
-  public static long rankSyncPeriod = 90;
+  public static int rankSyncPeriod = 90;
+
+  @Comment("User Data Type Period in Seconds")
+  public static int userDataSyncPeriod = 90;
 }

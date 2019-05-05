@@ -5,6 +5,7 @@ import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.insta
 
 import com.wurmcraft.serveressentials.api.Validation;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
+import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.io.BufferedReader;
@@ -107,6 +108,7 @@ public class RequestGenerator {
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setRequestProperty("Authorization", auth);
         int responseCode = con.getResponseCode();
         if (responseCode == HttpsURLConnection.HTTP_OK
             || responseCode == HttpsURLConnection.HTTP_ACCEPTED) {
@@ -129,20 +131,19 @@ public class RequestGenerator {
   public static class User {
 
     public static GlobalRestUser getUser(String uuid) {
-      return INSTANCE.get(INSTANCE.baseURL + "user/" + uuid, GlobalRestUser.class);
+      return INSTANCE.get("user/" + uuid, GlobalRestUser.class);
     }
 
     public static int addNewPlayer(GlobalRestUser globalUser) {
-      return INSTANCE.post(INSTANCE.baseURL + "user/add", globalUser);
+      return INSTANCE.post("user/add", globalUser);
     }
 
-    public static int overridePlayer(GlobalRestUser globalUser) {
+    public static int overridePlayer(GlobalRestUser globalUser, Type type) {
       GlobalRestUser currentRestUser = getUser(globalUser.getUuid());
-      UserSyncEvent sync = new UserSyncEvent(globalUser, currentRestUser);
+      UserSyncEvent sync = new UserSyncEvent(globalUser, currentRestUser, type);
       MinecraftForge.EVENT_BUS.post(sync);
       if (!sync.isCanceled()) {
-        return INSTANCE.put(
-            INSTANCE.baseURL + "user/" + globalUser.getUuid() + "/override", currentRestUser);
+        return INSTANCE.put("user/" + globalUser.getUuid() + "/override", currentRestUser);
       }
       return 418; //  I'm a teapot
     }
@@ -151,33 +152,31 @@ public class RequestGenerator {
   public static class Rank {
 
     public static com.wurmcraft.serveressentials.api.user.rank.Rank getRank(String name) {
-      return INSTANCE.get(
-          INSTANCE.baseURL + "rank/" + name,
-          com.wurmcraft.serveressentials.api.user.rank.Rank.class);
+      return INSTANCE.get("rank/" + name, com.wurmcraft.serveressentials.api.user.rank.Rank.class);
     }
 
     public static int addRank(com.wurmcraft.serveressentials.api.user.rank.Rank rank) {
-      return INSTANCE.post(INSTANCE.baseURL + "rank/add", rank);
+      return INSTANCE.post("rank/add", rank);
     }
 
     public static int overrideRank(com.wurmcraft.serveressentials.api.user.rank.Rank rank) {
-      return INSTANCE.post(INSTANCE.baseURL + "rank/" + rank.getID() + "/override", rank);
+      return INSTANCE.post("rank/" + rank.getID() + "/override", rank);
     }
 
     public static int deleteRank(com.wurmcraft.serveressentials.api.user.rank.Rank rank) {
-      return INSTANCE.post(INSTANCE.baseURL + "rank/del", rank);
+      return INSTANCE.post("rank/del", rank);
     }
 
     public static com.wurmcraft.serveressentials.api.user.rank.Rank[] getAllRanks() {
-      return INSTANCE.get(
-          INSTANCE.baseURL + "rank/", com.wurmcraft.serveressentials.api.user.rank.Rank[].class);
+      return INSTANCE.get("rank/", com.wurmcraft.serveressentials.api.user.rank.Rank[].class);
     }
   }
 
   public static class Status {
 
     public static Validation getValidation() {
-      return INSTANCE.get(INSTANCE.baseURL + "validate/", Validation.class);
+      Validation val = INSTANCE.get("validate", Validation.class);
+      return val;
     }
   }
 }
