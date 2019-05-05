@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.common.storage.rest;
 
+import static com.wurmcraft.serveressentials.common.storage.StorageUtils.triggerLogoutTimeout;
+
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
@@ -9,12 +11,7 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -65,28 +62,5 @@ public class RestWorldEvents {
     DataHelper.save(Storage.LOCAL_USER, (LocalRestUser) userData[1]);
     triggerLogoutTimeout(e.player);
     RequestGenerator.User.overridePlayer((GlobalRestUser) userData[0], Type.LOGOUT);
-  }
-
-  private static void triggerLogoutTimeout(EntityPlayer player) {
-    ServerEssentialsServer.instance.executors.scheduleAtFixedRate(
-        () -> {
-          if (!FMLCommonHandler.instance()
-              .getMinecraftServerInstance()
-              .getPlayerList()
-              .getPlayers()
-              .contains(player)) {
-            unloadUser(player.getGameProfile().getId());
-          }
-        },
-        ConfigHandler.userDataSyncPeriod,
-        ConfigHandler.userDataSyncPeriod,
-        TimeUnit.SECONDS);
-  }
-
-  private static void unloadUser(UUID uuid) {
-    UserManager.deleteUser(uuid);
-    DataHelper.remove(Storage.LOCAL_USER, DataHelper.get(Storage.LOCAL_USER, uuid.toString()));
-    ServerEssentialsServer.LOGGER.debug(
-        "Unloaded User '" + uuid + "' (" + UsernameCache.getLastKnownUsername(uuid) + ")");
   }
 }

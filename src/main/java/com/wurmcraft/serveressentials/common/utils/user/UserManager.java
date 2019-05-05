@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.utils.user;
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -55,5 +56,9 @@ public class UserManager {
 
   public static void deleteUser(UUID uuid) {
     loadedUserData.remove(uuid);
+  }
+
+  public static Rank getDefaultRank() {
+    return ServerEssentialsAPI.rankManager.getRank(ConfigHandler.defaultRank);
   }
 }
