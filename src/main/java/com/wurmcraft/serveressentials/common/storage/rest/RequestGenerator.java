@@ -15,20 +15,16 @@ import java.net.URLConnection;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class RequestGenerator {
 
   public static final String USER_AGENT = "Mozilla/5.0";
-  public static final RequestGenerator INSTANCE =
-      new RequestGenerator(ConfigHandler.restURL, ConfigHandler.restAuth);
 
-  private String auth;
-  private String baseURL;
+  private String auth = createRestAuth(ConfigHandler.restAuth);
+  private String baseURL = parseConfigURL(ConfigHandler.restURL);
 
-  public RequestGenerator(String restURL, String restAuth) {
-    baseURL = parseConfigURL(restURL);
-    auth = createRestAuth(restAuth);
-  }
+  private static RequestGenerator INSTANCE = new RequestGenerator();
 
   private boolean isBase64(String data) {
     try {
@@ -73,8 +69,9 @@ public class RequestGenerator {
       https.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
       https.setDoOutput(true);
       https.setRequestProperty("Authorization", auth);
-      String json = instance.GSON.toJson(data);
+      String json = instance.GSON.toJson(data).replaceAll("\n", "");
       connection.setRequestProperty("Content-Length", String.valueOf(json.length()));
+      connection.getOutputStream().write(json.getBytes());
       int status = ((HttpsURLConnection) connection).getResponseCode();
       if (status == HttpsURLConnection.HTTP_UNAUTHORIZED) {
         LOGGER.error("Invalid Rest API Key, Unable to Put");
@@ -139,11 +136,13 @@ public class RequestGenerator {
     }
 
     public static int overridePlayer(GlobalRestUser globalUser, Type type) {
-      GlobalRestUser currentRestUser = getUser(globalUser.getUuid());
-      UserSyncEvent sync = new UserSyncEvent(globalUser, currentRestUser, type);
-      MinecraftForge.EVENT_BUS.post(sync);
-      if (!sync.isCanceled()) {
-        return INSTANCE.put("user/" + globalUser.getUuid() + "/override", currentRestUser);
+      synchronized (FMLCommonHandler.instance().getMinecraftServerInstance().getServerThread()) {
+        GlobalRestUser currentRestUser = getUser(globalUser.getUuid());
+        UserSyncEvent sync = new UserSyncEvent(globalUser, currentRestUser, type);
+        MinecraftForge.EVENT_BUS.post(sync);
+        if (!sync.isCanceled()) {
+          return INSTANCE.put("user/" + globalUser.getUuid() + "/override", currentRestUser);
+        }
       }
       return 418; //  I'm a teapot
     }
