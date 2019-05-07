@@ -100,11 +100,12 @@ public class RestWorldEvents {
         e.restUser.setRank(rankChangeCache.get(e.localServerUser.getUuid()));
         rankChangeCache.remove(e.localServerUser.getUuid());
       }
-      if (e.localServerUser.getPerks().length != e.restUser.getPerks().length) {
+      if (e.localServerUser.getPerks().length != e.restUser.getPerks().length) { // Correct Perks
         e.restUser.addPerk(perkChangeCache.get(e.localServerUser.getUuid()));
         perkChangeCache.remove(e.localServerUser.getUuid());
       }
-      if (e.localServerUser.getPermission().length != e.restUser.getPermission().length) {
+      if (e.localServerUser.getPermission().length
+          != e.restUser.getPermission().length) { // Correct Perms
         e.restUser.addPermission(permChangeChache.get(e.localServerUser.getUuid()));
         permChangeChache.remove(e.localServerUser.getUuid());
       }

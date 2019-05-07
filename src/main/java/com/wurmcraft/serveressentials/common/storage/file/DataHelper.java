@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.instance;
 
 import com.wurmcraft.serveressentials.api.storage.FileType;
+import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.io.File;
@@ -95,6 +96,16 @@ public class DataHelper {
                 + ".json"),
         key,
         type);
+  }
+
+  public static <T extends FileType> T[] load(String key, T[] type) {
+    List<T> data = new ArrayList<>();
+    for (File t : new File(saveLocation + File.separator + key).listFiles()) {
+      if (t.isFile()) {
+        data.add((T) load(t, key, new AutoRank()));
+      }
+    }
+    return data.toArray(type);
   }
 
   private static <T extends FileType> boolean exists(String key, T type) {

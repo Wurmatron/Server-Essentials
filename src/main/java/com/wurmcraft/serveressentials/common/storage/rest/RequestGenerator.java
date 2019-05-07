@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGE
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.instance;
 
 import com.wurmcraft.serveressentials.api.Validation;
+import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
@@ -168,6 +169,29 @@ public class RequestGenerator {
 
     public static com.wurmcraft.serveressentials.api.user.rank.Rank[] getAllRanks() {
       return INSTANCE.get("rank/", com.wurmcraft.serveressentials.api.user.rank.Rank[].class);
+    }
+  }
+
+  public static class AutoRankResponses {
+
+    public static int addAutoRank(AutoRank rank) {
+      return INSTANCE.post("autorank/add", rank);
+    }
+
+    public static AutoRank getAutoRank(String name) {
+      return INSTANCE.get("autorank/" + name, AutoRank.class);
+    }
+
+    public static int overrideAutoRank(AutoRank rank) {
+      return INSTANCE.post("autorank/" + rank.getID() + "/override", rank);
+    }
+
+    public static int deleteAutoRank(AutoRank rank) {
+      return INSTANCE.put("autorank/" + rank.getID() + "/del", rank);
+    }
+
+    public static AutoRank[] getAllAutoRanks() {
+      return INSTANCE.get("autorank/", AutoRank[].class);
     }
   }
 

@@ -60,6 +60,8 @@ public class ServerEssentialsServer {
     storageType = getActiveStorageType();
     storage = StorageUtils.setupStorage();
     storage.setup();
+    // Init Modules
+    AnnotationLoader.initModules(activeModules);
   }
 
   @EventHandler

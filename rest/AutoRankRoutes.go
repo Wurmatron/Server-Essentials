@@ -49,6 +49,23 @@ func SetAutoRank(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+func DelAutoRank(w http.ResponseWriter, r *http.Request, _ mux.Params) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	var rank AutoRank
+	err = json.Unmarshal(b, &rank)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	redisDBAutoRank.Del(rank.Rank)
+	w.WriteHeader(http.StatusCreated)
+}
+
 func GetAllAutoRanks(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
 	var data []AutoRank
 	for entry := range redisDBAutoRank.Keys("*").Val() {

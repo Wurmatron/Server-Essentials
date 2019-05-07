@@ -72,10 +72,23 @@ public class AnnotationLoader {
   // Convert an list of Module instances into its names
   public static List<String> moduleListToName(List<Object> activeModules) {
     List<String> modules = new ArrayList<>();
-    activeModules
-        .stream()
-        .map(module -> module.getClass().getAnnotation(Module.class).name())
-        .forEach(activeModules::add);
+    for (Object module : activeModules) {
+      String name = module.getClass().getAnnotation(Module.class).name();
+      modules.add(name);
+    }
     return modules;
+  }
+
+  public static void initModules(List<Object> activeModules) {
+    for (Object module : activeModules) {
+      try {
+        module
+            .getClass()
+            .getDeclaredMethod(module.getClass().getAnnotation(Module.class).setupMethod())
+            .invoke(module, null);
+      } catch (Exception e) {
+        LOGGER.info(e.getLocalizedMessage());
+      }
+    }
   }
 }

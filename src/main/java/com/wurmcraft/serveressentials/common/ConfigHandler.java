@@ -49,4 +49,7 @@ public class ConfigHandler {
 
   @Comment("User Data Type Period in Seconds")
   public static int userDataSyncPeriod = 90;
+
+  @Comment("How many ticks before checking for a user rank-up")
+  public static int autoRankCheckPeriod = 6000;
 }
