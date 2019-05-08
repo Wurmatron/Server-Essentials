@@ -52,4 +52,7 @@ public class ConfigHandler {
 
   @Comment("How many ticks before checking for a user rank-up")
   public static int autoRankCheckPeriod = 6000;
+
+  public static String languageURLFormat =
+      "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/Post-Rest-Rework/lang/";
 }

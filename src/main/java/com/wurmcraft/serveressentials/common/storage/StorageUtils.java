@@ -54,7 +54,6 @@ public class StorageUtils {
   private static void unloadUser(UUID uuid) {
     UserManager.deleteUser(uuid);
     if (getActiveStorageType().equalsIgnoreCase("Rest")) {
-
       DataHelper.remove(
           com.wurmcraft.serveressentials.common.reference.Storage.LOCAL_USER,
           DataHelper.get(

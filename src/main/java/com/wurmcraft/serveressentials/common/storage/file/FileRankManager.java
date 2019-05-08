@@ -95,4 +95,9 @@ public class FileRankManager implements IRankManager {
     DataHelper.save(Storage.RANK, rank);
     DataHelper.load(Storage.RANK, rank);
   }
+
+  @Override
+  public Rank[] getRanks() {
+    return rankCache.values().toArray(new Rank[0]);
+  }
 }

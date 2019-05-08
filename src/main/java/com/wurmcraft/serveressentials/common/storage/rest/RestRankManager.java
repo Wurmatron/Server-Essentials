@@ -76,4 +76,9 @@ public class RestRankManager implements IRankManager {
         ConfigHandler.rankSyncPeriod,
         TimeUnit.SECONDS);
   }
+
+  @Override
+  public Rank[] getRanks() {
+    return rankCache.values().toArray(new Rank[0]);
+  }
 }

@@ -49,4 +49,11 @@ public interface IRankManager {
    * @return the rank if it exists if not it should be null
    */
   Rank getRank(String rank);
+
+  /**
+   * Gets a list of all the current ranks
+   *
+   * @return a array of all the current ranks
+   */
+  Rank[] getRanks();
 }
