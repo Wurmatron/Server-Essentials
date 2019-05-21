@@ -4,11 +4,11 @@ import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.instance;
 
 import com.wurmcraft.serveressentials.api.storage.FileType;
-import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class DataHelper {
       new NonBlockingHashMap<>();
 
   public static List<FileType> getData(String key) {
-    return loadedData.get(key.toUpperCase());
+    return loadedData.get(key);
   }
 
   public static <T extends FileType> List<T> getData(String key, T type) {
@@ -98,14 +98,16 @@ public class DataHelper {
         type);
   }
 
-  public static <T extends FileType> T[] load(String key, T[] type) {
+  public static <T extends FileType> T[] load(String key, T[] type, T a) {
     List<T> data = new ArrayList<>();
-    for (File t : new File(saveLocation + File.separator + key).listFiles()) {
+    File keyDir = new File(saveLocation + File.separator + key);
+    if (!keyDir.exists()) keyDir.mkdirs();
+    for (File t : keyDir.listFiles()) {
       if (t.isFile()) {
-        data.add((T) load(t, key, new AutoRank()));
+        data.add((T) load(t, key, a));
       }
     }
-    return data.toArray(type);
+    return data.toArray((T[]) Array.newInstance(type.getClass(), 0));
   }
 
   private static <T extends FileType> boolean exists(String key, T type) {
@@ -115,7 +117,12 @@ public class DataHelper {
   public static FileType get(String key, String id) {
     List<FileType> keyData = getData(key);
     if (keyData != null && !keyData.isEmpty()) {
-      return keyData.stream().filter(d -> d.getID().equalsIgnoreCase(id)).findFirst().orElse(null);
+      for (FileType d : keyData) {
+        if (d.getID().equalsIgnoreCase(id)) {
+          return d;
+        }
+      }
+      return null;
     }
     return null;
   }

@@ -3,16 +3,24 @@ package com.wurmcraft.serveressentials.common.modules.language;
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.api.module.Module;
+import com.wurmcraft.serveressentials.api.storage.json.Channel;
+import com.wurmcraft.serveressentials.api.storage.json.Channel.Type;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.modules.language.event.ChatEvents;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.io.IOUtils;
 import sun.plugin.dom.exception.InvalidStateException;
 
@@ -20,6 +28,8 @@ import sun.plugin.dom.exception.InvalidStateException;
 public class LanguageModule {
 
   public void setup() {
+    MinecraftForge.EVENT_BUS.register(new ChatEvents());
+    loadChannels();
     Lang defaultLang = loadLanguage(ConfigHandler.defaultLanguage);
     if (defaultLang == null) {
       throw new InvalidStateException("Unable to load default language file!");
@@ -67,5 +77,26 @@ public class LanguageModule {
       ServerEssentialsServer.LOGGER.info("Loading Language '" + lang + "'");
     }
     return userLang;
+  }
+
+  public static Channel[] loadChannels() {
+    Channel[] channels = DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
+    if (channels.length == 0) {
+      Channel global = new Channel("global", "[G]", Type.PUBLIC, "");
+      DataHelper.save(Storage.CHANNEL, global);
+    }
+    return channels;
+  }
+
+  public static List<EntityPlayerMP> getPlayersInChannel(Channel channel) {
+    List<EntityPlayerMP> players = new ArrayList<>();
+    for (EntityPlayerMP player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      Channel ch = UserManager.getUserChannel(player.getGameProfile().getId());
+      if (channel.getName().equalsIgnoreCase(ch.getName())) {
+        players.add(player);
+      }
+    }
+    return players;
   }
 }

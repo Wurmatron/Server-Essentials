@@ -6,12 +6,16 @@ import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -120,5 +124,28 @@ public class CommandUtils {
       }
     }
     return null;
+  }
+
+  public static boolean hasPerm(String perm, UUID uuid) {
+    return hasPerm(perm, uuid.toString());
+  }
+
+  public static boolean hasPerm(String perm, String uuid) {
+    return generatePermssionList(Objects.requireNonNull(UserManager.getUserRank(uuid)))
+        .contains(perm);
+  }
+
+  public static boolean hasPerm(String perm, EntityPlayer player) {
+    return hasPerm(perm, player.getGameProfile().getId());
+  }
+
+  public static List<String> generatePermssionList(Rank rank) {
+    List<String> perms = new ArrayList<>();
+    Collections.addAll(perms, rank.getPermission());
+    for (String otherRanks : rank.getInheritance()) {
+      Rank prevRank = ServerEssentialsAPI.rankManager.getRank(otherRanks);
+      Collections.addAll(perms, prevRank.getPermission());
+    }
+    return perms;
   }
 }

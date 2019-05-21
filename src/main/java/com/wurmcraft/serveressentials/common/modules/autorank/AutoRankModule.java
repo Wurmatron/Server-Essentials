@@ -3,7 +3,7 @@ package com.wurmcraft.serveressentials.common.modules.autorank;
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
-import com.wurmcraft.serveressentials.common.modules.autorank.events.AutoRankEvents;
+import com.wurmcraft.serveressentials.common.modules.autorank.event.AutoRankEvents;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
@@ -33,7 +33,7 @@ public class AutoRankModule {
   }
 
   private static AutoRank[] getFileAutoRank() {
-    return DataHelper.load(Storage.AUTO_RANK, new AutoRank[0]);
+    return DataHelper.load(Storage.AUTO_RANK, new AutoRank[0], new AutoRank());
   }
 
   private static AutoRank[] getRestAutoRank() {

@@ -25,6 +25,9 @@ public class ConfigHandler {
   @Comment("Channel players will join upon joining the server")
   public static String defaultChannel = "global";
 
+  @Comment("Channel that allows for outside mod support aka something like MatterLink")
+  public static String globalChannel = "global";
+
   @Comment("Currency used by this server and its transactions")
   public static String serverCurrency = "";
 
@@ -53,6 +56,14 @@ public class ConfigHandler {
   @Comment("How many ticks before checking for a user rank-up")
   public static int autoRankCheckPeriod = 6000;
 
+  @Comment("Dont change this unless you know what it does")
   public static String languageURLFormat =
       "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/Post-Rest-Rework/lang/";
+
+  @Comment("How the Chgat-Module will format the in-game chat")
+  public static String chatFormat =
+      "%channel% %team% %rankPrefix% %username% %rankSuffix% %message%";
+
+  @Comment("How many times the same message can appear in chat before its blocked")
+  public static int spamLimit = 3;
 }

@@ -1,6 +1,7 @@
-package com.wurmcraft.serveressentials.common.modules.autorank.events;
+package com.wurmcraft.serveressentials.common.modules.autorank.event;
 
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.autorank.AutoRankUtils;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -12,7 +13,7 @@ public class AutoRankEvents {
 
   @SubscribeEvent
   public void onWorldTick(WorldTickEvent e) {
-    if (e.side == Side.SERVER && e.world.getWorldTime() % 20 == 0) {
+    if (e.side == Side.SERVER && e.world.getWorldTime() % ConfigHandler.autoRankCheckPeriod == 0) {
       FMLCommonHandler.instance()
           .getMinecraftServerInstance()
           .getPlayerList()

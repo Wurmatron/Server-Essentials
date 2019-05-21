@@ -3,8 +3,10 @@ package com.wurmcraft.serveressentials.api.user.file;
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.storage.FileType;
 import com.wurmcraft.serveressentials.api.storage.LocationWrapper;
+import com.wurmcraft.serveressentials.api.storage.json.Channel;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.storage.Home;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +36,7 @@ public class FileUser implements FileType {
   private String[] customData = new String[0];
   private UUID uuid;
   private String lang;
+  private String[] ignored;
 
   public FileUser() {}
 
@@ -146,15 +149,14 @@ public class FileUser implements FileType {
   public String getCurrentChannel() {
     return currentChannel;
   }
-  // TODO Implement Channels
-  //
-  //  public void setCurrentChannel(Channel channel) {
-  //    if (channel != null) {
-  //      this.currentChannel = channel.getName();
-  //    } else {
-  //      this.currentChannel = ConfigHandler.defaultChannel;
-  //    }
-  //  }
+
+  public void setCurrentChannel(Channel channel) {
+    if (channel != null) {
+      this.currentChannel = channel.getID();
+    } else {
+      this.currentChannel = ConfigHandler.defaultChannel;
+    }
+  }
 
   public boolean isMuted() {
     return muted;
@@ -275,5 +277,13 @@ public class FileUser implements FileType {
 
   public void setTeam(String team) {
     this.team = team;
+  }
+
+  public String[] getIgnored() {
+    return ignored;
+  }
+
+  public void setIgnored(String[] ignored) {
+    this.ignored = ignored;
   }
 }

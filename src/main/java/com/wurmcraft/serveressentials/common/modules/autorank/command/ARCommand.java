@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.modules.autorank.commands;
+package com.wurmcraft.serveressentials.common.modules.autorank.command;
 
 import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.getPlayerForName;
 import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.predictRank;

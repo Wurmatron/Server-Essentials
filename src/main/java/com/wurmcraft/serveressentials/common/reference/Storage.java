@@ -12,4 +12,5 @@ public class Storage {
   public static String RANK = "Rank";
   public static String AUTO_RANK = "Auto-Rank";
   public static String LANGUAGE = "Language";
+  public static String CHANNEL = "Channel";
 }

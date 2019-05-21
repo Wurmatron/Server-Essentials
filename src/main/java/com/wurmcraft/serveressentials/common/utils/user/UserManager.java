@@ -3,10 +3,12 @@ package com.wurmcraft.serveressentials.common.utils.user;
 import static com.wurmcraft.serveressentials.common.storage.rest.RestWorldEvents.rankChangeCache;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.api.storage.json.Channel;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
+import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
@@ -52,13 +54,18 @@ public class UserManager {
     return null;
   }
 
+  public static Rank getUserRank(EntityPlayer player) {
+    return getUserRank(player.getGameProfile().getId().toString());
+  }
+
   private static Rank getFileRank(String uuid) {
-    return null;
-    //    return getUserData(uuid)[0];
+    return ((FileUser) getUserData(uuid)[0]).getRank();
   }
 
   private static Rank getRestRank(String uuid) {
-    return ServerEssentialsAPI.rankManager.getRank(((GlobalRestUser) getUserData(uuid)[0]).rank);
+    return getUserData(uuid).length > 0
+        ? ServerEssentialsAPI.rankManager.getRank(((GlobalRestUser) getUserData(uuid)[0]).rank)
+        : null;
   }
 
   public static void deleteUser(UUID uuid) {
@@ -92,5 +99,83 @@ public class UserManager {
       DataHelper.save(Storage.USER, user);
     }
     // TODO Announce User Rank-Up
+  }
+
+  public static Channel getUserChannel(UUID uuid) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) UserManager.getUserData(uuid)[1];
+      return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) UserManager.getUserData(uuid)[0];
+      return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
+    }
+    return null;
+  }
+
+  public static Channel getUserChannel(EntityPlayer player) {
+    return getUserChannel(player.getGameProfile().getId());
+  }
+
+  public static boolean isUserMuted(UUID uuid) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      return ((GlobalRestUser) UserManager.getUserData(uuid)[0]).isMuted();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      return ((FileUser) UserManager.getUserData(uuid)[0]).isMuted();
+    }
+    return false;
+  }
+
+  public static boolean isIgnored(UUID user, String msg) {
+    for (String ignore : getIgnored(user)) {
+      if (msg.contains(ignore)) return true;
+    }
+    return false;
+  }
+
+  private static String[] getIgnored(UUID user) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      return ((LocalRestUser) getUserData(user)[1]).getIgnored();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      return ((FileUser) getUserData(user)[0]).getIgnored();
+    }
+    return new String[0];
+  }
+
+  public static String getUserTeam(UUID uuid) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) UserManager.getUserData(uuid)[0];
+      return user.getTeam();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) UserManager.getUserData(uuid)[0];
+      return user.getTeam();
+    }
+    return "";
+  }
+
+  public static String getUserTeam(EntityPlayer player) {
+    return getUserTeam(player.getGameProfile().getId());
+  }
+
+  public static String getNickname(UUID uuid) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      if (UserManager.getUserData(uuid).length > 0) {
+        GlobalRestUser user = (GlobalRestUser) UserManager.getUserData(uuid)[0];
+        if (user != null) {
+          return user.getNick();
+        }
+      }
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      if (UserManager.getUserData(uuid).length > 0) {
+        FileUser user = (FileUser) UserManager.getUserData(uuid)[0];
+        if (user != null) {
+          return user.getNickname();
+        }
+      }
+    }
+    return "";
+  }
+
+  public static String getNickname(EntityPlayer player) {
+    return getNickname(player.getGameProfile().getId());
   }
 }
