@@ -35,5 +35,5 @@ public @interface SubCommand {
    * @return list of aliases for this command ignoredCase
    * @see Command#execute(MinecraftServer, ICommandSender, String[])
    */
-  String[] getAliases() default "";
+  String[] aliases() default "";
 }

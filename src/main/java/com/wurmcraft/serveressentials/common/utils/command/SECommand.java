@@ -3,7 +3,7 @@ package com.wurmcraft.serveressentials.common.utils.command;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGER;
 
 import com.wurmcraft.serveressentials.api.command.Command;
-import com.wurmcraft.serveressentials.api.lang.Lang;
+import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ public class SECommand extends CommandBase {
 
   @Override
   public String getUsage(ICommandSender sender) {
-    return command.getUsage(new Lang("en_us")); // TODO Implement Language
+    return command.getUsage(LanguageModule.getDefaultLang());
   }
 
   @Override

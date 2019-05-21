@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
@@ -67,6 +68,13 @@ public class LanguageModule {
       if (userLang != null) {
         return userLang;
       }
+    }
+    return getDefaultLang();
+  }
+
+  public static Lang getUserLanguage(ICommandSender sender) {
+    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      return getUserLanguage(sender.getCommandSenderEntity());
     }
     return getDefaultLang();
   }

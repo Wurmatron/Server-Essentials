@@ -10,6 +10,15 @@ public class Local implements FileType {
   // Chat
   public String MUTED;
   public String SPAM;
+  public String PLAYER_NOT_FOUND;
+  public String CHAT_SPACER;
+  public String CHAT_PLAYER;
+  public String CHAT_TIME;
+  public String CHAT_EXPERIENCE;
+  public String CHAT_BALANCE;
+  // AutoRank
+  public String AUTORANK_MAX_RANK;
+  public String DESCRIPTION_AUTORANK;
 
   public Local(String key) {
     this.key = key;

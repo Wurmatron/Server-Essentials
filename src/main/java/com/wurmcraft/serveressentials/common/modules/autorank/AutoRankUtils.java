@@ -7,7 +7,7 @@ import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.api.user.rest.ServerTime;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
-import java.util.Arrays;
+import java.util.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class AutoRankUtils {
@@ -35,10 +35,25 @@ public class AutoRankUtils {
   }
 
   public static Rank getNextRank(EntityPlayer player) {
-    return Arrays.stream(AutoRankModule.getAutoRanks())
-        .filter(rank -> hasRequirments(player, rank))
-        .findFirst()
+    for (AutoRank autoRank : AutoRankModule.getAutoRanks()) {
+      if (hasRequirments(player, autoRank)) {
+        return Optional.of(autoRank)
+            .map(rank -> ServerEssentialsAPI.rankManager.getRank(rank.getNextRank()))
+            .orElse(null);
+      }
+    }
+    return Optional.<AutoRank>empty()
         .map(rank -> ServerEssentialsAPI.rankManager.getRank(rank.getNextRank()))
         .orElse(null);
+  }
+
+  public static AutoRank getNextAutoRank(EntityPlayer player) {
+    Rank rank = UserManager.getUserRank(player);
+    for (AutoRank autoRank : AutoRankModule.getAutoRanks()) {
+      if (autoRank.getRank().equalsIgnoreCase(rank.getID())) {
+        return autoRank;
+      }
+    }
+    return null;
   }
 }

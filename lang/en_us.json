@@ -1,5 +1,13 @@
 {
   "key": "en_us",
   "MUTED": "&cYou are currently muted!",
-  "SPAM": "&cHey you, &4Dont Spam!"
+  "SPAM": "&cHey you, &4Dont Spam!",
+  "PLAYER_NOT_FOUND": "&d%PLAYER% &cNot Found!",
+  "CHAT_SPACER": "&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=&e-&6=",
+  "CHAT_PLAYER": "&Player: %PLAYER%",
+  "CHAT_EXPERIENCE": "&5EXP:    %EXPERIENCE%",
+  "CHAT_TIME": "&5Time:   %TIME%",
+  "CHAT_BALANCE": "&5Bal:   %BALANCE%",
+  "AUTORANK_MAX_RANK": "&c%PLAYER% is already hax rank",
+  "DESCRIPTION_AUTORANK": "&5Checks a user's rankup status"
 }

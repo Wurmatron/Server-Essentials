@@ -45,12 +45,14 @@ public class CommandUtils {
   /** Get a Ordered Map of the subCommands and there aliases */
   public static Map<String, Method> getSubCommands(Command command) {
     Map<String, Method> subCommands = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Arrays.stream(command.getClass().getDeclaredMethods())
-        .filter(method -> method.getDeclaredAnnotation(SubCommand.class) != null)
-        .forEachOrdered(
-            method ->
-                Arrays.stream(method.getDeclaredAnnotation(SubCommand.class).getAliases())
-                    .forEach(altName -> subCommands.put(altName, method)));
+    for (Method method : command.getClass().getDeclaredMethods()) {
+      if (method.getDeclaredAnnotation(SubCommand.class) != null) {
+        for (String altName : method.getDeclaredAnnotation(SubCommand.class).aliases()) {
+          subCommands.put(altName, method);
+        }
+        subCommands.put(method.getName(), method);
+      }
+    }
     return subCommands;
   }
 

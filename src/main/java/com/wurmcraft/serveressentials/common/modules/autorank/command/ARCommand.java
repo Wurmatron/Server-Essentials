@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.common.modules.autorank.command;
 
+import static com.wurmcraft.serveressentials.common.modules.language.LanguageModule.getUserLanguage;
 import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.getPlayerForName;
 import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.predictRank;
 import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.predictUsernames;
@@ -8,6 +9,9 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.lang.Lang;
+import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
+import com.wurmcraft.serveressentials.common.modules.autorank.AutoRankUtils;
+import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.command.ICommandSender;
@@ -28,26 +32,72 @@ public class ARCommand extends Command {
 
   @Override
   public String getUsage(Lang lang) {
-    return null;
+    return "/autoRank <check, force, admin> ";
   }
 
   @Override
   public String getDescription(Lang lang) {
-    return null;
+    return lang.local.DESCRIPTION_AUTORANK;
   }
 
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args) {}
 
-  @SubCommand
+  @SubCommand(aliases = "Check")
   public void check(MinecraftServer server, ICommandSender sender, String[] args) {
     if (args.length == 0) {
-      // TODO Display for current user
+      if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+        displayCurrentAutoRankStatus((EntityPlayer) sender.getCommandSenderEntity());
+      } else {
+        ChatHelper.sendMessage(sender, getUsage(getUserLanguage(sender)));
+      }
     } else if (args.length == 1) {
-      EntityPlayer player = getPlayerForName(args[1]);
-      // TODO Display for player
+      EntityPlayer player = getPlayerForName(args[0]);
+      if (player != null) {
+        displayCurrentAutoRankStatus(player);
+      } else {
+        ChatHelper.sendMessage(
+            sender,
+            getUserLanguage(sender).local.PLAYER_NOT_FOUND.replaceAll("%PLAYER% ", args[0]));
+      }
     } else {
-      // TODO Send Usage Message
+      ChatHelper.sendMessage(sender, getUsage(getUserLanguage(sender)));
+    }
+  }
+
+  private static void displayCurrentAutoRankStatus(EntityPlayer player) {
+    AutoRank rank = AutoRankUtils.getNextAutoRank(player);
+    if (rank != null) {
+      ChatHelper.sendMessage(player, getUserLanguage(player).local.CHAT_SPACER);
+      ChatHelper.sendMessage(
+          player,
+          getUserLanguage(player)
+              .local
+              .CHAT_PLAYER
+              .replaceAll("%PLAYER%", player.getDisplayNameString()));
+      ChatHelper.sendMessage(
+          player,
+          getUserLanguage(player)
+              .local
+              .CHAT_TIME
+              .replaceAll("%TIME%", Integer.toString(rank.getPlayTime())));
+      ChatHelper.sendMessage(
+          player,
+          getUserLanguage(player)
+              .local
+              .CHAT_EXPERIENCE
+              .replaceAll("%EXPERIENCE%", Integer.toString(rank.getExp())));
+      ChatHelper.sendMessage(
+          player,
+          getUserLanguage(player)
+              .local
+              .CHAT_BALANCE
+              .replaceAll("%BALANCE%", Integer.toString(rank.getBalance())));
+      ChatHelper.sendMessage(player, getUserLanguage(player).local.CHAT_SPACER);
+    } else {
+      System.out.println("Name: " + getUserLanguage(player).local.AUTORANK_MAX_RANK);
+      ChatHelper.sendMessage(player, getUserLanguage(player).local.AUTORANK_MAX_RANK);
+      //          .replaceAll("%PLAYER%", player.getDisplayNameString()));
     }
   }
 
@@ -65,7 +115,7 @@ public class ARCommand extends Command {
   @Override
   public List<String> getAutoCompletion(
       MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-    if (args.length == 0) {
+    if (args.length == 0 || args.length == 1 && args[0].isEmpty()) {
       return emptyAutoCompletion;
     } else if (args.length >= 1 && args[0].equalsIgnoreCase("check")
         || args.length >= 1 && args[0].equalsIgnoreCase("force")) {
