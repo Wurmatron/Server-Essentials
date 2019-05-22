@@ -8,6 +8,10 @@
   "CHAT_EXPERIENCE": "&5EXP:    %EXPERIENCE%",
   "CHAT_TIME": "&5Time:   %TIME%",
   "CHAT_BALANCE": "&5Bal:   %BALANCE%",
-  "AUTORANK_MAX_RANK": "&c%PLAYER% is already hax rank",
-  "DESCRIPTION_AUTORANK": "&5Checks a user's rankup status"
+  "CHAT_INVALID_NUMBER": "&cInvalid Number",
+  "AUTORANK_MAX_RANK": "&c%PLAYER% is already max rank",
+  "DESCRIPTION_AUTORANK": "&5Checks a user's rankup status",
+  "AUTORANK_CHECK": "&cYou have been forced to have the requirements for %RANK%",
+  "AUTORANK_CREATED": "&5AutoRank %RANK% created",
+  "AUTORANK_DELETED": "&cAutoRank %RANK% deleted"
 }

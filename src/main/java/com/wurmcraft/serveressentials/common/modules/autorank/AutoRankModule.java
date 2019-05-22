@@ -47,4 +47,22 @@ public class AutoRankModule {
   public static AutoRank getAutoRank(String id) {
     return autoRankCache.getOrDefault(id, null);
   }
+
+  public static void createAutoRank(AutoRank rank) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      RequestGenerator.AutoRankResponses.addAutoRank(rank);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      DataHelper.save(Storage.AUTO_RANK, rank);
+    }
+  }
+
+  public static void deleteAutoRank(AutoRank rank) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      RequestGenerator.AutoRankResponses.deleteAutoRank(rank);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      DataHelper.delete(Storage.AUTO_RANK, rank);
+    }
+    autoRankCache.clear();
+    loadAutoRanks();
+  }
 }

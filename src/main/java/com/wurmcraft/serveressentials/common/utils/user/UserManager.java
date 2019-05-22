@@ -4,11 +4,13 @@ import static com.wurmcraft.serveressentials.common.storage.rest.RestWorldEvents
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.storage.json.Channel;
+import com.wurmcraft.serveressentials.api.user.eco.Bank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
+import com.wurmcraft.serveressentials.api.user.rest.ServerTime;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
@@ -127,7 +129,9 @@ public class UserManager {
 
   public static boolean isIgnored(UUID user, String msg) {
     for (String ignore : getIgnored(user)) {
-      if (msg.contains(ignore)) return true;
+      if (msg.contains(ignore)) {
+        return true;
+      }
     }
     return false;
   }
@@ -177,5 +181,31 @@ public class UserManager {
 
   public static String getNickname(EntityPlayer player) {
     return getNickname(player.getGameProfile().getId());
+  }
+
+  public static void setUserCurrency(EntityPlayer player, int amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player.getGameProfile().getId())[0];
+      Bank bank = user.getBank();
+      bank.earn(ConfigHandler.serverCurrency, amount);
+      user.setBank(bank);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
+      user.setMoney(amount);
+      DataHelper.save(Storage.USER, user);
+    }
+  }
+
+  public static void addServerTime(EntityPlayer player, int amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player.getGameProfile().getId())[0];
+      ServerTime time = user.getServerData(ConfigHandler.serverName);
+      time.setOnlineTime(time.getOnlineTime() + amount);
+      user.addServerData(time);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
+      user.setOnlineTime(user.getOnlineTime() + amount);
+    }
   }
 }

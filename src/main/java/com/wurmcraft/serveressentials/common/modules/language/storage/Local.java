@@ -16,9 +16,14 @@ public class Local implements FileType {
   public String CHAT_TIME;
   public String CHAT_EXPERIENCE;
   public String CHAT_BALANCE;
+  public String CHAT_INVALID_NUMBER;
+  public String CHAT_INVALID_AUTORANK;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
+  public String AUTORANK_CHECK;
+  public String AUTORANK_CREATED;
+  public String AUTORANK_DELETED;
 
   public Local(String key) {
     this.key = key;
