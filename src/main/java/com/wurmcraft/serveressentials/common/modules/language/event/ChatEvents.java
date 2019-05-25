@@ -84,8 +84,9 @@ public class ChatEvents {
   }
 
   private static void setUserChannel(EntityPlayerMP player, Channel channel) {
-    if (channel == null)
+    if (channel == null) {
       channel = (Channel) DataHelper.get(Storage.CHANNEL, ConfigHandler.defaultChannel);
+    }
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       LocalRestUser user = (LocalRestUser) UserManager.getUserData(player)[1];
       user.setCurrentChannel(channel.getID());

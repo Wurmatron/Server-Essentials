@@ -13,5 +13,10 @@
   "DESCRIPTION_AUTORANK": "&5Checks a user's rankup status",
   "AUTORANK_CHECK": "&cYou have been forced to have the requirements for %RANK%",
   "AUTORANK_CREATED": "&5AutoRank %RANK% created",
-  "AUTORANK_DELETED": "&cAutoRank %RANK% deleted"
+  "AUTORANK_DELETED": "&cAutoRank %RANK% deleted",
+  "DESCRIPTION_MUTE": "&5Mute / Unmute a player",
+  "LANG_MUTE": "&cYou have been muted!",
+  "LANG_UNMUTE": "&cYou have been unmuted!",
+  "LANG_MUTE_SENDER": "&cYou have muted %PLayer%!",
+  "LANG_UNMUTE_SENDER": "&cYou have muted %PLayer%!"
 }

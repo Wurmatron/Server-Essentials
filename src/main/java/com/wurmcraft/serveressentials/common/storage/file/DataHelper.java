@@ -101,11 +101,17 @@ public class DataHelper {
   public static <T extends FileType> T[] load(String key, T[] type, T a) {
     List<T> data = new ArrayList<>();
     File keyDir = new File(saveLocation + File.separator + key);
-    if (!keyDir.exists()) keyDir.mkdirs();
-    for (File t : keyDir.listFiles()) {
-      if (t.isFile()) {
-        data.add((T) load(t, key, a));
+    if (!keyDir.exists()) {
+      keyDir.mkdirs();
+    }
+    try {
+      for (File t : keyDir.listFiles()) {
+        if (t.isFile()) {
+          data.add((T) load(t, key, a));
+        }
       }
+    } catch (Exception e) {
+      ServerEssentialsServer.LOGGER.error(e.getMessage());
     }
     return data.toArray((T[]) Array.newInstance(type.getClass(), 0));
   }

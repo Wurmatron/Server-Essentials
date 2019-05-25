@@ -66,4 +66,7 @@ public class ConfigHandler {
 
   @Comment("How many times the same message can appear in chat before its blocked")
   public static int spamLimit = 3;
+
+  @Comment("Character used for player sound notification in-chat")
+  public static String chatNotification = "@";
 }

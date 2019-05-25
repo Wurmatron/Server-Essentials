@@ -24,6 +24,12 @@ public class Local implements FileType {
   public String AUTORANK_CHECK;
   public String AUTORANK_CREATED;
   public String AUTORANK_DELETED;
+  // Language
+  public String DESCRIPTION_MUTE;
+  public String LANG_MUTE;
+  public String LANG_UNMUTE;
+  public String LANG_MUTE_SENDER;
+  public String LANG_UNMUTE_SENDER;
 
   public Local(String key) {
     this.key = key;

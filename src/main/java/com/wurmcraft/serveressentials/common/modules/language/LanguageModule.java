@@ -13,6 +13,7 @@ import com.wurmcraft.serveressentials.common.modules.language.event.ChatEvents;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -88,12 +89,15 @@ public class LanguageModule {
   }
 
   public static Channel[] loadChannels() {
-    Channel[] channels = DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
-    if (channels.length == 0) {
+    try {
+      Channel[] channels = DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
+      return channels;
+    } catch (Exception e) {
       Channel global = new Channel("global", "[G]", Type.PUBLIC, "");
-      DataHelper.save(Storage.CHANNEL, global);
+      DataHelper.save(
+          new File(ConfigHandler.saveLocation + File.separator + Storage.CHANNEL), global);
+      return loadChannels();
     }
-    return channels;
   }
 
   public static List<EntityPlayerMP> getPlayersInChannel(Channel channel) {
