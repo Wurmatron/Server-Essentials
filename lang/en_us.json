@@ -17,6 +17,6 @@
   "DESCRIPTION_MUTE": "&5Mute / Unmute a player",
   "LANG_MUTE": "&cYou have been muted!",
   "LANG_UNMUTE": "&cYou have been unmuted!",
-  "LANG_MUTE_SENDER": "&cYou have muted %PLayer%!",
-  "LANG_UNMUTE_SENDER": "&cYou have muted %PLayer%!"
+  "LANG_MUTE_SENDER": "&cYou have muted %Player%!",
+  "LANG_UNMUTE_SENDER": "&cYou have muted %Player%!"
 }

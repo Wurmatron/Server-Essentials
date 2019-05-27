@@ -109,6 +109,7 @@ public class RestWorldEvents {
         e.restUser.addPermission(permChangeChache.get(e.localServerUser.getUuid()));
         permChangeChache.remove(e.localServerUser.getUuid());
       }
+      e.restUser.setMuted(e.localServerUser.isMuted());
       long gainedTime =
           +(System.currentTimeMillis() - playerJoinTime.get(e.restUser.getUuid())) / 1000;
       playerJoinTime.put(e.restUser.getUuid(), System.currentTimeMillis());

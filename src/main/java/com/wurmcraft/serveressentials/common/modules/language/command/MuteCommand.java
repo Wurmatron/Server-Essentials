@@ -70,15 +70,17 @@ public class MuteCommand extends Command {
       GlobalRestUser user = (GlobalRestUser) UserManager.getUserData(player)[0];
       currentStatus = !currentStatus;
       user.setMuted(currentStatus);
-      System.out.println("UUID: " + player.getGameProfile().getId());
       UserManager.setUserData(
           player.getGameProfile().getId(), new Object[] {user, UserManager.getUserData(player)[1]});
-      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+      int status = RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+      System.out.println("STATUS: " + status);
+      return currentStatus;
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) UserManager.getUserData(player)[0];
+      currentStatus = !currentStatus;
       user.setMuted(!currentStatus);
     }
-    return !currentStatus;
+    return currentStatus;
   }
 
   @Override

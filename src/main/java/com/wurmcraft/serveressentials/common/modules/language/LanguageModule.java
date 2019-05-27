@@ -75,7 +75,7 @@ public class LanguageModule {
 
   public static Lang getUserLanguage(ICommandSender sender) {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-      return getUserLanguage(sender.getCommandSenderEntity());
+      return getUserLanguage((EntityPlayer) sender.getCommandSenderEntity());
     }
     return getDefaultLang();
   }
