@@ -19,4 +19,5 @@ public class Replacment {
   public static final String FILTER = "%filter%";
   public static final String TYPE = "%type%";
   public static final String PREFIX = "%prefix%";
+  public static final String NICK = "%nick%";
 }

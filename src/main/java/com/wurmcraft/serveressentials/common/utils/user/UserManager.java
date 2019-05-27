@@ -203,6 +203,7 @@ public class UserManager {
       ServerTime time = user.getServerData(ConfigHandler.serverName);
       time.setOnlineTime(time.getOnlineTime() + amount);
       user.addServerData(time);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
       user.setOnlineTime(user.getOnlineTime() + amount);
@@ -218,6 +219,18 @@ public class UserManager {
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
       user.setCurrentChannel(channel);
+      DataHelper.save(Storage.USER, user);
+    }
+  }
+
+  public static void setNickName(EntityPlayer player, String nick) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.setNick(nick);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      user.setNickname(nick);
       DataHelper.save(Storage.USER, user);
     }
   }

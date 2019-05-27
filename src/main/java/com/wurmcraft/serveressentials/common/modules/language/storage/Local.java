@@ -50,6 +50,9 @@ public class Local implements FileType {
   public String LANG_CHANNEL_LIST;
   public String DESCRIPTION_MESSAGE;
   public String DESCRIPTION_REPLY;
+  public String DESCRIPTION_NICK;
+  public String LANG_NICK_CHANGED;
+  public String LANG_NICK_CHANGED_SENDER;
 
   public Local(String key) {
     this.key = key;
