@@ -29,6 +29,13 @@ public class MuteCommand extends Command {
   }
 
   @Override
+  public List<String> getAliases(List<String> aliases) {
+    aliases.add("m");
+    aliases.add("Silent");
+    return aliases;
+  }
+
+  @Override
   public String getUsage(Lang lang) {
     return "/mute <user>";
   }
@@ -39,25 +46,25 @@ public class MuteCommand extends Command {
   }
 
   @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
+  public void execute(
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 1) {
       EntityPlayer player = CommandUtils.getPlayerForName(args[0]);
       if (toggleMuteStatus(player)) {
         ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.LANG_MUTE);
         ChatHelper.sendMessage(
             sender,
-            LanguageModule.getUserLanguage(sender)
-                .local
-                .LANG_MUTE_SENDER
-                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+            senderLang.local.LANG_MUTE_SENDER.replaceAll(
+                "%PLAYER%", player.getDisplayNameString()));
+        ChatHelper.notifyStaff(
+            senderLang.local.LANG_MUTE_NOTIFY.replaceAll(
+                "%Player%", player.getDisplayNameString()));
       } else {
         ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.LANG_UNMUTE);
         ChatHelper.sendMessage(
             sender,
-            LanguageModule.getUserLanguage(sender)
-                .local
-                .LANG_UNMUTE_SENDER
-                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+            senderLang.local.LANG_UNMUTE_SENDER.replaceAll(
+                "%PLAYER%", player.getDisplayNameString()));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(LanguageModule.getUserLanguage(sender)));

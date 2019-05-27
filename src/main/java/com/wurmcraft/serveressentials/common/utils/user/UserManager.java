@@ -206,6 +206,19 @@ public class UserManager {
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
       user.setOnlineTime(user.getOnlineTime() + amount);
+      DataHelper.save(Storage.USER, user);
+    }
+  }
+
+  public static void setUserChannel(EntityPlayer player, Channel channel) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player.getGameProfile().getId())[1];
+      user.setCurrentChannel(channel.getID());
+      DataHelper.save(Storage.LOCAL_USER, user);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
+      user.setCurrentChannel(channel);
+      DataHelper.save(Storage.USER, user);
     }
   }
 }

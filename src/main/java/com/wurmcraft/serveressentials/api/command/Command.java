@@ -70,9 +70,11 @@ public abstract class Command {
    * @param server instance of the minecraft server running this command
    * @param sender user that is running this command
    * @param args input arguments for this command
+   * @param senderLang Senders current language
    * @see CommandBase#execute(MinecraftServer, ICommandSender, String[])
    */
-  public abstract void execute(MinecraftServer server, ICommandSender sender, String[] args);
+  public abstract void execute(
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang);
 
   /**
    * Can this command run in the console and function correctly / Does this command need to be run

@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.api.command;
 
+import com.wurmcraft.serveressentials.api.lang.Lang;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,7 +18,7 @@ import net.minecraft.server.MinecraftServer;
  * ICommandSender,String[]) and will function exactly the same as
  * oduleCommand#execute(MinecraftServer, ICommandSender, String[])
  *
- * @see Command#execute(MinecraftServer, ICommandSender, String[])
+ * @see Command#execute(MinecraftServer, ICommandSender, String[], Lang)
  * @see Command
  * @see ModuleCommand
  */
@@ -33,7 +34,7 @@ public @interface SubCommand {
    * String[]) were the last argument has lost an input used by this subCommand.
    *
    * @return list of aliases for this command ignoredCase
-   * @see Command#execute(MinecraftServer, ICommandSender, String[])
+   * @see Command#execute(MinecraftServer, ICommandSender, String[], Lang)
    */
   String[] aliases() default "";
 }

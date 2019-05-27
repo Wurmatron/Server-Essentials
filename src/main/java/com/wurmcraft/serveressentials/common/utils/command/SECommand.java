@@ -48,12 +48,17 @@ public class SECommand extends CommandBase {
       try {
         subCommands
             .get(args[0])
-            .invoke(command, server, sender, Arrays.copyOfRange(args, 1, args.length));
+            .invoke(
+                command,
+                server,
+                sender,
+                Arrays.copyOfRange(args, 1, args.length),
+                LanguageModule.getUserLanguage(sender));
       } catch (IllegalAccessException | InvocationTargetException e) {
         LOGGER.error(e.getLocalizedMessage());
       }
     } else {
-      command.execute(server, sender, args);
+      command.execute(server, sender, args, LanguageModule.getUserLanguage(sender));
     }
   }
 

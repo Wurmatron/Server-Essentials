@@ -133,6 +133,10 @@ public class DataHelper {
     return null;
   }
 
+  public static <T extends FileType> T get(String key, String id, T type) {
+    return (T) get(key, id);
+  }
+
   public static void remove(String key, FileType data) {
     loadedData.get(key.toUpperCase()).remove(data);
   }

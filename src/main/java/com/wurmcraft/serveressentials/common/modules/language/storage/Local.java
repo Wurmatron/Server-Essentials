@@ -29,7 +29,13 @@ public class Local implements FileType {
   public String LANG_MUTE;
   public String LANG_UNMUTE;
   public String LANG_MUTE_SENDER;
+  public String LANG_MUTE_NOTIFY;
   public String LANG_UNMUTE_SENDER;
+  public String DESCRIPTION_BROADCAST;
+  public String DESCRIPTION_CHANNEL;
+  public String LANG_CHANNEL_CHANGED;
+  public String LANG_CHANNEL_INVALID;
+  public String LANG_CHANNEL_ADDFILTER;
 
   public Local(String key) {
     this.key = key;

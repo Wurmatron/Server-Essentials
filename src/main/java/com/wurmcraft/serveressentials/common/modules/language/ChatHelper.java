@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -144,6 +145,15 @@ public class ChatHelper {
   public static void sendMessage(ICommandSender sender, String msg) {
     ITextComponent message = ForgeHooks.newChatWithLinks(msg.replaceAll("&", "\u00A7"), true);
     sender.sendMessage(message);
+  }
+
+  public static void sendMessageToAll(String msg) {
+    ITextComponent message = ForgeHooks.newChatWithLinks(msg.replaceAll("&", "\u00A7"), true);
+    for (EntityPlayer player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      player.sendMessage(message);
+    }
+    ServerEssentialsServer.LOGGER.info(message.getFormattedText());
   }
 
   public static void notifyStaff(String msg) {

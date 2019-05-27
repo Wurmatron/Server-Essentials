@@ -44,15 +44,16 @@ public class ARCommand extends Command {
   }
 
   @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args) {}
+  public void execute(
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {}
 
-  @SubCommand(aliases = "Check")
-  public void check(MinecraftServer server, ICommandSender sender, String[] args) {
+  @SubCommand()
+  public void check(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 0) {
       if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
         displayCurrentAutoRankStatus((EntityPlayer) sender.getCommandSenderEntity());
       } else {
-        ChatHelper.sendMessage(sender, getUsage(getUserLanguage(sender)));
+        ChatHelper.sendMessage(sender, getUsage(senderLang));
       }
     } else if (args.length == 1) {
       EntityPlayer player = getPlayerForName(args[0]);
@@ -64,7 +65,7 @@ public class ARCommand extends Command {
             getUserLanguage(sender).local.PLAYER_NOT_FOUND.replaceAll("%PLAYER% ", args[0]));
       }
     } else {
-      ChatHelper.sendMessage(sender, getUsage(getUserLanguage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(senderLang));
     }
   }
 
@@ -108,7 +109,7 @@ public class ARCommand extends Command {
   }
 
   @SubCommand
-  public void force(MinecraftServer server, ICommandSender sender, String[] args) {
+  public void force(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       AutoRank rank = processPlayer(player);
@@ -169,22 +170,22 @@ public class ARCommand extends Command {
   }
 
   @SubCommand
-  public void admin(MinecraftServer server, ICommandSender sender, String[] args) {
+  public void admin(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length > 0) {
       if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("create")) {
-        add(sender, args);
+        add(sender, args, senderLang);
       } else if (args[0].equalsIgnoreCase("remove")
           || args[0].equalsIgnoreCase("rem")
           || args[0].equalsIgnoreCase("del")
           || args[0].equalsIgnoreCase("delete")) {
-        del(sender, args);
+        del(sender, args, senderLang);
       }
     } else {
-      ChatHelper.sendMessage(sender, getUsage(getUserLanguage(sender)));
+      ChatHelper.sendMessage(sender, getUsage(senderLang));
     }
   }
 
-  private static void add(ICommandSender sender, String[] args) {
+  private static void add(ICommandSender sender, String[] args, Lang senderLang) {
     try {
       AutoRank rank =
           new AutoRank(
@@ -195,30 +196,28 @@ public class ARCommand extends Command {
               args[2]);
       AutoRankModule.createAutoRank(rank);
       ChatHelper.sendMessage(
-          sender,
-          getUserLanguage(sender).local.AUTORANK_CREATED.replaceAll("%RANK%", rank.getNextRank()));
+          sender, senderLang.local.AUTORANK_CREATED.replaceAll("%RANK%", rank.getNextRank()));
     } catch (NumberFormatException e) {
-      ChatHelper.sendMessage(sender, getUserLanguage(sender).local.CHAT_INVALID_NUMBER);
+      ChatHelper.sendMessage(sender, senderLang.local.CHAT_INVALID_NUMBER);
     }
   }
 
-  private static void del(ICommandSender sender, String[] args) {
+  private static void del(ICommandSender sender, String[] args, Lang senderLang) {
     AutoRank rank = AutoRankModule.getAutoRank(args[1]);
     if (rank != null) {
       AutoRankModule.deleteAutoRank(rank);
       ChatHelper.sendMessage(
-          sender,
-          getUserLanguage(sender).local.AUTORANK_DELETED.replaceAll("%RANK%", rank.getNextRank()));
+          sender, senderLang.local.AUTORANK_DELETED.replaceAll("%RANK%", rank.getNextRank()));
     } else {
       ChatHelper.sendMessage(
-          sender,
-          getUserLanguage(sender).local.CHAT_INVALID_AUTORANK.replaceAll("%RANK%", args[1]));
+          sender, senderLang.local.CHAT_INVALID_AUTORANK.replaceAll("%RANK%", args[1]));
     }
   }
 
   @Override
   public List<String> getAliases(List<String> aliases) {
-    return super.getAliases(aliases);
+    aliases.add("ar");
+    return aliases;
   }
 
   @Override

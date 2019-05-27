@@ -18,5 +18,11 @@
   "LANG_MUTE": "&cYou have been muted!",
   "LANG_UNMUTE": "&cYou have been unmuted!",
   "LANG_MUTE_SENDER": "&cYou have muted %Player%!",
-  "LANG_UNMUTE_SENDER": "&cYou have muted %Player%!"
+  "LANG_UNMUTE_SENDER": "&cYou have muted %Player%!",
+  "LANG_MUTE_NOTIFY": "&c%Player% has been muted!",
+  "DESCRIPTION_BROADCAST": "&5Send a message to all users &c(Local-Server only)",
+  "DESCRIPTION_CHANNEL": "&5Manage / Change your current channel",
+  "LANG_CHANNEL_CHANGED": "&5Your channel has been changed to %channel%",
+  "LANG_CHANNEL_INVALID": "&5Invalid Channel %channel%!",
+  "LANG_CHANNEL_ADDFILTER": "&5%Find% will be replaced with %Replace% for channel %channel%"
 }
