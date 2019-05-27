@@ -36,5 +36,7 @@
   "LANG_CHANNEL_PREFIX": "&5Prefix:  %prefix%",
   "LANG_CHANNEL_TYPE": "&5Type:   %type%",
   "LANG_CHANNEL_FILTER": "&5Filter:  %filter%",
-  "LANG_CHANNEL_LIST": "&5Channerls: &c"
+  "LANG_CHANNEL_LIST": "&5Channerls: &c",
+  "DESCRIPTION_MESSAGE": "&5Send a private message to another player",
+  "DESCRIPTION_REPLY": "&5Reply to the last person you send a message too"
 }

@@ -165,4 +165,14 @@ public class CommandUtils {
     }
     return null;
   }
+
+  public static EntityPlayer getPlayerFromUUID(UUID uuid) {
+    for (EntityPlayer player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      if (player.getGameProfile().getId().equals(uuid)) {
+        return player;
+      }
+    }
+    return null;
+  }
 }

@@ -166,8 +166,19 @@ public class ChatHelper {
     ServerEssentialsServer.LOGGER.info("[Notify] " + msg);
   }
 
+  public static void notifySpy(String msg) {
+    for (EntityPlayerMP player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      if (isSpy(player)) sendMessage(player, "&4[&cSpy&c]:&5 " + msg);
+    }
+  }
+
   private static boolean isStaff(EntityPlayerMP player) {
     return CommandUtils.hasPerm("staff.notify", player);
+  }
+
+  private static boolean isSpy(EntityPlayerMP player) {
+    return CommandUtils.hasPerm("staff.spy", player);
   }
 
   public static boolean isFormatted(String message) {
