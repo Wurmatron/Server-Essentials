@@ -18,6 +18,7 @@ public class Local implements FileType {
   public String CHAT_BALANCE;
   public String CHAT_INVALID_NUMBER;
   public String CHAT_INVALID_AUTORANK;
+  public String CHAT_INVALID_BOOLEAN;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
@@ -36,6 +37,17 @@ public class Local implements FileType {
   public String LANG_CHANNEL_CHANGED;
   public String LANG_CHANNEL_INVALID;
   public String LANG_CHANNEL_ADDFILTER;
+  public String LANG_CHANNEL_DELFILTER;
+  public String LANG_CHANNEL_RELOADED;
+  public String LANG_CHANNEL_INVALID_NAME;
+  public String LANG_CHANNEL_INVALID_TYPE;
+  public String LANG_CHANNEL_CREATED;
+  public String LANG_CHANNEL_DELETE;
+  public String LANG_CHANNEL_NAME;
+  public String LANG_CHANNEL_PREFIX;
+  public String LANG_CHANNEL_TYPE;
+  public String LANG_CHANNEL_FILTER;
+  public String LANG_CHANNEL_LIST;
 
   public Local(String key) {
     this.key = key;

@@ -13,6 +13,7 @@ import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.common.modules.autorank.AutoRankModule;
 import com.wurmcraft.serveressentials.common.modules.autorank.AutoRankUtils;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
+import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +63,7 @@ public class ARCommand extends Command {
       } else {
         ChatHelper.sendMessage(
             sender,
-            getUserLanguage(sender).local.PLAYER_NOT_FOUND.replaceAll("%PLAYER% ", args[0]));
+            getUserLanguage(sender).local.PLAYER_NOT_FOUND.replaceAll(Replacment.PLAYER, args[0]));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
@@ -78,25 +79,25 @@ public class ARCommand extends Command {
           getUserLanguage(player)
               .local
               .CHAT_PLAYER
-              .replaceAll("%PLAYER%", player.getDisplayNameString()));
+              .replaceAll(Replacment.PLAYER, player.getDisplayNameString()));
       ChatHelper.sendMessage(
           player,
           getUserLanguage(player)
               .local
               .CHAT_TIME
-              .replaceAll("%TIME%", Integer.toString(rank.getPlayTime())));
+              .replaceAll(Replacment.TIME, Integer.toString(rank.getPlayTime())));
       ChatHelper.sendMessage(
           player,
           getUserLanguage(player)
               .local
               .CHAT_EXPERIENCE
-              .replaceAll("%EXPERIENCE%", Integer.toString(rank.getExp())));
+              .replaceAll(Replacment.EXPERIENCE, Integer.toString(rank.getExp())));
       ChatHelper.sendMessage(
           player,
           getUserLanguage(player)
               .local
               .CHAT_BALANCE
-              .replaceAll("%BALANCE%", Integer.toString(rank.getBalance())));
+              .replaceAll(Replacment.BALANCE, Integer.toString(rank.getBalance())));
       ChatHelper.sendMessage(player, getUserLanguage(player).local.CHAT_SPACER);
     } else {
       ChatHelper.sendMessage(
@@ -104,7 +105,7 @@ public class ARCommand extends Command {
           getUserLanguage(player)
               .local
               .AUTORANK_MAX_RANK
-              .replaceAll("%PLAYER%", player.getDisplayNameString()));
+              .replaceAll(Replacment.PLAYER, player.getDisplayNameString()));
     }
   }
 
@@ -116,14 +117,17 @@ public class ARCommand extends Command {
       if (rank != null) {
         ChatHelper.sendMessage(
             player,
-            getUserLanguage(player).local.AUTORANK_CHECK.replaceAll("%RANK%", rank.getNextRank()));
+            getUserLanguage(player)
+                .local
+                .AUTORANK_CHECK
+                .replaceAll(Replacment.RANK, rank.getNextRank()));
       } else {
         ChatHelper.sendMessage(
             sender,
             getUserLanguage(player)
                 .local
                 .AUTORANK_MAX_RANK
-                .replaceAll("%PLAYER%", player.getDisplayNameString()));
+                .replaceAll(Replacment.PLAYER, player.getDisplayNameString()));
       }
     } else if (args.length == 1) {
       EntityPlayer player = getPlayerForName(args[0]);
@@ -135,19 +139,19 @@ public class ARCommand extends Command {
               getUserLanguage(player)
                   .local
                   .AUTORANK_CHECK
-                  .replaceAll("%RANK%", rank.getNextRank()));
+                  .replaceAll(Replacment.RANK, rank.getNextRank()));
         } else {
           ChatHelper.sendMessage(
               sender,
               getUserLanguage(player)
                   .local
                   .AUTORANK_MAX_RANK
-                  .replaceAll("%PLAYER%", player.getDisplayNameString()));
+                  .replaceAll(Replacment.PLAYER, player.getDisplayNameString()));
         }
       } else {
         ChatHelper.sendMessage(
             sender,
-            getUserLanguage(sender).local.PLAYER_NOT_FOUND.replaceAll("%PLAYER% ", args[0]));
+            getUserLanguage(sender).local.PLAYER_NOT_FOUND.replaceAll(Replacment.PLAYER, args[0]));
       }
     }
   }
@@ -164,7 +168,7 @@ public class ARCommand extends Command {
           getUserLanguage(player)
               .local
               .AUTORANK_MAX_RANK
-              .replaceAll("%PLAYER%", player.getDisplayNameString()));
+              .replaceAll(Replacment.PLAYER, player.getDisplayNameString()));
     }
     return rank;
   }
@@ -196,7 +200,8 @@ public class ARCommand extends Command {
               args[2]);
       AutoRankModule.createAutoRank(rank);
       ChatHelper.sendMessage(
-          sender, senderLang.local.AUTORANK_CREATED.replaceAll("%RANK%", rank.getNextRank()));
+          sender,
+          senderLang.local.AUTORANK_CREATED.replaceAll(Replacment.RANK, rank.getNextRank()));
     } catch (NumberFormatException e) {
       ChatHelper.sendMessage(sender, senderLang.local.CHAT_INVALID_NUMBER);
     }
@@ -207,10 +212,11 @@ public class ARCommand extends Command {
     if (rank != null) {
       AutoRankModule.deleteAutoRank(rank);
       ChatHelper.sendMessage(
-          sender, senderLang.local.AUTORANK_DELETED.replaceAll("%RANK%", rank.getNextRank()));
+          sender,
+          senderLang.local.AUTORANK_DELETED.replaceAll(Replacment.RANK, rank.getNextRank()));
     } else {
       ChatHelper.sendMessage(
-          sender, senderLang.local.CHAT_INVALID_AUTORANK.replaceAll("%RANK%", args[1]));
+          sender, senderLang.local.CHAT_INVALID_AUTORANK.replaceAll(Replacment.RANK, args[1]));
     }
   }
 

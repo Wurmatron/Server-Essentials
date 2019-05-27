@@ -150,4 +150,19 @@ public class CommandUtils {
     }
     return perms;
   }
+
+  public static Boolean parseTF(String arg) {
+    if (arg.equalsIgnoreCase("True")
+        || arg.equalsIgnoreCase("T")
+        || arg.equalsIgnoreCase("Yes")
+        || arg.equalsIgnoreCase("Y")) {
+      return true;
+    } else if (arg.equalsIgnoreCase("False")
+        || arg.equalsIgnoreCase("F")
+        || arg.equalsIgnoreCase("No")
+        || arg.equalsIgnoreCase("N")) {
+      return false;
+    }
+    return null;
+  }
 }

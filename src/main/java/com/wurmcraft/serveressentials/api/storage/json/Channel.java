@@ -141,4 +141,11 @@ public class Channel implements FileType {
     TEAM,
     RANK
   }
+
+  public void removeFilter(String removal) {
+    setFilter(
+        Arrays.stream(getFilter())
+            .filter(filter -> !filter.startsWith(removal) && !filter.endsWith(removal))
+            .toArray(String[]::new));
+  }
 }

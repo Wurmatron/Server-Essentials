@@ -11,6 +11,7 @@ import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
@@ -55,16 +56,16 @@ public class MuteCommand extends Command {
         ChatHelper.sendMessage(
             sender,
             senderLang.local.LANG_MUTE_SENDER.replaceAll(
-                "%PLAYER%", player.getDisplayNameString()));
+                Replacment.PLAYER, player.getDisplayNameString()));
         ChatHelper.notifyStaff(
             senderLang.local.LANG_MUTE_NOTIFY.replaceAll(
-                "%Player%", player.getDisplayNameString()));
+                Replacment.PLAYER, player.getDisplayNameString()));
       } else {
         ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.LANG_UNMUTE);
         ChatHelper.sendMessage(
             sender,
             senderLang.local.LANG_UNMUTE_SENDER.replaceAll(
-                "%PLAYER%", player.getDisplayNameString()));
+                Replacment.PLAYER, player.getDisplayNameString()));
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(LanguageModule.getUserLanguage(sender)));
