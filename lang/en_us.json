@@ -41,5 +41,11 @@
   "DESCRIPTION_REPLY": "&5Reply to the last person you send a message too",
   "DESCRIPTION_NICK": "&5Nickname a player",
   "LANG_NICK_CHANGED": "&5Nickname has been changed to %nick%",
-  "LANG_NICK_CHANGED_SENDER": "&5Nickname for %player% has been changed to %nick%"
+  "LANG_NICK_CHANGED_SENDER": "&5Nickname for %player% has been changed to %nick%",
+  "GENERAL_DISCORD_SET": "&5Discord Link changed to %discord%",
+  "GENERAL_DISCORD_LINK": "&5Discord: %discord%",
+  "DESCRIPTION_DISCORD": "&5Display a link to the server's discord",
+  "GENERAL_WEBSITE_SET": "&5Website link changed to %website%",
+  "GENERAL_WEBSITE_LINK": "&5Website: %website%",
+  "DESCRIPTION_WEBSITE": "&5Display's a link to the server's website"
 }

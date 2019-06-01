@@ -20,4 +20,6 @@ public class Replacment {
   public static final String TYPE = "%type%";
   public static final String PREFIX = "%prefix%";
   public static final String NICK = "%nick%";
+  public static final String DISCORD = "%discord%";
+  public static final String WEBSITE = "%website%";
 }

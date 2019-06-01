@@ -53,6 +53,13 @@ public class Local implements FileType {
   public String DESCRIPTION_NICK;
   public String LANG_NICK_CHANGED;
   public String LANG_NICK_CHANGED_SENDER;
+  // General
+  public String GENERAL_DISCORD_SET;
+  public String GENERAL_DISCORD_LINK;
+  public String DESCRIPTION_DISCORD;
+  public String GENERAL_WEBSITE_SET;
+  public String GENERAL_WEBSITE_LINK;
+  public String DESCRIPTION_WEBSITE;
 
   public Local(String key) {
     this.key = key;
