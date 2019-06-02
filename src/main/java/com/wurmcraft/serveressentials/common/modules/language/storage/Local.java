@@ -62,6 +62,12 @@ public class Local implements FileType {
   public String DESCRIPTION_WEBSITE;
   public String DESCRIPTION_MOTD;
   public String GENERAL_MOTD_SET;
+  public String DESCRIPTION_PING;
+  public String GENERAL_PING;
+  public String DESCRIPTION_UUID;
+  public String GENERAL_UUID;
+  public String DESCRIPTION_SERVER;
+  public String GENERAL_SERVER;
 
   public Local(String key) {
     this.key = key;

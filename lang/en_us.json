@@ -49,5 +49,11 @@
   "GENERAL_WEBSITE_LINK": "&5Website: %website%",
   "DESCRIPTION_WEBSITE": "&5Display's a link to the server's website",
   "DESCRIPTION_MOTD": "&5Display's the server's current MOTD",
-  "GENERAL_MOTD_SET": "&5%line% has been changed to %data%"
+  "GENERAL_MOTD_SET": "&5%line% has been changed to %data%",
+  "DESCRIPTION_PING": "&5Sends a ping and the server responds",
+  "GENERAL_PING": "&5Nep Nep Nep NepNepNep",
+  "DESCRIPTION_UUID": "&5Locate a user's UUID from there username / nickname",
+  "GENERAL_UUID": "&5UUID: %uuid%",
+  "DESCRIPTION_SERVER": "&5Display's the current user's server",
+  "GENERAL_SERVER": "&5Server: %server%"
 }

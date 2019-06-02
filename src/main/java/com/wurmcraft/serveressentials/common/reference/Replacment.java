@@ -24,4 +24,6 @@ public class Replacment {
   public static final String WEBSITE = "%website%";
   public static final String LINE = "%line%";
   public static final String DATA = "%data%";
+  public static final String UUID = "%uuid";
+  public static final String SERVER = "%server%";
 }
