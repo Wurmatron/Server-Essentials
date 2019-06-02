@@ -6,12 +6,14 @@ public class GlobalConfig implements FileType {
 
   public String discordLink;
   public String webLink;
+  public String[] motd;
 
   public GlobalConfig() {}
 
   public GlobalConfig(String discordLink, String webLink) {
     this.discordLink = discordLink;
     this.webLink = webLink;
+    motd = new String[0];
   }
 
   @Override

@@ -37,7 +37,7 @@ public class WebSiteCommand extends Command {
     if (args.length == 0) {
       ChatHelper.sendMessage(
           sender,
-          senderLang.local.GENERAL_DISCORD_LINK.replaceAll(
+          senderLang.local.GENERAL_WEBSITE_LINK.replaceAll(
               Replacment.WEBSITE, GeneralModule.config.webLink));
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));

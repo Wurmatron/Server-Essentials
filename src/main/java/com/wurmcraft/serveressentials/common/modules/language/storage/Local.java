@@ -60,6 +60,8 @@ public class Local implements FileType {
   public String GENERAL_WEBSITE_SET;
   public String GENERAL_WEBSITE_LINK;
   public String DESCRIPTION_WEBSITE;
+  public String DESCRIPTION_MOTD;
+  public String GENERAL_MOTD_SET;
 
   public Local(String key) {
     this.key = key;

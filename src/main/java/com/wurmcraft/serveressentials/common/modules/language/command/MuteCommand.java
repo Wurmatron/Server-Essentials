@@ -6,13 +6,11 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.lang.Lang;
-import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
-import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.List;
@@ -80,8 +78,6 @@ public class MuteCommand extends Command {
       user.setMuted(currentStatus);
       UserManager.setUserData(
           player.getGameProfile().getId(), new Object[] {user, UserManager.getUserData(player)[1]});
-      int status = RequestGenerator.User.overridePlayer(user, Type.STANDARD);
-      System.out.println("STATUS: " + status);
       return currentStatus;
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) UserManager.getUserData(player)[0];

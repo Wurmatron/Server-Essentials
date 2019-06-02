@@ -19,7 +19,7 @@
   "LANG_MUTE": "&cYou have been muted!",
   "LANG_UNMUTE": "&cYou have been unmuted!",
   "LANG_MUTE_SENDER": "&cYou have muted %player%!",
-  "LANG_UNMUTE_SENDER": "&cYou have muted %player%!",
+  "LANG_UNMUTE_SENDER": "&cYou have unmuted %player%!",
   "LANG_MUTE_NOTIFY": "&c%Player% has been muted!",
   "DESCRIPTION_BROADCAST": "&5Send a message to all users &c(Local-Server only)",
   "DESCRIPTION_CHANNEL": "&5Manage / Change your current channel",
@@ -47,5 +47,7 @@
   "DESCRIPTION_DISCORD": "&5Display a link to the server's discord",
   "GENERAL_WEBSITE_SET": "&5Website link changed to %website%",
   "GENERAL_WEBSITE_LINK": "&5Website: %website%",
-  "DESCRIPTION_WEBSITE": "&5Display's a link to the server's website"
+  "DESCRIPTION_WEBSITE": "&5Display's a link to the server's website",
+  "DESCRIPTION_MOTD": "&5Display's the server's current MOTD",
+  "GENERAL_MOTD_SET": "&5%line% has been changed to %data%"
 }

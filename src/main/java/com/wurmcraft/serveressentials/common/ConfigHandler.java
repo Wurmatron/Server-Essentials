@@ -72,4 +72,7 @@ public class ConfigHandler {
 
   @Comment("Character used for player sound notification in-chat")
   public static String chatNotification = "@";
+
+  @Comment("Display MOTD on every join?")
+  public static boolean motdOnJoin = true;
 }
