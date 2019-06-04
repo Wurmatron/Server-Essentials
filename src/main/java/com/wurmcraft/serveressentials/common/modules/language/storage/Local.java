@@ -68,6 +68,10 @@ public class Local implements FileType {
   public String GENERAL_UUID;
   public String DESCRIPTION_SERVER;
   public String GENERAL_SERVER;
+  public String DESCRIPTION_RAIN;
+  public String GENERAL_RAIN;
+  public String DESCRIPTION_SUN;
+  public String GENERAL_SUN;
 
   public Local(String key) {
     this.key = key;

@@ -55,5 +55,8 @@
   "DESCRIPTION_UUID": "&5Locate a user's UUID from there username / nickname",
   "GENERAL_UUID": "&5UUID: %uuid%",
   "DESCRIPTION_SERVER": "&5Display's the current user's server",
-  "GENERAL_SERVER": "&5Server: %server%"
+  "GENERAL_SERVER": "&5Server: %server%",
+  "DESCRIPTION_RAIN": "&5Turn on rain on the server",
+  "GENERAL_RAIN": "&5It has started to rain",
+  "DESCRIPTION_SUN": "&5It's starting to stop raining, I see the sun"
 }
