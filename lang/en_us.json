@@ -58,5 +58,9 @@
   "GENERAL_SERVER": "&5Server: %server%",
   "DESCRIPTION_RAIN": "&5Turn on rain on the server",
   "GENERAL_RAIN": "&5It has started to rain",
-  "DESCRIPTION_SUN": "&5It's starting to stop raining, I see the sun"
+  "DESCRIPTION_SUN": "&5It's starting to stop raining, I see the sun",
+  "DESCRIPTION_RENAME": "&5Rename an item with color codes",
+  "GENERAL_RENAME": "&5Item renamed to %name%",
+  "DESCRIPTION_SKULL": "&5Create a skull with a player's name",
+  "GENERAL_SKULL": "&5Skull for %player% created"
 }

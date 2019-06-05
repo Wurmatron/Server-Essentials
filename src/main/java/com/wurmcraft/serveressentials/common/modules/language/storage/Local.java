@@ -72,6 +72,10 @@ public class Local implements FileType {
   public String GENERAL_RAIN;
   public String DESCRIPTION_SUN;
   public String GENERAL_SUN;
+  public String DESCRIPTION_RENAME;
+  public String GENERAL_RENAME;
+  public String DESCRIPTION_SKULL;
+  public String GENERAL_SKULL;
 
   public Local(String key) {
     this.key = key;
