@@ -62,5 +62,7 @@
   "DESCRIPTION_RENAME": "&5Rename an item with color codes",
   "GENERAL_RENAME": "&5Item renamed to %name%",
   "DESCRIPTION_SKULL": "&5Create a skull with a player's name",
-  "GENERAL_SKULL": "&5Skull for %player% created"
+  "GENERAL_SKULL": "&5Skull for %player% created",
+  "DESCRIPTION_HAT": "&5Place an item / block on your head",
+  "GENERAL_HAT": "&5%item% has been placed on your head."
 }

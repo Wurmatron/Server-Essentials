@@ -76,6 +76,8 @@ public class Local implements FileType {
   public String GENERAL_RENAME;
   public String DESCRIPTION_SKULL;
   public String GENERAL_SKULL;
+  public String DESCRIPTION_HAT;
+  public String GENERAL_HAT;
 
   public Local(String key) {
     this.key = key;
