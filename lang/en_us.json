@@ -64,5 +64,9 @@
   "DESCRIPTION_SKULL": "&5Create a skull with a player's name",
   "GENERAL_SKULL": "&5Skull for %player% created",
   "DESCRIPTION_HAT": "&5Place an item / block on your head",
-  "GENERAL_HAT": "&5%item% has been placed on your head."
+  "GENERAL_HAT": "&5%item% has been placed on your head.",
+  "DESCRIPTION_HEAL": "&5Heal yourself or another player",
+  "GENERAL_HEAL": "&5You have been healed!",
+  "GENERAL_HEAL_OTHER": "&5You have healed %player%"
+
 }
