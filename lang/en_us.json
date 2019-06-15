@@ -67,6 +67,10 @@
   "GENERAL_HAT": "&5%item% has been placed on your head.",
   "DESCRIPTION_HEAL": "&5Heal yourself or another player",
   "GENERAL_HEAL": "&5You have been healed!",
-  "GENERAL_HEAL_OTHER": "&5You have healed %player%"
-
+  "GENERAL_HEAL_OTHER": "&5You have healed %player%",
+  "DESCRIPTION_SMITE": "&5Spawn's lighting on a user",
+  "GENERAL_SMITE_OTHER": "&5You have smited %player%",
+  "GENERAL_SMITE": "&5You have been smited",
+  "DESCRIPTION_SUDO": "&5Force another user to run a command with arguments",
+  "GENERAL_COMMAND_SUDO": "&5%player% has been forced to run %command%"
 }

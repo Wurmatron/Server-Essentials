@@ -2,6 +2,8 @@ package com.wurmcraft.serveressentials.common.reference;
 
 public class Replacment {
 
+  public static final String FORMATTING_CODE = "\u00A7";
+
   public static final String USERNAME = "%username%";
   public static final String CHANNEL = "%channel%";
   public static final String MESSAGE = "%message%";
@@ -27,5 +29,5 @@ public class Replacment {
   public static final String UUID = "%uuid";
   public static final String SERVER = "%server%";
   public static final String NAME = "%name%";
-  public static final String FORMATTING_CODE = "\u00A7";
+  public static final String COMMAND = "%command%";
 }

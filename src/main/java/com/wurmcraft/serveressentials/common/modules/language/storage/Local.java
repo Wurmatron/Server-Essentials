@@ -81,6 +81,11 @@ public class Local implements FileType {
   public String DESCRIPTION_HEAL;
   public String GENERAL_HEAL;
   public String GENERAL_HEAL_OTHER;
+  public String DESCRIPTION_SMITE;
+  public String GENERAL_SMITE;
+  public String GENERAL_SMITE_OTHER;
+  public String DESCRIPTION_SUDO;
+  public String GENERAL_COMMAND_SUDO;
 
   public Local(String key) {
     this.key = key;
