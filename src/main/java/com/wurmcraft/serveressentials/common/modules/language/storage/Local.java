@@ -86,6 +86,9 @@ public class Local implements FileType {
   public String GENERAL_SMITE_OTHER;
   public String DESCRIPTION_SUDO;
   public String GENERAL_COMMAND_SUDO;
+  public String DESCRIPTION_SPEED;
+  public String GENERAL_SPEED;
+  public String GENERAL_SPEED_OTHER;
 
   public Local(String key) {
     this.key = key;

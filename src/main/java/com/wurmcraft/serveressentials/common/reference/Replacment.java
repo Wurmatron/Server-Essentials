@@ -30,4 +30,5 @@ public class Replacment {
   public static final String SERVER = "%server%";
   public static final String NAME = "%name%";
   public static final String COMMAND = "%command%";
+  public static final String NUMBER = "%number%";
 }

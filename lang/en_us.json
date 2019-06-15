@@ -72,5 +72,8 @@
   "GENERAL_SMITE_OTHER": "&5You have smited %player%",
   "GENERAL_SMITE": "&5You have been smited",
   "DESCRIPTION_SUDO": "&5Force another user to run a command with arguments",
-  "GENERAL_COMMAND_SUDO": "&5%player% has been forced to run %command%"
+  "GENERAL_COMMAND_SUDO": "&5%player% has been forced to run %command%",
+  "DESCRIPTION_SPEED": "&5Change a user's movement speed (fly or walk)",
+  "GENERAL_SPEED": "&5Your speed has been updated (%number%)",
+  "GENERAL_SPEED_OTHER": "&5You have updated %player%'s speed (%number%)"
 }
