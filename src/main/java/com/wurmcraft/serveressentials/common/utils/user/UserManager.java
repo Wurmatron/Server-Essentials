@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.utils.user;
 import static com.wurmcraft.serveressentials.common.storage.rest.RestWorldEvents.rankChangeCache;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.api.storage.LocationWrapper;
 import com.wurmcraft.serveressentials.api.storage.json.Channel;
 import com.wurmcraft.serveressentials.api.user.eco.Bank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
@@ -220,6 +221,7 @@ public class UserManager {
       FileUser user = (FileUser) getUserData(player.getGameProfile().getId())[0];
       user.setCurrentChannel(channel);
       DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
     }
   }
 
@@ -232,6 +234,21 @@ public class UserManager {
       FileUser user = (FileUser) getUserData(player)[0];
       user.setNickname(nick);
       DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
+    }
+  }
+
+  public static void setLastLocation(EntityPlayer player, LocationWrapper pos) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      user.setLastLocation(pos);
+      DataHelper.save(Storage.LOCAL_USER, user);
+      DataHelper.addData(Storage.LOCAL_USER, user);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      user.setLastLocation(pos);
+      DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
     }
   }
 }

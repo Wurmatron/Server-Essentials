@@ -89,6 +89,14 @@ public class Local implements FileType {
   public String DESCRIPTION_SPEED;
   public String GENERAL_SPEED;
   public String GENERAL_SPEED_OTHER;
+  public String DESCRIPTION_DELETEPLAYERFILE;
+  public String GENERAL_DELETE_PLAYER_FILE;
+  public String GENERAL_DPF_DELETED;
+  public String DESCRIPTION_FLY;
+  public String GENERAL_FLY_ENABLED;
+  public String GENERAL_FLY_DISABLED;
+  public String GENERAL_FLY_OTHER_ENABLED;
+  public String GENERAL_FLY_OTHER_DISABLED;
 
   public Local(String key) {
     this.key = key;

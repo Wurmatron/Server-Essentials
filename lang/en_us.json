@@ -75,5 +75,14 @@
   "GENERAL_COMMAND_SUDO": "&5%player% has been forced to run %command%",
   "DESCRIPTION_SPEED": "&5Change a user's movement speed (fly or walk)",
   "GENERAL_SPEED": "&5Your speed has been updated (%number%)",
-  "GENERAL_SPEED_OTHER": "&5You have updated %player%'s speed (%number%)"
+  "GENERAL_SPEED_OTHER": "&5You have updated %player%'s speed (%number%)",
+  "DESCRIPTION_DELETEPLAYERFILE": "&5Delete a player's data files",
+  "GENERAL_DELETE_PLAYER_FILE": "&cYour PlayerFile has been deleted, please login again.",
+  "GENERAL_DPF_DELETED": "&5%player%'s player file has been deleted!",
+  "DESCRIPTION_FLY": "&5Set's a player's ability to fly (creative)",
+  "GENERAL_FLY_ENABLED": "&5Flying has been enabled",
+  "GENERAL_FLY_DISABLED": "&5Flying has been disabled",
+  "GENERAL_FLY_OTHER_ENABLED": "&5Flying has been enabled for %player%",
+  "GENERAL_FLY_OTHER_DISABLED": "&5Flying has been disabled for %player%"
+
 }
