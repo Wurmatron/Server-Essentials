@@ -97,6 +97,10 @@ public class Local implements FileType {
   public String GENERAL_FLY_DISABLED;
   public String GENERAL_FLY_OTHER_ENABLED;
   public String GENERAL_FLY_OTHER_DISABLED;
+  public String DESCRIPTION_GAMEMODE;
+  public String GENERAL_GM_INVALID;
+  public String GENERAL_GM_CHANGED;
+  public String GENERAL_GM_CHANGED_OTHER;
 
   public Local(String key) {
     this.key = key;

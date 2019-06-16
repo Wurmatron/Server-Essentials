@@ -83,6 +83,10 @@
   "GENERAL_FLY_ENABLED": "&5Flying has been enabled",
   "GENERAL_FLY_DISABLED": "&5Flying has been disabled",
   "GENERAL_FLY_OTHER_ENABLED": "&5Flying has been enabled for %player%",
-  "GENERAL_FLY_OTHER_DISABLED": "&5Flying has been disabled for %player%"
+  "GENERAL_FLY_OTHER_DISABLED": "&5Flying has been disabled for %player%",
+  "DESCRIPTION_GAMEMODE": "&5Change a user's gamemode",
+  "GENERAL_GM_INVALID": "&5Invalid Gamemode %number%",
+  "GENERAL_GM_CHANGED": "&5Gamemode changed to %mode%",
+  "GENERAL_GM_CHANGED_OTHER": "&5%player%'s Gamemode has been changed to %mode%"
 
 }
