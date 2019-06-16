@@ -95,5 +95,15 @@
   "GENERAL_FROZEN_UNDO_OTHER": " &5%player% has been unfrozen",
   "GENERAL_FROZEN": "&5You have been frozen",
   "GENERAL_FROZEN_OTHER": "&5%player% has been frozen",
-  "DESCRIPTION_INVSEE": "&5See another player's inventory"
+  "DESCRIPTION_INVSEE": "&5See another player's inventory",
+  "DESCRIPTION_GOD": "&5Disable damage for a player",
+  "GENERAL_GOD_ENABLED": "&5God mode enabled",
+  "GENERAL_GOD_DISABLED": "&5God mode disabled",
+  "GENERAL_GOD_ENABLED_OTHER": "&5%player%'s god mode has been enabled",
+  "GENERAL_GOD_DISABLED_OTHER": "&5%player%'s god mode has been disabled",
+  "DESCRIPTION_GHOST": "&5Disables hitbox for a player",
+  "GENERAL_GHOST_ENABLED": "&5Ghost mode enabled",
+  "GENERAL_GHOST_DISABLED": "&5Ghost mode disabled",
+  "GENERAL_GHOST_ENABLED_OTHER": "&5%player%'s ghost mode has been enabled",
+  "GENERAL_GHOST_DISABLED_OTHER": "&5%player%'s ghost mode has been disabled"
 }

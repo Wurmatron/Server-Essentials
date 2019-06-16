@@ -109,6 +109,16 @@ public class Local implements FileType {
   public String GENERAL_FROZEN;
   public String GENERAL_FROZEN_OTHER;
   public String DESCRIPTION_INVSEE;
+  public String DESCRIPTION_GOD;
+  public String GENERAL_GOD_ENABLED;
+  public String GENERAL_GOD_DISABLED;
+  public String GENERAL_GOD_ENABLED_OTHER;
+  public String GENERAL_GOD_DISABLED_OTHER;
+  public String DESCRIPTION_GHOST;
+  public String GENERAL_GHOST_ENABLED;
+  public String GENERAL_GHOST_DISABLED;
+  public String GENERAL_GHOST_ENABLED_OTHER;
+  public String GENERAL_GHOST_DISABLED_OTHER;
 
   public Local(String key) {
     this.key = key;
