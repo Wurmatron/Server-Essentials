@@ -4,23 +4,28 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.modules.general.GeneralModule;
 import com.wurmcraft.serveressentials.common.modules.general.utils.wrapper.PlayerInventory;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
+import java.util.*;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class GeneralEvents {
 
   private static HashMap<EntityPlayer, PlayerInventory> openInv = new HashMap<>();
   private static HashMap<EntityPlayer, BlockPos> frozenPlayers = new HashMap<>();
+  private static List<EntityPlayer> deadPlayers = new ArrayList<>();
 
   @SubscribeEvent
   public void onPlayerJoin(PlayerLoggedInEvent e) {
@@ -30,6 +35,25 @@ public class GeneralEvents {
           .getCommandManager()
           .executeCommand(e.player, "/motd");
     }
+  }
+
+  @SubscribeEvent
+  public void onDeath(LivingDeathEvent e) {
+    if (e.getEntityLiving() instanceof EntityPlayer) {
+      deadPlayers.add((EntityPlayer) e.getEntityLiving());
+    }
+  }
+
+  @SubscribeEvent
+  public void onRespawn(PlayerRespawnEvent e) {
+    if (e.isEndConquered()) {
+      e.player.setPositionAndUpdate(
+          GeneralModule.config.spawn.getX(),
+          GeneralModule.config.spawn.getY(),
+          GeneralModule.config.spawn.getZ());
+    }
+    // TODO Home Respawn
+    // TODO New Player Spawning
   }
 
   public static void register(PlayerInventory inv) {

@@ -15,6 +15,10 @@ public class GeneralModule {
 
   public void setup() {
     MinecraftForge.EVENT_BUS.register(new GeneralEvents());
+    loadAndSetupGlobal();
+  }
+
+  public static void loadAndSetupGlobal() {
     config =
         DataHelper.load(
             new File(ConfigHandler.saveLocation + File.separator + "Global.json"),

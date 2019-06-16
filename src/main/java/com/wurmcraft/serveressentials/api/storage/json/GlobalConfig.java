@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.api.storage.json;
 
 import com.wurmcraft.serveressentials.api.storage.FileType;
+import com.wurmcraft.serveressentials.api.storage.LocationWrapper;
 
 public class GlobalConfig implements FileType {
 
@@ -8,6 +9,7 @@ public class GlobalConfig implements FileType {
   public String webLink;
   public String[] motd;
   public String[] rules;
+  public LocationWrapper spawn;
 
   public GlobalConfig() {}
 

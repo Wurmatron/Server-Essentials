@@ -105,5 +105,9 @@
   "GENERAL_GHOST_ENABLED": "&5Ghost mode enabled",
   "GENERAL_GHOST_DISABLED": "&5Ghost mode disabled",
   "GENERAL_GHOST_ENABLED_OTHER": "&5%player%'s ghost mode has been enabled",
-  "GENERAL_GHOST_DISABLED_OTHER": "&5%player%'s ghost mode has been disabled"
+  "GENERAL_GHOST_DISABLED_OTHER": "&5%player%'s ghost mode has been disabled",
+  "DESCRIPTION_SETSPAWN": "&5Set the server's spawn",
+  "GENERAL_SPAWN_SET": "&5Spawn Set",
+  "DESCRIPTION_RELOAD_GLOBAL": "Reload the Global.json file",
+  "GENERAL_RELOAD_GLOBAL": "%5Global Config reloaded (Global.json)"
 }
