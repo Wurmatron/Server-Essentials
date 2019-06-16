@@ -7,6 +7,7 @@ public class GlobalConfig implements FileType {
   public String discordLink;
   public String webLink;
   public String[] motd;
+  public String[] rules;
 
   public GlobalConfig() {}
 

@@ -101,6 +101,8 @@ public class Local implements FileType {
   public String GENERAL_GM_INVALID;
   public String GENERAL_GM_CHANGED;
   public String GENERAL_GM_CHANGED_OTHER;
+  public String DESCRIPTION_RULES;
+  public String GENERAL_RULES_SET;
 
   public Local(String key) {
     this.key = key;

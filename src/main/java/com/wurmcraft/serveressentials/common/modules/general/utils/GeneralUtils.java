@@ -24,4 +24,20 @@ public class GeneralUtils {
       DataHelper.save(new File(ConfigHandler.saveLocation), GeneralModule.config);
     }
   }
+
+  public static void setRulesLine(int lineNo, String line) {
+    List<String> currentRules = new ArrayList<>();
+    if (GeneralModule.config.rules != null || GeneralModule.config.rules.length > 0) {
+      Collections.addAll(currentRules, GeneralModule.config.motd);
+    }
+    try {
+      currentRules.set(lineNo, line);
+      GeneralModule.config.rules = currentRules.toArray(new String[0]);
+      DataHelper.save(new File(ConfigHandler.saveLocation), GeneralModule.config);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      currentRules.add(line);
+      GeneralModule.config.motd = currentRules.toArray(new String[0]);
+      DataHelper.save(new File(ConfigHandler.saveLocation), GeneralModule.config);
+    }
+  }
 }
