@@ -103,6 +103,12 @@ public class Local implements FileType {
   public String GENERAL_GM_CHANGED_OTHER;
   public String DESCRIPTION_RULES;
   public String GENERAL_RULES_SET;
+  public String DESCRIPTION_FREEZE;
+  public String GENERAL_FROZEN_UNDO;
+  public String GENERAL_FROZEN_UNDO_OTHER;
+  public String GENERAL_FROZEN;
+  public String GENERAL_FROZEN_OTHER;
+  public String DESCRIPTION_INVSEE;
 
   public Local(String key) {
     this.key = key;

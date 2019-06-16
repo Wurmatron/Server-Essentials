@@ -89,5 +89,11 @@
   "GENERAL_GM_CHANGED": "&5Gamemode changed to %mode%",
   "GENERAL_GM_CHANGED_OTHER": "&5%player%'s Gamemode has been changed to %mode%",
   "DESCRIPTION_RULES": "&5Display's the server's current rules",
-  "GENERAL_RULES_SET": "&5%line% has been changed to %data%"
+  "GENERAL_RULES_SET": "&5%line% has been changed to %data%",
+  "DESCRIPTION_FREEZE": "&5Freeze a player, unable to move",
+  "GENERAL_FROZEN_UNDO": "&5You have been unfrozen",
+  "GENERAL_FROZEN_UNDO_OTHER": " &5%player% has been unfrozen",
+  "GENERAL_FROZEN": "&5You have been frozen",
+  "GENERAL_FROZEN_OTHER": "&5%player% has been frozen",
+  "DESCRIPTION_INVSEE": "&5See another player's inventory"
 }
