@@ -127,6 +127,9 @@ public class Local implements FileType {
   public String LANG_RELOAD;
   public String LANG_LANG_SET;
   public String LANG_LANG_INVAID;
+  public String DESCRIPTION_ONLINETIME;
+  public String REST_OT_GLOBAL;
+  public String REST_OT_LOCAL;
 
   public Local(String key) {
     this.key = key;

@@ -112,5 +112,8 @@
   "GENERAL_RELOAD_GLOBAL": "%5Global Config reloaded (Global.json)",
   "LANG_RELOAD": "&5Language files reloaded",
   "LANG_LANG_SET": "&5Language changed to %language%",
-  "LANG_LANG_INVAID": "&5Invalid Language key %language%"
+  "LANG_LANG_INVAID": "&5Invalid Language key %language%",
+  "DESCRIPTION_ONLINETIME": "&5Display's a user's play time",
+  "REST_OT_GLOBAL":  "Overall: %time%",
+  "REST_OT_LOCAL":  "Server: %time%"
 }
