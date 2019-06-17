@@ -258,6 +258,16 @@ public class FileUser implements FileType {
     customData = custData.toArray(new String[0]);
   }
 
+  public void delCustomData(String data) {
+    List<String> tempData = new ArrayList<>();
+    for (String d : customData) {
+      if (!data.equalsIgnoreCase(d)) {
+        tempData.add(d);
+      }
+    }
+    setCustomData(tempData.toArray(new String[0]));
+  }
+
   @Override
   public String getID() {
     return uuid.toString();

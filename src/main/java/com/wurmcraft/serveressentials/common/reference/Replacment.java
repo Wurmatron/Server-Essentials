@@ -33,4 +33,7 @@ public class Replacment {
   public static final String NUMBER = "%number%";
   public static final String MODE = "%mode%";
   public static final String LANGUAGE = "%language%";
+  public static final String PERM = "%perm%";
+  public static final String PERK = "%perk%";
+  public static final String SEEN = "%seen%";
 }

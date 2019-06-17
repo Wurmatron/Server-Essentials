@@ -265,4 +265,110 @@ public class UserManager {
       DataHelper.addData(Storage.USER, user);
     }
   }
+
+  public static void setRank(EntityPlayer player, Rank rank) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.setRank(rank.getID());
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      user.setRank(rank);
+      DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
+    }
+  }
+
+  public static String[] getPerms(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      return user.getPermission();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      return new String[0];
+    }
+    return new String[0];
+  }
+
+  public static String[] getPerks(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      return user.getPerks();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return user.getCustomData();
+    }
+    return new String[0];
+  }
+
+  public static void addPerm(EntityPlayer player, String... perm) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.addPermission(perm);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    }
+  }
+
+  public static void addPerk(EntityPlayer player, String... perk) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.addPerk(perk);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      for (String p : perk) {
+        user.addCustomData(p);
+      }
+      DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
+    }
+  }
+
+  public static void delPerm(EntityPlayer player, String... perm) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      for (String p : perm) {
+        user.delPermission(p);
+      }
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    }
+  }
+
+  public static void delPerk(EntityPlayer player, String... perk) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      for (String p : perk) {
+        user.delPerk(p);
+      }
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      for (String p : perk) {
+        user.delCustomData(p);
+      }
+      DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
+    }
+  }
+
+  public static long getLastSeen(String type, EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      if (type.equalsIgnoreCase("Global") || type.equalsIgnoreCase("Network")) {
+        GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+        long newest = user.getServerData(ConfigHandler.serverName).getLastSeen();
+        for (ServerTime time : user.getServerData()) {
+          if (newest > time.getLastSeen()) {
+            newest = time.getLastSeen();
+          }
+        }
+        return newest;
+      } else if (type.equalsIgnoreCase("Local") || type.equalsIgnoreCase("Server")) {
+        GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+        return user.getServerData(ConfigHandler.serverName).getLastSeen();
+      }
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return user.getLastseen();
+    }
+    return -1;
+  }
 }

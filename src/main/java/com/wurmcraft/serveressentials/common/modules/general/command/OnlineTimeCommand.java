@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.modules.rest.command;
+package com.wurmcraft.serveressentials.common.modules.general.command;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.command.Command;
@@ -20,7 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-@ModuleCommand(moduleName = "Rest")
+@ModuleCommand(moduleName = "General")
 public class OnlineTimeCommand extends Command {
 
   @Override

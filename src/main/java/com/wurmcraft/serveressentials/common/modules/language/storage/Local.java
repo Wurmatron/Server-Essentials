@@ -19,6 +19,14 @@ public class Local implements FileType {
   public String CHAT_INVALID_NUMBER;
   public String CHAT_INVALID_AUTORANK;
   public String CHAT_INVALID_BOOLEAN;
+  public String RANK_NOT_FOUND;
+  public String CHAT_UUID;
+  public String CHAT_RANK;
+  public String CHAT_MUTED;
+  public String CHAT_RANK_PREFIX;
+  public String CHAT_RANK_SUFFIX;
+  public String CHAT_RANK_INHERITANCE;
+  public String CHAT_LASTSEEN;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
@@ -130,6 +138,14 @@ public class Local implements FileType {
   public String DESCRIPTION_ONLINETIME;
   public String REST_OT_GLOBAL;
   public String REST_OT_LOCAL;
+  public String REST_RANK_CHANGED_OTHER;
+  public String REST_RANK_CHANGED;
+  public String PERM_UPDATED_OTHER;
+  public String PERM_UPDATED;
+  public String PERK_UPDATED_OTHER;
+  public String PERK_UPDATED;
+  public String RANK_CREATED;
+  public String DESCRIPTION_SEEN;
 
   public Local(String key) {
     this.key = key;
