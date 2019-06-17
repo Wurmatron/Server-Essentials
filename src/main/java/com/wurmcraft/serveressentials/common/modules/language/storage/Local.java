@@ -123,6 +123,10 @@ public class Local implements FileType {
   public String GENERAL_SPAWN_SET;
   public String DESCRIPTION_RELOAD_GLOBAL;
   public String GENERAL_RELOAD_GLOBAL;
+  public String DESCRIPTION_LANGUAGE;
+  public String LANG_RELOAD;
+  public String LANG_LANG_SET;
+  public String LANG_LANG_INVAID;
 
   public Local(String key) {
     this.key = key;

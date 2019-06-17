@@ -32,4 +32,5 @@ public class Replacment {
   public static final String COMMAND = "%command%";
   public static final String NUMBER = "%number%";
   public static final String MODE = "%mode%";
+  public static final String LANGUAGE = "%language%";
 }

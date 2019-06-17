@@ -109,5 +109,8 @@
   "DESCRIPTION_SETSPAWN": "&5Set the server's spawn",
   "GENERAL_SPAWN_SET": "&5Spawn Set",
   "DESCRIPTION_RELOAD_GLOBAL": "Reload the Global.json file",
-  "GENERAL_RELOAD_GLOBAL": "%5Global Config reloaded (Global.json)"
+  "GENERAL_RELOAD_GLOBAL": "%5Global Config reloaded (Global.json)",
+  "LANG_RELOAD": "&5Language files reloaded",
+  "LANG_LANG_SET": "&5Language changed to %language%",
+  "LANG_LANG_INVAID": "&5Invalid Language key %language%"
 }

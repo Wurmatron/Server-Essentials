@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.utils.user;
 import static com.wurmcraft.serveressentials.common.storage.rest.RestWorldEvents.rankChangeCache;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.api.storage.LocationWrapper;
 import com.wurmcraft.serveressentials.api.storage.json.Channel;
 import com.wurmcraft.serveressentials.api.user.eco.Bank;
@@ -247,6 +248,19 @@ public class UserManager {
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[0];
       user.setLastLocation(pos);
+      DataHelper.save(Storage.USER, user);
+      DataHelper.addData(Storage.USER, user);
+    }
+  }
+
+  public static void setLanguage(EntityPlayer player, Lang lang) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.setLang(lang.getID());
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      user.setLang(lang.getID());
       DataHelper.save(Storage.USER, user);
       DataHelper.addData(Storage.USER, user);
     }
