@@ -75,4 +75,7 @@ public class ConfigHandler {
 
   @Comment("Display MOTD on every join?")
   public static boolean motdOnJoin = true;
+
+  @Comment("Delay between each teleport")
+  public static int teleportTimer = 3;
 }

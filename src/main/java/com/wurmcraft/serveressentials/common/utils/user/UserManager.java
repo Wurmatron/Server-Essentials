@@ -371,4 +371,26 @@ public class UserManager {
     }
     return -1;
   }
+
+  public static boolean hasPerm(EntityPlayer player, String perm) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      return user.hasPerm(perm);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      //      return user.hasPerm TODO Implement Permissions
+    }
+    return false;
+  }
+
+  public static long getLastTeleport(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      return user.getTeleportTimer();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return user.getTeleportTimer();
+    }
+    return Long.MIN_VALUE;
+  }
 }

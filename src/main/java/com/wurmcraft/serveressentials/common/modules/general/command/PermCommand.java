@@ -32,10 +32,11 @@ public class PermCommand extends Command {
   @Override
   public List<String> getAutoCompletion(
       MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-    if (args.length == 0) {
+    if (args.length == 0 || args.length == 1 && args[0].isEmpty()) {
       return emptyAutoCompletion;
     } else if (args.length > 1) {
-      if (args[0].equalsIgnoreCase("user") && args.length == 1) {
+      if (args[0].equalsIgnoreCase("user") && args.length == 1
+          || args[0].equalsIgnoreCase("user") && args.length == 2 && args[1].isEmpty()) {
         return CommandUtils.predictUsernames(args, 0);
       } else if (args[0].equalsIgnoreCase("user") && args.length == 2) {
         return userAutoCompletion;

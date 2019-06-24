@@ -263,4 +263,8 @@ public class GlobalRestUser implements Serializable {
     }
     return null;
   }
+
+  public boolean hasPerm(String perm) {
+    return true; // TODO Permission Check
+  }
 }
