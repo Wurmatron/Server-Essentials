@@ -135,5 +135,7 @@
   "DESCRIPTION_JUMP": "&5Teleport to the location you are looking",
   "TELEPORT_JUMP": "&5You have jumped",
   "DESCRIPTION_TOP": "&5Teleport to the highest block in from your current coordinates",
-  "TELEPORT_TOP": "&5You have been teleported to the highest location"
+  "TELEPORT_TOP": "&5You have been teleported to the highest location",
+  "DESCRIPTION_SPAWN": "&5Teleports a user to the world spawn",
+  "TELEPORT_SPAWN": "&5You have been sent to spawn"
 }

@@ -151,6 +151,8 @@ public class Local implements FileType {
   public String TELEPORT_JUMP;
   public String DESCRIPTION_TOP;
   public String TELEPORT_TOP;
+  public String DESCRIPTION_SPAWN;
+  public String TELEPORT_SPAWN;
 
   public Local(String key) {
     this.key = key;
