@@ -133,5 +133,7 @@
   "DESCRIPTION_SEEN": "Shows when the player was last seen anywhere on the network ",
   "CHAT_LASTSEEN": "&5Last Seen: %seen%",
   "DESCRIPTION_JUMP": "&5Teleport to the location you are looking",
-  "TELEPORT_JUMP": "&5You have jumped"
+  "TELEPORT_JUMP": "&5You have jumped",
+  "DESCRIPTION_TOP": "&5Teleport to the highest block in from your current coordinates",
+  "TELEPORT_TOP": "&5You have been teleported to the highest location"
 }

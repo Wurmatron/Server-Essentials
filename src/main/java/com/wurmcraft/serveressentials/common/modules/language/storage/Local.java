@@ -149,6 +149,8 @@ public class Local implements FileType {
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;
+  public String DESCRIPTION_TOP;
+  public String TELEPORT_TOP;
 
   public Local(String key) {
     this.key = key;
