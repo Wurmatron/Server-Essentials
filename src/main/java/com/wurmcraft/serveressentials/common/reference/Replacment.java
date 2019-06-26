@@ -36,4 +36,5 @@ public class Replacment {
   public static final String PERM = "%perm%";
   public static final String PERK = "%perk%";
   public static final String SEEN = "%seen%";
+  public static final String WARP = "%warp%";
 }

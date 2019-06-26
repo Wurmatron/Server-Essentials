@@ -137,5 +137,10 @@
   "DESCRIPTION_TOP": "&5Teleport to the highest block in from your current coordinates",
   "TELEPORT_TOP": "&5You have been teleported to the highest location",
   "DESCRIPTION_SPAWN": "&5Teleports a user to the world spawn",
-  "TELEPORT_SPAWN": "&5You have been sent to spawn"
+  "TELEPORT_SPAWN": "&5You have been sent to spawn",
+  "DESCRIPTION_SETWARP": "&5Create / Set a new warp",
+  "TELEPORT_SET_WARP": "&5Warp %warp% created",
+  "DESCRIPTION_WARP": "&5Teleport's a user to a set location",
+  "TELEPORT_WARP": "&5You have been teleported to %warp%",
+  "TELEPORT_WARP_NOT_FOUND": "&5Warp %warp% not found"
 }

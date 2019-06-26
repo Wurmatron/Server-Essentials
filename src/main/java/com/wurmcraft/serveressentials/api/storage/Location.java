@@ -5,6 +5,11 @@ public class Location {
   private int x;
   private int z;
 
+  public Location() {
+    x = 0;
+    z = 0;
+  }
+
   public Location(int x, int z) {
     this.x = x;
     this.z = z;

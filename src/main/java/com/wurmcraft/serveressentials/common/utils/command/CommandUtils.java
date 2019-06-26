@@ -4,8 +4,11 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
+import com.wurmcraft.serveressentials.api.storage.json.LocationWithName;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.reference.Storage;
+import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -95,6 +98,20 @@ public class CommandUtils {
       return predictName(args[index], possibleRanks);
     } else {
       return possibleRanks;
+    }
+  }
+
+  public static List<String> predictWarp(String[] args, int index) {
+    List<String> possibleWarps =
+        Arrays.stream(
+                DataHelper.getData(Storage.WARP, new LocationWithName())
+                    .toArray(new LocationWithName[0]))
+            .map(LocationWithName::getID)
+            .collect(Collectors.toList());
+    if (args.length > index && args[index] != null) {
+      return predictName(args[index], possibleWarps);
+    } else {
+      return possibleWarps;
     }
   }
 
