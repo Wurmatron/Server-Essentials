@@ -167,6 +167,12 @@ public class Local implements FileType {
   public String TELEPORT_TPA_NONE;
   public String DESCRIPTION_TPADENY;
   public String TELEPORT_TPA_DENY;
+  public String DESCRIPTION_TPHERE;
+  public String TELEPORT_TPHERE;
+  public String TELEPORT_FORCED;
+  public String DESCRIPTION_TPLOCK;
+  public String TELEPORT_TOGGLE_ENABLE;
+  public String TELEPORT_TOGGLE_DISABLE;
 
   public Local(String key) {
     this.key = key;

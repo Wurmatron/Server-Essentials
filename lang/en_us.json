@@ -151,5 +151,11 @@
   "TELEPORT_TPA_ACCEPT_REQUEST": "&5%player% has accepted your tpa request, now teleporting...",
   "TELEPORT_TPA_NONE": "&5No active TPA requests",
   "DESCRIPTION_TPADENY": "&5Teleport Request Denied",
-  "TELEPORT_TPA_DENY": "&5Request Denied"
+  "TELEPORT_TPA_DENY": "&5Request Denied",
+  "DESCRIPTION_TPHERE": "&5Teleport a player to your current location",
+  "TELEPORT_TPHERE": "&5%player% has been teleported to your current location",
+  "TELEPORT_FORCED": "&5You have been teleported",
+  "DESCRIPTION_TPLOCK": "&5Disable TPA requests",
+  "TELEPORT_TOGGLE_ENABLE": "&5TPLock is now enabled",
+  "TELEPORT_TOGGLE_DISABLE": "&5TPLock has been disabled"
 }
