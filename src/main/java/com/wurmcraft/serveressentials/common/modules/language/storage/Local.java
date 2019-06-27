@@ -158,6 +158,15 @@ public class Local implements FileType {
   public String DESCRIPTION_WARP;
   public String TELEPORT_WARP;
   public String TELEPORT_WARP_NOT_FOUND;
+  public String DESCRIPTION_TPA;
+  public String TELEPORT_TPA_SENT;
+  public String TELEPORT_REQUEST;
+  public String DESCRIPTION_TPACCEPT;
+  public String TELEPORT_TPA_ACCEPT;
+  public String TELEPORT_TPA_ACCEPT_REQUEST;
+  public String TELEPORT_TPA_NONE;
+  public String DESCRIPTION_TPADENY;
+  public String TELEPORT_TPA_DENY;
 
   public Local(String key) {
     this.key = key;

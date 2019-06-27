@@ -142,5 +142,14 @@
   "TELEPORT_SET_WARP": "&5Warp %warp% created",
   "DESCRIPTION_WARP": "&5Teleport's a user to a set location",
   "TELEPORT_WARP": "&5You have been teleported to %warp%",
-  "TELEPORT_WARP_NOT_FOUND": "&5Warp %warp% not found"
+  "TELEPORT_WARP_NOT_FOUND": "&5Warp %warp% not found",
+  "DESCRIPTION_TPA": "&5Send's a request to another player to allow teleportation",
+  "TELEPORT_TPA_SENT": "&5Request Sent",
+  "TELEPORT_REQUEST": "&5%player% has sent you a tpa request, type /tpaccept to allow",
+  "DESCRIPTION_TPACCEPT": "&5Accept a teleport request from another player",
+  "TELEPORT_TPA_ACCEPT": "&5Teleport Request Accepted",
+  "TELEPORT_TPA_ACCEPT_REQUEST": "&5%player% has accepted your tpa request, now teleporting...",
+  "TELEPORT_TPA_NONE": "&5No active TPA requests",
+  "DESCRIPTION_TPADENY": "&5Teleport Request Denied",
+  "TELEPORT_TPA_DENY": "&5Request Denied"
 }

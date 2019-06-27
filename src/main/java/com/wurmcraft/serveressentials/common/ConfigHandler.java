@@ -78,4 +78,7 @@ public class ConfigHandler {
 
   @Comment("Delay between each teleport")
   public static int teleportTimer = 3;
+
+  @Comment("How long a tpa request will last (in ticks)")
+  public static int tpaTimeout = 150;
 }
