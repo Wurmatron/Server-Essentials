@@ -157,5 +157,13 @@
   "TELEPORT_FORCED": "&5You have been teleported",
   "DESCRIPTION_TPLOCK": "&5Disable TPA requests",
   "TELEPORT_TOGGLE_ENABLE": "&5TPLock is now enabled",
-  "TELEPORT_TOGGLE_DISABLE": "&5TPLock has been disabled"
+  "TELEPORT_TOGGLE_DISABLE": "&5TPLock has been disabled",
+  "DESCRIPTION_SETHOME": "&5Set's a home at your current location with a name",
+  "TELEPORT_HOME_SET": "&5Home %home% set",
+  "TELEPORT_HOME_MAX": "&5Max amount of homes has been reached, failed to set",
+  "DESCRIPTION_HOME": "&5Teleport to a home",
+  "TELEPORT_HOME_NOT_FOUND": "&5Home %home% not found",
+  "TELEPORT_HOME": "Teleported to home %home%",
+  "DESCRIPTION_DELHOME": "&5Delete a set home",
+  "TELEPORT_DELHOME": "&5%home% has been deleted"
 }

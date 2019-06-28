@@ -173,6 +173,14 @@ public class Local implements FileType {
   public String DESCRIPTION_TPLOCK;
   public String TELEPORT_TOGGLE_ENABLE;
   public String TELEPORT_TOGGLE_DISABLE;
+  public String DESCRIPTION_SETHOME;
+  public String TELEPORT_HOME_SET;
+  public String TELEPORT_HOME_MAX;
+  public String DESCRIPTION_HOME;
+  public String TELEPORT_HOME_NOT_FOUND;
+  public String TELEPORT_HOME;
+  public String DESCRIPTION_DELHOME;
+  public String TELEPORT_DELHOME;
 
   public Local(String key) {
     this.key = key;

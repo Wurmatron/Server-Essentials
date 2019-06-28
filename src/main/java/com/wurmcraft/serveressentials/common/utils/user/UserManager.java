@@ -13,10 +13,13 @@ import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
 import com.wurmcraft.serveressentials.api.user.rest.ServerTime;
+import com.wurmcraft.serveressentials.api.user.storage.Home;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
+import java.util.*;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -416,5 +419,127 @@ public class UserManager {
       return user.isTpLock();
     }
     return false;
+  }
+
+  public static int getMaxHomes(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      return getHomesFromPerks(player, user.getPerks());
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return getHomesFromPerks(player, user.getCustomData());
+    }
+    return 1;
+  }
+
+  private static int getHomesFromPerks(EntityPlayer player, String[] perks) {
+    for (String perk : perks) {
+      if (perk.startsWith("home.amount")) {
+        try {
+          return Integer.parseInt(perk.substring(perk.lastIndexOf(".") + 1));
+        } catch (Exception e) {
+          ServerEssentialsServer.LOGGER.warn(
+              player.getDisplayNameString() + " has a invalid Max Home Perk, Unable to Read");
+        }
+      }
+    }
+    return 1;
+  }
+
+  public static boolean setHome(EntityPlayer player, Home home) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser local = (LocalRestUser) getUserData(player)[1];
+      int maxHomes = getMaxHomes(player);
+      if (local.getHomes().length + 1 <= maxHomes) {
+        return false;
+      }
+      boolean overrideHome = false;
+      for (Home h : local.getHomes()) {
+        if (h.getName().equalsIgnoreCase(home.getName())) {
+          overrideHome = true;
+        }
+      }
+      if (overrideHome) {
+        List<Home> homes = new ArrayList<>();
+        for (Home h : local.getHomes()) {
+          if (h.getName().equalsIgnoreCase(home.getName())) {
+            homes.add(home);
+          } else {
+            homes.add(h);
+          }
+        }
+      } else {
+        local.addHome(home);
+      }
+      DataHelper.save(Storage.LOCAL_USER, local);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[1];
+      int maxHomes = getMaxHomes(player);
+      if (user.getHomes().length + 1 <= maxHomes) {
+        return false;
+      }
+      boolean overrideHome = false;
+      for (Home h : user.getHomes()) {
+        if (h.getName().equalsIgnoreCase(home.getName())) {
+          overrideHome = true;
+        }
+      }
+      if (overrideHome) {
+        List<Home> homes = new ArrayList<>();
+        for (Home h : user.getHomes()) {
+          if (h.getName().equalsIgnoreCase(home.getName())) {
+            homes.add(home);
+          } else {
+            homes.add(h);
+          }
+        }
+      } else {
+        user.addHome(home);
+      }
+      DataHelper.save(Storage.USER, user);
+    }
+    return true;
+  }
+
+  public static Home getHome(EntityPlayer player, String name) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      return Arrays.stream(user.getHomes())
+          .filter(h -> h.getName().equalsIgnoreCase(name))
+          .findFirst()
+          .orElse(null);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return Arrays.stream(user.getHomes())
+          .filter(h -> h.getName().equalsIgnoreCase(name))
+          .findFirst()
+          .orElse(null);
+    }
+    return null;
+  }
+
+  public static Home[] getHomes(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      return user.getHomes();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return user.getHomes();
+    }
+    return new Home[0];
+  }
+
+  public static void delHome(EntityPlayer player, Home home) {
+    if (home != null) {
+      if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+        LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+        user.delHome(home.getName());
+        DataHelper.save(Storage.LOCAL_USER, user);
+      } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+        FileUser user = (FileUser) getUserData(player)[0];
+        user.delHome(home.getName());
+        DataHelper.save(Storage.USER, user);
+      }
+    }
   }
 }

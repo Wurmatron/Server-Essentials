@@ -37,4 +37,5 @@ public class Replacment {
   public static final String PERK = "%perk%";
   public static final String SEEN = "%seen%";
   public static final String WARP = "%warp%";
+  public static final String HOME = "%home%";
 }

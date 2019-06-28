@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
 import com.wurmcraft.serveressentials.api.storage.json.LocationWithName;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
+import com.wurmcraft.serveressentials.api.user.storage.Home;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
@@ -124,6 +125,16 @@ public class CommandUtils {
       }
     }
     return predictedNames;
+  }
+
+  public static List<String> predictHome(EntityPlayer player, String[] args, int index) {
+    List<String> possibleHomes = new ArrayList<>();
+    for (Home home : UserManager.getHomes(player)) possibleHomes.add(home.getName());
+    if (args.length > index && args[index] != null) {
+      return predictName(args[index], possibleHomes);
+    } else {
+      return possibleHomes;
+    }
   }
 
   public static EntityPlayer getPlayerForName(String name) {
