@@ -81,4 +81,7 @@ public class ConfigHandler {
 
   @Comment("How long a tpa request will last (in ticks)")
   public static int tpaTimeout = 150;
+
+  @Comment("Current modpack version")
+  public static String modpackVersion = "";
 }

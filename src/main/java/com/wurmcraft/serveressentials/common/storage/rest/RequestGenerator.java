@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGE
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.instance;
 
 import com.wurmcraft.serveressentials.api.Validation;
+import com.wurmcraft.serveressentials.api.storage.json.ServerStatus;
 import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
@@ -200,6 +201,10 @@ public class RequestGenerator {
     public static Validation getValidation() {
       Validation val = INSTANCE.get("validate", Validation.class);
       return val;
+    }
+
+    public static void syncServer(ServerStatus status) {
+      INSTANCE.post("/status", status);
     }
   }
 }
