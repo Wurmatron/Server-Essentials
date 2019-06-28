@@ -165,5 +165,9 @@
   "TELEPORT_HOME_NOT_FOUND": "&5Home %home% not found",
   "TELEPORT_HOME": "Teleported to home %home%",
   "DESCRIPTION_DELHOME": "&5Delete a set home",
-  "TELEPORT_DELHOME": "&5%home% has been deleted"
+  "TELEPORT_DELHOME": "&5%home% has been deleted",
+  "DESCRIPTION_BACK": "&5Teleport to your last known location",
+  "TELEPORT_BACK": "&5You have teleported back to your last known location",
+  "DESCRIPTION_TP": "&5Teleport to a user or coordinates",
+  "TELEPORT_OTHER": "&5%player% has been teleported to %user%"
 }

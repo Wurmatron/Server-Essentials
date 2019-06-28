@@ -181,6 +181,10 @@ public class Local implements FileType {
   public String TELEPORT_HOME;
   public String DESCRIPTION_DELHOME;
   public String TELEPORT_DELHOME;
+  public String DESCRIPTION_BACK;
+  public String TELEPORT_BACK;
+  public String DESCRIPTION_TP;
+  public String TELEPORT_OTHER;
 
   public Local(String key) {
     this.key = key;

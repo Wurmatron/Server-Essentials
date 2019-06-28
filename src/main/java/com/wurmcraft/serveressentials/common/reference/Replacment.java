@@ -38,4 +38,5 @@ public class Replacment {
   public static final String SEEN = "%seen%";
   public static final String WARP = "%warp%";
   public static final String HOME = "%home%";
+  public static final String USER = "%user%";
 }
