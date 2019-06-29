@@ -36,7 +36,15 @@ public class CommandUtils {
   public static List<String> getCommandAliases(Command command) {
     List<String> aliases = new ArrayList<>();
     aliases.add(command.getName());
-    aliases.addAll(command.getAliases(aliases));
+    aliases.add(command.getName().toLowerCase());
+    aliases.add(command.getName().toUpperCase());
+    List<String> temp = new ArrayList<>();
+    for (String alias : command.getAliases(aliases)) {
+      temp.add(alias);
+      temp.add(alias.toLowerCase());
+      temp.add(alias.toUpperCase());
+    }
+    Collections.addAll(aliases, temp.toArray(new String[0]));
     return aliases;
   }
 
@@ -129,7 +137,9 @@ public class CommandUtils {
 
   public static List<String> predictHome(EntityPlayer player, String[] args, int index) {
     List<String> possibleHomes = new ArrayList<>();
-    for (Home home : UserManager.getHomes(player)) possibleHomes.add(home.getName());
+    for (Home home : UserManager.getHomes(player)) {
+      possibleHomes.add(home.getName());
+    }
     if (args.length > index && args[index] != null) {
       return predictName(args[index], possibleHomes);
     } else {

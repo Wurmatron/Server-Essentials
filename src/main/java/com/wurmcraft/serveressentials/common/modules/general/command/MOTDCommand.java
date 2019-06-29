@@ -39,9 +39,12 @@ public class MOTDCommand extends Command {
   public void execute(
       MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 0) {
-      ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
-      Arrays.stream(GeneralModule.config.motd).forEach(msg -> ChatHelper.sendMessage(sender, msg));
-      ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+      if (GeneralModule.config != null && GeneralModule.config.motd.length > 0) {
+        ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+        Arrays.stream(GeneralModule.config.motd)
+            .forEach(msg -> ChatHelper.sendMessage(sender, msg));
+        ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+      }
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
     }

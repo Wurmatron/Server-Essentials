@@ -450,7 +450,7 @@ public class UserManager {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       LocalRestUser local = (LocalRestUser) getUserData(player)[1];
       int maxHomes = getMaxHomes(player);
-      if (local.getHomes().length + 1 <= maxHomes) {
+      if (local.getHomes().length + 1 < maxHomes) {
         return false;
       }
       boolean overrideHome = false;
@@ -475,7 +475,7 @@ public class UserManager {
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[1];
       int maxHomes = getMaxHomes(player);
-      if (user.getHomes().length + 1 <= maxHomes) {
+      if (user.getHomes().length + 1 < maxHomes) {
         return false;
       }
       boolean overrideHome = false;

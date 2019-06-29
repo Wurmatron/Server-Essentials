@@ -41,7 +41,7 @@ public class HomeCommand extends Command {
     EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
     if (args.length == 0) {
       Home home = UserManager.getHome(player, SetHomeCommand.DEFAULT_HOME);
-      teleportHome(sender, senderLang, (EntityPlayerMP) player, home);
+      teleportHome(sender, senderLang, (EntityPlayerMP) player, home, SetHomeCommand.DEFAULT_HOME);
     } else if (args.length == 1) {
       if (args[0].equalsIgnoreCase("list")) {
         ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
@@ -51,7 +51,7 @@ public class HomeCommand extends Command {
         ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
       } else {
         Home home = UserManager.getHome(player, args[0]);
-        teleportHome(sender, senderLang, (EntityPlayerMP) player, home);
+        teleportHome(sender, senderLang, (EntityPlayerMP) player, home, args[0]);
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
@@ -59,13 +59,15 @@ public class HomeCommand extends Command {
   }
 
   private void teleportHome(
-      ICommandSender sender, Lang senderLang, EntityPlayerMP player, Home home) {
+      ICommandSender sender, Lang senderLang, EntityPlayerMP player, Home home, String homeName) {
     if (home != null) {
-      TeleportUtils.teleportTo(player, home.getPos(), true, false);
-      ChatHelper.sendMessage(
-          sender, senderLang.local.TELEPORT_HOME.replaceAll(Replacment.HOME, home.getName()));
+      if (TeleportUtils.teleportTo(player, home.getPos(), true, false)) {
+        ChatHelper.sendMessage(
+            sender, senderLang.local.TELEPORT_HOME.replaceAll(Replacment.HOME, home.getName()));
+      }
     } else {
-      ChatHelper.sendMessage(sender, senderLang.local.TELEPORT_HOME_NOT_FOUND);
+      ChatHelper.sendMessage(
+          sender, senderLang.local.TELEPORT_HOME_NOT_FOUND.replaceAll(Replacment.HOME, homeName));
     }
   }
 

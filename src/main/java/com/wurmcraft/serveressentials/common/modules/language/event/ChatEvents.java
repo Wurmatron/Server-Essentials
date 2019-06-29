@@ -38,7 +38,7 @@ public class ChatEvents {
       e.setCanceled(true);
       return;
     }
-    if (canHandleMessage(e.getPlayer().getGameProfile().getId(), e.getUsername())) {
+    if (canHandleMessage(e.getPlayer().getGameProfile().getId(), e.getMessage())) {
       if (processMessage(e)) {
         e.setCanceled(true);
         Channel ch = getUserChannel(e.getPlayer().getGameProfile().getId());
@@ -53,30 +53,31 @@ public class ChatEvents {
     } else {
       ChatHelper.sendMessage(
           e.getPlayer(), LanguageModule.getUserLanguage(e.getPlayer()).local.SPAM);
+      e.setCanceled(true);
     }
   }
 
   private static boolean canHandleMessage(UUID name, String message) {
-    if (lastChat.containsKey(name)) {
+    if (lastChat.containsKey(name)) { // Check for message history
       String[] chat = lastChat.get(name);
-      if (chat[0].equalsIgnoreCase(message)) {
+      if (chat[0].equalsIgnoreCase(message)) { // same as last time
         int count = 0;
         for (int index = 0; index < chat.length; index++) {
-          if (message.equalsIgnoreCase(chat[index])) {
+          if (message.equalsIgnoreCase(chat[index])) { // count the same messages
             count++;
-          } else if (chat[index] == null) {
+          } else if (chat[index] == null) { // add msg to list and  break, continue
             chat[index] = message;
             count++;
             break;
           }
         }
-        return count < ConfigHandler.spamLimit;
-      } else {
+        return count <= ConfigHandler.spamLimit;
+      } else { // different msg, so we reset
         lastChat.remove(name);
         return true;
       }
     } else {
-      String[] chat = new String[ConfigHandler.spamLimit];
+      String[] chat = new String[ConfigHandler.spamLimit + 1];
       chat[0] = message;
       lastChat.put(name, chat);
       return !UserManager.isIgnored(name, message);

@@ -51,7 +51,7 @@ public class ChatHelper {
                             + TextFormatting.RESET
                         : ""
                   });
-          return format;
+          return format.replaceAll(" {2}", " ");
         } else {
           message = applyFilter(channel, message);
           format =
@@ -78,7 +78,7 @@ public class ChatHelper {
                             + TextFormatting.RESET
                         : ""
                   });
-          return format;
+          return format.replaceAll("\\s\\s+/g", " ");
         }
       } else {
         if (rank.getSuffix() != null && !rank.getSuffix().equals("")) {
@@ -102,7 +102,7 @@ public class ChatHelper {
                     rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                     rank.getSuffix().replaceAll("&", "\u00A7")
                   });
-          return format;
+          return format.replaceAll("\\s\\s+/g", " ");
         } else {
           message = applyFilter(channel, message);
           format =
@@ -126,7 +126,7 @@ public class ChatHelper {
                   });
         }
       }
-      return format;
+      return format.replaceAll("\\s\\s+/g", " ");
     } else {
       return message;
     }
@@ -139,7 +139,7 @@ public class ChatHelper {
         message = message.replaceAll(split[0], split[1]);
       }
     }
-    return message;
+    return message.replaceAll("\\s\\s+/g", " ");
   }
 
   public static void sendMessage(ICommandSender sender, String msg) {
@@ -169,7 +169,9 @@ public class ChatHelper {
   public static void notifySpy(String msg) {
     for (EntityPlayerMP player :
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-      if (isSpy(player)) sendMessage(player, "&4[&cSpy&c]:&5 " + msg);
+      if (isSpy(player)) {
+        sendMessage(player, "&4[&cSpy&c]:&5 " + msg);
+      }
     }
   }
 

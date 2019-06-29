@@ -23,7 +23,7 @@ public class TeleportUtils {
 
   public static boolean teleportTo(
       EntityPlayerMP player, LocationWrapper location, boolean requiresTimer, boolean safeCheck) {
-    if (!canTeleport(player) || location != null) {
+    if (!canTeleport(player) || location == null) {
       return false;
     }
     if (safeCheck && !safeToTeleport(player, location)) {
@@ -77,6 +77,8 @@ public class TeleportUtils {
       if (requiresTimer) {
         updateTeleportTimer(player);
       }
+    } else {
+      player.setPositionAndUpdate(location.getX(), location.getY(), location.getZ());
     }
     return true;
   }
@@ -85,7 +87,7 @@ public class TeleportUtils {
     if (UserManager.hasPerm(player, "teleportation.cooldown")) {
       return true;
     } else {
-      return UserManager.getLastTeleport(player) + (ConfigHandler.teleportTimer * 1000)
+      return UserManager.getLastTeleport(player) + (ConfigHandler.teleportTimer * 100)
           <= System.currentTimeMillis();
     }
   }

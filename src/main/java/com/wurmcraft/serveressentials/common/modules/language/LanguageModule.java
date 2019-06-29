@@ -39,6 +39,9 @@ public class LanguageModule {
   }
 
   public static Lang loadLanguage(String langKey) {
+    if (langKey.isEmpty()) {
+      langKey = ConfigHandler.defaultLanguage;
+    }
     try {
       String url = IOUtils.toString(new URL(ConfigHandler.languageURLFormat + langKey + ".json"));
       DataHelper.save(Storage.LANGUAGE, new Lang(langKey, url));
@@ -83,7 +86,11 @@ public class LanguageModule {
   private static Lang loadUserLang(Lang userLang, String lang) {
     if (userLang == null) {
       userLang = loadLanguage(lang);
-      ServerEssentialsServer.LOGGER.info("Loading Language '" + lang + "'");
+      if (lang.length() > 0) {
+        ServerEssentialsServer.LOGGER.info("Loading Language '" + lang + "'");
+      } else {
+        return getDefaultLang();
+      }
     }
     return userLang;
   }
