@@ -34,7 +34,7 @@ public class GodCommand extends Command {
   @Override
   public void execute(
       MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
-    if (args.length == 1 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
+    if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       if (player.capabilities.disableDamage) {
         player.capabilities.disableDamage = false;
@@ -43,7 +43,7 @@ public class GodCommand extends Command {
         player.capabilities.disableDamage = true;
         ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GOD_DISABLED);
       }
-    } else if (args.length == 2) {
+    } else if (args.length == 1) {
       EntityPlayer player = CommandUtils.getPlayerForName(args[0]);
       if (player != null) {
         if (player.capabilities.disableDamage) {

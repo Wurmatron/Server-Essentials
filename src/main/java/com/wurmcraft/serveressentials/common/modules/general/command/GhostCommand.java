@@ -34,29 +34,31 @@ public class GhostCommand extends Command {
   @Override
   public void execute(
       MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
-    if (args.length == 1 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
+    if (args.length == 0 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       if (player.noClip) {
         player.noClip = false;
-        ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_ENABLED);
+        ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_DISABLED);
       } else {
         player.noClip = true;
-        ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_DISABLED);
+        ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_ENABLED);
       }
-    } else if (args.length == 2) {
+      player.sendPlayerAbilities();
+    } else if (args.length == 1) {
       EntityPlayer player = CommandUtils.getPlayerForName(args[0]);
       if (player != null) {
         if (player.noClip) {
           player.noClip = false;
-          ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_ENABLED_OTHER);
-          ChatHelper.sendMessage(
-              player, LanguageModule.getUserLanguage(player).local.GENERAL_GHOST_ENABLED);
-        } else {
-          player.noClip = true;
           ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_DISABLED_OTHER);
           ChatHelper.sendMessage(
               player, LanguageModule.getUserLanguage(player).local.GENERAL_GHOST_DISABLED);
+        } else {
+          player.noClip = true;
+          ChatHelper.sendMessage(sender, senderLang.local.GENERAL_GHOST_ENABLED_OTHER);
+          ChatHelper.sendMessage(
+              player, LanguageModule.getUserLanguage(player).local.GENERAL_GHOST_ENABLED);
         }
+        player.sendPlayerAbilities();
       } else {
         ChatHelper.sendMessage(
             sender, senderLang.local.PLAYER_NOT_FOUND.replaceAll(Replacment.PLAYER, args[0]));

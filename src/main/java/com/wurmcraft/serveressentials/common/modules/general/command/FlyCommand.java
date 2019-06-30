@@ -34,8 +34,11 @@ public class FlyCommand extends Command {
       MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 0 && sender instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      boolean fly = player.capabilities.allowFlying;
-      player.capabilities.allowFlying = !fly;
+      boolean fly = !player.capabilities.allowFlying;
+      player.capabilities.allowFlying = fly;
+      if (fly || player.isCreative()) { // Avoid messing up creative players
+        player.capabilities.isFlying = true;
+      }
       if (fly) {
         ChatHelper.sendMessage(
             player, LanguageModule.getUserLanguage(player).local.GENERAL_FLY_ENABLED);
@@ -43,6 +46,7 @@ public class FlyCommand extends Command {
         ChatHelper.sendMessage(
             player, LanguageModule.getUserLanguage(player).local.GENERAL_FLY_DISABLED);
       }
+      player.sendPlayerAbilities();
     } else if (args.length == 1) {
       EntityPlayer player = CommandUtils.getPlayerForName(args[0]);
       if (player != null) {
@@ -63,6 +67,7 @@ public class FlyCommand extends Command {
           ChatHelper.sendMessage(
               player, LanguageModule.getUserLanguage(player).local.GENERAL_FLY_DISABLED);
         }
+        player.sendPlayerAbilities();
       } else {
         ChatHelper.sendMessage(
             sender, senderLang.local.PLAYER_NOT_FOUND.replaceAll(Replacment.PLAYER, args[0]));

@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import java.io.File;
+import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
@@ -18,7 +19,7 @@ public class WebSiteCommand extends Command {
 
   @Override
   public String getName() {
-    return "discord";
+    return "Website";
   }
 
   @Override
@@ -56,5 +57,12 @@ public class WebSiteCommand extends Command {
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
     }
+  }
+
+  @Override
+  public List<String> getAliases(List<String> aliases) {
+    aliases.add("Web");
+    aliases.add("Site");
+    return aliases;
   }
 }

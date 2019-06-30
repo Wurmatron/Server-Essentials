@@ -36,7 +36,9 @@ public class DataHelper {
   public static void addData(String key, FileType data) {
     if (loadedData.containsKey(key.toUpperCase())) {
       List<FileType> savedData = loadedData.get(key.toUpperCase());
-      savedData.add(data);
+      if (!savedData.contains(data)) {
+        savedData.add(data);
+      }
       addData(key, savedData);
     } else {
       List<FileType> savedData = new ArrayList<>();

@@ -21,7 +21,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand
+@ModuleCommand(moduleName = "General")
 public class DPFCommand extends Command {
 
   @Override
@@ -51,7 +51,10 @@ public class DPFCommand extends Command {
         ((EntityPlayerMP) player)
             .connection.disconnect(
                 new TextComponentString(
-                    LanguageModule.getUserLanguage(player).local.GENERAL_DELETE_PLAYER_FILE));
+                    LanguageModule.getUserLanguage(player)
+                        .local
+                        .GENERAL_DELETE_PLAYER_FILE
+                        .replaceAll("&", Replacment.FORMATTING_CODE)));
         File playerFile =
             new File(
                 server.getDataDirectory(),

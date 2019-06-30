@@ -36,7 +36,7 @@
   "LANG_CHANNEL_PREFIX": "&5Prefix:  %prefix%",
   "LANG_CHANNEL_TYPE": "&5Type:   %type%",
   "LANG_CHANNEL_FILTER": "&5Filter:  %filter%",
-  "LANG_CHANNEL_LIST": "&5Channerls: &c",
+  "LANG_CHANNEL_LIST": "&5Channels: &c",
   "DESCRIPTION_MESSAGE": "&5Send a private message to another player",
   "DESCRIPTION_REPLY": "&5Reply to the last person you send a message too",
   "DESCRIPTION_NICK": "&5Nickname a player",
@@ -58,7 +58,8 @@
   "GENERAL_SERVER": "&5Server: %server%",
   "DESCRIPTION_RAIN": "&5Turn on rain on the server",
   "GENERAL_RAIN": "&5It has started to rain",
-  "DESCRIPTION_SUN": "&5It's starting to stop raining, I see the sun",
+  "DESCRIPTION_SUN": "&5Turns off the rain",
+  "GENERAL_SUN": "&5It's starting to stop raining, I see the sun",
   "DESCRIPTION_RENAME": "&5Rename an item with color codes",
   "GENERAL_RENAME": "&5Item renamed to %name%",
   "DESCRIPTION_SKULL": "&5Create a skull with a player's name",
@@ -108,8 +109,8 @@
   "GENERAL_GHOST_DISABLED_OTHER": "&5%player%'s ghost mode has been disabled",
   "DESCRIPTION_SETSPAWN": "&5Set the server's spawn",
   "GENERAL_SPAWN_SET": "&5Spawn Set",
-  "DESCRIPTION_RELOAD_GLOBAL": "Reload the Global.json file",
-  "GENERAL_RELOAD_GLOBAL": "%5Global Config reloaded (Global.json)",
+  "DESCRIPTION_RELOAD_GLOBAL": "&5Reload the Global.json file",
+  "GENERAL_RELOAD_GLOBAL": "&5Global Config reloaded (Global.json)",
   "LANG_RELOAD": "&5Language files reloaded",
   "LANG_LANG_SET": "&5Language changed to %language%",
   "LANG_LANG_INVAID": "&5Invalid Language key %language%",
@@ -169,5 +170,7 @@
   "DESCRIPTION_BACK": "&5Teleport to your last known location",
   "TELEPORT_BACK": "&5You have teleported back to your last known location",
   "DESCRIPTION_TP": "&5Teleport to a user or coordinates",
-  "TELEPORT_OTHER": "&5%player% has been teleported to %user%"
+  "TELEPORT_OTHER": "&5%player% has been teleported to %user%",
+  "DESCRIPTION_SAY": "&5Say a message with a predetermined prefix",
+  "TELEPORT_WARP_LIST": "&5Warps:"
 }

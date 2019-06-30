@@ -121,6 +121,7 @@ public class OnlineTimeCommand extends Command {
     aliases.add("Time");
     aliases.add("T");
     aliases.add("OnlineT");
+    aliases.add("Ot");
     return aliases;
   }
 

@@ -410,7 +410,7 @@ public class UserManager {
 
   public static boolean toggleTPA(EntityPlayer player) {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
-      LocalRestUser user = (LocalRestUser) getUserData(player)[0];
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
       user.setTpLock(!user.isTpLock());
       return user.isTpLock();
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {

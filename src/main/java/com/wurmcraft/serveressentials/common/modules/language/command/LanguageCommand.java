@@ -78,7 +78,8 @@ public class LanguageCommand extends Command {
 
   @Override
   public List<String> getAliases(List<String> aliases) {
-    return super.getAliases(aliases);
+    aliases.add("Lang");
+    return aliases;
   }
 
   @Override

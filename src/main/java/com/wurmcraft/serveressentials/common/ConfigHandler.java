@@ -84,4 +84,7 @@ public class ConfigHandler {
 
   @Comment("Current modpack version")
   public static String modpackVersion = "";
+
+  @Comment("Say message prefix")
+  public static String serverPrefix = "&4[&bServer-Essentials&4]&r ";
 }

@@ -38,13 +38,51 @@ public class SpeedCommand extends Command {
 
   @Override
   public void execute(
-      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {}
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
+    if (args.length == 1) {
+      fly(server, sender, new String[] {args[0]}, senderLang);
+      walk(server, sender, new String[] {args[0]}, senderLang);
+    } else {
+      ChatHelper.sendMessage(sender, getUsage(senderLang));
+    }
+  }
 
   @SubCommand
   public void fly(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 1) {
+      try {
+        setSpeed(
+            (EntityPlayer) sender.getCommandSenderEntity(), "fly", Double.parseDouble(args[0]));
+        ChatHelper.sendMessage(
+            sender, senderLang.local.GENERAL_SPEED.replaceAll(Replacment.NUMBER, args[0]));
+      } catch (NumberFormatException e) {
+        ChatHelper.sendMessage(sender, senderLang.local.CHAT_INVALID_NUMBER);
+      }
     } else if (args.length == 2) {
-
+      EntityPlayer player = CommandUtils.getPlayerForName(args[0]);
+      if (player != null) {
+        try {
+          setSpeed(player, "fly", Double.parseDouble(args[0]));
+          ChatHelper.sendMessage(
+              player,
+              LanguageModule.getUserLanguage(player)
+                  .local
+                  .GENERAL_SPEED
+                  .replaceAll(Replacment.NUMBER, args[0]));
+          ChatHelper.sendMessage(
+              sender,
+              senderLang
+                  .local
+                  .GENERAL_SPEED_OTHER
+                  .replaceAll(Replacment.PLAYER, args[0])
+                  .replaceAll(Replacment.NUMBER, args[1]));
+        } catch (NumberFormatException e) {
+          ChatHelper.sendMessage(sender, senderLang.local.CHAT_INVALID_NUMBER);
+        }
+      } else {
+        ChatHelper.sendMessage(
+            sender, senderLang.local.PLAYER_NOT_FOUND.replaceAll(Replacment.PLAYER, args[0]));
+      }
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
     }

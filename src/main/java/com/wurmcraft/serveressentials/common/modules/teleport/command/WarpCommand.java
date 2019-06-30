@@ -37,14 +37,30 @@ public class WarpCommand extends Command {
   @Override
   public void execute(
       MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
-    LocationWithName warp = (LocationWithName) DataHelper.get(Storage.WARP, args[0].toLowerCase());
-    if (warp != null) {
-      TeleportUtils.teleportTo((EntityPlayerMP) sender.getCommandSenderEntity(), warp, true, false);
-      ChatHelper.sendMessage(
-          sender, senderLang.local.TELEPORT_WARP.replaceAll(Replacment.WARP, warp.name));
+    if (args.length == 1) {
+      if (args[0].equalsIgnoreCase("list")) {
+        ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+        ChatHelper.sendMessage(sender, senderLang.local.TELEPORT_WARP_LIST);
+        for (LocationWithName warp : DataHelper.getData(Storage.WARP, new LocationWithName())) {
+          ChatHelper.sendMessage(sender, warp.name);
+        }
+        ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+      } else {
+        LocationWithName warp =
+            (LocationWithName) DataHelper.get(Storage.WARP, args[0].toLowerCase());
+        if (warp != null) {
+          TeleportUtils.teleportTo(
+              (EntityPlayerMP) sender.getCommandSenderEntity(), warp, true, false);
+          ChatHelper.sendMessage(
+              sender, senderLang.local.TELEPORT_WARP.replaceAll(Replacment.WARP, warp.name));
+        } else {
+          ChatHelper.sendMessage(
+              sender,
+              senderLang.local.TELEPORT_WARP_NOT_FOUND.replaceAll(Replacment.WARP, args[0]));
+        }
+      }
     } else {
-      ChatHelper.sendMessage(
-          sender, senderLang.local.TELEPORT_WARP_NOT_FOUND.replaceAll(Replacment.WARP, args[0]));
+      ChatHelper.sendMessage(sender, getUsage(senderLang));
     }
   }
 

@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
+import com.wurmcraft.serveressentials.common.reference.Replacment;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -40,6 +41,9 @@ public class HatCommand extends Command {
       player.inventory.armorInventory.set(3, player.inventory.getCurrentItem());
       player.inventory.deleteStack(player.inventory.getCurrentItem());
     }
-    ChatHelper.sendMessage(sender, senderLang.local.GENERAL_HAT);
+    ChatHelper.sendMessage(
+        sender,
+        senderLang.local.GENERAL_HAT.replaceAll(
+            Replacment.HAT, player.inventory.armorInventory.get(3).getDisplayName()));
   }
 }

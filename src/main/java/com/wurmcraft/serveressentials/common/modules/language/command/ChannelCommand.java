@@ -218,8 +218,13 @@ public class ChannelCommand extends Command {
             senderLang.local.LANG_CHANNEL_INVALID_NAME.replaceAll(Replacment.CHANNEL, args[0]));
       }
     } else if (args.length == 0) {
-      ChatHelper.sendMessage(
-          sender, senderLang.local.LANG_CHANNEL_LIST + " " + Strings.join(getChannelNames(), ", "));
+      ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+      ChatHelper.sendMessage(sender, senderLang.local.LANG_CHANNEL_LIST);
+      for (String ch : getChannelNames()) {
+        ChatHelper.sendMessage(sender, ch);
+      }
+      ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
+
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
     }
@@ -228,7 +233,9 @@ public class ChannelCommand extends Command {
   private static String[] getChannelNames() {
     List<String> channels = new ArrayList<>();
     for (Channel ch : DataHelper.getData(Storage.CHANNEL, new Channel())) {
-      channels.add(ch.getName());
+      if (!channels.contains(ch.getName())) {
+        channels.add(ch.getName());
+      }
     }
     return channels.toArray(new String[0]);
   }

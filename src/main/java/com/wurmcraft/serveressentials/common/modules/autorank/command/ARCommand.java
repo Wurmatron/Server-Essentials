@@ -46,9 +46,13 @@ public class ARCommand extends Command {
 
   @Override
   public void execute(
-      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {}
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
+    if (args.length == 0) {
+      check(server, sender, args, senderLang);
+    }
+  }
 
-  @SubCommand()
+  @SubCommand
   public void check(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 0) {
       if (sender.getCommandSenderEntity() instanceof EntityPlayer) {

@@ -38,7 +38,7 @@ public class ChatHelper {
                     Replacment.TEAM
                   },
                   new String[] {
-                    username,
+                    username.replaceAll("&", "\u00A7"),
                     channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                     message.replaceAll("&", "\u00A7"),
                     Integer.toString(dimension),
@@ -66,7 +66,7 @@ public class ChatHelper {
                     Replacment.TEAM
                   },
                   new String[] {
-                    username,
+                    username.replaceAll("&", "\u00A7"),
                     channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                     message,
                     Integer.toString(dimension),
@@ -95,7 +95,7 @@ public class ChatHelper {
                     Replacment.RANK_SUFFIX
                   },
                   new String[] {
-                    username,
+                    username.replaceAll("&", "\u00A7"),
                     channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                     message,
                     Integer.toString(dimension),
@@ -118,7 +118,7 @@ public class ChatHelper {
                     Replacment.RANK_PREFIX
                   },
                   new String[] {
-                    username,
+                    username.replaceAll("&", "\u00A7"),
                     channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
                     message,
                     Integer.toString(dimension),

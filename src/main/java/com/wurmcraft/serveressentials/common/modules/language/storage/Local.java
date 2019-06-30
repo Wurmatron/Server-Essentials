@@ -146,6 +146,7 @@ public class Local implements FileType {
   public String PERK_UPDATED;
   public String RANK_CREATED;
   public String DESCRIPTION_SEEN;
+  public String DESCRIPTION_SAY;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;
@@ -185,6 +186,7 @@ public class Local implements FileType {
   public String TELEPORT_BACK;
   public String DESCRIPTION_TP;
   public String TELEPORT_OTHER;
+  public String TELEPORT_WARP_LIST;
 
   public Local(String key) {
     this.key = key;

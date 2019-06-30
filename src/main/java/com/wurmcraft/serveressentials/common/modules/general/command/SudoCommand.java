@@ -13,7 +13,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 @ModuleCommand(moduleName = "General")
@@ -41,13 +40,13 @@ public class SudoCommand extends Command {
       EntityPlayer player = CommandUtils.getPlayerForName(args[0]);
       if (player != null) {
         String command = Strings.join(Arrays.copyOfRange(args, 1, args.length), " ");
-        sender.sendMessage(
-            new TextComponentString(
-                senderLang
-                    .local
-                    .GENERAL_COMMAND_SUDO
-                    .replaceAll(Replacment.COMMAND, command)
-                    .replaceAll(Replacment.PLAYER, args[0])));
+        ChatHelper.sendMessage(
+            sender,
+            senderLang
+                .local
+                .GENERAL_COMMAND_SUDO
+                .replaceAll(Replacment.COMMAND, command)
+                .replaceAll(Replacment.PLAYER, args[0]));
         FMLCommonHandler.instance()
             .getMinecraftServerInstance()
             .getCommandManager()
