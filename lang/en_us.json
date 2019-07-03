@@ -172,5 +172,6 @@
   "DESCRIPTION_TP": "&5Teleport to a user or coordinates",
   "TELEPORT_OTHER": "&5%player% has been teleported to %user%",
   "DESCRIPTION_SAY": "&5Say a message with a predetermined prefix",
-  "TELEPORT_WARP_LIST": "&5Warps:"
+  "TELEPORT_WARP_LIST": "&5Warps:",
+  "DESCRIPTION_LIST": "&5List the current player's"
 }

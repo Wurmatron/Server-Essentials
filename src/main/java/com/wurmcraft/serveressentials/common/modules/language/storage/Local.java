@@ -147,6 +147,7 @@ public class Local implements FileType {
   public String RANK_CREATED;
   public String DESCRIPTION_SEEN;
   public String DESCRIPTION_SAY;
+  public String DESCRIPTION_LIST;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;

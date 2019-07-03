@@ -23,4 +23,8 @@ public class ServerStatus {
     this.lastUpdate = lastUpdate;
     this.version = version;
   }
+
+  public ServerStatus() {
+    this.name = "Invalid";
+  }
 }

@@ -8,6 +8,8 @@ import static com.wurmcraft.serveressentials.common.storage.StorageUtils.getActi
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.common.modules.track.TrackModule;
 import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.storage.StorageUtils;
 import com.wurmcraft.serveressentials.common.utils.AnnotationLoader;
@@ -78,6 +80,9 @@ public class ServerEssentialsServer {
   public void serverStarting(FMLServerStartingEvent e) {
     LOGGER.info("Server Starting");
     CommandUtils.generateListOfCommandWrappers(commands).forEach(e::registerServerCommand);
+    if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      TrackModule.startStatusUpdater();
+    }
   }
 
   @EventHandler

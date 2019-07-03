@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.modules.track.TrackModule;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -199,12 +200,13 @@ public class RequestGenerator {
   public static class Status {
 
     public static Validation getValidation() {
-      Validation val = INSTANCE.get("validate", Validation.class);
+      Validation val = INSTANCE.get("/validate", Validation.class);
       return val;
     }
 
     public static void syncServer(ServerStatus status) {
       INSTANCE.post("/status", status);
+      TrackModule.networkStatus = INSTANCE.get("/status", ServerStatus[].class);
     }
   }
 }
