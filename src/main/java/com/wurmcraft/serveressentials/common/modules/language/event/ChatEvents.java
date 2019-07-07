@@ -14,12 +14,15 @@ import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.modules.team.SETeam;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
+import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketCustomSound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ServerChatEvent;
@@ -49,6 +52,24 @@ public class ChatEvents {
                     ch.getType().name().equals(Type.PUBLIC.name())
                         || canSeeChannelMessage(ch, e.getPlayer(), player))
             .forEach(player -> player.sendMessage(e.getComponent()));
+        if (!ConfigHandler.chatNotification.isEmpty()
+            && e.getMessage().contains(ConfigHandler.chatNotification)) {
+          String name =
+              e.getMessage().substring(e.getMessage().indexOf(ConfigHandler.chatNotification));
+          name = name.substring(1, name.indexOf(" "));
+          EntityPlayerMP player = (EntityPlayerMP) CommandUtils.getPlayerForName(name);
+          if (player != null) {
+            player.connection.sendPacket(
+                new SPacketCustomSound(
+                    "block.anvil.land",
+                    SoundCategory.HOSTILE,
+                    player.getPosition().getX(),
+                    player.getPosition().getY(),
+                    player.getPosition().getZ(),
+                    1000f,
+                    1f));
+          }
+        }
       }
     } else {
       ChatHelper.sendMessage(
