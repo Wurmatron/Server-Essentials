@@ -184,5 +184,8 @@
   "SECURITY_LOCKDOWN": "&cServer is currrently in LockDown!",
   "DESCRIPTION_LOCKDOWN": "&5Enable / Disabled Server Lockdown mode",
   "SECURITY_LOCKDOWN_DISABLED": "&5Security mode has been disabled",
-  "SECURITY_LOCKDOWN_ENABLED": "&5Security mode has been enabled"
+  "SECURITY_LOCKDOWN_ENABLED": "&5Security mode has been enabled",
+  "GENERAL_FEED": "&5You have been feed",
+  "GENERAL_FEED_OTHER": "&5%player% has been feed"
+
 }
