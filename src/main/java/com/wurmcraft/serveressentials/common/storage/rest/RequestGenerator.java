@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGE
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.instance;
 
 import com.wurmcraft.serveressentials.api.Validation;
+import com.wurmcraft.serveressentials.api.storage.json.Currency;
 import com.wurmcraft.serveressentials.api.storage.json.ServerStatus;
 import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
@@ -207,6 +208,25 @@ public class RequestGenerator {
     public static void syncServer(ServerStatus status) {
       INSTANCE.post("/status", status);
       TrackModule.networkStatus = INSTANCE.get("/status", ServerStatus[].class);
+    }
+  }
+
+  public static class Economy {
+
+    public static void addEco(Currency coin) {
+      INSTANCE.post("eco/add", coin);
+    }
+
+    public static Currency getEco(String name) {
+      return INSTANCE.get("eco/" + name, Currency.class);
+    }
+
+    public static void overrideEco(Currency currency) {
+      INSTANCE.post("put" + "eco/" + currency.name + "/override", currency);
+    }
+
+    public static Currency[] getAllCurrency() {
+      return INSTANCE.get("eco", Currency[].class);
     }
   }
 }

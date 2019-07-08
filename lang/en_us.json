@@ -173,5 +173,9 @@
   "TELEPORT_OTHER": "&5%player% has been teleported to %user%",
   "DESCRIPTION_SAY": "&5Say a message with a predetermined prefix",
   "TELEPORT_WARP_LIST": "&5Warps:",
-  "DESCRIPTION_LIST": "&5List the current player's"
+  "DESCRIPTION_LIST": "&5List the current player's",
+  "DESCRIPTION_BALANCE": "&5Display a user's balance of all currency's",
+  "DESCRIPTION_PAY": "&5Send money to another player",
+  "ECO_PAY_SENT": "&5You just sent %numbger% to %player%",
+  "ECO_PAY_EARN": "&5%player% has just sent you %number%"
 }

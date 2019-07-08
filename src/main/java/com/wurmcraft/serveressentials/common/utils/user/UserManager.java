@@ -565,4 +565,28 @@ public class UserManager {
     }
     return new Coin[0];
   }
+
+  public static double spendCurrency(EntityPlayer player, String currency, double amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.getBank().spend(currency, amount);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+      return amount;
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      //      FileUser user = (FileUser) getUserData([0]);
+    }
+    return -1;
+  }
+
+  public static double earnCurrency(EntityPlayer player, String currency, double amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      user.getBank().earn(currency, amount);
+      RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+      return amount;
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      //      FileUser user = (FileUser) getUserData([0]);
+    }
+    return -1;
+  }
 }

@@ -188,6 +188,11 @@ public class Local implements FileType {
   public String DESCRIPTION_TP;
   public String TELEPORT_OTHER;
   public String TELEPORT_WARP_LIST;
+  // Economy
+  public String DESCRIPTION_BALANCE;
+  public String DESCRIPTION_PAY;
+  public String ECO_PAY_SENT;
+  public String ECO_PAY_EARN;
 
   public Local(String key) {
     this.key = key;

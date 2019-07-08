@@ -30,7 +30,7 @@ public class BalanceCommand extends Command {
 
   @Override
   public String getDescription(Lang lang) {
-    return null;
+    return lang.local.DESCRIPTION_BALANCE;
   }
 
   @Override
@@ -61,7 +61,7 @@ public class BalanceCommand extends Command {
 
   private static void displayUserCurrency(EntityPlayer player) {
     ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.CHAT_SPACER);
-    for (Coin coin : UserManager.getUserCoins(player))
+    for (Coin coin : UserManager.getUserCoins(player)) {
       ChatHelper.sendMessage(
           player,
           TextFormatting.AQUA
@@ -69,6 +69,7 @@ public class BalanceCommand extends Command {
               + ": "
               + TextFormatting.GOLD
               + Math.round(coin.getAmount()));
+    }
     ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.CHAT_SPACER);
   }
 }
