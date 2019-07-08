@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.api.storage.LocationWrapper;
 import com.wurmcraft.serveressentials.api.storage.json.Channel;
 import com.wurmcraft.serveressentials.api.user.eco.Bank;
+import com.wurmcraft.serveressentials.api.user.eco.Coin;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
@@ -552,5 +553,16 @@ public class UserManager {
       return user.getLastLocation();
     }
     return new LocationWrapper(player.getPosition(), player.dimension);
+  }
+
+  public static Coin[] getUserCoins(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      return user.getBank().getCoin();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      //      return user.getBank();
+    }
+    return new Coin[0];
   }
 }
