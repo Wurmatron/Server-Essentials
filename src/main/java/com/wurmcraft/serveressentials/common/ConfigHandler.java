@@ -87,4 +87,7 @@ public class ConfigHandler {
 
   @Comment("Say message prefix")
   public static String serverPrefix = "&4[&bServer-Essentials&4]&r ";
+
+  @Comment("Direct link to a list of uuid's")
+  public static String trustedUsers = "";
 }
