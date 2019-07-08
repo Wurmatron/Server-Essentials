@@ -194,6 +194,9 @@ public class Local implements FileType {
   public String ECO_PAY_SENT;
   public String ECO_PAY_EARN;
 
+  // Security
+  public String DESCRIPTION_MODS;
+
   public Local(String key) {
     this.key = key;
   }

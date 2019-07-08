@@ -177,5 +177,6 @@
   "DESCRIPTION_BALANCE": "&5Display a user's balance of all currency's",
   "DESCRIPTION_PAY": "&5Send money to another player",
   "ECO_PAY_SENT": "&5You just sent %numbger% to %player%",
-  "ECO_PAY_EARN": "&5%player% has just sent you %number%"
+  "ECO_PAY_EARN": "&5%player% has just sent you %number%",
+  "DESCRIPTION_MODS": "&5Display a user's mods"
 }

@@ -9,7 +9,9 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 
 @Module(name = "Security")
 public class SecurityModule {
@@ -52,5 +54,11 @@ public class SecurityModule {
           .getPlayerList()
           .canSendCommands(player.getGameProfile());
     }
+  }
+
+  public static List<String> getPlayerMods(EntityPlayer player) {
+    EntityPlayerMP playerMP = (EntityPlayerMP) player;
+    NetworkDispatcher network = NetworkDispatcher.get(playerMP.connection.netManager);
+    return new ArrayList<>(network.getModList().keySet());
   }
 }
