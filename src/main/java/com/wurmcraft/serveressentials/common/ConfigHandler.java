@@ -96,4 +96,7 @@ public class ConfigHandler {
 
   @Comment("Notify staff when a possible alt has been detected")
   public static boolean checkForAlt = true;
+
+  @Comment("Message to display to users upon server shutdown")
+  public static String shutdownMessage = "&cServer Shutdown";
 }

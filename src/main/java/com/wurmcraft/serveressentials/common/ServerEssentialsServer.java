@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -87,4 +90,13 @@ public class ServerEssentialsServer {
 
   @EventHandler
   public void serverStopping(FMLServerStoppingEvent e) {}
+
+  @EventHandler
+  public void serverStopping(FMLServerStoppingEvent e) {
+    for (EntityPlayerMP player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      player.connection.disconnect(
+          new TextComponentString(ConfigHandler.shutdownMessage.replaceAll("&", "\u00A7")));
+    }
+  }
 }

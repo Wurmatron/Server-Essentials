@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.general.GeneralModule;
 import com.wurmcraft.serveressentials.common.modules.general.utils.wrapper.PlayerInventory;
+import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
@@ -13,7 +14,9 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -114,6 +117,18 @@ public class GeneralEvents {
       if (e.player.getPosition() != lockedPos) {
         e.player.setPositionAndUpdate(lockedPos.getX(), lockedPos.getY(), lockedPos.getZ());
       }
+    }
+  }
+
+  @SubscribeEvent
+  public void onServerTick(TickEvent.ServerTickEvent e) {
+    if (GeneralModule.config != null && !GeneralModule.config.globalMOTD.isEmpty()) {
+      MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+      server
+          .getServerStatusResponse()
+          .setServerDescription(
+              new TextComponentString(
+                  GeneralModule.config.globalMOTD.replaceAll("&", Replacment.FORMATTING_CODE)));
     }
   }
 }

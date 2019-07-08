@@ -10,6 +10,7 @@ public class GlobalConfig implements FileType {
   public String[] motd;
   public String[] rules;
   public LocationWrapper spawn;
+  public String globalMOTD;
 
   public GlobalConfig() {}
 
@@ -17,6 +18,7 @@ public class GlobalConfig implements FileType {
     this.discordLink = discordLink;
     this.webLink = webLink;
     motd = new String[0];
+    globalMOTD = "";
   }
 
   @Override
