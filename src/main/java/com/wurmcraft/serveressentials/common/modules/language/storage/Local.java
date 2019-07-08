@@ -151,6 +151,7 @@ public class Local implements FileType {
   public String DESCRIPTION_FEED;
   public String GENERAL_FEED;
   public String GENERAL_FEED_OTHER;
+  public String DESCRIPTION_HELP;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;

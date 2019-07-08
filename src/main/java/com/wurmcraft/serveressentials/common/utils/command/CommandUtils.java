@@ -213,4 +213,16 @@ public class CommandUtils {
     }
     return null;
   }
+
+  public static Command[][] generateHelpCommandPages(int amountPerPage) {
+    Command[][] commands =
+        new Command[ServerEssentialsAPI.commands.size() / amountPerPage][amountPerPage];
+    for (int index = 0; index < commands.length; index++) {
+      for (int commandIndex = 0; commandIndex < amountPerPage; commandIndex++) {
+        commands[index][commandIndex] =
+            ServerEssentialsAPI.commands.get((index > 0 ? index : 1) * commandIndex);
+      }
+    }
+    return commands;
+  }
 }

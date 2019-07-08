@@ -186,6 +186,7 @@
   "SECURITY_LOCKDOWN_DISABLED": "&5Security mode has been disabled",
   "SECURITY_LOCKDOWN_ENABLED": "&5Security mode has been enabled",
   "GENERAL_FEED": "&5You have been feed",
-  "GENERAL_FEED_OTHER": "&5%player% has been feed"
+  "GENERAL_FEED_OTHER": "&5%player% has been feed",
+  "DESCRIPTION_HELP": "&5Find info about different commands"
 
 }
