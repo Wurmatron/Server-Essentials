@@ -40,4 +40,5 @@ public class Replacment {
   public static final String HOME = "%home%";
   public static final String USER = "%user%";
   public static final String HAT = "%hat%";
+  public static final String PLAYER2 = "%player2%";
 }

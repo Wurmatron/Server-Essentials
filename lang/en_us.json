@@ -176,7 +176,9 @@
   "DESCRIPTION_LIST": "&5List the current player's",
   "DESCRIPTION_BALANCE": "&5Display a user's balance of all currency's",
   "DESCRIPTION_PAY": "&5Send money to another player",
-  "ECO_PAY_SENT": "&5You just sent %numbger% to %player%",
+  "ECO_PAY_SENT": "&5You just sent %number% to %player%",
   "ECO_PAY_EARN": "&5%player% has just sent you %number%",
-  "DESCRIPTION_MODS": "&5Display a user's mods"
+  "DESCRIPTION_MODS": "&5Display a user's mods",
+  "SECURITY_TRUSTED": "&5Hello, You are one of my trusted users",
+  "SECURITY_ALT": "%player% and %player2% are possible alts"
 }

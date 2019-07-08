@@ -4,12 +4,14 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.modules.security.event.SecurityEvents;
 import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 
@@ -20,6 +22,7 @@ public class SecurityModule {
 
   public void setup() {
     loadTrustedUsers();
+    MinecraftForge.EVENT_BUS.register(new SecurityEvents());
   }
 
   private static void loadTrustedUsers() {

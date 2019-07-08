@@ -196,6 +196,8 @@ public class Local implements FileType {
 
   // Security
   public String DESCRIPTION_MODS;
+  public String SECURITY_TRUSTED;
+  public String SECURITY_ALT;
 
   public Local(String key) {
     this.key = key;

@@ -90,4 +90,10 @@ public class ConfigHandler {
 
   @Comment("Direct link to a list of uuid's")
   public static String trustedUsers = "";
+
+  @Comment("Automatically OP any trusted users?")
+  public static boolean autoOP = true;
+
+  @Comment("Notify staff when a possible alt has been detected")
+  public static boolean checkForAlt = true;
 }
