@@ -89,9 +89,6 @@ public class ServerEssentialsServer {
   }
 
   @EventHandler
-  public void serverStopping(FMLServerStoppingEvent e) {}
-
-  @EventHandler
   public void serverStopping(FMLServerStoppingEvent e) {
     for (EntityPlayerMP player :
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
