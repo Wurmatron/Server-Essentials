@@ -180,5 +180,9 @@
   "ECO_PAY_EARN": "&5%player% has just sent you %number%",
   "DESCRIPTION_MODS": "&5Display a user's mods",
   "SECURITY_TRUSTED": "&5Hello, You are one of my trusted users",
-  "SECURITY_ALT": "%player% and %player2% are possible alts"
+  "SECURITY_ALT": "&5%player% and %player2% are possible alts",
+  "SECURITY_LOCKDOWN": "&cServer is currrently in LockDown!",
+  "DESCRIPTION_LOCKDOWN": "&5Enable / Disabled Server Lockdown mode",
+  "SECURITY_LOCKDOWN_DISABLED": "&5Security mode has been disabled",
+  "SECURITY_LOCKDOWN_ENABLED": "&5Security mode has been enabled"
 }

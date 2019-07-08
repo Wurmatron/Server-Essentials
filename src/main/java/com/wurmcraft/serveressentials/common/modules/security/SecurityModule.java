@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.modules.security.event.LockDownEvents;
 import com.wurmcraft.serveressentials.common.modules.security.event.SecurityEvents;
 import java.net.URL;
 import java.util.*;
@@ -18,11 +19,13 @@ import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 @Module(name = "Security")
 public class SecurityModule {
 
+  public static boolean lockdown = false;
   public static List<UUID> trustedUsers;
 
   public void setup() {
     loadTrustedUsers();
     MinecraftForge.EVENT_BUS.register(new SecurityEvents());
+    MinecraftForge.EVENT_BUS.register(new LockDownEvents());
   }
 
   private static void loadTrustedUsers() {
