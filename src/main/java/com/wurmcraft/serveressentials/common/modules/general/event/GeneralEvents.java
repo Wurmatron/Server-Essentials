@@ -122,7 +122,9 @@ public class GeneralEvents {
 
   @SubscribeEvent
   public void onServerTick(TickEvent.ServerTickEvent e) {
-    if (GeneralModule.config != null && GeneralModule.config.globalMOTD != null && !GeneralModule.config.globalMOTD.isEmpty()) {
+    if (GeneralModule.config != null
+        && GeneralModule.config.globalMOTD != null
+        && !GeneralModule.config.globalMOTD.isEmpty()) {
       MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
       server
           .getServerStatusResponse()

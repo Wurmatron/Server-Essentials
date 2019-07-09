@@ -3,7 +3,9 @@ package com.wurmcraft.serveressentials.common.utils.command;
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGER;
 
 import com.wurmcraft.serveressentials.api.command.Command;
+import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.modules.security.SecurityModule;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -13,6 +15,7 @@ import javax.annotation.Nullable;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
@@ -69,12 +72,34 @@ public class SECommand extends CommandBase {
 
   @Override
   public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-    return true; // TODO Check Permission Node of User
+    if (command.canConsoleRun() && sender.getCommandSenderEntity() == null
+        || sender.getCommandSenderEntity() instanceof EntityPlayer
+            && SecurityModule.isTrusted((EntityPlayer) sender.getCommandSenderEntity())) {
+      return true;
+    }
+    if (SecurityModule.trustedUsers != null
+        && !SecurityModule.trustedUsers.isEmpty()
+        && command.getClass().getAnnotation(ModuleCommand.class).trustedRequired()
+        && sender instanceof EntityPlayer) {
+      return SecurityModule.isTrusted((EntityPlayer) sender.getCommandSenderEntity());
+    }
+    return CommandUtils.hasPerm(
+        getCommandPerm(command), ((EntityPlayer) sender).getGameProfile().getId());
   }
 
   @Override
   public List<String> getTabCompletions(
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
     return command.getAutoCompletion(server, sender, args, targetPos);
+  }
+// TODO Sub Command Perms
+  private String getCommandPerm(Command command) {
+    if (command.getClass().getAnnotation(ModuleCommand.class).perm().isEmpty()) {
+      return command.getClass().getAnnotation(ModuleCommand.class).moduleName()
+          + "."
+          + command.getName().toLowerCase();
+    } else {
+      return command.getClass().getAnnotation(ModuleCommand.class).perm();
+    }
   }
 }
