@@ -27,6 +27,7 @@ public class Local implements FileType {
   public String CHAT_RANK_SUFFIX;
   public String CHAT_RANK_INHERITANCE;
   public String CHAT_LASTSEEN;
+  public String CHAT_RANKUP;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;

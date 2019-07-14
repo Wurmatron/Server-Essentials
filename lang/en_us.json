@@ -11,6 +11,7 @@
   "CHAT_INVALID_NUMBER": "&cInvalid Number",
   "CHAT_INVALID_BOOLEAN": "&cInvalid Boolean (True / False) (Yes / No)",
   "AUTORANK_MAX_RANK": "&c%player% is already max rank",
+  "CHAT_RANKUP": "&5%player% is now %rank%",
   "DESCRIPTION_AUTORANK": "&5Checks a user's rankup status",
   "AUTORANK_CHECK": "&cYou have been forced to have the requirements for %rank%",
   "AUTORANK_CREATED": "&5AutoRank %rank% created",

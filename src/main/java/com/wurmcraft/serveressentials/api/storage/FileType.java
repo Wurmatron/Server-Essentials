@@ -1,10 +1,6 @@
 package com.wurmcraft.serveressentials.api.storage;
 
-/**
- * Used to automatically save files based on there ID
- *
- * <p>// TODO Link to DataHelper
- */
+/** Used to automatically save files based on there ID */
 public interface FileType {
 
   /**

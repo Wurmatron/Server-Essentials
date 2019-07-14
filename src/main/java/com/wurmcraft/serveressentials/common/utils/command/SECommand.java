@@ -83,6 +83,9 @@ public class SECommand extends CommandBase {
         && sender instanceof EntityPlayer) {
       return SecurityModule.isTrusted((EntityPlayer) sender.getCommandSenderEntity());
     }
+    if (CommandUtils.hasPerm("*", ((EntityPlayer) sender).getGameProfile().getId())) {
+      return true;
+    }
     return CommandUtils.hasPerm(
         getCommandPerm(command), ((EntityPlayer) sender).getGameProfile().getId());
   }
@@ -92,7 +95,8 @@ public class SECommand extends CommandBase {
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
     return command.getAutoCompletion(server, sender, args, targetPos);
   }
-// TODO Sub Command Perms
+
+  // TODO Sub Command Perms
   private String getCommandPerm(Command command) {
     if (command.getClass().getAnnotation(ModuleCommand.class).perm().isEmpty()) {
       return command.getClass().getAnnotation(ModuleCommand.class).moduleName()

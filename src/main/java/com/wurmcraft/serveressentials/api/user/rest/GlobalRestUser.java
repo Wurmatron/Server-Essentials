@@ -1,7 +1,9 @@
 package com.wurmcraft.serveressentials.api.user.rest;
 
+import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.user.eco.Bank;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -265,6 +267,30 @@ public class GlobalRestUser implements Serializable {
   }
 
   public boolean hasPerm(String perm) {
-    return true; // TODO Permission Check
+    if (hasPerm(perm, permission)
+        || hasPerm(
+            perm,
+            CommandUtils.generatePermissionList(ServerEssentialsAPI.rankManager.getRank(rank))
+                .toArray(new String[0]))) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean hasPerm(String perm, String[] perms) {
+    if (perms != null && perms.length > 0) {
+      for (String p : perms) {
+        if (p.equalsIgnoreCase("*")) { // Check for Global Node
+          return true;
+        } else if (p.contains(".*")
+            && perm.contains(".")) { // Check for Everything in a module node
+          return perm.substring(perm.indexOf('.'))
+              .equalsIgnoreCase(p.substring(p.indexOf('.') - 1));
+        } else if (p.equalsIgnoreCase(perm)) { // Check on a case-per basis
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

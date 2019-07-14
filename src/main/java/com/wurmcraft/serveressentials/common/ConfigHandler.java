@@ -61,8 +61,7 @@ public class ConfigHandler {
       "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/Post-Rest-Rework/lang/";
 
   @Comment("How the Chat-Module will format the in-game chat")
-  public static String chatFormat =
-      "%channel% %team% %rankPrefix% %username% %rankSuffix% %message%";
+  public static String chatFormat = "%channel% %rankPrefix% %username% %rankSuffix% %message%";
 
   @Comment("How to format private messages")
   public static String msgFormat = "%rankPrefix% %username%: &6%message";

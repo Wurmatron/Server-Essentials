@@ -11,7 +11,6 @@ import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
-import com.wurmcraft.serveressentials.common.modules.team.SETeam;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
@@ -144,7 +143,6 @@ public class ChatEvents {
                 UserManager.getUserRank(e.getPlayer()),
                 ch,
                 e.getPlayer().dimension,
-                new SETeam(),
                 e.getMessage()),
             true));
     return !ch.getName().equalsIgnoreCase(ConfigHandler.globalChannel);

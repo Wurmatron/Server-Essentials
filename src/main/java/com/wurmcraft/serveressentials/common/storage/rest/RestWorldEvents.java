@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.common.storage.rest;
 
 import static com.wurmcraft.serveressentials.common.storage.StorageUtils.triggerLogoutTimeout;
 
+import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
@@ -12,6 +13,7 @@ import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -38,6 +40,7 @@ public class RestWorldEvents {
         RequestGenerator.User.getUser(e.player.getGameProfile().getId().toString());
     LocalRestUser local =
         DataHelper.load(Storage.LOCAL_USER, new LocalRestUser(e.player.getGameProfile().getId()));
+    checkForAndCorrectErrors(e.player, user, local);
     if (user != null) {
       if (local == null) { // New to this server but not the network
         local = new LocalRestUser(e.player.getGameProfile().getId());
@@ -135,10 +138,21 @@ public class RestWorldEvents {
               System.currentTimeMillis(),
               0);
       ServerTime[] newTime = new ServerTime[current.length + 1];
-      for (int index = 0; index < current.length; index++) newTime[index] = current[index];
+      for (int index = 0; index < current.length; index++) {
+        newTime[index] = current[index];
+      }
       newTime[newTime.length - 1] = time;
       return newTime;
     }
     return current;
+  }
+
+  // Correct any issues that may arise from dev-testing / running older / newer versions together
+  private static void checkForAndCorrectErrors(
+      EntityPlayer player, GlobalRestUser global, LocalRestUser local) {
+    if (global.rank.isEmpty()
+        || !global.rank.isEmpty() && ServerEssentialsAPI.rankManager.getRank(global.rank) == null) {
+      global.rank = ConfigHandler.defaultRank;
+    }
   }
 }

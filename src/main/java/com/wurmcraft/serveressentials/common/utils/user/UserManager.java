@@ -17,12 +17,17 @@ import com.wurmcraft.serveressentials.api.user.rest.ServerTime;
 import com.wurmcraft.serveressentials.api.user.storage.Home;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
+import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
 import java.util.*;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class UserManager {
@@ -71,9 +76,16 @@ public class UserManager {
   }
 
   private static Rank getRestRank(String uuid) {
-    return getUserData(uuid).length > 0
-        ? ServerEssentialsAPI.rankManager.getRank(((GlobalRestUser) getUserData(uuid)[0]).rank)
-        : null;
+    Rank rank =
+        getUserData(uuid).length > 0
+            ? ServerEssentialsAPI.rankManager.getRank(((GlobalRestUser) getUserData(uuid)[0]).rank)
+            : null;
+    if (rank == null) {
+      ServerEssentialsServer.LOGGER.error(
+          "Unable to load '" + uuid + "s' rank defaulting to " + ConfigHandler.defaultRank);
+      rank = ServerEssentialsAPI.rankManager.getRank(ConfigHandler.defaultRank);
+    }
+    return rank;
   }
 
   public static void deleteUser(UUID uuid) {
@@ -106,7 +118,17 @@ public class UserManager {
       user.setRank(rank);
       DataHelper.save(Storage.USER, user);
     }
-    // TODO Announce User Rank-Up
+    for (EntityPlayerMP randomPlayer :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      ChatHelper.sendMessage(
+          randomPlayer,
+          LanguageModule.getUserLanguage(randomPlayer)
+              .local
+              .CHAT_RANKUP
+              .replaceAll(Replacment.PLAYER, player.getDisplayNameString())
+              .replaceAll(Replacment.RANK, rank.getPrefix()));
+      // TODO Announce to Linked Discord via Rest Bot
+    }
   }
 
   public static Channel getUserChannel(UUID uuid) {

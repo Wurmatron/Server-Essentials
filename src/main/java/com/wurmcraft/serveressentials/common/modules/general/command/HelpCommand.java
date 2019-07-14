@@ -54,7 +54,7 @@ public class HelpCommand extends Command {
     }
   }
 
-  // TODO Check for permission to run command before displaying
+  // TODO Realign help command pages with user commands (per-user)
   private static void displayCommandPage(ICommandSender sender, Lang lang, Command[] command) {
     ChatHelper.sendMessage(sender, lang.local.CHAT_SPACER);
     for (Command c : command) {

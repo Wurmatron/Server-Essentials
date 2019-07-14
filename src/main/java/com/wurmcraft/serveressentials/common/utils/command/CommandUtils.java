@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.api.storage.json.LocationWithName;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.storage.Home;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
@@ -17,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -171,21 +171,22 @@ public class CommandUtils {
   }
 
   public static boolean hasPerm(String perm, String uuid) {
-    return generatePermssionList(Objects.requireNonNull(UserManager.getUserRank(uuid)))
-        .contains(perm);
+    return generatePermissionList(UserManager.getUserRank(uuid)).contains(perm);
   }
 
   public static boolean hasPerm(String perm, EntityPlayer player) {
     return hasPerm(perm, player.getGameProfile().getId());
   }
 
-  public static List<String> generatePermssionList(Rank rank) {
+  public static List<String> generatePermissionList(Rank rank) {
     List<String> perms = new ArrayList<>();
-    Collections.addAll(perms, rank.getPermission());
-    for (String otherRanks : rank.getInheritance()) {
-      Rank prevRank = ServerEssentialsAPI.rankManager.getRank(otherRanks);
-      Collections.addAll(perms, prevRank.getPermission());
-    }
+    if (rank != null) {
+      Collections.addAll(perms, rank.getPermission());
+      for (String otherRanks : rank.getInheritance()) {
+        Rank prevRank = ServerEssentialsAPI.rankManager.getRank(otherRanks);
+        Collections.addAll(perms, prevRank.getPermission());
+      }
+    } else ServerEssentialsServer.LOGGER.warn("Someone does not have a rank!");
     return perms;
   }
 
