@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -44,11 +43,14 @@ func main() {
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
-
 	discord.Close()
+
 }
 
 func messageCreate(s *discordgo.Session, msg *discordgo.MessageCreate) {
+	if strings.Contains("Server Down", "") {
+		s.ChannelMessageSend(msg.ChannelID, "<@396007775655952384>")
+	}
 	if msg.Author.ID == s.State.User.ID {
 		return
 	}
@@ -90,17 +92,6 @@ func getUUIDFromUserName(name string) string {
 		}
 		userUUID := data["uuid"].(string)
 		return uuid.MustParse(userUUID).String()
-	}
-}
-
-func postUserData(uuid string, json string) string {
-	// TODO Header API Key
-	response, err := http.Post(strings.Join([]string{Url, "/users/add/"}, ""), "application/json;", bytes.NewBufferString(json))
-	if err != nil {
-		return "The HTTP post request failed"
-	} else {
-		data, _ := ioutil.ReadAll(response.Body)
-		return string(data)
 	}
 }
 

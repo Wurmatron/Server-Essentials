@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.common.utils.command;
 
 import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.LOGGER;
+import static com.wurmcraft.serveressentials.common.utils.command.CommandUtils.getCommandPerm;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
@@ -94,16 +95,5 @@ public class SECommand extends CommandBase {
   public List<String> getTabCompletions(
       MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
     return command.getAutoCompletion(server, sender, args, targetPos);
-  }
-
-  // TODO Sub Command Perms
-  private String getCommandPerm(Command command) {
-    if (command.getClass().getAnnotation(ModuleCommand.class).perm().isEmpty()) {
-      return command.getClass().getAnnotation(ModuleCommand.class).moduleName()
-          + "."
-          + command.getName().toLowerCase();
-    } else {
-      return command.getClass().getAnnotation(ModuleCommand.class).perm();
-    }
   }
 }

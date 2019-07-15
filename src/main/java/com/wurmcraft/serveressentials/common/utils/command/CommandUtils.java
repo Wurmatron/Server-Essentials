@@ -186,7 +186,9 @@ public class CommandUtils {
         Rank prevRank = ServerEssentialsAPI.rankManager.getRank(otherRanks);
         Collections.addAll(perms, prevRank.getPermission());
       }
-    } else ServerEssentialsServer.LOGGER.warn("Someone does not have a rank!");
+    } else {
+      ServerEssentialsServer.LOGGER.warn("Someone does not have a rank!");
+    }
     return perms;
   }
 
@@ -225,5 +227,41 @@ public class CommandUtils {
       }
     }
     return commands;
+  }
+
+  public static Command[][] generateHelpCommandPages(int amountPerPage, Rank rank) {
+    Command[] rankCommands = getCommands(generatePermissionList(rank).toArray(new String[0]));
+    Command[][] commands = new Command[rankCommands.length / amountPerPage][amountPerPage];
+    for (int index = 0; index < rankCommands.length / amountPerPage; index++) {
+      for (int commandIndex = 0; commandIndex < amountPerPage; commandIndex++) {
+        commands[index][commandIndex] = rankCommands[(index > 0 ? index : 1) * commandIndex];
+      }
+    }
+    return commands;
+  }
+
+  public static Command[] getCommands(String[] perms) {
+    List<Command> commands = new ArrayList<>();
+    for (int index = 0; index < ServerEssentialsAPI.commands.size(); index++) {
+      String commandPerm = getCommandPerm(ServerEssentialsAPI.commands.get(index));
+      for (String perm : perms) {
+        if (perm.equalsIgnoreCase("*")) {
+          commands.add(ServerEssentialsAPI.commands.get(index));
+        } else if (perm.equalsIgnoreCase(commandPerm)) {
+          commands.add(ServerEssentialsAPI.commands.get(index));
+        }
+      }
+    }
+    return commands.toArray(new Command[0]);
+  }
+
+  public static String getCommandPerm(Command command) {
+    if (command.getClass().getAnnotation(ModuleCommand.class).perm().isEmpty()) {
+      return command.getClass().getAnnotation(ModuleCommand.class).moduleName()
+          + "."
+          + command.getName().toLowerCase();
+    } else {
+      return command.getClass().getAnnotation(ModuleCommand.class).perm();
+    }
   }
 }

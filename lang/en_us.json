@@ -190,6 +190,7 @@
   "GENERAL_FEED_OTHER": "&5%player% has been feed",
   "DESCRIPTION_HELP": "&5Find info about different commands",
   "DESCRIPTION_GLOBALMOTD": "Set the server.properties message without actually restarting the server",
-  "GENERAL_GLOBALMOTD_SET": "&5Global Motd set to %message%"
+  "GENERAL_GLOBALMOTD_SET": "&5Global Motd set to %message%",
+  "DESCRIPTION_LANGUAGE": "&5Change your language"
 
 }
