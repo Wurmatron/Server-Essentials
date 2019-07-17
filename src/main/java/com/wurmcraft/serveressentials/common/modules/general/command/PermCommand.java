@@ -61,8 +61,7 @@ public class PermCommand extends Command {
 
   @Override
   public String getDescription(Lang lang) {
-
-    return null;
+    return lang.local.DESCRIPTION_PERM;
   }
 
   @Override

@@ -191,6 +191,7 @@
   "DESCRIPTION_HELP": "&5Find info about different commands",
   "DESCRIPTION_GLOBALMOTD": "Set the server.properties message without actually restarting the server",
   "GENERAL_GLOBALMOTD_SET": "&5Global Motd set to %message%",
-  "DESCRIPTION_LANGUAGE": "&5Change your language"
+  "DESCRIPTION_LANGUAGE": "&5Change your language",
+  "DESCRIPTION_PERM": "&5Handles User Perms / Perks and Ranks"
 
 }
