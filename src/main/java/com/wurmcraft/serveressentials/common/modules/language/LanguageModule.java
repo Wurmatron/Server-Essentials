@@ -24,7 +24,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.apache.commons.io.IOUtils;
-import sun.plugin.dom.exception.InvalidStateException;
 
 @Module(name = "Language")
 public class LanguageModule {
@@ -34,7 +33,7 @@ public class LanguageModule {
     loadChannels();
     Lang defaultLang = loadLanguage(ConfigHandler.defaultLanguage);
     if (defaultLang == null) {
-      throw new InvalidStateException("Unable to load default language file!");
+      throw new IllegalStateException("Unable to load default language file!");
     }
   }
 
