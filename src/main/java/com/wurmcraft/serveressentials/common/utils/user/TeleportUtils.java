@@ -95,10 +95,11 @@ public class TeleportUtils {
   private static boolean safeToTeleport(EntityPlayer player, LocationWrapper wrapper) {
     World world = player.world;
     // Check Player Location
-    if (!world.isAirBlock(wrapper.getPos()) || world.isAirBlock(wrapper.getPos().add(0, 1, 0))) {
-      // Check Player Location
-      return false;
-    }
+
+    //    if (world.isAirBlock(wrapper.getPos()) || world.isAirBlock(wrapper.getPos().add(0, 1, 0))) {
+    //      // Check Player Location
+    //      return false;
+    //    }
     // Check for a valid standing block
     if (world.getBlockState(wrapper.getPos().down()).getBlock() instanceof IFluidBlock
         || world.isAirBlock(wrapper.getPos().down())

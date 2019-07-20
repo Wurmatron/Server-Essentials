@@ -46,11 +46,15 @@ public class TpaAcceptCommand extends Command {
               .local
               .TELEPORT_TPA_ACCEPT_REQUEST
               .replaceAll(Replacment.PLAYER, player.getDisplayNameString()));
-      TeleportUtils.teleportTo(
-          (EntityPlayerMP) otherPlayer,
-          new LocationWrapper(player.getPosition(), player.dimension),
-          true,
-          true);
+      boolean safe =
+          TeleportUtils.teleportTo(
+              (EntityPlayerMP) otherPlayer,
+              new LocationWrapper(player.getPosition(), player.dimension),
+              true,
+              true);
+      if (!safe)
+        ChatHelper.sendMessage(
+            otherPlayer, LanguageModule.getUserLanguage(otherPlayer).local.TELEPORT_FAILED);
       TeleportModule.tpaRequests.remove(player.getGameProfile().getId());
     } else {
       ChatHelper.sendMessage(sender, senderLang.local.TELEPORT_TPA_NONE);

@@ -62,6 +62,7 @@ public class Local implements FileType {
   public String DESCRIPTION_NICK;
   public String LANG_NICK_CHANGED;
   public String LANG_NICK_CHANGED_SENDER;
+  public String DESCRIPTION_PERM;
   // General
   public String GENERAL_DISCORD_SET;
   public String GENERAL_DISCORD_LINK;
@@ -195,6 +196,7 @@ public class Local implements FileType {
   public String DESCRIPTION_TP;
   public String TELEPORT_OTHER;
   public String TELEPORT_WARP_LIST;
+  public String TELEPORT_FAILED;
   // Economy
   public String DESCRIPTION_BALANCE;
   public String DESCRIPTION_PAY;

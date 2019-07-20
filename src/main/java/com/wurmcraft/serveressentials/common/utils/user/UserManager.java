@@ -423,10 +423,10 @@ public class UserManager {
   public static boolean isAcceptingTPARequests(EntityPlayer player) {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       LocalRestUser user = (LocalRestUser) getUserData(player)[1];
-      return user.isTpLock();
+      return !user.isTpLock();
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[0];
-      return user.isTpLock();
+      return !user.isTpLock();
     }
     return false;
   }

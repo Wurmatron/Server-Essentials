@@ -25,7 +25,7 @@ public class TeleportModule {
 
   public static void addRequest(UUID user, EntityPlayer sender) {
     tpaRequests.put(user, sender);
-    timeoutTimmer.put(System.currentTimeMillis() + ConfigHandler.tpaTimeout, user);
+    timeoutTimmer.put(System.currentTimeMillis() + (ConfigHandler.tpaTimeout * 1000), user);
   }
 
   @SubscribeEvent
