@@ -91,9 +91,13 @@ public class RestWorldEvents {
   @SubscribeEvent
   public void onPlayerLogout(PlayerLoggedOutEvent e) {
     Object[] userData = UserManager.getUserData(e.player);
-    DataHelper.save(Storage.LOCAL_USER, (LocalRestUser) userData[1]);
+    if (userData != null && userData.length == 2) {
+      DataHelper.save(Storage.LOCAL_USER, (LocalRestUser) userData[1]);
+      ServerEssentialsServer.LOGGER.info(
+          "Unable to load '" + e.player.getGameProfile().getId().toString() + "'");
+      RequestGenerator.User.overridePlayer((GlobalRestUser) userData[0], Type.LOGOUT);
+    }
     triggerLogoutTimeout(e.player);
-    RequestGenerator.User.overridePlayer((GlobalRestUser) userData[0], Type.LOGOUT);
   }
 
   @SubscribeEvent
