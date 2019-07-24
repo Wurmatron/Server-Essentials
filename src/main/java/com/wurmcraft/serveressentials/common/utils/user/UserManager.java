@@ -134,7 +134,12 @@ public class UserManager {
   public static Channel getUserChannel(UUID uuid) {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       LocalRestUser user = (LocalRestUser) UserManager.getUserData(uuid)[1];
-      return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
+      if (user != null && user.getCurrentChannel() != null) {
+        return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
+      } else {
+        ServerEssentialsServer.LOGGER.error("Unable to load '" + uuid + "'s Channel!");
+        return DataHelper.get(Storage.CHANNEL, ConfigHandler.defaultChannel, new Channel());
+      }
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) UserManager.getUserData(uuid)[0];
       return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
@@ -165,10 +170,14 @@ public class UserManager {
   }
 
   private static String[] getIgnored(UUID user) {
-    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
-      return ((LocalRestUser) getUserData(user)[1]).getIgnored();
-    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
-      return ((FileUser) getUserData(user)[0]).getIgnored();
+    if (getUserData(user) != null && getUserData(user).length > 0) {
+      if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")
+          && getUserData(user).length >= 2
+          && getUserData(user)[1] != null) {
+        return ((LocalRestUser) getUserData(user)[1]).getIgnored();
+      } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+        return ((FileUser) getUserData(user)[0]).getIgnored();
+      }
     }
     return new String[0];
   }

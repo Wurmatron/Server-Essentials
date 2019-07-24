@@ -233,10 +233,12 @@ public class GlobalRestUser implements Serializable {
     if (serverData != null) {
       Collections.addAll(current, serverData);
     }
-    current
-        .stream()
-        .filter(time -> time.getServerID().equalsIgnoreCase(data.getServerID()))
-        .forEachOrdered(current::remove);
+    List<ServerTime> temp = (List<ServerTime>) ((ArrayList<ServerTime>) current).clone();
+    for (ServerTime time : temp) {
+      if (time != null && time.getServerID().equalsIgnoreCase(data.getServerID())) {
+        current.remove(time);
+      }
+    }
     current.add(data);
     serverData = current.toArray(new ServerTime[0]);
   }

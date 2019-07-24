@@ -149,7 +149,10 @@ public class LocalRestUser implements FileType {
   }
 
   public String[] getIgnored() {
-    return ignored;
+    if (ignored != null) {
+      return ignored;
+    }
+    return new String[0];
   }
 
   public void setIgnored(String[] ignored) {

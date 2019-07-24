@@ -92,7 +92,7 @@ public class DataHelper {
         new File(
             ConfigHandler.saveLocation
                 + File.separator
-                + key.toUpperCase()
+                + key
                 + File.separator
                 + type.getID()
                 + ".json"),

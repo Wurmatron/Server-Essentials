@@ -41,6 +41,7 @@ public class RestWorldEvents {
     LocalRestUser local =
         DataHelper.load(Storage.LOCAL_USER, new LocalRestUser(e.player.getGameProfile().getId()));
     checkForAndCorrectErrors(e.player, user, local);
+    System.out.println("Local: " + ServerEssentialsServer.instance.GSON.toJson(local));
     if (user != null) {
       if (local == null) { // New to this server but not the network
         local = new LocalRestUser(e.player.getGameProfile().getId());
