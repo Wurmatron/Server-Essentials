@@ -84,7 +84,7 @@ public class SECommand extends CommandBase {
         && sender instanceof EntityPlayer) {
       return SecurityModule.isTrusted((EntityPlayer) sender.getCommandSenderEntity());
     }
-    if (CommandUtils.hasPerm("*", ((EntityPlayer) sender).getGameProfile().getId())) {
+    if (sender.getCommandSenderEntity() == null || CommandUtils.hasPerm("*", ((EntityPlayer) sender).getGameProfile().getId())) {
       return true;
     }
     return CommandUtils.hasPerm(
