@@ -103,11 +103,6 @@
   "GENERAL_GOD_DISABLED": "&5God mode disabled",
   "GENERAL_GOD_ENABLED_OTHER": "&5%player%'s god mode has been enabled",
   "GENERAL_GOD_DISABLED_OTHER": "&5%player%'s god mode has been disabled",
-  "DESCRIPTION_GHOST": "&5Disables hitbox for a player",
-  "GENERAL_GHOST_ENABLED": "&5Ghost mode enabled",
-  "GENERAL_GHOST_DISABLED": "&5Ghost mode disabled",
-  "GENERAL_GHOST_ENABLED_OTHER": "&5%player%'s ghost mode has been enabled",
-  "GENERAL_GHOST_DISABLED_OTHER": "&5%player%'s ghost mode has been disabled",
   "DESCRIPTION_SETSPAWN": "&5Set the server's spawn",
   "GENERAL_SPAWN_SET": "&5Spawn Set",
   "DESCRIPTION_RELOAD_GLOBAL": "&5Reload the Global.json file",
@@ -193,6 +188,11 @@
   "DESCRIPTION_GLOBALMOTD": "Set the server.properties message without actually restarting the server",
   "GENERAL_GLOBALMOTD_SET": "&5Global Motd set to %message%",
   "DESCRIPTION_LANGUAGE": "&5Change your language",
-  "DESCRIPTION_PERM": "&5Handles User Perms / Perks and Ranks"
+  "DESCRIPTION_PERM": "&5Handles User Perms / Perks and Ranks",
+  "DESCRIPTION_VANISH": "&5Makes a person invisible to others",
+  "GENERAL_UNVANISH": "&5You have unvanished",
+  "GENERAL_VANISH": "&5You have vanished",
+  "GENERAL_UNVANISH_OTHER": "&5%player% has been unvanished",
+  "GENERAL_VANISH_OTHER": "&5%player% has been vanished"
 
 }

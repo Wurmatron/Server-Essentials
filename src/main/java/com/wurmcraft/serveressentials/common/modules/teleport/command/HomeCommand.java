@@ -22,7 +22,7 @@ public class HomeCommand extends Command {
 
   @Override
   public String getName() {
-    return "Home";
+    return "home";
   }
 
   @Override

@@ -18,7 +18,7 @@ public class ListCommand extends Command {
 
   @Override
   public String getName() {
-    return "List";
+    return "list";
   }
 
   @Override

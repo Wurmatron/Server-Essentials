@@ -124,11 +124,6 @@ public class Local implements FileType {
   public String GENERAL_GOD_DISABLED;
   public String GENERAL_GOD_ENABLED_OTHER;
   public String GENERAL_GOD_DISABLED_OTHER;
-  public String DESCRIPTION_GHOST;
-  public String GENERAL_GHOST_ENABLED;
-  public String GENERAL_GHOST_DISABLED;
-  public String GENERAL_GHOST_ENABLED_OTHER;
-  public String GENERAL_GHOST_DISABLED_OTHER;
   public String DESCRIPTION_SETSPAWN;
   public String GENERAL_SPAWN_SET;
   public String DESCRIPTION_RELOAD_GLOBAL;
@@ -156,6 +151,11 @@ public class Local implements FileType {
   public String DESCRIPTION_HELP;
   public String DESCRIPTION_GLOBALMOTD;
   public String GENERAL_GLOBALMOTD_SET;
+  public String DESCRIPTION_VANISH;
+  public String GENERAL_UNVANISH;
+  public String GENERAL_VANISH;
+  public String GENERAL_UNVANISH_OTHER;
+  public String GENERAL_VANISH_OTHER;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;
