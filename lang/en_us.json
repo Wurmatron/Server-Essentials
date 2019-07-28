@@ -193,6 +193,7 @@
   "GENERAL_UNVANISH": "&5You have unvanished",
   "GENERAL_VANISH": "&5You have vanished",
   "GENERAL_UNVANISH_OTHER": "&5%player% has been unvanished",
-  "GENERAL_VANISH_OTHER": "&5%player% has been vanished"
+  "GENERAL_VANISH_OTHER": "&5%player% has been vanished",
+  "DESCRIPTION_CHUNKLOADING": "&5View all the loaded chunks"
 
 }

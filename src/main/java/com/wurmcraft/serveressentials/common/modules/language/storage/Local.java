@@ -156,6 +156,7 @@ public class Local implements FileType {
   public String GENERAL_VANISH;
   public String GENERAL_UNVANISH_OTHER;
   public String GENERAL_VANISH_OTHER;
+  public String DESCRIPTION_CHUNKLOADING;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;
