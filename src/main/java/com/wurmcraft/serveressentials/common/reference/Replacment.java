@@ -41,4 +41,5 @@ public class Replacment {
   public static final String USER = "%user%";
   public static final String HAT = "%hat%";
   public static final String PLAYER2 = "%player2%";
+  public static final String COIN = "%coin%";
 }

@@ -194,6 +194,9 @@
   "GENERAL_VANISH": "&5You have vanished",
   "GENERAL_UNVANISH_OTHER": "&5%player% has been unvanished",
   "GENERAL_VANISH_OTHER": "&5%player% has been vanished",
-  "DESCRIPTION_CHUNKLOADING": "&5View all the loaded chunks"
+  "DESCRIPTION_CHUNKLOADING": "&5View all the loaded chunks",
+  "DESCRIPTION_PERK": "&5Buy a new command / Perk",
+  "ECO_PERK_INVALID": "&5%perk% is not a valid perk",
+  "ECO_NEED": "&5You need another %coin% before you can purchase this"
 
 }

@@ -203,6 +203,9 @@ public class Local implements FileType {
   public String DESCRIPTION_PAY;
   public String ECO_PAY_SENT;
   public String ECO_PAY_EARN;
+  public String DESCRIPTION_PERK;
+  public String ECO_PERK_INVALID;
+  public String ECO_NEED;
 
   // Security
   public String DESCRIPTION_MODS;
