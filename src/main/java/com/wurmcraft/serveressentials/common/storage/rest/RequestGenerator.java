@@ -11,6 +11,8 @@ import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.modules.matterbridge.MatterBridgeModule;
+import com.wurmcraft.serveressentials.common.modules.matterbridge.api.json.MBMessage;
 import com.wurmcraft.serveressentials.common.modules.track.TrackModule;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -47,7 +49,7 @@ public class RequestGenerator {
     }
   }
 
-  private String parseConfigURL(String url) {
+  public static String parseConfigURL(String url) {
     if (url.endsWith("/")) {
       return ConfigHandler.restURL;
     } else {
@@ -227,6 +229,17 @@ public class RequestGenerator {
 
     public static Currency[] getAllCurrency() {
       return INSTANCE.get("eco", Currency[].class);
+    }
+  }
+
+  public static class MatterBridge {
+
+    public static void sendMessage(MBMessage msg) {
+      INSTANCE.post(MatterBridgeModule.getMBURL() + "message", msg);
+    }
+
+    public static MBMessage[] getMessages() {
+      return INSTANCE.get(MatterBridgeModule.getMBURL() + "messages", MBMessage[].class);
     }
   }
 }

@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
+import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -129,7 +130,20 @@ public class ChatHelper {
     return false;
   }
 
-  public static String reformatMessage(Channel ch, String message) {
-    return message;
+  public static void reformatAndSendMessage(Channel ch, String username, String message) {
+    message = applyFilter(ch, message);
+    for (EntityPlayer player :
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+      if (UserManager.getUserChannel(player)
+          .getID()
+          .equalsIgnoreCase(ConfigHandler.globalChannel)) {
+        ChatHelper.sendMessage(player, formatUserNameAndRank(username) + " " + message);
+      }
+    }
+    ServerEssentialsServer.LOGGER.info(formatUserNameAndRank(username) + " " + message);
+  }
+
+  public static String formatUserNameAndRank(String username) {
+    return username;
   }
 }

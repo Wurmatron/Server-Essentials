@@ -49,7 +49,7 @@ func main() {
 
 func messageCreate(s *discordgo.Session, msg *discordgo.MessageCreate) {
 	if strings.Contains("Server Down", "") {
-		s.ChannelMessageSend(msg.ChannelID, "<@396007775655952384>")
+		s.ChannelMessageSend(msg.ChannelID, "<@&396007775655952384>")
 	}
 	if msg.Author.ID == s.State.User.ID {
 		return
