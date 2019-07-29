@@ -9,6 +9,7 @@
   "CHAT_TIME": "&5Time:   %time%",
   "CHAT_BALANCE": "&5Bal:   %balance%",
   "CHAT_INVALID_NUMBER": "&cInvalid Number",
+  "MUST_BE_POSITIVE": "&cMust be a positive number",
   "CHAT_INVALID_BOOLEAN": "&cInvalid Boolean (True / False) (Yes / No)",
   "AUTORANK_MAX_RANK": "&c%player% is already max rank",
   "CHAT_RANKUP": "&5%player% is now %rank%",
@@ -197,6 +198,9 @@
   "DESCRIPTION_CHUNKLOADING": "&5View all the loaded chunks",
   "DESCRIPTION_PERK": "&5Buy a new command / Perk",
   "ECO_PERK_INVALID": "&5%perk% is not a valid perk",
-  "ECO_NEED": "&5You need another %coin% before you can purchase this"
+  "ECO_NEED": "&5You need another %coin% before you can purchase this",
+  "DESCRIPTION_BANK": "&5Change money from one type to another",
+  "ECO_INVALID_CURRENCY": "&5%coin% is not a valid currency",
+  "ECO_EXCHANGED": "&5You have enchanged %coin%@%amount% for %coin2%@%amount2%"
 
 }

@@ -20,7 +20,7 @@ public class SetHomeCommand extends Command {
 
   @Override
   public String getName() {
-    return "sethomehome";
+    return "sethome";
   }
 
   @Override

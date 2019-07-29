@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.command.SubCommand;
+import com.wurmcraft.serveressentials.api.storage.json.Currency;
 import com.wurmcraft.serveressentials.api.storage.json.LocationWithName;
 import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.storage.Home;
@@ -11,6 +12,7 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
+import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator.Economy;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -144,6 +146,16 @@ public class CommandUtils {
       return predictName(args[index], possibleHomes);
     } else {
       return possibleHomes;
+    }
+  }
+
+  public static List<String> predictCurrency(String[] args, int index) {
+    List<String> possibleCoins = new ArrayList<>();
+    for (Currency coin : Economy.getAllCurrency()) possibleCoins.add(coin.name);
+    if (args.length > index && args[index] != null) {
+      return predictName(args[index], possibleCoins);
+    } else {
+      return possibleCoins;
     }
   }
 

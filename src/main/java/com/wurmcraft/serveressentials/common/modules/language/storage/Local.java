@@ -28,6 +28,7 @@ public class Local implements FileType {
   public String CHAT_RANK_INHERITANCE;
   public String CHAT_LASTSEEN;
   public String CHAT_RANKUP;
+  public String MUST_BE_POSITIVE;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
@@ -206,6 +207,9 @@ public class Local implements FileType {
   public String DESCRIPTION_PERK;
   public String ECO_PERK_INVALID;
   public String ECO_NEED;
+  public String DESCRIPTION_BANK;
+  public String ECO_INVALID_CURRENCY;
+  public String ECO_EXCHANGED;
 
   // Security
   public String DESCRIPTION_MODS;

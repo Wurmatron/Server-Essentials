@@ -42,4 +42,7 @@ public class Replacment {
   public static final String HAT = "%hat%";
   public static final String PLAYER2 = "%player2%";
   public static final String COIN = "%coin%";
+  public static final String AMOUNT = "%amount%";
+  public static final String COIN2 = "%coin2%";
+  public static final String AMOUNT2 = "%amount2%";
 }
