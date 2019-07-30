@@ -12,6 +12,7 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.common.modules.track.TrackModule;
 import com.wurmcraft.serveressentials.common.reference.Global;
 import com.wurmcraft.serveressentials.common.storage.StorageUtils;
+import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
 import com.wurmcraft.serveressentials.common.utils.AnnotationLoader;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import java.util.ArrayList;
@@ -27,17 +28,18 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(
-  modid = Global.MODID,
-  name = Global.NAME,
-  version = Global.VERSION,
-  serverSideOnly = true,
-  acceptableRemoteVersions = "*"
+    modid = Global.MODID,
+    name = Global.NAME,
+    version = Global.VERSION,
+    serverSideOnly = true,
+    acceptableRemoteVersions = "*"
 )
 public class ServerEssentialsServer {
 
@@ -67,16 +69,25 @@ public class ServerEssentialsServer {
     storage.setup();
     // Init Modules
     AnnotationLoader.initModules(activeModules);
+    if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      RequestGenerator.Status.syncServer(TrackModule.createStatus("PreInit"));
+    }
   }
 
   @EventHandler
   public void init(FMLInitializationEvent e) {
     LOGGER.info("Starting Init");
+    if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      RequestGenerator.Status.syncServer(TrackModule.createStatus("Init"));
+    }
   }
 
   @EventHandler
   public void postInit(FMLPostInitializationEvent e) {
     LOGGER.info("Starting PostInit");
+    if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      RequestGenerator.Status.syncServer(TrackModule.createStatus("PostInit"));
+    }
   }
 
   @EventHandler
@@ -84,6 +95,14 @@ public class ServerEssentialsServer {
     LOGGER.info("Server Starting");
     CommandUtils.generateListOfCommandWrappers(commands).forEach(e::registerServerCommand);
     if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      RequestGenerator.Status.syncServer(TrackModule.createStatus("Server Starting"));
+    }
+  }
+
+  @EventHandler
+  public void serverStarted(FMLServerStartedEvent e) {
+    if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      RequestGenerator.Status.syncServer(TrackModule.createStatus("Online"));
       TrackModule.startStatusUpdater();
     }
   }
@@ -94,6 +113,9 @@ public class ServerEssentialsServer {
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
       player.connection.disconnect(
           new TextComponentString(ConfigHandler.shutdownMessage.replaceAll("&", "\u00A7")));
+    }
+    if (ServerEssentialsAPI.isModuleLoaded("Track")) {
+      RequestGenerator.Status.syncServer(TrackModule.createStatus("Stopped"));
     }
   }
 }
