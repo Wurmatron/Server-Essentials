@@ -204,6 +204,7 @@
   "ECO_EXCHANGED": "&5You have enchanged %coin%@%amount% for %coin2%@%amount2%",
   "ECO_SIGN_INVALID": "&5Invalid Sign",
   "CHAT_INVENTORY_FULL": "&5Your inventory's full!",
-  "ECO_SIGN_CREATED": "&5Sign Created"
+  "ECO_SIGN_CREATED": "&5Sign Created",
+  "CHAT_ITEM_NOT_FOUND": "&5Item not found!"
 
 }

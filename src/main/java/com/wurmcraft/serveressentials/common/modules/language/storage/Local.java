@@ -30,6 +30,7 @@ public class Local implements FileType {
   public String CHAT_RANKUP;
   public String MUST_BE_POSITIVE;
   public String CHAT_INVENTORY_FULL;
+  public String CHAT_ITEM_NOT_FOUND;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
