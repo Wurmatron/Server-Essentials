@@ -156,24 +156,6 @@ public class ChatEvents {
     return false;
   }
 
-  //  // TODO Find a better way of doing this
-  //  @SubscribeEvent(priority = EventPriority.HIGHEST)
-  //  public void nameDisplay(PlayerEvent.NameFormat e) {
-  //    if (e.getEntityPlayer() != null) {
-  //      StringBuilder builder = new StringBuilder();
-  //      Rank rank = UserManager.getUserRank(e.getEntityPlayer());
-  //      if (rank != null) {
-  //        builder.append(rank.getPrefix().replaceAll("&", "\u00A7"));
-  //      }
-  //      builder.append(" ");
-  //      builder.append(getName(e.getEntityPlayer()));
-  //      if (rank != null && !rank.getSuffix().isEmpty()) {
-  //        builder.append(rank.getSuffix().replaceAll("&", "\u00A7"));
-  //      }
-  //      e.setDisplayname(builder.toString());
-  //    }
-  //  }
-
   private String getName(EntityPlayer player) {
     String nick = UserManager.getNickname(player);
     if (nick.isEmpty()) {

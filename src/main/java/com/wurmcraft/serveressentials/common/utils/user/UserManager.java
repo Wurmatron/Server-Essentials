@@ -19,10 +19,12 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
+import com.wurmcraft.serveressentials.common.modules.matterbridge.api.json.MBMessage;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
+import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator.MatterBridge;
 import java.util.*;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
@@ -127,7 +129,20 @@ public class UserManager {
               .CHAT_RANKUP
               .replaceAll(Replacment.PLAYER, player.getDisplayNameString())
               .replaceAll(Replacment.RANK, rank.getPrefix()));
-      // TODO Announce to Linked Discord via Rest Bot
+    }
+    if (ServerEssentialsAPI.isModuleLoaded("MatterBridge")) {
+      MatterBridge.sendMessage(
+          new MBMessage(
+              "",
+              LanguageModule.getDefaultLang()
+                  .local
+                  .CHAT_RANKUP
+                  .replaceAll(Replacment.PLAYER, player.getDisplayNameString())
+                  .replaceAll(Replacment.RANK, rank.getPrefix()),
+              ConfigHandler.serverName,
+              ConfigHandler.serverName,
+              "",
+              ""));
     }
   }
 
@@ -413,7 +428,7 @@ public class UserManager {
       return user.hasPerm(perm);
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[0];
-      //      return user.hasPerm TODO Implement Permissions
+      return user.hasPerm(perm);
     }
     return false;
   }

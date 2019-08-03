@@ -9,6 +9,7 @@ import com.wurmcraft.serveressentials.api.user.storage.Home;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -295,5 +296,9 @@ public class FileUser implements FileType {
 
   public void setIgnored(String[] ignored) {
     this.ignored = ignored;
+  }
+
+  public boolean hasPerm(String perm) {
+    return Arrays.stream(getRank().getPermission()).anyMatch(p -> p.equalsIgnoreCase(perm));
   }
 }

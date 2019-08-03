@@ -87,7 +87,19 @@ public class FileRankManager implements IRankManager {
             "&2[Default]",
             "",
             new String[0],
-            new String[0])); // TODO Default Permissions
+            new String[] {
+              "general.help",
+              "teleportation.SetHome",
+              "teleportation.home",
+              "teleportation.rtp",
+              "teleportation.back",
+              "teleportation.spawn",
+              "general.motd",
+              "general.rules",
+              "general.discord",
+              "general.ping",
+              "general.website"
+            }));
     createRank(new Rank("Admin", "&c[Admin]", "", new String[] {"Default"}, new String[] {"*"}));
   }
 
