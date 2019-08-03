@@ -207,6 +207,27 @@ var routes = Routes{
 		true,
 		PostStatus,
 	},
+	Route{
+		"GetTransfer",
+		"GET",
+		"/transfer/:uuid",
+		false,
+		GetTransferData,
+	},
+	Route{
+		"AddTransfer",
+		"POST",
+		"/transfer/add",
+		true,
+		SetTransferData,
+	},
+	Route{
+		"OverrideTransfer",
+		"PUT",
+		"/transfer/:uuid/override",
+		true,
+		SetTransferData,
+	},
 }
 
 func Index(w http.ResponseWriter, _ *http.Request, _ mux.Params) {

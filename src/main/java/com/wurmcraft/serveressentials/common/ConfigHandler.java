@@ -98,4 +98,7 @@ public class ConfigHandler {
 
   @Comment("Message to display to users upon server shutdown")
   public static String shutdownMessage = "&cServer Shutdown";
+
+  @Comment("Transfer ID")
+  public static String transferID = "";
 }

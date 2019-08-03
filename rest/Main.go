@@ -28,7 +28,6 @@ const redisDatabaseStatus = redisDatabaseEco + 1
 func main() {
 	fmt.Println("Loading Rest-API v" + version + " on " + address)
 	router := NewRouter()
-	http.HandleFunc("/chat", Repeat)
 	log.Fatal(http.ListenAndServeTLS(address, httpsCert, httpsKey, router))
 	_, err := newClient(0).Ping().Result()
 	if err != nil {

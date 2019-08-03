@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 
-
 @ModuleCommand(moduleName = "Economy")
 public class RewardCommand extends Command {
 

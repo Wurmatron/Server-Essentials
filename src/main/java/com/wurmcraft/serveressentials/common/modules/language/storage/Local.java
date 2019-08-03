@@ -230,6 +230,12 @@ public class Local implements FileType {
   public String SECURITY_LOCKDOWN_DISABLED;
   public String SECURITY_LOCKDOWN_ENABLED;
 
+  // Transfer
+  public String DESCRIPTION_TRANSFER;
+  public String TRANSFER_EMPTY;
+  public String TRANSFER_TRANSFERRED;
+  public String TRANSFER_SENT;
+
   public Local(String key) {
     this.key = key;
   }

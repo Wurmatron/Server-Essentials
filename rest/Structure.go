@@ -91,3 +91,13 @@ type ServerStatus struct {
 	LastUpdate float64  `json:"lastUpdate"`
 	Version    string   `json:"version"`
 }
+
+type TransferBin struct {
+	UUID string    `json:"uuid"`
+	Bins []ItemBin `json:"transfers"`
+}
+
+type ItemBin struct {
+	TransferID string   `json:"transferID"`
+	Storage    []string `json:"items"`
+}

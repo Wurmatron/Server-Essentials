@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
+import com.wurmcraft.serveressentials.api.user.transfer.TransferBin;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.matterbridge.MatterBridgeModule;
 import com.wurmcraft.serveressentials.common.modules.matterbridge.api.json.MBMessage;
@@ -19,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Base64;
+import java.util.UUID;
 import javax.net.ssl.HttpsURLConnection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -224,7 +226,7 @@ public class RequestGenerator {
     }
 
     public static void overrideEco(Currency currency) {
-      INSTANCE.post("put" + "eco/" + currency.name + "/override", currency);
+      INSTANCE.put("eco/" + currency.name + "/override", currency);
     }
 
     public static Currency[] getAllCurrency() {
@@ -240,6 +242,21 @@ public class RequestGenerator {
 
     public static MBMessage[] getMessages() {
       return INSTANCE.get(MatterBridgeModule.getMBURL() + "messages", MBMessage[].class);
+    }
+  }
+
+  public static class Transfer {
+
+    public static void addTransfer(TransferBin bin) {
+      INSTANCE.post("transfer/add", bin);
+    }
+
+    public static void overrideTransfer(TransferBin bin) {
+      INSTANCE.put("transfer/" + bin.uuid + "/override", bin);
+    }
+
+    public static TransferBin getTransfer(UUID uuid) {
+      return INSTANCE.get("transfer/" + uuid.toString(), TransferBin.class);
     }
   }
 }
