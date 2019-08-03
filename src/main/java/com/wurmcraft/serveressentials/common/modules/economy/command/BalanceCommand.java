@@ -1,8 +1,8 @@
 package com.wurmcraft.serveressentials.common.modules.economy.command;
 
 import com.wurmcraft.serveressentials.api.command.Command;
+import com.wurmcraft.serveressentials.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.api.lang.Lang;
-import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.api.user.eco.Coin;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
@@ -15,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextFormatting;
 
-@Module(name = "")
+@ModuleCommand(moduleName = "Economy")
 public class BalanceCommand extends Command {
 
   @Override

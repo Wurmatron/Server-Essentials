@@ -201,6 +201,9 @@
   "ECO_NEED": "&5You need another %coin% before you can purchase this",
   "DESCRIPTION_BANK": "&5Change money from one type to another",
   "ECO_INVALID_CURRENCY": "&5%coin% is not a valid currency",
-  "ECO_EXCHANGED": "&5You have enchanged %coin%@%amount% for %coin2%@%amount2%"
+  "ECO_EXCHANGED": "&5You have enchanged %coin%@%amount% for %coin2%@%amount2%",
+  "ECO_SIGN_INVALID": "&5Invalid Sign",
+  "CHAT_INVENTORY_FULL": "&5Your inventory's full!",
+  "ECO_SIGN_CREATED": "&5Sign Created"
 
 }

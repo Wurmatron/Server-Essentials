@@ -151,7 +151,9 @@ public class CommandUtils {
 
   public static List<String> predictCurrency(String[] args, int index) {
     List<String> possibleCoins = new ArrayList<>();
-    for (Currency coin : Economy.getAllCurrency()) possibleCoins.add(coin.name);
+    for (Currency coin : Economy.getAllCurrency()) {
+      possibleCoins.add(coin.name);
+    }
     if (args.length > index && args[index] != null) {
       return predictName(args[index], possibleCoins);
     } else {
@@ -183,7 +185,11 @@ public class CommandUtils {
   }
 
   public static boolean hasPerm(String perm, String uuid) {
-    return generatePermissionList(UserManager.getUserRank(uuid)).contains(perm);
+    return ignoreCase(perm, generatePermissionList(UserManager.getUserRank(uuid)));
+  }
+
+  private static boolean ignoreCase(String perm, List<String> checkIn) {
+    return checkIn.stream().anyMatch(p -> p.equalsIgnoreCase(perm));
   }
 
   public static boolean hasPerm(String perm, EntityPlayer player) {

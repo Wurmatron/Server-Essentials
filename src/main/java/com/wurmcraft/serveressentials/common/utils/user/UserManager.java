@@ -620,4 +620,14 @@ public class UserManager {
     }
     return -1;
   }
+
+  public static boolean canBuy(EntityPlayer player, String currency, double amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
+      return user.getBank().getCurrency(currency) >= amount;
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      //      FileUser user = (FileUser) getUserData([0]);
+    }
+    return false;
+  }
 }

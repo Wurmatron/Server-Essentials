@@ -29,6 +29,7 @@ public class Local implements FileType {
   public String CHAT_LASTSEEN;
   public String CHAT_RANKUP;
   public String MUST_BE_POSITIVE;
+  public String CHAT_INVENTORY_FULL;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
@@ -210,6 +211,8 @@ public class Local implements FileType {
   public String DESCRIPTION_BANK;
   public String ECO_INVALID_CURRENCY;
   public String ECO_EXCHANGED;
+  public String ECO_SIGN_INVALID;
+  public String ECO_SIGN_CREATED;
 
   // Security
   public String DESCRIPTION_MODS;

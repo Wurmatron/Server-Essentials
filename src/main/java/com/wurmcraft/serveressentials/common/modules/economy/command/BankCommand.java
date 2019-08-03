@@ -20,7 +20,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import scala.actors.threadpool.Arrays;
 
-@ModuleCommand
+@ModuleCommand(moduleName = "Economy")
 public class BankCommand extends Command {
 
   @Override
