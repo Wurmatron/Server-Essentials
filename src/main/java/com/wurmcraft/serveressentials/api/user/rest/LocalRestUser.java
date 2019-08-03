@@ -24,6 +24,7 @@ public class LocalRestUser implements FileType {
   private long teleportTimer;
   private boolean frozen;
   private String[] ignored;
+  private int rewardPoints;
 
   public LocalRestUser(UUID uuid) {
     this.uuid = uuid;
@@ -36,6 +37,7 @@ public class LocalRestUser implements FileType {
     onlineTime = 0;
     lastLocation = new LocationWrapper(0, 0, 0, 0);
     ignored = new String[0];
+    this.rewardPoints = 0;
   }
 
   public long getLastSeen() {
@@ -186,5 +188,17 @@ public class LocalRestUser implements FileType {
       }
     }
     return false;
+  }
+
+  public int getRewardPoints() {
+    return rewardPoints;
+  }
+
+  public void addRewardPoints(int rewardPoints) {
+    this.rewardPoints += rewardPoints;
+  }
+
+  public void consumePoint(int amount) {
+    this.rewardPoints -= amount;
   }
 }

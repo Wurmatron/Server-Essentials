@@ -205,6 +205,12 @@
   "ECO_SIGN_INVALID": "&5Invalid Sign",
   "CHAT_INVENTORY_FULL": "&5Your inventory's full!",
   "ECO_SIGN_CREATED": "&5Sign Created",
-  "CHAT_ITEM_NOT_FOUND": "&5Item not found!"
+  "CHAT_ITEM_NOT_FOUND": "&5Item not found!",
+  "ECO_REWARD_CREATED": "&5Reward Created!",
+  "ECO_REWARD_INVALID": "&5Invalid Reward",
+  "ECO_REWARD_REMOVED": "&5Reward Removed!",
+  "ECO_REWARD_POINTS_EMPTY": "&5You don't have an points",
+  "ECO_REWARD_GIVE": "&5You have been given an %tier% reward",
+  "DESCRIPTION_REWARD": "&5Give a reward based on your points"
 
 }

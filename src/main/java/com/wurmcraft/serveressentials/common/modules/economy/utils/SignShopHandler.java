@@ -108,6 +108,11 @@ public class SignShopHandler {
   }
 
   public static boolean handleSigns(TileEntitySign sign, EntityPlayer player) {
+    if (sign.signText[0].getUnformattedText().contains("Buy")) {
+      return handleBuySign(sign, player);
+    } else if (sign.signText[0].getUnformattedText().contains("Sell")) {
+      return handleSellSign(sign, player);
+    }
     return false;
   }
 }

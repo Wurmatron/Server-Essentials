@@ -645,4 +645,24 @@ public class UserManager {
     }
     return false;
   }
+
+  public static int getRewards(EntityPlayer player) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      return user.getRewardPoints();
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      // Invalid for file Type
+    }
+    return 0;
+  }
+
+  public static void consumeReward(EntityPlayer player, int amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      user.consumePoint(amount);
+      DataHelper.save(Storage.LOCAL_USER, user);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      // Invalid for file Type
+    }
+  }
 }

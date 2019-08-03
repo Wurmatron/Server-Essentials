@@ -214,6 +214,12 @@ public class Local implements FileType {
   public String ECO_EXCHANGED;
   public String ECO_SIGN_INVALID;
   public String ECO_SIGN_CREATED;
+  public String ECO_REWARD_CREATED;
+  public String ECO_REWARD_INVALID;
+  public String ECO_REWARD_REMOVED;
+  public String ECO_REWARD_POINTS_EMPTY;
+  public String ECO_REWARD_GIVE;
+  public String DESCRIPTION_REWARD;
 
   // Security
   public String DESCRIPTION_MODS;
