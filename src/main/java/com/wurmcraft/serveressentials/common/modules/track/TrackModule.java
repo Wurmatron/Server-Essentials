@@ -54,8 +54,8 @@ public class TrackModule {
 
   private static String formatName(EntityPlayer player) {
     return UserManager.getUserRank(player) != null
-        ? UserManager.getUserRank(player).getPrefix()
-        : "" + " " + player.getDisplayNameString();
+        ? UserManager.getUserRank(player).getPrefix() + " " + player.getName()
+        : player.getName();
   }
 
   public static void startStatusUpdater() {

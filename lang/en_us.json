@@ -213,7 +213,7 @@
   "ECO_REWARD_GIVE": "&5You have been given an %tier% reward",
   "DESCRIPTION_REWARD": "&5Give a reward based on your points",
   "TRANSFER_EMPTY": "&5Transfer Bin is empty",
-  "TRANSFER_TRANSFERRED": "&5Some items have been transferred",
-  "TRANSFER_SENT": "&5Items have been sent to the transfer bin"
+  "TRANSFER_TRANSFERRED": "&5Your Items have been transferred",
+  "TRANSFER_SENT": "&5Items have been sent from the transfer bin"
 
 }

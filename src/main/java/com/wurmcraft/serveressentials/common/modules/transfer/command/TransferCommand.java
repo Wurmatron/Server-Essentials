@@ -82,7 +82,14 @@ public class TransferCommand extends Command {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       TransferBin bin = RequestGenerator.Transfer.getTransfer(player.getGameProfile().getId());
-      ItemBin transfer = getServerBin(bin);
+      ItemBin transfer = null;
+      if (bin == null) { // New Transfer User
+        ItemBin newBin = new ItemBin(ConfigHandler.transferID, new String[0]);
+        bin = new TransferBin(player.getGameProfile().getId().toString(), new ItemBin[]{newBin});
+        transfer = newBin;
+      } else {
+        transfer = getServerBin(bin);
+      }
       if (transfer != null) {
         String transferType = "All";
         if (args.length == 1) {
@@ -92,7 +99,13 @@ public class TransferCommand extends Command {
           List<String> items = new ArrayList<>();
           Collections.addAll(items, transfer.items);
           for (ItemStack stack : player.inventory.mainInventory) {
-            items.add(StackConverter.toString(stack));
+            if (!stack.isEmpty() || stack != ItemStack.EMPTY) {
+              String item = StackConverter.toString(stack);
+              if (!item.isEmpty() && !item.contains("minecraft:air")) {
+                items.add(item);
+                player.inventory.deleteStack(stack);
+              }
+            }
           }
           transfer.items = items.toArray(new String[0]);
         } else if (transferType.equalsIgnoreCase("Hand")) {

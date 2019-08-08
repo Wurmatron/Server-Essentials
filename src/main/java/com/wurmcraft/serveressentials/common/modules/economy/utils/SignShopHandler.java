@@ -100,6 +100,9 @@ public class SignShopHandler {
   }
 
   private static boolean handleBuySign(TileEntitySign sign, EntityPlayer player) {
+    if (sign.signText[0].getUnformattedComponentText().contains("[Buy]")) {
+      ItemStack item = StackConverter.getData(sign.getTileData().getString(NBT.SHOP_DATA));
+    }
     return false;
   }
 

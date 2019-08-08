@@ -127,7 +127,7 @@ public class RequestGenerator {
           return instance.GSON.fromJson(response.toString(), type);
         }
       } catch (Exception e) {
-        LOGGER.warn(e.getLocalizedMessage());
+        LOGGER.warn(e.getMessage());
       }
     }
     return null;

@@ -12,15 +12,15 @@ import (
 var redisDBtransfer *redis.Client
 
 func init() {
-	redisDBtransfer = newClient(redisDatabaseUser)
+	redisDBtransfer = newClient(redisDatabaseTransfer)
 }
 
 func GetTransferData(w http.ResponseWriter, _ *http.Request, p mux.Params) {
 	uuid := string(p[0].Value)
-	if redisDBuser.Exists(uuid).Val() == 1 {
+	if redisDBtransfer.Exists(uuid).Val() == 1 {
 		w.Header().Set("content-type", "application/json")
 		w.Header().Set("version", version)
-		w.Write([]byte(redisDBuser.Get(uuid).Val()))
+		w.Write([]byte(redisDBtransfer.Get(uuid).Val()))
 	} else {
 		w.WriteHeader(http.StatusNotFound)
 	}
@@ -47,6 +47,6 @@ func SetTransferData(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	redisDBuser.Set(transferData.UUID, output, 0)
+	redisDBtransfer.Set(transferData.UUID, output, 0)
 	w.WriteHeader(http.StatusCreated)
 }
