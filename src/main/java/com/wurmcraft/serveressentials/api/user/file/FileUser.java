@@ -11,6 +11,7 @@ import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,7 @@ public class FileUser implements FileType {
   private UUID uuid;
   private String lang;
   private String[] ignored;
+  private HashMap<String, Long> kitUsage;
 
   public FileUser() {}
 
@@ -300,5 +302,17 @@ public class FileUser implements FileType {
 
   public boolean hasPerm(String perm) {
     return Arrays.stream(getRank().getPermission()).anyMatch(p -> p.equalsIgnoreCase(perm));
+  }
+
+  public HashMap<String, Long> getKitUsage() {
+    return kitUsage;
+  }
+
+  public void setKitUsage(HashMap<String, Long> kitUsage) {
+    this.kitUsage = kitUsage;
+  }
+
+  public void useKit(String kit) {
+    this.kitUsage.put(kit, System.currentTimeMillis());
   }
 }

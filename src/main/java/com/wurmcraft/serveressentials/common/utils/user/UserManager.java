@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.api.storage.LocationWrapper;
 import com.wurmcraft.serveressentials.api.storage.json.Channel;
+import com.wurmcraft.serveressentials.api.storage.json.Kit;
 import com.wurmcraft.serveressentials.api.user.eco.Bank;
 import com.wurmcraft.serveressentials.api.user.eco.Coin;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
@@ -664,5 +665,20 @@ public class UserManager {
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       // Invalid for file Type
     }
+  }
+
+  public static boolean canUseKit(EntityPlayer player, Kit kit) {
+    return lastKitUse(player, kit) + (kit.timer * 60000) < System.currentTimeMillis();
+  }
+
+  public static long lastKitUse(EntityPlayer player, Kit kit) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      return user.getKitUsage().getOrDefault(kit.name, 0L);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      return user.getKitUsage().getOrDefault(kit.name, 0L);
+    }
+    return 0L;
   }
 }

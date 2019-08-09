@@ -214,6 +214,12 @@
   "DESCRIPTION_REWARD": "&5Give a reward based on your points",
   "TRANSFER_EMPTY": "&5Transfer Bin is empty",
   "TRANSFER_TRANSFERRED": "&5Your Items have been transferred",
-  "TRANSFER_SENT": "&5Items have been sent from the transfer bin"
-
+  "TRANSFER_SENT": "&5Items have been sent from the transfer bin",
+  "DESCRIPTION_KIT": "&5Enables giving player items",
+  "GENERAL_KIT_INVALID": "&5Invalid Kit, %kit%",
+  "GENERAL_KIT_GIVEN": "&5Kit %kit% has been added to your inventory.",
+  "GENERAL_KIT_TIMER": "&5You must wait another %minutes% Minutes",
+  "GENERAL_KIT_INVALID_NAME": "&cYou cannot name a kit that!",
+  "GENERAL_KIT_CREATED": "&5%kit% Created",
+  "CHAT_NO_PERMS": "&cNo Permission, to run this command!"
 }

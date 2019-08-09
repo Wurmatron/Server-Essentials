@@ -2,8 +2,10 @@ package com.wurmcraft.serveressentials.common.modules.general;
 
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.api.storage.json.GlobalConfig;
+import com.wurmcraft.serveressentials.api.storage.json.Kit;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.general.event.GeneralEvents;
+import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import java.io.File;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,6 +18,7 @@ public class GeneralModule {
   public void setup() {
     MinecraftForge.EVENT_BUS.register(new GeneralEvents());
     loadAndSetupGlobal();
+    DataHelper.load(Storage.KIT, new Kit[0], new Kit());
   }
 
   public static void loadAndSetupGlobal() {

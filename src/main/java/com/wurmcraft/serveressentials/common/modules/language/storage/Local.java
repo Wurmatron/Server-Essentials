@@ -31,6 +31,7 @@ public class Local implements FileType {
   public String MUST_BE_POSITIVE;
   public String CHAT_INVENTORY_FULL;
   public String CHAT_ITEM_NOT_FOUND;
+  public String CHAT_NO_PERMS;
   // AutoRank
   public String AUTORANK_MAX_RANK;
   public String DESCRIPTION_AUTORANK;
@@ -160,6 +161,12 @@ public class Local implements FileType {
   public String GENERAL_UNVANISH_OTHER;
   public String GENERAL_VANISH_OTHER;
   public String DESCRIPTION_CHUNKLOADING;
+  public String DESCRIPTION_KIT;
+  public String GENERAL_KIT_INVALID;
+  public String GENERAL_KIT_GIVEN;
+  public String GENERAL_KIT_TIMER;
+  public String GENERAL_KIT_INVALID_NAME;
+  public String GENERAL_KIT_CREATED;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;

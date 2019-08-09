@@ -1,10 +1,13 @@
 package com.wurmcraft.serveressentials.common.modules.general.event;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.api.storage.json.Kit;
+import com.wurmcraft.serveressentials.api.user.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.api.user.file.FileUser;
 import com.wurmcraft.serveressentials.api.user.rest.LocalRestUser;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.general.GeneralModule;
+import com.wurmcraft.serveressentials.common.modules.general.command.KitCommand;
 import com.wurmcraft.serveressentials.common.modules.general.command.VanishCommand;
 import com.wurmcraft.serveressentials.common.modules.general.utils.wrapper.PlayerInventory;
 import com.wurmcraft.serveressentials.common.modules.teleport.command.SetHomeCommand;
@@ -152,6 +155,15 @@ public class GeneralEvents {
   public void onDimChange(PlayerChangedDimensionEvent e) {
     if (!vanishedPlayers.isEmpty() && vanishedPlayers.contains(e.player)) {
       VanishCommand.updatePlayer(e.player, false);
+    }
+  }
+
+  @SubscribeEvent
+  public void onNewPlayerJoin(NewPlayerJoin e) {
+    if (GeneralModule.config.defaultKit != null
+        && DataHelper.get(Storage.KIT, GeneralModule.config.defaultKit) != null) {
+      KitCommand.addKitToPlayer(
+          e.player, DataHelper.get(Storage.KIT, GeneralModule.config.defaultKit, new Kit()));
     }
   }
 }

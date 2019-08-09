@@ -11,7 +11,6 @@ public class Replacment {
   public static final String RANK = "%rank%";
   public static final String RANK_PREFIX = "%rankPrefix%";
   public static final String RANK_SUFFIX = "%rankSuffix%";
-  public static final String TEAM = "%team%";
   public static final String FIND = "%find%";
   public static final String REPLACE = "%replace%";
   public static final String PLAYER = "%player%";
@@ -46,4 +45,6 @@ public class Replacment {
   public static final String COIN2 = "%coin2%";
   public static final String AMOUNT2 = "%amount2%";
   public static final String TIER = "%tier%";
+  public static final String KIT = "%kit%";
+  public static final String MINUTES = "%minutes%";
 }

@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.user.storage.Vault;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class LocalRestUser implements FileType {
   private boolean frozen;
   private String[] ignored;
   private int rewardPoints;
+  private HashMap<String, Long> kitUsage;
 
   public LocalRestUser(UUID uuid) {
     this.uuid = uuid;
@@ -38,6 +40,7 @@ public class LocalRestUser implements FileType {
     lastLocation = new LocationWrapper(0, 0, 0, 0);
     ignored = new String[0];
     this.rewardPoints = 0;
+    kitUsage = new HashMap<>();
   }
 
   public long getLastSeen() {
@@ -200,5 +203,18 @@ public class LocalRestUser implements FileType {
 
   public void consumePoint(int amount) {
     this.rewardPoints -= amount;
+  }
+
+  public HashMap<String, Long> getKitUsage() {
+    if (kitUsage == null) kitUsage = new HashMap<>();
+    return kitUsage;
+  }
+
+  public void setKitUsage(HashMap<String, Long> kitUsage) {
+    this.kitUsage = kitUsage;
+  }
+
+  public void useKit(String kit) {
+    this.kitUsage.put(kit, System.currentTimeMillis());
   }
 }

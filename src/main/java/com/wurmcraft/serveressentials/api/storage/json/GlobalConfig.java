@@ -11,6 +11,7 @@ public class GlobalConfig implements FileType {
   public String[] rules;
   public LocationWrapper spawn;
   public String globalMOTD;
+  public String defaultKit;
 
   public GlobalConfig() {}
 
@@ -19,6 +20,7 @@ public class GlobalConfig implements FileType {
     this.webLink = webLink;
     motd = new String[0];
     globalMOTD = "";
+    defaultKit = "";
   }
 
   @Override

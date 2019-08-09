@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.storage.rest;
 import static com.wurmcraft.serveressentials.common.storage.StorageUtils.triggerLogoutTimeout;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.api.user.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
@@ -53,6 +54,7 @@ public class RestWorldEvents {
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
                 0));
+        MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(e.player, true));
       }
       UserManager.setUserData(e.player.getGameProfile().getId(), new Object[] {user, local});
       MinecraftForge.EVENT_BUS.post(new UserSyncEvent(user, user, Type.LOGIN));
@@ -70,6 +72,7 @@ public class RestWorldEvents {
       DataHelper.save(Storage.LOCAL_USER, local);
       local = DataHelper.load(Storage.LOCAL_USER, local);
       MinecraftForge.EVENT_BUS.post(new UserSyncEvent(newUser, user, Type.LOGIN));
+      MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(e.player, false));
       newUser.addServerData(
           new ServerTime(
               ConfigHandler.serverName,

@@ -15,6 +15,7 @@ public class Storage {
   public static String CHANNEL = "Channel";
   public static String WARP = "Warp";
   public static String REWARD = "Reward";
+  public static String KIT = "Kit";
 
   // 3rd party support
   public static String MATTERBRIDGE = "MatterBridge";
