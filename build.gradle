@@ -80,7 +80,7 @@ task buildAndPackage(dependsOn: build, type: Zip) {
     dependsOn 'build'
     tasks.findByName('build').mustRunAfter 'clean'
     from 'rest/'
-    include '*.js'
+    include '*.go'
     include 'keys'
     include '*.json'
     archiveName 'Rest.zip'
