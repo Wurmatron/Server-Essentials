@@ -53,6 +53,7 @@ public class KitCommand extends Command {
         if (UserManager.canUseKit(player, kit)) {
           if (UserManager.hasPerm(player, "general.kit." + kit.name)) {
             addKitToPlayer(player, kit);
+            UserManager.useKit(player, kit);
             ChatHelper.sendMessage(
                 sender, senderLang.local.GENERAL_KIT_GIVEN.replaceAll(Replacment.KIT, kit.name));
           } else {

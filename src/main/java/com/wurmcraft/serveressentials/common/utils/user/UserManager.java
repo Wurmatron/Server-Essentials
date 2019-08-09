@@ -681,4 +681,14 @@ public class UserManager {
     }
     return 0L;
   }
+
+  public static void useKit(EntityPlayer player, Kit kit) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      user.useKit(kit.name);
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+      FileUser user = (FileUser) getUserData(player)[0];
+      user.useKit(kit.name);
+    }
+  }
 }

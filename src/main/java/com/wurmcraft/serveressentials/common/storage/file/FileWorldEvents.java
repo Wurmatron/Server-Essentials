@@ -23,7 +23,8 @@ public class FileWorldEvents {
       user = new FileUser(e.player.getGameProfile().getId(), UserManager.getDefaultRank());
       DataHelper.save(Storage.USER, user);
       DataHelper.load(Storage.USER, user);
-      MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(e.player, false)); // Network player is impossible
+      MinecraftForge.EVENT_BUS.post(
+          new NewPlayerJoin(e.player, false)); // Network player is impossible
     }
   }
 
