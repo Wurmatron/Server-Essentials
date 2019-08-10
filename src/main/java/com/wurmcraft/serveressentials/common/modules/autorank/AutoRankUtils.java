@@ -7,17 +7,23 @@ import com.wurmcraft.serveressentials.api.user.rank.Rank;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
 import com.wurmcraft.serveressentials.api.user.rest.ServerTime;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
+import java.util.Objects;
 import java.util.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class AutoRankUtils {
 
   public static boolean hasRequirments(EntityPlayer player, AutoRank auto) {
-    return auto.getBalance() <= UserManager.getServerCurrency(player.getGameProfile().getId())
-        && auto.getExp() <= player.experienceLevel
-        && auto.getRank()
-            .equals(UserManager.getUserRank(player.getGameProfile().getId().toString()).getID())
-        && getTotalPlayTime(player) >= auto.getPlayTime();
+    if(auto != null && player != null) {
+      return auto.getBalance() <= UserManager.getServerCurrency(player.getGameProfile().getId())
+          && auto.getExp() <= player.experienceLevel
+          && auto.getRank()
+          .equals(Objects
+              .requireNonNull(UserManager.getUserRank(player.getGameProfile().getId().toString()))
+              .getID())
+          && getTotalPlayTime(player) >= auto.getPlayTime();
+    }
+    return false;
   }
 
   private static int getTotalPlayTime(EntityPlayer player) {

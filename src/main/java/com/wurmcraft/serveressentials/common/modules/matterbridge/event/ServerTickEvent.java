@@ -64,7 +64,7 @@ public class ServerTickEvent {
     };
   }
 
-  @SubscribeEvent(receiveCanceled = false)
+  @SubscribeEvent
   public void onChat(ServerChatEvent e) {
     MBMessage msg =
         new MBMessage(

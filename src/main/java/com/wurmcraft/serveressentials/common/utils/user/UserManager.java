@@ -67,7 +67,7 @@ public class UserManager {
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       return getFileRank(uuid);
     }
-    return null;
+    return getDefaultRank();
   }
 
   public static Rank getUserRank(EntityPlayer player) {
@@ -86,7 +86,7 @@ public class UserManager {
     if (rank == null) {
       ServerEssentialsServer.LOGGER.error(
           "Unable to load '" + uuid + "s' rank defaulting to " + ConfigHandler.defaultRank);
-      rank = ServerEssentialsAPI.rankManager.getRank(ConfigHandler.defaultRank);
+      rank = getDefaultRank();
     }
     return rank;
   }

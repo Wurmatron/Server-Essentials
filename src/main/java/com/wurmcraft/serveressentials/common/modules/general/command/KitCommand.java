@@ -20,7 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-@ModuleCommand
+@ModuleCommand(moduleName = "General")
 public class KitCommand extends Command {
 
   private static List<String> kits;
