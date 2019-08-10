@@ -65,10 +65,12 @@ public class GeneralEvents {
     if (!vanishedPlayers.isEmpty() && vanishedPlayers.contains(e.player)) {
       VanishCommand.updatePlayer(e.player, false);
     }
-    if (UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME) != null) {
+    if (UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME) != null
+        && UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME).getPos() != null) {
       TeleportUtils.teleportTo(
           (EntityPlayerMP) e.player,
-          UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME).getPos(),
+          Objects.requireNonNull(UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME))
+              .getPos(),
           false,
           false);
     } else {
