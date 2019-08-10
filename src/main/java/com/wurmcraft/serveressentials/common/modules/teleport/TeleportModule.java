@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.modules.teleport;
 import com.wurmcraft.serveressentials.api.module.Module;
 import com.wurmcraft.serveressentials.api.storage.json.LocationWithName;
 import com.wurmcraft.serveressentials.common.ConfigHandler;
+import com.wurmcraft.serveressentials.common.modules.teleport.event.TeleportEvents;
 import com.wurmcraft.serveressentials.common.reference.Storage;
 import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class TeleportModule {
 
   public void setup() {
     MinecraftForge.EVENT_BUS.register(new TeleportModule());
+    MinecraftForge.EVENT_BUS.register(new TeleportEvents());
     DataHelper.load(Storage.WARP, new LocationWithName[0], new LocationWithName());
   }
 

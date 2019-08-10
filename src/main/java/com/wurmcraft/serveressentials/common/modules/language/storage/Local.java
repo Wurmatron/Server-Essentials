@@ -167,6 +167,7 @@ public class Local implements FileType {
   public String GENERAL_KIT_TIMER;
   public String GENERAL_KIT_INVALID_NAME;
   public String GENERAL_KIT_CREATED;
+  public String DESCRIPTION_CONVERT;
   // Teleportation
   public String DESCRIPTION_JUMP;
   public String TELEPORT_JUMP;

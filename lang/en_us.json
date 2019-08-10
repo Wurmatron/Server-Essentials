@@ -221,5 +221,6 @@
   "GENERAL_KIT_TIMER": "&5You must wait another %minutes% Minutes",
   "GENERAL_KIT_INVALID_NAME": "&cYou cannot name a kit that!",
   "GENERAL_KIT_CREATED": "&5%kit% Created",
-  "CHAT_NO_PERMS": "&cNo Permission, to run this command!"
+  "CHAT_NO_PERMS": "&cNo Permission, to run this command!",
+  "DESCRIPTION_CONVERT": "&5Convert ItemJson to the Item"
 }
