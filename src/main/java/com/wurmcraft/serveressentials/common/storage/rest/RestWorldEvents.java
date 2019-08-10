@@ -158,8 +158,10 @@ public class RestWorldEvents {
   // Correct any issues that may arise from dev-testing / running older / newer versions together
   private static void checkForAndCorrectErrors(
       EntityPlayer player, GlobalRestUser global, LocalRestUser local) {
-    if (global.rank.isEmpty()
+    if (global != null && global.rank != null && global.rank.isEmpty()
         || !global.rank.isEmpty() && ServerEssentialsAPI.rankManager.getRank(global.rank) == null) {
+      global.rank = ConfigHandler.defaultRank;
+    } else {
       global.rank = ConfigHandler.defaultRank;
     }
   }

@@ -65,14 +65,19 @@ public class GeneralEvents {
     if (!vanishedPlayers.isEmpty() && vanishedPlayers.contains(e.player)) {
       VanishCommand.updatePlayer(e.player, false);
     }
-    if (UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME) != null
-        && UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME).getPos() != null) {
-      TeleportUtils.teleportTo(
-          (EntityPlayerMP) e.player,
-          Objects.requireNonNull(UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME))
-              .getPos(),
-          false,
-          false);
+
+    if (UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME) != null) {
+      try {
+        TeleportUtils.teleportTo(
+            (EntityPlayerMP) e.player,
+            Objects.requireNonNull(UserManager.getHome(e.player, SetHomeCommand.DEFAULT_HOME))
+                .getPos(),
+            false,
+            false);
+      } catch (NullPointerException f) {
+        TeleportUtils.teleportTo(
+            (EntityPlayerMP) e.player, GeneralModule.config.spawn, false, false);
+      }
     } else {
       TeleportUtils.teleportTo((EntityPlayerMP) e.player, GeneralModule.config.spawn, false, false);
     }
