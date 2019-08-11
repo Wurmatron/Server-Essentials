@@ -12,6 +12,7 @@ import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
 import com.wurmcraft.serveressentials.common.utils.item.StackConverter;
 import java.util.*;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -52,12 +53,36 @@ public class TransferCommand extends Command {
           if (transfer.transferID.equals(ConfigHandler.transferID)) {
             List<String> notRemoved = new ArrayList<>();
             for (int index = 0; index < transfer.items.length; index++) {
-              if (!player.inventory.addItemStackToInventory(
-                  StackConverter.getData(transfer.items[index]))) {
-                notRemoved.add(transfer.items[index]);
+              try {
+                if (!player.inventory.addItemStackToInventory(
+                    StackConverter.getData(transfer.items[index]))) {}
+              } catch (Exception e) {
               }
+              notRemoved.add(transfer.items[index]);
             }
             transfer.items = notRemoved.toArray(new String[0]);
+            if (args.length == 1 && args[0].equalsIgnoreCase("drop")) {
+              for (String item : transfer.items) {
+                try {
+                  if (StackConverter.getData(item) != ItemStack.EMPTY
+                      && StackConverter.getData(item) != null) {
+                    player.world.spawnEntity(
+                        new EntityItem(
+                            player.world,
+                            player.posX,
+                            player.posY,
+                            player.posZ,
+                            StackConverter.getData(item)));
+
+                  } else {
+                    notRemoved.add(item);
+                  }
+                } catch (Exception e) {
+                  notRemoved.add(item);
+                }
+              }
+              transfer.items = notRemoved.toArray(new String[0]);
+            }
           }
         }
         RequestGenerator.Transfer.overrideTransfer(bin);
@@ -85,7 +110,7 @@ public class TransferCommand extends Command {
       ItemBin transfer = null;
       if (bin == null) { // New Transfer User
         ItemBin newBin = new ItemBin(ConfigHandler.transferID, new String[0]);
-        bin = new TransferBin(player.getGameProfile().getId().toString(), new ItemBin[]{newBin});
+        bin = new TransferBin(player.getGameProfile().getId().toString(), new ItemBin[] {newBin});
         transfer = newBin;
       } else {
         transfer = getServerBin(bin);
