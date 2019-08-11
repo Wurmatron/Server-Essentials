@@ -96,7 +96,22 @@ public class UserManager {
   }
 
   public static Rank getDefaultRank() {
-    return ServerEssentialsAPI.rankManager.getRank(ConfigHandler.defaultRank);
+    return ServerEssentialsAPI.rankManager.getRank(ConfigHandler.defaultRank) != null
+        ? ServerEssentialsAPI.rankManager.getRank(ConfigHandler.defaultRank)
+        : new Rank( // Failsafe for the failsafe because apparently its necessary
+            "Error",
+            "[ICU]",
+            "",
+            new String[] {"Default"},
+            new String[] {
+              "teleportation.home",
+              "teleportation.back",
+              "teleportation.tpa",
+              "teleportation.tpaccept",
+              "teleportation.spawn",
+              "teleportation.tpadeny",
+              "teleportation.sethome"
+            });
   }
 
   public static double getServerCurrency(UUID uuid) {
@@ -321,6 +336,7 @@ public class UserManager {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       GlobalRestUser user = (GlobalRestUser) getUserData(player)[0];
       user.setRank(rank.getID());
+      rankChangeCache.put(player.getGameProfile().getId().toString(), rank.getID());
       RequestGenerator.User.overridePlayer(user, Type.STANDARD);
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[0];

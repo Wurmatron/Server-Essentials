@@ -21,58 +21,52 @@ public class ChatHelper {
   public static String format(
       String username, Rank rank, Channel channel, int dimension, String message) {
     String format = "";
-    if (!isFormatted(message)) {
-      if (rank == null) {
-        rank =
-            new Rank("", "&5[Error]", "", new String[] {ConfigHandler.defaultRank}, new String[0]);
-      }
-      if (rank.getSuffix() != null && !rank.getSuffix().equals("")) {
-        message = applyFilter(channel, message);
-        format =
-            StringUtils.replaceEach(
-                ConfigHandler.chatFormat,
-                new String[] {
-                  Replacment.USERNAME,
-                  Replacment.CHANNEL,
-                  Replacment.MESSAGE,
-                  Replacment.DIMENSION,
-                  Replacment.RANK_PREFIX,
-                  Replacment.RANK_SUFFIX,
-                },
-                new String[] {
-                  username.replaceAll("&", "\u00A7"),
-                  channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  message.replaceAll("&", "\u00A7"),
-                  Integer.toString(dimension),
-                  rank.getPrefix().replaceAll("&", "\u00A7"),
-                  rank.getSuffix().replaceAll("&", "\u00A7")
-                });
-        return format.replaceAll(" {2}", " ");
-      } else {
-        message = applyFilter(channel, message);
-        format =
-            StringUtils.replaceEach(
-                ConfigHandler.chatFormat.replaceAll(" " + Replacment.RANK_SUFFIX, ""),
-                new String[] {
-                  Replacment.USERNAME,
-                  Replacment.CHANNEL,
-                  Replacment.MESSAGE,
-                  Replacment.DIMENSION,
-                  Replacment.RANK_PREFIX,
-                },
-                new String[] {
-                  username.replaceAll("&", "\u00A7"),
-                  channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                  message,
-                  Integer.toString(dimension),
-                  rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
-                });
-        return format.replaceAll("\\s\\s+/g", " ");
-      }
-    } else {
-
+    if (rank == null) {
+      rank = new Rank("", "&5[Error]", "", new String[] {ConfigHandler.defaultRank}, new String[0]);
     }
-    return format.replaceAll("\\s\\s+/g", " ");
+    if (rank.getSuffix() != null && !rank.getSuffix().equals("")) {
+      message = applyFilter(channel, message);
+      format =
+          StringUtils.replaceEach(
+              ConfigHandler.chatFormat,
+              new String[] {
+                Replacment.USERNAME,
+                Replacment.CHANNEL,
+                Replacment.MESSAGE,
+                Replacment.DIMENSION,
+                Replacment.RANK_PREFIX,
+                Replacment.RANK_SUFFIX,
+              },
+              new String[] {
+                username.replaceAll("&", "\u00A7"),
+                channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                message.replaceAll("&", "\u00A7"),
+                Integer.toString(dimension),
+                rank.getPrefix().replaceAll("&", "\u00A7"),
+                rank.getSuffix().replaceAll("&", "\u00A7")
+              });
+      return format.replaceAll(" {2}", " ");
+    } else {
+      message = applyFilter(channel, message);
+      format =
+          StringUtils.replaceEach(
+              ConfigHandler.chatFormat.replaceAll(" " + Replacment.RANK_SUFFIX, ""),
+              new String[] {
+                Replacment.USERNAME,
+                Replacment.CHANNEL,
+                Replacment.MESSAGE,
+                Replacment.DIMENSION,
+                Replacment.RANK_PREFIX,
+              },
+              new String[] {
+                username.replaceAll("&", "\u00A7"),
+                channel.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+                message,
+                Integer.toString(dimension),
+                rank.getPrefix().replaceAll("&", "\u00A7") + TextFormatting.RESET,
+              });
+      return format.replaceAll("\\s\\s+/g", " ");
+    }
   }
 
   private static String applyFilter(Channel channel, String message) {
@@ -126,10 +120,6 @@ public class ChatHelper {
     return CommandUtils.hasPerm("staff.spy", player);
   }
 
-  public static boolean isFormatted(String message) {
-    return false;
-  }
-
   public static void reformatAndSendMessage(Channel ch, String username, String message) {
     message = applyFilter(ch, message);
     for (EntityPlayer player :
@@ -144,6 +134,6 @@ public class ChatHelper {
   }
 
   public static String formatUserNameAndRank(String username) {
-    return username;
+    return TextFormatting.AQUA + username;
   }
 }

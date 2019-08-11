@@ -22,6 +22,7 @@ public class RestRankManager implements IRankManager {
     if (rankCache.containsKey(rank.getID())) {
       return false;
     }
+    ServerEssentialsServer.LOGGER.debug("Registering rank '" + rank.getID() + "'");
     rankCache.put(rank.getID(), rank);
     return true;
   }

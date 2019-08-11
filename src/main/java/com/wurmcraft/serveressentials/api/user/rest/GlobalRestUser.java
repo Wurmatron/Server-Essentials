@@ -161,10 +161,12 @@ public class GlobalRestUser implements Serializable {
   }
 
   public void addPermission(String... perm) {
-    List<String> currentPermissions = new ArrayList<>();
-    Collections.addAll(currentPermissions, getPermission());
-    currentPermissions.addAll(Arrays.asList(perm));
-    this.permission = currentPermissions.toArray(new String[0]);
+    if (perm != null) {
+      List<String> currentPermissions = new ArrayList<>();
+      Collections.addAll(currentPermissions, getPermission());
+      currentPermissions.addAll(Arrays.asList(perm));
+      this.permission = currentPermissions.toArray(new String[0]);
+    }
   }
 
   public void delPermission(String perm) {
@@ -181,15 +183,17 @@ public class GlobalRestUser implements Serializable {
   }
 
   public void addPerk(String... perk) {
-    for (String p : perk) {
-      if (p.contains(".")) {
-        delPerk(p.substring(0, p.indexOf(".")));
+    if (perk != null) {
+      for (String p : perk) {
+        if (p.contains(".")) {
+          delPerk(p.substring(0, p.indexOf(".")));
+        }
       }
+      List<String> currentPerks = new ArrayList<>();
+      Collections.addAll(currentPerks, getPerks());
+      Collections.addAll(currentPerks, perk);
+      this.perks = currentPerks.toArray(new String[0]);
     }
-    List<String> currentPerks = new ArrayList<>();
-    Collections.addAll(currentPerks, getPerks());
-    Collections.addAll(currentPerks, perk);
-    this.perks = currentPerks.toArray(new String[0]);
   }
 
   public void delPerk(String perk) {

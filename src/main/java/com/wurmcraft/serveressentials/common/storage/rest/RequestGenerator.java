@@ -144,16 +144,21 @@ public class RequestGenerator {
       return INSTANCE.post("user/add", globalUser);
     }
 
-    public static int overridePlayer(GlobalRestUser globalUser, Type type) {
+    public static int overridePlayer(GlobalRestUser globalUser, Type type, boolean bypass) {
       synchronized (FMLCommonHandler.instance().getMinecraftServerInstance().getServerThread()) {
         GlobalRestUser currentRestUser = getUser(globalUser.getUuid());
         UserSyncEvent sync = new UserSyncEvent(globalUser, currentRestUser, type);
+        sync.bypass = bypass;
         MinecraftForge.EVENT_BUS.post(sync);
         if (!sync.isCanceled()) {
           return INSTANCE.put("user/" + globalUser.getUuid() + "/override", currentRestUser);
         }
       }
       return 418; //  I'm a teapot
+    }
+
+    public static int overridePlayer(GlobalRestUser globalUser, Type type) {
+      return overridePlayer(globalUser, type, false);
     }
   }
 

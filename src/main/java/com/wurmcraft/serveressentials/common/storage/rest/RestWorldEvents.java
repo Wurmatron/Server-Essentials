@@ -107,28 +107,40 @@ public class RestWorldEvents {
   @SubscribeEvent
   public void onUserSync(UserSyncEvent e) {
     if (e.type == Type.LOGOUT || e.type == Type.STANDARD) {
-      if (!e.localServerUser.rank.equalsIgnoreCase(e.restUser.rank)) { // Correct Rank
+      if (e.bypass) {
         e.restUser.setRank(rankChangeCache.get(e.localServerUser.getUuid()));
         rankChangeCache.remove(e.localServerUser.getUuid());
-      }
-      if (e.localServerUser.getPerks().length != e.restUser.getPerks().length) { // Correct Perks
         e.restUser.addPerk(perkChangeCache.get(e.localServerUser.getUuid()));
         perkChangeCache.remove(e.localServerUser.getUuid());
-      }
-      if (e.localServerUser.getPermission().length
-          != e.restUser.getPermission().length) { // Correct Perms
         e.restUser.addPermission(permChangeChache.get(e.localServerUser.getUuid()));
         permChangeChache.remove(e.localServerUser.getUuid());
-      }
-      e.restUser.setMuted(e.localServerUser.isMuted());
-      if (e.restUser.getDiscord().isEmpty()
-          || !e.localServerUser.getDiscord().equals(e.restUser.getDiscord())) {
+        e.restUser.setMuted(e.localServerUser.isMuted());
         e.restUser.setDiscord(e.localServerUser.getDiscord());
+        playerJoinTime.put(e.restUser.getUuid(), System.currentTimeMillis());
+      } else {
+        if (!e.localServerUser.rank.equalsIgnoreCase(e.restUser.rank)) { // Correct Rank
+          e.restUser.setRank(rankChangeCache.get(e.localServerUser.getUuid()));
+          rankChangeCache.remove(e.localServerUser.getUuid());
+        }
+        if (e.localServerUser.getPerks().length != e.restUser.getPerks().length) { // Correct Perks
+          e.restUser.addPerk(perkChangeCache.get(e.localServerUser.getUuid()));
+          perkChangeCache.remove(e.localServerUser.getUuid());
+        }
+        if (e.localServerUser.getPermission().length
+            != e.restUser.getPermission().length) { // Correct Perms
+          e.restUser.addPermission(permChangeChache.get(e.localServerUser.getUuid()));
+          permChangeChache.remove(e.localServerUser.getUuid());
+        }
+        e.restUser.setMuted(e.localServerUser.isMuted());
+        if (e.restUser.getDiscord().isEmpty()
+            || !e.localServerUser.getDiscord().equals(e.restUser.getDiscord())) {
+          e.restUser.setDiscord(e.localServerUser.getDiscord());
+        }
+        long gainedTime =
+            +(System.currentTimeMillis() - playerJoinTime.get(e.restUser.getUuid())) / 1000;
+        playerJoinTime.put(e.restUser.getUuid(), System.currentTimeMillis());
+        e.restUser.setServerData(updatePlayTime(e.restUser.getServerData(), gainedTime));
       }
-      long gainedTime =
-          +(System.currentTimeMillis() - playerJoinTime.get(e.restUser.getUuid())) / 1000;
-      playerJoinTime.put(e.restUser.getUuid(), System.currentTimeMillis());
-      e.restUser.setServerData(updatePlayTime(e.restUser.getServerData(), gainedTime));
     }
   }
 
@@ -162,11 +174,17 @@ public class RestWorldEvents {
   // Correct any issues that may arise from dev-testing / running older / newer versions together
   private static void checkForAndCorrectErrors(
       EntityPlayer player, GlobalRestUser global, LocalRestUser local) {
-    if (global != null && global.rank != null && global.rank.isEmpty()
-        || !global.rank.isEmpty() && ServerEssentialsAPI.rankManager.getRank(global.rank) == null) {
-      global.rank = ConfigHandler.defaultRank;
-    } else {
-      global.rank = ConfigHandler.defaultRank;
+    if (global != null && global.rank.isEmpty()
+        || global != null && !ServerEssentialsAPI.rankManager.exists(global.rank)) {
+      global.rank = UserManager.getDefaultRank().getName();
+      rankChangeCache.put(player.getGameProfile().getId().toString(), global.rank);
+      RequestGenerator.User.overridePlayer(global, Type.STANDARD, true);
+      ServerEssentialsServer.LOGGER.error(
+          "Correcting "
+              + player.getDisplayNameString()
+              + " with invalid rank to '"
+              + UserManager.getDefaultRank().getID()
+              + "'");
     }
   }
 }
