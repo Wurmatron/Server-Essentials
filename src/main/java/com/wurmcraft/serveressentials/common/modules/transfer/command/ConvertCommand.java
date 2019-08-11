@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.common.modules.security.command;
+package com.wurmcraft.serveressentials.common.modules.transfer.command;
 
 import com.wurmcraft.serveressentials.api.command.Command;
 import com.wurmcraft.serveressentials.api.command.ModuleCommand;
@@ -12,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 
-@ModuleCommand(moduleName = "Security")
+@ModuleCommand(moduleName = "Transfer")
 public class ConvertCommand extends Command {
 
   @Override

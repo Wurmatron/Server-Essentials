@@ -14,13 +14,14 @@ import net.minecraft.entity.player.EntityPlayer;
 public class AutoRankUtils {
 
   public static boolean hasRequirments(EntityPlayer player, AutoRank auto) {
-    if(auto != null && player != null) {
+    if (auto != null && player != null) {
       return auto.getBalance() <= UserManager.getServerCurrency(player.getGameProfile().getId())
           && auto.getExp() <= player.experienceLevel
           && auto.getRank()
-          .equals(Objects
-              .requireNonNull(UserManager.getUserRank(player.getGameProfile().getId().toString()))
-              .getID())
+              .equals(
+                  Objects.requireNonNull(
+                          UserManager.getUserRank(player.getGameProfile().getId().toString()))
+                      .getID())
           && getTotalPlayTime(player) >= auto.getPlayTime();
     }
     return false;

@@ -228,6 +228,20 @@ var routes = Routes{
 		true,
 		SetTransferData,
 	},
+	Route{
+		"AddToken",
+		"POST",
+		"/discord/add",
+		true,
+		SetToken,
+	},
+	Route{
+		"ListToken",
+		"GET",
+		"/discord/list",
+		true,
+		GetAllTokens,
+	},
 }
 
 func Index(w http.ResponseWriter, _ *http.Request, _ mux.Params) {

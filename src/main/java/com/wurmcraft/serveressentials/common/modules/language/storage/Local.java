@@ -244,6 +244,11 @@ public class Local implements FileType {
   public String TRANSFER_TRANSFERRED;
   public String TRANSFER_SENT;
 
+  // Discord
+  public String DESCRIPTION_VERIFY;
+  public String DISCORD_INVALID_TOKEN;
+  public String DISCORD_SYNCED;
+
   public Local(String key) {
     this.key = key;
   }

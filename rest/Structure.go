@@ -101,3 +101,8 @@ type ItemBin struct {
 	TransferID string   `json:"transferID"`
 	Storage    []string `json:"items"`
 }
+
+type Token struct {
+	DiscordID string `json:"id"`
+	Token string `json:"token"`
+}

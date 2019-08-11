@@ -121,6 +121,10 @@ public class RestWorldEvents {
         permChangeChache.remove(e.localServerUser.getUuid());
       }
       e.restUser.setMuted(e.localServerUser.isMuted());
+      if (e.restUser.getDiscord().isEmpty()
+          || !e.localServerUser.getDiscord().equals(e.restUser.getDiscord())) {
+        e.restUser.setDiscord(e.localServerUser.getDiscord());
+      }
       long gainedTime =
           +(System.currentTimeMillis() - playerJoinTime.get(e.restUser.getUuid())) / 1000;
       playerJoinTime.put(e.restUser.getUuid(), System.currentTimeMillis());

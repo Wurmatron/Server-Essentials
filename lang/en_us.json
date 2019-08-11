@@ -222,5 +222,8 @@
   "GENERAL_KIT_INVALID_NAME": "&cYou cannot name a kit that!",
   "GENERAL_KIT_CREATED": "&5%kit% Created",
   "CHAT_NO_PERMS": "&cNo Permission, to run this command!",
-  "DESCRIPTION_CONVERT": "&5Convert ItemJson to the Item"
+  "DESCRIPTION_CONVERT": "&5Convert ItemJson to the Item",
+  "DESCRIPTION_VERIFY": "&5Verify your minecraft account with our discord server",
+  "DISCORD_INVALID_TOKEN": "&5Invalid Token",
+  "DISCORD_SYNCED": "&5Verified, Please allow 1h for discord to be synced"
 }

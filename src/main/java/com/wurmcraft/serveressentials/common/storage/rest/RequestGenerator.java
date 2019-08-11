@@ -6,6 +6,7 @@ import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.insta
 import com.wurmcraft.serveressentials.api.Validation;
 import com.wurmcraft.serveressentials.api.storage.json.Currency;
 import com.wurmcraft.serveressentials.api.storage.json.ServerStatus;
+import com.wurmcraft.serveressentials.api.storage.json.Token;
 import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
@@ -257,6 +258,13 @@ public class RequestGenerator {
 
     public static TransferBin getTransfer(UUID uuid) {
       return INSTANCE.get("transfer/" + uuid.toString(), TransferBin.class);
+    }
+  }
+
+  public static class Discord {
+
+    public static Token[] getDiscordCodes() {
+      return INSTANCE.get("discord/list", Token[].class);
     }
   }
 }

@@ -9,7 +9,7 @@ import (
 )
 
 // Rest Config
-const version string = "0.0.3"
+const version string = "0.0.4"
 const address string = ":5050"
 const httpsCert string = "fullchain.pem"
 const httpsKey string = "privkey.pem"
@@ -25,6 +25,7 @@ const redisDatabaseTeam = redisDatabaseAutoRank + 1
 const redisDatabaseEco = redisDatabaseTeam + 1
 const redisDatabaseStatus = redisDatabaseEco + 1
 const redisDatabaseTransfer = redisDatabaseStatus + 1
+const redisDatabaseDiscord = redisDatabaseTransfer + 1
 
 func main() {
 	fmt.Println("Loading Rest-API v" + version + " on " + address)
