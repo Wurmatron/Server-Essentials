@@ -48,16 +48,18 @@ public class DataHelper {
   }
 
   public static boolean save(File file, FileType data) {
-    if (!file.exists()) {
-      file.mkdirs();
-    }
-    File dataFile = new File(file + File.separator + data.getID() + ".json");
-    try {
-      boolean created = dataFile.createNewFile();
-      Files.write(Paths.get(dataFile.getAbsolutePath()), instance.GSON.toJson(data).getBytes());
-      return created || file.exists();
-    } catch (IOException e) {
-      ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
+    if (file != null && data != null && data.getID() != null && !data.getID().isEmpty()) {
+      if (!file.exists()) {
+        file.mkdirs();
+      }
+      File dataFile = new File(file + File.separator + data.getID() + ".json");
+      try {
+        boolean created = dataFile.createNewFile();
+        Files.write(Paths.get(dataFile.getAbsolutePath()), instance.GSON.toJson(data).getBytes());
+        return created || file.exists();
+      } catch (IOException e) {
+        ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
+      }
     }
     return false;
   }

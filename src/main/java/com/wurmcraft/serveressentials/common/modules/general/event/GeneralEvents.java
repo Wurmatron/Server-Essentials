@@ -78,7 +78,7 @@ public class GeneralEvents {
         TeleportUtils.teleportTo(
             (EntityPlayerMP) e.player, GeneralModule.config.spawn, false, false);
       }
-    } else {
+    } else if (GeneralModule.config != null && GeneralModule.config.spawn != null) {
       TeleportUtils.teleportTo((EntityPlayerMP) e.player, GeneralModule.config.spawn, false, false);
     }
   }
