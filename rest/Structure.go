@@ -48,6 +48,11 @@ type UserSimple struct {
 	Bank    Bank   `json:"bank"`
 }
 
+type UserLookup struct {
+	UUID string `json:"uuid"`
+	Name string `json:"name"`
+}
+
 // Rank
 type Rank struct {
 	Name        string   `json:"name"`
@@ -104,5 +109,5 @@ type ItemBin struct {
 
 type Token struct {
 	DiscordID string `json:"id"`
-	Token string `json:"token"`
+	Token     string `json:"token"`
 }

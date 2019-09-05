@@ -62,6 +62,18 @@ var routes = Routes{
 		false,
 		GetAllUsers,
 	},
+	Route{
+		"UserLookup",
+		"GET",
+		"/uuid",
+		true,
+		GetAllUUIDLookup,
+	},
+	Route{"AddUserLookup",
+		"POST",
+		"/uuid/add",
+		true,
+		AddUserLookup},
 	// Rank
 	Route{
 		"GetRank",

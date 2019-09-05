@@ -13,6 +13,7 @@ var redisDBuser *redis.Client
 
 func init() {
 	redisDBuser = newClient(redisDatabaseUser)
+	redisDBlookup = newClient(redisDatabaseLookup)
 }
 
 func GetGlobalUser(w http.ResponseWriter, _ *http.Request, p mux.Params) {
@@ -70,4 +71,45 @@ func GetAllUsers(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
 		return
 	}
 	fmt.Fprintln(w, string(output))
+}
+
+func GetAllUUIDLookup(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
+	var data []UserLookup
+	for entry := range redisDBlookup.Keys("*").Val() {
+		var userLookup UserLookup
+		json.Unmarshal([]byte(redisDBlookup.Get(redisDBlookup.Keys("*").Val()[entry]).Val()), &userLookup)
+		data = append(data, userLookup)
+		output, err := json.MarshalIndent(playerData, " ", " ")
+		if err != nil {
+			fmt.Fprintln(w, "{}")
+			return
+		}
+		fmt.Fprintln(w, string(output))
+		j
+	}
+}
+
+func AddUserLookup(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	var lookupUser UserLookup
+	err = json.Unmarshal(b, &lookupUser)
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	output, err := json.MarshalIndent(lookupUser, "", " ")
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	redisDBlookup.Set(lookupUser.UUID, output, 0)
+	w.WriteHeader(http.StatusCreated)
 }
