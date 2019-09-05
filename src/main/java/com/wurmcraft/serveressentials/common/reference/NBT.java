@@ -4,4 +4,5 @@ public class NBT {
   // Signs
   public static final String SHOP_DATA = "shopData";
   public static final String SHOP_STORAGE = "shopStorage";
+  public static final String OWNER = "owner";
 }

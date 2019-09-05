@@ -8,9 +8,12 @@ import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.item.StackConverter;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 
 public class SignShopHandler {
 
@@ -18,7 +21,7 @@ public class SignShopHandler {
     if (sign.signText[0].getUnformattedComponentText().contains("[IBuy]")
         || sign.signText[0].getUnformattedComponentText().contains("[ABuy]")) {
       ItemStack item = StackConverter.getData(sign.getTileData().getString(NBT.SHOP_DATA));
-      if (item != null) {
+      if (item != null && !item.isEmpty()) {
         try {
           double cost =
               Double.parseDouble(
@@ -59,7 +62,7 @@ public class SignShopHandler {
     if (sign.signText[0].getUnformattedComponentText().contains("[IBuy]")
         || sign.signText[0].getUnformattedComponentText().contains("[ABuy]")) {
       ItemStack item = StackConverter.getData(sign.getTileData().getString(NBT.SHOP_DATA));
-      if (item != null) {
+      if (item != null && !item.isEmpty()) {
         try {
           double cost =
               Double.parseDouble(
@@ -102,8 +105,63 @@ public class SignShopHandler {
   private static boolean handleBuySign(TileEntitySign sign, EntityPlayer player) {
     if (sign.signText[0].getUnformattedComponentText().contains("[Buy]")) {
       ItemStack item = StackConverter.getData(sign.getTileData().getString(NBT.SHOP_DATA));
+      if (item != null && !item.isEmpty()) {
+        try {
+          double cost =
+              Double.parseDouble(
+                  TextFormatting.getTextWithoutFormattingCodes(
+                      sign.signText[3].getFormattedText()));
+          if (UserManager.canBuy(player, ConfigHandler.serverCurrency, cost)) {
+            int[] pos = sign.getTileData().getIntArray(NBT.SHOP_STORAGE);
+            if (isStorageEmpty(player.world, new BlockPos(pos[0], pos[1], pos[2]), item, true)) {
+              ChatHelper.sendMessage(
+                  player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_INVALID);
+            } else {
+              UserManager.earnCurrency(player, ConfigHandler.serverCurrency, cost);
+              if (player.inventory.addItemStackToInventory(item)) {
+                UserManager.spendCurrency(player, ConfigHandler.serverCurrency, cost);
+                UserManager.earnCurrency(
+                    sign.getTileData().getString(NBT.OWNER), ConfigHandler.serverCurrency, cost);
+                return true;
+              } else {
+                ChatHelper.sendMessage(
+                    player, LanguageModule.getUserLanguage(player).local.CHAT_INVENTORY_FULL);
+              }
+            }
+
+          } else {
+            ChatHelper.sendMessage(
+                player,
+                LanguageModule.getUserLanguage(player)
+                    .local
+                    .ECO_NEED
+                    .replaceAll(Replacment.BALANCE, "" + cost));
+          }
+        } catch (NumberFormatException e) {
+
+        }
+      }
     }
     return false;
+  }
+
+  private static boolean isStorageEmpty(
+      World world, BlockPos pos, ItemStack stack, boolean consumeIfPossible) {
+    if (world.getTileEntity(pos) != null && world.getTileEntity(pos) instanceof IInventory) {
+      IInventory inventory = (IInventory) world.getTileEntity(pos);
+      for (int index = 0; index < inventory.getSizeInventory(); index++) {
+        if (stack.isItemEqual(stack) && stack.getCount() >= stack.getCount()) {
+          if (consumeIfPossible) {
+            ItemStack item = inventory.getStackInSlot(index);
+            item.setCount(item.getCount() - stack.getCount());
+            inventory.setInventorySlotContents(index, item);
+            break;
+          }
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   private static boolean handleSellSign(TileEntitySign sign, EntityPlayer player) {
