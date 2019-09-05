@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.common.storage.rest;
 import static com.wurmcraft.serveressentials.common.storage.StorageUtils.triggerLogoutTimeout;
 
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
+import com.wurmcraft.serveressentials.api.storage.json.UUIDCache;
 import com.wurmcraft.serveressentials.api.user.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
@@ -41,6 +42,9 @@ public class RestWorldEvents {
         RequestGenerator.User.getUser(e.player.getGameProfile().getId().toString());
     LocalRestUser local =
         DataHelper.load(Storage.LOCAL_USER, new LocalRestUser(e.player.getGameProfile().getId()));
+    RequestGenerator.Status.addUUID(
+        new UUIDCache(
+            e.player.getGameProfile().getId().toString(), e.player.getGameProfile().getName()));
     checkForAndCorrectErrors(e.player, user, local);
     if (user != null) {
       if (local == null) { // New to this server but not the network

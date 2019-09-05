@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.api.Validation;
 import com.wurmcraft.serveressentials.api.storage.json.Currency;
 import com.wurmcraft.serveressentials.api.storage.json.ServerStatus;
 import com.wurmcraft.serveressentials.api.storage.json.Token;
+import com.wurmcraft.serveressentials.api.storage.json.UUIDCache;
 import com.wurmcraft.serveressentials.api.user.autorank.AutoRank;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
@@ -218,6 +219,14 @@ public class RequestGenerator {
     public static void syncServer(ServerStatus status) {
       INSTANCE.post("/status", status);
       TrackModule.networkStatus = INSTANCE.get("/status", ServerStatus[].class);
+    }
+
+    public static void addUUID(UUIDCache cache) {
+      INSTANCE.post("/uuid/add", cache);
+    }
+
+    public static UUIDCache[] getUUIDCache() {
+      return INSTANCE.get("/uuid", UUIDCache[].class);
     }
   }
 
