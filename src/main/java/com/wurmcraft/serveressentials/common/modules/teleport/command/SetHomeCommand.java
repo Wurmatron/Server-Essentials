@@ -49,7 +49,15 @@ public class SetHomeCommand extends Command {
         ChatHelper.sendMessage(sender, senderLang.local.TELEPORT_HOME_MAX);
       }
     } else if (args.length == 1) {
-
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      Home home =
+          new Home(
+              args[0],
+              new LocationWrapper(sender.getPosition(), sender.getCommandSenderEntity().dimension));
+      if (UserManager.setHome(player, home)) {
+        ChatHelper.sendMessage(
+            sender, senderLang.local.TELEPORT_HOME_SET.replaceAll(Replacment.HOME, home.getName()));
+      }
     } else ChatHelper.sendMessage(sender, getUsage(senderLang));
   }
 

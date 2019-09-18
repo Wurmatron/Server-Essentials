@@ -55,9 +55,9 @@ public class RequestGenerator {
 
   public static String parseConfigURL(String url) {
     if (url.endsWith("/")) {
-      return ConfigHandler.restURL;
+      return url;
     } else {
-      return ConfigHandler.restURL + "/";
+      return url + "/";
     }
   }
 
