@@ -225,5 +225,6 @@
   "DESCRIPTION_CONVERT": "&5Convert ItemJson to the Item",
   "DESCRIPTION_VERIFY": "&5Verify your minecraft account with our discord server",
   "DISCORD_INVALID_TOKEN": "&5Invalid Token",
-  "DISCORD_SYNCED": "&5Verified, Please allow 1h for discord to be synced"
+  "DISCORD_SYNCED": "&5Verified, Please allow 1h for discord to be synced",
+  "ECO_VOTE": "%player% has voted at %link%"
 }

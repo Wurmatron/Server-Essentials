@@ -228,6 +228,7 @@ public class Local implements FileType {
   public String ECO_REWARD_POINTS_EMPTY;
   public String ECO_REWARD_GIVE;
   public String DESCRIPTION_REWARD;
+  public String ECO_VOTE;
 
   // Security
   public String DESCRIPTION_MODS;

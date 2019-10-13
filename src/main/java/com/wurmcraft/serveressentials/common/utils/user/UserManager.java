@@ -717,9 +717,22 @@ public class UserManager {
     if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
       LocalRestUser user = (LocalRestUser) getUserData(player)[1];
       user.useKit(kit.name);
+      DataHelper.save(Storage.LOCAL_USER, user);
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[0];
       user.useKit(kit.name);
     }
+  }
+
+  public static boolean addReward(EntityPlayer player, int amount) {
+    if (ServerEssentialsAPI.storageType.equalsIgnoreCase("Rest")) {
+      LocalRestUser user = (LocalRestUser) getUserData(player)[1];
+      user.addRewardPoints(amount);
+      DataHelper.save(Storage.LOCAL_USER, user);
+      return true;
+    } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
+
+    }
+    return false;
   }
 }
