@@ -226,5 +226,7 @@
   "DESCRIPTION_VERIFY": "&5Verify your minecraft account with our discord server",
   "DISCORD_INVALID_TOKEN": "&5Invalid Token",
   "DISCORD_SYNCED": "&5Verified, Please allow 1h for discord to be synced",
-  "ECO_VOTE": "%player% has voted at %link%"
+  "ECO_VOTE": "%player% has voted at %link%",
+  "ECO_SIGN_LINK_START": "&5Inventory Link Started",
+  "ECO_SIGN_LINK_NOT_STARTED": "&5Inventory link must be started first, Click on a chest with Redstone to get started"
 }
