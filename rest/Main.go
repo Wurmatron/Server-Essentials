@@ -9,7 +9,7 @@ import (
 )
 
 // Rest Config
-const version string = "0.0.4"
+const version string = "0.0.5"
 const address string = ":5050"
 const httpsCert string = "fullchain.pem"
 const httpsKey string = "privkey.pem"
