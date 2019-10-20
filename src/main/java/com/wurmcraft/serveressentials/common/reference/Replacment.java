@@ -48,4 +48,5 @@ public class Replacment {
   public static final String KIT = "%kit%";
   public static final String MINUTES = "%minutes%";
   public static final String LINK = "%link%";
+  public static final String REASON = "%reason%";
 }

@@ -5,6 +5,7 @@ import static com.wurmcraft.serveressentials.common.ServerEssentialsServer.insta
 
 import com.wurmcraft.serveressentials.api.Validation;
 import com.wurmcraft.serveressentials.api.storage.json.Currency;
+import com.wurmcraft.serveressentials.api.storage.json.GlobalBan;
 import com.wurmcraft.serveressentials.api.storage.json.ServerStatus;
 import com.wurmcraft.serveressentials.api.storage.json.Token;
 import com.wurmcraft.serveressentials.api.storage.json.UUIDCache;
@@ -279,6 +280,17 @@ public class RequestGenerator {
 
     public static Token[] getDiscordCodes() {
       return INSTANCE.get("discord/list", Token[].class);
+    }
+  }
+
+  public static class Ban {
+
+    public static GlobalBan getBan(String uuid) {
+      return INSTANCE.get("ban/" + uuid, GlobalBan.class);
+    }
+
+    public static void addBan(GlobalBan ban) {
+      INSTANCE.post("ban/add", ban);
     }
   }
 }

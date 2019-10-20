@@ -71,7 +71,8 @@ public class SignCreationHelper {
   }
 
   // TODO Buy Sign Usage
-  private static boolean createBuySign(TileEntitySign sign, IBlockState state, EntityPlayer player, ItemStack stack) {
+  private static boolean createBuySign(
+      TileEntitySign sign, IBlockState state, EntityPlayer player, ItemStack stack) {
     try {
       double cost = Double.parseDouble(sign.signText[3].getUnformattedText());
       ItemStack signStack = getItemStack(player);
@@ -82,9 +83,11 @@ public class SignCreationHelper {
         sign.markDirty();
         player.world.notifyBlockUpdate(sign.getPos(), state, state, 3);
         SignShopEvents.tracker.remove(player);
-        ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_CREATED);
+        ChatHelper.sendMessage(
+            player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_CREATED);
       } else {
-        ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_LINK_NOT_STARTED);
+        ChatHelper.sendMessage(
+            player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_LINK_NOT_STARTED);
       }
 
     } catch (NumberFormatException e) {
@@ -95,7 +98,8 @@ public class SignCreationHelper {
   }
 
   private static ItemStack getItemStack(EntityPlayer player) {
-    return getStackFromInv(((IInventory) player.world.getTileEntity(SignShopEvents.tracker.get(player))), player);
+    return getStackFromInv(
+        ((IInventory) player.world.getTileEntity(SignShopEvents.tracker.get(player))), player);
   }
 
   private static ItemStack getStackFromInv(IInventory inv, EntityPlayer player) {
@@ -114,7 +118,8 @@ public class SignCreationHelper {
   }
 
   // TODO Sell Sign Usage
-  private static boolean createSellSign(TileEntitySign sign, IBlockState state, EntityPlayer player, ItemStack stack) {
+  private static boolean createSellSign(
+      TileEntitySign sign, IBlockState state, EntityPlayer player, ItemStack stack) {
     try {
       double cost = Double.parseDouble(sign.signText[3].getUnformattedText());
       ItemStack signStack = getItemStack(player);
@@ -125,9 +130,11 @@ public class SignCreationHelper {
         sign.markDirty();
         player.world.notifyBlockUpdate(sign.getPos(), state, state, 3);
         SignShopEvents.tracker.remove(player);
-        ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_CREATED);
+        ChatHelper.sendMessage(
+            player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_CREATED);
       } else {
-        ChatHelper.sendMessage(player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_LINK_NOT_STARTED);
+        ChatHelper.sendMessage(
+            player, LanguageModule.getUserLanguage(player).local.ECO_SIGN_LINK_NOT_STARTED);
       }
 
     } catch (NumberFormatException e) {
@@ -137,13 +144,15 @@ public class SignCreationHelper {
     return false;
   }
 
-  public static boolean createSign(TileEntitySign sign, IBlockState state, EntityPlayer player, ItemStack stack) {
-    if (UserManager.hasPerm(player, "economy.signCreation") && stack.isItemEqual(SignShopEvents.SHOP_CREATION_TOOL)) {
-    if (sign.signText[0].getUnformattedText().equalsIgnoreCase("[Buy]")) {
-      return createBuySign(sign, state, player, stack);
-    } else if (sign.signText[0].getUnformattedText().equalsIgnoreCase("[Sell]")) {
-      return createSellSign(sign, state, player, stack);
-    }
+  public static boolean createSign(
+      TileEntitySign sign, IBlockState state, EntityPlayer player, ItemStack stack) {
+    if (UserManager.hasPerm(player, "economy.signCreation")
+        && stack.isItemEqual(SignShopEvents.SHOP_CREATION_TOOL)) {
+      if (sign.signText[0].getUnformattedText().equalsIgnoreCase("[Buy]")) {
+        return createBuySign(sign, state, player, stack);
+      } else if (sign.signText[0].getUnformattedText().equalsIgnoreCase("[Sell]")) {
+        return createSellSign(sign, state, player, stack);
+      }
     }
     return false;
   }

@@ -111,3 +111,11 @@ type Token struct {
 	DiscordID string `json:"id"`
 	Token     string `json:"token"`
 }
+
+// Ban
+type Ban struct {
+	Name string `json:"name"`
+	UUID string `json:"uuid"`
+	IP   string `json:"ip"`
+	Reason string `json:"reason"`
+}

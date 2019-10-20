@@ -252,6 +252,10 @@ public class Local implements FileType {
   public String DISCORD_INVALID_TOKEN;
   public String DISCORD_SYNCED;
 
+  // Ban
+  public String DESCRIPTION_BAN_BAN;
+  public String BAN_PLAYER;
+
   public Local(String key) {
     this.key = key;
   }

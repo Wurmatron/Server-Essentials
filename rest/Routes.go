@@ -254,6 +254,27 @@ var routes = Routes{
 		true,
 		GetAllTokens,
 	},
+	Route{
+		"GetBan",
+		"GET",
+		"/ban/:uuid",
+		false,
+		GetBan,
+	},
+	Route{
+		"AddBan",
+		"POST",
+		"/ban/add",
+		true,
+		CreateBan,
+	},
+	Route{
+		"GetAllBans",
+		"GET",
+		"/ban",
+		false,
+		GetAllBans,
+	},
 }
 
 func Index(w http.ResponseWriter, _ *http.Request, _ mux.Params) {

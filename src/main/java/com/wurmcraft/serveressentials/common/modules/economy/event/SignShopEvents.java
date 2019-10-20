@@ -45,7 +45,8 @@ public class SignShopEvents {
                 LanguageModule.getUserLanguage(e.getEntityPlayer()).local.ECO_SIGN_INVALID);
           }
         } else { // Possible New Sign
-          if (createAdminSign(sign, state, e.getEntityPlayer(), e.getItemStack()) || createSign(sign, state, e.getEntityPlayer(), e.getItemStack())) {
+          if (createAdminSign(sign, state, e.getEntityPlayer(), e.getItemStack())
+              || createSign(sign, state, e.getEntityPlayer(), e.getItemStack())) {
             ChatHelper.sendMessage(
                 e.getEntityPlayer(),
                 LanguageModule.getUserLanguage(e.getEntityPlayer()).local.ECO_SIGN_CREATED);
@@ -57,10 +58,12 @@ public class SignShopEvents {
 
   @SubscribeEvent
   public void onLeftClick(PlayerInteractEvent.LeftClickBlock e) {
-    if (e.getItemStack().isItemEqual(SHOP_CREATION_TOOL) && e.getEntityPlayer().world.getTileEntity(e.getPos()) instanceof IInventory) {
+    if (e.getItemStack().isItemEqual(SHOP_CREATION_TOOL)
+        && e.getEntityPlayer().world.getTileEntity(e.getPos()) instanceof IInventory) {
       tracker.put(e.getEntityPlayer(), e.getPos());
-      ChatHelper.sendMessage(e.getEntityPlayer(), LanguageModule.getUserLanguage(e.getEntityPlayer()).local.ECO_SIGN_LINK_START);
+      ChatHelper.sendMessage(
+          e.getEntityPlayer(),
+          LanguageModule.getUserLanguage(e.getEntityPlayer()).local.ECO_SIGN_LINK_START);
     }
   }
-
 }

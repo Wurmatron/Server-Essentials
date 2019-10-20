@@ -27,6 +27,7 @@ const redisDatabaseStatus = redisDatabaseEco + 1
 const redisDatabaseTransfer = redisDatabaseStatus + 1
 const redisDatabaseDiscord = redisDatabaseTransfer + 1
 const redisDatabaseLookup = redisDatabaseDiscord + 1
+const redisDatabaseBan = redisDatabaseLookup + 1
 
 func main() {
 	fmt.Println("Loading Rest-API v" + version + " on " + address)
