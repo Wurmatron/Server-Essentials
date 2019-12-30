@@ -32,6 +32,8 @@ public class MatterBridgeModule {
   public static final SimpleDateFormat DATE_FORMAT =
       new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSSSSSSS'Z'");
 
+  private static boolean validConnection = true;
+
   public void setup() {
     setupAndLoadConfig();
     if (!checkConnection()) {
@@ -81,25 +83,33 @@ public class MatterBridgeModule {
   }
 
   public static MBMessage[] getMessages() {
-    try {
-      URL obj = new URL(getMBURL() + "messages");
-      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-      con.setRequestMethod("GET");
-      con.setRequestProperty("User-Agent", RequestGenerator.USER_AGENT);
-      int responseCode = con.getResponseCode();
-      if (responseCode == HttpsURLConnection.HTTP_OK
-          || responseCode == HttpsURLConnection.HTTP_ACCEPTED) {
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-          response.append(inputLine);
+    if (checkConnection()) {
+      validConnection = true;
+      try {
+        URL obj = new URL(getMBURL() + "messages");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", RequestGenerator.USER_AGENT);
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpsURLConnection.HTTP_OK
+            || responseCode == HttpsURLConnection.HTTP_ACCEPTED) {
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          String inputLine;
+          StringBuilder response = new StringBuilder();
+          while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+          }
+          in.close();
+          return instance.GSON.fromJson(response.toString(), MBMessage[].class);
         }
-        in.close();
-        return instance.GSON.fromJson(response.toString(), MBMessage[].class);
+      } catch (Exception e) {
+        LOGGER.warn(e.getLocalizedMessage());
       }
-    } catch (Exception e) {
-      LOGGER.warn(e.getLocalizedMessage());
+    } else {
+      if (validConnection) {
+        LOGGER.error("Connection to MatterBridge via " + config.gateway + "@" + config.url + " has been lost!");
+      }
+      validConnection = false;
     }
     return new MBMessage[0];
   }

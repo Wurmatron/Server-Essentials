@@ -230,5 +230,7 @@
   "ECO_SIGN_LINK_START": "&5Inventory Link Started",
   "ECO_SIGN_LINK_NOT_STARTED": "&5Inventory link must be started first, Click on a chest with Redstone to get started",
   "DESCRIPTION_BAN_BAN": "&5Globaly ban someome for all linked servers within the rest database",
-  "BAN_PLAYER": "%player% has been banned for %reason%"
+  "BAN_PLAYER": "%player% has been banned for %reason%",
+  "BRIDGE_DESCRIPTION": "&5Reload the matterbridge config link",
+  "BRIDGE_RELOAD": "&5MatterBridge Config reloaded!"
 }

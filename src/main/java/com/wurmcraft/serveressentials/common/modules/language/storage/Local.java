@@ -256,6 +256,10 @@ public class Local implements FileType {
   public String DESCRIPTION_BAN_BAN;
   public String BAN_PLAYER;
 
+  // Bridge
+  public String BRIDGE_DESCRIPTION;
+  public String BRIDGE_RELOAD;
+
   public Local(String key) {
     this.key = key;
   }
