@@ -9,7 +9,6 @@ import com.wurmcraft.serveressentials.common.modules.matterbridge.MatterBridgeMo
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
-
 @ModuleCommand(moduleName = "MatterBridge")
 public class BridgeCommand extends Command {
 
@@ -29,13 +28,14 @@ public class BridgeCommand extends Command {
   }
 
   @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
+  public void execute(
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     ChatHelper.sendMessage(sender, getUsage(senderLang));
   }
 
-
   @SubCommand
-  public void reload(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
+  public void reload(
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     MatterBridgeModule.setupAndLoadConfig();
     ChatHelper.sendMessage(sender, senderLang.local.BRIDGE_RELOAD);
   }

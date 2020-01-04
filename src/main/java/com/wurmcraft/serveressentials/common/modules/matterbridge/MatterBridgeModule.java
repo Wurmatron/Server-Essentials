@@ -107,7 +107,12 @@ public class MatterBridgeModule {
       }
     } else {
       if (validConnection) {
-        LOGGER.error("Connection to MatterBridge via " + config.gateway + "@" + config.url + " has been lost!");
+        LOGGER.error(
+            "Connection to MatterBridge via "
+                + config.gateway
+                + "@"
+                + config.url
+                + " has been lost!");
       }
       validConnection = false;
     }

@@ -47,7 +47,8 @@ public class VerifyCommand extends Command {
           user.setDiscord(token.id);
           RequestGenerator.User.overridePlayer(user, Type.STANDARD);
           ChatHelper.sendMessage(sender, senderLang.local.DISCORD_SYNCED);
-          UserManager.addReward((EntityPlayer) sender.getCommandSenderEntity(), ConfigHandler.discordReward);
+          UserManager.addReward(
+              (EntityPlayer) sender.getCommandSenderEntity(), ConfigHandler.discordReward);
         }
       }
       if (!found) {
