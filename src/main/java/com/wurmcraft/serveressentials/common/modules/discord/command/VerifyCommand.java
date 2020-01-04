@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.api.storage.json.Token;
 import com.wurmcraft.serveressentials.api.user.event.UserSyncEvent.Type;
 import com.wurmcraft.serveressentials.api.user.rest.GlobalRestUser;
+import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.storage.rest.RequestGenerator;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
@@ -46,6 +47,7 @@ public class VerifyCommand extends Command {
           user.setDiscord(token.id);
           RequestGenerator.User.overridePlayer(user, Type.STANDARD);
           ChatHelper.sendMessage(sender, senderLang.local.DISCORD_SYNCED);
+          UserManager.addReward((EntityPlayer) sender.getCommandSenderEntity(), ConfigHandler.discordReward);
         }
       }
       if (!found) {

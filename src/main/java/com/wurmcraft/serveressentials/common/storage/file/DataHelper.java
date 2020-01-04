@@ -52,7 +52,7 @@ public class DataHelper {
       if (!file.exists()) {
         file.mkdirs();
       }
-      File dataFile = new File(file + File.separator + data.getID() + ".json");
+      File dataFile = new File(file + File.separator + data.getID()+ ".json");
       try {
         boolean created = dataFile.createNewFile();
         Files.write(Paths.get(dataFile.getAbsolutePath()), instance.GSON.toJson(data).getBytes());

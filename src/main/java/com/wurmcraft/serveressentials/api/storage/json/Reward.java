@@ -24,7 +24,7 @@ public class Reward implements FileType {
 
   @Override
   public String getID() {
-    return stack.isEmpty() ? "Invalid" : stack;
+    return stack.isEmpty() ? "Invalid" : stack.replaceAll("<", "").replaceAll(">", "");
   }
 
   public ItemStack getStack() {

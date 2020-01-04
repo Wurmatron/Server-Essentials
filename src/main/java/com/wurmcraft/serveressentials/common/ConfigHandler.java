@@ -101,4 +101,7 @@ public class ConfigHandler {
 
   @Comment("Transfer ID")
   public static String transferID = "";
+
+  @Comment("Discord Verify Reward")
+  public static int discordReward = 3;
 }

@@ -36,6 +36,9 @@ public class RewardUtils {
           inThisTier.add((Reward) type);
         }
       }
+      if (inThisTier.size() == 0 && tier + 1 <= getMaxTier()) {
+        inThisTier = getRewardsPerTier(tier + 1);
+      }
       return inThisTier;
     }
     return new ArrayList<>();
