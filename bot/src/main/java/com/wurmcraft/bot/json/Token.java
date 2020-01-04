@@ -1,4 +1,4 @@
-package com.wurmcraft.json;
+package com.wurmcraft.bot.json;
 
 public class Token {
 

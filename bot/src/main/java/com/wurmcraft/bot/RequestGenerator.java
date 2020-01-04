@@ -1,8 +1,8 @@
-package java.com.wurmcraft.bot;
+package com.wurmcraft.bot;
 
 
-import static java.com.wurmcraft.bot.DiscordBot.auth;
-import static java.com.wurmcraft.bot.DiscordBot.baseURL;
+import static com.wurmcraft.bot.DiscordBot.auth;
+import static com.wurmcraft.bot.DiscordBot.baseURL;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
