@@ -1,34 +1,45 @@
 package com.wurmcraft.bot;
 
 
+import com.wurmcraft.bot.json.GlobalRestUser;
 import com.wurmcraft.bot.json.Player;
 import com.wurmcraft.bot.json.Players;
+import com.wurmcraft.bot.json.ServerRankMatcher;
+import com.wurmcraft.bot.json.ServerRankMatcher.Match;
+import com.wurmcraft.bot.json.ServerTime;
 import com.wurmcraft.bot.json.Token;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
-
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.user.User;
-
 import org.javacord.api.util.logging.FallbackLoggerConfiguration;
 
 
 public class DiscordBot {
 
   private static final int keyLength = 8;
+  private static final long ACTIVE_TIME = (long) (30L * 8.64e7);
 
   // Setup for Wurmcraft Discord (varies per server)
   private static final String serverID = "144229954186510336";
   private static final long verifyRole = 661999713578385441L;
+  private static ServerRankMatcher matcher;
 
   public static String auth;
   public static String baseURL;
 
   public static List<Long> verifiedUsers = new ArrayList<>();
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws FileNotFoundException {
+    matcher = RequestGenerator.GSON
+        .fromJson(new FileReader(new File("servers.json")), ServerRankMatcher.class);
     if (args.length >= 3) {
       baseURL = com.wurmcraft.bot.RequestGenerator.parseConfigURL(args[1]);
       auth = "Basic " + args[2];
@@ -36,7 +47,7 @@ public class DiscordBot {
       FallbackLoggerConfiguration.setDebug(true);
       api.addMessageCreateListener(e -> {
         // Prevent the same discord ID from being verified multiple times
-        if(verifiedUsers.contains(e.getMessage().getUserAuthor().get().getId())) {
+        if (verifiedUsers.contains(e.getMessage().getUserAuthor().get().getId())) {
           e.getChannel().sendMessage("You have already been verified!");
         } else {
           if (e.isPrivateMessage() && e.getMessage().getContent().equalsIgnoreCase("!verify")) {
@@ -51,13 +62,12 @@ public class DiscordBot {
       });
       api.getThreadPool().getScheduler().scheduleAtFixedRate(() -> {
         System.out.println("Checking for new user's to verify!");
-        Player[] players = ((Players) com.wurmcraft.bot.RequestGenerator.INSTANCE
-            .get("/user", (Class) Players.class)).players;
+        Player[] players = ((Players) RequestGenerator.INSTANCE.get("/user", (Class) Players.class)).players;
         verifiedUsers.clear();
         for (Player player : players) {
           if (player.discord != null && !player.discord.isEmpty()) {
             System.out
-                .println("User '" + player.uuid + "' has been verified, Checking discord rank!");
+                .println("User '" + player.uuid + "' has been found, updating ranks!");
             try {
               User user = api.getUserById(player.discord).get();
               List<Role> roles = user.getRoles(api.getServerById(serverID).get());
@@ -77,12 +87,13 @@ public class DiscordBot {
               } else {
                 verifiedUsers.add(user.getId());
               }
+              updateUserRanks(player, user, api);
             } catch (Exception e) {
               e.printStackTrace();
             }
           }
         }
-      }, 0L, 5L, TimeUnit.MINUTES);
+      }, 0L, 20L, TimeUnit.MINUTES);
     }
   }
 
@@ -94,5 +105,25 @@ public class DiscordBot {
         .filter(i -> ((i <= 57 || i >= 65) && (i <= 90 || i >= 97))).limit(keyLength)
         .collect(StringBuilder::new, StringBuilder::appendCodePoint,
             StringBuilder::append)).toString();
+  }
+
+  private static void updateUserRanks(Player player, User user, DiscordApi api) {
+    GlobalRestUser globalRestUser = RequestGenerator.User.getUser(player.uuid);
+    if (globalRestUser != null) {
+      for (ServerTime time : globalRestUser.getServerData()) {
+        for (Match match : matcher.servers) {
+          if (match.serverID.equals(time.getServerID())) {
+            Role role = api.getRoleById(match.rankID).get();
+            if (time.getLastSeen() + ACTIVE_TIME > System.currentTimeMillis()) {
+              if (!role.getUsers().contains(user)) {
+                role.addUser(user);
+              }
+            } else {
+              role.removeUser(user);
+            }
+          }
+        }
+      }
+    }
   }
 }

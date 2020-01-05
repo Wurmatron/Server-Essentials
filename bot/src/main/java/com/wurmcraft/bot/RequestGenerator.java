@@ -6,7 +6,8 @@ import static com.wurmcraft.bot.DiscordBot.baseURL;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.wurmcraft.json.Token;
+import com.wurmcraft.bot.json.GlobalRestUser;
+import com.wurmcraft.bot.json.Token;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -68,11 +69,11 @@ public class RequestGenerator {
       connection.getOutputStream().write(json.getBytes());
       int status = ((HttpsURLConnection) connection).getResponseCode();
       if (status == HttpsURLConnection.HTTP_UNAUTHORIZED) {
-//        LOGGER.error("Invalid Rest API Key, Unable to Put");
+System.out.println("Invalid Rest API Key, Unable to Put");
       }
       return status;
     } catch (Exception e) {
-//      LOGGER.warn(e.getLocalizedMessage());
+      System.out.println(e.getMessage());
     }
     return 418; //  I'm a teapot
   }
@@ -113,7 +114,7 @@ public class RequestGenerator {
           return GSON.fromJson(response.toString(), type);
         }
       } catch (Exception e) {
-//        LOGGER.warn(e.getMessage());
+        System.out.println(e.getMessage());
       }
     }
     return null;
@@ -123,6 +124,13 @@ public class RequestGenerator {
 
     public static Token[] getDiscordCodes() {
       return INSTANCE.get("discord/list", Token[].class);
+    }
+  }
+
+  public static class User {
+
+    public static GlobalRestUser getUser(String uuid) {
+      return INSTANCE.get("user/" + uuid, GlobalRestUser.class);
     }
   }
 
