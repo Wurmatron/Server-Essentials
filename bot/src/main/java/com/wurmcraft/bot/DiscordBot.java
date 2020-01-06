@@ -1,17 +1,19 @@
 package com.wurmcraft.bot;
 
 
+import com.stanjg.ptero4j.PteroUserAPI;
+import com.stanjg.ptero4j.entities.panel.user.UserServer;
 import com.wurmcraft.bot.json.GlobalRestUser;
 import com.wurmcraft.bot.json.Player;
 import com.wurmcraft.bot.json.Players;
-import com.wurmcraft.bot.json.ServerRankMatcher;
-import com.wurmcraft.bot.json.ServerRankMatcher.Match;
+import com.wurmcraft.bot.json.ServerMatcher;
+import com.wurmcraft.bot.json.ServerMatcher.Match;
 import com.wurmcraft.bot.json.ServerTime;
 import com.wurmcraft.bot.json.Token;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -30,24 +32,32 @@ public class DiscordBot {
   // Setup for Wurmcraft Discord (varies per server)
   private static final String serverID = "144229954186510336";
   private static final long verifyRole = 661999713578385441L;
-  private static ServerRankMatcher matcher;
+  private static ServerMatcher matcher;
 
   public static String auth;
   public static String baseURL;
 
-  public static List<Long> verifiedUsers = new ArrayList<>();
+  public static HashMap<Long, String> verifiedUsers = new HashMap<>();
+  public static PteroUserAPI panelAPI;
 
+  // 0 = Bot Auth Key
+  // 1 = Rest API URL
+  // 2 = Rest API Key
+  // 3 = Panel URL
+  // 4 = Panel User Key
   public static void main(String[] args) throws FileNotFoundException {
     matcher = RequestGenerator.GSON
-        .fromJson(new FileReader(new File("servers.json")), ServerRankMatcher.class);
-    if (args.length >= 3) {
+        .fromJson(new FileReader(new File("servers.json")), ServerMatcher.class);
+    if (args.length >= 5) {
       baseURL = com.wurmcraft.bot.RequestGenerator.parseConfigURL(args[1]);
       auth = "Basic " + args[2];
+      panelAPI = new PteroUserAPI(args[3], args[4]);
       DiscordApi api = (new DiscordApiBuilder()).setToken(args[0]).login().join();
       FallbackLoggerConfiguration.setDebug(true);
       api.addMessageCreateListener(e -> {
         // Prevent the same discord ID from being verified multiple times
-        if (verifiedUsers.contains(e.getMessage().getUserAuthor().get().getId())) {
+        if (e.isPrivateMessage() && e.getMessage().getContent().equalsIgnoreCase("!verify")
+            && verifiedUsers.containsKey(e.getMessage().getUserAuthor().get().getId())) {
           e.getChannel().sendMessage("You have already been verified!");
         } else {
           if (e.isPrivateMessage() && e.getMessage().getContent().equalsIgnoreCase("!verify")) {
@@ -59,10 +69,44 @@ public class DiscordBot {
                 "In-game type /verify <code> on any of the wurmcraft network servers, to link your discord account with your minecraft account");
           }
         }
+        if (e.isPrivateMessage() && e.getMessage().getContent().startsWith("!deleteplayerfile")) {
+          if (verifiedUsers.containsKey(e.getMessage().getUserAuthor().get().getId())) {
+            String serverID = e.getMessage().getContent().replaceAll("(?i)!deleteplayerfile", "")
+                .replaceAll(" ", "");
+            boolean found = false;
+            for (Match server : matcher.servers) {
+              if (server.serverID.equalsIgnoreCase(serverID)) {
+                found = true;
+                List<UserServer> users = panelAPI.getServersController().getServers();
+                for (UserServer pServer : users) {
+                  if (pServer.getUuid().equals(server.panelID)) {
+                    pServer.sendCommand("DPF " + verifiedUsers
+                        .get(e.getMessage().getUserAuthor().get().getId()));
+                    e.getChannel().sendMessage("Player file deleted!");
+                  }
+                }
+              }
+            }
+            if (!found) {
+              e.getMessage().getChannel().sendMessage(
+                  "Invalid Server ID, " + serverID + " Checkout " + baseURL + "/status"
+                      + " for the full list of servers.");
+            }
+          } else {
+            System.out.println("You are not verified!");
+          }
+        } else if (e.isPrivateMessage() && e.getMessage().getContent().equalsIgnoreCase("!help")
+            || e.isPrivateMessage() && e.getMessage().getContent().equalsIgnoreCase("help")) {
+          e.getMessage().getChannel()
+              .sendMessage("!verify (Gives a code for use in-game to verify your discord account");
+          e.getMessage().getChannel().sendMessage(
+              "!deleteplayerfile (deletes your player file on a given server, Notice, this cannot be undone)");
+        }
       });
       api.getThreadPool().getScheduler().scheduleAtFixedRate(() -> {
         System.out.println("Checking for new user's to verify!");
-        Player[] players = ((Players) RequestGenerator.INSTANCE.get("/user", (Class) Players.class)).players;
+        Player[] players = ((Players) RequestGenerator.INSTANCE
+            .get("/user", (Class) Players.class)).players;
         verifiedUsers.clear();
         for (Player player : players) {
           if (player.discord != null && !player.discord.isEmpty()) {
@@ -73,7 +117,7 @@ public class DiscordBot {
               List<Role> roles = user.getRoles(api.getServerById(serverID).get());
               boolean verify = false;
               for (Role role : roles) {
-                if (role.getId() == 661999713578385441L && role.getUsers().contains(user)) {
+                if (role.getId() == verifyRole && role.getUsers().contains(user)) {
                   verify = true;
                 }
               }
@@ -83,10 +127,8 @@ public class DiscordBot {
                 Role verifyDiscord = api.getRoleById(verifyRole).get();
                 verifyDiscord.addUser(user);
                 user.sendMessage("You have been verified!");
-                verifiedUsers.add(user.getId());
-              } else {
-                verifiedUsers.add(user.getId());
               }
+              verifiedUsers.put(user.getId(), player.uuid);
               updateUserRanks(player, user, api);
             } catch (Exception e) {
               e.printStackTrace();
@@ -126,4 +168,5 @@ public class DiscordBot {
       }
     }
   }
+
 }
