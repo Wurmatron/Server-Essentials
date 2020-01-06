@@ -14,12 +14,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.UsernameCache;
 
 @ModuleCommand(moduleName = "General")
 public class DPFCommand extends Command {
@@ -50,11 +52,11 @@ public class DPFCommand extends Command {
         player.onKillCommand();
         ((EntityPlayerMP) player)
             .connection.disconnect(
-                new TextComponentString(
-                    LanguageModule.getUserLanguage(player)
-                        .local
-                        .GENERAL_DELETE_PLAYER_FILE
-                        .replaceAll("&", Replacment.FORMATTING_CODE)));
+            new TextComponentString(
+                LanguageModule.getUserLanguage(player)
+                    .local
+                    .GENERAL_DELETE_PLAYER_FILE
+                    .replaceAll("&", Replacment.FORMATTING_CODE)));
         File playerFile =
             new File(
                 server.getDataDirectory(),
@@ -76,6 +78,31 @@ public class DPFCommand extends Command {
             sender,
             senderLang.local.GENERAL_DPF_DELETED.replaceAll(
                 Replacment.PLAYER, player.getDisplayNameString()));
+      } else if (isUUID(args[0])) {
+        UUID uuid = UUID.fromString(args[0]);
+        String name = UsernameCache.getLastKnownUsername(uuid);
+        EntityPlayer entity = CommandUtils.getPlayerForName(args[0]);
+        if(entity != null) {
+          execute(server,sender,new String[] {name}, senderLang);
+        } else {
+          File playerFile =
+              new File(
+                  server.getDataDirectory(),
+                  File.separator
+                      + server.getFolderName()
+                      + File.separator
+                      + "playerdata"
+                      + File.separator
+                      + player.getGameProfile().getId().toString()
+                      + ".dat");
+          ServerEssentialsServer.LOGGER.info(
+              "Deleting " + player.getDisplayNameString() + "'s player file");
+          try {
+            Files.delete(playerFile.toPath());
+          } catch (IOException e) {
+            ServerEssentialsServer.LOGGER.warn(e.getLocalizedMessage());
+          }
+        }
       } else {
         ChatHelper.sendMessage(
             sender, senderLang.local.PLAYER_NOT_FOUND.replaceAll(Replacment.PLAYER, args[0]));
@@ -101,5 +128,14 @@ public class DPFCommand extends Command {
   @Override
   public boolean canConsoleRun() {
     return true;
+  }
+
+  public boolean isUUID(String uuid) {
+    try {
+      UUID.fromString(uuid);
+      return true;
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
   }
 }

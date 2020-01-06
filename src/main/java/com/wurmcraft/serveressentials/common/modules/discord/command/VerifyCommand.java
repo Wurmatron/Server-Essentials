@@ -38,17 +38,19 @@ public class VerifyCommand extends Command {
     if (args.length == 1 && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       Token[] tokens = RequestGenerator.Discord.getDiscordCodes();
       boolean found = false;
-      for (Token token : tokens) {
-        if (token.token.equals(args[0])) {
-          found = true;
-          GlobalRestUser user =
-              (GlobalRestUser)
-                  UserManager.getUserData((EntityPlayer) sender.getCommandSenderEntity())[0];
-          user.setDiscord(token.id);
-          RequestGenerator.User.overridePlayer(user, Type.STANDARD);
-          ChatHelper.sendMessage(sender, senderLang.local.DISCORD_SYNCED);
-          UserManager.addReward(
-              (EntityPlayer) sender.getCommandSenderEntity(), ConfigHandler.discordReward);
+      if (tokens != null && tokens.length > 0) {
+        for (Token token : tokens) {
+          if (token.token.equals(args[0])) {
+            found = true;
+            GlobalRestUser user =
+                (GlobalRestUser)
+                    UserManager.getUserData((EntityPlayer) sender.getCommandSenderEntity())[0];
+            user.setDiscord(token.id);
+            RequestGenerator.User.overridePlayer(user, Type.STANDARD);
+            ChatHelper.sendMessage(sender, senderLang.local.DISCORD_SYNCED);
+            UserManager.addReward(
+                (EntityPlayer) sender.getCommandSenderEntity(), ConfigHandler.discordReward);
+          }
         }
       }
       if (!found) {

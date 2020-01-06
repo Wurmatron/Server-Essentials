@@ -95,6 +95,7 @@ public class PermCommand extends Command {
         } else if (args[1].equalsIgnoreCase("Perm")
             || args[1].equalsIgnoreCase("Permission")
             || args[1].equalsIgnoreCase("Perms")) {
+
         } else if (args[1].equalsIgnoreCase("Perk") || args[1].equalsIgnoreCase("Perks")) {
           displayPerkPerm(player, UserManager.getPerks(player));
         } else if (args[1].equalsIgnoreCase("addPerm") || args[1].equalsIgnoreCase("addPerms")) {
