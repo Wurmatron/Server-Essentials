@@ -74,7 +74,6 @@ public class RestWorldEvents {
               e.player.getGameProfile().getId().toString(), ConfigHandler.defaultRank);
       RequestGenerator.User.addNewPlayer(newUser);
       DataHelper.save(Storage.LOCAL_USER, local);
-      local = DataHelper.load(Storage.LOCAL_USER, local);
       MinecraftForge.EVENT_BUS.post(new UserSyncEvent(newUser, user, Type.LOGIN));
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(e.player, false));
       newUser.addServerData(

@@ -52,11 +52,11 @@ public class DPFCommand extends Command {
         player.onKillCommand();
         ((EntityPlayerMP) player)
             .connection.disconnect(
-            new TextComponentString(
-                LanguageModule.getUserLanguage(player)
-                    .local
-                    .GENERAL_DELETE_PLAYER_FILE
-                    .replaceAll("&", Replacment.FORMATTING_CODE)));
+                new TextComponentString(
+                    LanguageModule.getUserLanguage(player)
+                        .local
+                        .GENERAL_DELETE_PLAYER_FILE
+                        .replaceAll("&", Replacment.FORMATTING_CODE)));
         File playerFile =
             new File(
                 server.getDataDirectory(),
@@ -82,8 +82,8 @@ public class DPFCommand extends Command {
         UUID uuid = UUID.fromString(args[0]);
         String name = UsernameCache.getLastKnownUsername(uuid);
         EntityPlayer entity = CommandUtils.getPlayerForName(args[0]);
-        if(entity != null) {
-          execute(server,sender,new String[] {name}, senderLang);
+        if (entity != null) {
+          execute(server, sender, new String[] {name}, senderLang);
         } else {
           File playerFile =
               new File(

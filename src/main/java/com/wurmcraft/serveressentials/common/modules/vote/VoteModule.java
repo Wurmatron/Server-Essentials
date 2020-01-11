@@ -30,7 +30,10 @@ public class VoteModule {
 
   @SubscribeEvent
   public void voteEvent(VoteReceivedEvent e) {
-    ServerEssentialsServer.LOGGER.info(e.getEntityPlayer().getGameProfile().getId().toString() + " has voted @ " + e.getServiceDescriptor());
+    ServerEssentialsServer.LOGGER.info(
+        e.getEntityPlayer().getGameProfile().getId().toString()
+            + " has voted @ "
+            + e.getServiceDescriptor());
     if (UserManager.addReward(e.getEntityPlayer(), 1)) {
       for (EntityPlayer player :
           FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {

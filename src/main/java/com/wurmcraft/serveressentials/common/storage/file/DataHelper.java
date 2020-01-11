@@ -90,16 +90,19 @@ public class DataHelper {
   }
 
   public static <T extends FileType> T load(String key, T type) {
-    return load(
-        new File(
-            ConfigHandler.saveLocation
-                + File.separator
-                + key
-                + File.separator
-                + type.getID()
-                + ".json"),
-        key,
-        type);
+    if (type == null) {
+      return load(
+          new File(
+              ConfigHandler.saveLocation
+                  + File.separator
+                  + key
+                  + File.separator
+                  + type.getID()
+                  + ".json"),
+          key,
+          type);
+    }
+    throw new NullPointerException("Unable to load unknown user");
   }
 
   public static <T extends FileType> T[] load(String key, T[] type, T a) {
