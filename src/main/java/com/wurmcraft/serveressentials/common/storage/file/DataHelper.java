@@ -90,7 +90,7 @@ public class DataHelper {
   }
 
   public static <T extends FileType> T load(String key, T type) {
-    if (type == null) {
+    if (type != null) {
       return load(
           new File(
               ConfigHandler.saveLocation

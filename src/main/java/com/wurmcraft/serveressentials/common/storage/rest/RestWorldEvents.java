@@ -142,7 +142,7 @@ public class RestWorldEvents {
         long gainedTime =
             +(System.currentTimeMillis() - playerJoinTime.get(e.restUser.getUuid())) / 1000;
         playerJoinTime.put(e.restUser.getUuid(), System.currentTimeMillis());
-        e.restUser.setServerData(updatePlayTime(e.restUser.getServerData(), gainedTime));
+        e.restUser.setServerData(updatePlayTime(e.restUser.getServerData(), gainedTime/60));
       }
     }
   }
