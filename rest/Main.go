@@ -32,12 +32,12 @@ const redisDatabaseBan = redisDatabaseLookup + 1
 func main() {
 	fmt.Println("Loading Rest-API v" + version + " on " + address)
 	router := NewRouter()
-	log.Fatal(http.ListenAndServeTLS(address, httpsCert, httpsKey, router))
 	_, err := newClient(0).Ping().Result()
 	if err != nil {
 		panic("Unable to connect to RedisDB ")
 	}
 	fmt.Println("Connected to redis at " + redisAddress + " starting on DataBase " + string(redisDatabase))
+	log.Fatal(http.ListenAndServeTLS(address, httpsCert, httpsKey, router))
 }
 
 func NewRouter() *mux.Router {

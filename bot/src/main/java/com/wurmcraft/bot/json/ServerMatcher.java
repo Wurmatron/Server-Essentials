@@ -10,14 +10,11 @@ public class ServerMatcher {
 
   public class Match {
     public String serverID;
-    public long rankID;
     public String panelID;
 
-    public Match(String serverID, long rankID, String panelID) {
+    public Match(String serverID, String panelID) {
       this.serverID = serverID;
-      this.rankID = rankID;
       this.panelID = panelID;
     }
   }
-
 }
