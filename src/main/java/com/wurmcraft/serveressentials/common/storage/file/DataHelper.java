@@ -124,7 +124,12 @@ public class DataHelper {
   }
 
   private static <T extends FileType> boolean exists(String key, T type) {
-    return loadedData.get(key).stream().anyMatch(d -> d.getID().equalsIgnoreCase(type.getID()));
+    for (FileType d : loadedData.get(key)) {
+      if (d != null && d.getID().equalsIgnoreCase(type.getID())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static FileType get(String key, String id) {
