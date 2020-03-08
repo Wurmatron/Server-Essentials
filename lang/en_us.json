@@ -232,5 +232,6 @@
   "DESCRIPTION_BAN_BAN": "&5Globaly ban someome for all linked servers within the rest database",
   "BAN_PLAYER": "%player% has been banned for %reason%",
   "BRIDGE_DESCRIPTION": "&5Reload the matterbridge config link",
-  "BRIDGE_RELOAD": "&5MatterBridge Config reloaded!"
+  "BRIDGE_RELOAD": "&5MatterBridge Config reloaded!",
+  "AUTORANK_RELOAD": "&5AutoRank's Reloaded from database!"
 }

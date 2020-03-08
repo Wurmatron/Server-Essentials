@@ -38,6 +38,7 @@ public class Local implements FileType {
   public String AUTORANK_CHECK;
   public String AUTORANK_CREATED;
   public String AUTORANK_DELETED;
+  public String AUTORANK_RELOAD;
   // Language
   public String DESCRIPTION_MUTE;
   public String LANG_MUTE;
