@@ -96,8 +96,7 @@ public class LanguageModule {
 
   public static Channel[] loadChannels() {
     try {
-      Channel[] channels = DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
-      return channels;
+      return DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
     } catch (Exception e) {
       Channel global = new Channel("global", "[G]", Type.PUBLIC, "");
       DataHelper.save(

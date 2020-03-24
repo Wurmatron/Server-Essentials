@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import joptsimple.internal.Strings;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -107,20 +108,21 @@ public class DataHelper {
 
   public static <T extends FileType> T[] load(String key, T[] type, T a) {
     List<T> data = new ArrayList<>();
-    File keyDir = new File(saveLocation + File.separator + key);
-    if (!keyDir.exists()) {
-      keyDir.mkdirs();
-    }
-    try {
-      for (File t : keyDir.listFiles()) {
-        if (t.isFile()) {
-          data.add((T) load(t, key, a));
+    File dir = new File(saveLocation + File.separator + key);
+    if(!dir.exists()) {
+      dir.mkdirs();
+      return type;
+    } else {
+      try {
+        for(File file : Objects.requireNonNull(dir.listFiles())) {
+          data.add(load(file,key,a));
         }
+        return data.toArray(type);
+      } catch (Exception e) {
+        ServerEssentialsServer.LOGGER.error(e.getMessage());
+        return type;
       }
-    } catch (Exception e) {
-      ServerEssentialsServer.LOGGER.error(e.getMessage());
     }
-    return data.toArray((T[]) Array.newInstance(type.getClass(), 0));
   }
 
   private static <T extends FileType> boolean exists(String key, T type) {
