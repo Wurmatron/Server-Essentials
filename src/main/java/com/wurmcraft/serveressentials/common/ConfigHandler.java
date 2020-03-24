@@ -58,7 +58,7 @@ public class ConfigHandler {
 
   @Comment("Dont change this unless you know what it does")
   public static String languageURLFormat =
-      "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/Post-Rest-Rework/lang/";
+      "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/dev/lang/";
 
   @Comment("How the Chat-Module will format the in-game chat")
   public static String chatFormat = "%channel% %rankPrefix% %username% %rankSuffix% %message%";

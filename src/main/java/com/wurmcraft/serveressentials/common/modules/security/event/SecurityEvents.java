@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.common.reference.Replacment;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.UUID;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -18,18 +19,15 @@ public class SecurityEvents {
 
   @SubscribeEvent
   public void onJoinEvent(PlayerLoggedInEvent e) {
-    if (ConfigHandler.autoOP
-        && SecurityModule.isTrusted(e.player)
-        && !FMLCommonHandler.instance()
+    if (ConfigHandler.autoOP && SecurityModule.isTrusted(e.player)) {
+      if (!isOp(e.player)) {
+        FMLCommonHandler.instance()
             .getMinecraftServerInstance()
-            .getPlayerList()
-            .canSendCommands(e.player.getGameProfile())) {
-      FMLCommonHandler.instance()
-          .getMinecraftServerInstance()
-          .getCommandManager()
-          .executeCommand(
-              FMLCommonHandler.instance().getMinecraftServerInstance(),
-              "op " + UsernameCache.getLastKnownUsername(e.player.getGameProfile().getId()));
+            .getCommandManager()
+            .executeCommand(
+                FMLCommonHandler.instance().getMinecraftServerInstance(),
+                "op " + UsernameCache.getLastKnownUsername(e.player.getGameProfile().getId()));
+      }
       ChatHelper.sendMessage(
           e.player, LanguageModule.getUserLanguage(e.player).local.SECURITY_TRUSTED);
     }
@@ -49,5 +47,11 @@ public class SecurityEvents {
         }
       }
     }
+  }
+
+  private static boolean isOp(EntityPlayer player) {
+    return
+        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayers()
+            .getPermissionLevel(player.getGameProfile()) > 0;
   }
 }

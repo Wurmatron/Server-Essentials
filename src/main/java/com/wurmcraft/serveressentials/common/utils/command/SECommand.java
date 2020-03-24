@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -94,7 +93,7 @@ public class SECommand extends CommandBase {
 
   @Override
   public List<String> getTabCompletions(
-      MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+      MinecraftServer server, ICommandSender sender, String[] args,BlockPos targetPos) {
     return command.getAutoCompletion(server, sender, args, targetPos);
   }
 }

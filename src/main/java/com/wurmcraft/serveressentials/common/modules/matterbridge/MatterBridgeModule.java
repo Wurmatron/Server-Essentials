@@ -78,6 +78,7 @@ public class MatterBridgeModule {
         return true;
       }
     } catch (Exception e) {
+      validConnection = false;
       LOGGER.warn(e.getLocalizedMessage());
     }
     return false;
