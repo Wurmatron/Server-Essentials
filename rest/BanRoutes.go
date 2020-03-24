@@ -12,7 +12,7 @@ import (
 var redisDBBan *redis.Client
 
 func init() {
-	redisDBEco = newClient(redisDatabaseBan)
+	redisDBBan = newClient(redisDatabaseBan)
 }
 
 func GetBan(w http.ResponseWriter, _ *http.Request, p mux.Params) {

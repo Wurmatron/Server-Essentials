@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	b64 "encoding/base64"
 	"fmt"
 	mux "github.com/julienschmidt/httprouter"
 	"net/http"
@@ -263,6 +264,20 @@ var routes = Routes{
 		false,
 		GetAllBans,
 	},
+	Route{
+		"AddAuth",
+		"POST",
+		"/auth/add",
+		true,
+		AddAuth,
+	},
+	Route{
+		"DelAuth",
+		"PUT",
+		"/auth/delete",
+		true,
+		AddAuth,
+	},
 }
 
 func Index(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
@@ -287,8 +302,13 @@ func auth(pass mux.Handle) mux.Handle {
 }
 
 func validate(server, authKey string) bool {
-	if server == "server" && authKey == "drowssap" {
-		return true
+	if redisDBAuth.Exists(server).Val() == 1 {
+		auth, err := b64.StdEncoding.DecodeString(redisDBAuth.Get(server).Val())
+		if err != nil {
+			return false
+		}
+		return string(auth) == authKey
 	}
+
 	return false
 }

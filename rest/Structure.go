@@ -114,8 +114,13 @@ type Token struct {
 
 // Ban
 type Ban struct {
-	Name string `json:"name"`
-	UUID string `json:"uuid"`
-	IP   string `json:"ip"`
+	Name   string `json:"name"`
+	UUID   string `json:"uuid"`
+	IP     string `json:"ip"`
 	Reason string `json:"reason"`
+}
+
+type Auth struct {
+	Username string `json:"user"`
+	Password string `json:"password"`
 }
