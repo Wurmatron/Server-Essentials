@@ -187,6 +187,8 @@ public class ARCommand extends Command {
           || args[0].equalsIgnoreCase("del")
           || args[0].equalsIgnoreCase("delete")) {
         del(sender, args, senderLang);
+      } else {
+        ChatHelper.sendMessage(sender, senderLang.local.CHAT_INVALID);
       }
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
