@@ -103,8 +103,9 @@ public class LanguageModule {
 
   public static Channel[] loadChannels() {
     File channelDir = new File(saveLocation + File.separator + Storage.CHANNEL);
-    if (channelDir.exists() && channelDir.listFiles() != null && Objects
-        .requireNonNull(channelDir.listFiles()).length > 0) {
+    if (channelDir.exists()
+        && channelDir.listFiles() != null
+        && Objects.requireNonNull(channelDir.listFiles()).length > 0) {
       return DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
     } else {
       Channel global = new Channel("global", "[G]", Type.PUBLIC, "");

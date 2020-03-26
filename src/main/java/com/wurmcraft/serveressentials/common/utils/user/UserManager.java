@@ -102,15 +102,15 @@ public class UserManager {
             "Error",
             "[ICU]",
             "",
-            new String[]{"Default"},
-            new String[]{
-                "teleportation.home",
-                "teleportation.back",
-                "teleportation.tpa",
-                "teleportation.tpaccept",
-                "teleportation.spawn",
-                "teleportation.tpadeny",
-                "teleportation.sethome"
+            new String[] {"Default"},
+            new String[] {
+              "teleportation.home",
+              "teleportation.back",
+              "teleportation.tpa",
+              "teleportation.tpaccept",
+              "teleportation.spawn",
+              "teleportation.tpadeny",
+              "teleportation.sethome"
             });
   }
 
@@ -173,9 +173,10 @@ public class UserManager {
       }
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) UserManager.getUserData(uuid)[0];
-      if(user.getCurrentChannel() == null) {
-        user.setCurrentChannel(DataHelper.get(Storage.CHANNEL, ConfigHandler.defaultChannel,new Channel()));
-        DataHelper.save(Storage.USER,user);
+      if (user.getCurrentChannel() == null) {
+        user.setCurrentChannel(
+            DataHelper.get(Storage.CHANNEL, ConfigHandler.defaultChannel, new Channel()));
+        DataHelper.save(Storage.USER, user);
       }
       return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
     }

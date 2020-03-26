@@ -8,7 +8,6 @@ import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
-import com.wurmcraft.serveressentials.common.utils.command.SECommand;
 import com.wurmcraft.serveressentials.common.utils.user.TeleportUtils;
 import java.util.List;
 import net.minecraft.command.ICommandSender;
@@ -68,8 +67,8 @@ public class TpHereCommand extends Command {
   }
 
   @Override
-  public List<String> getAutoCompletion(MinecraftServer server, ICommandSender sender,
-      String[] args, BlockPos pos) {
+  public List<String> getAutoCompletion(
+      MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
     return CommandUtils.predictUsernames(args, 0);
   }
 }

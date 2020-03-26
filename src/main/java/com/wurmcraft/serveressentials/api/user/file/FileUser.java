@@ -38,11 +38,10 @@ public class FileUser implements FileType {
   private String[] customData = new String[0];
   private UUID uuid;
   private String lang = ConfigHandler.defaultLanguage;
-  private String[] ignored = new String [] {};
+  private String[] ignored = new String[] {};
   private HashMap<String, Long> kitUsage;
 
-  public FileUser() {
-  }
+  public FileUser() {}
 
   public FileUser(UUID uuid, Rank rank) {
     if (rank != null) {
@@ -89,7 +88,7 @@ public class FileUser implements FileType {
       }
       if (!added) {
         if (homes.length == 0) {
-          homes = new Home[]{home};
+          homes = new Home[] {home};
         } else {
           Home[] newHomes = new Home[homes.length + 1];
           System.arraycopy(homes, 0, newHomes, 0, homes.length);

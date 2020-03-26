@@ -8,12 +8,11 @@ import net.minecraftforge.common.config.Config.Comment;
 public class ConfigHandler {
 
   @Comment("The modules that Server-Essentials will use")
-  public static String[] modules = new String[]{
-      "General", "Teleportation", "Vote", "Language", "AutoRank"
-  };
+  public static String[] modules =
+      new String[] {"General", "Teleportation", "Vote", "Language", "AutoRank"};
 
   @Comment("A list of commands that are to be disabled and unable to run")
-  public static String[] disabledCommands = new String[]{};
+  public static String[] disabledCommands = new String[] {};
 
   @Comment("Maximum amount of threads Server-Essentials will use for additional processing")
   public static int maxProcessingThreads = 2;
@@ -41,7 +40,7 @@ public class ConfigHandler {
 
   @Comment(
       "Currency that this server will accept as valid for the network, anything else is removed from the player")
-  public static String[] activeCurrency = new String[]{};
+  public static String[] activeCurrency = new String[] {};
 
   @Comment("Save directory")
   public static String saveLocation = "ServerEssentials";
