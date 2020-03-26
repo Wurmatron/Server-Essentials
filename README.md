@@ -5,7 +5,7 @@ For general help and information check out our [wiki](https://github.com/Wurmcra
 If you need help or have a suggestion, **Checkout our [Discord](https://discord.gg/n6RFDUc) channel**
 
 # Download
-Get it from [Curse](https://minecraft.curseforge.com/minecraft/mc-mods/server-essentials/)
+Get it from [Curse](https://www.curseforge.com/minecraft/mc-mods/server-essentials)
 
 # About
 The Server Essentials project is made entirely out of "modules" which 
