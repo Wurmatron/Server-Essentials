@@ -1,4 +1,4 @@
-#Server Essentials
+# Server Essentials
 
 # Help
 For general help and information check out our [wiki](https://github.com/Wurmcraft/Server-Essentials/wiki).
