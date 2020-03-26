@@ -1,8 +1,25 @@
-# Server Essentials
+#Server Essentials
 
-Server Essentials is a mod designed for servers and want a easy way of managment along with a huge array of helpful commands. This is a 
-server-side only mod with an optional Client-Side version that add even more customizability and useful features for server admins.
+# Help
+For general help and information check out our [wiki](https://github.com/Wurmcraft/Server-Essentials/wiki).
+If you need help or have a suggestion, **Checkout our [Discord](https://discord.gg/n6RFDUc) channel**
 
-What sets server essentials apart from the other "Forge-Based Plugin" replacments is its ability to work on a network or even communicate with a
-discord server or any other server of your chosing via its Rest API system allowing for multiple servers ranks / money / perms etc... synced 
-with each other allowing for a network based economy system.
+# Download
+Get it from [Curse](https://minecraft.curseforge.com/minecraft/mc-mods/server-essentials/)
+
+# About
+The Server Essentials project is made entierly out of "modules" which 
+can be individually enabled / disabled based on the requirments for said server.
+Which these modules its able to handle a diverse array of servers. Some of these
+features include.
+- Permission / Command Managment
+- Multiple Languages (Based on Player)
+- AutoRank Up, based on certain requirments
+- Discord Verifcation (With SE-Bot)
+- Server / Network Economy with multiple currency'said
+- Multiple Server Data Sync (with Rest)
+- Server Status Tracking
+- Trusted User System (Admin Emergency Tool)
+- Tons of utility commands.
+- And many more!
+
