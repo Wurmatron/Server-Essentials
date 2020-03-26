@@ -8,18 +8,20 @@ If you need help or have a suggestion, **Checkout our [Discord](https://discord.
 Get it from [Curse](https://minecraft.curseforge.com/minecraft/mc-mods/server-essentials/)
 
 # About
-The Server Essentials project is made entierly out of "modules" which 
-can be individually enabled / disabled based on the requirments for said server.
-Which these modules its able to handle a diverse array of servers. Some of these
+The Server Essentials project is made entirely out of "modules" which 
+can be individually enabled/disabled based on the requirements for the said server.
+Which these modules it's the ability to handle a diverse array of servers. Some of these
 features include.
-- Permission / Command Managment
+- Permission / Command Management
 - Multiple Languages (Based on Player)
-- AutoRank Up, based on certain requirments
-- Discord Verifcation (With SE-Bot)
-- Server / Network Economy with multiple currency'said
+- AutoRank Up, based on certain requirements
+- Discord Verification (With SE-Bot)
+- Server / Network Economy with multiple currencies
 - Multiple Server Data Sync (with Rest)
 - Server Status Tracking
 - Trusted User System (Admin Emergency Tool)
 - Tons of utility commands.
 - And many more!
+
+
 
