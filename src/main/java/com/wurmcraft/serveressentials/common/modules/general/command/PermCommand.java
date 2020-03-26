@@ -66,7 +66,11 @@ public class PermCommand extends Command {
 
   @Override
   public void execute(
-      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {}
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
+    if (args.length == 0) {
+      ChatHelper.sendMessage(sender, getUsage(senderLang));
+    }
+  }
 
   @SubCommand
   public void user(MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
@@ -87,7 +91,7 @@ public class PermCommand extends Command {
                     .replaceAll(Replacment.PLAYER, player.getDisplayNameString())
                     .replaceAll(Replacment.RANK, rank.getName()));
             ChatHelper.sendMessage(
-                player, LanguageModule.getUserLanguage(player).local.REST_RANK_CHANGED);
+                player, LanguageModule.getUserLanguage(player).local.REST_RANK_CHANGED.replaceAll(Replacment.RANK, rank.getName()));
           } else {
             ChatHelper.sendMessage(
                 sender, senderLang.local.RANK_NOT_FOUND.replaceAll(Replacment.RANK, args[2]));

@@ -196,16 +196,14 @@ public class ARCommand extends Command {
   }
 
   @SubCommand
-  public void reload(MinecraftServer server, ICommandSender sender, String[] args,
-      Lang senderLang) {
-    if(AutoRankModule.getAutoRanks().length > 0) {
-      for (AutoRank rank : AutoRankModule.getAutoRanks())
-        AutoRankModule.deleteAutoRank(rank);
+  public void reload(
+      MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
+    if (AutoRankModule.getAutoRanks().length > 0) {
+      for (AutoRank rank : AutoRankModule.getAutoRanks()) AutoRankModule.deleteAutoRank(rank);
     }
     AutoRankModule.loadAutoRanks();
-    ChatHelper.sendMessage(sender,senderLang.local.AUTORANK_RELOAD);
+    ChatHelper.sendMessage(sender, senderLang.local.AUTORANK_RELOAD);
   }
-
 
   private static void add(ICommandSender sender, String[] args, Lang senderLang) {
     try {

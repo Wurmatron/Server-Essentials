@@ -50,8 +50,11 @@ public class SecurityEvents {
   }
 
   private static boolean isOp(EntityPlayer player) {
-    return
-        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayers()
-            .getPermissionLevel(player.getGameProfile()) > 0;
+    return FMLCommonHandler.instance()
+            .getMinecraftServerInstance()
+            .getPlayerList()
+            .getOppedPlayers()
+            .getPermissionLevel(player.getGameProfile())
+        > 0;
   }
 }

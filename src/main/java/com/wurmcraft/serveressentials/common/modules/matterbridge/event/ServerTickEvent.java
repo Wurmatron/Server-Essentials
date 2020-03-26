@@ -13,6 +13,7 @@ import com.wurmcraft.serveressentials.common.storage.file.DataHelper;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
 import java.util.concurrent.TimeUnit;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -20,38 +21,46 @@ public class ServerTickEvent {
 
   @SubscribeEvent
   public void onServerTick(TickEvent.ServerTickEvent e) {
-    if (e.phase == TickEvent.Phase.END) {
+    if (e.phase == TickEvent.Phase.END
+        && FMLCommonHandler.instance()
+                .getMinecraftServerInstance()
+                .getPlayerList()
+                .getCurrentPlayerCount()
+            > 0) {
       ServerEssentialsServer.instance.executors.schedule(
           () -> {
             MBMessage[] newMessages = MatterBridgeModule.getMessages();
             if (newMessages != null && newMessages.length > 0) {
               for (MBMessage msg : newMessages) {
-                if (msg.id != null && !msg.id.isEmpty()) {
-                  String[] formattingData = getFormattingData(msg.username);
-                  if (formattingData[1] != null && formattingData[1].length() > 0) {
-                    formattingData[1] = formattingData[1].replaceAll(" ", "");
-                    Rank rank = ServerEssentialsAPI.rankManager.getRank(formattingData[1]);
-                    if (rank != null) {
-                      formattingData[1] = rank.getPrefix();
+                try {
+                  if (msg.id != null && !msg.id.isEmpty()) {
+                    String[] formattingData = getFormattingData(msg.username);
+                    if (formattingData[1] != null && formattingData[1].length() > 0) {
+                      formattingData[1] = formattingData[1].replaceAll(" ", "");
+                      Rank rank = ServerEssentialsAPI.rankManager.getRank(formattingData[1]);
+                      if (rank != null) {
+                        formattingData[1] = rank.getPrefix();
+                      }
+                      if (rank.getSuffix() != null && !rank.getSuffix().isEmpty()) {
+                        formattingData[2] = formattingData[2] + rank.getSuffix();
+                      }
                     }
-                    if (rank.getSuffix() != null && !rank.getSuffix().isEmpty()) {
-                      formattingData[2] = formattingData[2] + rank.getSuffix();
-                    }
+                    ChatHelper.reformatAndSendMessage(
+                        DataHelper.get(Storage.CHANNEL, ConfigHandler.globalChannel, new Channel()),
+                        formattingData[0] + " " + formattingData[1] + " " + formattingData[2],
+                        msg.text);
+                  } else {
+                    ChatHelper.reformatAndSendMessage(
+                        DataHelper.get(Storage.CHANNEL, ConfigHandler.globalChannel, new Channel()),
+                        msg.username,
+                        msg.text);
                   }
-                  ChatHelper.reformatAndSendMessage(
-                      DataHelper.get(Storage.CHANNEL, ConfigHandler.globalChannel, new Channel()),
-                      formattingData[0] + " " + formattingData[1] + " " + formattingData[2],
-                      msg.text);
-                } else {
-                  ChatHelper.reformatAndSendMessage(
-                      DataHelper.get(Storage.CHANNEL, ConfigHandler.globalChannel, new Channel()),
-                      msg.username,
-                      msg.text);
+                } catch (Exception f) {
                 }
               }
             }
           },
-          0,
+          10,
           TimeUnit.MILLISECONDS);
     }
   }

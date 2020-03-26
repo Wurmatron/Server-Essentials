@@ -93,7 +93,7 @@ public class SECommand extends CommandBase {
 
   @Override
   public List<String> getTabCompletions(
-      MinecraftServer server, ICommandSender sender, String[] args,BlockPos targetPos) {
+      MinecraftServer server, ICommandSender sender, String[] args, BlockPos targetPos) {
     return command.getAutoCompletion(server, sender, args, targetPos);
   }
 }

@@ -74,6 +74,7 @@ public class FileRankManager implements IRankManager {
           .forEach(this::register);
     } else {
       createDefaultRanks();
+      loadRanks();
     }
   }
 

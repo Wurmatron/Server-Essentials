@@ -15,7 +15,14 @@ public class GeneralUtils {
       Collections.addAll(currentMotd, GeneralModule.config.motd);
     }
     try {
-      currentMotd.set(lineNo, line);
+      if (currentMotd.size() == 0) {
+        currentMotd.add(line);
+      } else {
+        if (lineNo > currentMotd.size()) {
+          lineNo = currentMotd.size() - 1;
+        }
+        currentMotd.set(lineNo, line);
+      }
       GeneralModule.config.motd = currentMotd.toArray(new String[0]);
       DataHelper.save(new File(ConfigHandler.saveLocation), GeneralModule.config);
     } catch (ArrayIndexOutOfBoundsException e) {

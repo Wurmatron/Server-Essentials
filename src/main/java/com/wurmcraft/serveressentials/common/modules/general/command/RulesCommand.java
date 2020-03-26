@@ -40,7 +40,9 @@ public class RulesCommand extends Command {
       MinecraftServer server, ICommandSender sender, String[] args, Lang senderLang) {
     if (args.length == 0) {
       ChatHelper.sendMessage(sender, senderLang.local.CHAT_SPACER);
-      if (GeneralModule.config != null && GeneralModule.config.rules.length > 0) {
+      if (GeneralModule.config != null
+          && GeneralModule.config.rules != null
+          && GeneralModule.config.rules.length > 0) {
         Arrays.stream(GeneralModule.config.rules)
             .forEach(msg -> ChatHelper.sendMessage(sender, msg));
       }

@@ -55,7 +55,6 @@ public class BalanceCommand extends Command {
   public List<String> getAliases(List<String> aliases) {
     aliases.add("Bal");
     aliases.add("Money");
-    aliases.add("M");
     return aliases;
   }
 

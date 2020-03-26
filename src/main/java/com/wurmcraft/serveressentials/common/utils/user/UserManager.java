@@ -102,15 +102,15 @@ public class UserManager {
             "Error",
             "[ICU]",
             "",
-            new String[] {"Default"},
-            new String[] {
-              "teleportation.home",
-              "teleportation.back",
-              "teleportation.tpa",
-              "teleportation.tpaccept",
-              "teleportation.spawn",
-              "teleportation.tpadeny",
-              "teleportation.sethome"
+            new String[]{"Default"},
+            new String[]{
+                "teleportation.home",
+                "teleportation.back",
+                "teleportation.tpa",
+                "teleportation.tpaccept",
+                "teleportation.spawn",
+                "teleportation.tpadeny",
+                "teleportation.sethome"
             });
   }
 
@@ -173,6 +173,10 @@ public class UserManager {
       }
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) UserManager.getUserData(uuid)[0];
+      if(user.getCurrentChannel() == null) {
+        user.setCurrentChannel(DataHelper.get(Storage.CHANNEL, ConfigHandler.defaultChannel,new Channel()));
+        DataHelper.save(Storage.USER,user);
+      }
       return (Channel) DataHelper.get(Storage.CHANNEL, user.getCurrentChannel());
     }
     return null;
@@ -537,7 +541,7 @@ public class UserManager {
       }
       DataHelper.save(Storage.LOCAL_USER, local);
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
-      FileUser user = (FileUser) getUserData(player)[1];
+      FileUser user = (FileUser) getUserData(player)[0];
       int maxHomes = getMaxHomes(player);
       if (user.getHomes().length + 1 < maxHomes) {
         return false;
@@ -557,6 +561,7 @@ public class UserManager {
             homes.add(h);
           }
         }
+        user.setHomes(homes.toArray(new Home[0]));
       } else {
         user.addHome(home);
       }
@@ -574,10 +579,14 @@ public class UserManager {
           .orElse(null);
     } else if (ServerEssentialsAPI.storageType.equalsIgnoreCase("File")) {
       FileUser user = (FileUser) getUserData(player)[0];
-      return Arrays.stream(user.getHomes())
-          .filter(h -> h.getName().equalsIgnoreCase(name))
-          .findFirst()
-          .orElse(null);
+      if (user.getHomes().length > 0) {
+        for (Home h : user.getHomes()) {
+          if (h.getName().equalsIgnoreCase(name)) {
+            return h;
+          }
+        }
+      }
+      return null;
     }
     return null;
   }

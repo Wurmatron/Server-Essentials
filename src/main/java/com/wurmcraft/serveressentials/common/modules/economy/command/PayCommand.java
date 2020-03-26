@@ -9,7 +9,6 @@ import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
 import com.wurmcraft.serveressentials.common.utils.user.UserManager;
-import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -87,11 +86,5 @@ public class PayCommand extends Command {
               .PLAYER_NOT_FOUND
               .replaceAll(Replacment.PLAYER, b));
     }
-  }
-
-  @Override
-  public List<String> getAliases(List<String> aliases) {
-    aliases.add("P");
-    return aliases;
   }
 }

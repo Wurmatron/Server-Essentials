@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.common.modules.language;
 
+import static com.wurmcraft.serveressentials.common.ConfigHandler.saveLocation;
+
 import com.wurmcraft.serveressentials.api.ServerEssentialsAPI;
 import com.wurmcraft.serveressentials.api.lang.Lang;
 import com.wurmcraft.serveressentials.api.module.Module;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -38,7 +41,7 @@ public class LanguageModule {
   }
 
   public static Lang loadLanguage(String langKey) {
-    if (langKey.isEmpty()) {
+    if (langKey == null || langKey.isEmpty()) {
       langKey = ConfigHandler.defaultLanguage;
     }
     try {
@@ -53,7 +56,11 @@ public class LanguageModule {
   }
 
   public static Lang getDefaultLang() {
-    return (Lang) DataHelper.get(Storage.LANGUAGE, ConfigHandler.defaultLanguage);
+    Lang defaultLang = (Lang) DataHelper.get(Storage.LANGUAGE, ConfigHandler.defaultLanguage);
+    if (defaultLang == null) {
+      defaultLang = loadLanguage(ConfigHandler.defaultLanguage);
+    }
+    return defaultLang;
   }
 
   public static Lang getUserLanguage(EntityPlayer player) {
@@ -85,7 +92,7 @@ public class LanguageModule {
   private static Lang loadUserLang(Lang userLang, String lang) {
     if (userLang == null) {
       userLang = loadLanguage(lang);
-      if (lang.length() > 0) {
+      if (lang != null && lang.length() > 0) {
         ServerEssentialsServer.LOGGER.info("Loading Language '" + lang + "'");
       } else {
         return getDefaultLang();
@@ -95,13 +102,15 @@ public class LanguageModule {
   }
 
   public static Channel[] loadChannels() {
-    try {
+    File channelDir = new File(saveLocation + File.separator + Storage.CHANNEL);
+    if (channelDir.exists() && channelDir.listFiles() != null && Objects
+        .requireNonNull(channelDir.listFiles()).length > 0) {
       return DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
-    } catch (Exception e) {
+    } else {
       Channel global = new Channel("global", "[G]", Type.PUBLIC, "");
       DataHelper.save(
           new File(ConfigHandler.saveLocation + File.separator + Storage.CHANNEL), global);
-      return loadChannels();
+      return DataHelper.load(Storage.CHANNEL, new Channel[0], new Channel());
     }
   }
 

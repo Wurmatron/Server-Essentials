@@ -127,10 +127,12 @@ public class ChatHelper {
       if (UserManager.getUserChannel(player)
           .getID()
           .equalsIgnoreCase(ConfigHandler.globalChannel)) {
-        ChatHelper.sendMessage(player, formatUserNameAndRank(username) + " " + message);
+        ChatHelper.sendMessage(
+            player, formatUserNameAndRank(username) + " " + TextFormatting.GRAY + message);
       }
     }
-    ServerEssentialsServer.LOGGER.info(formatUserNameAndRank(username) + " " + message);
+    ServerEssentialsServer.LOGGER.info(
+        formatUserNameAndRank(username) + " " + TextFormatting.GRAY + message);
   }
 
   public static String formatUserNameAndRank(String username) {

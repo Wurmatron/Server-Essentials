@@ -8,12 +8,14 @@ import com.wurmcraft.serveressentials.common.modules.language.ChatHelper;
 import com.wurmcraft.serveressentials.common.modules.language.LanguageModule;
 import com.wurmcraft.serveressentials.common.reference.Replacment;
 import com.wurmcraft.serveressentials.common.utils.command.CommandUtils;
+import com.wurmcraft.serveressentials.common.utils.command.SECommand;
 import com.wurmcraft.serveressentials.common.utils.user.TeleportUtils;
 import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 @ModuleCommand(moduleName = "Teleportation")
 public class TpHereCommand extends Command {
@@ -63,5 +65,11 @@ public class TpHereCommand extends Command {
   public List<String> getAliases(List<String> aliases) {
     aliases.add("Here");
     return aliases;
+  }
+
+  @Override
+  public List<String> getAutoCompletion(MinecraftServer server, ICommandSender sender,
+      String[] args, BlockPos pos) {
+    return CommandUtils.predictUsernames(args, 0);
   }
 }

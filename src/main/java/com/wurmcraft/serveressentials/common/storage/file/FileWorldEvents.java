@@ -26,6 +26,7 @@ public class FileWorldEvents {
       MinecraftForge.EVENT_BUS.post(
           new NewPlayerJoin(e.player, false)); // Network player is impossible
     }
+    UserManager.setUserData(e.player.getGameProfile().getId(),new Object[] {user});
   }
 
   @SubscribeEvent

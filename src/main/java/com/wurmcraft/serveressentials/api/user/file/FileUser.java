@@ -28,20 +28,21 @@ public class FileUser implements FileType {
   private String team;
   private String currentChannel;
   private boolean muted = false;
-  private int vaultSlots;
-  private int marketSlots;
-  private boolean spy;
+  private int vaultSlots = 0;
+  private int marketSlots = 0;
+  private boolean spy = false;
   private long firstJoin;
   private int onlineTime;
-  private boolean isFrozen;
-  private boolean tpLock;
+  private boolean isFrozen = false;
+  private boolean tpLock = false;
   private String[] customData = new String[0];
   private UUID uuid;
-  private String lang;
-  private String[] ignored;
+  private String lang = ConfigHandler.defaultLanguage;
+  private String[] ignored = new String [] {};
   private HashMap<String, Long> kitUsage;
 
-  public FileUser() {}
+  public FileUser() {
+  }
 
   public FileUser(UUID uuid, Rank rank) {
     if (rank != null) {
@@ -75,11 +76,25 @@ public class FileUser implements FileType {
 
   public void addHome(Home home) {
     if (home != null && homes != null && home.getName() != null) {
+      boolean added = false;
+      // Replace Existing Homes
       for (int index = 0; index < homes.length; index++) {
         if (homes[index] != null && homes[index].getName().equalsIgnoreCase(home.getName())) {
           homes[index] = home;
+          added = true;
         } else if (homes[index] == null) {
           homes[index] = home;
+          added = true;
+        }
+      }
+      if (!added) {
+        if (homes.length == 0) {
+          homes = new Home[]{home};
+        } else {
+          Home[] newHomes = new Home[homes.length + 1];
+          System.arraycopy(homes, 0, newHomes, 0, homes.length);
+          homes[homes.length - 1] = home;
+          homes = newHomes;
         }
       }
     }

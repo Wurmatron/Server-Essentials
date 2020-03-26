@@ -28,7 +28,7 @@ public class GeneralModule {
             "",
             new GlobalConfig());
     if (config == null) {
-      config = new GlobalConfig("", "");
+      config = new GlobalConfig("https://discord.gg/n6RFDUc", "https://www.wurmatron.io/");
       DataHelper.save(new File(ConfigHandler.saveLocation), config);
     }
   }

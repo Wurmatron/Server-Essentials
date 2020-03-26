@@ -22,7 +22,6 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HttpsURLConnection;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -122,7 +121,7 @@ public class MatterBridgeModule {
   }
 
   public static void sendMessage(MBMessage msg) {
-    instance.executors.schedule(() -> {
+    //    instance.executors.schedule(() -> {
     try {
       URL sendURL = new URL(getMBURL() + "message");
       URLConnection connection = sendURL.openConnection();
@@ -139,6 +138,7 @@ public class MatterBridgeModule {
       }
     } catch (Exception e) {
       LOGGER.warn(e.getLocalizedMessage());
-    }}, 0, TimeUnit.MILLISECONDS);
+    }
+    //    }, 0, TimeUnit.MILLISECONDS);
   }
 }

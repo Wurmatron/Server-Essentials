@@ -8,7 +8,6 @@ import com.wurmcraft.serveressentials.common.ConfigHandler;
 import com.wurmcraft.serveressentials.common.ServerEssentialsServer;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -109,13 +108,13 @@ public class DataHelper {
   public static <T extends FileType> T[] load(String key, T[] type, T a) {
     List<T> data = new ArrayList<>();
     File dir = new File(saveLocation + File.separator + key);
-    if(!dir.exists()) {
+    if (!dir.exists()) {
       dir.mkdirs();
       return type;
     } else {
       try {
-        for(File file : Objects.requireNonNull(dir.listFiles())) {
-          data.add(load(file,key,a));
+        for (File file : Objects.requireNonNull(dir.listFiles())) {
+          data.add(load(file, key, a));
         }
         return data.toArray(type);
       } catch (Exception e) {

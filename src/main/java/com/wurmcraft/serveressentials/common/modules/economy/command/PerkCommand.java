@@ -82,6 +82,10 @@ public class PerkCommand extends Command {
         ChatHelper.sendMessage(
             sender, senderLang.local.ECO_PERK_INVALID.replaceAll(Replacment.PERK, args[0]));
       }
+    } else if (args.length == 0) {
+      ChatHelper.sendMessage(
+          sender,
+          TextFormatting.LIGHT_PURPLE + Strings.join(perks.keySet().toArray(new String[0]), ", "));
     } else {
       ChatHelper.sendMessage(sender, getUsage(senderLang));
     }
