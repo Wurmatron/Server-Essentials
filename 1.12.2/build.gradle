@@ -5,11 +5,12 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+         project(':Core')
     }
 }
 plugins {
-    id "com.github.johnrengelman.shadow" version "2.0.4"
     id "com.wynprice.cursemaven" version "1.2.3"
+    id "com.github.johnrengelman.shadow" version "2.0.4"
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
@@ -33,7 +34,6 @@ minecraft {
 
 dependencies {
     compile project(':Core')
-    shadow(project(path: ':Core', configuration: 'shadow')) { transitive = false }
 }
 
 processResources {
@@ -53,8 +53,10 @@ processResources {
 }
 
 shadowJar {
-    classifier = ''
-
-    exclude 'dummyThing'
-    configurations = [project.configurations.shadow]
+    dependencies {
+        exclude('dummy*')
+        include(dependency('org.reflections:reflections:0.9.11'))
+        include(dependency('com.boundary:high-scale-lib:1.0.6'))
+        include(project(':Core'))
+    }
 }
