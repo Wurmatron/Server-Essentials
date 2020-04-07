@@ -1,0 +1,39 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/Wurmcraft/Server-Essentials/issues"
+
+[[mods]]
+modId="serveressentials"
+version="${file.jarVersion}"
+displayName="Server Essentials"
+updateJSONURL=""
+displayURL="https://github.com/Wurmcraft/Server-Essentials"
+logoFile=""
+credits=""
+authors="Wurmatron"
+description='''
+The Server Essentials project is made entirely out of "modules" which can be individually enabled/disabled based on the requirements for the said server. Which these modules it's the ability to handle a diverse array of servers. Some of these features include.
+- Permission / Command Management
+- Multiple Languages (Based on Player)
+- AutoRank Up, based on certain requirements
+- Discord Verification (With SE-Bot)
+- Server / Network Economy with multiple currencies
+- Multiple Server Data Sync (with Rest)
+- Server Status Tracking
+- Trusted User System (Admin Emergency Tool)
+- Tons of utility commands.
+- And many more!
+'''
+
+[[dependencies.serveressentials]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.serveressentials]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"

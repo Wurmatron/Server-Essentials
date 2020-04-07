@@ -1,0 +1,60 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "https://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.4"
+    id "com.wynprice.cursemaven" version "1.2.3"
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "${mod_version}"
+group = "com.wurmcraft.serveressentials"
+archivesBaseName = "ServerEssentials"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "${mc_version}-${forge_version}"
+    runDir = "run"
+    mappings = "${mcp_map}"
+    replace "@version@", project.version
+    replaceIn "Global.java"
+    clientRunArgs += "--username=${username}"
+}
+
+dependencies {
+    compile project(':Core')
+    shadow(project(path: ':Core', configuration: 'shadow')) { transitive = false }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+shadowJar {
+    classifier = ''
+
+    exclude 'dummyThing'
+    configurations = [project.configurations.shadow]
+}

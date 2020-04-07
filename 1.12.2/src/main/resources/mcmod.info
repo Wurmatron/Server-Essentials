@@ -1,0 +1,16 @@
+[
+{
+  "modid": "serveressentials",
+  "name": "Server Essentials",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Wurmcraft/Server-Essentials",
+  "updateUrl": "",
+  "authorList": ["Wurmatron"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

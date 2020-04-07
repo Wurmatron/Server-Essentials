@@ -1,0 +1,2 @@
+include ':Core'
+project(":Core").projectDir = file("../Core")
