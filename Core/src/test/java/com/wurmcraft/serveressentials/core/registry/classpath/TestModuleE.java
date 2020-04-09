@@ -3,7 +3,9 @@ package com.wurmcraft.serveressentials.core.registry.classpath;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 
-@Module(name = "TestE", moduleDependencies = {"TestF"})
+@Module(
+    name = "TestE",
+    moduleDependencies = {"TestF"})
 public class TestModuleE {
 
   public void initSetup() {
