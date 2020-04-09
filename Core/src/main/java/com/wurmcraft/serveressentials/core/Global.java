@@ -1,4 +1,4 @@
-package com.wurmcraft.se;
+package com.wurmcraft.serveressentials.core;
 
 public class Global {
 
