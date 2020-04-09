@@ -1,8 +1,10 @@
 package com.wurmcraft.serveressentials.core.utils;
 
+import static com.wurmcraft.serveressentials.core.utils.CommandUtils.canCommandBeLoaded;
 import static com.wurmcraft.serveressentials.core.utils.ModularUtils.canModuleBeLoaded;
 
 import com.wurmcraft.serveressentials.core.SECore;
+import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,7 +14,7 @@ import org.reflections.Reflections;
 
 public class AnnotationLoader {
 
-  private static final Reflections REFLECTIONS = new Reflections("com.wurmcraft");
+  private static final Reflections REFLECTIONS = new Reflections("com.wurmcraft.serveressentials");
 
   /**
    * Searches the classpath to find any Modules to be loaded
@@ -32,6 +34,23 @@ public class AnnotationLoader {
   }
 
   /**
+   * Searches the classpath to find any commands to be loaded
+   *
+   * @return a map of all the commands that are possible to be loaded
+   */
+  public static NonBlockingHashMap<String, Class<?>> searchForCommands() {
+    Set<Class<?>> commands = REFLECTIONS.getTypesAnnotatedWith(ModuleCommand.class);
+    NonBlockingHashMap<String, Class<?>> cachedCommands = new NonBlockingHashMap<>();
+    for (Class<?> clazz : commands) {
+      ModuleCommand command = clazz.getAnnotation(ModuleCommand.class);
+      if (canCommandBeLoaded(clazz, command)) {
+        cachedCommands.put(command.name(), clazz);
+      }
+    }
+    return cachedCommands;
+  }
+
+  /**
    * Checks if a given method exists within a class with the designated parameters
    *
    * @param classToTest module Class to test
@@ -42,6 +61,21 @@ public class AnnotationLoader {
       Class<?> classToTest, String method, Class<?>... parameters) {
     try {
       classToTest.getDeclaredMethod(method, parameters);
+      return true;
+    } catch (NoSuchMethodException e) {
+      return false;
+    }
+  }
+
+  /**
+   * Checks if a given method exists within a class with the designated parameters
+   *
+   * @param classToTest module Class to test
+   * @param method Name of the method to find
+   */
+  public static boolean doesMethodExist(Class<?> classToTest, String method) {
+    try {
+      classToTest.getDeclaredMethod(method);
       return true;
     } catch (NoSuchMethodException e) {
       return false;

@@ -110,8 +110,8 @@ public class ModularUtils extends SERegistry {
     if (module == null || module.name().isEmpty()) {
       return false;
     }
-    return doesMethodExist(moduleClass, module.initalizeMethod(), (Class<?>) null)
-        && doesMethodExist(moduleClass, module.completeSetup(), (Class<?>) null);
+    return doesMethodExist(moduleClass, module.initalizeMethod())
+        && doesMethodExist(moduleClass, module.completeSetup());
   }
 
   /**

@@ -47,12 +47,13 @@ public class TestSERegistry {
     }
   }
 
-  @Test
+  @Test()
   public void TestGetModuleE() {
     Object module = null;
     try {
       module = SERegistry.getModule("TestE");
     } catch (Exception e) {
+      e.printStackTrace();
     }
     assertNull("ModuleE is loaded!", module);
   }
@@ -63,7 +64,57 @@ public class TestSERegistry {
     try {
       module = SERegistry.getModule("TestG");
     } catch (Exception e) {
+      e.printStackTrace();
     }
     assertNull("ModuleG is loaded!", module);
+  }
+
+  @Test
+  public void TestCommandLoadedTestA() {
+    assertTrue("Command 'CommandA' is not loaded!", SERegistry.isCommandLoaded("CommandA"));
+  }
+
+  @Test
+  public void TestCommandLoadedTestB() {
+    assertTrue("Command 'CommandB' is not loaded!", SERegistry.isCommandLoaded("CommandB"));
+  }
+
+  @Test
+  public void TestCommandLoadedTestC() {
+    assertTrue("Command 'CommandC' is not loaded!", SERegistry.isCommandLoaded("CommandC"));
+  }
+
+  @Test
+  public void TestCommandLoadedTestD() {
+    assertTrue("Command 'CommandD' is not loaded!", SERegistry.isCommandLoaded("CommandD"));
+  }
+
+  @Test
+  public void TestCommandLoadedTestE() {
+    assertFalse("Command 'CommandE' is loaded!", SERegistry.isCommandLoaded("CommandE"));
+  }
+
+  @Test
+  public void TestCommandLoadedTestF() {
+    assertFalse("Command 'CommandF' is  loaded!", SERegistry.isCommandLoaded("CommandF"));
+  }
+
+  @Test
+  public void TestCommandLoadedTestG() {
+    assertTrue("Command 'CommandG' is not loaded!", SERegistry.isCommandLoaded("CommandG"));
+  }
+
+  @Test
+  public void TestGetCommandValid() {
+    assertNotNull("CommandA is not loaded", SERegistry.getCommand("CommandA"));
+  }
+
+  @Test
+  public void TestGetCommandInvalid() {
+    try {
+      assertNull("CommandF is loaded!", SERegistry.getCommand("CommandF"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

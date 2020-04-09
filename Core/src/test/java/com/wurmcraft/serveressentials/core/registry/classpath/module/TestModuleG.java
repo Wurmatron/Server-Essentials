@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.core.registry.classpath;
+package com.wurmcraft.serveressentials.core.registry.classpath.module;
 
 import com.wurmcraft.serveressentials.core.api.module.Module;
 
