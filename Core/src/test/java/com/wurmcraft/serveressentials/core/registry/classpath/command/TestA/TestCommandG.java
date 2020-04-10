@@ -7,7 +7,5 @@ import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 public class TestCommandG {
 
   @Command(inputArguments = {})
-  public void testG() {
-
-  }
+  public void testG() {}
 }

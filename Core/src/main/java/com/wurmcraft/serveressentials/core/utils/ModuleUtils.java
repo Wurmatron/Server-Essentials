@@ -1,10 +1,19 @@
 package com.wurmcraft.serveressentials.core.utils;
 
+import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import static com.wurmcraft.serveressentials.core.utils.AnnotationLoader.doesMethodExist;
 
+import com.wurmcraft.serveressentials.core.Global;
 import com.wurmcraft.serveressentials.core.SECore;
+import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.json.JsonParser;
 import com.wurmcraft.serveressentials.core.api.module.Module;
+import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,7 +21,11 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class ModuleUtils extends SERegistry {
 
-  /** Load all the modules that can be loaded. */
+  private static NonBlockingHashMap<String, File> configCache = new NonBlockingHashMap<>();
+
+  /**
+   * Load all the modules that can be loaded.
+   */
   private static NonBlockingHashMap<String, ?> loadModules() {
     NonBlockingHashMap<String, Class<?>> modules = AnnotationLoader.searchForModules();
     loadedModules = modules; // Just temporary for module lookup
@@ -32,7 +45,9 @@ public class ModuleUtils extends SERegistry {
     return loadedModules = modulesCanBeLoaded;
   }
 
-  /** Load all the modules waiting between each phase for them to finish loading. */
+  /**
+   * Load all the modules waiting between each phase for them to finish loading.
+   */
   public static void loadAndSetupModules() {
     SECore.logger.info("Loading Modules ...");
     String[] modules = loadModules().keySet().toArray(new String[0]);
@@ -65,7 +80,7 @@ public class ModuleUtils extends SERegistry {
                       ? module.initalizeMethod()
                       : modulePhase.equals("finalize") ? module.completeSetup() : "",
                   null,
-                  new Object[] {});
+                  new Object[]{});
             } catch (NoSuchMethodException e) {
               e.printStackTrace();
             }
@@ -127,16 +142,97 @@ public class ModuleUtils extends SERegistry {
           if (!s.isEmpty()
               && !SERegistry.isModuleLoaded(s)
               && !hasDependenciesLoaded(
-                  SERegistry.getModule(s).getClass().getAnnotation(Module.class))) {
+              SERegistry.getModule(s).getClass().getAnnotation(Module.class))) {
             return false;
           }
         } catch (NoSuchElementException e) {
           SECore.logger.warning(
-              "Unable to load module '" + module.name() + "' due to missing dependencies!");
+              "Unable to load module '" + module.name()
+                  + "' due to missing dependencies!");
           return false;
         }
       }
     }
     return true;
+  }
+
+  /**
+   * Loads the module configs / creates them with defaults if they dont exist
+   */
+  public static NonBlockingHashMap<String, JsonParser> loadModuleConfigs() {
+    SECore.logger.info("Loading Module Configs ...");
+    NonBlockingHashMap<String, JsonParser> loadedConfigs =
+        AnnotationLoader.searchForModuleConfigs();
+    for (String m : loadedConfigs.keySet()) {
+      ModuleConfig module = loadedConfigs.get(m).getClass()
+          .getAnnotation(ModuleConfig.class);
+      File moduleConfig = getModuleConfigFile(module, loadedConfigs.get(m));
+      try {
+        JsonParser loadedJson =
+            FileUtils
+                .getJson(moduleConfig, ((JsonParser) loadedConfigs.get(m)).getClass());
+        loadedConfigs.put(m, loadedJson);
+        configCache.put(m, moduleConfig);
+        SERegistry.register(DataKey.MODULE_CONFIG, loadedJson);
+      } catch (FileNotFoundException e) {
+        SECore.logger.warning(
+            "Unable to save module config '" + moduleConfig.getAbsolutePath() + "'");
+      }
+    }
+    return loadedConfigs;
+  }
+
+  /**
+   * Gets / Creates the config for a Module Config
+   *
+   * @param config module config you wish to get the file for
+   * @return the file for the given module
+   */
+  private static File getModuleConfigFile(ModuleConfig config,
+      JsonParser defaultConfigInstance) {
+    File moduleConfig =
+        new File(
+            SECore.SAVE_DIR
+                + File.separator
+                + "Modules"
+                + File.separator
+                + (defaultConfigInstance.getID().equalsIgnoreCase(config.moduleName())
+                ? config.moduleName()
+                : defaultConfigInstance.getID())
+                + ".json");
+    // Make sure the directory's exist first
+    if (!moduleConfig.getParentFile().exists()) {
+      if (!moduleConfig.getParentFile().mkdirs()) {
+        SECore.logger.severe(
+            "Unable to create save directory for "
+                + Global.NAME
+                + " Config Files! ("
+                + moduleConfig.getParentFile().getAbsolutePath()
+                + ")");
+      }
+    }
+    if (!moduleConfig.exists()) {
+      try {
+        if (!moduleConfig.createNewFile()) {
+          SECore.logger.warning(
+              "Failed to save module config (" + moduleConfig.getAbsolutePath() + "')");
+        } else {
+          Files.write(moduleConfig.toPath(),
+              GSON.toJson(defaultConfigInstance).getBytes());
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+        SECore.logger.warning(
+            "Unable to save module config '" + moduleConfig.getAbsolutePath() + "'");
+      }
+    }
+    return moduleConfig;
+  }
+
+  public static File getModuleConfigFile(String module) throws NoSuchElementException {
+    if (configCache.containsKey(module)) {
+      return configCache.get(module);
+    }
+    throw new NoSuchElementException(module + "'s config file is not configured!");
   }
 }

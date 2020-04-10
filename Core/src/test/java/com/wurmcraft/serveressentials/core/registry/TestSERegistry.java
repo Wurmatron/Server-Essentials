@@ -49,7 +49,7 @@ public class TestSERegistry {
     }
   }
 
-  @Test()
+  @Test
   public void TestGetModuleE() {
     Object module = null;
     try {
@@ -73,26 +73,22 @@ public class TestSERegistry {
 
   @Test
   public void TestCommandLoadedTestA() {
-    assertTrue("Command 'CommandA' is not loaded!",
-        SERegistry.isCommandLoaded("CommandA"));
+    assertTrue("Command 'CommandA' is not loaded!", SERegistry.isCommandLoaded("CommandA"));
   }
 
   @Test
   public void TestCommandLoadedTestB() {
-    assertTrue("Command 'CommandB' is not loaded!",
-        SERegistry.isCommandLoaded("CommandB"));
+    assertTrue("Command 'CommandB' is not loaded!", SERegistry.isCommandLoaded("CommandB"));
   }
 
   @Test
   public void TestCommandLoadedTestC() {
-    assertTrue("Command 'CommandC' is not loaded!",
-        SERegistry.isCommandLoaded("CommandC"));
+    assertTrue("Command 'CommandC' is not loaded!", SERegistry.isCommandLoaded("CommandC"));
   }
 
   @Test
   public void TestCommandLoadedTestD() {
-    assertTrue("Command 'CommandD' is not loaded!",
-        SERegistry.isCommandLoaded("CommandD"));
+    assertTrue("Command 'CommandD' is not loaded!", SERegistry.isCommandLoaded("CommandD"));
   }
 
   @Test
@@ -107,8 +103,7 @@ public class TestSERegistry {
 
   @Test
   public void TestCommandLoadedTestG() {
-    assertTrue("Command 'CommandG' is not loaded!",
-        SERegistry.isCommandLoaded("CommandG"));
+    assertTrue("Command 'CommandG' is not loaded!", SERegistry.isCommandLoaded("CommandG"));
   }
 
   @Test

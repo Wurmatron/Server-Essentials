@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 /**
- * DataHandler is a basic class designed to provide an interface for the different data
- * storage types available within ServerEssentials
+ * DataHandler is a basic class designed to provide an interface for the different data storage
+ * types available within ServerEssentials
  *
  * @see com.wurmcraft.serveressentials.core.registry.SERegistry
  */
@@ -43,5 +43,4 @@ public interface IDataHandler {
    * @param dataToRemove instance with the same ID was the one you wish to remove
    */
   void delData(DataKey key, String dataToRemove) throws NoSuchElementException;
-
 }

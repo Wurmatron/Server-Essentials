@@ -5,7 +5,10 @@ import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.canModuleBeL
 
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
+import com.wurmcraft.serveressentials.core.api.json.JsonParser;
 import com.wurmcraft.serveressentials.core.api.module.Module;
+import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
+import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -48,6 +51,39 @@ public class AnnotationLoader {
       }
     }
     return cachedCommands;
+  }
+
+  /**
+   * Searches the classpath to find any Module Config's that can be loaded
+   *
+   * @return a map of all the module configs that can be loaded
+   */
+  public static NonBlockingHashMap<String, JsonParser> searchForModuleConfigs()
+      throws NullPointerException {
+    Set<Class<?>> configs = REFLECTIONS.getTypesAnnotatedWith(ModuleConfig.class);
+    NonBlockingHashMap<String, JsonParser> cachedConfigs = new NonBlockingHashMap<>();
+    for (Class<?> clazz : configs) {
+      try {
+        Object configClass = clazz.newInstance();
+        ModuleConfig config = clazz.getAnnotation(ModuleConfig.class);
+        if (SERegistry.isModuleLoaded(config.moduleName())) {
+          if (configClass instanceof JsonParser) {
+            cachedConfigs.put(config.moduleName(), (JsonParser) configClass);
+          } else {
+            SECore.logger.warning(
+                "Module '"
+                    + config.moduleName()
+                    + "' failed to load due to not subClass of JsonParser");
+          }
+        }
+      } catch (InstantiationException | IllegalAccessException e) {
+        throw new NullPointerException(
+            "Module '"
+                + clazz.getAnnotation(ModuleConfig.class).moduleName()
+                + "' does not have a default constructor");
+      }
+    }
+    return cachedConfigs;
   }
 
   /**

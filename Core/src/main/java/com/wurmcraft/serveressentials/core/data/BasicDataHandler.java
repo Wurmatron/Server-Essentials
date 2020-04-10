@@ -37,24 +37,24 @@ public class BasicDataHandler extends SERegistry implements IDataHandler {
    * @return instance of the data that was stored
    */
   @Override
-  public StoredDataType getData(DataKey key, String dataID)
-      throws NoSuchElementException {
+  public StoredDataType getData(DataKey key, String dataID) throws NoSuchElementException {
     if (loadedData.containsKey(key) && loadedData.get(key).containsKey(dataID)) {
       StoredDataType data = loadedData.get(key).get(dataID);
       if (data != null) {
         return data;
       } else {
         SECore.logger.fine(
-            "Null value found in SERegistry, removing '" + dataID + "' from '" + key
-                .toString() + "'!");
+            "Null value found in SERegistry, removing '"
+                + dataID
+                + "' from '"
+                + key.toString()
+                + "'!");
         loadedData.get(key).remove(dataID);
         throw new NoSuchElementException(
-            "Value was null, thus it must be empty! (" + key.toString() + ":" + dataID
-                + ")");
+            "Value was null, thus it must be empty! (" + key.toString() + ":" + dataID + ")");
       }
     }
-    throw new NoSuchElementException(
-        key.toString() + " had nothing with the ID '" + dataID + "'");
+    throw new NoSuchElementException(key.toString() + " had nothing with the ID '" + dataID + "'");
   }
 
   /**
@@ -73,13 +73,11 @@ public class BasicDataHandler extends SERegistry implements IDataHandler {
         NonBlockingHashMap<String, StoredDataType> newRegistryStorage = new NonBlockingHashMap<>();
         newRegistryStorage.put(dataToStore.getID(), dataToStore);
         loadedData.put(key, newRegistryStorage);
-        SECore.logger
-            .fine("Creating new entry '" + key.toString() + "' in the Registry!");
+        SECore.logger.fine("Creating new entry '" + key.toString() + "' in the Registry!");
       }
     } else {
       SECore.logger.info(
-          "null entry was attempted to add to the Registry under '" + key.toString()
-              + "'");
+          "null entry was attempted to add to the Registry under '" + key.toString() + "'");
     }
   }
 

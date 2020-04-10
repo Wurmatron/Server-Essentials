@@ -2,12 +2,12 @@ package com.wurmcraft.serveressentials.core.registry;
 
 import static com.wurmcraft.serveressentials.core.utils.CommandUtils.loadCommands;
 import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.loadAndSetupModules;
+import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.loadModuleConfigs;
 
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import java.util.NoSuchElementException;
-import javax.xml.crypto.Data;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class SERegistry {
@@ -15,11 +15,14 @@ public class SERegistry {
   // Loaded Data
   protected static NonBlockingHashMap<String, ?> loadedModules = new NonBlockingHashMap<>();
   protected static NonBlockingHashMap<String, Object> loadedCommands = new NonBlockingHashMap<>();
-  protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, StoredDataType>> loadedData = new NonBlockingHashMap<>();
-  protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, StoredDataType>> tempData = new NonBlockingHashMap<>();
+  protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, StoredDataType>>
+      loadedData = new NonBlockingHashMap<>();
+  protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, StoredDataType>>
+      tempData = new NonBlockingHashMap<>();
 
   public static void loadAndSetup() {
     loadAndSetupModules();
+    loadModuleConfigs();
     loadCommands();
   }
 
@@ -45,8 +48,7 @@ public class SERegistry {
   }
 
   /**
-   * Gets a module based on its name and returns its instance if not it throws an
-   * exception.
+   * Gets a module based on its name and returns its instance if not it throws an exception.
    *
    * @param moduleName module to find
    * @throws NoSuchElementException If no module is found
@@ -77,13 +79,11 @@ public class SERegistry {
    * @param commandName module to check
    */
   public static boolean isCommandLoaded(String commandName) {
-    return loadedCommands.keySet().stream()
-        .anyMatch(m -> m.equalsIgnoreCase(commandName));
+    return loadedCommands.keySet().stream().anyMatch(m -> m.equalsIgnoreCase(commandName));
   }
 
   /**
-   * Gets a module based on its name and returns its instance if not it throws an
-   * exception.
+   * Gets a module based on its name and returns its instance if not it throws an exception.
    *
    * @param commandName module to find
    * @throws NoSuchElementException If no module is found
@@ -134,8 +134,7 @@ public class SERegistry {
    * @param key Key the value was stored under
    * @param dataID instance with the same ID was the one you wish to remove
    */
-  public static void delStoredData(DataKey key, String dataID)
-      throws NoSuchElementException {
+  public static void delStoredData(DataKey key, String dataID) throws NoSuchElementException {
     if (SECore.dataHandler != null) {
       SECore.dataHandler.delData(key, dataID);
     } else {
