@@ -46,7 +46,8 @@ public class CommandUtils extends SERegistry {
     }
     String commandModule = command.moduleName();
     if (commandModule.isEmpty()) {
-      commandModule = command.getClass().getPackage().getName();
+      String packageName = commandClass.getPackage().getName();
+      commandModule = packageName.substring(packageName.lastIndexOf(".") + 1);
     }
     return doesCommandHaveExecutors(commandClass) && SERegistry.isModuleLoaded(commandModule);
   }

@@ -1,7 +1,7 @@
 package com.wurmcraft.serveressentials.core.utils;
 
 import static com.wurmcraft.serveressentials.core.utils.CommandUtils.canCommandBeLoaded;
-import static com.wurmcraft.serveressentials.core.utils.ModularUtils.canModuleBeLoaded;
+import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.canModuleBeLoaded;
 
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;

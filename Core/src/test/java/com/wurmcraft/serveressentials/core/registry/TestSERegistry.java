@@ -3,6 +3,8 @@ package com.wurmcraft.serveressentials.core.registry;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
+import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import java.lang.reflect.Field;
 import java.util.*;
 import org.junit.Before;
@@ -71,22 +73,26 @@ public class TestSERegistry {
 
   @Test
   public void TestCommandLoadedTestA() {
-    assertTrue("Command 'CommandA' is not loaded!", SERegistry.isCommandLoaded("CommandA"));
+    assertTrue("Command 'CommandA' is not loaded!",
+        SERegistry.isCommandLoaded("CommandA"));
   }
 
   @Test
   public void TestCommandLoadedTestB() {
-    assertTrue("Command 'CommandB' is not loaded!", SERegistry.isCommandLoaded("CommandB"));
+    assertTrue("Command 'CommandB' is not loaded!",
+        SERegistry.isCommandLoaded("CommandB"));
   }
 
   @Test
   public void TestCommandLoadedTestC() {
-    assertTrue("Command 'CommandC' is not loaded!", SERegistry.isCommandLoaded("CommandC"));
+    assertTrue("Command 'CommandC' is not loaded!",
+        SERegistry.isCommandLoaded("CommandC"));
   }
 
   @Test
   public void TestCommandLoadedTestD() {
-    assertTrue("Command 'CommandD' is not loaded!", SERegistry.isCommandLoaded("CommandD"));
+    assertTrue("Command 'CommandD' is not loaded!",
+        SERegistry.isCommandLoaded("CommandD"));
   }
 
   @Test
@@ -101,7 +107,8 @@ public class TestSERegistry {
 
   @Test
   public void TestCommandLoadedTestG() {
-    assertTrue("Command 'CommandG' is not loaded!", SERegistry.isCommandLoaded("CommandG"));
+    assertTrue("Command 'CommandG' is not loaded!",
+        SERegistry.isCommandLoaded("CommandG"));
   }
 
   @Test
@@ -116,5 +123,33 @@ public class TestSERegistry {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Test
+  public void TestValueSave() {
+    SERegistry.register(DataKey.PLAYER, () -> "test");
+    try {
+      StoredDataType data = SERegistry.getStoredData(DataKey.PLAYER, "test");
+      assertEquals("Storage is not working correct", data.getID(), "test");
+    } catch (NoSuchElementException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void TestValueDel() {
+    SERegistry.register(DataKey.PLAYER, () -> "test");
+    StoredDataType data = null;
+    try {
+      data = SERegistry.getStoredData(DataKey.PLAYER, "test");
+      if (data != null) {
+        SERegistry.delStoredData(DataKey.PLAYER, data.getID());
+        data = null;
+        data = SERegistry.getStoredData(DataKey.PLAYER, "test");
+      }
+    } catch (NoSuchElementException e) {
+      e.printStackTrace();
+    }
+    assertNull("Stored Data for Player 'Test' exists after being removed", data);
   }
 }

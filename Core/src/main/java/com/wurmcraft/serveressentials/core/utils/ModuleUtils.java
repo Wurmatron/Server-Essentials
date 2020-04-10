@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
-public class ModularUtils extends SERegistry {
+public class ModuleUtils extends SERegistry {
 
   /** Load all the modules that can be loaded. */
   private static NonBlockingHashMap<String, ?> loadModules() {
