@@ -23,9 +23,7 @@ public class ModuleUtils extends SERegistry {
 
   private static NonBlockingHashMap<String, File> configCache = new NonBlockingHashMap<>();
 
-  /**
-   * Load all the modules that can be loaded.
-   */
+  /** Load all the modules that can be loaded. */
   private static NonBlockingHashMap<String, ?> loadModules() {
     NonBlockingHashMap<String, Class<?>> modules = AnnotationLoader.searchForModules();
     loadedModules = modules; // Just temporary for module lookup
@@ -45,9 +43,7 @@ public class ModuleUtils extends SERegistry {
     return loadedModules = modulesCanBeLoaded;
   }
 
-  /**
-   * Load all the modules waiting between each phase for them to finish loading.
-   */
+  /** Load all the modules waiting between each phase for them to finish loading. */
   public static void loadAndSetupModules() {
     SECore.logger.info("Loading Modules ...");
     String[] modules = loadModules().keySet().toArray(new String[0]);
@@ -69,7 +65,7 @@ public class ModuleUtils extends SERegistry {
   private static void runAndWaitTillFinished(String[] modules, String modulePhase) {
     AtomicInteger leftToComplete = new AtomicInteger(modules.length);
     for (String m : modules) {
-      SECore.EXECUTORS.schedule(
+      SECore.executors.schedule(
           () -> {
             Object moduleInstance = getModule(m);
             Module module = moduleInstance.getClass().getAnnotation(Module.class);
@@ -80,7 +76,7 @@ public class ModuleUtils extends SERegistry {
                       ? module.initalizeMethod()
                       : modulePhase.equals("finalize") ? module.completeSetup() : "",
                   null,
-                  new Object[]{});
+                  new Object[] {});
             } catch (NoSuchMethodException e) {
               e.printStackTrace();
             }
@@ -142,13 +138,12 @@ public class ModuleUtils extends SERegistry {
           if (!s.isEmpty()
               && !SERegistry.isModuleLoaded(s)
               && !hasDependenciesLoaded(
-              SERegistry.getModule(s).getClass().getAnnotation(Module.class))) {
+                  SERegistry.getModule(s).getClass().getAnnotation(Module.class))) {
             return false;
           }
         } catch (NoSuchElementException e) {
           SECore.logger.warning(
-              "Unable to load module '" + module.name()
-                  + "' due to missing dependencies!");
+              "Unable to load module '" + module.name() + "' due to missing dependencies!");
           return false;
         }
       }
@@ -156,21 +151,17 @@ public class ModuleUtils extends SERegistry {
     return true;
   }
 
-  /**
-   * Loads the module configs / creates them with defaults if they dont exist
-   */
+  /** Loads the module configs / creates them with defaults if they dont exist */
   public static NonBlockingHashMap<String, JsonParser> loadModuleConfigs() {
     SECore.logger.info("Loading Module Configs ...");
     NonBlockingHashMap<String, JsonParser> loadedConfigs =
         AnnotationLoader.searchForModuleConfigs();
     for (String m : loadedConfigs.keySet()) {
-      ModuleConfig module = loadedConfigs.get(m).getClass()
-          .getAnnotation(ModuleConfig.class);
+      ModuleConfig module = loadedConfigs.get(m).getClass().getAnnotation(ModuleConfig.class);
       File moduleConfig = getModuleConfigFile(module, loadedConfigs.get(m));
       try {
         JsonParser loadedJson =
-            FileUtils
-                .getJson(moduleConfig, ((JsonParser) loadedConfigs.get(m)).getClass());
+            FileUtils.getJson(moduleConfig, ((JsonParser) loadedConfigs.get(m)).getClass());
         loadedConfigs.put(m, loadedJson);
         configCache.put(m, moduleConfig);
         SERegistry.register(DataKey.MODULE_CONFIG, loadedJson);
@@ -188,8 +179,7 @@ public class ModuleUtils extends SERegistry {
    * @param config module config you wish to get the file for
    * @return the file for the given module
    */
-  private static File getModuleConfigFile(ModuleConfig config,
-      JsonParser defaultConfigInstance) {
+  private static File getModuleConfigFile(ModuleConfig config, JsonParser defaultConfigInstance) {
     File moduleConfig =
         new File(
             SECore.SAVE_DIR
@@ -197,8 +187,8 @@ public class ModuleUtils extends SERegistry {
                 + "Modules"
                 + File.separator
                 + (defaultConfigInstance.getID().equalsIgnoreCase(config.moduleName())
-                ? config.moduleName()
-                : defaultConfigInstance.getID())
+                    ? config.moduleName()
+                    : defaultConfigInstance.getID())
                 + ".json");
     // Make sure the directory's exist first
     if (!moduleConfig.getParentFile().exists()) {
@@ -217,8 +207,7 @@ public class ModuleUtils extends SERegistry {
           SECore.logger.warning(
               "Failed to save module config (" + moduleConfig.getAbsolutePath() + "')");
         } else {
-          Files.write(moduleConfig.toPath(),
-              GSON.toJson(defaultConfigInstance).getBytes());
+          Files.write(moduleConfig.toPath(), GSON.toJson(defaultConfigInstance).getBytes());
         }
       } catch (IOException e) {
         e.printStackTrace();

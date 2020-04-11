@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.core.registry;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
+import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import java.lang.reflect.Field;
@@ -17,7 +18,7 @@ public class TestSERegistry {
 
   @Before
   public void setup() {
-    SERegistry.loadAndSetup();
+    SECore.setup();
   }
 
   @Test

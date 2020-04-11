@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.core.registry;
 
+import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import static com.wurmcraft.serveressentials.core.utils.CommandUtils.loadCommands;
 import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.loadAndSetupModules;
 import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.loadModuleConfigs;
@@ -7,6 +8,12 @@ import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.loadModuleCo
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
+import com.wurmcraft.serveressentials.core.data.json.GlobalConfig;
+import com.wurmcraft.serveressentials.core.utils.FileUtils;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.NoSuchElementException;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -19,11 +26,30 @@ public class SERegistry {
       loadedData = new NonBlockingHashMap<>();
   protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, StoredDataType>>
       tempData = new NonBlockingHashMap<>();
+  public static GlobalConfig globalConfig;
 
   public static void loadAndSetup() {
     loadAndSetupModules();
     loadModuleConfigs();
     loadCommands();
+    File globalConfigFile = new File(SECore.SAVE_DIR + File.separator + "Global.json");
+    try {
+      globalConfig = FileUtils.getJson(globalConfigFile, GlobalConfig.class);
+    } catch (FileNotFoundException e) {
+      if (!globalConfigFile.getParentFile().exists()) {
+        if (!globalConfigFile.getParentFile().mkdirs()) {
+          SECore.logger.severe(
+              "Failed to create directory to save '" + globalConfigFile.getAbsolutePath() + "'");
+        }
+        try {
+          globalConfig = new GlobalConfig();
+          globalConfigFile.createNewFile();
+          Files.write(globalConfigFile.toPath(), GSON.toJson(globalConfig).getBytes());
+        } catch (IOException f) {
+          SECore.logger.warning("Failed to save '" + globalConfigFile.getAbsolutePath() + "'");
+        }
+      }
+    }
   }
 
   /**
