@@ -25,8 +25,9 @@ public class BasicDataHandler extends SERegistry implements IDataHandler {
    * @return map of all the values related to the DataKey
    */
   @Override
-  public NonBlockingHashMap<String, StoredDataType> getDataFromKey(DataKey key) {
-    return loadedData.getOrDefault(key, new NonBlockingHashMap<>());
+  public <T extends StoredDataType> NonBlockingHashMap<String, T> getDataFromKey(
+      DataKey key,  T type) {
+    return (NonBlockingHashMap<String, T>) loadedData.getOrDefault(key, new NonBlockingHashMap<>());
   }
 
   /**
