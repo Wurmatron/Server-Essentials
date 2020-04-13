@@ -1,10 +1,10 @@
 package com.wurmcraft.serveressentials.core.registry.classpath.module.config;
 
-import com.wurmcraft.serveressentials.core.api.json.JsonParser;
+import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
 
 @ModuleConfig(moduleName = "TestA")
-public class TestConfigA implements JsonParser {
+public class TestConfigA implements StoredDataType {
 
   public String someConfigValue;
   public boolean value2;

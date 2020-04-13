@@ -6,6 +6,7 @@ import static com.wurmcraft.serveressentials.core.utils.AnnotationLoader.doesMet
 import com.wurmcraft.serveressentials.core.Global;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import com.wurmcraft.serveressentials.core.api.json.JsonParser;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
@@ -158,13 +159,13 @@ public class ModuleUtils extends SERegistry {
         AnnotationLoader.searchForModuleConfigs();
     for (String m : loadedConfigs.keySet()) {
       ModuleConfig module = loadedConfigs.get(m).getClass().getAnnotation(ModuleConfig.class);
-      File moduleConfig = getModuleConfigFile(module, loadedConfigs.get(m));
+      File moduleConfig = getModuleConfigFile(module, (StoredDataType) loadedConfigs.get(m));
       try {
         JsonParser loadedJson =
             FileUtils.getJson(moduleConfig, ((JsonParser) loadedConfigs.get(m)).getClass());
         loadedConfigs.put(m, loadedJson);
         configCache.put(m, moduleConfig);
-        SERegistry.register(DataKey.MODULE_CONFIG, loadedJson);
+        SERegistry.register(DataKey.MODULE_CONFIG, (StoredDataType) loadedJson);
       } catch (FileNotFoundException e) {
         SECore.logger.warning(
             "Unable to save module config '" + moduleConfig.getAbsolutePath() + "'");
@@ -179,7 +180,8 @@ public class ModuleUtils extends SERegistry {
    * @param config module config you wish to get the file for
    * @return the file for the given module
    */
-  private static File getModuleConfigFile(ModuleConfig config, JsonParser defaultConfigInstance) {
+  private static File getModuleConfigFile(
+      ModuleConfig config, StoredDataType defaultConfigInstance) {
     File moduleConfig =
         new File(
             SECore.SAVE_DIR

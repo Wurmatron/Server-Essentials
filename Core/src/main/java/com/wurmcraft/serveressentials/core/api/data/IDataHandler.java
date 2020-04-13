@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 /**
- * DataHandler is a basic class designed to provide an interface for the different data
- * storage types available within ServerEssentials
+ * DataHandler is a basic class designed to provide an interface for the different data storage
+ * types available within ServerEssentials
  *
  * @see com.wurmcraft.serveressentials.core.registry.SERegistry
  */
@@ -17,8 +17,7 @@ public interface IDataHandler {
    * @param key Key the value was stored under
    * @return map of all the values related to the DataKey
    */
-  <T extends StoredDataType> NonBlockingHashMap<String, T> getDataFromKey(DataKey key,
-      T type);
+  <T extends StoredDataType> NonBlockingHashMap<String, T> getDataFromKey(DataKey key, T type);
 
   /**
    * Get specific data from the database when you know its DataKey and its ID

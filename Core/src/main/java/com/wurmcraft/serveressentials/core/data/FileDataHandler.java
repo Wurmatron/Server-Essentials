@@ -20,7 +20,9 @@ public class FileDataHandler extends BasicDataHandler {
       DataKey key, T type) {
     NonBlockingHashMap<String, T> loaded = super.getDataFromKey(key, type);
     File dir = new File(SECore.SAVE_DIR + File.separator + key.getName());
-    if (dir.exists() && dir.isDirectory() && dir.listFiles() != null
+    if (dir.exists()
+        && dir.isDirectory()
+        && dir.listFiles() != null
         && dir.listFiles().length > 0) {
       for (File file : dir.listFiles()) {
         try {
@@ -36,8 +38,7 @@ public class FileDataHandler extends BasicDataHandler {
   }
 
   @Override
-  public StoredDataType getData(DataKey key, String dataID)
-      throws NoSuchElementException {
+  public StoredDataType getData(DataKey key, String dataID) throws NoSuchElementException {
     return super.getData(key, dataID);
   }
 
@@ -45,14 +46,19 @@ public class FileDataHandler extends BasicDataHandler {
   public void registerData(DataKey key, StoredDataType dataToStore) {
     if (dataToStore != null && !dataToStore.getID().isEmpty()) {
       super.registerData(key, dataToStore);
-      File toSave = new File(
-          SECore.SAVE_DIR + File.separator + key.getName() + File.separator + dataToStore
-              .getID() + ".json");
+      File toSave =
+          new File(
+              SECore.SAVE_DIR
+                  + File.separator
+                  + key.getName()
+                  + File.separator
+                  + dataToStore.getID()
+                  + ".json");
       try {
         Files.write(toSave.toPath(), GSON.toJson(dataToStore).getBytes());
       } catch (IOException e) {
-        SECore.logger.warning("Failed to save '" + toSave.getAbsolutePath()
-            + "' (FileDataHandler#registerData)");
+        SECore.logger.warning(
+            "Failed to save '" + toSave.getAbsolutePath() + "' (FileDataHandler#registerData)");
       }
     }
   }
@@ -61,12 +67,17 @@ public class FileDataHandler extends BasicDataHandler {
   public void delData(DataKey key, String dataToRemove) throws NoSuchElementException {
     if (!dataToRemove.isEmpty()) {
       super.delData(key, dataToRemove);
-      File toSave = new File(
-          SECore.SAVE_DIR + File.separator + key.getName() + File.separator + dataToRemove
-              + ".json");
+      File toSave =
+          new File(
+              SECore.SAVE_DIR
+                  + File.separator
+                  + key.getName()
+                  + File.separator
+                  + dataToRemove
+                  + ".json");
       if (!toSave.delete()) {
-        SECore.logger.warning("Failed to delete '" + toSave.getAbsolutePath()
-            + "' (FileDataHandler#delData()");
+        SECore.logger.warning(
+            "Failed to delete '" + toSave.getAbsolutePath() + "' (FileDataHandler#delData()");
       }
     }
   }

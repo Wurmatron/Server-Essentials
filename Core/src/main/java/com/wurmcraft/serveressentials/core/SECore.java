@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wurmcraft.serveressentials.core.api.data.IDataHandler;
 import com.wurmcraft.serveressentials.core.data.BasicDataHandler;
-import com.wurmcraft.serveressentials.core.data.json.GlobalConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.io.File;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,6 +21,5 @@ public class SECore {
 
   public static void setup() {
     SERegistry.loadAndSetup();
-    GlobalConfig.setValues();
   }
 }
