@@ -52,11 +52,24 @@ processResources {
     }
 }
 
+shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
 shadowJar {
     dependencies {
         exclude('dummy*')
         include(dependency('org.reflections:reflections:0.9.11'))
         include(dependency('com.boundary:high-scale-lib:1.0.6'))
+        include(dependency('javassist:javassist:3.12.1.GA'))
         include(project(':Core'))
     }
+}
+
+reobf {
+    shadowJar {}
+}
+
+task buildAndPackage {
+    dependsOn 'clean'
+    dependsOn 'spotlessApply'
+    dependsOn 'build'
+    tasks.findByName('build').mustRunAfter 'clean'
 }

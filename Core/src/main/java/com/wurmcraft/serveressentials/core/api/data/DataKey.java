@@ -2,7 +2,8 @@ package com.wurmcraft.serveressentials.core.api.data;
 
 public enum DataKey {
   PLAYER("Player-Data"),
-  MODULE_CONFIG("Modules");
+  MODULE_CONFIG("Modules"),
+  LANGUAGE("Language");
 
   private String name;
 

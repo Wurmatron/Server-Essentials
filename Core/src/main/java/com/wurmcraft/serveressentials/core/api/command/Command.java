@@ -30,4 +30,9 @@ public @interface Command {
    * @return name of the command this is a sub command off
    */
   String subCommand() default "";
+
+  /**
+   * The names for each input of the command arguments or the diff rent valid options per argument
+   */
+  String[] inputNames() default {};
 }
