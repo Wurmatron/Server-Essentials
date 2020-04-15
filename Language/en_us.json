@@ -1,0 +1,5 @@
+{
+  "langKey": "en_us",
+  "CORE_SE_VERSION": "SE Version: %VERSION%",
+  "CORE_SE_STORAGE": "SE Storage Type: %TYPE%"
+}
