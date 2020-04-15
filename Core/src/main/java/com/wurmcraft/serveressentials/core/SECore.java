@@ -28,7 +28,7 @@ public class SECore {
   }
 
   private static void forceLanguage() {
-    if (SERegistry.isModuleLoaded("Language")) {
+    if (!SERegistry.isModuleLoaded("Language")) {
       // Force a language file (Language Module is not loaded)
       try {
         Language lang =
