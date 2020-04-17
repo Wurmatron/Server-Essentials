@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.*;
 
 public class FileUtils {
 
@@ -24,5 +25,17 @@ public class FileUtils {
       return GSON.fromJson(new BufferedReader(new FileReader(file)), type);
     }
     throw new FileNotFoundException("File '" + file.getAbsolutePath() + "' not found!");
+  }
+
+  public static <T extends JsonParser> T[] getJson(File dir, Class<T> type, T[] emptyArr)
+      throws FileNotFoundException {
+    if (dir.isDirectory()) {
+      List<T> data = new ArrayList<>();
+      for (File f : dir.listFiles()) {
+        data.add(getJson(f, type));
+      }
+      return data.toArray(emptyArr);
+    }
+    return null;
   }
 }

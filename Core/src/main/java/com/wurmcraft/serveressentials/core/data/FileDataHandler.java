@@ -54,6 +54,12 @@ public class FileDataHandler extends BasicDataHandler {
                   + File.separator
                   + dataToStore.getID()
                   + ".json");
+      if (!toSave.getParentFile().exists()) {
+        if (!toSave.getParentFile().mkdirs()) {
+          SECore.logger.warning(
+              "Failed to create directory at " + toSave.getParentFile().toString());
+        }
+      }
       try {
         Files.write(toSave.toPath(), GSON.toJson(dataToStore).getBytes());
       } catch (IOException e) {

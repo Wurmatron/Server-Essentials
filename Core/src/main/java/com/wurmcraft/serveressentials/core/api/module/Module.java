@@ -28,7 +28,7 @@ public @interface Module {
    *
    * @return Should this module be added upon first creation of the module config.
    */
-  boolean defaultModule() default false;
+  boolean shouldAllaysBeLoaded() default false;
 
   /**
    * This array is to be used only if this module requires another module such as requiring the Rest

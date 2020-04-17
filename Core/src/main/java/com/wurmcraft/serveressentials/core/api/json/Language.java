@@ -11,6 +11,7 @@ public class Language implements StoredDataType {
   // Core Module
   public String CORE_SE_VERSION;
   public String CORE_SE_STORAGE;
+  public String CORE_SE_MODULES;
 
   public Language(String langKey) {
     this.langKey = langKey;

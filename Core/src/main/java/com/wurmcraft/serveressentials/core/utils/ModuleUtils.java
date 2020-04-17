@@ -122,8 +122,19 @@ public class ModuleUtils extends SERegistry {
     if (module == null || module.name().isEmpty()) {
       return false;
     }
-    return doesMethodExist(moduleClass, module.initalizeMethod())
-        && doesMethodExist(moduleClass, module.completeSetup());
+    if (doesMethodExist(moduleClass, module.initalizeMethod())
+        && doesMethodExist(moduleClass, module.completeSetup())) {
+      if (module.shouldAllaysBeLoaded()) {
+        return true;
+      } else {
+        for (String m : SERegistry.globalConfig.enabledModules) {
+          if (module.name().equalsIgnoreCase(m)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   /**
