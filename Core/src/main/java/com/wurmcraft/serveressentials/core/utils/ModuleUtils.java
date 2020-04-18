@@ -126,11 +126,10 @@ public class ModuleUtils extends SERegistry {
         && doesMethodExist(moduleClass, module.completeSetup())) {
       if (module.shouldAllaysBeLoaded()) {
         return true;
-      } else {
-        for (String m : SERegistry.globalConfig.enabledModules) {
-          if (module.name().equalsIgnoreCase(m)) {
-            return true;
-          }
+      }
+      for (String m : SERegistry.globalConfig.enabledModules) {
+        if (module.name().equalsIgnoreCase(m)) {
+          return true;
         }
       }
     }

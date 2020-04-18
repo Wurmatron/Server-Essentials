@@ -17,7 +17,7 @@ import org.reflections.Reflections;
 
 public class AnnotationLoader {
 
-  private static final Reflections REFLECTIONS = new Reflections("com.wurmcraft.serveressentials");
+  private static final Reflections REFLECTIONS = new Reflections("com");
 
   /**
    * Searches the classpath to find any Modules to be loaded
@@ -29,6 +29,7 @@ public class AnnotationLoader {
     NonBlockingHashMap<String, Class<?>> cachedModules = new NonBlockingHashMap<>();
     for (Class<?> clazz : modules) {
       Module module = clazz.getAnnotation(Module.class);
+      SECore.logger.finest("Attempting to load module '" + module.name() + "'");
       if (canModuleBeLoaded(clazz, module)) {
         cachedModules.put(module.name(), clazz);
       }

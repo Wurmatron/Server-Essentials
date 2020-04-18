@@ -5,6 +5,7 @@ import com.wurmcraft.serveressentials.core.api.data.IDataHandler;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import com.wurmcraft.serveressentials.core.data.BasicDataHandler;
 import com.wurmcraft.serveressentials.core.data.FileDataHandler;
+import com.wurmcraft.serveressentials.core.data.RestDataHandler;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Level;
@@ -19,11 +20,17 @@ public class GlobalConfig implements StoredDataType {
   // Performance / Timings
   public int threadPoolSize;
 
+  // Rest Only
+  public String restAuth;
+  public String restURL;
+
   public GlobalConfig() {
     this.debug = false;
     threadPoolSize = 2;
     enabledModules = new String[0]; // TODO Set Default Modules
     dataStorgeType = "File";
+    this.restAuth = "user:password";
+    this.restURL = "https://rest.xxxx.com/";
   }
 
   public GlobalConfig(
@@ -54,6 +61,8 @@ public class GlobalConfig implements StoredDataType {
   private static IDataHandler getDataHandler(String name) {
     if (name.equalsIgnoreCase("File")) {
       return new FileDataHandler();
+    } else if (name.equalsIgnoreCase("Rest")) {
+      return new RestDataHandler();
     }
     return new BasicDataHandler();
   }

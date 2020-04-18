@@ -14,7 +14,6 @@ public class RankModule {
   }
 
   public void finalizeModule() {
-
   }
 
   private static Rank[] loadRanks() {

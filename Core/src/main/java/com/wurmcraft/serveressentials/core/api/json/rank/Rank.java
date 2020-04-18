@@ -31,4 +31,24 @@ public class Rank implements StoredDataType {
   public String getID() {
     return name;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getPrefix() {
+    return prefix;
+  }
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+  public String[] getInheritance() {
+    return inheritance;
+  }
+
+  public String[] getPermission() {
+    return permission;
+  }
 }

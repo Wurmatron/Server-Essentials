@@ -19,18 +19,20 @@ public class FileDataHandler extends BasicDataHandler {
   public <T extends StoredDataType> NonBlockingHashMap<String, T> getDataFromKey(
       DataKey key, T type) {
     NonBlockingHashMap<String, T> loaded = super.getDataFromKey(key, type);
-    File dir = new File(SECore.SAVE_DIR + File.separator + key.getName());
-    if (dir.exists()
-        && dir.isDirectory()
-        && dir.listFiles() != null
-        && dir.listFiles().length > 0) {
-      for (File file : dir.listFiles()) {
-        try {
-          T data = (T) FileUtils.getJson(file, type.getClass());
-          loaded.put(data.getID(), data);
-          loadedData.put(key, (NonBlockingHashMap<String, StoredDataType>) loaded);
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
+    if (loaded.size() == 0) {
+      File dir = new File(SECore.SAVE_DIR + File.separator + key.getName());
+      if (dir.exists()
+          && dir.isDirectory()
+          && dir.listFiles() != null
+          && dir.listFiles().length > 0) {
+        for (File file : dir.listFiles()) {
+          try {
+            T data = (T) FileUtils.getJson(file, type.getClass());
+            loaded.put(data.getID(), data);
+            loadedData.put(key, (NonBlockingHashMap<String, StoredDataType>) loaded);
+          } catch (FileNotFoundException e) {
+            e.printStackTrace();
+          }
         }
       }
     }
