@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.forge.modules;
+package com.wurmcraft.serveressentials.forge.modules.rank;
 
 
 import static com.wurmcraft.serveressentials.forge.modules.rank.RankUtils.scheduleRankUpdates;
