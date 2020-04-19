@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ModuleConfig {
+public @interface ConfigModule {
 
   /** Name of the module this config file belongs to. */
   String moduleName();

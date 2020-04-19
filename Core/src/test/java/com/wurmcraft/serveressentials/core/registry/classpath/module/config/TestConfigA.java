@@ -1,9 +1,9 @@
 package com.wurmcraft.serveressentials.core.registry.classpath.module.config;
 
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
-import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
+import com.wurmcraft.serveressentials.core.api.module.ConfigModule;
 
-@ModuleConfig(moduleName = "TestA")
+@ConfigModule(moduleName = "TestA")
 public class TestConfigA implements StoredDataType {
 
   public String someConfigValue;

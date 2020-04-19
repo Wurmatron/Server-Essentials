@@ -7,9 +7,8 @@ import com.wurmcraft.serveressentials.core.Global;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
-import com.wurmcraft.serveressentials.core.api.json.JsonParser;
+import com.wurmcraft.serveressentials.core.api.module.ConfigModule;
 import com.wurmcraft.serveressentials.core.api.module.Module;
-import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -163,19 +162,20 @@ public class ModuleUtils extends SERegistry {
   }
 
   /** Loads the module configs / creates them with defaults if they dont exist */
-  public static NonBlockingHashMap<String, JsonParser> loadModuleConfigs() {
+  public static NonBlockingHashMap<String, StoredDataType> loadModuleConfigs() {
     SECore.logger.info("Loading Module Configs ...");
-    NonBlockingHashMap<String, JsonParser> loadedConfigs =
+    NonBlockingHashMap<String, StoredDataType> loadedConfigs =
         AnnotationLoader.searchForModuleConfigs();
     for (String m : loadedConfigs.keySet()) {
-      ModuleConfig module = loadedConfigs.get(m).getClass().getAnnotation(ModuleConfig.class);
-      File moduleConfig = getModuleConfigFile(module, (StoredDataType) loadedConfigs.get(m));
+      SECore.logger.info("Loading '" + m + "'s config");
+      ConfigModule module = loadedConfigs.get(m).getClass().getAnnotation(ConfigModule.class);
+      File moduleConfig = getModuleConfigFile(module, loadedConfigs.get(m));
       try {
-        JsonParser loadedJson =
-            FileUtils.getJson(moduleConfig, ((JsonParser) loadedConfigs.get(m)).getClass());
+        StoredDataType loadedJson =
+            FileUtils.getJson(moduleConfig, ((StoredDataType) loadedConfigs.get(m)).getClass());
         loadedConfigs.put(m, loadedJson);
         configCache.put(m, moduleConfig);
-        SERegistry.register(DataKey.MODULE_CONFIG, (StoredDataType) loadedJson);
+        SERegistry.register(DataKey.MODULE_CONFIG, loadedJson);
       } catch (FileNotFoundException e) {
         SECore.logger.warning(
             "Unable to save module config '" + moduleConfig.getAbsolutePath() + "'");
@@ -191,7 +191,7 @@ public class ModuleUtils extends SERegistry {
    * @return the file for the given module
    */
   private static File getModuleConfigFile(
-      ModuleConfig config, StoredDataType defaultConfigInstance) {
+      ConfigModule config, StoredDataType defaultConfigInstance) {
     File moduleConfig =
         new File(
             SECore.SAVE_DIR

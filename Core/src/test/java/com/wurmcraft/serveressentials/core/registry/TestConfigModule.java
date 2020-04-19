@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestModuleConfig {
+public class TestConfigModule {
 
   @Before
   public void setup() {

@@ -5,9 +5,9 @@ import static com.wurmcraft.serveressentials.core.utils.ModuleUtils.canModuleBeL
 
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
-import com.wurmcraft.serveressentials.core.api.json.JsonParser;
+import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
+import com.wurmcraft.serveressentials.core.api.module.ConfigModule;
 import com.wurmcraft.serveressentials.core.api.module.Module;
-import com.wurmcraft.serveressentials.core.api.module.ModuleConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,7 +17,7 @@ import org.reflections.Reflections;
 
 public class AnnotationLoader {
 
-  private static final Reflections REFLECTIONS = new Reflections("com");
+  private static final Reflections REFLECTIONS = new Reflections("com.wurmcraft");
 
   /**
    * Searches the classpath to find any Modules to be loaded
@@ -59,17 +59,18 @@ public class AnnotationLoader {
    *
    * @return a map of all the module configs that can be loaded
    */
-  public static NonBlockingHashMap<String, JsonParser> searchForModuleConfigs()
+  public static NonBlockingHashMap<String, StoredDataType> searchForModuleConfigs()
       throws NullPointerException {
-    Set<Class<?>> configs = REFLECTIONS.getTypesAnnotatedWith(ModuleConfig.class);
-    NonBlockingHashMap<String, JsonParser> cachedConfigs = new NonBlockingHashMap<>();
+    Set<Class<?>> configs = REFLECTIONS.getTypesAnnotatedWith(ConfigModule.class);
+    SECore.logger.info("A:" + configs.size() + " " + configs);
+    NonBlockingHashMap<String, StoredDataType> cachedConfigs = new NonBlockingHashMap<>();
     for (Class<?> clazz : configs) {
       try {
         Object configClass = clazz.newInstance();
-        ModuleConfig config = clazz.getAnnotation(ModuleConfig.class);
+        ConfigModule config = clazz.getAnnotation(ConfigModule.class);
         if (SERegistry.isModuleLoaded(config.moduleName())) {
-          if (configClass instanceof JsonParser) {
-            cachedConfigs.put(config.moduleName(), (JsonParser) configClass);
+          if (configClass instanceof StoredDataType) {
+            cachedConfigs.put(config.moduleName(), (StoredDataType) configClass);
           } else {
             SECore.logger.warning(
                 "Module '"
@@ -80,7 +81,7 @@ public class AnnotationLoader {
       } catch (InstantiationException | IllegalAccessException e) {
         throw new NullPointerException(
             "Module '"
-                + clazz.getAnnotation(ModuleConfig.class).moduleName()
+                + clazz.getAnnotation(ConfigModule.class).moduleName()
                 + "' does not have a default constructor");
       }
     }

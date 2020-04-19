@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -50,6 +51,8 @@ public class SERegistry {
     GlobalConfig.setValues();
     loadAndSetupModules();
     loadModuleConfigs();
+    SECore.logger.info(
+        "Loaded Modules: " + Arrays.toString(loadedModules.keySet().toArray(new String[0])));
     loadCommands();
   }
 

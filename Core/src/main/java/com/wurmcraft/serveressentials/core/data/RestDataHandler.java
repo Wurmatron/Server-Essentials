@@ -19,15 +19,14 @@ public class RestDataHandler extends FileDataHandler {
         com.wurmcraft.serveressentials.core.api.json.rank.Rank[] ranks = Rank.getAllRanks();
         if (loadedData.containsKey(key) && ranks.length > 0) {
           loadedData.get(DataKey.RANK).clear();
+          for (String r : loadedData.get(DataKey.RANK).keySet()) {
+            SERegistry.delStoredData(DataKey.RANK, r);
+          }
         }
         for (com.wurmcraft.serveressentials.core.api.json.rank.Rank r : ranks) {
           if (r != null) {
             data.put(r.getID(), (T) r);
-            if (data.containsKey(key)) {
-              loadedData.get(DataKey.RANK).put(r.getID(), r);
-            } else {
-              loadedData.put(DataKey.RANK, (NonBlockingHashMap<String, StoredDataType>) data);
-            }
+            SERegistry.register(DataKey.RANK, r);
           }
         }
       }
@@ -42,23 +41,15 @@ public class RestDataHandler extends FileDataHandler {
 
   @Override
   public void registerData(DataKey key, StoredDataType dataToStore) {
-    loadedData.get(key).put(dataToStore.getID(), dataToStore);
+    super.registerData(key, dataToStore);
     if (key == DataKey.RANK) {
       RestRequestGenerator.Rank.addRank(
           (com.wurmcraft.serveressentials.core.api.json.rank.Rank) dataToStore);
-    } else {
-      super.registerData(key, dataToStore);
     }
   }
 
   @Override
   public void delData(DataKey key, String dataToRemove) throws NoSuchElementException {
-    if (key == DataKey.RANK) {
-      RestRequestGenerator.Rank.deleteRank(
-          (com.wurmcraft.serveressentials.core.api.json.rank.Rank)
-              SERegistry.getStoredData(DataKey.RANK, dataToRemove));
-    } else {
-      super.delData(key, dataToRemove);
-    }
+    super.delData(key, dataToRemove);
   }
 }
