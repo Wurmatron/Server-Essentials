@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.core.utils;
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 
 import com.wurmcraft.serveressentials.core.SECore;
+import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -140,6 +141,21 @@ public class RestRequestGenerator {
 
     public static com.wurmcraft.serveressentials.core.api.json.rank.Rank[] getAllRanks() {
       return INSTANCE.get("rank/", com.wurmcraft.serveressentials.core.api.json.rank.Rank[].class);
+    }
+  }
+
+  public static class User {
+
+    public static GlobalPlayer getPlayer(String uuid) {
+      return INSTANCE.get("user/" + uuid, GlobalPlayer.class);
+    }
+
+    public static int addPlayer(GlobalPlayer player) {
+      return INSTANCE.post("user/add", player);
+    }
+
+    public static int overridePlayer(String uuid, GlobalPlayer player) {
+      return INSTANCE.post("user/" + uuid + "/override", player);
     }
   }
 }

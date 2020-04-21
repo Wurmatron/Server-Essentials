@@ -8,7 +8,6 @@ import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import com.wurmcraft.serveressentials.core.api.module.ConfigModule;
 import com.wurmcraft.serveressentials.core.api.module.Module;
-import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -62,21 +61,18 @@ public class AnnotationLoader {
   public static NonBlockingHashMap<String, StoredDataType> searchForModuleConfigs()
       throws NullPointerException {
     Set<Class<?>> configs = REFLECTIONS.getTypesAnnotatedWith(ConfigModule.class);
-    SECore.logger.info("A:" + configs.size() + " " + configs);
     NonBlockingHashMap<String, StoredDataType> cachedConfigs = new NonBlockingHashMap<>();
     for (Class<?> clazz : configs) {
       try {
         Object configClass = clazz.newInstance();
         ConfigModule config = clazz.getAnnotation(ConfigModule.class);
-        if (SERegistry.isModuleLoaded(config.moduleName())) {
-          if (configClass instanceof StoredDataType) {
-            cachedConfigs.put(config.moduleName(), (StoredDataType) configClass);
-          } else {
-            SECore.logger.warning(
-                "Module '"
-                    + config.moduleName()
-                    + "' failed to load due to not subClass of JsonParser");
-          }
+        if (configClass instanceof StoredDataType) {
+          cachedConfigs.put(config.moduleName(), (StoredDataType) configClass);
+        } else {
+          SECore.logger.warning(
+              "Module '"
+                  + config.moduleName()
+                  + "' failed to load due to not subClass of JsonParser");
         }
       } catch (InstantiationException | IllegalAccessException e) {
         throw new NullPointerException(

@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.forge.modules.core.event;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.LocationWrapper;
+import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.api.player.ServerPlayer;
@@ -15,7 +16,6 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
 import java.time.Instant;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
@@ -71,6 +71,7 @@ public class PlayerDataEvents {
 
   public static GlobalPlayer createNewGlobal(EntityPlayer player) {
     GlobalPlayer global = new GlobalPlayer();
+    global.uuid = player.getGameProfile().getId().toString();
     global.firstJoin = Instant.now().getEpochSecond();
     global.lastSeen = Instant.now().getEpochSecond();
     if (SERegistry.isModuleLoaded("Language")) {

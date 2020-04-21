@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.core.data;
 
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
+import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.Rank;
@@ -45,6 +46,8 @@ public class RestDataHandler extends FileDataHandler {
     if (key == DataKey.RANK) {
       RestRequestGenerator.Rank.addRank(
           (com.wurmcraft.serveressentials.core.api.json.rank.Rank) dataToStore);
+    } else if (key == DataKey.PLAYER) {
+      RestRequestGenerator.User.addPlayer(((StoredPlayer) (dataToStore)).global);
     }
   }
 

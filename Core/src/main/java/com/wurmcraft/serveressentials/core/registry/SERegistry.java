@@ -49,8 +49,8 @@ public class SERegistry {
       }
     }
     GlobalConfig.setValues();
-    loadAndSetupModules();
     loadModuleConfigs();
+    loadAndSetupModules();
     SECore.logger.info(
         "Loaded Modules: " + Arrays.toString(loadedModules.keySet().toArray(new String[0])));
     loadCommands();
