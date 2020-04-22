@@ -3,10 +3,12 @@ package com.wurmcraft.serveressentials.core.data.json;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.IDataHandler;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
+import com.wurmcraft.serveressentials.core.api.json.Validation;
 import com.wurmcraft.serveressentials.core.data.BasicDataHandler;
 import com.wurmcraft.serveressentials.core.data.FileDataHandler;
 import com.wurmcraft.serveressentials.core.data.RestDataHandler;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Level;
 
@@ -62,6 +64,19 @@ public class GlobalConfig implements StoredDataType {
     if (name.equalsIgnoreCase("File")) {
       return new FileDataHandler();
     } else if (name.equalsIgnoreCase("Rest")) {
+      try {
+        Validation restValidate = RestRequestGenerator.Verify.get();
+        if (restValidate == null) {
+          SECore.logger.info("Defaulting to 'file' due to invalid rest configuration!!");
+          return getDataHandler("File");
+        } else {
+          SECore.logger.info("Rest Version is '" + restValidate.version + "'");
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        SECore.logger.info("Defaulting to 'file' due to invalid rest configuration!");
+        return getDataHandler("File");
+      }
       return new RestDataHandler();
     }
     return new BasicDataHandler();

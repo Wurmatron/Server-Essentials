@@ -1,6 +1,9 @@
 package com.wurmcraft.serveressentials.forge.modules.core;
 
 
+import com.wurmcraft.serveressentials.core.SECore;
+import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import net.minecraftforge.common.MinecraftForge;
@@ -10,8 +13,11 @@ public class CoreModule {
 
   public void initSetup() {
     MinecraftForge.EVENT_BUS.register(new PlayerDataEvents());
+    Rank defaultRank = new Rank("Default", "&7[&8Default&7]", "&7", new String[]{},
+        new String[]{});
   }
 
-  public void finalizeModule() {}
+  public void finalizeModule() {
+  }
 
 }

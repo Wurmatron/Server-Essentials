@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.core.utils;
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 
 import com.wurmcraft.serveressentials.core.SECore;
+import com.wurmcraft.serveressentials.core.api.json.Validation;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.io.BufferedReader;
@@ -156,6 +157,12 @@ public class RestRequestGenerator {
 
     public static int overridePlayer(String uuid, GlobalPlayer player) {
       return INSTANCE.post("user/" + uuid + "/override", player);
+    }
+  }
+
+  public static class Verify {
+    public static Validation get() {
+      return INSTANCE.get("validate", Validation.class);
     }
   }
 }

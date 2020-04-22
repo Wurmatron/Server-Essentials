@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.Module;
+import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Module(name = "Rank")
@@ -20,14 +21,9 @@ public class RankModule {
     try {
       NonBlockingHashMap<String, Rank> ranks = SECore.dataHandler
           .getDataFromKey(DataKey.RANK, new Rank());
-      if (ranks.size() == 0) {
-        Rank defaultRank = new Rank("Default", "&7[&8Default&7]", "&7", new String[]{},
-            new String[]{});
-        Rank adminRank = new Rank("Admin", "&c[&4Admin&c]", "&d", new String[]{"Default"},
-            new String[]{"*"});
-        SECore.dataHandler.registerData(DataKey.RANK, defaultRank);
-        SECore.dataHandler.registerData(DataKey.RANK, adminRank);
-        ranks = SECore.dataHandler.getDataFromKey(DataKey.RANK, new Rank());
+      String defaultRank = ((RankConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
+      if (ranks.size() == 0 || ranks.getOrDefault(defaultRank, null) == null) {
+        registerDefaultRanks();
         if (ranks.size() == 0) {
           SECore.logger.severe("No Ranks are loading / detected!");
           return new Rank[]{new Rank()};
@@ -35,8 +31,22 @@ public class RankModule {
       }
       return ranks.values().toArray(new Rank[0]);
     } catch (Exception e) {
-      e.printStackTrace();
+      // No Ranks in the database
+      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+        registerDefaultRanks();
+      } else {
+        e.printStackTrace();
+      }
     }
     return new Rank[]{new Rank()};
+  }
+
+  private static void registerDefaultRanks() {
+    Rank defaultRank = new Rank("Default", "&7[&8Default&7]", "&7", new String[]{},
+        new String[]{});
+    SECore.dataHandler.registerData(DataKey.RANK, defaultRank);
+    Rank adminRank = new Rank("Admin", "&c[&4Admin&c]", "&d", new String[]{"Default"},
+        new String[]{"*"});
+    SECore.dataHandler.registerData(DataKey.RANK, adminRank);
   }
 }

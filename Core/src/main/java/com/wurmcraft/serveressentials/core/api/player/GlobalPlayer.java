@@ -32,12 +32,21 @@ public class GlobalPlayer implements JsonParser {
   // Vote
   public int rewardPoints;
 
-  public GlobalPlayer() {
-  }
+  public GlobalPlayer() {}
 
-  public GlobalPlayer(String uuid, long firstJoin, long lastSeen, String rank,
-      String[] extraPerms, String[] perks, String language, boolean muted,
-      Wallet wallet, NetworkTime playtime, String discordID, int rewardPoints) {
+  public GlobalPlayer(
+      String uuid,
+      long firstJoin,
+      long lastSeen,
+      String rank,
+      String[] extraPerms,
+      String[] perks,
+      String language,
+      boolean muted,
+      Wallet wallet,
+      NetworkTime playtime,
+      String discordID,
+      int rewardPoints) {
     this.uuid = uuid;
     this.firstJoin = firstJoin;
     this.lastSeen = lastSeen;
