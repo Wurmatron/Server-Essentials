@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.forge.modules.core.event;
+package com.wurmcraft.serveressentials.forge.api.event;
 
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import net.minecraft.entity.player.EntityPlayer;

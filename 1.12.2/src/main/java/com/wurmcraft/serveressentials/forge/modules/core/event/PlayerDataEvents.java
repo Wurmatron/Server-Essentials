@@ -1,5 +1,8 @@
 package com.wurmcraft.serveressentials.forge.modules.core.event;
 
+import static com.wurmcraft.serveressentials.core.SECore.GSON;
+import static com.wurmcraft.serveressentials.core.SECore.SAVE_DIR;
+
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.LocationWrapper;
@@ -12,9 +15,15 @@ import com.wurmcraft.serveressentials.core.api.player.Vault;
 import com.wurmcraft.serveressentials.core.api.player.Wallet;
 import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
 import com.wurmcraft.serveressentials.core.api.track.ServerTime;
+import com.wurmcraft.serveressentials.core.data.RestDataHandler;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
+import com.wurmcraft.serveressentials.forge.api.event.RestPlayerSyncEvent;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
@@ -23,12 +32,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 public class PlayerDataEvents {
 
   @SubscribeEvent
   public void onPlayerJoin(PlayerLoggedInEvent e) {
     handlePlayer(e.player);
+  }
+
+  @SubscribeEvent
+  public void onPlayerLeave(PlayerLoggedOutEvent e) {
+    savePlayer(e.player);
   }
 
   private void handlePlayer(EntityPlayer player) {
@@ -40,25 +55,16 @@ public class PlayerDataEvents {
         MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
       }
     } catch (NoSuchElementException e) {
+      SECore.logger.info("New Player!");
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
       SECore.executors.scheduleAtFixedRate(() -> {
-        GlobalPlayer global = RestRequestGenerator.User
-            .getPlayer(player.getGameProfile().getId().toString());
-        if (global != null) {
-          StoredPlayer playerData = ((StoredPlayer) SERegistry
-              .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString()));
-          RestPlayerSyncEvent e = new RestPlayerSyncEvent(player, playerData, global);
-          playerData.global = e.restData;
-          SECore.logger
-              .fine("User '" + player.getDisplayNameString() + "' has been synced!");
-        } else {
-          SECore.logger
-              .warning("Unable to find '" + player.getDisplayNameString() + "' on rest!");
-        }
+        savePlayer(player);
+        SECore.logger
+            .fine("User '" + player.getDisplayNameString() + "' has been synced!");
       }, 300, 90, TimeUnit.SECONDS);
     }
   }
@@ -109,5 +115,27 @@ public class PlayerDataEvents {
       server.channel = "global";
     }
     return server;
+  }
+
+  public static void savePlayer(EntityPlayer player) {
+    try {
+      StoredPlayer playerData = (StoredPlayer) SERegistry
+          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+        MinecraftForge.EVENT_BUS
+            .post(new RestPlayerSyncEvent(player, playerData, playerData.global));
+        RestRequestGenerator.User.overridePlayer(playerData.uuid, playerData.global);
+      }
+      Files.write(new File(
+          SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator + player
+              .getGameProfile().getId().toString()
+              + ".json").toPath(), GSON.toJson(playerData).getBytes());
+    } catch (NoSuchElementException e) {
+      SECore.logger
+          .warning("Unable to locate / save data for '" + player.getName() + "'!");
+    } catch (IOException e) {
+      e.printStackTrace();
+      SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
+    }
   }
 }

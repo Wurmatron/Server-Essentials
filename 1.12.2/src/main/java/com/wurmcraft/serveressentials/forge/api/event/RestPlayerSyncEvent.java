@@ -1,10 +1,11 @@
-package com.wurmcraft.serveressentials.forge.modules.core.event;
+package com.wurmcraft.serveressentials.forge.api.event;
 
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class RestPlayerSyncEvent {
+public class RestPlayerSyncEvent extends Event {
 
   public EntityPlayer player;
   public StoredPlayer serverData;
