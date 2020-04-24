@@ -122,8 +122,9 @@ public class PlayerDataEvents {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
       if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-        MinecraftForge.EVENT_BUS
-            .post(new RestPlayerSyncEvent(player, playerData, playerData.global));
+        RestPlayerSyncEvent syncEvent = new RestPlayerSyncEvent(player, playerData, playerData.global);
+        MinecraftForge.EVENT_BUS.post(syncEvent);
+        playerData.global = syncEvent.restData;
         RestRequestGenerator.User.overridePlayer(playerData.uuid, playerData.global);
       }
       Files.write(new File(

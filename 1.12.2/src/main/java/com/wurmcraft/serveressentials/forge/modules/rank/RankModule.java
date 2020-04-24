@@ -32,11 +32,7 @@ public class RankModule {
       return ranks.values().toArray(new Rank[0]);
     } catch (Exception e) {
       // No Ranks in the database
-      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-        registerDefaultRanks();
-      } else {
-        e.printStackTrace();
-      }
+      registerDefaultRanks();
     }
     return new Rank[]{new Rank()};
   }
