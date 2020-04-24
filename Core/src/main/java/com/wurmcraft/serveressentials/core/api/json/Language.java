@@ -27,6 +27,7 @@ public class Language implements StoredDataType {
   public String GENERAL_TPACCEPT_ACCEPT;
   public String GENERAL_TPACCEPT_SEND;
   public String GENERAL_TPAACCEPT_NOT_FOUND;
+  public String GENERAL_BACK_SENT;
 
   public Language(String langKey) {
     this.langKey = langKey;
