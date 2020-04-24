@@ -5,7 +5,9 @@ import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.forge.common.utils.CommandParser;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -40,7 +42,7 @@ public class SECommand extends CommandBase {
       if (method.isAnnotationPresent(Command.class)) {
         Command commandAnnotation = method.getAnnotation(Command.class);
         cache.put(commandAnnotation.inputArguments(), method);
-        if(commandAnnotation.inputNames().length > 0) {
+        if (commandAnnotation.inputNames().length > 0) {
           commandUsage.append(" (");
           commandUsage.append(Arrays.toString(commandAnnotation.inputNames()));
           commandUsage.append(") ");
@@ -97,6 +99,13 @@ public class SECommand extends CommandBase {
     }
   }
 
+  @Override
+  public List<String> getAliases() {
+    List<String> aliases = new ArrayList<>();
+    aliases.add(command.name().toLowerCase());
+    aliases.add(command.name().toUpperCase());
+    return aliases;
+  }
 
   private Object[] hasHandler(CommandArguments[] args) {
     for (CommandArguments[] a : cache.keySet()) {

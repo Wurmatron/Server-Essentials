@@ -1,8 +1,13 @@
 {
   "langKey": "en_us",
+  
+  "ERROR_NO_PERMS": "You dont have Permission to run this command / subCommand!",
+  "ERROR_PLAYER_NOT_FOUND": "Player %PLAYER% not found!",
+  
   "CORE_SE_VERSION": "SE Version: %VERSION%",
   "CORE_SE_STORAGE": "SE Storage Type: %TYPE%",
   "CORE_SE_MODULES": "SE Modules: %MODULES%",
+  
   "LANGUAGE_LANGUAGE_NO_FOUND": "Language %LANG% not found!",
   "LANGUAGE_LANGUAGE_SET": "Language has been changed to %LANG%"
 }

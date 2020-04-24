@@ -156,7 +156,7 @@ public class RestRequestGenerator {
     }
 
     public static int overridePlayer(String uuid, GlobalPlayer player) {
-      return INSTANCE.post("user/" + uuid + "/override", player);
+      return INSTANCE.put("user/" + uuid + "/override", player);
     }
   }
 

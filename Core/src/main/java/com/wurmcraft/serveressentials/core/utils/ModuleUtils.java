@@ -73,7 +73,7 @@ public class ModuleUtils extends SERegistry {
               AnnotationLoader.runMethod(
                   moduleInstance,
                   modulePhase.equals("init")
-                      ? module.initalizeMethod()
+                      ? module.initializeMethod()
                       : modulePhase.equals("finalize") ? module.completeSetup() : "",
                   null,
                   new Object[] {});
@@ -121,7 +121,7 @@ public class ModuleUtils extends SERegistry {
     if (module == null || module.name().isEmpty()) {
       return false;
     }
-    if (doesMethodExist(moduleClass, module.initalizeMethod())
+    if (doesMethodExist(moduleClass, module.initializeMethod())
         && doesMethodExist(moduleClass, module.completeSetup())) {
       if (module.shouldAllaysBeLoaded()) {
         return true;

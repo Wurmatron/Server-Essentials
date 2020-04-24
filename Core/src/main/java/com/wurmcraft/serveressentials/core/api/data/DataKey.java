@@ -4,7 +4,8 @@ public enum DataKey {
   PLAYER("Player-Data"),
   MODULE_CONFIG("Modules"),
   LANGUAGE("Language"),
-  RANK("Rank");
+  RANK("Rank"),
+  TPA("TPA");
 
   private String name;
 

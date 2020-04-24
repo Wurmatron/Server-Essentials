@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class SERegistry {
@@ -27,6 +28,8 @@ public class SERegistry {
       loadedData = new NonBlockingHashMap<>();
   protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, StoredDataType>>
       tempData = new NonBlockingHashMap<>();
+  protected static NonBlockingHashMap<DataKey, NonBlockingHashMap<String, Long>> tempDataTimeout =
+      new NonBlockingHashMap<>();
   public static GlobalConfig globalConfig;
 
   public static void loadAndSetup() {
@@ -54,6 +57,7 @@ public class SERegistry {
     SECore.logger.info(
         "Loaded Modules: " + Arrays.toString(loadedModules.keySet().toArray(new String[0])));
     loadCommands();
+    createTempDataRemoval();
   }
 
   /**
@@ -170,5 +174,45 @@ public class SERegistry {
     } else {
       SECore.logger.severe("A DataHandler does not exist or has been removed!");
     }
+  }
+
+  /**
+   * Stored a key-value entry for a given amount of time (Removes the value based on the update
+   * timer in the global config)
+   *
+   * @param key Key the value is stored under
+   * @param data data to be stored
+   * @param timeTillTimeout time in ms till this data will be removed from the database
+   */
+  public static void addTempData(DataKey key, StoredDataType data, long timeTillTimeout) {
+    if (tempData.containsKey(key)) {
+      tempData.get(key).put(data.getID(), data);
+      tempDataTimeout.get(key).put(data.getID(), System.currentTimeMillis() + timeTillTimeout);
+    } else {
+      NonBlockingHashMap<String, StoredDataType> temp = new NonBlockingHashMap<>();
+      NonBlockingHashMap<String, Long> tempTimeout = new NonBlockingHashMap<>();
+      temp.put(data.getID(), data);
+      tempTimeout.put(data.getID(), System.currentTimeMillis() + timeTillTimeout);
+      tempData.put(key, temp);
+      tempDataTimeout.put(key, tempTimeout);
+    }
+  }
+
+  /** Handles the timeout of all the temp-data */
+  private static void createTempDataRemoval() {
+    SECore.executors.scheduleAtFixedRate(
+        () -> {
+          for (DataKey key : tempData.keySet()) {
+            NonBlockingHashMap<String, Long> timeoutData = tempDataTimeout.get(key);
+            for (String dataKey : timeoutData.keySet()) {
+              if (System.currentTimeMillis() >= timeoutData.get(dataKey)) {
+                tempData.get(key).remove(dataKey);
+              }
+            }
+          }
+        },
+        globalConfig.tempDataRemovalTime,
+        globalConfig.tempDataRemovalTime,
+        TimeUnit.SECONDS);
   }
 }

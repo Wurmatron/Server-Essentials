@@ -46,7 +46,7 @@ public @interface Module {
    *
    * @return name of the method in the class that are designated to "initialize" the module.
    */
-  String initalizeMethod() default "initSetup";
+  String initializeMethod() default "initSetup";
 
   /**
    * This "String" or method is to be used to finalize this module, This finalize is used to load
