@@ -215,4 +215,31 @@ public class SERegistry {
         globalConfig.tempDataRemovalTime,
         TimeUnit.SECONDS);
   }
+
+  /**
+   * Get Data that was stored in the database temp
+   *
+   * @param key key the data was stored under
+   * @param dataID ID of the data that was stored
+   * @return the instance of the data that was stored
+   * @throws NoSuchElementException if the data cannot be found
+   */
+  public static StoredDataType getTempData(DataKey key, String dataID)
+      throws NoSuchElementException {
+    if (tempData.containsKey(key) && tempData.get(key).containsKey(dataID)) {
+      StoredDataType data = tempData.get(key).getOrDefault(dataID, null);
+      if (data != null && !data.getID().isEmpty()) {
+        return data;
+      }
+    }
+    throw new NoSuchElementException(
+        "Unable to find '" + dataID + "' within '" + key.toString() + "'");
+  }
+
+  public static void delTempData(DataKey key, String dataID) {
+    if (tempData.containsKey(key)) {
+      tempData.get(key).remove(dataID);
+      tempDataTimeout.get(key).remove(dataID);
+    }
+  }
 }

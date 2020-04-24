@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.forge.modules.general.command;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -29,12 +31,15 @@ public class TPACommand {
           (EntityPlayer) sender.getCommandSenderEntity(), otherPlayer), tpaTimeout);
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
       sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
-          PlayerUtils.getUserLanguage(sender).GENERAL_TPA_SENT
-              .replaceAll("%PLAYER%", otherPlayer.getDisplayNameString())), otherPlayer));
+              COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_TPA_SENT
+                  .replaceAll("%PLAYER%",
+                      COMMAND_INFO_COLOR + otherPlayer.getDisplayNameString())),
+          otherPlayer));
       otherPlayer.sendMessage(TextComponentUtils.addPlayerComponent(
-          new TextComponentString(
-              PlayerUtils.getUserLanguage(otherPlayer).GENERAL_TPA_SENT
-                  .replaceAll("%PLAYER%", player.getDisplayNameString())), player));
+          new TextComponentString(COMMAND_COLOR +
+              PlayerUtils.getUserLanguage(otherPlayer).GENERAL_TPA_REQUEST
+                  .replaceAll("%PLAYER%",
+                      COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
     } else {
       sender.sendMessage(new TextComponentString(
           ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_PLAYER_NOT_FOUND));

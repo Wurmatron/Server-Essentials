@@ -16,6 +16,6 @@ public class TPARequest implements StoredDataType {
 
   @Override
   public String getID() {
-    return sendingPlayer.getGameProfile().getId().toString();
+    return requestedPlayer.getGameProfile().getId().toString();
   }
 }

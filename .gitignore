@@ -23,3 +23,5 @@ run
 
 Server_Essentials/
 gradle/
+Rest/pkg
+Rest/src

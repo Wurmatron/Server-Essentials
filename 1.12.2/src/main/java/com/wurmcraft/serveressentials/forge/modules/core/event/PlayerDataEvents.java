@@ -15,12 +15,12 @@ import com.wurmcraft.serveressentials.core.api.player.Vault;
 import com.wurmcraft.serveressentials.core.api.player.Wallet;
 import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
 import com.wurmcraft.serveressentials.core.api.track.ServerTime;
-import com.wurmcraft.serveressentials.core.data.RestDataHandler;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.forge.api.event.RestPlayerSyncEvent;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
+import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -91,6 +91,10 @@ public class PlayerDataEvents {
       // TODO Set default currency
     } else {
       global.wallet = new Wallet(new Currency[0]);
+    }
+    if(SERegistry.isModuleLoaded("Rank")) {
+      global.rank =((RankConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
     }
     global.playtime = new NetworkTime(new ServerTime[]{});
     global.discordID = "";

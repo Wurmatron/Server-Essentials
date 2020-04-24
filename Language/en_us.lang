@@ -8,5 +8,8 @@
   "LANGUAGE_LANGUAGE_NO_FOUND": "Language %LANG% not found!",
   "LANGUAGE_LANGUAGE_SET": "Language has been changed to %LANG%",
   "GENERAL_TPA_SENT": "Tpa Request sent to %PLAYER%",
-  "GENERAL_TPA_REQUEST": "%PLAYER% has request to teleport to your location. Type /TPAAccept to accept"
+  "GENERAL_TPA_REQUEST": "%PLAYER% has request to teleport to your location. Type /TPAAccept to accept",
+  "GENERAL_TPACCEPT_ACCEPT": "You have accepted an tpa request for %PLAYER%",
+  "GENERAL_TPACCEPT_SEND": "%PLAYER% has accepted your tpa request!",
+  "GENERAL_TPAACCEPT_NOT_FOUND": "No Active TPA Requests!"
 }
