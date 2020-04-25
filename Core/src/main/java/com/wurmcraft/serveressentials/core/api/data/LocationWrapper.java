@@ -22,4 +22,9 @@ public class LocationWrapper implements JsonParser {
     this.z = z;
     this.dim = 0;
   }
+
+  @Override
+  public String toString() {
+    return "X:" + Math.round(x) + " Y:" + Math.round(y) + " Z:" + Math.round(z) + " Dim:" + dim;
+  }
 }

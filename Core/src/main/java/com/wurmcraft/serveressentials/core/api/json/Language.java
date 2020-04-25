@@ -28,6 +28,11 @@ public class Language implements StoredDataType {
   public String GENERAL_TPACCEPT_SEND;
   public String GENERAL_TPAACCEPT_NOT_FOUND;
   public String GENERAL_BACK_SENT;
+  public String GENERAL_SETHOME_SET;
+  public String GENERAL_SETHOME_MAX;
+  public String GENERAL_SETHOME_INVALID;
+  public String GENERAL_HOME_TELEPORT;
+  public String GENERAL_HOME_NOT_FOUND;
 
   public Language(String langKey) {
     this.langKey = langKey;
