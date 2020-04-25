@@ -15,7 +15,7 @@
   "GENERAL_BACK_SENT": "You have been sent back to your previous location!",
   "GENERAL_SETHOME_SET": "%HOME% has been set!",
   "GENERAL_SETHOME_MAX": "You allready have the max amount of homes (%AMOUNT%)",
-  "GENERAL_SETHOME_INVALID": "%HOME% is not a valid home name"
+  "GENERAL_SETHOME_INVALID": "%HOME% is not a valid home name",
   "GENERAL_HOME_TELEPORT": "You have been teleproted to %HOME%",
   "GENERAL_HOME_NOT_FOUND": "%HOME% has not been found / set"
 }
