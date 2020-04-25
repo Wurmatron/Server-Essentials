@@ -8,7 +8,7 @@
   "LANGUAGE_LANGUAGE_NO_FOUND": "Language %LANG% not found!",
   "LANGUAGE_LANGUAGE_SET": "Language has been changed to %LANG%",
   "GENERAL_TPA_SENT": "Tpa request sent to %PLAYER%",
-  "GENERAL_TPA_REQUEST": "%PLAYER% has request to teleport to your location. Type /tpaccept to accept",
+  "GENERAL_TPA_REQUEST": "%PLAYER% has requested to teleport to your location. Type /tpaccept to accept",
   "GENERAL_TPACCEPT_ACCEPT": "You have accepted an tpa request for %PLAYER%",
   "GENERAL_TPACCEPT_SEND": "%PLAYER% has accepted your tpa request!",
   "GENERAL_TPAACCEPT_NOT_FOUND": "No active tpa requests!",
@@ -16,6 +16,6 @@
   "GENERAL_SETHOME_SET": "%HOME% has been set!",
   "GENERAL_SETHOME_MAX": "You already have the max amount of homes (%AMOUNT%)",
   "GENERAL_SETHOME_INVALID": "%HOME% is not a valid home name",
-  "GENERAL_HOME_TELEPORT": "You have been teleproted to %HOME%",
+  "GENERAL_HOME_TELEPORT": "You have been teleported to %HOME%",
   "GENERAL_HOME_NOT_FOUND": "%HOME% has not been found / set"
 }

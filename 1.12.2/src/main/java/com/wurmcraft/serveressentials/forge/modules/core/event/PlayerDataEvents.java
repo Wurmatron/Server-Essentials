@@ -15,6 +15,7 @@ import com.wurmcraft.serveressentials.core.api.player.Vault;
 import com.wurmcraft.serveressentials.core.api.player.Wallet;
 import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
 import com.wurmcraft.serveressentials.core.api.track.ServerTime;
+import com.wurmcraft.serveressentials.core.data.RestDataHandler;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
@@ -33,8 +34,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import org.cliffc.high_scale_lib.NonBlockingHashSet;
 
 public class PlayerDataEvents {
+
+  public static NonBlockingHashSet<String> newPlayers = new NonBlockingHashSet<>();
 
   @SubscribeEvent
   public void onPlayerJoin(PlayerLoggedInEvent e) {
@@ -56,8 +60,10 @@ public class PlayerDataEvents {
       }
     } catch (NoSuchElementException e) {
       SECore.logger.info("New Player!");
+      newPlayers.add(player.getGameProfile().getId().toString());
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
+
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
@@ -65,7 +71,7 @@ public class PlayerDataEvents {
         savePlayer(player);
         SECore.logger
             .fine("User '" + player.getDisplayNameString() + "' has been synced!");
-      }, 300, 90, TimeUnit.SECONDS);
+      }, 0, 90, TimeUnit.SECONDS);
     }
   }
 
@@ -92,13 +98,15 @@ public class PlayerDataEvents {
     } else {
       global.wallet = new Wallet(new Currency[0]);
     }
-    if(SERegistry.isModuleLoaded("Rank")) {
-      global.rank =((RankConfig) SERegistry
+    if (SERegistry.isModuleLoaded("Rank")) {
+      global.rank = ((RankConfig) SERegistry
           .getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
     }
     global.playtime = new NetworkTime(new ServerTime[]{});
     global.discordID = "";
     global.rewardPoints = 0;
+    global.extraPerms = new String[0];
+    global.perks = new String[0];
     return global;
   }
 
@@ -122,25 +130,39 @@ public class PlayerDataEvents {
   }
 
   public static void savePlayer(EntityPlayer player) {
-    try {
-      StoredPlayer playerData = (StoredPlayer) SERegistry
-          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-        RestPlayerSyncEvent syncEvent = new RestPlayerSyncEvent(player, playerData, playerData.global);
-        MinecraftForge.EVENT_BUS.post(syncEvent);
-        playerData.global = syncEvent.restData;
-        RestRequestGenerator.User.overridePlayer(playerData.uuid, playerData.global);
+    SECore.executors.schedule(() -> {
+      SECore.logger.info("Syncing Player '" + player.getDisplayNameString() + "'");
+      try {
+        StoredPlayer playerData = (StoredPlayer) SERegistry
+            .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+        if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+          GlobalPlayer restData = RestRequestGenerator.User
+              .getPlayer(player.getGameProfile().getId().toString());
+          if(newPlayers.contains(player.getGameProfile().getId().toString())) {
+            newPlayers.remove(player.getGameProfile().getId().toString());
+            playerData.global = restData;
+            SERegistry.register(DataKey.PLAYER,playerData);
+          } else {
+            restData.lastSeen = Instant.now().getEpochSecond();
+            RestRequestGenerator.User.overridePlayer(player.getGameProfile().getId().toString(), restData);
+            playerData.global = restData;
+          }
+        }
+        Files.write(new File(
+            SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator + player
+                .getGameProfile().getId().toString()
+                + ".json").toPath(), GSON.toJson(playerData).getBytes());
+      } catch (NoSuchElementException e) {
+        SECore.logger
+            .warning("Unable to locate / save data for '" + player.getName() + "'!");
+      } catch (IOException e) {
+        e.printStackTrace();
+        SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
       }
-      Files.write(new File(
-          SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator + player
-              .getGameProfile().getId().toString()
-              + ".json").toPath(), GSON.toJson(playerData).getBytes());
-    } catch (NoSuchElementException e) {
-      SECore.logger
-          .warning("Unable to locate / save data for '" + player.getName() + "'!");
-    } catch (IOException e) {
-      e.printStackTrace();
-      SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
-    }
+    }, 0, TimeUnit.SECONDS);
+  }
+
+  private static void updateData() {
+
   }
 }

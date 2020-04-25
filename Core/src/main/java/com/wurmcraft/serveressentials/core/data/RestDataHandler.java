@@ -83,12 +83,6 @@ public class RestDataHandler extends FileDataHandler {
   @Override
   public void registerData(DataKey key, StoredDataType dataToStore) {
     super.registerData(key, dataToStore);
-    if (key == DataKey.RANK) {
-      RestRequestGenerator.Rank.addRank(
-          (com.wurmcraft.serveressentials.core.api.json.rank.Rank) dataToStore);
-    } else if (key == DataKey.PLAYER) {
-      RestRequestGenerator.User.addPlayer(((StoredPlayer) (dataToStore)).global);
-    }
   }
 
   @Override
