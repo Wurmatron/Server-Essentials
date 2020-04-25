@@ -3,10 +3,12 @@ package com.wurmcraft.serveressentials.forge.modules.core.event;
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import static com.wurmcraft.serveressentials.core.SECore.SAVE_DIR;
 
+import com.feed_the_beast.ftbutilities.ranks.Ranks;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.LocationWrapper;
 import com.wurmcraft.serveressentials.core.api.eco.Currency;
+import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.api.player.ServerPlayer;
@@ -15,11 +17,11 @@ import com.wurmcraft.serveressentials.core.api.player.Vault;
 import com.wurmcraft.serveressentials.core.api.player.Wallet;
 import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
 import com.wurmcraft.serveressentials.core.api.track.ServerTime;
-import com.wurmcraft.serveressentials.core.data.RestDataHandler;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
-import com.wurmcraft.serveressentials.forge.api.event.RestPlayerSyncEvent;
+import com.wurmcraft.serveressentials.forge.api.event.PlayerDataSyncEvent;
+import com.wurmcraft.serveressentials.forge.api.event.RankChangeEvent;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
 import java.io.File;
@@ -31,6 +33,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -40,7 +43,7 @@ public class PlayerDataEvents {
 
   public static NonBlockingHashSet<String> newPlayers = new NonBlockingHashSet<>();
 
-  @SubscribeEvent
+  @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void onPlayerJoin(PlayerLoggedInEvent e) {
     handlePlayer(e.player);
   }
@@ -59,12 +62,12 @@ public class PlayerDataEvents {
         MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
       }
     } catch (NoSuchElementException e) {
-      SECore.logger.info("New Player!");
+      SECore.logger.info(player.getDisplayNameString() + " is a new player!");
       newPlayers.add(player.getGameProfile().getId().toString());
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
-
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
+      MinecraftForge.EVENT_BUS.post(new PlayerDataSyncEvent(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
       SECore.executors.scheduleAtFixedRate(() -> {
@@ -131,27 +134,34 @@ public class PlayerDataEvents {
 
   public static void savePlayer(EntityPlayer player) {
     SECore.executors.schedule(() -> {
-      SECore.logger.info("Syncing Player '" + player.getDisplayNameString() + "'");
       try {
         StoredPlayer playerData = (StoredPlayer) SERegistry
             .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
         if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
           GlobalPlayer restData = RestRequestGenerator.User
               .getPlayer(player.getGameProfile().getId().toString());
-          if(newPlayers.contains(player.getGameProfile().getId().toString())) {
+          if (newPlayers.contains(player.getGameProfile().getId().toString())) {
             newPlayers.remove(player.getGameProfile().getId().toString());
             playerData.global = restData;
-            SERegistry.register(DataKey.PLAYER,playerData);
+            SERegistry.register(DataKey.PLAYER, playerData);
           } else {
             restData.lastSeen = Instant.now().getEpochSecond();
-            RestRequestGenerator.User.overridePlayer(player.getGameProfile().getId().toString(), restData);
+            RestRequestGenerator.User
+                .overridePlayer(player.getGameProfile().getId().toString(), restData);
             playerData.global = restData;
+          }
+          if (!restData.rank.equals(playerData.global.rank)) {
+            MinecraftForge.EVENT_BUS.post(new RankChangeEvent(player,playerData,
+                (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank),
+                (Rank) SERegistry.getStoredData(DataKey.RANK, restData.rank)));
           }
         }
         Files.write(new File(
             SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator + player
                 .getGameProfile().getId().toString()
                 + ".json").toPath(), GSON.toJson(playerData).getBytes());
+        MinecraftForge.EVENT_BUS.post(new PlayerDataSyncEvent(player, playerData));
+
       } catch (NoSuchElementException e) {
         SECore.logger
             .warning("Unable to locate / save data for '" + player.getName() + "'!");
