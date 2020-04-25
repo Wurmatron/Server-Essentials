@@ -32,7 +32,7 @@ public class TPACommand {
       if (otherPlayer != null && sender
           .getCommandSenderEntity() instanceof EntityPlayer) {
         SERegistry.addTempData(DataKey.TPA, new TPARequest(
-            (EntityPlayer) sender.getCommandSenderEntity(), otherPlayer), tpaTimeout);
+            (EntityPlayer) sender.getCommandSenderEntity(), otherPlayer), tpaTimeout * 1000);
         EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
                 COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_TPA_SENT

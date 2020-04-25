@@ -6,10 +6,12 @@ import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
+
 
 public class RankUtils {
 
@@ -24,7 +26,47 @@ public class RankUtils {
   }
 
   public static boolean hasPermission(Rank rank, String perm) {
+    String[] rankPermissions = getPermissions(rank);
+    String[] permShredder = perm.split("\\.");
+    String module = permShredder[0];
+    String command = permShredder[1];
+    String subCommand = "*";
+    if (permShredder.length == 3) {
+      subCommand = permShredder[2];
+    }
+    for (String p : rankPermissions) {
+      if (p.equals("*")) {
+        return true;
+      } else {
+        String[] splitNode = p.split("\\.");
+        String cm = splitNode[0];
+        String ccm = splitNode[1];
+        String csc = "*";
+        boolean quickCheck = module.equalsIgnoreCase(cm) && command.equalsIgnoreCase(ccm);
+        if (splitNode.length == 3) {
+          csc = splitNode[2];
+        }
+        if (!csc.equals("*") && !subCommand.equals("*")) {
+             if(quickCheck && subCommand.equalsIgnoreCase(csc))
+               return true;
+        } else if(quickCheck){
+          return true;
+        }
+      }
+    }
     return false;
+  }
+
+  public static String[] getPermissions(Rank rank) {
+    List<String> permissionNodes = new ArrayList<>();
+    Collections.addAll(permissionNodes, rank.getPermission());
+    if (rank.getInheritance() != null && rank.getInheritance().length > 0) {
+      for (String ih : rank.getInheritance()) {
+        Collections.addAll(permissionNodes,
+            getPermissions((Rank) SERegistry.getStoredData(DataKey.RANK, ih)));
+      }
+    }
+    return permissionNodes.toArray(new String[0]);
   }
 
   public static Rank getRank(ICommandSender sender) {
