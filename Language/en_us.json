@@ -19,5 +19,7 @@
   "GENERAL_HOME_TELEPORT": "You have been teleported to %HOME%",
   "GENERAL_HOME_NOT_FOUND": "%HOME% has not been found / set",
   "GENERAL_DELHOME_REMOVED": "%HOME% has been deleted!",
-  "GENERAL_DELHOME_ALL": "All your homes have been deleted!"
+  "GENERAL_DELHOME_ALL": "All your homes have been deleted!",
+  "DISCORD_VERIFIED": "You have verified your account with discord, Please allow up to 1h for the server to sync with discord",
+  "DISCORD_INVALID": "The code you have entered is invalid or have expired! Resend !verify to the bot on Discord"
 }
