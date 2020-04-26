@@ -4,10 +4,14 @@ package com.wurmcraft.serveressentials.forge.common;
 import com.wurmcraft.serveressentials.core.Global;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
+import com.wurmcraft.serveressentials.core.api.track.TrackingStatus.Status;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.command.SECommand;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
+import com.wurmcraft.serveressentials.forge.modules.track.TrackUtils;
 import com.wurmcraft.serveressentials.forge.modules.track.event.TrackEvents;
+import java.util.concurrent.TimeUnit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +19,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
@@ -30,11 +35,17 @@ public class ServerEssentialsServer {
   public void init(FMLInitializationEvent e) {
     SECore.logger.info("Starting FML-Initialization");
     SECore.setup();
+    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+     RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.INIT));
+    }
   }
 
   @EventHandler
   public void postInitialization(FMLPostInitializationEvent e) {
     SECore.logger.info("Starting FML-PostInitialization");
+    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.POSTINIT));
+    }
   }
 
   @EventHandler
@@ -43,6 +54,17 @@ public class ServerEssentialsServer {
       Object command = SERegistry.getCommand(c);
       e.registerServerCommand(new SECommand(command.getClass().getAnnotation(
           ModuleCommand.class), command));
+    }
+    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.STARTING));
+    }
+  }
+
+  @EventHandler
+  public void serverStarted(FMLServerStartedEvent e) {
+    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      SECore.executors.scheduleAtFixedRate(() -> RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.ONLINE)), 0,90,
+          TimeUnit.SECONDS);
     }
   }
 
@@ -55,5 +77,9 @@ public class ServerEssentialsServer {
         TrackEvents.updatePlayerTracking(p);
       }
     }
+    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.STOPPED));
+    }
   }
+
 }

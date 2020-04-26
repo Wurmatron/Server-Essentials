@@ -27,6 +27,7 @@ public class GlobalConfig implements StoredDataType {
   // Rest Only
   public String restAuth;
   public String restURL;
+  public String modpackVersion;
 
   public GlobalConfig() {
     this.debug = false;
@@ -37,6 +38,7 @@ public class GlobalConfig implements StoredDataType {
     this.restURL = "https://rest.xxxx.com/";
     this.tempDataRemovalTime = 5;
     this.serverID = "Default";
+    this.modpackVersion = "No Idea";
   }
 
   public GlobalConfig(
@@ -47,7 +49,8 @@ public class GlobalConfig implements StoredDataType {
       int threadPoolSize,
       int tempDataRemovalTime,
       String restAuth,
-      String restURL) {
+      String restURL,
+      String modpackVersion) {
     this.debug = debug;
     this.enabledModules = enabledModules;
     this.dataStorgeType = dataStorgeType;
@@ -56,6 +59,7 @@ public class GlobalConfig implements StoredDataType {
     this.tempDataRemovalTime = tempDataRemovalTime;
     this.restAuth = restAuth;
     this.restURL = restURL;
+    this.modpackVersion = modpackVersion;
   }
 
   public String getID() {

@@ -6,8 +6,10 @@ import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
 import com.wurmcraft.serveressentials.core.api.track.ServerTime;
+import com.wurmcraft.serveressentials.core.api.track.TrackingStatus.Status;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.modules.track.TrackUtils;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
@@ -25,12 +27,14 @@ public class TrackEvents {
   public void playerLogin(PlayerLoggedInEvent e) {
     playerJoinTimes
         .put(e.player.getGameProfile().getId().toString(), System.currentTimeMillis());
+    RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.ONLINE));
   }
 
   @SubscribeEvent
   public void playerLogout(PlayerLoggedOutEvent e) {
     updatePlayerTracking(e.player);
     playerJoinTimes.remove(e.player.getGameProfile().getId().toString());
+    RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.ONLINE));
   }
 
   public static void updatePlayerTracking(EntityPlayer player) {

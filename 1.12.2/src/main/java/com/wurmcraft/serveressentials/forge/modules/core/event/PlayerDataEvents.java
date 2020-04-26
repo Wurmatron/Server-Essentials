@@ -58,7 +58,10 @@ public class PlayerDataEvents {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
       if (playerData.global == null && playerData.server == null) {
-        SERegistry.register(DataKey.PLAYER, createNew(player));
+        SECore.logger.info(player.getDisplayNameString() + " is a new player!");
+        StoredPlayer data = createNew(player);
+        SERegistry.register(DataKey.PLAYER, data);
+        RestRequestGenerator.User.addPlayer(data.global);
         MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
       }
     } catch (NoSuchElementException e) {
@@ -66,8 +69,8 @@ public class PlayerDataEvents {
       newPlayers.add(player.getGameProfile().getId().toString());
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
+      RestRequestGenerator.User.addPlayer(playerData.global);
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
-      MinecraftForge.EVENT_BUS.post(new PlayerDataSyncEvent(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
       SECore.executors.scheduleAtFixedRate(() -> {
@@ -137,6 +140,7 @@ public class PlayerDataEvents {
       try {
         StoredPlayer playerData = (StoredPlayer) SERegistry
             .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+        MinecraftForge.EVENT_BUS.post(new PlayerDataSyncEvent(player, playerData));
         if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
           GlobalPlayer restData = RestRequestGenerator.User
               .getPlayer(player.getGameProfile().getId().toString());

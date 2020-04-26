@@ -5,6 +5,7 @@ import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.json.Validation;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
+import com.wurmcraft.serveressentials.core.api.track.TrackingStatus;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -163,6 +164,12 @@ public class RestRequestGenerator {
   public static class Verify {
     public static Validation get() {
       return INSTANCE.get("validate", Validation.class);
+    }
+  }
+
+  public static class Track {
+    public static int updateTrack(TrackingStatus status) {
+      return INSTANCE.post("status", status);
     }
   }
 }

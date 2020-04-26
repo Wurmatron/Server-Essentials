@@ -82,12 +82,12 @@ type CurrencyConvert struct {
 
 // Server Data
 type ServerStatus struct {
-	Name       string   `json:"name"`
-	Status     string   `json:"status"`
-	Time       float64  `json:"time"`
-	Players    []string `json:"players"`
-	LastUpdate float64  `json:"lastUpdate"`
-	Version    string   `json:"version"`
+	ServerID       string   `json:"serverID"`
+	Status         string   `json:"status"`
+	Players        []string   `json:"players"`
+	ModpackVersion  string   `json:"modpackVersion"`
+	MS  int64   `json:"ms"`
+	LastUpdate  int64   `json:"lastUpdate"`
 }
 
 type TransferBin struct {
