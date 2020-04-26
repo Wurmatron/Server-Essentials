@@ -48,7 +48,7 @@ public class PlayerDataEvents {
     handlePlayer(e.player);
   }
 
-  @SubscribeEvent
+  @SubscribeEvent(priority = EventPriority.LOWEST)
   public void onPlayerLeave(PlayerLoggedOutEvent e) {
     savePlayer(e.player);
   }
@@ -170,9 +170,5 @@ public class PlayerDataEvents {
         SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
       }
     }, 0, TimeUnit.SECONDS);
-  }
-
-  private static void updateData() {
-
   }
 }

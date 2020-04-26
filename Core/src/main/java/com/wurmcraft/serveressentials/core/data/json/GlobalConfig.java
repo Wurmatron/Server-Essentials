@@ -18,6 +18,7 @@ public class GlobalConfig implements StoredDataType {
   public boolean debug;
   public String[] enabledModules;
   public String dataStorgeType;
+  public String serverID;
 
   // Performance / Timings
   public int threadPoolSize;
@@ -35,12 +36,14 @@ public class GlobalConfig implements StoredDataType {
     this.restAuth = "user:password";
     this.restURL = "https://rest.xxxx.com/";
     this.tempDataRemovalTime = 5;
+    this.serverID = "Default";
   }
 
   public GlobalConfig(
       boolean debug,
       String[] enabledModules,
       String dataStorgeType,
+      String serverID,
       int threadPoolSize,
       int tempDataRemovalTime,
       String restAuth,
@@ -48,6 +51,7 @@ public class GlobalConfig implements StoredDataType {
     this.debug = debug;
     this.enabledModules = enabledModules;
     this.dataStorgeType = dataStorgeType;
+    this.serverID = serverID;
     this.threadPoolSize = threadPoolSize;
     this.tempDataRemovalTime = tempDataRemovalTime;
     this.restAuth = restAuth;

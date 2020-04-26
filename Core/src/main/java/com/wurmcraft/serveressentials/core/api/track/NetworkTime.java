@@ -4,9 +4,9 @@ import com.wurmcraft.serveressentials.core.api.json.JsonParser;
 
 public class NetworkTime implements JsonParser {
 
-  public ServerTime[] serverPlaytimes;
+  public ServerTime[] serverTime;
 
-  public NetworkTime(ServerTime[] serverPlaytimes) {
-    this.serverPlaytimes = serverPlaytimes;
+  public NetworkTime(ServerTime[] serverTime) {
+    this.serverTime = serverTime;
   }
 }

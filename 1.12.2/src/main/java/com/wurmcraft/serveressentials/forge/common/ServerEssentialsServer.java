@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.api.command.SECommand;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
+import com.wurmcraft.serveressentials.forge.modules.track.event.TrackEvents;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -50,6 +51,9 @@ public class ServerEssentialsServer {
     for (EntityPlayer p : FMLCommonHandler.instance().getMinecraftServerInstance()
         .getPlayerList().getPlayers()) {
       PlayerDataEvents.savePlayer(p);
+      if (SERegistry.isModuleLoaded("Track")) {
+        TrackEvents.updatePlayerTracking(p);
+      }
     }
   }
 }
