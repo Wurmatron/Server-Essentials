@@ -7,7 +7,8 @@ import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.*;
 import java.util.NoSuchElementException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,8 +61,8 @@ public class PlayerUtils {
         playerData.server.homes = addHome(playerData.server.homes, home, true);
         return true;
       } else { // Possible Override
-        Home[] newHomes = addHome(playerData.server.homes,home,false);
-        if(newHomes != null) {
+        Home[] newHomes = addHome(playerData.server.homes, home, false);
+        if (newHomes != null) {
           playerData.server.homes = newHomes;
           return true;
         }
@@ -83,10 +84,21 @@ public class PlayerUtils {
     if (!replaced && canExpand) {
       homes = Arrays.copyOf(homes, homes.length + 1);
       homes[homes.length - 1] = home;
-    } else if(!replaced) {
+    } else if (!replaced) {
       return null;
     }
     return homes;
+  }
+
+  public static StoredPlayer deleteHome(StoredPlayer player, String name) {
+    List<Home> homes = new ArrayList<>();
+    for (Home h : player.server.homes) {
+      if (!h.name.equalsIgnoreCase(name)) {
+        homes.add(h);
+      }
+    }
+    player.server.homes = homes.toArray(new Home[0]);
+    return player;
   }
 
 }

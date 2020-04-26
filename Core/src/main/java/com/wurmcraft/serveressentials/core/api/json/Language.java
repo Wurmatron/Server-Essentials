@@ -33,6 +33,8 @@ public class Language implements StoredDataType {
   public String GENERAL_SETHOME_INVALID;
   public String GENERAL_HOME_TELEPORT;
   public String GENERAL_HOME_NOT_FOUND;
+  public String GENERAL_DELHOME_REMOVED;
+  public String GENERAL_DELHOME_ALL;
 
   public Language(String langKey) {
     this.langKey = langKey;

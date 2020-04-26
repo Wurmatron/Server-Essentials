@@ -17,5 +17,7 @@
   "GENERAL_SETHOME_MAX": "You already have the max amount of homes (%AMOUNT%)",
   "GENERAL_SETHOME_INVALID": "%HOME% is not a valid home name",
   "GENERAL_HOME_TELEPORT": "You have been teleported to %HOME%",
-  "GENERAL_HOME_NOT_FOUND": "%HOME% has not been found / set"
+  "GENERAL_HOME_NOT_FOUND": "%HOME% has not been found / set",
+  "GENERAL_DELHOME_REMOVED": "%HOME% has been deleted!",
+  "GENERAL_DELHOME_ALL": "All your homes have been deleted!"
 }

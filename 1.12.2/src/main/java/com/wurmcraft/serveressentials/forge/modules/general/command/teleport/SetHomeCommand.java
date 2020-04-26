@@ -26,7 +26,7 @@ import net.minecraft.util.text.TextComponentString;
 @ModuleCommand(moduleName = "General", name = "SetHome")
 public class SetHomeCommand {
 
-  public static List<String> INVALID_HOME_NAMES = Arrays.asList("list");
+  public static List<String> INVALID_HOME_NAMES = Arrays.asList("list", "all");
 
 
   @Command(inputArguments = {})
