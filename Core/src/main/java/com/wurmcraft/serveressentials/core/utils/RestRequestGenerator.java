@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.core.utils;
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 
 import com.wurmcraft.serveressentials.core.SECore;
+import com.wurmcraft.serveressentials.core.api.data.Token;
 import com.wurmcraft.serveressentials.core.api.json.Validation;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.track.TrackingStatus;
@@ -170,6 +171,12 @@ public class RestRequestGenerator {
   public static class Track {
     public static int updateTrack(TrackingStatus status) {
       return INSTANCE.post("status", status);
+    }
+  }
+
+  public static class Discord {
+    public static Token[] getTokens() {
+      return INSTANCE.get("discord/list", Token[].class);
     }
   }
 }

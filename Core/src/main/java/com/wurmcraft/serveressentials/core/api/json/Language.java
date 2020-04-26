@@ -36,6 +36,10 @@ public class Language implements StoredDataType {
   public String GENERAL_DELHOME_REMOVED;
   public String GENERAL_DELHOME_ALL;
 
+  // Discord
+  public String DISCORD_VERIFIED;
+  public String DISCORD_INVALID;
+
   public Language(String langKey) {
     this.langKey = langKey;
   }
