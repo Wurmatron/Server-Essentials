@@ -76,8 +76,7 @@ type AutoRank struct {
 // Eco / Currency
 type CurrencyConvert struct {
 	Name string  `json:"name"`
-	Sell float64 `json:"sell"`
-	Buy  float64 `json:"buy"`
+	Worth float64 `json:"worth"`
 }
 
 // Server Data
