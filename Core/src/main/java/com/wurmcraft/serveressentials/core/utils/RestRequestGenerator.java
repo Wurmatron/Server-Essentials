@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.core.SECore.GSON;
 
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.Token;
+import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.json.Validation;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.track.TrackingStatus;
@@ -177,6 +178,24 @@ public class RestRequestGenerator {
   public static class Discord {
     public static Token[] getTokens() {
       return INSTANCE.get("discord/list", Token[].class);
+    }
+  }
+
+  public static class Economy {
+    public static Currency[] getAllCurrencies() {
+      return INSTANCE.get("eco", Currency[].class);
+    }
+
+    public static Currency getCurrency(String name) {
+      return INSTANCE.get("eco/" + name, Currency.class);
+    }
+
+    public static int addCurrency(Currency currency) {
+      return INSTANCE.post("eco/add", currency);
+    }
+
+    public static int overrideCurrency(Currency currency) {
+      return INSTANCE.put("/eco" + currency.name + "/override", currency);
     }
   }
 }

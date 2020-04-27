@@ -3,11 +3,10 @@ package com.wurmcraft.serveressentials.forge.modules.core.event;
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import static com.wurmcraft.serveressentials.core.SECore.SAVE_DIR;
 
-import com.feed_the_beast.ftbutilities.ranks.Ranks;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.LocationWrapper;
-import com.wurmcraft.serveressentials.core.api.eco.Currency;
+import com.wurmcraft.serveressentials.core.api.eco.Coin;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.Home;
@@ -102,7 +101,7 @@ public class PlayerDataEvents {
     if (SERegistry.isModuleLoaded("Economy")) {
       // TODO Set default currency
     } else {
-      global.wallet = new Wallet(new Currency[0]);
+      global.wallet = new Wallet(new Coin[0]);
     }
     if (SERegistry.isModuleLoaded("Rank")) {
       global.rank = ((RankConfig) SERegistry

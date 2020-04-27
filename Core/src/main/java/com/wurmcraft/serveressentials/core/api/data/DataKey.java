@@ -5,7 +5,8 @@ public enum DataKey {
   MODULE_CONFIG("Modules"),
   LANGUAGE("Language"),
   RANK("Rank"),
-  TPA("TPA");
+  TPA("TPA"),
+  CURRENCY("Economy");
 
   private String name;
 

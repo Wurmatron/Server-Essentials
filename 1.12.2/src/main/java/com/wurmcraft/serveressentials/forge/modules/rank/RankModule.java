@@ -5,6 +5,7 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Module(name = "Rank")
@@ -44,5 +45,9 @@ public class RankModule {
     Rank adminRank = new Rank("Admin", "&c[&4Admin&c]", "&d", new String[]{"Default"},
         new String[]{"*"});
     SECore.dataHandler.registerData(DataKey.RANK, adminRank);
+    if(SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.Rank.addRank(defaultRank);
+      RestRequestGenerator.Rank.addRank(adminRank);
+    }
   }
 }

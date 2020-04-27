@@ -5,10 +5,12 @@ import static com.wurmcraft.serveressentials.core.SECore.SAVE_DIR;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
+import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.FileUtils;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.Economy;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.Rank;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,6 +37,20 @@ public class RestDataHandler extends FileDataHandler {
           if (r != null) {
             data.put(r.getID(), (T) r);
             SERegistry.register(DataKey.RANK, r);
+          }
+        }
+      } else if (key == DataKey.CURRENCY) {
+        Currency[] currencies = Economy.getAllCurrencies();
+        if (loadedData.containsKey(key) && currencies.length > 0) {
+          loadedData.get(DataKey.CURRENCY).clear();
+          for (String r : loadedData.get(DataKey.CURRENCY).keySet()) {
+            SERegistry.delStoredData(DataKey.CURRENCY, r);
+          }
+        }
+        for (Currency r : currencies) {
+          if (r != null) {
+            data.put(r.name, (T) r);
+            SERegistry.register(DataKey.CURRENCY, r);
           }
         }
       }
