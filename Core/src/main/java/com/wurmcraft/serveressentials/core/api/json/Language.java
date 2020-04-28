@@ -11,11 +11,13 @@ public class Language implements StoredDataType {
   // Error
   public String ERROR_NO_PERMS;
   public String ERROR_PLAYER_NOT_FOUND;
+  public String ERROR_INSUFFICENT_FUNDS;
 
   // Core Module
   public String CORE_SE_VERSION;
   public String CORE_SE_STORAGE;
   public String CORE_SE_MODULES;
+  public String CORE_SE_COMMANDS;
 
   // Language
   public String LANGUAGE_LANGUAGE_NO_FOUND;
@@ -39,6 +41,12 @@ public class Language implements StoredDataType {
   // Discord
   public String DISCORD_VERIFIED;
   public String DISCORD_INVALID;
+
+  // Economy
+  public String ECO_PAY_OTHER;
+  public String ECO_PAY_EARN;
+  public String ECO_PERK_COST;
+  public String ECO_PERK_BUY;
 
   public Language(String langKey) {
     this.langKey = langKey;

@@ -35,7 +35,7 @@ func SetEco(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	var currency Currency
+	var currency CurrencyConvert
 	err = json.Unmarshal(b, &currency)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -51,9 +51,9 @@ func SetEco(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 }
 
 func GetAllEco(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
-	var data []Currency
+	var data []CurrencyConvert
 	for entry := range redisDBEco.Keys("*").Val() {
-		var eco Currency
+		var eco CurrencyConvert
 		json.Unmarshal([]byte(redisDBEco.Get(redisDBEco.Keys("*").Val()[entry]).Val()), &eco)
 		data = append(data, eco)
 	}

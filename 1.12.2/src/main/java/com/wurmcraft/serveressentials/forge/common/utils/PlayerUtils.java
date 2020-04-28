@@ -8,7 +8,8 @@ import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
 import java.util.ArrayList;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -99,6 +100,13 @@ public class PlayerUtils {
     }
     player.server.homes = homes.toArray(new Home[0]);
     return player;
+  }
+
+  public static StoredPlayer getPlayer(EntityPlayer player) {
+    try {
+      return (StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+    } catch (NoSuchElementException ignored) {}
+    return null;
   }
 
 }

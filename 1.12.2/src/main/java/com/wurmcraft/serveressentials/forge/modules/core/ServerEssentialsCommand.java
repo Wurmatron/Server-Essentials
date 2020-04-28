@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextComponentString;
 public class ServerEssentialsCommand {
 
   @Command(inputArguments = {CommandArguments.STRING}, inputNames = {
-      "<version, storageType, modules>"})
+      "<version, storageType, modules, commands>"})
   public void info(ICommandSender sender, String input) {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils
         .hasPermission(RankUtils.getRank(sender), "core.se.info") || !SERegistry
@@ -41,11 +41,18 @@ public class ServerEssentialsCommand {
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).CORE_SE_MODULES
                 .replaceAll("%MODULES%",
                     COMMAND_INFO_COLOR + Arrays
+                        .toString(SERegistry.getLoadedModules()))));
+      } else if (input.equalsIgnoreCase("commands") || input.equalsIgnoreCase("command")
+          || input.equalsIgnoreCase("c ")) {
+        sender.sendMessage(new TextComponentString(
+            COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).CORE_SE_COMMANDS
+                .replaceAll("%COMMANDS%",
+                    COMMAND_INFO_COLOR + Arrays
                         .toString(SERegistry.getLoadedCommands()))));
+      } else {
+        sender.sendMessage(new TextComponentString(
+            ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
       }
-    } else {
-      sender.sendMessage(new TextComponentString(
-          ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
     }
   }
 }

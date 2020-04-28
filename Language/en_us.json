@@ -2,9 +2,11 @@
   "langKey": "en_us",
   "ERROR_NO_PERMS": "You dont have permission to run this command / subCommand!",
   "ERROR_PLAYER_NOT_FOUND": "Player %PLAYER% not found!",
+  "ERROR_INSUFFICENT_FUNDS": "You need %AMOUNT% more to do that",
   "CORE_SE_VERSION": "SE Version: %VERSION%",
   "CORE_SE_STORAGE": "SE Storage Type: %TYPE%",
   "CORE_SE_MODULES": "SE Modules: %MODULES%",
+  "CORE_SE_COMMANDS": "SE Commands: %COMMANDS%",
   "LANGUAGE_LANGUAGE_NO_FOUND": "Language %LANG% not found!",
   "LANGUAGE_LANGUAGE_SET": "Language has been changed to %LANG%",
   "GENERAL_TPA_SENT": "Tpa request sent to %PLAYER%",
@@ -21,5 +23,8 @@
   "GENERAL_DELHOME_REMOVED": "%HOME% has been deleted!",
   "GENERAL_DELHOME_ALL": "All your homes have been deleted!",
   "DISCORD_VERIFIED": "You have verified your account with discord, Please allow up to 1h for the server to sync with discord",
-  "DISCORD_INVALID": "The code you have entered is invalid or have expired! Resend !verify to the bot on Discord"
+  "DISCORD_INVALID": "The code you have entered is invalid or have expired! Resend !verify to the bot on Discord",
+  "ECO_PAY_OTHER": "You have sent %AMOUNT% to %PLAYER%",
+  "ECO_PAY_EARN": "%PLAYER% has sent you %AMOUNT%",
+  "ECO_PERK_BUY": "You are now %LEVEL% on the Perk %PERK%"
 }

@@ -34,4 +34,9 @@ public class TextComponentUtils {
     return component;
   }
 
+  public static ITextComponent addTextHover(ITextComponent component, ITextComponent txt) {
+    component.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT, txt));
+    return component;
+  }
+
 }

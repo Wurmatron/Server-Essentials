@@ -4,5 +4,6 @@ public enum CommandArguments {
   PLAYER,
   INTEGER,
   DOUBLE,
-  STRING
+  STRING,
+  PERK
 }

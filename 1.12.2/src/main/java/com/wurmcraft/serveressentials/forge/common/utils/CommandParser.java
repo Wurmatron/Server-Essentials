@@ -1,13 +1,14 @@
 package com.wurmcraft.serveressentials.forge.common.utils;
 
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
+import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class CommandParser {
 
-  public static Object[] parseLineToArguments(ICommandSender sender,String[] commandArgs,
+  public static Object[] parseLineToArguments(ICommandSender sender, String[] commandArgs,
       CommandArguments[] argumentFormat) {
     if (commandArgs != null && argumentFormat != null
         && commandArgs.length == argumentFormat.length) {
@@ -27,6 +28,12 @@ public class CommandParser {
       return Integer.parseInt(line);
     } else if (arg == CommandArguments.DOUBLE) {
       return Double.parseDouble(line);
+    } else if (arg == CommandArguments.PERK) {
+      for (Perk p : Perk.values()) {
+        if (p.name().equalsIgnoreCase(line)) {
+          return p;
+        }
+      }
     } else if (arg == CommandArguments.PLAYER) {
       for (EntityPlayerMP player : FMLCommonHandler.instance()
           .getMinecraftServerInstance().getPlayerList()
@@ -36,8 +43,9 @@ public class CommandParser {
         }
       }
       return null;
-    } else if(arg == CommandArguments.STRING)
+    } else if (arg == CommandArguments.STRING) {
       return line;
+    }
     return null;
   }
 

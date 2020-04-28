@@ -84,5 +84,4 @@ public class RankUtils {
     }
     return new Rank(); // TODO Change to default console rank
   }
-
 }

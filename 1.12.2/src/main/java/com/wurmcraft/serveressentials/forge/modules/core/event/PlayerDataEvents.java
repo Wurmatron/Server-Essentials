@@ -21,6 +21,7 @@ import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.forge.api.event.PlayerDataSyncEvent;
 import com.wurmcraft.serveressentials.forge.api.event.RankChangeEvent;
+import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
 import java.io.File;
@@ -99,7 +100,8 @@ public class PlayerDataEvents {
     }
     global.muted = false;
     if (SERegistry.isModuleLoaded("Economy")) {
-      // TODO Set default currency
+      Coin defaultCoins = ((EconomyConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG, "Economy")).defaultServerCurrency;
+      global.wallet = new Wallet(new Coin[] {defaultCoins});
     } else {
       global.wallet = new Wallet(new Coin[0]);
     }
