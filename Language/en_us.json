@@ -26,5 +26,6 @@
   "DISCORD_INVALID": "The code you have entered is invalid or have expired! Resend !verify to the bot on Discord",
   "ECO_PAY_OTHER": "You have sent %AMOUNT% to %PLAYER%",
   "ECO_PAY_EARN": "%PLAYER% has sent you %AMOUNT%",
-  "ECO_PERK_BUY": "You are now %LEVEL% on the Perk %PERK%"
+  "ECO_PERK_BUY": "You are now %LEVEL% on the Perk %PERK%",
+  "ECO_PERK_COST": "%PERK% costs %AMOUNT%"
 }

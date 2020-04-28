@@ -56,7 +56,7 @@ public class EcoUtils {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
       StoredPlayer playerData = PlayerUtils.getPlayer(
           (EntityPlayer) sender.getCommandSenderEntity());
-      if (playerData != null) {
+      if (playerData != null && playerData.global != null && playerData.global.perks != null && playerData.global.perks.length > 0) {
         for (String p : playerData.global.perks) {
           if (!p.isEmpty() && p.startsWith(perk.name().toLowerCase())) {
             return Integer.parseInt(p.substring(p.lastIndexOf(".") + 1));
@@ -68,12 +68,11 @@ public class EcoUtils {
     return 0;
   }
 
-  public static void setPlayerPerk(GlobalPlayer player, Perk perk, int level) {
-    if (player.perks.length > 0) {
+  public static GlobalPlayer setPlayerPerk(GlobalPlayer player, Perk perk, int level) {
+    if (player.perks != null && player.perks.length > 0) {
       for (int i = 0; i < player.perks.length; i++) {
         if (player.perks[i].startsWith(perk.name().toLowerCase())) {
           player.perks[i] = perk.name().toLowerCase() + ".amount." + level;
-          return;
         }
       }
     } else {
@@ -82,5 +81,6 @@ public class EcoUtils {
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User.overridePlayer(player.uuid, player);
     }
+    return player;
   }
 }

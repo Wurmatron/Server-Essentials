@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.forge.modules.economy.command;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -63,15 +64,15 @@ public class PayCommand {
               }
             }
             sender.sendMessage(new TextComponentString(
-                PlayerUtils.getUserLanguage(sender).ECO_PAY_OTHER
+                COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).ECO_PAY_OTHER
                     .replaceAll("%AMOUNT%", "" + amount)
                     .replaceAll("%PLAYER%", player.getDisplayNameString())));
-            player.sendMessage(new TextComponentString(
+            player.sendMessage(new TextComponentString( COMMAND_COLOR +
                 PlayerUtils.getUserLanguage(player).ECO_PAY_EARN
                     .replaceAll("%AMOUNT%", "" + amount)
-                    .replaceAll("%PLAYER%", player.getDisplayNameString())));
+                    .replaceAll("%PLAYER%", sendingPlayer.getDisplayNameString())));
           } else {
-            sender.sendMessage(new TextComponentString(
+            sender.sendMessage(new TextComponentString(ERROR_COLOR +
                 PlayerUtils.getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
                     .replaceAll("%AMOUNT%",
                         "" + EcoUtils.getCurrency(sendingPlayerData.global.wallet))));
@@ -87,6 +88,6 @@ public class PayCommand {
   @Command(inputArguments = {CommandArguments.PLAYER,
       CommandArguments.INTEGER}, inputNames = {"Player", "Amount"})
   public void sendMoney(ICommandSender sender, EntityPlayer player, int amount) {
-    sendMoney(sender, player, amount);
+    sendMoney(sender, player, (double) amount);
   }
 }
