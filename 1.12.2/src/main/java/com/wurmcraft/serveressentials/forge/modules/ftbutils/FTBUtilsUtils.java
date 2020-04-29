@@ -1,8 +1,11 @@
 package com.wurmcraft.serveressentials.forge.modules.ftbutils;
 
 import com.feed_the_beast.ftbutilities.ranks.Ranks;
+import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
+import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.apache.commons.io.FileUtils;
 
 public class FTBUtilsUtils {
+
 
   public static int getMaxClaims(StoredPlayer player, Rank rank) {
     int total = 0;
@@ -25,9 +29,10 @@ public class FTBUtilsUtils {
     }
     if (player.global.perks != null && player.global.perks.length > 0) {
       for (String p : player.global.perks) {
-        if (p.startsWith("ftbutils.claim.")) {
+        if (p.startsWith("perk.claim.")) {
           try {
-            total = +Integer.parseInt(p.substring(p.lastIndexOf(".") + 1));
+            total =+ Integer.parseInt(p.substring(p.lastIndexOf(".") + 1)) * ((EconomyConfig) SERegistry.getStoredData(
+                DataKey.MODULE_CONFIG, "Economy")).claimAmountPerLevel;
           } catch (NumberFormatException ignored) {
           }
         }
