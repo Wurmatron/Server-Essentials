@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.forge.modules.core;
+package com.wurmcraft.serveressentials.forge.modules.core.command;
 
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;

@@ -22,7 +22,8 @@ public class RankModule {
     try {
       NonBlockingHashMap<String, Rank> ranks = SECore.dataHandler
           .getDataFromKey(DataKey.RANK, new Rank());
-      String defaultRank = ((RankConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
+      String defaultRank = ((RankConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
       if (ranks.size() == 0 || ranks.getOrDefault(defaultRank, null) == null) {
         registerDefaultRanks();
         if (ranks.size() == 0) {
@@ -40,12 +41,26 @@ public class RankModule {
 
   private static void registerDefaultRanks() {
     Rank defaultRank = new Rank("Default", "&7[&8Default&7]", "&7", new String[]{},
-        new String[]{});
+        new String[]{
+            "economy.pay",
+            "economy.perk.buy",
+            "economy.perk.list",
+            "general.back",
+            "general.back",
+            "general.back.death",
+            "general.delhome",
+            "general.home",
+            "general.sethome",
+            "general.tpaccept",
+            "general.tpa",
+            "language.lang.change",
+            "discord.verify"
+            ,"ftbutils.claim.25"});
     SECore.dataHandler.registerData(DataKey.RANK, defaultRank);
     Rank adminRank = new Rank("Admin", "&c[&4Admin&c]", "&d", new String[]{"Default"},
-        new String[]{"*"});
+        new String[]{"*", "ftbutils.claim.50"});
     SECore.dataHandler.registerData(DataKey.RANK, adminRank);
-    if(SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.Rank.addRank(defaultRank);
       RestRequestGenerator.Rank.addRank(adminRank);
     }

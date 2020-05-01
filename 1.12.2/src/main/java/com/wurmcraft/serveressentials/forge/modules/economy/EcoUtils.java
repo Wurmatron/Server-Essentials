@@ -9,6 +9,7 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
+import java.util.Arrays;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -49,7 +50,16 @@ public class EcoUtils {
   }
 
   public static double calculateCostInGlobalPerPerk(Perk perk, int lvl) {
-    return lvl;
+    if(lvl == 0)
+      return 0;
+    if(perk == Perk.Home) {
+      return (lvl * ((EconomyConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).homeLevelCost) + (calculateCostInGlobalPerPerk(perk,lvl - 1));
+    } else if(perk == Perk.ClaimBlocks) {
+      return (lvl * ((EconomyConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).claimLevelCost) + (calculateCostInGlobalPerPerk(perk,lvl - 1));
+    }
+    return Integer.MAX_VALUE;
   }
 
   public static int getPerkLevel(ICommandSender sender, Perk perk) {
@@ -73,8 +83,11 @@ public class EcoUtils {
       for (int i = 0; i < player.perks.length; i++) {
         if (player.perks[i].startsWith(perk.name().toLowerCase())) {
           player.perks[i] = perk.name().toLowerCase() + ".amount." + level;
+          return player;
         }
       }
+      player.perks = Arrays.copyOf(player.perks,player.perks.length + 1);
+      player.perks[player.perks.length - 1] = perk.name().toLowerCase() + ".amount." + level;
     } else {
       player.perks = new String[]{perk.name().toLowerCase() + ".amount." + level};
     }

@@ -61,7 +61,9 @@ public class PlayerDataEvents {
         SECore.logger.info(player.getDisplayNameString() + " is a new player!");
         StoredPlayer data = createNew(player);
         SERegistry.register(DataKey.PLAYER, data);
-        RestRequestGenerator.User.addPlayer(data.global);
+        if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+          RestRequestGenerator.User.addPlayer(data.global);
+        }
         MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
       }
     } catch (NoSuchElementException e) {
@@ -69,7 +71,9 @@ public class PlayerDataEvents {
       newPlayers.add(player.getGameProfile().getId().toString());
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
-      RestRequestGenerator.User.addPlayer(playerData.global);
+      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+        RestRequestGenerator.User.addPlayer(playerData.global);
+      }
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
@@ -100,8 +104,9 @@ public class PlayerDataEvents {
     }
     global.muted = false;
     if (SERegistry.isModuleLoaded("Economy")) {
-      Coin defaultCoins = ((EconomyConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG, "Economy")).defaultServerCurrency;
-      global.wallet = new Wallet(new Coin[] {defaultCoins});
+      Coin defaultCoins = ((EconomyConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).defaultServerCurrency;
+      global.wallet = new Wallet(new Coin[]{defaultCoins});
     } else {
       global.wallet = new Wallet(new Coin[0]);
     }
@@ -156,7 +161,7 @@ public class PlayerDataEvents {
             playerData.global = restData;
           }
           if (!restData.rank.equals(playerData.global.rank)) {
-            MinecraftForge.EVENT_BUS.post(new RankChangeEvent(player,playerData,
+            MinecraftForge.EVENT_BUS.post(new RankChangeEvent(player, playerData,
                 (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank),
                 (Rank) SERegistry.getStoredData(DataKey.RANK, restData.rank)));
           }
@@ -174,6 +179,6 @@ public class PlayerDataEvents {
         e.printStackTrace();
         SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
       }
-    }, 0, TimeUnit.SECONDS);
+    }, 1, TimeUnit.SECONDS);
   }
 }
