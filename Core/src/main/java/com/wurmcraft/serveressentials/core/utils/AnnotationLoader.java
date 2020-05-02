@@ -46,10 +46,8 @@ public class AnnotationLoader {
     NonBlockingHashMap<String, Class<?>> cachedCommands = new NonBlockingHashMap<>();
     for (Class<?> clazz : commands) {
       ModuleCommand command = clazz.getAnnotation(ModuleCommand.class);
-      System.out.println("Command: " + command.name());
       if (canCommandBeLoaded(clazz, command)) {
         cachedCommands.put(command.name(), clazz);
-        System.out.println("Loaded: " + command.name());
       }
     }
     return cachedCommands;

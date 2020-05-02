@@ -28,10 +28,17 @@ public class FtbUtilsEvents {
 
   @SubscribeEvent
   public void onPlayerLogin(PlayerLoggedInEvent e) {
-    StoredPlayer playerData = (StoredPlayer) SERegistry
-        .getStoredData(DataKey.PLAYER, e.player.getGameProfile().getId().toString());
-    FTBUtilsUtils.updatePlayerClaimBlocks(e.player,
-        FTBUtilsUtils.getMaxClaims(playerData, (Rank) SERegistry.getStoredData(
-            DataKey.RANK, playerData.global.rank)));
+    try {
+      StoredPlayer playerData = (StoredPlayer) SERegistry
+          .getStoredData(DataKey.PLAYER, e.player.getGameProfile().getId().toString());
+      if (playerData != null && playerData.global != null
+          && playerData.global.rank != null) {
+        FTBUtilsUtils.updatePlayerClaimBlocks(e.player,
+            FTBUtilsUtils.getMaxClaims(playerData, (Rank) SERegistry.getStoredData(
+                DataKey.RANK, playerData.global.rank)));
+      }
+    } catch (Exception f) {
+      f.printStackTrace();
+    }
   }
 }

@@ -3,8 +3,10 @@ package com.wurmcraft.serveressentials.forge.api.command;
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
+import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.utils.CommandParser;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
+import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,8 +139,8 @@ public class SECommand extends CommandBase {
       return CommandArguments.DOUBLE;
     } else if (isPlayerUsername(line)) {
       return CommandArguments.PLAYER;
-    }else if (isPerk(line)) {
-        return CommandArguments.PERK;
+    } else if (isPerk(line)) {
+      return CommandArguments.PERK;
     } else {
       return CommandArguments.STRING;
     }
@@ -182,5 +184,15 @@ public class SECommand extends CommandBase {
       }
     }
     return false;
+  }
+
+  @Override
+  public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    if (SERegistry.isModuleLoaded("Rank")) {
+     return RankUtils.hasPermission(RankUtils.getRank(sender),
+          command.moduleName() + "." + command.name());
+    } else {
+      return true;
+    }
   }
 }

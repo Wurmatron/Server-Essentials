@@ -35,6 +35,11 @@ public class SetHomeCommand {
         .getStoredData(DataKey.MODULE_CONFIG, "General")).defaultHome);
   }
 
+  @Command(inputArguments = {CommandArguments.INTEGER})
+  public void defaultHome(ICommandSender sender, int homeNo) {
+    setHome(sender, "" + homeNo);
+  }
+
   @Command(inputArguments = {CommandArguments.STRING}, inputNames = {"Home"})
   public void setHome(ICommandSender sender, String home) {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils

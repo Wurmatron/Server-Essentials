@@ -105,6 +105,7 @@ public class RestRequestGenerator {
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
         con.setRequestProperty("Authorization", auth);
+        con.setReadTimeout(300000);
         int responseCode = con.getResponseCode();
         if (responseCode == HttpsURLConnection.HTTP_OK
             || responseCode == HttpsURLConnection.HTTP_ACCEPTED) {

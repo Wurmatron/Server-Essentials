@@ -22,7 +22,12 @@ public class ChatEvents {
     try {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-      Rank rank = (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank);
+      Rank rank = null;
+      if(playerData.global != null && playerData.global.rank != null) {
+        rank = (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank);
+      }
+      if(rank == null)
+        rank = new Rank();
       return formatMessage(player, rank, msg);
     } catch (NoSuchElementException e) {
       return formatMessage(player, new Rank(), msg);
