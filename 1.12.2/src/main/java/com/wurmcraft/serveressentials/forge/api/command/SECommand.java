@@ -5,16 +5,19 @@ import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.utils.CommandParser;
+import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -189,10 +192,39 @@ public class SECommand extends CommandBase {
   @Override
   public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
     if (SERegistry.isModuleLoaded("Rank")) {
-     return RankUtils.hasPermission(RankUtils.getRank(sender),
+      return RankUtils.hasPermission(RankUtils.getRank(sender),
           command.moduleName() + "." + command.name());
     } else {
       return true;
     }
   }
+
+  @Override
+  public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
+      String[] args, @Nullable BlockPos targetPos) {
+    int pos = args.length - 1;
+    for (CommandArguments[] a : cache.keySet()) {
+      if (a.length == args.length || a.length == args.length + 1) {
+        CommandArguments arg = a[pos];
+        if (arg == CommandArguments.PLAYER) {
+          return PlayerUtils.predictUsernames(args, pos);
+        } else if (arg == CommandArguments.PERK) {
+          List<String> perks = new ArrayList<>();
+          for (Perk p : Perk.values()) {
+            perks.add(p.name());
+          }
+          return perks;
+        } else if (arg == CommandArguments.STRING) {
+          Command cmd = cache.get(a).getAnnotation(Command.class);
+          if(cmd.inputNames().length > pos) {
+            String inputNames = cmd.inputNames()[pos];
+            return Arrays.asList(inputNames.split(","));
+          }
+        }
+      }
+    }
+    return super.getTabCompletions(server, sender, args, targetPos);
+  }
+
+
 }

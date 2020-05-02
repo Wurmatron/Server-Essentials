@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PlayerUtils {
 
@@ -107,6 +108,28 @@ public class PlayerUtils {
       return (StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
     } catch (NoSuchElementException ignored) {}
     return null;
+  }
+
+  public static List<String> predictUsernames(String[] args, int index) {
+    List<String> possibleUsernames =
+        Arrays.asList(
+            FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames());
+    if (args.length > index && args[index] != null) {
+      return predictName(args[index], possibleUsernames);
+    } else {
+      return possibleUsernames;
+    }
+  }
+
+  private static List<String> predictName(String current, List<String> possibleNames) {
+    List<String> predictedNames = new ArrayList<>();
+    for (String name : possibleNames) {
+      if (name.toLowerCase().startsWith(current.toLowerCase())
+          || name.toLowerCase().endsWith(current.toLowerCase())) {
+        predictedNames.add(name);
+      }
+    }
+    return predictedNames;
   }
 
 }

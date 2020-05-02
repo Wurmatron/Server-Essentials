@@ -74,7 +74,7 @@ public class PerkCommand {
     }
   }
 
-  @Command(inputArguments = {CommandArguments.STRING}, inputNames = "List, PerkName")
+  @Command(inputArguments = {CommandArguments.STRING}, inputNames = "List")
   public void perkList(ICommandSender sender, String name) {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils
         .hasPermission(RankUtils.getRank(sender), "economy.perk.list") || !SERegistry
