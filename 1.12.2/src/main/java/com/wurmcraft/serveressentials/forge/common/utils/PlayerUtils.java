@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PlayerUtils {
@@ -130,6 +131,22 @@ public class PlayerUtils {
       }
     }
     return predictedNames;
+  }
+
+  public static GameType getGamemode(String mode) {
+    for (GameType t : GameType.values()) {
+      if (t.getName().equalsIgnoreCase(mode)) {
+        return t;
+      }
+    }
+    if (mode.startsWith("SP")) {
+      return GameType.SPECTATOR;
+    } else if (mode.startsWith("S")) {
+      return GameType.SURVIVAL;
+    } else if (mode.startsWith("C")) {
+      return GameType.CREATIVE;
+    }
+    return null;
   }
 
 }

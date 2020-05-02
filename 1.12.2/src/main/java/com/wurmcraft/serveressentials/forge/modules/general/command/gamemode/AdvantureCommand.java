@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
-@ModuleCommand(moduleName = "General", name = "Creative")
+@ModuleCommand(moduleName = "General", name = "Adventure")
 public class AdvantureCommand {
 
   @Command(inputArguments = {})

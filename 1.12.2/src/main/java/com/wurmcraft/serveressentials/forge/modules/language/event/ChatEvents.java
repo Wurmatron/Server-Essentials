@@ -45,7 +45,7 @@ public class ChatEvents {
 
   public static ITextComponent formatMessage(EntityPlayer player, Rank rank, String msg) {
     return new TextComponentString(
-        rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " »" + rank
+        rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \\» " + rank
             .getSuffix().replaceAll("&", "\u00a7") + msg);
   }
 }

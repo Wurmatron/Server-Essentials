@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.forge.modules.general.command.gamemode;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
+import static com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils.getGamemode;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
@@ -107,22 +108,4 @@ public class GameModeCommand {
           ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
     }
   }
-
-  private static GameType getGamemode(String mode) {
-    for (GameType t : GameType.values()) {
-      if (t.getName().equalsIgnoreCase(mode)) {
-        return t;
-      }
-    }
-    if (mode.startsWith("SP")) {
-      return GameType.SPECTATOR;
-    } else if (mode.startsWith("S")) {
-      return GameType.SURVIVAL;
-    } else if (mode.startsWith("C")) {
-      return GameType.CREATIVE;
-    }
-    return null;
-  }
-
-
 }

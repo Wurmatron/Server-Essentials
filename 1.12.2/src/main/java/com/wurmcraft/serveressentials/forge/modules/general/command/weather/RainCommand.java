@@ -14,7 +14,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-@ModuleCommand(moduleName = "General", name = "Sun")
+@ModuleCommand(moduleName = "General", name = "Rain")
 public class RainCommand {
 
   @Command(inputArguments = {})
