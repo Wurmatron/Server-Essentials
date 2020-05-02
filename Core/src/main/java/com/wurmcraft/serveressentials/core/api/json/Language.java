@@ -12,6 +12,7 @@ public class Language implements StoredDataType {
   public String ERROR_NO_PERMS;
   public String ERROR_PLAYER_NOT_FOUND;
   public String ERROR_INSUFFICENT_FUNDS;
+  public String ERROR_MUTED;
 
   // Core Module
   public String CORE_SE_VERSION;
@@ -22,6 +23,10 @@ public class Language implements StoredDataType {
   // Language
   public String LANGUAGE_LANGUAGE_NO_FOUND;
   public String LANGUAGE_LANGUAGE_SET;
+  public String LANGUAGE_MUTE_SENDER;
+  public String LANGUAGE_MUTE_UNMUTE_SENDER;
+  public String LANGUAGE_MUTE;
+  public String LANGUAGE_MUTE_UNMUTE;
 
   // General
   public String GENERAL_TPA_SENT;
@@ -37,6 +42,11 @@ public class Language implements StoredDataType {
   public String GENERAL_HOME_NOT_FOUND;
   public String GENERAL_DELHOME_REMOVED;
   public String GENERAL_DELHOME_ALL;
+  public String GENERAL_SUN;
+  public String GENERAL_RAIN;
+  public String GENERAL_GAMEMODE_NOT_FOUND;
+  public String GENERAL_GAMEMODE_CHANGED;
+  public String GENERAL_GAMEMODE_CHANGED_SENDER;
 
   // Discord
   public String DISCORD_VERIFIED;

@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import java.util.NoSuchElementException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
@@ -15,7 +16,12 @@ public class ChatEvents {
 
   @SubscribeEvent
   public void onChat(ServerChatEvent e) {
-    e.setComponent(handleMessage(e.getPlayer(), e.getMessage()));
+    ITextComponent comp = handleMessage(e.getPlayer(), e.getMessage());
+    if (comp != null) {
+      e.setComponent(comp);
+    } else {
+      e.getPlayer().sendMessage(new TextComponentString(PlayerUtils.getUserLanguage(e.getPlayer()).ERROR_MUTED));
+    }
   }
 
   private static ITextComponent handleMessage(EntityPlayer player, String msg) {
@@ -23,11 +29,14 @@ public class ChatEvents {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
       Rank rank = null;
-      if(playerData.global != null && playerData.global.rank != null) {
+      if (playerData.global != null && playerData.global.rank != null) {
         rank = (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank);
+        if(playerData.global.muted)
+          return null;
       }
-      if(rank == null)
+      if (rank == null) {
         rank = new Rank();
+      }
       return formatMessage(player, rank, msg);
     } catch (NoSuchElementException e) {
       return formatMessage(player, new Rank(), msg);
@@ -36,7 +45,7 @@ public class ChatEvents {
 
   public static ITextComponent formatMessage(EntityPlayer player, Rank rank, String msg) {
     return new TextComponentString(
-        rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " " + rank
+        rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " »" + rank
             .getSuffix().replaceAll("&", "\u00a7") + msg);
   }
 }
