@@ -10,11 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
-import org.apache.commons.io.FileUtils;
 
 public class FTBUtilsUtils {
 

@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.GameType;
+import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PlayerUtils {
@@ -106,15 +108,18 @@ public class PlayerUtils {
 
   public static StoredPlayer getPlayer(EntityPlayer player) {
     try {
-      return (StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-    } catch (NoSuchElementException ignored) {}
+      return (StoredPlayer) SERegistry
+          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+    } catch (NoSuchElementException ignored) {
+    }
     return null;
   }
 
   public static List<String> predictUsernames(String[] args, int index) {
     List<String> possibleUsernames =
         Arrays.asList(
-            FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames());
+            FMLCommonHandler.instance().getMinecraftServerInstance()
+                .getOnlinePlayerNames());
     if (args.length > index && args[index] != null) {
       return predictName(args[index], possibleUsernames);
     } else {
@@ -145,8 +150,24 @@ public class PlayerUtils {
       return GameType.SURVIVAL;
     } else if (mode.toUpperCase().startsWith("C")) {
       return GameType.CREATIVE;
-    }  else if(mode.toUpperCase().startsWith("A"))
+    } else if (mode.toUpperCase().startsWith("A")) {
       return GameType.ADVENTURE;
+    }
+    return null;
+  }
+
+  public static UUID getPlayer(String playerName) {
+    for (EntityPlayer p : FMLCommonHandler.instance().getMinecraftServerInstance()
+        .getPlayerList().getPlayers()) {
+      if (p.getDisplayNameString().equalsIgnoreCase(playerName)) {
+        return p.getGameProfile().getId();
+      }
+    }
+    for (UUID id : UsernameCache.getMap().keySet()) {
+      if (UsernameCache.getMap().get(id).equalsIgnoreCase(playerName)) {
+        return id;
+      }
+    }
     return null;
   }
 

@@ -169,7 +169,7 @@ public class ModuleUtils extends SERegistry {
     for (String m : loadedConfigs.keySet()) {
       SECore.logger.info("Loading '" + m + "'s config");
       ConfigModule module = loadedConfigs.get(m).getClass().getAnnotation(ConfigModule.class);
-      File moduleConfig = getModuleConfigFile(module, loadedConfigs.get(m));
+      File moduleConfig = writeConfigFile(module, loadedConfigs.get(m));
       try {
         StoredDataType loadedJson =
             FileUtils.getJson(moduleConfig, ((StoredDataType) loadedConfigs.get(m)).getClass());
@@ -190,8 +190,7 @@ public class ModuleUtils extends SERegistry {
    * @param config module config you wish to get the file for
    * @return the file for the given module
    */
-  private static File getModuleConfigFile(
-      ConfigModule config, StoredDataType defaultConfigInstance) {
+  public static File writeConfigFile(ConfigModule config, StoredDataType defaultConfigInstance) {
     File moduleConfig =
         new File(
             SECore.SAVE_DIR
@@ -228,12 +227,5 @@ public class ModuleUtils extends SERegistry {
       }
     }
     return moduleConfig;
-  }
-
-  public static File getModuleConfigFile(String module) throws NoSuchElementException {
-    if (configCache.containsKey(module)) {
-      return configCache.get(module);
-    }
-    throw new NoSuchElementException(module + "'s config file is not configured!");
   }
 }

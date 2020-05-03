@@ -22,4 +22,7 @@ public @interface ModuleCommand {
 
   /** @return name of the command used via /<name> */
   String name();
+
+  /** Alternative Names for using this command */
+  String[] aliases() default {};
 }

@@ -19,7 +19,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import scala.collection.$colon$plus$;
 
 @ModuleCommand(moduleName = "General", name = "TPAll", aliases = {"TpAll"})
 public class TPAllCommand {
