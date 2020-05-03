@@ -4,6 +4,7 @@
   "ERROR_PLAYER_NOT_FOUND": "Player %PLAYER% not found!",
   "ERROR_INSUFFICENT_FUNDS": "You need %AMOUNT% more to do that",
   "ERROR_MUTED": "You are muted",
+  "ERROR_RANK_NOT_FOUND": "%RANK% does not exist as a rank!"
   "CORE_SE_VERSION": "SE Version: %VERSION%",
   "CORE_SE_STORAGE": "SE Storage Type: %TYPE%",
   "CORE_SE_MODULES": "SE Modules: %MODULES%",
@@ -32,10 +33,14 @@
   "GENERAL_GAMEMODE_NOT_FOUND": "Gamemode %MODE% does not exist!",
   "GENERAL_GAMEMODE_CHANGED": "You gamemode has been changed to %MODE%",
   "GENERAL_GAMEMODE_CHANGED_SENDER": "You have changed %PLAYER%'s Gamemode to %MODE%",
+  "GENERAL_KICKALL_MSG": "You have been kicked!",
+  "GENERAL_SPEED_SET": "You speed for %TYPE% has been changed to %SPEED%",
+  "GENERAL_TPALL": "You have been teleproted to %PLAYER%",
   "DISCORD_VERIFIED": "You have verified your account with discord, Please allow up to 1h for the server to sync with discord",
   "DISCORD_INVALID": "The code you have entered is invalid or have expired! Resend !verify to the bot on Discord",
   "ECO_PAY_OTHER": "You have sent %AMOUNT% to %PLAYER%",
   "ECO_PAY_EARN": "%PLAYER% has sent you %AMOUNT%",
   "ECO_PERK_BUY": "You are now %LEVEL% on the Perk %PERK%",
-  "ECO_PERK_COST": "%PERK% costs %AMOUNT%"
+  "ECO_PERK_COST": "%PERK% costs %AMOUNT%",
+  "ECO_PERK_MAX_LEVEL": "%PERK% is allready at max level!"
 }

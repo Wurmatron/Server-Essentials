@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
-@ModuleCommand(moduleName = "General", name = "Survival")
+@ModuleCommand(moduleName = "General", name = "Survival", aliases = {"S"})
 public class SurvivalCommand {
 
   @Command(inputArguments = {})
@@ -27,7 +27,7 @@ public class SurvivalCommand {
         player.setGameType(GameType.SURVIVAL);
         player.sendMessage(new TextComponentString(COMMAND_COLOR +
             PlayerUtils.getUserLanguage(player).GENERAL_GAMEMODE_CHANGED
-                .replaceAll("%MODE%", COMMAND_INFO_COLOR + GameType.SURVIVAL.name())));
+                .replaceAll("%MODE%", COMMAND_INFO_COLOR + "Survival")));
       } else {
         sender.sendMessage(new TextComponentString(
             ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));

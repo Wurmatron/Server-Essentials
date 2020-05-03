@@ -15,7 +15,7 @@ import java.util.Arrays;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "Core", name = "SE")
+@ModuleCommand(moduleName = "Core", name = "ServerEssentials", aliases = {"SE"})
 public class ServerEssentialsCommand {
 
   @Command(inputArguments = {CommandArguments.STRING}, inputNames = {

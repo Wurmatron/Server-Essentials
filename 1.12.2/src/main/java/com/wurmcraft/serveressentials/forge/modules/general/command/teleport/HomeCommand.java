@@ -20,7 +20,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "General", name = "Home")
+@ModuleCommand(moduleName = "General", name = "Home", aliases = "H")
 public class HomeCommand {
 
   @Command(inputArguments = {})

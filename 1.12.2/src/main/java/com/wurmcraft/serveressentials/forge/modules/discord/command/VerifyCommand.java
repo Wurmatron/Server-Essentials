@@ -19,7 +19,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "Discord", name = "Verify")
+@ModuleCommand(moduleName = "Discord", name = "Verify", aliases = {"V"})
 public class VerifyCommand {
 
   @Command(inputArguments = {CommandArguments.STRING}, inputNames = {"Code"})

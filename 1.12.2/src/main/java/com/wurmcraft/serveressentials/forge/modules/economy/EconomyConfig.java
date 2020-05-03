@@ -11,21 +11,24 @@ public class EconomyConfig implements StoredDataType {
   public double homeLevelCost;
   public double claimLevelCost;
   public int claimAmountPerLevel;
+  public int echestPerkCost;
 
   public EconomyConfig() {
     defaultServerCurrency = new Coin("Default", 100);
     this.homeLevelCost = 50000;
     this.claimLevelCost = 1000;
     this.claimAmountPerLevel = 1;
+    this.echestPerkCost = 4000;
   }
 
   public EconomyConfig(
       Coin defaultServerCurrency, double homeLevelCost, double claimLevelCost,
-      int claimAmountPerLevel) {
+      int claimAmountPerLevel, int echestPerkCost) {
     this.defaultServerCurrency = defaultServerCurrency;
     this.homeLevelCost = homeLevelCost;
     this.claimLevelCost = claimLevelCost;
     this.claimAmountPerLevel = claimAmountPerLevel;
+    this.echestPerkCost = echestPerkCost;
   }
 
   @Override

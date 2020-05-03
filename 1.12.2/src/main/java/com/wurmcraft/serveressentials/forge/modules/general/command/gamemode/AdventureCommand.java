@@ -14,20 +14,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
-@ModuleCommand(moduleName = "General", name = "Creative", aliases = {"C"})
-public class CreativeCommand {
+@ModuleCommand(moduleName = "General", name = "Adventure", aliases = {"A"})
+public class AdventureCommand {
 
   @Command(inputArguments = {})
   public void changeToSurvival(ICommandSender sender) {
     if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       if (SERegistry.isModuleLoaded("Rank") && RankUtils
-          .hasPermission(RankUtils.getRank(sender), "general.gamemode.creative") || !SERegistry
+          .hasPermission(RankUtils.getRank(sender), "general.gamemode.adventure") || !SERegistry
           .isModuleLoaded("Rank")) {
         EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-        player.setGameType(GameType.CREATIVE);
+        player.setGameType(GameType.ADVENTURE);
         player.sendMessage(new TextComponentString(COMMAND_COLOR +
             PlayerUtils.getUserLanguage(player).GENERAL_GAMEMODE_CHANGED
-                .replaceAll("%MODE%", COMMAND_INFO_COLOR + "Creative")));
+                .replaceAll("%MODE%", COMMAND_INFO_COLOR +"Adventure")));
       } else {
         sender.sendMessage(new TextComponentString(
             ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));

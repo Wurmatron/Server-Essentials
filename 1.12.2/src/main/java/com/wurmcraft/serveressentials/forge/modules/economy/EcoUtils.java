@@ -58,6 +58,9 @@ public class EcoUtils {
     } else if(perk == Perk.ClaimBlocks) {
       return (lvl * ((EconomyConfig) SERegistry
           .getStoredData(DataKey.MODULE_CONFIG, "Economy")).claimLevelCost) + (calculateCostInGlobalPerPerk(perk,lvl - 1));
+    } else if(perk == Perk.ENDERCHEST) {
+      return ((EconomyConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).echestPerkCost;
     }
     return Integer.MAX_VALUE;
   }

@@ -20,7 +20,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "General", name = "DelHome")
+@ModuleCommand(moduleName = "General", name = "DelHome", aliases = {"DHome", "Dh"})
 public class DelHomeCommand {
 
   @Command(inputArguments = {})

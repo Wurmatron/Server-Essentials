@@ -5,7 +5,6 @@ import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 import static com.wurmcraft.serveressentials.forge.modules.economy.EcoUtils.setPlayerPerk;
 
-import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
@@ -27,50 +26,57 @@ public class PerkCommand {
   @Command(inputArguments = {CommandArguments.STRING,
       CommandArguments.PERK}, inputNames = {"Buy", "Name"})
   public void buyPerk(ICommandSender sender, String commandType, Perk perk) {
-    if (SERegistry.isModuleLoaded("Rank") && RankUtils
-        .hasPermission(RankUtils.getRank(sender), "economy.perk.buy") || !SERegistry
-        .isModuleLoaded("Rank")) {
-      if (sender != null && sender.getCommandSenderEntity() != null && sender
-          .getCommandSenderEntity() instanceof EntityPlayer) {
-        EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-        int perkLvl = EcoUtils.getPerkLevel(sender, perk);
-        StoredPlayer playerData = PlayerUtils.getPlayer(player);
-        if (playerData != null) {
-          if (EcoUtils.hasTheMoney(playerData.global.wallet,
-              EcoUtils.calculateCostInGlobalPerPerk(perk, perkLvl + 1))) {
-            double cost = EcoUtils.calculateCostInGlobalPerPerk(perk, perkLvl + 1);
-            if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-//              SECore.executors.schedule(() -> {
-              GlobalPlayer globalData = RestRequestGenerator.User
-                  .getPlayer(player.getGameProfile().getId().toString());
-              playerData.global.wallet = EcoUtils.setCurrency(globalData.wallet,
-                  EcoUtils.getCurrency(globalData.wallet) - cost);
-              setPlayerPerk(globalData, perk, perkLvl + 1);
-              playerData.global = globalData;
-              RestRequestGenerator.User.overridePlayer(globalData.uuid, globalData);
-//              }, 0, TimeUnit.SECONDS);
+    if (commandType.equalsIgnoreCase("buy")) {
+      if (SERegistry.isModuleLoaded("Rank") && RankUtils
+          .hasPermission(RankUtils.getRank(sender), "economy.perk.buy") || !SERegistry
+          .isModuleLoaded("Rank")) {
+        if (sender != null && sender.getCommandSenderEntity() != null && sender
+            .getCommandSenderEntity() instanceof EntityPlayer) {
+          EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+          int perkLvl = EcoUtils.getPerkLevel(sender, perk);
+          if (perk.maxLevel != -1 && perkLvl >= perk.maxLevel) {
+            sender.sendMessage(new TextComponentString(COMMAND_COLOR +
+                PlayerUtils.getUserLanguage(player).ECO_PERK_MAX_LEVEL
+                    .replaceAll("%PERK%", COMMAND_INFO_COLOR + perk.name())));
+            return;
+          }
+          StoredPlayer playerData = PlayerUtils.getPlayer(player);
+          if (playerData != null) {
+            if (EcoUtils.hasTheMoney(playerData.global.wallet,
+                EcoUtils.calculateCostInGlobalPerPerk(perk, perkLvl + 1))) {
+              double cost = EcoUtils.calculateCostInGlobalPerPerk(perk, perkLvl + 1);
+              if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+                GlobalPlayer globalData = RestRequestGenerator.User
+                    .getPlayer(player.getGameProfile().getId().toString());
+                playerData.global.wallet = EcoUtils.setCurrency(globalData.wallet,
+                    EcoUtils.getCurrency(globalData.wallet) - cost);
+                setPlayerPerk(globalData, perk, perkLvl + 1);
+                playerData.global = globalData;
+                RestRequestGenerator.User.overridePlayer(globalData.uuid, globalData);
+              } else {
+                EcoUtils.setCurrency(playerData.global.wallet,
+                    EcoUtils.getCurrency(playerData.global.wallet) - cost);
+                setPlayerPerk(playerData.global, perk, perkLvl + 1);
+              }
+              player.sendMessage(new TextComponentString(
+                  COMMAND_COLOR + PlayerUtils.getUserLanguage(player).ECO_PERK_BUY
+                      .replaceAll("%LEVEL%",
+                          COMMAND_INFO_COLOR + "" + (perkLvl + 1) + COMMAND_COLOR)
+                      .replaceAll("%PERK%",
+                          COMMAND_INFO_COLOR + perk.name() + COMMAND_COLOR)));
             } else {
-              EcoUtils.setCurrency(playerData.global.wallet,
-                  EcoUtils.getCurrency(playerData.global.wallet) - cost);
-              setPlayerPerk(playerData.global, perk, perkLvl + 1);
+              sender.sendMessage(new TextComponentString(
+                  ERROR_COLOR + PlayerUtils
+                      .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
+                      .replaceAll("%AMOUNT%",
+                          "" + EcoUtils.getCurrency(playerData.global.wallet))));
             }
-            player.sendMessage(new TextComponentString(
-                COMMAND_COLOR + PlayerUtils.getUserLanguage(player).ECO_PERK_BUY
-                    .replaceAll("%LEVEL%",
-                        COMMAND_INFO_COLOR + "" + (perkLvl + 1) + COMMAND_COLOR)
-                    .replaceAll("%PERK%",
-                        COMMAND_INFO_COLOR + perk.name() + COMMAND_COLOR)));
-          } else {
-            sender.sendMessage(new TextComponentString(
-                ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
-                    .replaceAll("%AMOUNT%",
-                        "" + EcoUtils.getCurrency(playerData.global.wallet))));
           }
         }
+      } else {
+        sender.sendMessage(new TextComponentString(
+            ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
       }
-    } else {
-      sender.sendMessage(new TextComponentString(
-          ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
     }
   }
 
@@ -110,10 +116,18 @@ public class PerkCommand {
   }
 
   public enum Perk {
-    Home,
+    Home(-1),
     //    Vault,
-    ClaimBlocks,
+    ClaimBlocks(-1),
+    ENDERCHEST(1);
+
 //    ChunkLoading;
+
+    private int maxLevel;
+
+    Perk(int maxLevel) {
+      this.maxLevel = maxLevel;
+    }
   }
 
 }

@@ -23,7 +23,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "General", name = "SetHome")
+@ModuleCommand(moduleName = "General", name = "SetHome", aliases = {"SHome", "Sh"})
 public class SetHomeCommand {
 
   public static List<String> INVALID_HOME_NAMES = Arrays.asList("list", "all");

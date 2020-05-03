@@ -24,7 +24,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "Language", name = "Lang")
+@ModuleCommand(moduleName = "Language", name = "Language", aliases = {"Lang"})
 public class LanguageCommand {
 
   @Command(inputArguments = {CommandArguments.STRING}, inputNames = {"Language-Key"})

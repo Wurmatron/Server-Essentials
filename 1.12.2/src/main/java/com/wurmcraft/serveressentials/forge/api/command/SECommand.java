@@ -110,6 +110,13 @@ public class SECommand extends CommandBase {
     List<String> aliases = new ArrayList<>();
     aliases.add(command.name().toLowerCase());
     aliases.add(command.name().toUpperCase());
+    if (command.aliases().length > 0) {
+      for (String a : command.aliases()) {
+        aliases.add(a);
+        aliases.add(a.toLowerCase());
+        aliases.add(a.toUpperCase());
+      }
+    }
     return aliases;
   }
 
@@ -216,7 +223,7 @@ public class SECommand extends CommandBase {
           return perks;
         } else if (arg == CommandArguments.STRING) {
           Command cmd = cache.get(a).getAnnotation(Command.class);
-          if(cmd.inputNames().length > pos) {
+          if (cmd.inputNames().length > pos) {
             String inputNames = cmd.inputNames()[pos];
             return Arrays.asList(inputNames.split(","));
           }

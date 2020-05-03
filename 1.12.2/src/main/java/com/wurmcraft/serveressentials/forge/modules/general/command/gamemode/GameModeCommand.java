@@ -17,7 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
-@ModuleCommand(moduleName = "General", name = "GameMode")
+@ModuleCommand(moduleName = "General", name = "GameMode", aliases = {"Mode", "GM"})
 public class GameModeCommand {
 
   @Command(inputArguments = {CommandArguments.INTEGER}, inputNames = {"Mode"})
@@ -71,6 +71,8 @@ public class GameModeCommand {
       changeMode(sender, "Creative", player);
     } else if (mode == 2) {
       changeMode(sender, "Adventure", player);
+    } else if (mode == 3) {
+      changeMode(sender, "Spectator", player);
     }
   }
 

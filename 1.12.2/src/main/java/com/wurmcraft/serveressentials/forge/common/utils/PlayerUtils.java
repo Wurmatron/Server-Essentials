@@ -139,13 +139,14 @@ public class PlayerUtils {
         return t;
       }
     }
-    if (mode.startsWith("SP")) {
+    if (mode.toUpperCase().startsWith("SP")) {
       return GameType.SPECTATOR;
-    } else if (mode.startsWith("S")) {
+    } else if (mode.toUpperCase().startsWith("S")) {
       return GameType.SURVIVAL;
-    } else if (mode.startsWith("C")) {
+    } else if (mode.toUpperCase().startsWith("C")) {
       return GameType.CREATIVE;
-    }
+    }  else if(mode.toUpperCase().startsWith("A"))
+      return GameType.ADVENTURE;
     return null;
   }
 
