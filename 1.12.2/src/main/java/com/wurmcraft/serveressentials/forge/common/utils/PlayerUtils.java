@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
+import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketSpawnPlayer;
 import net.minecraft.world.GameType;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -171,4 +174,20 @@ public class PlayerUtils {
     return null;
   }
 
+  public static void updateVanishStatus(EntityPlayer player, boolean isVisable) {
+    if (!isVisable) {
+      FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(player.dimension)
+          .getEntityTracker().untrack(player);
+    } else {
+      FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(player.dimension)
+          .getEntityTracker().track(player);
+    }
+    for (EntityPlayer p : FMLCommonHandler.instance().getMinecraftServerInstance()
+        .getWorld(player.dimension).getEntityTracker().getTrackingPlayers(player)) {
+      if (!SERegistry.isModuleLoaded("Rank") || !RankUtils
+          .hasPermission(RankUtils.getRank(player), "general.vanish.see")) {
+        ((EntityPlayerMP) player).connection.sendPacket(new SPacketSpawnPlayer(player));
+      }
+    }
+  }
 }

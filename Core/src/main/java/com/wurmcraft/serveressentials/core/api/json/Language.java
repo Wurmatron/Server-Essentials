@@ -14,6 +14,7 @@ public class Language implements StoredDataType {
   public String ERROR_INSUFFICENT_FUNDS;
   public String ERROR_MUTED;
   public String ERROR_RANK_NOT_FOUND;
+  public String ERROR_NO_HELD_ITEM;
 
   // Core Module
   public String CORE_SE_VERSION;
@@ -59,6 +60,23 @@ public class Language implements StoredDataType {
   public String GENERAL_HEAL_OTHER;
   public String GENERAL_SPAWN;
   public String GENERAL_SPAWN_SET;
+  public String GENERAL_FREEZE_OTHER;
+  public String GENERAL_FREEZE_UNDO_OTHER;
+  public String GENERAL_FREEZE;
+  public String GENERAL_FREEZE_UNDO;
+  public String GENERAL_VANISH;
+  public String GENERAL_VANISH_UNVANISH;
+  public String GENERAL_HAT;
+  public String GENERAL_SKULL;
+  public String GENERAL_RENAME;
+  public String GENERAL_GOD;
+  public String GENERAL_GOD_UNDO;
+  public String GENERAL_GOD_OTHER;
+  public String GENERAL_GOD_OTHER_UNDO;
+  public String GENERAL_FLY;
+  public String GENERAL_FLY_UNDO;
+  public String GENERAL_FLY_OTHER;
+  public String GENERAL_FLY_OTHER_UNDO;
 
   // Discord
   public String DISCORD_VERIFIED;
