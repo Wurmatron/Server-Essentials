@@ -19,6 +19,18 @@ public class CommandParser {
             argumentFormat[i]);
       }
       return formattedCommandArgs;
+    } else if (argumentFormat != null && argumentFormat.length >= 1 && argumentFormat[0] == CommandArguments.STRING_ARR) {
+      if(argumentFormat.length == 1) {
+        return new Object[] {sender, commandArgs};
+      } else {
+        Object[] formattedCommandArgs = new Object[argumentFormat.length + 1];
+        formattedCommandArgs[0] = sender;
+        for (int i = 0; i < commandArgs.length; i++) {
+            formattedCommandArgs[i + 1] = getInstanceForArgument(commandArgs[i],
+                argumentFormat[i]);
+        }
+        return formattedCommandArgs;
+      }
     }
     return new Object[0];
   }
@@ -43,7 +55,7 @@ public class CommandParser {
         }
       }
       return null;
-    } else if (arg == CommandArguments.STRING) {
+    } else if (arg == CommandArguments.STRING || arg == CommandArguments.STRING_ARR) {
       return line;
     }
     return null;

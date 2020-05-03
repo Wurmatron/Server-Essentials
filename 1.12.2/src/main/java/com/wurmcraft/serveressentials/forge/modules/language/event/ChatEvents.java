@@ -51,12 +51,12 @@ public class ChatEvents {
         .hasPermission(RankUtils.getRank(player), "language.chat.color") || !SERegistry
         .isModuleLoaded("Rank")) {
       return new TextComponentString(
-          rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \\» "
+          rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \u00BB "
               + rank
               .getSuffix().replaceAll("&", "\u00a7") + msg.replaceAll("&", "\u00a7"));
     } else {
       return new TextComponentString(
-          rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \\» "
+          rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \u00BB "
               + rank
               .getSuffix().replaceAll("&", "\u00a7") + msg);
     }

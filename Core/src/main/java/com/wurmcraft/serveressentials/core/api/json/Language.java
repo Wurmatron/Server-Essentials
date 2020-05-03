@@ -77,6 +77,15 @@ public class Language implements StoredDataType {
   public String GENERAL_FLY_UNDO;
   public String GENERAL_FLY_OTHER;
   public String GENERAL_FLY_OTHER_UNDO;
+  public String GENERAL_TPAHERE_REQUEST;
+  public String GENERAL_TPAHERE;
+  public String GENERAL_WARP_CREATE;
+  public String GENERAL_WARP;
+  public String GENERAL_WARP_NOT_FOUND;
+  public String GENERAL_RULES_NONE;
+  public String GENERAL_SUDO_OTHER;
+  public String GENERAL_TOP;
+  public String GENERAL_TOP_OTHER;
 
   // Discord
   public String DISCORD_VERIFIED;

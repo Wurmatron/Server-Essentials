@@ -51,7 +51,8 @@ public class TPAAcceptCommand {
           SERegistry.delTempData(DataKey.TPA, request.getID());
         } catch (NoSuchElementException e) {
           sender.sendMessage(new TextComponentString(
-              ERROR_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_TPAACCEPT_NOT_FOUND));
+              ERROR_COLOR + PlayerUtils
+                  .getUserLanguage(sender).GENERAL_TPAACCEPT_NOT_FOUND));
         }
       }
     } else {

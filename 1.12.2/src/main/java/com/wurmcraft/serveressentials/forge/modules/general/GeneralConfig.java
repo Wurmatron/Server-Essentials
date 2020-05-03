@@ -11,6 +11,7 @@ public class GeneralConfig implements StoredDataType {
   public String defaultHome;
   public int startingHomeAmount;
   public String[] motd;
+  public String[] rules;
   public LocationWrapper spawn;
 
   public GeneralConfig() {
@@ -18,15 +19,18 @@ public class GeneralConfig implements StoredDataType {
     this.defaultHome = "home";
     this.startingHomeAmount = 1;
     motd = new String[] {};
+    rules = new String[] {};
     spawn = new LocationWrapper(0,64,0);
   }
 
   public GeneralConfig(int tpaTimeout, String defaultHome, int startingHomeAmount,
-      String[] motd, LocationWrapper spawn) {
+      String[] motd, String[] rules,
+      LocationWrapper spawn) {
     this.tpaTimeout = tpaTimeout;
     this.defaultHome = defaultHome;
     this.startingHomeAmount = startingHomeAmount;
     this.motd = motd;
+    this.rules = rules;
     this.spawn = spawn;
   }
 

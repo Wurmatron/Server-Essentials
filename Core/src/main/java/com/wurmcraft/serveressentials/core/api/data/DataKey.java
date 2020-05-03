@@ -6,7 +6,8 @@ public enum DataKey {
   LANGUAGE("Language"),
   RANK("Rank"),
   TPA("TPA"),
-  CURRENCY("Economy");
+  CURRENCY("Economy"),
+  WARP("Warp");
 
   private String name;
 

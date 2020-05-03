@@ -5,5 +5,6 @@ public enum CommandArguments {
   INTEGER,
   DOUBLE,
   STRING,
-  PERK
+  PERK,
+  STRING_ARR,
 }
