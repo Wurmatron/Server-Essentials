@@ -92,6 +92,11 @@ public class Language implements StoredDataType {
   public String GENERAL_JUMP;
   public String GENERAL_SMITE;
   public String GENERAL_BURN_OTHER;
+  public String GENREAL_TP_PLAYER_CORDS_OTHER;
+  public String GENERAL_TP_CORDS;
+  public String GENERAL_TP;
+  public String GENERAL_TP_OTHER;
+  public String GENERAL_TPOFFLINE;
 
   // Discord
   public String DISCORD_VERIFIED;
