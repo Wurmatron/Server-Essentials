@@ -86,6 +86,12 @@ public class Language implements StoredDataType {
   public String GENERAL_SUDO_OTHER;
   public String GENERAL_TOP;
   public String GENERAL_TOP_OTHER;
+  public String GENERAL_TPHERE_OTHER;
+  public String GENERAL_TPHERE;
+  public String GENERAL_JUMP_INVALID;
+  public String GENERAL_JUMP;
+  public String GENERAL_SMITE;
+  public String GENERAL_BURN_OTHER;
 
   // Discord
   public String DISCORD_VERIFIED;
