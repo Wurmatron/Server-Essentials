@@ -40,23 +40,25 @@ public class ChatEvents {
       if (rank == null) {
         rank = new Rank();
       }
-      return formatMessage(player, rank, msg);
+      return formatMessage(player, playerData.server.nick.isEmpty() ? player.getName()
+          : "*" + playerData.server.nick.replaceAll("&", "\u00a7"), rank, msg);
     } catch (NoSuchElementException e) {
-      return formatMessage(player, new Rank(), msg);
+      return formatMessage(player, player.getName(), new Rank(), msg);
     }
   }
 
-  public static ITextComponent formatMessage(EntityPlayer player, Rank rank, String msg) {
+  public static ITextComponent formatMessage(EntityPlayer player, String displayName,
+      Rank rank, String msg) {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils
         .hasPermission(RankUtils.getRank(player), "language.chat.color") || !SERegistry
         .isModuleLoaded("Rank")) {
       return new TextComponentString(
-          rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \u00BB "
+          rank.getPrefix().replaceAll("&", "\u00a7") + " " + displayName + " \u00BB "
               + rank
               .getSuffix().replaceAll("&", "\u00a7") + msg.replaceAll("&", "\u00a7"));
     } else {
       return new TextComponentString(
-          rank.getPrefix().replaceAll("&", "\u00a7") + " " + player.getName() + " \u00BB "
+          rank.getPrefix().replaceAll("&", "\u00a7") + " " + displayName + " \u00BB "
               + rank
               .getSuffix().replaceAll("&", "\u00a7") + msg);
     }

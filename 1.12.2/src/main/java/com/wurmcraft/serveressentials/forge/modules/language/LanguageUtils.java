@@ -8,8 +8,11 @@ import com.wurmcraft.serveressentials.core.api.json.Language;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.URLUtils;
 import java.io.IOException;
+import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 public class LanguageUtils {
+
+  public static NonBlockingHashMap<String, String> lastMessageTracker = new NonBlockingHashMap<>();
 
   public static Language loadLanguage(String key) {
     try {

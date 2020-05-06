@@ -20,6 +20,7 @@ public class ServerPlayer implements JsonParser {
 
   // Language
   public String channel;
+  public String nick;
 
   // Track
   public ServerTime playtime;

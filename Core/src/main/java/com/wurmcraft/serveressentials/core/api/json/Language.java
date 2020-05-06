@@ -29,6 +29,10 @@ public class Language implements StoredDataType {
   public String LANGUAGE_MUTE_UNMUTE_SENDER;
   public String LANGUAGE_MUTE;
   public String LANGUAGE_MUTE_UNMUTE;
+  public String LANGUAGE_MSG;
+  public String LANGUAGE_REPLY;
+  public String LANGUAGE_NICK;
+  public String LANGUAGE_NICK_OTHER;
 
   // General
   public String GENERAL_TPA_SENT;

@@ -16,6 +16,10 @@
   "LANGUAGE_MUTE_UNMUTE_SENDER": "%PLAYER% has been unmuted!",
   "LANGUAGE_MUTE": "You have been muted",
   "LANGUAGE_MUTE_UNMUTE": "You have been unmuted!",
+  "LANGUAGE_MSG": "Message sent",
+  "LANGUAGE_NICK": "You nickname has been changed to %NICK%",
+  "LANGUAGE_NICK_OTHER": "%PLAYER% nickname has been changed to %NICK%",
+  "LANGUAGE_REPLY": "No one has messaged you"
   "GENERAL_TPA_SENT": "Tpa request sent to %PLAYER%",
   "GENERAL_TPA_REQUEST": "%PLAYER% has requested to teleport to your location. Type /tpaccept to accept",
   "GENERAL_TPACCEPT_ACCEPT": "You have accepted an tpa request for %PLAYER%",
