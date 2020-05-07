@@ -123,10 +123,10 @@ type ServerChunkData struct {
 }
 
 type PlayerChunkData struct {
-	UUID        string   `json:"uuid"`
-	Pos         ChunkPos `json"pos"`
-	Balance     float64  `json:"storedCurrency"`
-	TimeCreated int64    `json:"setupTime"`
+	UUID        string     `json:"uuid"`
+	Pos         []ChunkPos `json"pos"`
+	Balance     float64    `json:"storedCurrency"`
+	TimeCreated int64      `json:"setupTime"`
 }
 
 type ChunkPos struct {

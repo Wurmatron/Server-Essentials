@@ -2,12 +2,14 @@ package main
 
 import (
 	b64 "encoding/base64"
+	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
 	mux "github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 // Rest Config
@@ -16,6 +18,11 @@ const address string = ":5050"
 const httpsCert string = "fullchain.pem"
 const httpsKey string = "privkey.pem"
 const defaultUser string = "admin"
+const chunkLoadingUpdate = 30
+const costPerDay = 50
+const costPerExtraChunk = 1.2
+
+var chunkLoadingNotSeenTimeOut = 3 * (time.Hour.Milliseconds() * 24)
 
 // Redis Config
 const redisAddress string = "localhost:6379"
@@ -46,6 +53,7 @@ func main() {
 	fmt.Println("Connected to redis at " + redisAddress + " starting on DataBase " + string(redisDatabase))
 	redisDBAuth = newClient(redisDatabaseAuth)
 	SetupDefaultAuth()
+	go backgroundTask()
 	log.Fatal(http.ListenAndServeTLS(address, httpsCert, httpsKey, router))
 }
 
@@ -75,5 +83,43 @@ func SetupDefaultAuth() {
 		redisDBAuth.Set(defaultUser, b64.StdEncoding.EncodeToString([]byte(pass)), 0)
 		fmt.Println("The default login info is: " + defaultUser + ":" + pass)
 		fmt.Println("Make sure to save and place the login in a safe place. start this up with --resetAuth to reset the auth login")
+	}
+}
+
+func calculateCostPerChunks(amount int) float64 {
+	var cost = 0.0
+	for i := 1; i <= amount; i++ {
+		if i == 1 {
+			cost += costPerDay
+		} else {
+			cost += costPerDay * (costPerExtraChunk * float64(i))
+		}
+	}
+	return cost
+}
+
+func backgroundTask() {
+	ticker := time.NewTicker(chunkLoadingUpdate * time.Minute)
+	for _ = range ticker.C {
+		for entry := range redisChunkLoadingDB.Keys("*").Val() {
+			var serverChunkLoading ServerChunkData
+			json.Unmarshal([]byte(redisChunkLoadingDB.Get(redisChunkLoadingDB.Keys("*").Val()[entry]).Val()), &serverChunkLoading)
+			var validChunks = []PlayerChunkData{}
+			for data := range serverChunkLoading.PlayerChunkData {
+				var d = serverChunkLoading.PlayerChunkData[data]
+				if (d.TimeCreated + chunkLoadingNotSeenTimeOut) <= time.Now().Unix() {
+					continue
+				}
+				if (d.TimeCreated + (time.Hour.Milliseconds() * 24)) <= time.Now().Unix() {
+					var cost = calculateCostPerChunks(len(d.Pos))
+					if cost <= d.Balance {
+						d.Balance -= calculateCostPerChunks(len(d.Pos))
+						validChunks = append(validChunks, d)
+					}
+				}
+			}
+			serverChunkLoading.PlayerChunkData = validChunks
+			redisChunkLoadingDB.Set(serverChunkLoading.ServerID, serverChunkLoading, 0)
+		}
 	}
 }
