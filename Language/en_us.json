@@ -19,7 +19,7 @@
   "LANGUAGE_MSG": "Message sent",
   "LANGUAGE_NICK": "You nickname has been changed to %NICK%",
   "LANGUAGE_NICK_OTHER": "%PLAYER% nickname has been changed to %NICK%",
-  "LANGUAGE_REPLY": "No one has messaged you"
+  "LANGUAGE_REPLY": "No one has messaged you",
   "GENERAL_TPA_SENT": "Tpa request sent to %PLAYER%",
   "GENERAL_TPA_REQUEST": "%PLAYER% has requested to teleport to your location. Type /tpaccept to accept",
   "GENERAL_TPACCEPT_ACCEPT": "You have accepted an tpa request for %PLAYER%",

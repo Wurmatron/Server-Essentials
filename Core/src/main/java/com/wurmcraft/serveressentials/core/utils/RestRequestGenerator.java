@@ -21,7 +21,7 @@ public class RestRequestGenerator {
   public static final String USER_AGENT = "Mozilla/5.0";
 
   private String auth = createRestAuth(SERegistry.globalConfig.restAuth);
-  private String baseURL = parseConfigURL(SERegistry.globalConfig.restURL);
+  private String baseURL = parseConfigURL(SERegistry.globalConfig.restURL) + "/api/";
 
   private static RestRequestGenerator INSTANCE = new RestRequestGenerator();
 
