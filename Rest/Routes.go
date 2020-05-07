@@ -249,6 +249,27 @@ var routes = Routes{
 		true,
 		AddAuth,
 	},
+	Route{
+		"AddChunkLoading",
+		"POST",
+		"/api/chunkloading/add",
+		true,
+		UpdateServerID,
+	},
+	Route{
+		"GetChunkLoading",
+		"GET",
+		"/api/chunkloading/:serverID",
+		false,
+		GetChunkLoadingForServerID,
+	},
+	Route{
+		"GetChunkLoading",
+		"GET",
+		"/api/chunkloading",
+		false,
+		GetAllServerChunkLoading,
+	},
 }
 
 func Index(w http.ResponseWriter, _ *http.Request, _ mux.Params) {

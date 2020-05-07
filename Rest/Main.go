@@ -53,7 +53,7 @@ func main() {
 	fmt.Println("Connected to redis at " + redisAddress + " starting on DataBase " + string(redisDatabase))
 	redisDBAuth = newClient(redisDatabaseAuth)
 	SetupDefaultAuth()
-	go backgroundTask()
+	go checkForExpiredChunkLoading()
 	log.Fatal(http.ListenAndServeTLS(address, httpsCert, httpsKey, router))
 }
 
@@ -98,28 +98,33 @@ func calculateCostPerChunks(amount int) float64 {
 	return cost
 }
 
-func backgroundTask() {
+func checkForExpiredChunkLoading() {
 	ticker := time.NewTicker(chunkLoadingUpdate * time.Minute)
-	for _ = range ticker.C {
+	for range ticker.C {
 		for entry := range redisChunkLoadingDB.Keys("*").Val() {
 			var serverChunkLoading ServerChunkData
 			json.Unmarshal([]byte(redisChunkLoadingDB.Get(redisChunkLoadingDB.Keys("*").Val()[entry]).Val()), &serverChunkLoading)
-			var validChunks = []PlayerChunkData{}
+			var validChunks []PlayerChunkData
 			for data := range serverChunkLoading.PlayerChunkData {
 				var d = serverChunkLoading.PlayerChunkData[data]
 				if (d.TimeCreated + chunkLoadingNotSeenTimeOut) <= time.Now().Unix() {
 					continue
 				}
-				if (d.TimeCreated + (time.Hour.Milliseconds() * 24)) <= time.Now().Unix() {
+				var timeToCheck = (d.TimeCreated + (int64(time.Hour.Seconds()) * 24)) <= time.Now().Unix()
+				if timeToCheck {
 					var cost = calculateCostPerChunks(len(d.Pos))
 					if cost <= d.Balance {
-						d.Balance -= calculateCostPerChunks(len(d.Pos))
+						d.Balance = d.Balance - cost
 						validChunks = append(validChunks, d)
 					}
 				}
 			}
 			serverChunkLoading.PlayerChunkData = validChunks
-			redisChunkLoadingDB.Set(serverChunkLoading.ServerID, serverChunkLoading, 0)
+			output, err := json.Marshal(serverChunkLoading)
+			if err != nil {
+				return
+			}
+			redisChunkLoadingDB.Set(serverChunkLoading.ServerID, output, 0)
 		}
 	}
 }

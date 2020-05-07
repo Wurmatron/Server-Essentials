@@ -12,7 +12,7 @@ import (
 var redisDBRank *redis.Client
 
 func init() {
-	redisDBRank = newClient(1)
+	redisDBRank = newClient(redisDatabaseRank)
 }
 
 func GetRank(w http.ResponseWriter, _ *http.Request, p mux.Params) {

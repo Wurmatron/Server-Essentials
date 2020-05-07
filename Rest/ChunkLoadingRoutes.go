@@ -39,15 +39,19 @@ func UpdateServerID(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	redisChunkLoadingDB.Set(chunkLoadingData.ServerID, chunkLoadingData, 0)
-	w.WriteHeader(http.StatusCreated)
+	output, err := json.Marshal(chunkLoadingData)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	redisChunkLoadingDB.Set(chunkLoadingData.ServerID, output, 0)
 }
 
 func GetAllServerChunkLoading(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
 	var data []ServerChunkData
 	for entry := range redisChunkLoadingDB.Keys("*").Val() {
 		var serverChunkLoading ServerChunkData
-		json.Unmarshal([]byte(redisDBBan.Get(redisChunkLoadingDB.Keys("*").Val()[entry]).Val()), &serverChunkLoading)
+		json.Unmarshal([]byte(redisChunkLoadingDB.Get(redisChunkLoadingDB.Keys("*").Val()[entry]).Val()), &serverChunkLoading)
 		data = append(data, serverChunkLoading)
 	}
 	output, err := json.MarshalIndent(data, " ", " ")
