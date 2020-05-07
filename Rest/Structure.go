@@ -7,18 +7,18 @@ type ValidateResponse struct {
 
 // User
 type GlobalUser struct {
-	UUID                  string           `json:"uuid"`
-	FirstJoin             int64            `json:"firstJoin"`
-	LastSeen              int64            `json:"lastSeen"`
-	Rank                  string           `json:"rank"`
-	Perms               []string           `json:"extraPerms"`
-	Perks               []string           `json:"perks"`
-	Language              string           `json:"language"`
-	Muted                 bool             `json:"muted"`
-	Wallet                Wallet           `json:"wallet"`
-	NetworkTime           NetworkTime      `json:"playtime"`
-	DiscordID             string           `json:"discordID"`
-	RewardPoints          int              `json:"rewardPoints"`
+	UUID         string      `json:"uuid"`
+	FirstJoin    int64       `json:"firstJoin"`
+	LastSeen     int64       `json:"lastSeen"`
+	Rank         string      `json:"rank"`
+	Perms        []string    `json:"extraPerms"`
+	Perks        []string    `json:"perks"`
+	Language     string      `json:"language"`
+	Muted        bool        `json:"muted"`
+	Wallet       Wallet      `json:"wallet"`
+	NetworkTime  NetworkTime `json:"playtime"`
+	DiscordID    string      `json:"discordID"`
+	RewardPoints int         `json:"rewardPoints"`
 }
 
 type Wallet struct {
@@ -26,17 +26,17 @@ type Wallet struct {
 }
 
 type Currency struct {
-	Name           string  `json:"name"`
-	Amount         float64 `json:"amount"`
+	Name   string  `json:"name"`
+	Amount float64 `json:"amount"`
 }
 
 type NetworkTime struct {
-	ServerTime     []ServerTime  `json:"serverTime"`
+	ServerTime []ServerTime `json:"serverTime"`
 }
 
 type ServerTime struct {
-	ServerID       string  `json:"serverID"`
-	Amount         int64    `json:"time"`
+	ServerID string `json:"serverID"`
+	Amount   int64  `json:"time"`
 }
 
 type AllPlayers struct {
@@ -47,7 +47,7 @@ type UserSimple struct {
 	UUID    string `json:"uuid"`
 	Rank    string `json:"rank"`
 	Discord string `json:"discordID"`
-	Wallet    Wallet   `json:"wallet"`
+	Wallet  Wallet `json:"wallet"`
 }
 
 type UserLookup struct {
@@ -75,7 +75,7 @@ type AutoRank struct {
 
 // Eco / Currency
 type CurrencyConvert struct {
-	Name string  `json:"name"`
+	Name  string  `json:"name"`
 	Worth float64 `json:"worth"`
 }
 
@@ -83,10 +83,10 @@ type CurrencyConvert struct {
 type ServerStatus struct {
 	ServerID       string   `json:"serverID"`
 	Status         string   `json:"status"`
-	Players        []string   `json:"players"`
-	ModpackVersion  string   `json:"modpackVersion"`
-	MS  int64   `json:"ms"`
-	LastUpdate  int64   `json:"lastUpdate"`
+	Players        []string `json:"players"`
+	ModpackVersion string   `json:"modpackVersion"`
+	MS             int64    `json:"ms"`
+	LastUpdate     int64    `json:"lastUpdate"`
 }
 
 type TransferBin struct {
@@ -115,4 +115,21 @@ type Ban struct {
 type Auth struct {
 	Username string `json:"user"`
 	Password string `json:"password"`
+}
+
+type ServerChunkData struct {
+	ServerID        string            `json:"serverID"`
+	PlayerChunkData []PlayerChunkData `json:"playerChunks"`
+}
+
+type PlayerChunkData struct {
+	UUID        string   `json:"uuid"`
+	Pos         ChunkPos `json"pos"`
+	Balance     float64  `json:"storedCurrency"`
+	TimeCreated int64    `json:"setupTime"`
+}
+
+type ChunkPos struct {
+	X int `json:"x"`
+	Z int `json:"z"`
 }

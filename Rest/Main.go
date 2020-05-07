@@ -11,7 +11,7 @@ import (
 )
 
 // Rest Config
-const version string = "0.0.7"
+const version string = "0.1.0"
 const address string = ":5050"
 const httpsCert string = "fullchain.pem"
 const httpsKey string = "privkey.pem"
@@ -32,6 +32,7 @@ const redisDatabaseDiscord = redisDatabaseTransfer + 1
 const redisDatabaseLookup = redisDatabaseDiscord + 1
 const redisDatabaseBan = redisDatabaseLookup + 1
 const redisDatabaseAuth = redisDatabaseBan + 1
+const redisDatabaseChunkLoading = redisDatabaseAuth + 1
 
 var redisDBAuth *redis.Client
 
