@@ -42,7 +42,7 @@ public class WarpCommand {
               || !SERegistry
               .isModuleLoaded("Rank")) {
             sender.sendMessage(TextComponentUtils.addClickCommand(TextComponentUtils
-                    .addPosition(new TextComponentString(COMMAND_COLOR + w.name), w),
+                    .addPosition(new TextComponentString(COMMAND_COLOR + w.name + COMMAND_COLOR), w),
                 "/warp " + w.name));
           }
         }
@@ -63,7 +63,7 @@ public class WarpCommand {
               TeleportUtils.teleportTo(player, w);
               player.sendMessage(TextComponentUtils.addPosition(new TextComponentString(
                   COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_WARP
-                      .replaceAll("%NAME%", COMMAND_INFO_COLOR + w.name)), w));
+                      .replaceAll("%NAME%", COMMAND_INFO_COLOR + w.name + COMMAND_COLOR)), w));
               return;
             } else {
               sender.sendMessage(new TextComponentString(
@@ -73,7 +73,7 @@ public class WarpCommand {
         }
         player.sendMessage(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_WARP_NOT_FOUND
-                .replaceAll("%NAME%", COMMAND_INFO_COLOR + arg)));
+                .replaceAll("%NAME%", COMMAND_INFO_COLOR + arg + COMMAND_COLOR)));
       }
     }
   }
@@ -93,7 +93,7 @@ public class WarpCommand {
           sender.sendMessage(
               TextComponentUtils.addPosition(new TextComponentString(COMMAND_COLOR +
                   PlayerUtils.getUserLanguage(player).GENERAL_WARP_CREATE
-                      .replaceAll("%NAME%", COMMAND_INFO_COLOR + warp.name)), warp));
+                      .replaceAll("%NAME%", COMMAND_INFO_COLOR + warp.name + COMMAND_COLOR)), warp));
         }
       }
     } else {

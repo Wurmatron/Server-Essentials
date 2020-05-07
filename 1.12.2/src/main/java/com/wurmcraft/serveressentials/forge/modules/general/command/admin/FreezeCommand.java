@@ -24,21 +24,21 @@ public class FreezeCommand {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils
         .hasPermission(RankUtils.getRank(sender), "general.freeze") || !SERegistry
         .isModuleLoaded("Rank")) {
-      if (GeneralEvents.isFrozen(player)) {
+      if (!GeneralEvents.isFrozen(player)) {
         GeneralEvents.removeFrozen(player);
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_FREEZE_OTHER
                 .replaceAll("%PLAYER%",
                     COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
         player.sendMessage(
-            new TextComponentString(PlayerUtils.getUserLanguage(player).GENERAL_FREEZE));
+            new TextComponentString(COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_FREEZE));
       } else {
         GeneralEvents.addFrozen(player, player.getPosition());
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_FREEZE_UNDO_OTHER
                 .replaceAll("%PLAYER%",
-                    COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
-        player.sendMessage(new TextComponentString(
+                    COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)), player));
+        player.sendMessage(new TextComponentString(COMMAND_COLOR+
             PlayerUtils.getUserLanguage(player).GENERAL_FREEZE_UNDO));
       }
     } else {

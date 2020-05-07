@@ -27,7 +27,7 @@ public class InvseeCommand {
         if (SERegistry.isModuleLoaded("Rank") && RankUtils
             .hasPermission(RankUtils.getRank(sender), "general.invsee.edit") || !SERegistry
             .isModuleLoaded("Rank")) {
-          inv.canEdit = false;
+          inv.canEdit = true;
         }
         sendingPlayer.displayGUIChest(inv);
       }

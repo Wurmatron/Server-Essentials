@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.api.command.SECommand;
 import com.wurmcraft.serveressentials.forge.api.player.TPAHereRequest;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.common.utils.TextComponentUtils;
@@ -28,17 +29,21 @@ public class TPAHereCommand {
         .isModuleLoaded("Rank")) {
       if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
         EntityPlayer sendingPlayer = (EntityPlayer) sender.getCommandSenderEntity();
-        TPAHereRequest request = new TPAHereRequest(player, sendingPlayer);
-        SERegistry.addTempData(DataKey.TPA, request, tpaTimeout * 1000);
+        SERegistry.addTempData(DataKey.TPA, new TPAHereRequest(sendingPlayer, player),
+            tpaTimeout * 1000);
         sender.sendMessage(
             TextComponentUtils.addPlayerComponent(new TextComponentString(COMMAND_COLOR +
                 PlayerUtils.getUserLanguage(player).GENERAL_TPAHERE_REQUEST
                     .replaceAll("%PLAYER%",
-                        COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
-        player.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
-                PlayerUtils.getUserLanguage(player).GENERAL_TPAHERE
-                    .replaceAll("%PLAYER%", sendingPlayer.getDisplayNameString())),
-            sendingPlayer));
+                        COMMAND_INFO_COLOR + player.getDisplayNameString()
+                            + COMMAND_COLOR)), player));
+        player.sendMessage(
+            TextComponentUtils.addClickCommand(TextComponentUtils.addPlayerComponent(new TextComponentString(COMMAND_COLOR +
+                    PlayerUtils.getUserLanguage(player).GENERAL_TPAHERE
+                        .replaceAll("%PLAYER%",
+                            COMMAND_INFO_COLOR + sendingPlayer.getDisplayNameString()
+                                + COMMAND_COLOR)),
+                sendingPlayer), "/tpaccept"));
       }
     } else {
       sender.sendMessage(new TextComponentString(

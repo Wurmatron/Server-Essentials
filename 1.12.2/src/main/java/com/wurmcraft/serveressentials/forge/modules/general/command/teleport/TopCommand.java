@@ -46,9 +46,9 @@ public class TopCommand {
           .getTopSolidOrLiquidBlock(player.getPosition());
       LocationWrapper topLoc = new LocationWrapper(topPos.getX(), topPos.getY(),
           topPos.getZ(), player.dimension);
-      player.sendMessage(
+      sender.sendMessage(
           TextComponentUtils.addPosition(new TextComponentString(COMMAND_COLOR +
-              PlayerUtils.getUserLanguage(player).GENERAL_TOP_OTHER.replaceAll("%PLAYER%",
+              PlayerUtils.getUserLanguage(sender).GENERAL_TOP_OTHER.replaceAll("%PLAYER%",
                   COMMAND_INFO_COLOR + player.getDisplayNameString())), topLoc));
     } else {
       sender.sendMessage(new TextComponentString(

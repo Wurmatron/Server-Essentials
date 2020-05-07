@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.forge.modules.general.command.admin;
 
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -29,7 +30,7 @@ public class BurnCommand {
         .isModuleLoaded("Rank")) {
       player.setFire(time);
       sender.sendMessage(new TextComponentString(
-          COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_BURN_OTHER));
+          COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_BURN_OTHER.replaceAll("%PLAYER%", COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)));
     } else {
       sender.sendMessage(new TextComponentString(
           ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));

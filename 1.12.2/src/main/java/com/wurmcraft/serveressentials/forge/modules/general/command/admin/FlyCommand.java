@@ -26,13 +26,18 @@ public class FlyCommand {
       if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
         EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
         if (player.capabilities.allowFlying) {
-          player.sendMessage(new TextComponentString(
+          player.sendMessage(new TextComponentString(COMMAND_COLOR +
               PlayerUtils.getUserLanguage(player).GENERAL_FLY_UNDO));
-          player.capabilities.allowFlying = false;
+          if (!player.isCreative()) {
+            player.capabilities.allowFlying = false;
+          }
+          player.sendPlayerAbilities();
         } else {
           player.sendMessage(
-              new TextComponentString(PlayerUtils.getUserLanguage(player).GENERAL_FLY));
+              new TextComponentString(
+                  COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_FLY));
           player.capabilities.allowFlying = true;
+          player.sendPlayerAbilities();
         }
       }
     } else {
@@ -48,21 +53,23 @@ public class FlyCommand {
         .isModuleLoaded("Rank")) {
       if (player.capabilities.allowFlying) {
         player.sendMessage(
-            new TextComponentString(
+            new TextComponentString(COMMAND_COLOR+
                 PlayerUtils.getUserLanguage(player).GENERAL_FLY_UNDO));
-        player.capabilities.disableDamage = false;
+        player.capabilities.allowFlying = false;
+        player.sendPlayerAbilities();
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_FLY_OTHER
                 .replaceAll("%PLAYER%",
-                    COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
+                    COMMAND_INFO_COLOR + player.getDisplayNameString() +COMMAND_COLOR )), player));
       } else {
         player.sendMessage(
-            new TextComponentString(PlayerUtils.getUserLanguage(player).GENERAL_FLY));
-        player.capabilities.disableDamage = true;
+            new TextComponentString(COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_FLY));
+        player.capabilities.allowFlying = true;
+        player.sendPlayerAbilities();
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_FLY_OTHER_UNDO
                 .replaceAll("%PLAYER%",
-                    COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
+                    COMMAND_INFO_COLOR + player.getDisplayNameString() +COMMAND_COLOR )), player));
       }
     } else {
       sender.sendMessage(new TextComponentString(

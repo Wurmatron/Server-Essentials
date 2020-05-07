@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.forge.modules.general.command.player;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -50,10 +52,10 @@ public class SpeedCommand {
             .setTag(type.toLowerCase() + "Speed", new NBTTagFloat((float) speed / 10));
         player.capabilities.readCapabilitiesFromNBT(tagCompound);
         player.sendPlayerAbilities();
-        sender.sendMessage(new TextComponentString(
+        sender.sendMessage(new TextComponentString(COMMAND_COLOR +
             PlayerUtils.getUserLanguage(player).GENERAL_SPEED_SET
-                .replaceAll("%TYPE%", type.toUpperCase())
-                .replaceAll("%SPEED%", "" + speed)));
+                .replaceAll("%TYPE%", COMMAND_INFO_COLOR + type.toUpperCase() + COMMAND_COLOR)
+                .replaceAll("%SPEED%", COMMAND_INFO_COLOR + speed + COMMAND_COLOR)));
       } else {
         sender.sendMessage(new TextComponentString(
             ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));

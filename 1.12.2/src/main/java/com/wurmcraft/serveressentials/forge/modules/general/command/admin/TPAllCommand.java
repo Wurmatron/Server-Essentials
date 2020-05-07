@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.forge.modules.general.command.admin;
 
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -41,7 +42,7 @@ public class TPAllCommand {
             p.sendMessage(TextComponentUtils
                 .addPlayerComponent(new TextComponentString(COMMAND_COLOR +
                     PlayerUtils.getUserLanguage(p).GENERAL_TPALL
-                        .replaceAll("%PLAYER%", player.getDisplayNameString())), player));
+                        .replaceAll("%PLAYER%", COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)), player));
           }
         }
       }
@@ -75,13 +76,13 @@ public class TPAllCommand {
                       .addPlayerComponent(new TextComponentString(COMMAND_COLOR +
                           PlayerUtils.getUserLanguage(p).GENERAL_TPALL
                               .replaceAll("%PLAYER%",
-                                  sendingPlayer.getDisplayNameString())), sendingPlayer));
+                                  COMMAND_INFO_COLOR + sendingPlayer.getDisplayNameString() + COMMAND_COLOR)), sendingPlayer));
                 }
               }
             }
           } else {
-            sender.sendMessage(new TextComponentString(
-                PlayerUtils.getUserLanguage(sender).ERROR_RANK_NOT_FOUND));
+            sender.sendMessage(new TextComponentString(ERROR_COLOR +
+                PlayerUtils.getUserLanguage(sender).ERROR_RANK_NOT_FOUND.replaceAll("%RANK%",COMMAND_INFO_COLOR +  rankString + COMMAND_COLOR)));
           }
         } catch (NoSuchElementException e) {
           sender.sendMessage(new TextComponentString(

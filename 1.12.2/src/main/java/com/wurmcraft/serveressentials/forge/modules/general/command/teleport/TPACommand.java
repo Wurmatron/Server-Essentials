@@ -37,13 +37,13 @@ public class TPACommand {
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
                 COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_TPA_SENT
                     .replaceAll("%PLAYER%",
-                        COMMAND_INFO_COLOR + otherPlayer.getDisplayNameString())),
+                        COMMAND_INFO_COLOR + otherPlayer.getDisplayNameString() + COMMAND_COLOR)),
             otherPlayer));
-        otherPlayer.sendMessage(TextComponentUtils.addPlayerComponent(
+        otherPlayer.sendMessage(TextComponentUtils.addClickCommand(TextComponentUtils.addPlayerComponent(
             new TextComponentString(COMMAND_COLOR +
                 PlayerUtils.getUserLanguage(otherPlayer).GENERAL_TPA_REQUEST
                     .replaceAll("%PLAYER%",
-                        COMMAND_INFO_COLOR + player.getDisplayNameString())), player));
+                        COMMAND_INFO_COLOR + player.getDisplayNameString()+ COMMAND_COLOR)), player), "/tpaccept"));
       } else {
         sender.sendMessage(new TextComponentString(
             ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_PLAYER_NOT_FOUND));

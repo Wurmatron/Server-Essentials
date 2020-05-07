@@ -17,7 +17,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "Economy", name = "Balance", aliases = {"B", "Money", "M"})
+@ModuleCommand(moduleName = "Economy", name = "Balance", aliases = {"B", "Money", "M", "Bal"})
 public class BalanceCommand {
 
   @Command(inputArguments = {})

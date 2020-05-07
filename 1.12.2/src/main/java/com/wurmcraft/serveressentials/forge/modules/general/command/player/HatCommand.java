@@ -1,5 +1,6 @@
 package com.wurmcraft.serveressentials.forge.modules.general.command.player;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -29,7 +30,7 @@ public class HatCommand {
           player.inventory.addItemStackToInventory(head);
         }
         player.sendMessage(
-            new TextComponentString(PlayerUtils.getUserLanguage(player).GENERAL_HAT));
+            new TextComponentString(COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_HAT));
       }
     } else {
       sender.sendMessage(new TextComponentString(

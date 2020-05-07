@@ -41,7 +41,7 @@ public class EnderChestCommand {
         EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
         InventoryEnderChest echest = otherPlayer.getInventoryEnderChest();
         echest.setCustomName(
-            otherPlayer.getDisplayNameString() + "'s " + echest.getDisplayName());
+            otherPlayer.getDisplayNameString() + "'s " + "Ender Chest");
         player.displayGUIChest(echest);
       }
     } else {

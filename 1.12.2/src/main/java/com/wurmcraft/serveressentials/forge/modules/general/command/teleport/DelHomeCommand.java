@@ -81,4 +81,9 @@ public class DelHomeCommand {
     }
   }
 
+  @Command(inputArguments = {CommandArguments.INTEGER})
+  public void delHome(ICommandSender sender, int home) {
+    delHome(sender, "" + home);
+  }
+
 }

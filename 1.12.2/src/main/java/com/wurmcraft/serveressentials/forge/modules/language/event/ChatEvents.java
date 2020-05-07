@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.forge.modules.language.event;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
+
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
@@ -22,7 +24,8 @@ public class ChatEvents {
       e.setComponent(comp);
     } else {
       e.getPlayer().sendMessage(new TextComponentString(
-          PlayerUtils.getUserLanguage(e.getPlayer()).ERROR_MUTED));
+          PlayerUtils.getUserLanguage(ERROR_COLOR + e.getPlayer()).ERROR_MUTED));
+      e.setCanceled(true);
     }
   }
 
@@ -40,8 +43,7 @@ public class ChatEvents {
       if (rank == null) {
         rank = new Rank();
       }
-      return formatMessage(player, playerData.server.nick.isEmpty() ? player.getName()
-          : "*" + playerData.server.nick.replaceAll("&", "\u00a7"), rank, msg);
+      return formatMessage(player, (playerData.server.nick != null && !playerData.server.nick.isEmpty()) ?  "*" + playerData.server.nick.replaceAll("&", "\u00a7") : player.getName() , rank, msg);
     } catch (NoSuchElementException e) {
       return formatMessage(player, player.getName(), new Rank(), msg);
     }

@@ -98,7 +98,7 @@ public class GeneralEvents {
   }
 
   private void teleportToPlayerSpawn(EntityPlayer player, StoredPlayer playerData) {
-    if (!player.getBedLocation(0).equals(player.world.getSpawnPoint())) {
+    if (player.getBedLocation() != null && player.world.getSpawnPoint() != null && !player.getBedLocation().equals(player.world.getSpawnPoint())) {
       BlockPos bedLocation = player.getBedLocation(0);
       player.setPositionAndUpdate(bedLocation.getX() + .5, bedLocation.getY() + 1,
           bedLocation.getZ() + .5);

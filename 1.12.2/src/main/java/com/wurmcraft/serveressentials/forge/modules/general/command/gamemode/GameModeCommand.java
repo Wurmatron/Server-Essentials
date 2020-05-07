@@ -45,7 +45,7 @@ public class GameModeCommand {
             player.setGameType(type);
             player.sendMessage(new TextComponentString(COMMAND_COLOR +
                 PlayerUtils.getUserLanguage(player).GENERAL_GAMEMODE_CHANGED
-                    .replaceAll("%MODE%", COMMAND_INFO_COLOR + type.name())));
+                    .replaceAll("%MODE%", COMMAND_INFO_COLOR + type.name() + COMMAND_COLOR)));
           } else {
             sender.sendMessage(new TextComponentString(
                 ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
@@ -53,7 +53,7 @@ public class GameModeCommand {
         } else {
           player.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
               .getUserLanguage(player).GENERAL_GAMEMODE_NOT_FOUND
-              .replaceAll("%MODE%", COMMAND_INFO_COLOR + mode)));
+              .replaceAll("%MODE%", COMMAND_INFO_COLOR + mode + COMMAND_COLOR)));
         }
       }
     } else {
@@ -94,8 +94,8 @@ public class GameModeCommand {
               new TextComponentString(COMMAND_COLOR + PlayerUtils
                   .getUserLanguage(sender).GENERAL_GAMEMODE_CHANGED_SENDER
                   .replaceAll("%PLAYER%",
-                      COMMAND_INFO_COLOR + player.getDisplayNameString())
-                  .replaceAll("%MODE%", COMMAND_INFO_COLOR + type.name())), player));
+                      COMMAND_INFO_COLOR + player.getDisplayNameString()+ COMMAND_COLOR)
+                  .replaceAll("%MODE%", COMMAND_INFO_COLOR + type.name() + COMMAND_COLOR)), player));
         } else {
           sender.sendMessage(new TextComponentString(
               ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));

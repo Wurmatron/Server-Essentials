@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.forge.api.command;
 
+import static com.wurmcraft.serveressentials.forge.common.utils.CommandParser.getInstanceForArgument;
+
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
@@ -33,6 +35,7 @@ public class SECommand extends CommandBase {
   // Command Instances
   private ModuleCommand command;
   private Object commandInstance;
+  private boolean hasStringArray;
   // Cache
   private NonBlockingHashMap<CommandArguments[], Method> cache;
   private NonBlockingHashMap<String, CommandArguments> argumentCache;
@@ -48,6 +51,12 @@ public class SECommand extends CommandBase {
       if (method.isAnnotationPresent(Command.class)) {
         Command commandAnnotation = method.getAnnotation(Command.class);
         cache.put(commandAnnotation.inputArguments(), method);
+        if (commandAnnotation.inputArguments().length > 0 && commandAnnotation
+            .inputArguments()[0].equals(CommandArguments.STRING_ARR)
+            || commandAnnotation.inputArguments().length > 1 && commandAnnotation
+            .inputArguments()[1].equals(CommandArguments.STRING_ARR)) {
+          hasStringArray = true;
+        }
         if (commandAnnotation.inputNames().length > 0) {
           commandUsage.append(" (");
           commandUsage.append(Arrays.toString(commandAnnotation.inputNames()));
@@ -101,7 +110,39 @@ public class SECommand extends CommandBase {
         sender.sendMessage(new TextComponentString(getUsage(sender)));
       }
     } else {
-      sender.sendMessage(new TextComponentString(getUsage(sender)));
+      if (hasStringArray) {
+        if (args.length > 0 && getArgumentType(args[0])
+            .equals(CommandArguments.PLAYER)) { // Player, String[]
+           for(Method m : commandInstance.getClass().getDeclaredMethods())
+             if(m.isAnnotationPresent(Command.class)) {
+               Command command = m.getDeclaredAnnotation(Command.class);
+               if(command.inputArguments().length > 1 && command.inputArguments()[0].equals(CommandArguments.PLAYER) && command.inputArguments()[1].equals(CommandArguments.STRING_ARR))
+                 try {
+                   m.invoke(commandInstance, sender,
+                       getInstanceForArgument(args[0], CommandArguments.PLAYER),
+                       Arrays.copyOfRange(args,1,args.length));
+                 } catch (Exception e) {
+                   e.printStackTrace();
+                 }
+             }
+        } else if (args.length > 0) {
+          Method method  =cache.get(new CommandArguments[] {CommandArguments.STRING_ARR});
+          for(Method m : commandInstance.getClass().getDeclaredMethods())
+            if(m.isAnnotationPresent(Command.class)) {
+              Command command = m.getDeclaredAnnotation(Command.class);
+              if(command.inputArguments().length >= 1 && command.inputArguments()[0].equals(CommandArguments.STRING_ARR))
+                try {
+                  m.invoke(commandInstance, sender,args);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+            }
+        } else {
+          sender.sendMessage(new TextComponentString(getUsage(sender)));
+        }
+      } else {
+        sender.sendMessage(new TextComponentString(getUsage(sender)));
+      }
     }
   }
 
@@ -128,7 +169,6 @@ public class SECommand extends CommandBase {
     }
     return new Object[]{false, null};
   }
-
 
   public CommandArguments[] inputToArguments(MinecraftServer server,
       String[] line) {

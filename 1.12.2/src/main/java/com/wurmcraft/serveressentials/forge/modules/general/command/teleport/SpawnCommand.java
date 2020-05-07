@@ -58,7 +58,7 @@ public class SpawnCommand {
         ModuleUtils
             .writeConfigFile(config.getClass().getAnnotation(ConfigModule.class), config);
         SERegistry.register(DataKey.MODULE_CONFIG, config);
-        sender.sendMessage(TextComponentUtils.addPosition(new TextComponentString(
+        sender.sendMessage(TextComponentUtils.addPosition(new TextComponentString(COMMAND_COLOR +
             PlayerUtils.getUserLanguage(sender).GENERAL_SPAWN_SET), config.spawn));
       }
     }

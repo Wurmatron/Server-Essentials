@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 @ModuleCommand(moduleName = "General", name = "Broadcast", aliases = {"BC"})
 public class BroadcastCommand {
 
-  @Command(inputArguments = {CommandArguments.STRING_ARR})
+  @Command(inputArguments = {CommandArguments.STRING_ARR}, inputNames = {"Msg"})
   public void broadcastMessage(ICommandSender sender, String[] msg) {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils
         .hasPermission(RankUtils.getRank(sender), "general.broadcast") || !SERegistry

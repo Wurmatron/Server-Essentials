@@ -15,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-@ModuleCommand(moduleName = "General", name = "Say")
+@ModuleCommand(moduleName = "General", name = "say")
 public class SayCommand {
 
   @Command(inputArguments = {CommandArguments.STRING_ARR})

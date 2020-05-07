@@ -43,12 +43,12 @@ public class FeedCommand {
         .isModuleLoaded("Rank")) {
       player.getFoodStats().addStats(20, 5f);
       player.sendMessage(
-          new TextComponentString(PlayerUtils.getUserLanguage(player).GENERAL_FEED));
+          new TextComponentString(COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_FEED));
       sender.sendMessage((TextComponentUtils.addPlayerComponent(
           new TextComponentString(
               COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_FEED_OTHER
                   .replaceAll("%PLAYER%",
-                      COMMAND_INFO_COLOR + player.getDisplayNameString())), player)));
+                      COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)), player)));
     } else {
       sender.sendMessage(new TextComponentString(
           ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));

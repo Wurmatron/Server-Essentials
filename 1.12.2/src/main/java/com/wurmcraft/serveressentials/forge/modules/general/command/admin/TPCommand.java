@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 
-@ModuleCommand(moduleName = "General", name = "Tp", aliases = {"Teleport"})
+@ModuleCommand(moduleName = "General", name = "tp", aliases = {"Teleport"})
 public class TPCommand {
 
   @Command(inputArguments = {CommandArguments.PLAYER, CommandArguments.INTEGER,

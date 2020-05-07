@@ -39,7 +39,7 @@ public class SkullCommand {
         senderPlayer.inventory.addItemStackToInventory(stack);
         sender.sendMessage(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(senderPlayer).GENERAL_SKULL
-                .replaceAll("%PLAYER%", COMMAND_INFO_COLOR + player)));
+                .replaceAll("%PLAYER%", COMMAND_INFO_COLOR + player + COMMAND_COLOR)));
       }
     } else {
       sender.sendMessage(new TextComponentString(
