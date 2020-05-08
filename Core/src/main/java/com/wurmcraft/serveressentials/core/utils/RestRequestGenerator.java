@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.json.Validation;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.track.TrackingStatus;
+import com.wurmcraft.serveressentials.core.data.json.ServerChunkData;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,7 +22,7 @@ public class RestRequestGenerator {
   public static final String USER_AGENT = "Mozilla/5.0";
 
   private String auth = createRestAuth(SERegistry.globalConfig.restAuth);
-  private String baseURL = parseConfigURL(SERegistry.globalConfig.restURL) + "/api/";
+  private String baseURL = parseConfigURL(SERegistry.globalConfig.restURL) + "api/";
 
   private static RestRequestGenerator INSTANCE = new RestRequestGenerator();
 
@@ -197,6 +198,17 @@ public class RestRequestGenerator {
 
     public static int overrideCurrency(Currency currency) {
       return INSTANCE.put("/eco" + currency.name + "/override", currency);
+    }
+  }
+
+  public static class ChunkLoading {
+    public static ServerChunkData getLoadedChunks() {
+      return INSTANCE.get(
+          "chunkloading/" + SERegistry.globalConfig.serverID, ServerChunkData.class);
+    }
+
+    public static int overrideLoadedChunks(ServerChunkData data) {
+      return INSTANCE.post("chunkloading/add", data);
     }
   }
 }

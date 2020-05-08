@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,6 +26,9 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
 public class ServerEssentialsServer {
+
+  @Instance(value = Global.MODID)
+  public static ServerEssentialsServer INSTANCE;
 
   @EventHandler
   public void preInitialization(FMLPreInitializationEvent e) {

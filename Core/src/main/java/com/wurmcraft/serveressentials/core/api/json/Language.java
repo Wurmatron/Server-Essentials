@@ -113,6 +113,11 @@ public class Language implements StoredDataType {
   public String ECO_PERK_BUY;
   public String ECO_PERK_MAX_LEVEL;
 
+  // Chunk Loading
+  public String CHUNKLOADING_SET;
+  public String CHUNKLOADING_DEL;
+  public String CHUNKLOADING_BALANCE;
+
   public Language(String langKey) {
     this.langKey = langKey;
   }

@@ -108,7 +108,13 @@ func checkForExpiredChunkLoading() {
 			for data := range serverChunkLoading.PlayerChunkData {
 				var d = serverChunkLoading.PlayerChunkData[data]
 				if (d.TimeCreated + chunkLoadingNotSeenTimeOut) <= time.Now().Unix() {
-					continue
+					var globalUser GlobalUser
+					json.Unmarshal([]byte(redisDBuser.Get(d.UUID).Val()), &globalUser)
+					if (globalUser.LastSeen + chunkLoadingNotSeenTimeOut) > time.Now().Unix() {
+						d.TimeCreated = time.Now().Unix()
+					} else {
+						continue
+					}
 				}
 				var timeToCheck = (d.TimeCreated + (int64(time.Hour.Seconds()) * 24)) <= time.Now().Unix()
 				if timeToCheck {
