@@ -29,14 +29,14 @@ public class MsgCommand {
       if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
         EntityPlayer sendingPlayer = (EntityPlayer) sender.getCommandSenderEntity();
         player.sendMessage(new TextComponentString(
-            COMMAND_COLOR + sendingPlayer.getDisplayNameString() + "=> "
+            COMMAND_COLOR + sendingPlayer.getDisplayNameString() + " => "
                 + COMMAND_INFO_COLOR + Strings
                 .join(msg, " ")));
         lastMessageTracker.put(player.getGameProfile().getId().toString(),
             sendingPlayer.getGameProfile().getId().toString());
         sendingPlayer.sendMessage(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).LANGUAGE_MSG));
-        SECore.logger.info(COMMAND_COLOR + sendingPlayer.getDisplayNameString() + "=> "
+        SECore.logger.info(COMMAND_COLOR + sendingPlayer.getDisplayNameString() + " => "
             + COMMAND_INFO_COLOR + Strings
             .join(msg, " "));
       }

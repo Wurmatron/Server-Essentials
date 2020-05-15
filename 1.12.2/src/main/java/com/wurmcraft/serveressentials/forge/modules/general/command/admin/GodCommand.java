@@ -52,7 +52,7 @@ public class GodCommand {
                 PlayerUtils.getUserLanguage(player).GENERAL_GOD_UNDO));
         player.capabilities.disableDamage = false;
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
-            COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_GOD_OTHER
+            COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_GOD_OTHER_UNDO
                 .replaceAll("%PLAYER%",
                     COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)), player));
       } else {
@@ -60,7 +60,7 @@ public class GodCommand {
             new TextComponentString(COMMAND_COLOR + PlayerUtils.getUserLanguage(player).GENERAL_GOD));
         player.capabilities.disableDamage = true;
         sender.sendMessage(TextComponentUtils.addPlayerComponent(new TextComponentString(
-            COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_GOD_OTHER_UNDO
+            COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).GENERAL_GOD_OTHER
                 .replaceAll("%PLAYER%",
                     COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)), player));
       }

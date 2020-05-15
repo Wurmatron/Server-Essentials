@@ -1,6 +1,7 @@
 package com.wurmcraft.serveressentials.forge.modules.general.command.admin;
 
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
@@ -26,7 +27,7 @@ public class SayCommand {
       for (EntityPlayerMP p : FMLCommonHandler.instance().getMinecraftServerInstance()
           .getPlayerList().getPlayers()) {
         p.sendMessage(
-            new TextComponentString(COMMAND_COLOR + "[Server]\u00BB " + Strings.join(msg, " ").replaceAll("&", "\u00a7")));
+            new TextComponentString(COMMAND_COLOR + "[Server] \u00BB " + COMMAND_INFO_COLOR + Strings.join(msg, " ").replaceAll("&", "\u00a7")));
       }
     } else {
       sender.sendMessage(new TextComponentString(

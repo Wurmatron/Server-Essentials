@@ -175,6 +175,10 @@ public class RestRequestGenerator {
     public static int updateTrack(TrackingStatus status) {
       return INSTANCE.post("status", status);
     }
+
+    public static TrackingStatus[] getStatus() {
+      return INSTANCE.get("status", TrackingStatus[].class);
+    }
   }
 
   public static class Discord {
