@@ -68,8 +68,7 @@ public class SECommand extends CommandBase {
 
   @Override
   public String getName() {
-    return command.name().substring(0, 1).toUpperCase() + command.name().substring(1)
-        .toUpperCase();
+    return command.name().toLowerCase();
   }
 
   @Override

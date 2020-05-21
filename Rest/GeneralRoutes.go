@@ -63,6 +63,6 @@ func PostStatus(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	redisDBStatus.Set(Status.ServerID, output, 600000000000)
+	redisDBStatus.Set(Status.ServerID, output, 180000) // 3 Minutes ( 2 * syncPeriod)
 	w.WriteHeader(http.StatusAccepted)
 }

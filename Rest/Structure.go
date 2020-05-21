@@ -85,7 +85,7 @@ type ServerStatus struct {
 	Status         string   `json:"status"`
 	Players        []string `json:"players"`
 	ModpackVersion string   `json:"modpackVersion"`
-	MS             int64    `json:"ms"`
+	MS             float64    `json:"ms"`
 	LastUpdate     int64    `json:"lastUpdate"`
 }
 

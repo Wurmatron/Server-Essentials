@@ -25,10 +25,14 @@ public class ListCommand {
         sender.sendMessage(new TextComponentString(
             COMMAND_COLOR + s.serverID + (" v" + s.modpackVersion)));
         for (String player : s.players) {
-          sender.sendMessage(TextComponentUtils.addTextHover(new TextComponentString(
-                  "    " + COMMAND_INFO_COLOR + player.substring(0, player.indexOf(" "))),
-              new TextComponentString(COMMAND_COLOR + player
-                  .substring(player.indexOf("(" + 1, player.indexOf(")") - 1)))));
+          if (player.contains("(") && player.contains(")")) {
+            sender.sendMessage(
+                new TextComponentString(
+                    "    " + COMMAND_INFO_COLOR + player.substring(player.indexOf("("))));
+          } else {
+            sender.sendMessage(
+                new TextComponentString("    " + COMMAND_INFO_COLOR + player));
+          }
         }
       }
     } else {
