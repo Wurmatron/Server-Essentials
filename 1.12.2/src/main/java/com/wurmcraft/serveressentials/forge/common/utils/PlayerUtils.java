@@ -5,6 +5,8 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.Language;
 import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
+import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
+import com.wurmcraft.serveressentials.core.api.track.ServerTime;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
@@ -189,5 +191,12 @@ public class PlayerUtils {
         ((EntityPlayerMP) player).connection.sendPacket(new SPacketSpawnPlayer(player));
       }
     }
+  }
+
+  public static long getTotalPlaytime(EntityPlayer player, StoredPlayer playerData) {
+    long total = 0;
+    for(ServerTime time : playerData.global.playtime.serverTime)
+    total =+ time.time;
+    return total;
   }
 }

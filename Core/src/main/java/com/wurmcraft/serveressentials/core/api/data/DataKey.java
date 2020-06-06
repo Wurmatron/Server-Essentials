@@ -8,7 +8,8 @@ public enum DataKey {
   TPA("TPA"),
   CURRENCY("Economy"),
   WARP("Warp"),
-  CHUNK_LOADING("ChunkLoading");
+  CHUNK_LOADING("ChunkLoading"),
+  AUTO_RANK("AutoRank");
 
   private String name;
 

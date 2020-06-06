@@ -57,11 +57,14 @@ public class RankModule {
             "discord.verify"
             ,"ftbutils.claim.25"});
     SECore.dataHandler.registerData(DataKey.RANK, defaultRank);
+    Rank memberRank = new Rank("Member", "&7[&aMember&7]", "&7",new String[] {"Default"}, new String[] {});
+    SECore.dataHandler.registerData(DataKey.RANK, memberRank);
     Rank adminRank = new Rank("Admin", "&c[&4Admin&c]", "&d", new String[]{"Default"},
         new String[]{"*", "ftbutils.claim.50"});
     SECore.dataHandler.registerData(DataKey.RANK, adminRank);
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.Rank.addRank(defaultRank);
+      RestRequestGenerator.Rank.addRank(memberRank);
       RestRequestGenerator.Rank.addRank(adminRank);
     }
   }

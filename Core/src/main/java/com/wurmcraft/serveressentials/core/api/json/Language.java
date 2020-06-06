@@ -118,6 +118,9 @@ public class Language implements StoredDataType {
   public String CHUNKLOADING_DEL;
   public String CHUNKLOADING_BALANCE;
 
+  // Auto-Rank
+  public String AUTORANK_RANK_UP;
+
   public Language(String langKey) {
     this.langKey = langKey;
   }

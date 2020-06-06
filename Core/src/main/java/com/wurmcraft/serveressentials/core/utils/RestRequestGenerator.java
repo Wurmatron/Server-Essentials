@@ -166,12 +166,14 @@ public class RestRequestGenerator {
   }
 
   public static class Verify {
+
     public static Validation get() {
       return INSTANCE.get("validate", Validation.class);
     }
   }
 
   public static class Track {
+
     public static int updateTrack(TrackingStatus status) {
       return INSTANCE.post("status", status);
     }
@@ -182,12 +184,14 @@ public class RestRequestGenerator {
   }
 
   public static class Discord {
+
     public static Token[] getTokens() {
       return INSTANCE.get("discord/list", Token[].class);
     }
   }
 
   public static class Economy {
+
     public static Currency[] getAllCurrencies() {
       return INSTANCE.get("eco", Currency[].class);
     }
@@ -206,6 +210,7 @@ public class RestRequestGenerator {
   }
 
   public static class ChunkLoading {
+
     public static ServerChunkData getLoadedChunks() {
       return INSTANCE.get(
           "chunkloading/" + SERegistry.globalConfig.serverID, ServerChunkData.class);
@@ -213,6 +218,24 @@ public class RestRequestGenerator {
 
     public static int overrideLoadedChunks(ServerChunkData data) {
       return INSTANCE.post("chunkloading/add", data);
+    }
+  }
+
+  public static class AutoRank {
+
+    public static com.wurmcraft.serveressentials.core.api.json.rank.AutoRank[] getAutoRanks() {
+      return INSTANCE.get(
+          "autorank", com.wurmcraft.serveressentials.core.api.json.rank.AutoRank[].class);
+    }
+
+    public static com.wurmcraft.serveressentials.core.api.json.rank.AutoRank getAutoRank(
+        String rank) {
+      return INSTANCE.get(
+          "autorank/" + rank, com.wurmcraft.serveressentials.core.api.json.rank.AutoRank.class);
+    }
+
+    public static int addAutoRank(com.wurmcraft.serveressentials.core.api.json.rank.AutoRank rank) {
+      return INSTANCE.post("autorank/add", rank);
     }
   }
 }

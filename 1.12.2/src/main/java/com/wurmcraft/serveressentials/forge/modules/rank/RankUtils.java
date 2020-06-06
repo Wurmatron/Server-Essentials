@@ -3,8 +3,10 @@ package com.wurmcraft.serveressentials.forge.modules.rank;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
+import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,5 +87,17 @@ public class RankUtils {
       }
     }
     return new Rank(); // TODO Change to default console rank
+  }
+
+  public static void setRank(EntityPlayer player, Rank rank) {
+    StoredPlayer playerData = (StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+    playerData.global.rank = rank.getID();
+    SERegistry.register(DataKey.PLAYER, playerData);
+    if(SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      GlobalPlayer restData = RestRequestGenerator.User.getPlayer(player.getGameProfile().getId().toString());
+      restData.rank = rank.getID();
+      RestRequestGenerator.User.overridePlayer(player.getGameProfile().getId().toString(),restData);
+      playerData.global = restData;
+    }
   }
 }
