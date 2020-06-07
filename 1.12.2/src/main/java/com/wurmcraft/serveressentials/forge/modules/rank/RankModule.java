@@ -54,10 +54,13 @@ public class RankModule {
             "general.tpaccept",
             "general.tpa",
             "language.lang.change",
-            "discord.verify"
-            ,"ftbutils.claim.25"});
+            "discord.verify",
+            "ftbutils.claim.25",
+            "eco.adminsign.buy",
+            "eco.adminsign.sell"});
     SECore.dataHandler.registerData(DataKey.RANK, defaultRank);
-    Rank memberRank = new Rank("Member", "&7[&aMember&7]", "&7",new String[] {"Default"}, new String[] {});
+    Rank memberRank = new Rank("Member", "&7[&aMember&7]", "&7", new String[]{"Default"},
+        new String[]{});
     SECore.dataHandler.registerData(DataKey.RANK, memberRank);
     Rank adminRank = new Rank("Admin", "&c[&4Admin&c]", "&d", new String[]{"Default"},
         new String[]{"*", "ftbutils.claim.50"});

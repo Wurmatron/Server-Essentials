@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.api.player.Wallet;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.User;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
 import java.util.Arrays;
@@ -50,15 +51,18 @@ public class EcoUtils {
   }
 
   public static double calculateCostInGlobalPerPerk(Perk perk, int lvl) {
-    if(lvl == 0)
+    if (lvl == 0) {
       return 0;
-    if(perk == Perk.Home) {
+    }
+    if (perk == Perk.Home) {
       return (lvl * ((EconomyConfig) SERegistry
-          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).homeLevelCost) + (calculateCostInGlobalPerPerk(perk,lvl - 1));
-    } else if(perk == Perk.ClaimBlocks) {
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).homeLevelCost)
+          + (calculateCostInGlobalPerPerk(perk, lvl - 1));
+    } else if (perk == Perk.ClaimBlocks) {
       return (lvl * ((EconomyConfig) SERegistry
-          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).claimLevelCost) + (calculateCostInGlobalPerPerk(perk,lvl - 1));
-    } else if(perk == Perk.ENDERCHEST) {
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy")).claimLevelCost)
+          + (calculateCostInGlobalPerPerk(perk, lvl - 1));
+    } else if (perk == Perk.ENDERCHEST) {
       return ((EconomyConfig) SERegistry
           .getStoredData(DataKey.MODULE_CONFIG, "Economy")).echestPerkCost;
     }
@@ -69,7 +73,8 @@ public class EcoUtils {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
       StoredPlayer playerData = PlayerUtils.getPlayer(
           (EntityPlayer) sender.getCommandSenderEntity());
-      if (playerData != null && playerData.global != null && playerData.global.perks != null && playerData.global.perks.length > 0) {
+      if (playerData != null && playerData.global != null
+          && playerData.global.perks != null && playerData.global.perks.length > 0) {
         for (String p : playerData.global.perks) {
           if (!p.isEmpty() && p.startsWith(perk.name().toLowerCase())) {
             return Integer.parseInt(p.substring(p.lastIndexOf(".") + 1));
@@ -89,8 +94,9 @@ public class EcoUtils {
           return player;
         }
       }
-      player.perks = Arrays.copyOf(player.perks,player.perks.length + 1);
-      player.perks[player.perks.length - 1] = perk.name().toLowerCase() + ".amount." + level;
+      player.perks = Arrays.copyOf(player.perks, player.perks.length + 1);
+      player.perks[player.perks.length - 1] =
+          perk.name().toLowerCase() + ".amount." + level;
     } else {
       player.perks = new String[]{perk.name().toLowerCase() + ".amount." + level};
     }
@@ -98,5 +104,29 @@ public class EcoUtils {
       RestRequestGenerator.User.overridePlayer(player.uuid, player);
     }
     return player;
+  }
+
+  public static void addCurrency(EntityPlayer player, double amount) {
+    GlobalPlayer playerData = RestRequestGenerator.User
+        .getPlayer(player.getGameProfile().getId().toString());
+    setCurrency(playerData.wallet, getCurrency(playerData.wallet) + amount);
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.User
+          .overridePlayer(player.getGameProfile().getId().toString(), playerData);
+      ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
+          player.getGameProfile().getId().toString())).global = playerData;
+    }
+  }
+
+  public static void consumeCurrency(EntityPlayer player, double amount) {
+    GlobalPlayer playerData = RestRequestGenerator.User
+        .getPlayer(player.getGameProfile().getId().toString());
+    setCurrency(playerData.wallet, getCurrency(playerData.wallet) - amount);
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.User
+          .overridePlayer(player.getGameProfile().getId().toString(), playerData);
+      ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
+          player.getGameProfile().getId().toString())).global = playerData;
+    }
   }
 }

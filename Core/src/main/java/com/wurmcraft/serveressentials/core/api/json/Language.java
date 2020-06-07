@@ -112,6 +112,12 @@ public class Language implements StoredDataType {
   public String ECO_PERK_COST;
   public String ECO_PERK_BUY;
   public String ECO_PERK_MAX_LEVEL;
+  public String ECO_SIGN_ADMIN_BUY;
+  public String ECO_SIGN_ADMIN_SELL;
+  public String ECO_SIGN_ADMIN_SELL_ITEM;
+  public String ECO_SIGN_ADMIN_COMMAND;
+  public String ECO_SIGN_BUY;
+  public String ECO_SIGN_SELL;
 
   // Chunk Loading
   public String CHUNKLOADING_SET;

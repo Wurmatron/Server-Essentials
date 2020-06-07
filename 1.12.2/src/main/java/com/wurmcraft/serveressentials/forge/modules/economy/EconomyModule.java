@@ -6,6 +6,8 @@ import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.modules.economy.event.AdminSignEvents;
+import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Module(name = "Economy")
@@ -13,6 +15,7 @@ public class EconomyModule {
 
   public void initSetup() {
     loadEconomyCurrencies();
+    MinecraftForge.EVENT_BUS.register(new AdminSignEvents());
   }
 
   public void finalizeModule() {
