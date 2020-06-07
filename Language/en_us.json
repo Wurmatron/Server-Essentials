@@ -95,5 +95,6 @@
 	"ECO_PERK_MAX_LEVEL": "%PERK% is allready at max level!",
 	"CHUNKLOADING_SET": "Chunk Loading Set, Make sure you add money to its account",
 	"CHUNKLOADING_DEL": "Chunk Loading Removed",
-	"CHUNKLOADING_BALANCE": "You current balance is %BAL%"
+	"CHUNKLOADING_BALANCE": "You current balance is %BAL%",
+	"AUTORANK_RANK_UP": "You have ranked up to %RANK%"
 }

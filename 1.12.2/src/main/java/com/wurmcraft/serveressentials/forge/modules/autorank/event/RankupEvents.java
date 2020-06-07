@@ -48,8 +48,7 @@ public class RankupEvents {
     try {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-      for (AutoRank rank : SECore.dataHandler
-          .getDataFromKey(DataKey.AUTO_RANK, new AutoRank()).values()) {
+      for (AutoRank rank : SECore.dataHandler.getDataFromKey(DataKey.AUTO_RANK, new AutoRank()).values()) {
         if (playerData.global.rank.equalsIgnoreCase(rank.rank) && canRankup(rank,
             playerData,
             player)) {

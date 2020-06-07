@@ -26,8 +26,8 @@ public class AutoRankModule {
 
   private static Rank[] loadAutoRanks() {
     try {
-      NonBlockingHashMap<String, Rank> ranks = SECore.dataHandler
-          .getDataFromKey(DataKey.AUTO_RANK, new Rank());
+      NonBlockingHashMap<String, AutoRank> ranks = SECore.dataHandler
+          .getDataFromKey(DataKey.AUTO_RANK, new AutoRank());
       String defaultRank = ((RankConfig) SERegistry
           .getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
       if (ranks.size() == 0 || ranks.getOrDefault(defaultRank, null) == null) {
