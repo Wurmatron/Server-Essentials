@@ -6,7 +6,10 @@ import (
 	"github.com/go-redis/redis"
 	mux "github.com/julienschmidt/httprouter"
 	"io/ioutil"
+	"math"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 var redisDBStatus *redis.Client
@@ -63,6 +66,45 @@ func PostStatus(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	redisDBStatus.Set(Status.ServerID, output, 180000) // 3 Minutes ( 2 * syncPeriod)
+	redisDBStatus.Set(Status.ServerID, output, time.Duration(time.Duration.Minutes(3)))
 	w.WriteHeader(http.StatusAccepted)
+}
+
+func GetStatus(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
+	fmt.Fprintln(w, "<html>\n<head>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"theme.css\">\n</head>\n<body>\n  <table>\n  \t<tbody>\n ")
+	var count = 0
+	for entry := range redisDBStatus.Keys("*").Val() {
+		var serverStatus ServerStatus
+		json.Unmarshal([]byte(redisDBStatus.Get(redisDBStatus.Keys("*").Val()[entry]).Val()), &serverStatus)
+		if count%3 == 0 {
+			fmt.Fprintln(w, "<tr>\n")
+			if count > 2 {
+				fmt.Fprintln(w, "</tr>\n")
+			}
+		}
+		count++
+		var playerCount = 0
+		if len(serverStatus.Players) > 0 {
+			playerCount = len(serverStatus.Players)
+		}
+		var tps = 20
+		if int(serverStatus.MS) > 0 {
+			tps = 1000 / int(serverStatus.MS)
+			if tps > 20 {
+				tps = 20
+			}
+		}
+		fmt.Fprintln(w, "    <td>\n      <div class=\"container\"><img class=\"online\"><div class=\"centered\">\n           <h1>"+serverStatus.ServerID+"</h1>\n           <font>Status: "+serverStatus.Status+"</font><br>\n           <font>TPS: "+strconv.Itoa(tps)+" ("+strconv.Itoa(int(math.Round(serverStatus.MS)))+" MS)"+"</font><br>\n           <font>Players: "+strconv.Itoa(playerCount)+"</font>\n      </div>\n    </div>\n  </td>")
+	}
+	fmt.Fprintln(w, "  \t</tbody>\n  </table>\n</body>\n</html>")
+}
+
+func GetCSS(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
+	data, err := ioutil.ReadFile("theme.css")
+	if err != nil {
+		fmt.Println("File reading error", err)
+		return
+	}
+	fmt.Fprintln(w, string(data))
+	w.Header().Set("Content-Type", "text/css")
 }

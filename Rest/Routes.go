@@ -173,6 +173,13 @@ var routes = Routes{
 		GetServerStatus,
 	},
 	Route{
+		"GetStatus",
+		"GET",
+		"/status",
+		false,
+		GetStatus,
+	},
+	Route{
 		"UpdateStatus",
 		"POST",
 		"/api/status",
@@ -269,6 +276,13 @@ var routes = Routes{
 		"/api/chunkloading",
 		false,
 		GetAllServerChunkLoading,
+	},
+	Route{
+		"theme.css",
+		"GET",
+		"/theme.css",
+		false,
+		GetCSS,
 	},
 }
 
