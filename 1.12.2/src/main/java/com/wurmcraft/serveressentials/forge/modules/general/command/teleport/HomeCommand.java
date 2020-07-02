@@ -94,4 +94,10 @@ public class HomeCommand {
       }
     }
   }
+
+  @Command(inputArguments = {CommandArguments.INTEGER})
+  public void home(ICommandSender sender, int home) {
+    home(sender, home + "");
+  }
+
 }

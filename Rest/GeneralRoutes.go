@@ -71,7 +71,7 @@ func PostStatus(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 }
 
 func GetStatus(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
-	fmt.Fprintln(w, "<html>\n<head>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"theme.css\">\n</head>\n<body>\n  <table>\n  \t<tbody>\n ")
+	fmt.Fprintln(w, "<html>\n<head>\n <meta http-equiv=\"refresh\" content=\"30\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"theme.css\">\n</head>\n<body>\n  <table>\n  \t<tbody>\n ")
 	var count = 0
 	for entry := range redisDBStatus.Keys("*").Val() {
 		var serverStatus ServerStatus
@@ -94,7 +94,11 @@ func GetStatus(w http.ResponseWriter, _ *http.Request, _ mux.Params) {
 				tps = 20
 			}
 		}
-		fmt.Fprintln(w, "    <td>\n      <div class=\"container\"><img class=\"online\"><div class=\"centered\">\n           <h1>"+serverStatus.ServerID+"</h1>\n           <font>Status: "+serverStatus.Status+"</font><br>\n           <font>TPS: "+strconv.Itoa(tps)+" ("+strconv.Itoa(int(math.Round(serverStatus.MS)))+" MS)"+"</font><br>\n           <font>Players: "+strconv.Itoa(playerCount)+"</font>\n      </div>\n    </div>\n  </td>")
+		if serverStatus.Status == "STOPPED" || serverStatus.Status == "ERRORED" {
+			fmt.Fprintln(w, "    <td>\n      <div class=\"container\"><img class=\"offline\"><div class=\"centered\">\n           <h1>"+serverStatus.ServerID+"</h1>\n           <font>Status: "+serverStatus.Status+"</font><br>\n           <font>TPS: "+strconv.Itoa(tps)+" ("+strconv.Itoa(int(math.Round(serverStatus.MS)))+" MS)"+"</font><br>\n           <font>Players: "+strconv.Itoa(playerCount)+"</font>\n      </div>\n    </div>\n  </td>")
+		} else {
+			fmt.Fprintln(w, "    <td>\n      <div class=\"container\"><img class=\"online\"><div class=\"centered\">\n           <h1>"+serverStatus.ServerID+"</h1>\n           <font>Status: "+serverStatus.Status+"</font><br>\n           <font>TPS: "+strconv.Itoa(tps)+" ("+strconv.Itoa(int(math.Round(serverStatus.MS)))+" MS)"+"</font><br>\n           <font>Players: "+strconv.Itoa(playerCount)+"</font>\n      </div>\n    </div>\n  </td>")
+		}
 	}
 	fmt.Fprintln(w, "  \t</tbody>\n  </table>\n</body>\n</html>")
 }

@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import java.time.Instant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TrackUtils {
@@ -32,7 +33,7 @@ public class TrackUtils {
   }
 
   private static String formatPlayer(EntityPlayer player) {
-    return player.getDisplayNameString() + " (" + player.getGameProfile().getId() + ")";
+    return TextFormatting.getTextWithoutFormattingCodes(player.getDisplayNameString()) + " (" + player.getGameProfile().getId() + ")";
   }
 
   private static double calculateMS() {

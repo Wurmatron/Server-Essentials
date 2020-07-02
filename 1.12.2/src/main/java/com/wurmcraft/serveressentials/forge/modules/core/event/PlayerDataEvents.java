@@ -61,9 +61,6 @@ public class PlayerDataEvents {
         SECore.logger.info(player.getDisplayNameString() + " is a new player!");
         StoredPlayer data = createNew(player);
         SERegistry.register(DataKey.PLAYER, data);
-        if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-          RestRequestGenerator.User.addPlayer(data.global);
-        }
         MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
       }
     } catch (NoSuchElementException e) {
@@ -71,9 +68,6 @@ public class PlayerDataEvents {
       newPlayers.add(player.getGameProfile().getId().toString());
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
-      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-        RestRequestGenerator.User.addPlayer(playerData.global);
-      }
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
@@ -180,5 +174,24 @@ public class PlayerDataEvents {
         SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
       }
     }, 1, TimeUnit.SECONDS);
+  }
+
+  public static void handAndCheckForErrors(EntityPlayer player) {
+    try {
+      StoredPlayer playerData = (StoredPlayer) SERegistry
+          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+      if(playerData == null) {
+        playerData = createNew(player);
+        if(playerData.global == null) {
+          GlobalPlayer global = RestRequestGenerator.User.getPlayer(player.getGameProfile().getId().toString());
+          if(global == null) {
+            global = createNewGlobal(player);
+            RestRequestGenerator.User.overridePlayer(player.getGameProfile().getId().toString(),global);
+          }
+        }
+      }
+    } catch (Exception e) {
+      createNew(player);
+    }
   }
 }

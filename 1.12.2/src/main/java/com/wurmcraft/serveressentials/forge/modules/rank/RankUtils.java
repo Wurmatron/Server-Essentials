@@ -86,7 +86,7 @@ public class RankUtils {
         return new Rank();
       }
     }
-    return new Rank(); // TODO Change to default console rank
+    return new Rank("Console","[Console]","",new String[0], new String[] {"*"});
   }
 
   public static void setRank(EntityPlayer player, Rank rank) {

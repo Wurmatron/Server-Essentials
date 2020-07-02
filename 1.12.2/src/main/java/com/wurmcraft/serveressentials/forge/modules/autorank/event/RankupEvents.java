@@ -7,9 +7,12 @@ import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.AutoRank;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
+import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
+import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import com.wurmcraft.serveressentials.forge.modules.economy.EcoUtils;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,6 +51,7 @@ public class RankupEvents {
     try {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+      PlayerDataEvents.handAndCheckForErrors(player);
       for (AutoRank rank : SECore.dataHandler.getDataFromKey(DataKey.AUTO_RANK, new AutoRank()).values()) {
         if (playerData.global.rank.equalsIgnoreCase(rank.rank) && canRankup(rank,
             playerData,
