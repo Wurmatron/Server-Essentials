@@ -165,7 +165,6 @@ public class PlayerDataEvents {
                 .getGameProfile().getId().toString()
                 + ".json").toPath(), GSON.toJson(playerData).getBytes());
         MinecraftForge.EVENT_BUS.post(new PlayerDataSyncEvent(player, playerData));
-
       } catch (NoSuchElementException e) {
         SECore.logger
             .warning("Unable to locate / save data for '" + player.getName() + "'!");

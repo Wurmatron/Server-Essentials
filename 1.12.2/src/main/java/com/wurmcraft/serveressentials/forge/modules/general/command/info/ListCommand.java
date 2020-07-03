@@ -28,7 +28,7 @@ public class ListCommand {
           if (player.contains("(") && player.contains(")")) {
             sender.sendMessage(
                 new TextComponentString(
-                    "    " + COMMAND_INFO_COLOR + player.substring(player.indexOf("("))));
+                    "    " + COMMAND_INFO_COLOR + player.substring(0,player.indexOf("(")-1)));
           } else {
             sender.sendMessage(
                 new TextComponentString("    " + COMMAND_INFO_COLOR + player));

@@ -32,7 +32,6 @@ public class SECommand extends CommandBase {
   public static String ERROR_COLOR = TextFormatting.RED.toString();
   public static String USAGE_COLOR = TextFormatting.GOLD.toString();
 
-  // Command Instances
   private ModuleCommand command;
   private Object commandInstance;
   private boolean hasStringArray;
@@ -112,30 +111,37 @@ public class SECommand extends CommandBase {
       if (hasStringArray) {
         if (args.length > 0 && getArgumentType(args[0])
             .equals(CommandArguments.PLAYER)) { // Player, String[]
-           for(Method m : commandInstance.getClass().getDeclaredMethods())
-             if(m.isAnnotationPresent(Command.class)) {
-               Command command = m.getDeclaredAnnotation(Command.class);
-               if(command.inputArguments().length > 1 && command.inputArguments()[0].equals(CommandArguments.PLAYER) && command.inputArguments()[1].equals(CommandArguments.STRING_ARR))
-                 try {
-                   m.invoke(commandInstance, sender,
-                       getInstanceForArgument(args[0], CommandArguments.PLAYER),
-                       Arrays.copyOfRange(args,1,args.length));
-                 } catch (Exception e) {
-                   e.printStackTrace();
-                 }
-             }
-        } else if (args.length > 0) {
-          Method method  =cache.get(new CommandArguments[] {CommandArguments.STRING_ARR});
-          for(Method m : commandInstance.getClass().getDeclaredMethods())
-            if(m.isAnnotationPresent(Command.class)) {
+          for (Method m : commandInstance.getClass().getDeclaredMethods()) {
+            if (m.isAnnotationPresent(Command.class)) {
               Command command = m.getDeclaredAnnotation(Command.class);
-              if(command.inputArguments().length >= 1 && command.inputArguments()[0].equals(CommandArguments.STRING_ARR))
+              if (command.inputArguments().length > 1 && command.inputArguments()[0]
+                  .equals(CommandArguments.PLAYER) && command.inputArguments()[1]
+                  .equals(CommandArguments.STRING_ARR)) {
                 try {
-                  m.invoke(commandInstance, sender,args);
+                  m.invoke(commandInstance, sender,
+                      getInstanceForArgument(args[0], CommandArguments.PLAYER),
+                      Arrays.copyOfRange(args, 1, args.length));
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
+              }
             }
+          }
+        } else if (args.length > 0) {
+          Method method = cache.get(new CommandArguments[]{CommandArguments.STRING_ARR});
+          for (Method m : commandInstance.getClass().getDeclaredMethods()) {
+            if (m.isAnnotationPresent(Command.class)) {
+              Command command = m.getDeclaredAnnotation(Command.class);
+              if (command.inputArguments().length >= 1 && command.inputArguments()[0]
+                  .equals(CommandArguments.STRING_ARR)) {
+                try {
+                  m.invoke(commandInstance, sender, args);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            }
+          }
         } else {
           sender.sendMessage(new TextComponentString(getUsage(sender)));
         }
