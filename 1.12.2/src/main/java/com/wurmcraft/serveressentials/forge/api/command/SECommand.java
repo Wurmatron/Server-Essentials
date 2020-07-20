@@ -2,6 +2,7 @@ package com.wurmcraft.serveressentials.forge.api.command;
 
 import static com.wurmcraft.serveressentials.forge.common.utils.CommandParser.getInstanceForArgument;
 
+import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
@@ -88,6 +89,9 @@ public class SECommand extends CommandBase {
           commandExec
               .invoke(commandInstance,
                   CommandParser.parseLineToArguments(sender, args, commandArgs));
+          if(SERegistry.globalConfig.logCommandToCMD) {
+            SECore.logger.info(sender.getDisplayName() + " has run command `/" + getName() + " " + String.join(" ", args));
+          }
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -101,6 +105,9 @@ public class SECommand extends CommandBase {
           commandExec
               .invoke(commandInstance,
                   CommandParser.parseLineToArguments(sender, args, commandArgs));
+          if(SERegistry.globalConfig.logCommandToCMD) {
+            SECore.logger.info(sender.getDisplayName() + " has run command `/" + getName() + " " + String.join(" ", args));
+          }
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -121,6 +128,9 @@ public class SECommand extends CommandBase {
                   m.invoke(commandInstance, sender,
                       getInstanceForArgument(args[0], CommandArguments.PLAYER),
                       Arrays.copyOfRange(args, 1, args.length));
+                  if(SERegistry.globalConfig.logCommandToCMD) {
+                    SECore.logger.info(sender.getDisplayName() + " has run command `/" + getName() + " " + String.join(" ", args));
+                  }
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
@@ -128,7 +138,6 @@ public class SECommand extends CommandBase {
             }
           }
         } else if (args.length > 0) {
-          Method method = cache.get(new CommandArguments[]{CommandArguments.STRING_ARR});
           for (Method m : commandInstance.getClass().getDeclaredMethods()) {
             if (m.isAnnotationPresent(Command.class)) {
               Command command = m.getDeclaredAnnotation(Command.class);
@@ -136,6 +145,9 @@ public class SECommand extends CommandBase {
                   .equals(CommandArguments.STRING_ARR)) {
                 try {
                   m.invoke(commandInstance, sender, args);
+                  if(SERegistry.globalConfig.logCommandToCMD) {
+                    SECore.logger.info(sender.getDisplayName() + " has run command `/" + getName() + " " + String.join(" ", args));
+                  }
                 } catch (Exception e) {
                   e.printStackTrace();
                 }

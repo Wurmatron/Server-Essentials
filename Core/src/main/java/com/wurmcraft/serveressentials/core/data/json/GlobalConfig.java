@@ -19,10 +19,12 @@ public class GlobalConfig implements StoredDataType {
   public String[] enabledModules;
   public String dataStorgeType;
   public String serverID;
+  public boolean logCommandToCMD;
 
   // Performance / Timings
   public int threadPoolSize;
   public int tempDataRemovalTime;
+
 
   // Rest Only
   public String restAuth;
@@ -39,22 +41,18 @@ public class GlobalConfig implements StoredDataType {
     this.tempDataRemovalTime = 5;
     this.serverID = "Default";
     this.modpackVersion = "No Idea";
+    logCommandToCMD = true;
   }
 
-  public GlobalConfig(
-      boolean debug,
-      String[] enabledModules,
-      String dataStorgeType,
-      String serverID,
-      int threadPoolSize,
-      int tempDataRemovalTime,
-      String restAuth,
-      String restURL,
+  public GlobalConfig(boolean debug, String[] enabledModules,
+      String dataStorgeType, String serverID, boolean logCommandToCMD, int threadPoolSize,
+      int tempDataRemovalTime, String restAuth, String restURL,
       String modpackVersion) {
     this.debug = debug;
     this.enabledModules = enabledModules;
     this.dataStorgeType = dataStorgeType;
     this.serverID = serverID;
+    this.logCommandToCMD = logCommandToCMD;
     this.threadPoolSize = threadPoolSize;
     this.tempDataRemovalTime = tempDataRemovalTime;
     this.restAuth = restAuth;

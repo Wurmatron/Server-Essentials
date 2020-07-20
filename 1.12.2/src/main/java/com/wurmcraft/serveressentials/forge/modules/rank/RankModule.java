@@ -46,7 +46,6 @@ public class RankModule {
             "economy.perk.buy",
             "economy.perk.list",
             "general.back",
-            "general.back",
             "general.back.death",
             "general.delhome",
             "general.home",
