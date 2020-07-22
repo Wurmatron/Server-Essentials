@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.economy.event.AdminSignEvents;
 import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -31,7 +32,7 @@ public class EconomyModule {
       if (currencies.size() == 0 || currencies.getOrDefault(defaultRank, null) == null) {
         registerDefaultCurrency();
         if (currencies.size() == 0) {
-          SECore.logger.severe("No Currencies are loading / detected!");
+          ServerEssentialsServer.logger.fatal("No Currencies are loading / detected!");
           return new Currency[]{new Currency()};
         }
       }

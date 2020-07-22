@@ -65,7 +65,7 @@ public class MatterBridgeUtils {
           return GSON.fromJson(response.toString(), RestMessage[].class);
         }
       } catch (Exception e) {
-        SECore.logger.warning(e.getMessage());
+        ServerEssentialsServer.logger.warn(e.getMessage());
       }
     }
     return new RestMessage[0];
@@ -94,7 +94,7 @@ public class MatterBridgeUtils {
         return 503;
       }
     } else {
-      SECore.logger.info("Failed to send msg! (" + msg.username + " " + msg.text + ")");
+      ServerEssentialsServer.logger.error("Failed to send msg! (" + msg.username + " " + msg.text + ")");
     }
     return 418;
   }

@@ -5,6 +5,8 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.LocationWrapper;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import java.util.NoSuchElementException;
 import net.minecraft.command.CommandTP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,8 +33,9 @@ public class TeleportUtils {
 
       teleportTo((EntityPlayerMP) player,loc);
     } catch (NoSuchElementException e) {
-      SECore.logger.warning("Unable to find data for '" + player.getDisplayNameString()
+      ServerEssentialsServer.logger.warn("Unable to find data for '" + player.getDisplayNameString()
           + "', unable to teleport player!");
+      PlayerDataEvents.handAndCheckForErrors(player);
     }
   }
 

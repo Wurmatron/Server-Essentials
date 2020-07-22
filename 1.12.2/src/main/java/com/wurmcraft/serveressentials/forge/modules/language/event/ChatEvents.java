@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
+import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.util.NoSuchElementException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,6 +56,9 @@ public class ChatEvents {
     if (SERegistry.isModuleLoaded("Rank") && RankUtils
         .hasPermission(RankUtils.getRank(player), "language.chat.color") || !SERegistry
         .isModuleLoaded("Rank")) {
+      if(rank == null) {
+        PlayerDataEvents.handAndCheckForErrors(player);
+      }
       return new TextComponentString(
           rank.getPrefix().replaceAll("&", "\u00a7") + " " + displayName + " \u00BB "
               + rank

@@ -23,21 +23,24 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
 public class ServerEssentialsServer {
 
   @Instance(value = Global.MODID)
   public static ServerEssentialsServer INSTANCE;
+  public static Logger logger;
 
   @EventHandler
   public void preInitialization(FMLPreInitializationEvent e) {
-    SECore.logger.info("Starting FML-PreInitialization");
+    logger = e.getModLog();
+    logger.info("Starting FML-PreInitialization");
   }
 
   @EventHandler
   public void init(FMLInitializationEvent e) {
-    SECore.logger.info("Starting FML-Initialization");
+    ServerEssentialsServer.logger.info("Starting FML-Initialization");
     SECore.setup();
     if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
      RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.INIT));
@@ -46,7 +49,7 @@ public class ServerEssentialsServer {
 
   @EventHandler
   public void postInitialization(FMLPostInitializationEvent e) {
-    SECore.logger.info("Starting FML-PostInitialization");
+    logger.info("Starting FML-PostInitialization");
     if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.POSTINIT));
     }

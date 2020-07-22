@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.common.utils.CommandParser;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
@@ -90,7 +91,7 @@ public class SECommand extends CommandBase {
               .invoke(commandInstance,
                   CommandParser.parseLineToArguments(sender, args, commandArgs));
           if(SERegistry.globalConfig.logCommandToCMD) {
-            SECore.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+            ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -106,7 +107,7 @@ public class SECommand extends CommandBase {
               .invoke(commandInstance,
                   CommandParser.parseLineToArguments(sender, args, commandArgs));
           if(SERegistry.globalConfig.logCommandToCMD) {
-            SECore.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+            ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -129,7 +130,7 @@ public class SECommand extends CommandBase {
                       getInstanceForArgument(args[0], CommandArguments.PLAYER),
                       Arrays.copyOfRange(args, 1, args.length));
                   if(SERegistry.globalConfig.logCommandToCMD) {
-                    SECore.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+                    ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
                   }
                 } catch (Exception e) {
                   e.printStackTrace();
@@ -146,7 +147,7 @@ public class SECommand extends CommandBase {
                 try {
                   m.invoke(commandInstance, sender, args);
                   if(SERegistry.globalConfig.logCommandToCMD) {
-                    SECore.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+                    ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
                   }
                 } catch (Exception e) {
                   e.printStackTrace();

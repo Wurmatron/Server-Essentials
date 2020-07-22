@@ -55,6 +55,7 @@ public class HomeCommand {
                               "General")).defaultHome)));
             }
           } catch (NoSuchElementException e) {
+
             sender.sendMessage(new TextComponentString(ERROR_COLOR + "[]"));
           }
         } else {

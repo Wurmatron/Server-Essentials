@@ -15,6 +15,7 @@ import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import com.wurmcraft.serveressentials.forge.modules.economy.EcoUtils;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
+import java.util.NoSuchElementException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -59,8 +60,8 @@ public class RankupEvents {
           return rank.nextRank;
         }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (NoSuchElementException e) {
+      PlayerDataEvents.handAndCheckForErrors(player);
     }
     return "";
   }

@@ -3,6 +3,7 @@ package com.wurmcraft.serveressentials.forge.modules.general.command.teleport;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
 import static com.wurmcraft.serveressentials.forge.api.command.SECommand.ERROR_COLOR;
+import static com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents.handAndCheckForErrors;
 
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
@@ -60,6 +61,7 @@ public class SetHomeCommand {
             }
           } catch (NoSuchElementException e) {
             sender.sendMessage(new TextComponentString(ERROR_COLOR + "[]"));
+            handAndCheckForErrors(player);
           }
         } else {
           Home playerHome = new Home(home, player.posX, player.posY, player.posZ,

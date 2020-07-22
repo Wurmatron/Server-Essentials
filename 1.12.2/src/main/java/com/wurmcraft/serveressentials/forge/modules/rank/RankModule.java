@@ -6,6 +6,7 @@ import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 @Module(name = "Rank")
@@ -27,7 +28,7 @@ public class RankModule {
       if (ranks.size() == 0 || ranks.getOrDefault(defaultRank, null) == null) {
         registerDefaultRanks();
         if (ranks.size() == 0) {
-          SECore.logger.severe("No Ranks are loading / detected!");
+          ServerEssentialsServer.logger.fatal("No Ranks are loading / detected!");
           return new Rank[]{new Rank()};
         }
       }

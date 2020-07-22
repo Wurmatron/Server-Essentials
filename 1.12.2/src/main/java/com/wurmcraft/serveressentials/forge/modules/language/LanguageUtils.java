@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.Language;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.URLUtils;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import java.io.IOException;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -26,7 +27,7 @@ public class LanguageUtils {
       SERegistry.register(DataKey.LANGUAGE, lang);
       return lang;
     } catch (IOException e) {
-      SECore.logger.severe("Unable to load default language file");
+      ServerEssentialsServer.logger.fatal("Unable to load default language file");
       e.printStackTrace();
     }
     return loadLanguage("en_us");

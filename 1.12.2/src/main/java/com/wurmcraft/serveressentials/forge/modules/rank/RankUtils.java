@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +25,7 @@ public class RankUtils {
       NonBlockingHashMap<String, Rank> data = SECore.dataHandler
           .getDataFromKey(DataKey.RANK, new Rank());
       if (data.isEmpty()) {
-        SECore.logger.warning("Connection to rank database is broken!");
+        ServerEssentialsServer.logger.fatal("Connection to rank database is broken!");
       }
     }, 300, delayPeriod, TimeUnit.SECONDS);
   }
@@ -81,8 +82,7 @@ public class RankUtils {
                 .toString());
         return (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank);
       } catch (NoSuchElementException e) {
-        SECore.logger
-            .info(sender.getName() + " does not have any loaded data / a valid rank!");
+        ServerEssentialsServer.logger.info(sender.getName() + " does not have any loaded data / a valid rank!");
         return new Rank();
       }
     }

@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import joptsimple.internal.Strings;
@@ -36,7 +37,7 @@ public class MsgCommand {
             sendingPlayer.getGameProfile().getId().toString());
         sendingPlayer.sendMessage(new TextComponentString(
             COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).LANGUAGE_MSG));
-        SECore.logger.info(COMMAND_COLOR + sendingPlayer.getDisplayNameString() + " => "
+        ServerEssentialsServer.logger.info(COMMAND_COLOR + sendingPlayer.getDisplayNameString() + " => "
             + COMMAND_INFO_COLOR + Strings
             .join(msg, " "));
       }

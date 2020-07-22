@@ -13,6 +13,7 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageUtils;
 import com.wurmcraft.serveressentials.forge.modules.language.event.ChatEvents;
@@ -102,7 +103,7 @@ public class MatterLinkTickEvent {
         config.protocol, DATE_FORMAT.format(new Date()),
         e.getPlayer().getGameProfile().getId().toString(), null);
     if (MatterBridgeUtils.sendMessage(message) != 200) {
-      SECore.logger.warning("Failed to send message to bridge");
+      ServerEssentialsServer.logger.warn("Failed to send message to bridge");
     }
   }
 
@@ -120,7 +121,7 @@ public class MatterLinkTickEvent {
           DATE_FORMAT.format(new Date()), player.getGameProfile().getId().toString(),
           null);
       if (MatterBridgeUtils.sendMessage(msg) != 200) {
-        SECore.logger.warning("Failed to send message to bridge");
+        ServerEssentialsServer.logger.warn("Failed to send message to bridge");
       }
     }
   }
@@ -148,7 +149,7 @@ public class MatterLinkTickEvent {
         SECore.executors
             .scheduleAtFixedRate(this::getAndProcessBridge, 0, 1, TimeUnit.SECONDS);
       } else if (config.dataCollectionType.equalsIgnoreCase("stream")) {
-        SECore.logger.info("Bridge Streaming is enabled");
+        ServerEssentialsServer.logger.info("Bridge Streaming is enabled");
         startHandlingStream();
       }
     }
@@ -161,7 +162,7 @@ public class MatterLinkTickEvent {
           config.protocol, DATE_FORMAT.format(new Date()),
           e.player.getGameProfile().getId().toString(), null);
       if (MatterBridgeUtils.sendMessage(msg) != 200) {
-        SECore.logger.warning("Failed to send message to bridge");
+        ServerEssentialsServer.logger.warn("Failed to send message to bridge");
       }
     }
   }
@@ -177,7 +178,7 @@ public class MatterLinkTickEvent {
           config.protocol, DATE_FORMAT.format(new Date()),
           e.player.getGameProfile().getId().toString(), null);
       if (MatterBridgeUtils.sendMessage(msg) != 200) {
-        SECore.logger.warning("Failed to send message to bridge");
+        ServerEssentialsServer.logger.warn("Failed to send message to bridge");
       }
     }
   }
@@ -199,7 +200,7 @@ public class MatterLinkTickEvent {
           RestMessage msg = GSON.fromJson(line, RestMessage.class);
           displayMessage(msg);
         }
-        SECore.logger.info("Bridge Streaming is disabled");
+        ServerEssentialsServer.logger.info("Bridge Streaming is disabled");
       } catch (Exception e) {
         e.printStackTrace();
       }

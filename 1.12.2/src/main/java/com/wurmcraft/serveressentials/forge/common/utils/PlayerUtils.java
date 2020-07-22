@@ -1,5 +1,7 @@
 package com.wurmcraft.serveressentials.forge.common.utils;
 
+import static com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents.handAndCheckForErrors;
+
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.Language;
@@ -8,6 +10,7 @@ import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.api.track.NetworkTime;
 import com.wurmcraft.serveressentials.core.api.track.ServerTime;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class PlayerUtils {
               int additionalHomes = Integer.parseInt(p.substring(p.lastIndexOf(".") + 1));
               return maxHomes + additionalHomes;
             } catch (NumberFormatException e) {
-              SECore.logger.info("Max Homes for '" + player.getDisplayNameString()
+              ServerEssentialsServer.logger.info("Max Homes for '" + player.getDisplayNameString()
                   + "' perk is invalid!");
             }
           }
@@ -79,6 +82,7 @@ public class PlayerUtils {
       }
       return false;
     } catch (NoSuchElementException e) {
+      handAndCheckForErrors(player);
       return false;
     }
   }
@@ -116,6 +120,7 @@ public class PlayerUtils {
       return (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
     } catch (NoSuchElementException ignored) {
+      handAndCheckForErrors(player);
     }
     return null;
   }

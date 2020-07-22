@@ -21,9 +21,11 @@ import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.forge.api.event.PlayerDataSyncEvent;
 import com.wurmcraft.serveressentials.forge.api.event.RankChangeEvent;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
+import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,23 +60,26 @@ public class PlayerDataEvents {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
       if (playerData.global == null && playerData.server == null) {
-        SECore.logger.info(player.getDisplayNameString() + " is a new player!");
+        ServerEssentialsServer.logger
+            .info(player.getDisplayNameString() + " is a new player!");
         StoredPlayer data = createNew(player);
         SERegistry.register(DataKey.PLAYER, data);
         MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
       }
     } catch (NoSuchElementException e) {
-      SECore.logger.info(player.getDisplayNameString() + " is a new player!");
+      ServerEssentialsServer.logger
+          .info(player.getDisplayNameString() + " is a new player!");
       newPlayers.add(player.getGameProfile().getId().toString());
       StoredPlayer playerData = createNew(player);
       SERegistry.register(DataKey.PLAYER, playerData);
+      handAndCheckForErrors(player);
       MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
     }
     if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
       SECore.executors.scheduleAtFixedRate(() -> {
         savePlayer(player);
-        SECore.logger
-            .fine("User '" + player.getDisplayNameString() + "' has been synced!");
+        ServerEssentialsServer.logger
+            .trace("User '" + player.getDisplayNameString() + "' has been synced!");
       }, 0, 90, TimeUnit.SECONDS);
     }
   }
@@ -166,11 +171,39 @@ public class PlayerDataEvents {
                 + ".json").toPath(), GSON.toJson(playerData).getBytes());
         MinecraftForge.EVENT_BUS.post(new PlayerDataSyncEvent(player, playerData));
       } catch (NoSuchElementException e) {
-        SECore.logger
-            .warning("Unable to locate / save data for '" + player.getName() + "'!");
+        File playerData = new File(
+            SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator + player
+                .getGameProfile().getId().toString()
+                + ".json");
+        playerData.mkdirs();
+        try {
+          playerData.createNewFile();
+          Files.write(new File(
+              SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator
+                  + player
+                  .getGameProfile().getId().toString()
+                  + ".json").toPath(), GSON.toJson(playerData).getBytes());
+        } catch (IOException f) {
+          ServerEssentialsServer.logger
+              .warn("Unable to locate / save data for '" + player.getName() + "'!");
+        }
       } catch (IOException e) {
-        e.printStackTrace();
-        SECore.logger.warning("Unable to save playerfile '" + player.getName() + "'!");
+        File playerData = new File(
+            SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator + player
+                .getGameProfile().getId().toString()
+                + ".json");
+        playerData.mkdirs();
+        try {
+          playerData.createNewFile();
+          Files.write(new File(
+              SAVE_DIR + File.separator + DataKey.PLAYER.getName() + File.separator
+                  + player
+                  .getGameProfile().getId().toString()
+                  + ".json").toPath(), GSON.toJson(playerData).getBytes());
+        } catch (IOException f) {
+          ServerEssentialsServer.logger
+              .warn("Unable to save data for '" + player.getName() + "'!");
+        }
       }
     }, 1, TimeUnit.SECONDS);
   }
@@ -179,20 +212,29 @@ public class PlayerDataEvents {
     try {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-      if (playerData == null) {
-        playerData = createNew(player);
+      if (playerData != null) {
+        boolean wasNull = false;
         if (playerData.global == null) {
-          GlobalPlayer global = RestRequestGenerator.User
-              .getPlayer(player.getGameProfile().getId().toString());
-          if (global == null) {
-            global = createNewGlobal(player);
-            RestRequestGenerator.User
-                .overridePlayer(player.getGameProfile().getId().toString(), global);
-          }
+          playerData.global = createNewGlobal(player);
+          wasNull = true;
         }
+        if (playerData.server == null) {
+          playerData.server = createNewServer(player);
+          wasNull = true;
+        }
+        if (wasNull) {
+          if (playerData.global.rank == null) {
+            playerData.global.rank = ((RankConfig) SERegistry
+                .getStoredData(DataKey.MODULE_CONFIG, "Rank")).defaultRank;
+          }
+          SERegistry.register(DataKey.PLAYER, playerData);
+          savePlayer(player);
+        }
+      } else {
+        SERegistry.register(DataKey.PLAYER, createNew(player));
       }
-    } catch (Exception e) {
-      createNew(player);
+    } catch (NoSuchElementException e) {
+      SERegistry.register(DataKey.PLAYER, createNew(player));
     }
   }
 }

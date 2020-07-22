@@ -7,6 +7,7 @@ import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.Module;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.autorank.event.RankupEvents;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,7 +34,7 @@ public class AutoRankModule {
       if (ranks.size() == 0 || ranks.getOrDefault(defaultRank, null) == null) {
         createDefaultRankUps();
         if (ranks.size() == 0) {
-          SECore.logger.severe("No Ranks are loading / detected!");
+          ServerEssentialsServer.logger.fatal("No Ranks are loading / detected!");
           return new Rank[]{new Rank()};
         }
       }
