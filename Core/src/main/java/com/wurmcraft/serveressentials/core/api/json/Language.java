@@ -101,6 +101,18 @@ public class Language implements StoredDataType {
   public String GENERAL_TP;
   public String GENERAL_TP_OTHER;
   public String GENERAL_TPOFFLINE;
+  public String GENERAL_PERM_USER_RANK;
+  public String GENERAL_PERM_USER_LANG;
+  public String GENERAL_PERM_USER_MUTE;
+  public String GENERAL_PERM_USER_VERIFY;
+  public String GENERAL_PERM_USER_FIX;
+  public String GENERAL_PERM_USER_SYNC;
+  public String GENERAL_PERM_USER_PERMISSION_ADD;
+  public String GENERAL_PERM_USER_PERMISSION_DEL;
+  public String GENERAL_PERM_USER_PERK_ADD;
+  public String GENERAL_PERM_USER_PERK_DEL;
+  public String GENERAL_PERM_CHECK_TRUE;
+  public String GENERAL_PERM_CHECK_FALSE;
 
   // Discord
   public String DISCORD_VERIFIED;

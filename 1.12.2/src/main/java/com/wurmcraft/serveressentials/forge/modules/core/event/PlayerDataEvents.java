@@ -25,7 +25,6 @@ import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
 import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
-import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,7 +46,7 @@ public class PlayerDataEvents {
 
   @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void onPlayerJoin(PlayerLoggedInEvent e) {
-    handlePlayer(e.player);
+    handleLogin(e.player);
   }
 
   @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -55,7 +54,7 @@ public class PlayerDataEvents {
     savePlayer(e.player);
   }
 
-  private void handlePlayer(EntityPlayer player) {
+  public static void handleLogin(EntityPlayer player) {
     try {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());

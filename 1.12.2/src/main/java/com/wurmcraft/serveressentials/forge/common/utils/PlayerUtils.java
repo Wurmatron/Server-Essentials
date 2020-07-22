@@ -121,8 +121,9 @@ public class PlayerUtils {
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
     } catch (NoSuchElementException ignored) {
       handAndCheckForErrors(player);
+      return (StoredPlayer) SERegistry
+          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
     }
-    return null;
   }
 
   public static List<String> predictUsernames(String[] args, int index) {
@@ -203,5 +204,33 @@ public class PlayerUtils {
     for(ServerTime time : playerData.global.playtime.serverTime)
     total =+ time.time;
     return total;
+  }
+
+  public static StoredPlayer addPerm(StoredPlayer playerData, String perm) {
+    List<String> currentPerms = Arrays.asList(playerData.global.extraPerms);
+    currentPerms.add(perm);
+    playerData.global.extraPerms = currentPerms.toArray(new String[0]);
+    return playerData;
+  }
+
+  public static StoredPlayer delPerm(StoredPlayer playerData, String perm) {
+    List<String> currentPerms = Arrays.asList(playerData.global.extraPerms);
+    currentPerms.remove(perm);
+    playerData.global.extraPerms = currentPerms.toArray(new String[0]);
+    return playerData;
+  }
+
+  public static StoredPlayer addPerk(StoredPlayer playerData, String perk) {
+    List<String> currentPerks = Arrays.asList(playerData.global.perks);
+    currentPerks.add(perk);
+    playerData.global.perks = currentPerks.toArray(new String[0]);
+    return playerData;
+  }
+
+  public static StoredPlayer delPerk(StoredPlayer playerData, String perk) {
+    List<String> currentPerks = Arrays.asList(playerData.global.perks);
+    currentPerks.remove(perk);
+    playerData.global.perks = currentPerks.toArray(new String[0]);
+    return playerData;
   }
 }

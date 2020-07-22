@@ -149,7 +149,6 @@ public class MatterLinkTickEvent {
         SECore.executors
             .scheduleAtFixedRate(this::getAndProcessBridge, 0, 1, TimeUnit.SECONDS);
       } else if (config.dataCollectionType.equalsIgnoreCase("stream")) {
-        ServerEssentialsServer.logger.info("Bridge Streaming is enabled");
         startHandlingStream();
       }
     }
@@ -193,6 +192,7 @@ public class MatterLinkTickEvent {
           con.setRequestProperty("Authorization",
               "Bearer " + MatterLinkTickEvent.config.token);
         }
+        ServerEssentialsServer.logger.info("Bridge Streaming is enabled");
         BufferedReader buff = new BufferedReader(
             new InputStreamReader(con.getInputStream()));
         String line;
@@ -202,7 +202,13 @@ public class MatterLinkTickEvent {
         }
         ServerEssentialsServer.logger.info("Bridge Streaming is disabled");
       } catch (Exception e) {
-        e.printStackTrace();
+        ServerEssentialsServer.logger.info("Attempting to reconnect to bridge....");
+        try {
+          Thread.sleep(1000);
+          startHandlingStream();
+        } catch (InterruptedException interruptedException) {
+          interruptedException.printStackTrace();
+        }
       }
     }, "Chat-Stream");
     thread.start();
