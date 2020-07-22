@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ChatEvents {
@@ -43,7 +44,7 @@ public class ChatEvents {
       if (rank == null) {
         rank = new Rank();
       }
-      return formatMessage(player, (playerData.server.nick != null && !playerData.server.nick.isEmpty()) ?  "*" + playerData.server.nick.replaceAll("&", "\u00a7") : player.getName() , rank, msg);
+      return formatMessage(player, handleUsername(player,playerData), rank, msg);
     } catch (NoSuchElementException e) {
       return formatMessage(player, player.getName(), new Rank(), msg);
     }
@@ -64,5 +65,9 @@ public class ChatEvents {
               + rank
               .getSuffix().replaceAll("&", "\u00a7") + msg);
     }
+  }
+
+  public static String handleUsername(EntityPlayer player, StoredPlayer playerData) {
+    return (playerData.server.nick != null && !playerData.server.nick.isEmpty()) ?  "*" + playerData.server.nick.replaceAll("&", "\u00a7") : player.getName();
   }
 }

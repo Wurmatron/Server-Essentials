@@ -179,13 +179,15 @@ public class PlayerDataEvents {
     try {
       StoredPlayer playerData = (StoredPlayer) SERegistry
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-      if(playerData == null) {
+      if (playerData == null) {
         playerData = createNew(player);
-        if(playerData.global == null) {
-          GlobalPlayer global = RestRequestGenerator.User.getPlayer(player.getGameProfile().getId().toString());
-          if(global == null) {
+        if (playerData.global == null) {
+          GlobalPlayer global = RestRequestGenerator.User
+              .getPlayer(player.getGameProfile().getId().toString());
+          if (global == null) {
             global = createNewGlobal(player);
-            RestRequestGenerator.User.overridePlayer(player.getGameProfile().getId().toString(),global);
+            RestRequestGenerator.User
+                .overridePlayer(player.getGameProfile().getId().toString(), global);
           }
         }
       }

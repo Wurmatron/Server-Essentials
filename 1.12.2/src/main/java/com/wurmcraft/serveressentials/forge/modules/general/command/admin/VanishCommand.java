@@ -13,7 +13,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleCommand(moduleName = "General", name = "Vainish", aliases = {"V"})
+@ModuleCommand(moduleName = "General", name = "Vanish", aliases = {"V"})
 public class VanishCommand {
 
   @Command(inputArguments = {})
