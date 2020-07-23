@@ -17,21 +17,20 @@ import java.net.URLConnection;
 
 public class MatterBridgeUtils {
 
+  public static MatterLinkConfig config = (MatterLinkConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG,"MatterLink");
   public static final String USER_AGENT = "";
 
   public static String getLinkConnectURL() {
-    String configValue = ((MatterLinkConfig) (SERegistry
-        .getStoredData(DataKey.MODULE_CONFIG, "MatterLink"))).url;
-    if (configValue.endsWith("api")) {
-      return configValue.trim() + "/";
-    } else if (configValue.endsWith("api/")) {
-      return configValue;
-    } else if (configValue.endsWith("/") && !configValue.endsWith("/api/")) {
-      return configValue + "api/";
-    } else if (!configValue.endsWith("/") && !configValue.contains("api/")) {
-      return configValue + "/api/";
+    if (config.url.endsWith("api")) {
+      return config.url.trim() + "/";
+    } else if (config.url.endsWith("api/")) {
+      return config.url;
+    } else if (config.url.endsWith("/") && !config.url.endsWith("/api/")) {
+      return config + "api/";
+    } else if (!config.url.endsWith("/") && !config.url.contains("api/")) {
+      return config.url + "/api/";
     }
-    return configValue;
+    return config.url;
   }
 
   public static RestMessage[] getMessages() {

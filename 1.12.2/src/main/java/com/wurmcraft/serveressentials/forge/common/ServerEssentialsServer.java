@@ -1,6 +1,8 @@
 package com.wurmcraft.serveressentials.forge.common;
 
 
+import static com.wurmcraft.serveressentials.forge.modules.matterlink.event.MatterLinkTickEvent.DATE_FORMAT;
+
 import com.wurmcraft.serveressentials.core.Global;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
@@ -9,8 +11,12 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.command.SECommand;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
+import com.wurmcraft.serveressentials.forge.modules.matterlink.MatterLinkModule;
+import com.wurmcraft.serveressentials.forge.modules.matterlink.utils.MatterBridgeUtils;
+import com.wurmcraft.serveressentials.forge.modules.matterlink.utils.json.RestMessage;
 import com.wurmcraft.serveressentials.forge.modules.track.TrackUtils;
 import com.wurmcraft.serveressentials.forge.modules.track.event.TrackEvents;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -43,15 +49,17 @@ public class ServerEssentialsServer {
   public void init(FMLInitializationEvent e) {
     ServerEssentialsServer.logger.info("Starting FML-Initialization");
     SECore.setup();
-    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-     RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.INIT));
+    if (SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType
+        .equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.INIT));
     }
   }
 
   @EventHandler
   public void postInitialization(FMLPostInitializationEvent e) {
     logger.info("Starting FML-PostInitialization");
-    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+    if (SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType
+        .equalsIgnoreCase("Rest")) {
       RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.POSTINIT));
     }
   }
@@ -63,16 +71,28 @@ public class ServerEssentialsServer {
       e.registerServerCommand(new SECommand(command.getClass().getAnnotation(
           ModuleCommand.class), command));
     }
-    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+    if (SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType
+        .equalsIgnoreCase("Rest")) {
       RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.STARTING));
     }
   }
 
   @EventHandler
   public void serverStarted(FMLServerStartedEvent e) {
-    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-      SECore.executors.scheduleAtFixedRate(() -> RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.ONLINE)), 0,90,
+    if (SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType
+        .equalsIgnoreCase("Rest")) {
+      SECore.executors.scheduleAtFixedRate(() -> RestRequestGenerator.Track
+              .updateTrack(TrackUtils.createStatus(Status.ONLINE)), 0, 90,
           TimeUnit.SECONDS);
+    }
+    if (SERegistry.isModuleLoaded("MatterLink")
+        && MatterBridgeUtils.config.displayServerStatus) {
+      RestMessage msg = new RestMessage("", "", MatterBridgeUtils.config.gateway,
+          "Server has Started", "", MatterBridgeUtils.config.account, "", "", "",
+          MatterBridgeUtils.config.protocol, DATE_FORMAT.format(new Date()), "", null);
+      if (MatterBridgeUtils.sendMessage(msg) != 200) {
+        ServerEssentialsServer.logger.warn("Failed to send message to bridge");
+      }
     }
   }
 
@@ -85,8 +105,18 @@ public class ServerEssentialsServer {
         TrackEvents.updatePlayerTracking(p);
       }
     }
-    if(SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+    if (SERegistry.isModuleLoaded("Track") && SERegistry.globalConfig.dataStorgeType
+        .equalsIgnoreCase("Rest")) {
       RestRequestGenerator.Track.updateTrack(TrackUtils.createStatus(Status.STOPPED));
+    }
+    if (SERegistry.isModuleLoaded("MatterLink")
+        && MatterBridgeUtils.config.displayServerStatus) {
+      RestMessage msg = new RestMessage("", "", MatterBridgeUtils.config.gateway,
+          "Server has Stopped", "", MatterBridgeUtils.config.account, "", "", "",
+          MatterBridgeUtils.config.protocol, DATE_FORMAT.format(new Date()), "", null);
+      if (MatterBridgeUtils.sendMessage(msg) != 200) {
+        ServerEssentialsServer.logger.warn("Failed to send message to bridge");
+      }
     }
   }
 

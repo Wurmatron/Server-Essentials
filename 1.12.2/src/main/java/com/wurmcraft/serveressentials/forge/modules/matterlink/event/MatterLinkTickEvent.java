@@ -102,9 +102,8 @@ public class MatterLinkTickEvent {
       RestMessage msg = new RestMessage(
           "https://crafatar.com/avatars/" + player.getGameProfile().getId()
               .toString().replaceAll("-", ""), "death", config.gateway,
-          e.getSource().getDeathMessage(player).getUnformattedText()
-              .replaceAll(player.getDisplayNameString(), ""),
-          formatName(player), SERegistry.globalConfig.serverID,
+          e.getSource().getDeathMessage(player).getUnformattedText(),
+          "", SERegistry.globalConfig.serverID,
           SERegistry.globalConfig.serverID, "", "", config.protocol,
           DATE_FORMAT.format(new Date()), player.getGameProfile().getId().toString(),
           null);
