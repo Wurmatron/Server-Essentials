@@ -13,8 +13,11 @@ import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.
 import java.util.Arrays;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import scala.actors.$bang;
 
 public class EcoUtils {
+
+  public static EconomyConfig config = (EconomyConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG, "Economy");
 
   public static boolean hasTheMoney(Wallet wallet, double amount) {
     for (Coin c : wallet.currency) {
@@ -28,11 +31,13 @@ public class EcoUtils {
   }
 
   public static double getCurrency(Wallet wallet) {
-    for (Coin c : wallet.currency) {
-      if (c.name.equals(((EconomyConfig) (SERegistry
-          .getStoredData(DataKey.MODULE_CONFIG,
-              "Economy"))).defaultServerCurrency.name)) {
-        return c.amount;
+    if (wallet != null) {
+      for (Coin c : wallet.currency) {
+        if (c.name.equals(((EconomyConfig) (SERegistry
+            .getStoredData(DataKey.MODULE_CONFIG,
+                "Economy"))).defaultServerCurrency.name)) {
+          return c.amount;
+        }
       }
     }
     return 0;
@@ -48,15 +53,7 @@ public class EcoUtils {
   }
 
   public static Wallet setCurrency(Wallet wallet, double amount) {
-    for (int i = 0; i < wallet.currency.length; i++) {
-      if (wallet.currency[i].name.equals(((EconomyConfig) (SERegistry
-          .getStoredData(DataKey.MODULE_CONFIG,
-              "Economy"))).defaultServerCurrency.name)) {
-        wallet.currency[i].amount = amount;
-        return wallet;
-      }
-    }
-    return wallet;
+    return setCurrency(wallet, amount, config.defaultServerCurrency.name);
   }
 
   public static Wallet setCurrency(Wallet wallet, double amount, String name) {
@@ -65,6 +62,13 @@ public class EcoUtils {
         wallet.currency[i].amount = amount;
         return wallet;
       }
+    }
+    if(wallet.currency.length > 0) {
+      Coin[] currentCoins = wallet.currency;
+      currentCoins = Arrays.copyOfRange(currentCoins, 0, currentCoins.length + 1);
+      currentCoins[currentCoins.length - 1] = new Coin(name,amount);
+    } else {
+      return new Wallet(new Coin[] {new Coin(name,amount)});
     }
     return wallet;
   }
@@ -126,50 +130,53 @@ public class EcoUtils {
   }
 
   public static void addCurrency(EntityPlayer player, double amount) {
-    GlobalPlayer playerData = RestRequestGenerator.User
-        .getPlayer(player.getGameProfile().getId().toString());
-    setCurrency(playerData.wallet, getCurrency(playerData.wallet) + amount);
-    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-      RestRequestGenerator.User
-          .overridePlayer(player.getGameProfile().getId().toString(), playerData);
-      ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
-          player.getGameProfile().getId().toString())).global = playerData;
-    }
+   addCurrency(player,amount,config.defaultServerCurrency.name);
   }
 
   public static void addCurrency(EntityPlayer player, double amount, String currency) {
-    GlobalPlayer playerData = RestRequestGenerator.User
-        .getPlayer(player.getGameProfile().getId().toString());
-    setCurrency(playerData.wallet, getCurrency(playerData.wallet, currency) + amount, currency);
+    GlobalPlayer playerData = PlayerUtils.getPlayer(player).global;
+    if(SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      playerData = RestRequestGenerator.User
+          .getPlayer(player.getGameProfile().getId().toString());
+    }
+    if(playerData.wallet == null) {
+      playerData.wallet = new Wallet(new Coin[0]);
+    }
+    playerData.wallet = setCurrency(playerData.wallet, getCurrency(playerData.wallet) + amount);
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User
           .overridePlayer(player.getGameProfile().getId().toString(), playerData);
       ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
           player.getGameProfile().getId().toString())).global = playerData;
     }
+    StoredPlayer data = PlayerUtils.getPlayer(player);
+    data.global = playerData;
+    SERegistry.register(DataKey.PLAYER, data);
   }
 
   public static void consumeCurrency(EntityPlayer player, double amount) {
-    GlobalPlayer playerData = RestRequestGenerator.User
-        .getPlayer(player.getGameProfile().getId().toString());
-    setCurrency(playerData.wallet, getCurrency(playerData.wallet) - amount);
-    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-      RestRequestGenerator.User
-          .overridePlayer(player.getGameProfile().getId().toString(), playerData);
-      ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
-          player.getGameProfile().getId().toString())).global = playerData;
-    }
+    consumeCurrency(player, amount,config.defaultServerCurrency.name);
   }
 
-  public static void consumeCurrency(EntityPlayer player, double amount, String currency) {
-    GlobalPlayer playerData = RestRequestGenerator.User
-        .getPlayer(player.getGameProfile().getId().toString());
-    setCurrency(playerData.wallet, getCurrency(playerData.wallet,currency) - amount,currency);
+  public static void consumeCurrency(EntityPlayer player, double amount,
+      String currency) {
+    GlobalPlayer playerData = PlayerUtils.getPlayer(player).global;
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      playerData = RestRequestGenerator.User
+          .getPlayer(player.getGameProfile().getId().toString());
+    }
+    if (playerData.wallet == null) {
+      playerData.wallet = new Wallet(new Coin[0]);
+    }
+    playerData.wallet = setCurrency(playerData.wallet, getCurrency(playerData.wallet,currency) - amount, currency);
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User
           .overridePlayer(player.getGameProfile().getId().toString(), playerData);
       ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
           player.getGameProfile().getId().toString())).global = playerData;
     }
+    StoredPlayer data = PlayerUtils.getPlayer(player);
+    data.global = playerData;
+    SERegistry.register(DataKey.PLAYER, data);
   }
 }

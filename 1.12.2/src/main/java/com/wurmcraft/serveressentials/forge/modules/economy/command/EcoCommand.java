@@ -20,8 +20,8 @@ import net.minecraft.util.text.TextComponentString;
 public class EcoCommand {
 
   @Command(inputArguments = {CommandArguments.PLAYER, CommandArguments.STRING,
-      CommandArguments.INTEGER})
-  public void change(ICommandSender sender, EntityPlayer player, String type,
+      CommandArguments.INTEGER}, inputNames = {"Player", "Add, Rem", "Amount"})
+  public void changeInt(ICommandSender sender, EntityPlayer player, String type,
       int amount) {
     if (type.equalsIgnoreCase("add")) {
       EcoUtils.addCurrency(player, amount);
@@ -39,8 +39,8 @@ public class EcoCommand {
   }
 
   @Command(inputArguments = {CommandArguments.PLAYER, CommandArguments.STRING,
-      CommandArguments.DOUBLE})
-  public void change(ICommandSender sender, EntityPlayer player, String type,
+      CommandArguments.DOUBLE},inputNames = {"Player", "Add, Rem", "Amount"})
+  public void changeDouble(ICommandSender sender, EntityPlayer player, String type,
       double amount) {
     if (type.equalsIgnoreCase("add")) {
       EcoUtils.addCurrency(player, amount);
@@ -58,13 +58,13 @@ public class EcoCommand {
   }
 
   @Command(inputArguments = {CommandArguments.PLAYER, CommandArguments.STRING,
-      CommandArguments.INTEGER, CommandArguments.STRING})
-  public void change(ICommandSender sender, EntityPlayer player, String type,
+      CommandArguments.INTEGER, CommandArguments.STRING},inputNames = {"Player", "Add, Rem", "Amount", "Currency"})
+  public void changeIntCustom(ICommandSender sender, EntityPlayer player, String type,
       int amount, String currency) {
     try {
       SERegistry.getStoredData(DataKey.CURRENCY, currency);
       if (type.equalsIgnoreCase("add")) {
-        EcoUtils.consumeCurrency(player, amount, currency);
+        EcoUtils.addCurrency(player, amount, currency);
         sender.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
             .getUserLanguage(sender).ECO_ECO_ADD.replaceAll("%PLAYER%",
                 COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)
@@ -84,13 +84,13 @@ public class EcoCommand {
   }
 
   @Command(inputArguments = {CommandArguments.PLAYER, CommandArguments.STRING,
-      CommandArguments.DOUBLE, CommandArguments.STRING})
-  public void change(ICommandSender sender, EntityPlayer player, String type,
+      CommandArguments.DOUBLE, CommandArguments.STRING},inputNames = {"Player", "Add, Rem", "Amount", "Currency"})
+  public void changeDoubleCustom(ICommandSender sender, EntityPlayer player, String type,
       double amount, String currency) {
     try {
       SERegistry.getStoredData(DataKey.CURRENCY, currency);
       if (type.equalsIgnoreCase("add")) {
-        EcoUtils.consumeCurrency(player, amount, currency);
+        EcoUtils.addCurrency(player, amount, currency);
         sender.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
             .getUserLanguage(sender).ECO_ECO_ADD.replaceAll("%PLAYER%",
                 COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)
