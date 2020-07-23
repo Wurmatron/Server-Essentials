@@ -51,4 +51,20 @@ public class Rank implements StoredDataType {
   public String[] getPermission() {
     return permission;
   }
+
+  public void setPrefix(String prefix) {
+    this.prefix = prefix;
+  }
+
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
+  public void setInheritance(String[] inheritance) {
+    this.inheritance = inheritance;
+  }
+
+  public void setPermission(String[] permission) {
+    this.permission = permission;
+  }
 }

@@ -38,11 +38,30 @@ public class EcoUtils {
     return 0;
   }
 
+  public static double getCurrency(Wallet wallet, String name) {
+    for (Coin c : wallet.currency) {
+      if (c.name.equals(name)) {
+        return c.amount;
+      }
+    }
+    return 0;
+  }
+
   public static Wallet setCurrency(Wallet wallet, double amount) {
     for (int i = 0; i < wallet.currency.length; i++) {
       if (wallet.currency[i].name.equals(((EconomyConfig) (SERegistry
           .getStoredData(DataKey.MODULE_CONFIG,
               "Economy"))).defaultServerCurrency.name)) {
+        wallet.currency[i].amount = amount;
+        return wallet;
+      }
+    }
+    return wallet;
+  }
+
+  public static Wallet setCurrency(Wallet wallet, double amount, String name) {
+    for (int i = 0; i < wallet.currency.length; i++) {
+      if (wallet.currency[i].name.equals(name)) {
         wallet.currency[i].amount = amount;
         return wallet;
       }
@@ -118,10 +137,34 @@ public class EcoUtils {
     }
   }
 
+  public static void addCurrency(EntityPlayer player, double amount, String currency) {
+    GlobalPlayer playerData = RestRequestGenerator.User
+        .getPlayer(player.getGameProfile().getId().toString());
+    setCurrency(playerData.wallet, getCurrency(playerData.wallet, currency) + amount, currency);
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.User
+          .overridePlayer(player.getGameProfile().getId().toString(), playerData);
+      ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
+          player.getGameProfile().getId().toString())).global = playerData;
+    }
+  }
+
   public static void consumeCurrency(EntityPlayer player, double amount) {
     GlobalPlayer playerData = RestRequestGenerator.User
         .getPlayer(player.getGameProfile().getId().toString());
     setCurrency(playerData.wallet, getCurrency(playerData.wallet) - amount);
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+      RestRequestGenerator.User
+          .overridePlayer(player.getGameProfile().getId().toString(), playerData);
+      ((StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
+          player.getGameProfile().getId().toString())).global = playerData;
+    }
+  }
+
+  public static void consumeCurrency(EntityPlayer player, double amount, String currency) {
+    GlobalPlayer playerData = RestRequestGenerator.User
+        .getPlayer(player.getGameProfile().getId().toString());
+    setCurrency(playerData.wallet, getCurrency(playerData.wallet,currency) - amount,currency);
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User
           .overridePlayer(player.getGameProfile().getId().toString(), playerData);

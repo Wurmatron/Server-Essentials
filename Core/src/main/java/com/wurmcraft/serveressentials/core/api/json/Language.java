@@ -14,6 +14,7 @@ public class Language implements StoredDataType {
   public String ERROR_INSUFFICENT_FUNDS;
   public String ERROR_MUTED;
   public String ERROR_RANK_NOT_FOUND;
+  public String ERROR_ECO_NOT_FOUND;
   public String ERROR_NO_HELD_ITEM;
 
   // Core Module
@@ -101,18 +102,6 @@ public class Language implements StoredDataType {
   public String GENERAL_TP;
   public String GENERAL_TP_OTHER;
   public String GENERAL_TPOFFLINE;
-  public String GENERAL_PERM_USER_RANK;
-  public String GENERAL_PERM_USER_LANG;
-  public String GENERAL_PERM_USER_MUTE;
-  public String GENERAL_PERM_USER_VERIFY;
-  public String GENERAL_PERM_USER_FIX;
-  public String GENERAL_PERM_USER_SYNC;
-  public String GENERAL_PERM_USER_PERMISSION_ADD;
-  public String GENERAL_PERM_USER_PERMISSION_DEL;
-  public String GENERAL_PERM_USER_PERK_ADD;
-  public String GENERAL_PERM_USER_PERK_DEL;
-  public String GENERAL_PERM_CHECK_TRUE;
-  public String GENERAL_PERM_CHECK_FALSE;
 
   // Discord
   public String DISCORD_VERIFIED;
@@ -130,6 +119,8 @@ public class Language implements StoredDataType {
   public String ECO_SIGN_ADMIN_COMMAND;
   public String ECO_SIGN_BUY;
   public String ECO_SIGN_SELL;
+  public String ECO_ECO_ADD;
+  public String ECO_ECO_REM;
 
   // Chunk Loading
   public String CHUNKLOADING_SET;
@@ -138,6 +129,17 @@ public class Language implements StoredDataType {
 
   // Auto-Rank
   public String AUTORANK_RANK_UP;
+
+  // Rank
+  public String RANK_RANK_SET;
+  public String RANK_RANK_PREFIX;
+  public String RANK_RANK_SUFFIX;
+  public String RANK_RANK_DELETE;
+  public String RANK_RANK_CREATE;
+  public String RANK_RANK_PERMISSION_ADD;
+  public String RANK_RANK_PERMISSION_DEL;
+  public String RANK_RANK_INHERIT_ADD;
+  public String RANK_RANK_INHERIT_DEL;
 
   public Language(String langKey) {
     this.langKey = langKey;

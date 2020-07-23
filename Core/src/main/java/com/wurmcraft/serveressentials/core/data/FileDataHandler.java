@@ -87,7 +87,6 @@ public class FileDataHandler extends BasicDataHandler {
           }
         }
       } catch (IOException f) {
-        f.printStackTrace();
       }
     }
     throw new NoSuchElementException();

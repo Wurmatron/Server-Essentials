@@ -27,9 +27,15 @@ public class MatterLinkConfig implements StoredDataType {
     this.displayServerStatus = false;
   }
 
-  public MatterLinkConfig(String url, String gateway, String protocol,
-      String account, String token, boolean displayLoginLogoutMessages,
-      String dataCollectionType, boolean displayServerStatus) {
+  public MatterLinkConfig(
+      String url,
+      String gateway,
+      String protocol,
+      String account,
+      String token,
+      boolean displayLoginLogoutMessages,
+      String dataCollectionType,
+      boolean displayServerStatus) {
     this.url = url;
     this.gateway = gateway;
     this.protocol = protocol;
