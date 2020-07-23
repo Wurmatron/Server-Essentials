@@ -5,7 +5,7 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
-import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;

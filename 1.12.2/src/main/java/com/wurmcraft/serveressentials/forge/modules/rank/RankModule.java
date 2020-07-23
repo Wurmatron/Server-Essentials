@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.Module;
+import com.wurmcraft.serveressentials.core.api.module.config.RankConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
@@ -12,11 +13,15 @@ import org.cliffc.high_scale_lib.NonBlockingHashMap;
 @Module(name = "Rank")
 public class RankModule {
 
+  public static RankConfig config = (RankConfig) SERegistry
+      .getStoredData(DataKey.MODULE_CONFIG, "Rank");
+
   public void initSetup() {
     loadRanks();
   }
 
   public void finalizeModule() {
+    RankUtils.scheduleRankUpdates(config.rankSyncPeriod);
   }
 
   private static Rank[] loadRanks() {

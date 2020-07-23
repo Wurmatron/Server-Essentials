@@ -16,7 +16,7 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.URLUtils;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
-import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.LanguageConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.io.IOException;
 import java.util.NoSuchElementException;

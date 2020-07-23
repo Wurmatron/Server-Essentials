@@ -12,7 +12,7 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.api.player.TPARequest;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.common.utils.TextComponentUtils;
-import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.GeneralConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

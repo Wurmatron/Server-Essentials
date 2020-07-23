@@ -13,7 +13,7 @@ import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.common.utils.TextComponentUtils;
-import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.GeneralConfig;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.util.NoSuchElementException;
 import net.minecraft.command.ICommandSender;

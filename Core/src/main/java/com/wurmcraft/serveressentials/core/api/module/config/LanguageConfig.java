@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.forge.modules.language;
+package com.wurmcraft.serveressentials.core.api.module.config;
 
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import com.wurmcraft.serveressentials.core.api.module.ConfigModule;
@@ -12,12 +12,12 @@ public class LanguageConfig implements StoredDataType {
 
   public LanguageConfig() {
     this.defaultLang = "en_us";
-    this.languageLocation = "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/modular/Language/";
+    this.languageLocation =
+        "https://raw.githubusercontent.com/Wurmcraft/Server-Essentials/modular/Language/";
     this.defaultChannel = "global";
   }
 
-  public LanguageConfig(String defaultLang, String languageLocation,
-      String defaultChannel) {
+  public LanguageConfig(String defaultLang, String languageLocation, String defaultChannel) {
     this.defaultLang = defaultLang;
     this.languageLocation = languageLocation;
     this.defaultChannel = defaultChannel;

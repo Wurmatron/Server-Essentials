@@ -5,12 +5,8 @@ import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
-import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
-import com.wurmcraft.serveressentials.core.utils.URLUtils;
-import com.wurmcraft.serveressentials.forge.api.command.SECommand;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
-import com.wurmcraft.serveressentials.forge.modules.matterlink.MatterLinkConfig;
-import com.wurmcraft.serveressentials.forge.modules.matterlink.MatterLinkModule;
+import com.wurmcraft.serveressentials.core.api.module.config.MatterLinkConfig;
 import com.wurmcraft.serveressentials.forge.modules.matterlink.event.MatterLinkTickEvent;
 import com.wurmcraft.serveressentials.forge.modules.matterlink.utils.json.RestMessage;
 import java.io.BufferedReader;
@@ -18,8 +14,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import javax.net.ssl.HttpsURLConnection;
 
 public class MatterBridgeUtils {
 

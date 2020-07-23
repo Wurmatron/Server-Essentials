@@ -4,6 +4,7 @@ import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.module.Module;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;

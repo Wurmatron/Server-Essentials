@@ -11,7 +11,7 @@ import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.eco.Coin;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
-import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import java.util.NoSuchElementException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

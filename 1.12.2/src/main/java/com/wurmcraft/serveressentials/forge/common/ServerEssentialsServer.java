@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, serverSideOnly = true, acceptableRemoteVersions = "*")
@@ -34,7 +35,7 @@ public class ServerEssentialsServer {
 
   @EventHandler
   public void preInitialization(FMLPreInitializationEvent e) {
-    logger = e.getModLog();
+    logger = LogManager.getLogger(Global.NAME);
     logger.info("Starting FML-PreInitialization");
   }
 

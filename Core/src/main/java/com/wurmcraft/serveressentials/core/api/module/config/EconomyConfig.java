@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.forge.modules.economy;
+package com.wurmcraft.serveressentials.core.api.module.config;
 
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
 import com.wurmcraft.serveressentials.core.api.eco.Coin;
@@ -22,8 +22,11 @@ public class EconomyConfig implements StoredDataType {
   }
 
   public EconomyConfig(
-      Coin defaultServerCurrency, double homeLevelCost, double claimLevelCost,
-      int claimAmountPerLevel, int echestPerkCost) {
+      Coin defaultServerCurrency,
+      double homeLevelCost,
+      double claimLevelCost,
+      int claimAmountPerLevel,
+      int echestPerkCost) {
     this.defaultServerCurrency = defaultServerCurrency;
     this.homeLevelCost = homeLevelCost;
     this.claimLevelCost = claimLevelCost;

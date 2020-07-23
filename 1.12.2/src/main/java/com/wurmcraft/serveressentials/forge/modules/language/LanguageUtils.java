@@ -2,9 +2,9 @@ package com.wurmcraft.serveressentials.forge.modules.language;
 
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 
-import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.Language;
+import com.wurmcraft.serveressentials.core.api.module.config.LanguageConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.URLUtils;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;

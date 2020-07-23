@@ -22,9 +22,9 @@ import com.wurmcraft.serveressentials.forge.api.event.NewPlayerJoin;
 import com.wurmcraft.serveressentials.forge.api.event.PlayerDataSyncEvent;
 import com.wurmcraft.serveressentials.forge.api.event.RankChangeEvent;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
-import com.wurmcraft.serveressentials.forge.modules.economy.EconomyConfig;
-import com.wurmcraft.serveressentials.forge.modules.language.LanguageConfig;
-import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.LanguageConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.RankConfig;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,40 +47,32 @@ public class PlayerDataEvents {
   @SubscribeEvent(priority = EventPriority.HIGHEST)
   public void onPlayerJoin(PlayerLoggedInEvent e) {
     handleLogin(e.player);
+    if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
+      SECore.executors.scheduleAtFixedRate(() -> {
+        savePlayer(e.player);
+        ServerEssentialsServer.logger.trace("User '" + e.player.getDisplayNameString() + "' has been synced!");
+      }, 0, 90, TimeUnit.SECONDS);
+    }
+  }
+
+  public static void handleLogin(EntityPlayer player) {
+    try {
+      SERegistry
+          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+    } catch (NoSuchElementException f) {
+      ServerEssentialsServer.logger
+          .info(player.getDisplayNameString() + " is a new player!");
+      StoredPlayer playerData = createNew(player);
+      newPlayers.add(player.getGameProfile().getId().toString());
+      SERegistry.register(DataKey.PLAYER, playerData);
+      handAndCheckForErrors(player);
+      MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
+    }
   }
 
   @SubscribeEvent(priority = EventPriority.LOWEST)
   public void onPlayerLeave(PlayerLoggedOutEvent e) {
     savePlayer(e.player);
-  }
-
-  public static void handleLogin(EntityPlayer player) {
-    try {
-      StoredPlayer playerData = (StoredPlayer) SERegistry
-          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
-      if (playerData.global == null && playerData.server == null) {
-        ServerEssentialsServer.logger
-            .info(player.getDisplayNameString() + " is a new player!");
-        StoredPlayer data = createNew(player);
-        SERegistry.register(DataKey.PLAYER, data);
-        MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
-      }
-    } catch (NoSuchElementException e) {
-      ServerEssentialsServer.logger
-          .info(player.getDisplayNameString() + " is a new player!");
-      newPlayers.add(player.getGameProfile().getId().toString());
-      StoredPlayer playerData = createNew(player);
-      SERegistry.register(DataKey.PLAYER, playerData);
-      handAndCheckForErrors(player);
-      MinecraftForge.EVENT_BUS.post(new NewPlayerJoin(player, playerData));
-    }
-    if (SERegistry.globalConfig.dataStorgeType.equals("Rest")) {
-      SECore.executors.scheduleAtFixedRate(() -> {
-        savePlayer(player);
-        ServerEssentialsServer.logger
-            .trace("User '" + player.getDisplayNameString() + "' has been synced!");
-      }, 0, 90, TimeUnit.SECONDS);
-    }
   }
 
   public static StoredPlayer createNew(EntityPlayer player) {

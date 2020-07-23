@@ -8,7 +8,7 @@ import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
-import com.wurmcraft.serveressentials.forge.modules.general.GeneralConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.GeneralConfig;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 

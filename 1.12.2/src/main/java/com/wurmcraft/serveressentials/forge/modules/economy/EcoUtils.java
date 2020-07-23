@@ -2,12 +2,12 @@ package com.wurmcraft.serveressentials.forge.modules.economy;
 
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.eco.Coin;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.api.player.Wallet;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
-import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.User;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
 import java.util.Arrays;

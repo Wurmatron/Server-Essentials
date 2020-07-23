@@ -1,4 +1,4 @@
-package com.wurmcraft.serveressentials.forge.modules.general;
+package com.wurmcraft.serveressentials.core.api.module.config;
 
 import com.wurmcraft.serveressentials.core.api.data.LocationWrapper;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
@@ -20,11 +20,15 @@ public class GeneralConfig implements StoredDataType {
     this.startingHomeAmount = 1;
     motd = new String[] {};
     rules = new String[] {};
-    spawn = new LocationWrapper(0,64,0);
+    spawn = new LocationWrapper(0, 64, 0);
   }
 
-  public GeneralConfig(int tpaTimeout, String defaultHome, int startingHomeAmount,
-      String[] motd, String[] rules,
+  public GeneralConfig(
+      int tpaTimeout,
+      String defaultHome,
+      int startingHomeAmount,
+      String[] motd,
+      String[] rules,
       LocationWrapper spawn) {
     this.tpaTimeout = tpaTimeout;
     this.defaultHome = defaultHome;

@@ -4,6 +4,7 @@ import static com.wurmcraft.serveressentials.forge.modules.language.LanguageUtil
 
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.module.Module;
+import com.wurmcraft.serveressentials.core.api.module.config.LanguageConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.modules.language.event.ChatEvents;
 import net.minecraftforge.common.MinecraftForge;

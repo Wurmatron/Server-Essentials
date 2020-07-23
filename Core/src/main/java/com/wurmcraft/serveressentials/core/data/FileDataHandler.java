@@ -5,11 +5,23 @@ import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.data.StoredDataType;
+import com.wurmcraft.serveressentials.core.api.data.Warp;
+import com.wurmcraft.serveressentials.core.api.eco.Currency;
+import com.wurmcraft.serveressentials.core.api.json.Language;
+import com.wurmcraft.serveressentials.core.api.json.rank.AutoRank;
+import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.GeneralConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.LanguageConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.MatterLinkConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.RankConfig;
+import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.utils.FileUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.*;
 import java.util.NoSuchElementException;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
@@ -41,7 +53,44 @@ public class FileDataHandler extends BasicDataHandler {
 
   @Override
   public StoredDataType getData(DataKey key, String dataID) throws NoSuchElementException {
-    return super.getData(key, dataID);
+    try {
+      return super.getData(key, dataID);
+    } catch (NoSuchElementException e) {
+      File toLoad =
+          new File(
+              SECore.SAVE_DIR + File.separator + key.getName() + File.separator + dataID + ".json");
+      try {
+        List<String> lines = Files.readAllLines(toLoad.toPath());
+        if (DataKey.RANK == key) {
+          return GSON.fromJson(String.join("\n", lines), Rank.class);
+        } else if (DataKey.PLAYER == key) {
+          return GSON.fromJson(String.join("\n", lines), StoredPlayer.class);
+        } else if (DataKey.AUTO_RANK == key) {
+          return GSON.fromJson(String.join("\n", lines), AutoRank.class);
+        } else if (DataKey.CURRENCY == key) {
+          return GSON.fromJson(String.join("\n", lines), Currency.class);
+        } else if (DataKey.LANGUAGE == key) {
+          return GSON.fromJson(String.join("\n", lines), Language.class);
+        } else if (DataKey.WARP == key) {
+          return GSON.fromJson(String.join("\n", lines), Warp.class);
+        } else if (DataKey.MODULE_CONFIG == key) {
+          if (dataID.equals("Economy")) {
+            return GSON.fromJson(String.join("\n", lines), EconomyConfig.class);
+          } else if (dataID.equals("General")) {
+            return GSON.fromJson(String.join("\n", lines), GeneralConfig.class);
+          } else if (dataID.equals("Language")) {
+            return GSON.fromJson(String.join("\n", lines), LanguageConfig.class);
+          } else if (dataID.equals("MatterLink")) {
+            return GSON.fromJson(String.join("\n", lines), MatterLinkConfig.class);
+          } else if (dataID.equals("Rank")) {
+            return GSON.fromJson(String.join("\n", lines), RankConfig.class);
+          }
+        }
+      } catch (IOException f) {
+        f.printStackTrace();
+      }
+    }
+    throw new NoSuchElementException();
   }
 
   @Override

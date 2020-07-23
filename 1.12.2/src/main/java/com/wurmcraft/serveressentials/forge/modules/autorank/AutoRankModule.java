@@ -9,7 +9,7 @@ import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.autorank.event.RankupEvents;
-import com.wurmcraft.serveressentials.forge.modules.rank.RankConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.RankConfig;
 import net.minecraftforge.common.MinecraftForge;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 

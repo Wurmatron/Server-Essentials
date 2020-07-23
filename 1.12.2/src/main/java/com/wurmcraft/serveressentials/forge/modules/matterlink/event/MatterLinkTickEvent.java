@@ -3,11 +3,7 @@ package com.wurmcraft.serveressentials.forge.modules.matterlink.event;
 import static com.wurmcraft.serveressentials.core.SECore.GSON;
 import static com.wurmcraft.serveressentials.forge.modules.matterlink.utils.MatterBridgeUtils.USER_AGENT;
 import static com.wurmcraft.serveressentials.forge.modules.matterlink.utils.MatterBridgeUtils.getLinkConnectURL;
-import static com.wurmcraft.serveressentials.forge.modules.matterlink.utils.MatterBridgeUtils.sendMessage;
 
-import com.google.gson.JsonStreamParser;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
@@ -15,23 +11,16 @@ import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
-import com.wurmcraft.serveressentials.forge.modules.language.LanguageUtils;
 import com.wurmcraft.serveressentials.forge.modules.language.event.ChatEvents;
-import com.wurmcraft.serveressentials.forge.modules.matterlink.MatterLinkConfig;
+import com.wurmcraft.serveressentials.core.api.module.config.MatterLinkConfig;
 import com.wurmcraft.serveressentials.forge.modules.matterlink.utils.MatterBridgeUtils;
 import com.wurmcraft.serveressentials.forge.modules.matterlink.utils.json.RestMessage;
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +33,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class MatterLinkTickEvent {
 
