@@ -121,6 +121,8 @@ public class Language implements StoredDataType {
   public String ECO_SIGN_SELL;
   public String ECO_ECO_ADD;
   public String ECO_ECO_REM;
+  public String ECO_CONSUME;
+  public String ECO_ADD;
 
   // Chunk Loading
   public String CHUNKLOADING_SET;

@@ -2,14 +2,17 @@ package com.wurmcraft.serveressentials.forge.api.command;
 
 import static com.wurmcraft.serveressentials.forge.common.utils.CommandParser.getInstanceForArgument;
 
-import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
+import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.module.config.CommandCost;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.common.utils.CommandParser;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
+import com.wurmcraft.serveressentials.forge.modules.economy.EcoUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.lang.reflect.Method;
@@ -41,6 +44,7 @@ public class SECommand extends CommandBase {
   private NonBlockingHashMap<CommandArguments[], Method> cache;
   private NonBlockingHashMap<String, CommandArguments> argumentCache;
   private StringBuilder commandUsage;
+  private CommandCost cost;
 
   public SECommand(ModuleCommand command, Object commandInstance) {
     this.command = command;
@@ -62,6 +66,17 @@ public class SECommand extends CommandBase {
           commandUsage.append(" (");
           commandUsage.append(Arrays.toString(commandAnnotation.inputNames()));
           commandUsage.append(") ");
+        }
+      }
+    }
+    if (SERegistry.isModuleLoaded("Economy")) {
+      EconomyConfig config = (EconomyConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy");
+      if (config.commandCost != null && config.commandCost.length > 0) {
+        for (CommandCost cmd : config.commandCost) {
+          if (cmd.commandName.equalsIgnoreCase(getName())) {
+            this.cost = cmd;
+          }
         }
       }
     }
@@ -87,11 +102,30 @@ public class SECommand extends CommandBase {
       Command command = commandExec.getDeclaredAnnotation(Command.class);
       if (command.subCommand().isEmpty()) {
         try {
-          commandExec
-              .invoke(commandInstance,
-                  CommandParser.parseLineToArguments(sender, args, commandArgs));
-          if(SERegistry.globalConfig.logCommandToCMD) {
-            ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+          if (cost != null) {
+            if (EcoUtils.handleCommandCost(sender, cost)) {
+              commandExec
+                  .invoke(commandInstance,
+                      CommandParser.parseLineToArguments(sender, args, commandArgs));
+              if (SERegistry.globalConfig.logCommandToCMD) {
+                ServerEssentialsServer.logger.info(
+                    sender.getDisplayName().getUnformattedText() + " has run command `/"
+                        + getName() + " " + String.join(" ", args) + "'");
+              }
+            } else {
+              sender.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
+                  .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS.replaceAll("%AMOUNT%",
+                      COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
+            }
+          } else {
+            commandExec
+                .invoke(commandInstance,
+                    CommandParser.parseLineToArguments(sender, args, commandArgs));
+            if (SERegistry.globalConfig.logCommandToCMD) {
+              ServerEssentialsServer.logger.info(
+                  sender.getDisplayName().getUnformattedText() + " has run command `/"
+                      + getName() + " " + String.join(" ", args) + "'");
+            }
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -103,11 +137,30 @@ public class SECommand extends CommandBase {
           }
         }
         try {
-          commandExec
-              .invoke(commandInstance,
-                  CommandParser.parseLineToArguments(sender, args, commandArgs));
-          if(SERegistry.globalConfig.logCommandToCMD) {
-            ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+          if (cost != null) {
+            if (EcoUtils.handleCommandCost(sender, cost)) {
+              commandExec
+                  .invoke(commandInstance,
+                      CommandParser.parseLineToArguments(sender, args, commandArgs));
+              if (SERegistry.globalConfig.logCommandToCMD) {
+                ServerEssentialsServer.logger.info(
+                    sender.getDisplayName().getUnformattedText() + " has run command `/"
+                        + getName() + " " + String.join(" ", args) + "'");
+              }
+            } else {
+              sender.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
+                  .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS.replaceAll("%AMOUNT%",
+                      COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
+            }
+          } else {
+            commandExec
+                .invoke(commandInstance,
+                    CommandParser.parseLineToArguments(sender, args, commandArgs));
+            if (SERegistry.globalConfig.logCommandToCMD) {
+              ServerEssentialsServer.logger.info(
+                  sender.getDisplayName().getUnformattedText() + " has run command `/"
+                      + getName() + " " + String.join(" ", args) + "'");
+            }
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -126,11 +179,36 @@ public class SECommand extends CommandBase {
                   .equals(CommandArguments.PLAYER) && command.inputArguments()[1]
                   .equals(CommandArguments.STRING_ARR)) {
                 try {
-                  m.invoke(commandInstance, sender,
-                      getInstanceForArgument(args[0], CommandArguments.PLAYER),
-                      Arrays.copyOfRange(args, 1, args.length));
-                  if(SERegistry.globalConfig.logCommandToCMD) {
-                    ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+                  if (cost != null) {
+                    if (EcoUtils.handleCommandCost(sender, cost)) {
+                      m
+                          .invoke(commandInstance,
+                              CommandParser
+                                  .parseLineToArguments(sender, args, commandArgs));
+                      if (SERegistry.globalConfig.logCommandToCMD) {
+                        ServerEssentialsServer.logger.info(
+                            sender.getDisplayName().getUnformattedText()
+                                + " has run command `/"
+                                + getName() + " " + String.join(" ", args) + "'");
+                      }
+                    } else {
+                      sender.sendMessage(new TextComponentString(
+                          COMMAND_COLOR + PlayerUtils
+                              .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
+                              .replaceAll("%AMOUNT%",
+                                  COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
+                    }
+                  } else {
+                    m
+                        .invoke(commandInstance,
+                            CommandParser
+                                .parseLineToArguments(sender, args, commandArgs));
+                    if (SERegistry.globalConfig.logCommandToCMD) {
+                      ServerEssentialsServer.logger.info(
+                          sender.getDisplayName().getUnformattedText()
+                              + " has run command `/"
+                              + getName() + " " + String.join(" ", args) + "'");
+                    }
                   }
                 } catch (Exception e) {
                   e.printStackTrace();
@@ -145,9 +223,36 @@ public class SECommand extends CommandBase {
               if (command.inputArguments().length >= 1 && command.inputArguments()[0]
                   .equals(CommandArguments.STRING_ARR)) {
                 try {
-                  m.invoke(commandInstance, sender, args);
-                  if(SERegistry.globalConfig.logCommandToCMD) {
-                    ServerEssentialsServer.logger.info(sender.getDisplayName().getUnformattedText() + " has run command `/" + getName() + " " + String.join(" ", args) + "'");
+                  if (cost != null) {
+                    if (EcoUtils.handleCommandCost(sender, cost)) {
+                      m
+                          .invoke(commandInstance,
+                              CommandParser
+                                  .parseLineToArguments(sender, args, commandArgs));
+                      if (SERegistry.globalConfig.logCommandToCMD) {
+                        ServerEssentialsServer.logger.info(
+                            sender.getDisplayName().getUnformattedText()
+                                + " has run command `/"
+                                + getName() + " " + String.join(" ", args) + "'");
+                      }
+                    } else {
+                      sender.sendMessage(new TextComponentString(
+                          COMMAND_COLOR + PlayerUtils
+                              .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
+                              .replaceAll("%AMOUNT%",
+                                  COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
+                    }
+                  } else {
+                    m
+                        .invoke(commandInstance,
+                            CommandParser
+                                .parseLineToArguments(sender, args, commandArgs));
+                    if (SERegistry.globalConfig.logCommandToCMD) {
+                      ServerEssentialsServer.logger.info(
+                          sender.getDisplayName().getUnformattedText()
+                              + " has run command `/"
+                              + getName() + " " + String.join(" ", args) + "'");
+                    }
                   }
                 } catch (Exception e) {
                   e.printStackTrace();

@@ -1,6 +1,15 @@
 package com.wurmcraft.serveressentials.forge.api.command;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
+
+import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.module.config.CommandCost;
+import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
+import com.wurmcraft.serveressentials.forge.modules.economy.EcoUtils;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -10,13 +19,26 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 
 public class WrapperCommand extends CommandBase {
 
   private ICommand command;
+  private CommandCost cost;
 
   public WrapperCommand(ICommand command) {
     this.command = command;
+    if (SERegistry.isModuleLoaded("Economy")) {
+      EconomyConfig config = (EconomyConfig) SERegistry
+          .getStoredData(DataKey.MODULE_CONFIG, "Economy");
+      if (config.commandCost != null && config.commandCost.length > 0) {
+        for (CommandCost cmd : config.commandCost) {
+          if (cmd.commandName.equalsIgnoreCase(getName())) {
+            this.cost = cmd;
+          }
+        }
+      }
+    }
   }
 
   @Override
@@ -32,7 +54,18 @@ public class WrapperCommand extends CommandBase {
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
-    command.execute(server, sender, args);
+    if (EcoUtils.handleCommandCost(sender, cost)) {
+      command.execute(server, sender, args);
+      if (SERegistry.globalConfig.logCommandToCMD) {
+        ServerEssentialsServer.logger.info(
+            sender.getDisplayName().getUnformattedText() + " has run command `/"
+                + getName() + " " + String.join(" ", args) + "'");
+      }
+    } else {
+      sender.sendMessage(new TextComponentString(
+          COMMAND_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
+              .replaceAll("%AMOUNT%", COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
+    }
   }
 
   @Override

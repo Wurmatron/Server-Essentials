@@ -1,7 +1,11 @@
 package com.wurmcraft.serveressentials.forge.modules.economy;
 
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_COLOR;
+import static com.wurmcraft.serveressentials.forge.api.command.SECommand.COMMAND_INFO_COLOR;
+
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.eco.Coin;
+import com.wurmcraft.serveressentials.core.api.module.config.CommandCost;
 import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
@@ -13,11 +17,13 @@ import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.
 import java.util.Arrays;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentString;
 import scala.actors.$bang;
 
 public class EcoUtils {
 
-  public static EconomyConfig config = (EconomyConfig) SERegistry.getStoredData(DataKey.MODULE_CONFIG, "Economy");
+  public static EconomyConfig config = (EconomyConfig) SERegistry
+      .getStoredData(DataKey.MODULE_CONFIG, "Economy");
 
   public static boolean hasTheMoney(Wallet wallet, double amount) {
     for (Coin c : wallet.currency) {
@@ -63,12 +69,12 @@ public class EcoUtils {
         return wallet;
       }
     }
-    if(wallet.currency.length > 0) {
+    if (wallet.currency.length > 0) {
       Coin[] currentCoins = wallet.currency;
       currentCoins = Arrays.copyOfRange(currentCoins, 0, currentCoins.length + 1);
-      currentCoins[currentCoins.length - 1] = new Coin(name,amount);
+      currentCoins[currentCoins.length - 1] = new Coin(name, amount);
     } else {
-      return new Wallet(new Coin[] {new Coin(name,amount)});
+      return new Wallet(new Coin[]{new Coin(name, amount)});
     }
     return wallet;
   }
@@ -130,19 +136,24 @@ public class EcoUtils {
   }
 
   public static void addCurrency(EntityPlayer player, double amount) {
-   addCurrency(player,amount,config.defaultServerCurrency.name);
+    addCurrency(player, amount, config.defaultServerCurrency.name);
   }
 
   public static void addCurrency(EntityPlayer player, double amount, String currency) {
     GlobalPlayer playerData = PlayerUtils.getPlayer(player).global;
-    if(SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+    if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       playerData = RestRequestGenerator.User
           .getPlayer(player.getGameProfile().getId().toString());
     }
-    if(playerData.wallet == null) {
+    if (playerData.wallet == null) {
       playerData.wallet = new Wallet(new Coin[0]);
     }
-    playerData.wallet = setCurrency(playerData.wallet, getCurrency(playerData.wallet, currency) + amount, currency);
+    playerData.wallet = setCurrency(playerData.wallet,
+        getCurrency(playerData.wallet, currency) + amount, currency);
+    player.sendMessage(new TextComponentString(
+        COMMAND_COLOR + PlayerUtils.getUserLanguage(player).ECO_ADD
+            .replaceAll("%AMOUNT%", COMMAND_INFO_COLOR + amount + COMMAND_COLOR)
+            .replaceAll("%NAME%", COMMAND_INFO_COLOR + currency + COMMAND_COLOR)));
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User
           .overridePlayer(player.getGameProfile().getId().toString(), playerData);
@@ -155,7 +166,7 @@ public class EcoUtils {
   }
 
   public static void consumeCurrency(EntityPlayer player, double amount) {
-    consumeCurrency(player, amount,config.defaultServerCurrency.name);
+    consumeCurrency(player, amount, config.defaultServerCurrency.name);
   }
 
   public static void consumeCurrency(EntityPlayer player, double amount,
@@ -168,7 +179,12 @@ public class EcoUtils {
     if (playerData.wallet == null) {
       playerData.wallet = new Wallet(new Coin[0]);
     }
-    playerData.wallet = setCurrency(playerData.wallet, getCurrency(playerData.wallet,currency) - amount, currency);
+    playerData.wallet = setCurrency(playerData.wallet,
+        getCurrency(playerData.wallet, currency) - amount, currency);
+    player.sendMessage(new TextComponentString(
+        COMMAND_COLOR + PlayerUtils.getUserLanguage(player).ECO_CONSUME
+            .replaceAll("%AMOUNT%", COMMAND_INFO_COLOR + amount + COMMAND_COLOR)
+            .replaceAll("%NAME%", COMMAND_INFO_COLOR + currency + COMMAND_COLOR)));
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User
           .overridePlayer(player.getGameProfile().getId().toString(), playerData);
@@ -178,5 +194,18 @@ public class EcoUtils {
     StoredPlayer data = PlayerUtils.getPlayer(player);
     data.global = playerData;
     SERegistry.register(DataKey.PLAYER, data);
+  }
+
+  public static boolean handleCommandCost(ICommandSender sender, CommandCost cost) {
+    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      double currentCash = getCurrency(PlayerUtils.getPlayer(player).global.wallet);
+      if ((currentCash - cost.cost) > 0) {
+        consumeCurrency(player, cost.cost);
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
 }

@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.core.api.eco.Currency;
 import com.wurmcraft.serveressentials.core.api.json.Language;
 import com.wurmcraft.serveressentials.core.api.json.rank.AutoRank;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
+import com.wurmcraft.serveressentials.core.api.module.config.DiscordConfig;
 import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
 import com.wurmcraft.serveressentials.core.api.module.config.GeneralConfig;
 import com.wurmcraft.serveressentials.core.api.module.config.LanguageConfig;
@@ -84,6 +85,8 @@ public class FileDataHandler extends BasicDataHandler {
             return GSON.fromJson(String.join("\n", lines), MatterLinkConfig.class);
           } else if (dataID.equals("Rank")) {
             return GSON.fromJson(String.join("\n", lines), RankConfig.class);
+          } else if (dataID.equals("Discord")) {
+            return GSON.fromJson(String.join("\n", lines), DiscordConfig.class);
           }
         }
       } catch (IOException f) {
