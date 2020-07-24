@@ -102,6 +102,8 @@
 	"ECO_SIGN_SELL": "You have just sold %NAME% to %PLAYER% for %COST%",
 	"ECO_ECO_ADD": "%AMOUNT% has been added to %PLAYER%'s account",
 	"ECO_ECO_REM": "%AMOUNT% has been removed from %PLAYER%'s account",
+	"ECO_CONSUME": "You have lost %AMOUNT% %NAME%'s",
+	"ECO_ADD": "You have gained %AMOUNT%",
 	"CHUNKLOADING_SET": "Chunk Loading Set, Make sure you add money to its account",
 	"CHUNKLOADING_DEL": "Chunk Loading Removed",
 	"CHUNKLOADING_BALANCE": "You current balance is %BAL%",
