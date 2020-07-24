@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.core.api.track.TrackingStatus.Status;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.api.command.SECommand;
+import com.wurmcraft.serveressentials.forge.api.command.WrapperCommand;
 import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import com.wurmcraft.serveressentials.forge.modules.matterlink.MatterLinkModule;
 import com.wurmcraft.serveressentials.forge.modules.matterlink.utils.MatterBridgeUtils;
@@ -18,6 +19,7 @@ import com.wurmcraft.serveressentials.forge.modules.track.TrackUtils;
 import com.wurmcraft.serveressentials.forge.modules.track.event.TrackEvents;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import net.minecraft.command.ICommand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -66,6 +68,9 @@ public class ServerEssentialsServer {
 
   @EventHandler
   public void serverStarting(FMLServerStartingEvent e) {
+    for(ICommand c : FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().getCommands().values()) {
+      FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().getCommands().put(c.getName(),new WrapperCommand(c));
+    }
     for (String c : SERegistry.getLoadedCommands()) {
       Object command = SERegistry.getCommand(c);
       e.registerServerCommand(new SECommand(command.getClass().getAnnotation(

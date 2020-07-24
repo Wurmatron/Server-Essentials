@@ -9,6 +9,7 @@ import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
+import com.wurmcraft.serveressentials.forge.api.command.SECommand;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
 import java.util.Arrays;

@@ -70,11 +70,13 @@ public class PlayerUtils {
       int maxHomes = PlayerUtils.getMaxHomes(player);
       if (maxHomes > playerData.server.homes.length) {
         playerData.server.homes = addHome(playerData.server.homes, home, true);
+        SERegistry.register(DataKey.PLAYER, playerData);
         return true;
       } else { // Possible Override
         Home[] newHomes = addHome(playerData.server.homes, home, false);
         if (newHomes != null) {
           playerData.server.homes = newHomes;
+          SERegistry.register(DataKey.PLAYER, playerData);
           return true;
         }
       }

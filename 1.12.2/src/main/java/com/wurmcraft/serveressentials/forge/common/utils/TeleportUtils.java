@@ -30,7 +30,6 @@ public class TeleportUtils {
       playerData.server.teleportTimer = System.currentTimeMillis();
       playerData.server.lastLocation = new LocationWrapper(player.posX, player.posY,
           player.posZ, player.dimension);
-
       teleportTo((EntityPlayerMP) player,loc);
     } catch (NoSuchElementException e) {
       ServerEssentialsServer.logger.warn("Unable to find data for '" + player.getDisplayNameString()

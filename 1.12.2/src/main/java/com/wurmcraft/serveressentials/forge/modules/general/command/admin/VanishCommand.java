@@ -18,9 +18,6 @@ public class VanishCommand {
 
   @Command(inputArguments = {})
   public void vanish(ICommandSender sender) {
-    if (SERegistry.isModuleLoaded("Rank") && RankUtils
-        .hasPermission(RankUtils.getRank(sender), "general.vanish") || !SERegistry
-        .isModuleLoaded("Rank")) {
       if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
         EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
         if (GeneralEvents.vanishedPlayers.contains(player)) {
@@ -36,7 +33,5 @@ public class VanishCommand {
           GeneralEvents.vanishedPlayers.add(player);
         }
       }
-    }      sender.sendMessage(new TextComponentString(
-        ERROR_COLOR + PlayerUtils.getUserLanguage(sender).ERROR_NO_PERMS));
   }
 }

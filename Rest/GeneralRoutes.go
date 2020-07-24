@@ -9,7 +9,6 @@ import (
 	"math"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 var redisDBStatus *redis.Client
@@ -66,7 +65,7 @@ func PostStatus(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	redisDBStatus.Set(Status.ServerID, output, time.Duration(time.Duration.Minutes(3)))
+	redisDBStatus.Set(Status.ServerID, output, 600000000000)
 	w.WriteHeader(http.StatusAccepted)
 }
 
