@@ -3,7 +3,11 @@
 ## Building
 [1]. Install [GoLang](https://golang.org/) 
 
-[2]. Install Dependencies 'go get ./...'
+[2]. Install Dependencies 
+
+    - go get github.com/go-redis/redis
+    
+    - go get github.com/julienschmidt/httprouter
 
 [3]. Build 'go build -o (name)'
 
