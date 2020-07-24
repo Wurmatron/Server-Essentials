@@ -142,7 +142,7 @@ public class EcoUtils {
     if(playerData.wallet == null) {
       playerData.wallet = new Wallet(new Coin[0]);
     }
-    playerData.wallet = setCurrency(playerData.wallet, getCurrency(playerData.wallet) + amount);
+    playerData.wallet = setCurrency(playerData.wallet, getCurrency(playerData.wallet, currency) + amount, currency);
     if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
       RestRequestGenerator.User
           .overridePlayer(player.getGameProfile().getId().toString(), playerData);
