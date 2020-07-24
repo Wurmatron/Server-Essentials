@@ -141,9 +141,9 @@ public class MatterLinkTickEvent {
     }
     if (config.displayLoginLogoutMessages) {
       RestMessage msg = new RestMessage(
-          "https://crafatar.com/avatars/" + e.player.getGameProfile().getId()
-              .toString().replaceAll("-", ""), "login", config.gateway,
-          " has joined the game", formatName(e.player),
+          "https://crafatar.com/avatars/" + e.player.getGameProfile().getId().toString()
+              .replaceAll("-", ""), "logout", config.gateway,
+          formatName(e.player) + " has joined the game", "",
           SERegistry.globalConfig.serverID, SERegistry.globalConfig.serverID, "", "",
           config.protocol, DATE_FORMAT.format(new Date()),
           e.player.getGameProfile().getId().toString(), null);
@@ -157,9 +157,9 @@ public class MatterLinkTickEvent {
   public void onLogout(PlayerLoggedOutEvent e) {
     if (config.displayLoginLogoutMessages) {
       RestMessage msg = new RestMessage(
-          "https://crafatar.com/avatars/" + e.player.getGameProfile().getId()
-              .toString().replaceAll("-", ""), "logout", config.gateway,
-          " has left the game", formatName(e.player),
+          "https://crafatar.com/avatars/" + e.player.getGameProfile().getId().toString()
+              .replaceAll("-", ""), "logout", config.gateway,
+          formatName(e.player) + " has left the game", "",
           SERegistry.globalConfig.serverID, SERegistry.globalConfig.serverID, "", "",
           config.protocol, DATE_FORMAT.format(new Date()),
           e.player.getGameProfile().getId().toString(), null);

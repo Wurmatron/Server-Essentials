@@ -1,5 +1,6 @@
 {
 	"langKey": "en_us",
+	"SPACER": "&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=&d-&6=",
 	"ERROR_NO_PERMS": "You dont have permission to run this command / subCommand!",
 	"ERROR_PLAYER_NOT_FOUND": "Player %PLAYER% not found!",
 	"ERROR_INSUFFICENT_FUNDS": "You need %AMOUNT% more to do that",

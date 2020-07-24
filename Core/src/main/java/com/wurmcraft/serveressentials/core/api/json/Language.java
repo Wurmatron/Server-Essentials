@@ -7,6 +7,7 @@ public class Language implements StoredDataType {
 
   // General
   public String langKey;
+  public String SPACER;
 
   // Error
   public String ERROR_NO_PERMS;

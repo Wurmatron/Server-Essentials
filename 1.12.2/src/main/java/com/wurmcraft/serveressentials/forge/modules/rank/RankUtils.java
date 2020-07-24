@@ -100,4 +100,11 @@ public class RankUtils {
       playerData.global = restData;
     }
   }
+
+  public static boolean hasPermission(ICommandSender sender, String node) {
+    if(SERegistry.isModuleLoaded("Rank")) {
+      return RankUtils.hasPermission(RankUtils.getRank(sender), node);
+    }
+    return true;
+  }
 }
