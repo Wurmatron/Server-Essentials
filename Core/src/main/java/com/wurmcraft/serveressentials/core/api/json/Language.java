@@ -132,6 +132,11 @@ public class Language implements StoredDataType {
 
   // Auto-Rank
   public String AUTORANK_RANK_UP;
+  public String AUTORANK_AR_HEADER;
+  public String AUTORANK_AR_NEXT;
+  public String AUTORANK_AR_TIME;
+  public String AUTORANK_AR_XP;
+  public String AUTORANK_AR_MONEY;
 
   // Rank
   public String RANK_RANK_SET;

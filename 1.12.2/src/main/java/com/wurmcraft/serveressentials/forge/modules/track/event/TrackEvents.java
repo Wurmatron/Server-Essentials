@@ -8,6 +8,7 @@ import com.wurmcraft.serveressentials.core.api.track.ServerTime;
 import com.wurmcraft.serveressentials.core.api.track.TrackingStatus.Status;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.forge.modules.core.event.PlayerDataEvents;
 import com.wurmcraft.serveressentials.forge.modules.track.TrackUtils;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -41,42 +42,47 @@ public class TrackEvents {
           .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
       GlobalPlayer globalData = RestRequestGenerator.User
           .getPlayer(player.getGameProfile().getId().toString());
-      if (globalData != null) {
-        if (globalData.playtime == null || globalData.playtime.serverTime == null) {
-          globalData.playtime = new NetworkTime(new ServerTime[0]);
+      if (globalData == null) {
+        globalData =playerData.global;
+        if(globalData == null) {
+          PlayerDataEvents.handAndCheckForErrors(player);
         }
-        int foundIndex = -1;
-        for (int i = 0; i < globalData.playtime.serverTime.length; i++) {
-          if (globalData.playtime.serverTime[i].serverID
-              .equalsIgnoreCase(SERegistry.globalConfig.serverID)) {
-            foundIndex = i;
-          }
-        }
-        if (playerJoinTimes.containsKey(player.getGameProfile().getId().toString())) {
-          if (foundIndex >= 0) { // Override existing ServerTime
-            globalData.playtime.serverTime[foundIndex].time +=
-                ((System.currentTimeMillis() - playerJoinTimes
-                    .get(player.getGameProfile().getId().toString())) / 60) / 1000;
-          } else { // Create new ServerTime
-            globalData.playtime.serverTime = Arrays
-                .copyOf(globalData.playtime.serverTime,
-                    globalData.playtime.serverTime.length + 1);
-            globalData.playtime.serverTime[globalData.playtime.serverTime.length
-                - 1] = new ServerTime(SERegistry.globalConfig.serverID,
-                ((System.currentTimeMillis() - playerJoinTimes
-                    .get(player.getGameProfile().getId().toString())) / 60) / 1000);
-          }
-        }
-        playerJoinTimes.remove(player.getGameProfile().getId().toString());
-        if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
-          RestRequestGenerator.User
-              .overridePlayer(player.getGameProfile().getId().toString(), globalData);
-        }
-        playerData.global = globalData;
-        SERegistry.register(DataKey.PLAYER, playerData);
-        playerJoinTimes.put(player.getGameProfile().getId().toString(),
-            System.currentTimeMillis());
       }
+      if (globalData.playtime == null || globalData.playtime.serverTime == null) {
+        globalData.playtime = new NetworkTime(new ServerTime[0]);
+      }
+      int foundIndex = -1;
+      for (int i = 0; i < globalData.playtime.serverTime.length; i++) {
+        if (globalData.playtime.serverTime[i].serverID
+            .equalsIgnoreCase(SERegistry.globalConfig.serverID)) {
+          foundIndex = i;
+        }
+      }
+      if (playerJoinTimes.containsKey(player.getGameProfile().getId().toString())) {
+        if (foundIndex >= 0) { // Override existing ServerTime
+          globalData.playtime.serverTime[foundIndex].time +=
+              ((System.currentTimeMillis() - playerJoinTimes
+                  .get(player.getGameProfile().getId().toString())) / 60) / 1000;
+        } else { // Create new ServerTime
+          globalData.playtime.serverTime = Arrays
+              .copyOf(globalData.playtime.serverTime,
+                  globalData.playtime.serverTime.length + 1);
+          globalData.playtime.serverTime[globalData.playtime.serverTime.length
+              - 1] = new ServerTime(SERegistry.globalConfig.serverID,
+              ((System.currentTimeMillis() - playerJoinTimes
+                  .get(player.getGameProfile().getId().toString())) / 60) / 1000);
+        }
+      }
+      playerJoinTimes.remove(player.getGameProfile().getId().toString());
+      if (SERegistry.globalConfig.dataStorgeType.equalsIgnoreCase("Rest")) {
+        RestRequestGenerator.User
+            .overridePlayer(player.getGameProfile().getId().toString(), globalData);
+      }
+      playerData.global = globalData;
+      SERegistry.register(DataKey.PLAYER, playerData);
+      playerJoinTimes.put(player.getGameProfile().getId().toString(),
+          System.currentTimeMillis());
+
     } catch (NoSuchElementException ignored) {
     }
   }

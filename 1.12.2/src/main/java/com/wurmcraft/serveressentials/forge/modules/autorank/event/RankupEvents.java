@@ -66,6 +66,24 @@ public class RankupEvents {
     return "";
   }
 
+  public static AutoRank getRankup(EntityPlayer player) {
+    try {
+      StoredPlayer playerData = (StoredPlayer) SERegistry
+          .getStoredData(DataKey.PLAYER, player.getGameProfile().getId().toString());
+      PlayerDataEvents.handAndCheckForErrors(player);
+      for (AutoRank rank : SECore.dataHandler.getDataFromKey(DataKey.AUTO_RANK, new AutoRank()).values()) {
+        if (playerData.global.rank.equalsIgnoreCase(rank.rank) && canRankup(rank,
+            playerData,
+            player)) {
+          return rank;
+        }
+      }
+    } catch (NoSuchElementException e) {
+      PlayerDataEvents.handAndCheckForErrors(player);
+    }
+    return null;
+  }
+
 
   private static boolean canRankup(AutoRank rank, StoredPlayer playerData,
       EntityPlayer player) {

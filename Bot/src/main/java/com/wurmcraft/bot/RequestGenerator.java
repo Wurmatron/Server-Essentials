@@ -68,7 +68,6 @@ public class RequestGenerator {
       https.setRequestMethod(type.toUpperCase());
       https.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
       https.setDoOutput(true);
-      System.out.println("Auth: " + auth);
       https.setRequestProperty("Authorization", auth);
       String json = GSON.toJson(data).replaceAll("\n", "");
       connection.setRequestProperty("Content-Length", String.valueOf(json.length()));
@@ -109,6 +108,7 @@ public class RequestGenerator {
         con.setRequestProperty("Authorization", auth);
         con.setReadTimeout(300000);
         int responseCode = con.getResponseCode();
+        System.out.println("RC: " + responseCode + " " + obj.toString());
         if (responseCode == HttpsURLConnection.HTTP_OK
             || responseCode == HttpsURLConnection.HTTP_ACCEPTED) {
           BufferedReader in = new BufferedReader(

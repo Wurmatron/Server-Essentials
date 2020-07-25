@@ -79,8 +79,7 @@ public class DiscordBot {
       });
       api.getThreadPool().getScheduler().scheduleAtFixedRate(() -> {
         System.out.println("Checking for new user's to verify!");
-        Player[] players = (RequestGenerator.INSTANCE
-            .get("/user", Players.class)).players;
+        Player[] players = (RequestGenerator.INSTANCE.get("/user", Players.class)).players;
         verifiedUsers.clear();
         for (Player player : players) {
           if (player.discordID != null && !player.discordID.isEmpty()) {
