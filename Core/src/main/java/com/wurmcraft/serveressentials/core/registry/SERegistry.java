@@ -242,4 +242,8 @@ public class SERegistry {
       tempDataTimeout.get(key).remove(dataID);
     }
   }
+
+  public static void removeAllDataFromKey(DataKey key) {
+    loadedData.remove(key);
+  }
 }

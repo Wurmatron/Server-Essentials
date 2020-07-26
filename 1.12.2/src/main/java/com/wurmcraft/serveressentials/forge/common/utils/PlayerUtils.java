@@ -51,8 +51,9 @@ public class PlayerUtils {
               int additionalHomes = Integer.parseInt(p.substring(p.lastIndexOf(".") + 1));
               return maxHomes + additionalHomes;
             } catch (NumberFormatException e) {
-              ServerEssentialsServer.logger.info("Max Homes for '" + player.getDisplayNameString()
-                  + "' perk is invalid!");
+              ServerEssentialsServer.logger
+                  .info("Max Homes for '" + player.getDisplayNameString()
+                      + "' perk is invalid!");
             }
           }
         }
@@ -126,16 +127,12 @@ public class PlayerUtils {
     }
   }
 
-  public static List<String> predictUsernames(String[] args, int index) {
+  public static List<String> predictUsernames(String name) {
     List<String> possibleUsernames =
         Arrays.asList(
             FMLCommonHandler.instance().getMinecraftServerInstance()
                 .getOnlinePlayerNames());
-    if (args.length > index && args[index] != null) {
-      return predictName(args[index], possibleUsernames);
-    } else {
-      return possibleUsernames;
-    }
+      return predictName(name, possibleUsernames);
   }
 
   private static List<String> predictName(String current, List<String> possibleNames) {
@@ -148,6 +145,19 @@ public class PlayerUtils {
     }
     return predictedNames;
   }
+
+  public static List<String> predictHome(String current, Home[] homes) {
+    List<String> predictedHomes = new ArrayList<>();
+    for (Home name : homes) {
+      if (name.name.toLowerCase().startsWith(current.toLowerCase())
+          || name.name.toLowerCase().endsWith(current.toLowerCase())) {
+        predictedHomes.add(name.name);
+      }
+    }
+    return predictedHomes;
+  }
+
+
 
   public static GameType getGamemode(String mode) {
     for (GameType t : GameType.values()) {
@@ -199,10 +209,12 @@ public class PlayerUtils {
     }
   }
 
-  public static long getTotalPlaytime(EntityPlayer player, StoredPlayer playerData) {
+  public static long getTotalPlaytime(EntityPlayer player) {
+    StoredPlayer playerData = getPlayer(player);
     long total = 0;
-    for(ServerTime time : playerData.global.playtime.serverTime)
-    total =+ time.time;
+    for (ServerTime time : playerData.global.playtime.serverTime) {
+      total += time.time;
+    }
     return total;
   }
 

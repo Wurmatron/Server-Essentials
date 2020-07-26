@@ -1,12 +1,16 @@
 package com.wurmcraft.serveressentials.forge.common.utils;
 
+import com.wurmcraft.serveressentials.forge.api.command.SECommand;
+import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.common.utils.chat.DefaultFontInfo;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.util.text.event.HoverEvent.Action;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ChatHelper {
 
@@ -16,10 +20,11 @@ public class ChatHelper {
 
   public static void sendHoverMessage(ICommandSender sender, String msg,
       String hoverMsg) {
-    ITextComponent msgComponent = new TextComponentString(msg.replaceAll("&", "\u00a7"));
-    msgComponent.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT,
-        new TextComponentString(hoverMsg.replaceAll("&", "\u00a7"))));
-    sendMessage(sender, msgComponent);
+      ITextComponent msgComponent = new TextComponentString(
+          msg.replaceAll("&", "\u00a7"));
+      msgComponent.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT,
+          new TextComponentString(hoverMsg.replaceAll("&", "\u00a7"))));
+      sendMessage(sender, msgComponent);
   }
 
   public static void sendClickMessage(ICommandSender sender, String msg, String command) {
@@ -29,7 +34,7 @@ public class ChatHelper {
     sendMessage(sender, msgComponent);
   }
 
-  private static void sendMessage(ICommandSender sender, ITextComponent msg) {
+  public static void sendMessage(ICommandSender sender, ITextComponent msg) {
     sender.sendMessage(msg);
   }
 
@@ -45,6 +50,18 @@ public class ChatHelper {
     }
     chatMSG = chatMSG + " " + msg + " " + spacer.substring(0, leftPerSide);
     sendMessage(sender, chatMSG);
+  }
+
+  public static void sendMessageToAll(ITextComponent msg) {
+    for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance()
+        .getPlayerList().getPlayers()) {
+      sendMessage(player, msg);
+    }
+    ServerEssentialsServer.logger.info("[Chat]: " + msg.getUnformattedText());
+  }
+
+  public static void sendMessageToAll(String msg) {
+    sendMessageToAll(msg.replaceAll("&", "\u00a7"));
   }
 
   private static int calculateLength(String msg) {

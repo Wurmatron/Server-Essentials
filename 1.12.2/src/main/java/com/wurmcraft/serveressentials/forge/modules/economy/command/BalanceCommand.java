@@ -38,9 +38,7 @@ public class BalanceCommand {
                 ERROR_COLOR + c.name + ": " + COMMAND_INFO_COLOR + c.amount));
           }
         }
-      } catch (NoSuchElementException ignored) {
-
-      }
+      } catch (NoSuchElementException ignored) {}
     }
   }
 

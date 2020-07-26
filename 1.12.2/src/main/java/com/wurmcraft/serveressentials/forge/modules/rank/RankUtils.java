@@ -4,17 +4,23 @@ import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
 import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.player.GlobalPlayer;
+import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
+import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 
@@ -77,9 +83,8 @@ public class RankUtils {
   public static Rank getRank(ICommandSender sender) {
     if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       try {
-        StoredPlayer playerData = (StoredPlayer) SERegistry.getStoredData(DataKey.PLAYER,
-            ((EntityPlayer) sender.getCommandSenderEntity()).getGameProfile().getId()
-                .toString());
+        StoredPlayer playerData = PlayerUtils.getPlayer(
+            (EntityPlayer) sender.getCommandSenderEntity());
         return (Rank) SERegistry.getStoredData(DataKey.RANK, playerData.global.rank);
       } catch (NoSuchElementException e) {
         ServerEssentialsServer.logger.info(sender.getName() + " does not have any loaded data / a valid rank!");
@@ -107,4 +112,16 @@ public class RankUtils {
     }
     return true;
   }
+
+  public static List<String> predictRank(String current, Rank[] ranks) {
+    List<String> predictedRanks = new ArrayList<>();
+    for (Rank rank : ranks) {
+      if (rank.getName().toLowerCase().startsWith(current.toLowerCase())
+          || rank.getName().toLowerCase().endsWith(current.toLowerCase())) {
+        predictedRanks.add(rank.getName());
+      }
+    }
+    return predictedRanks;
+  }
+
 }

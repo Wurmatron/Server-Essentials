@@ -10,6 +10,7 @@ import com.wurmcraft.serveressentials.core.api.player.StoredPlayer;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.core.utils.FileUtils;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator;
+import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.AutoRank;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.Economy;
 import com.wurmcraft.serveressentials.core.utils.RestRequestGenerator.Rank;
 import java.io.File;
@@ -51,6 +52,18 @@ public class RestDataHandler extends FileDataHandler {
           if (r != null) {
             data.put(r.name, (T) r);
             SERegistry.register(DataKey.CURRENCY, r);
+          }
+        }
+      } else if (key == DataKey.AUTO_RANK) {
+        com.wurmcraft.serveressentials.core.api.json.rank.AutoRank[] autoRanks =
+            AutoRank.getAutoRanks();
+        if (loadedData.containsKey(key) && autoRanks.length > 0) {
+          loadedData.get(DataKey.CURRENCY).clear();
+        }
+        for (com.wurmcraft.serveressentials.core.api.json.rank.AutoRank r : autoRanks) {
+          if (r != null) {
+            data.put(r.rank, (T) r);
+            SERegistry.register(DataKey.AUTO_RANK, r);
           }
         }
       }

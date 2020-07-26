@@ -1,10 +1,18 @@
 package com.wurmcraft.serveressentials.core.api.command;
 
 public enum CommandArguments {
-  PLAYER,
-  INTEGER,
-  DOUBLE,
-  STRING,
-  PERK,
-  STRING_ARR,
+  PLAYER(true),
+  INTEGER(false),
+  DOUBLE(false),
+  STRING(true),
+  PERK(true),
+  STRING_ARR(true),
+  RANK(true),
+  HOME(true);
+
+  public boolean stringable;
+
+  CommandArguments(boolean stringable) {
+    this.stringable = stringable;
+  }
 }

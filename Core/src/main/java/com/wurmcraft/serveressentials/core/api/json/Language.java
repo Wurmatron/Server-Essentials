@@ -137,6 +137,11 @@ public class Language implements StoredDataType {
   public String AUTORANK_AR_TIME;
   public String AUTORANK_AR_XP;
   public String AUTORANK_AR_MONEY;
+  public String AUTORANK_AR_CREATE;
+  public String AUTORANK_AR_DELETE;
+  public String AUTORANK_AR_MAX;
+  public String AUTORANK_RANK_UP_OTHER;
+  public String AUTORANK_AR_RELOAD;
 
   // Rank
   public String RANK_RANK_SET;

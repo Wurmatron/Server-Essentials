@@ -73,14 +73,12 @@ public class GlobalConfig implements StoredDataType {
   public static void setValues() {
     // General
     if (SERegistry.globalConfig.debug) {
-      SECore.logger.info("Debug Mode Enabled");
       SECore.logger.setLevel(Level.ALL);
     }
     SECore.dataHandler = getDataHandler(SERegistry.globalConfig.dataStorgeType);
 
     // Performance / Timings
     SECore.executors = new ScheduledThreadPoolExecutor(SERegistry.globalConfig.threadPoolSize);
-    SECore.logger.info("Max Threads set to " + SERegistry.globalConfig.threadPoolSize);
   }
 
   private static IDataHandler getDataHandler(String name) {

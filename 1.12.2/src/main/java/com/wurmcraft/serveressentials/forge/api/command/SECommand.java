@@ -1,31 +1,35 @@
 package com.wurmcraft.serveressentials.forge.api.command;
 
-import static com.wurmcraft.serveressentials.forge.common.utils.CommandParser.getInstanceForArgument;
-
+import com.wurmcraft.serveressentials.core.SECore;
 import com.wurmcraft.serveressentials.core.api.command.Command;
 import com.wurmcraft.serveressentials.core.api.command.CommandArguments;
 import com.wurmcraft.serveressentials.core.api.command.ModuleCommand;
 import com.wurmcraft.serveressentials.core.api.data.DataKey;
+import com.wurmcraft.serveressentials.core.api.json.rank.Rank;
 import com.wurmcraft.serveressentials.core.api.module.config.CommandCost;
 import com.wurmcraft.serveressentials.core.api.module.config.EconomyConfig;
+import com.wurmcraft.serveressentials.core.api.player.Home;
 import com.wurmcraft.serveressentials.core.registry.SERegistry;
 import com.wurmcraft.serveressentials.forge.common.ServerEssentialsServer;
 import com.wurmcraft.serveressentials.forge.common.utils.CommandParser;
 import com.wurmcraft.serveressentials.forge.common.utils.PlayerUtils;
-import com.wurmcraft.serveressentials.forge.modules.economy.EcoUtils;
 import com.wurmcraft.serveressentials.forge.modules.economy.command.PerkCommand.Perk;
 import com.wurmcraft.serveressentials.forge.modules.rank.RankUtils;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
@@ -95,178 +99,94 @@ public class SECommand extends CommandBase {
   @Override
   public void execute(MinecraftServer server, ICommandSender sender, String[] args)
       throws CommandException {
-    CommandArguments[] commandArgs = inputToArguments(server, args);
-    Object[] handlerData = hasHandler(commandArgs);
-    if ((boolean) handlerData[0]) {
-      Method commandExec = (Method) handlerData[1];
-      Command command = commandExec.getDeclaredAnnotation(Command.class);
-      if (command.subCommand().isEmpty()) {
-        try {
-          if (cost != null) {
-            if (EcoUtils.handleCommandCost(sender, cost)) {
-              commandExec
-                  .invoke(commandInstance,
-                      CommandParser.parseLineToArguments(sender, args, commandArgs));
-              if (SERegistry.globalConfig.logCommandToCMD) {
-                ServerEssentialsServer.logger.info(
-                    sender.getDisplayName().getUnformattedText() + " has run command `/"
-                        + getName() + " " + String.join(" ", args) + "'");
-              }
-            } else {
-              sender.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
-                  .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS.replaceAll("%AMOUNT%",
-                      COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
-            }
-          } else {
-            commandExec
-                .invoke(commandInstance,
-                    CommandParser.parseLineToArguments(sender, args, commandArgs));
-            if (SERegistry.globalConfig.logCommandToCMD) {
-              ServerEssentialsServer.logger.info(
-                  sender.getDisplayName().getUnformattedText() + " has run command `/"
-                      + getName() + " " + String.join(" ", args) + "'");
-            }
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      } else if (args.length > 0 && args[0].equalsIgnoreCase(command.subCommand())) {
-        for (Method m : cache.values()) {
-          if (m.getName().equals(command.subCommand())) {
-            commandExec = m;
-          }
-        }
-        try {
-          if (cost != null) {
-            if (EcoUtils.handleCommandCost(sender, cost)) {
-              commandExec
-                  .invoke(commandInstance,
-                      CommandParser.parseLineToArguments(sender, args, commandArgs));
-              if (SERegistry.globalConfig.logCommandToCMD) {
-                ServerEssentialsServer.logger.info(
-                    sender.getDisplayName().getUnformattedText() + " has run command `/"
-                        + getName() + " " + String.join(" ", args) + "'");
-              }
-            } else {
-              sender.sendMessage(new TextComponentString(COMMAND_COLOR + PlayerUtils
-                  .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS.replaceAll("%AMOUNT%",
-                      COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
-            }
-          } else {
-            commandExec
-                .invoke(commandInstance,
-                    CommandParser.parseLineToArguments(sender, args, commandArgs));
-            if (SERegistry.globalConfig.logCommandToCMD) {
-              ServerEssentialsServer.logger.info(
-                  sender.getDisplayName().getUnformattedText() + " has run command `/"
-                      + getName() + " " + String.join(" ", args) + "'");
-            }
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      } else {
-        sender.sendMessage(new TextComponentString(getUsage(sender)));
-      }
-    } else {
-      if (hasStringArray) {
-        if (args.length > 0 && getArgumentType(args[0])
-            .equals(CommandArguments.PLAYER)) { // Player, String[]
-          for (Method m : commandInstance.getClass().getDeclaredMethods()) {
-            if (m.isAnnotationPresent(Command.class)) {
-              Command command = m.getDeclaredAnnotation(Command.class);
-              if (command.inputArguments().length > 1 && command.inputArguments()[0]
-                  .equals(CommandArguments.PLAYER) && command.inputArguments()[1]
-                  .equals(CommandArguments.STRING_ARR)) {
-                try {
-                  if (cost != null) {
-                    if (EcoUtils.handleCommandCost(sender, cost)) {
-                      m
-                          .invoke(commandInstance,
-                              CommandParser
-                                  .parseLineToArguments(sender, args, commandArgs));
-                      if (SERegistry.globalConfig.logCommandToCMD) {
-                        ServerEssentialsServer.logger.info(
-                            sender.getDisplayName().getUnformattedText()
-                                + " has run command `/"
-                                + getName() + " " + String.join(" ", args) + "'");
-                      }
-                    } else {
-                      sender.sendMessage(new TextComponentString(
-                          COMMAND_COLOR + PlayerUtils
-                              .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
-                              .replaceAll("%AMOUNT%",
-                                  COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
-                    }
-                  } else {
-                    m
-                        .invoke(commandInstance,
-                            CommandParser
-                                .parseLineToArguments(sender, args, commandArgs));
-                    if (SERegistry.globalConfig.logCommandToCMD) {
-                      ServerEssentialsServer.logger.info(
-                          sender.getDisplayName().getUnformattedText()
-                              + " has run command `/"
-                              + getName() + " " + String.join(" ", args) + "'");
-                    }
-                  }
-                } catch (Exception e) {
-                  e.printStackTrace();
-                }
-              }
-            }
-          }
-        } else if (args.length > 0) {
-          for (Method m : commandInstance.getClass().getDeclaredMethods()) {
-            if (m.isAnnotationPresent(Command.class)) {
-              Command command = m.getDeclaredAnnotation(Command.class);
-              if (command.inputArguments().length >= 1 && command.inputArguments()[0]
-                  .equals(CommandArguments.STRING_ARR)) {
-                try {
-                  if (cost != null) {
-                    if (EcoUtils.handleCommandCost(sender, cost)) {
-                      m
-                          .invoke(commandInstance,
-                              CommandParser
-                                  .parseLineToArguments(sender, args, commandArgs));
-                      if (SERegistry.globalConfig.logCommandToCMD) {
-                        ServerEssentialsServer.logger.info(
-                            sender.getDisplayName().getUnformattedText()
-                                + " has run command `/"
-                                + getName() + " " + String.join(" ", args) + "'");
-                      }
-                    } else {
-                      sender.sendMessage(new TextComponentString(
-                          COMMAND_COLOR + PlayerUtils
-                              .getUserLanguage(sender).ERROR_INSUFFICENT_FUNDS
-                              .replaceAll("%AMOUNT%",
-                                  COMMAND_INFO_COLOR + cost.cost + COMMAND_COLOR)));
-                    }
-                  } else {
-                    m
-                        .invoke(commandInstance,
-                            CommandParser
-                                .parseLineToArguments(sender, args, commandArgs));
-                    if (SERegistry.globalConfig.logCommandToCMD) {
-                      ServerEssentialsServer.logger.info(
-                          sender.getDisplayName().getUnformattedText()
-                              + " has run command `/"
-                              + getName() + " " + String.join(" ", args) + "'");
-                    }
-                  }
-                } catch (Exception e) {
-                  e.printStackTrace();
-                }
-              }
-            }
-          }
-        } else {
-          sender.sendMessage(new TextComponentString(getUsage(sender)));
-        }
-      } else {
-        sender.sendMessage(new TextComponentString(getUsage(sender)));
+    Object[] handler = findMatch(sender, cache.keySet(), args);
+    if ((boolean) handler[0]) {
+      try {
+        Object[] commandArgs = CommandParser.parseLineToArguments(sender, args,
+            ((Method) handler[1]).getDeclaredAnnotation(Command.class).inputArguments());
+        ((Method) handler[1]).invoke(commandInstance, commandArgs);
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (InvocationTargetException e) {
+        e.printStackTrace();
       }
     }
+  }
+
+  private Object[] findMatch(ICommandSender sender, Set<CommandArguments[]> methodArgs,
+      String[] args) {
+    CommandArguments[] exactMatch = findExactMatch(sender, methodArgs, args);
+    if (exactMatch != null) {
+      return new Object[]{true, cache.get(exactMatch)};
+    } else {
+      CommandArguments[] strArr = findStringArray(methodArgs, args);
+      if (strArr != null) {
+        return new Object[]{true, cache.get(strArr)};
+      } else {
+        CommandArguments[] fussyMatch = findFussyMatch(sender, methodArgs, args);
+        if (fussyMatch != null) {
+          return new Object[]{true, cache.get(fussyMatch)};
+        }
+      }
+    }
+    return new Object[]{false, null};
+  }
+
+  private CommandArguments[] findExactMatch(ICommandSender sender,
+      Set<CommandArguments[]> methodArgs,
+      String[] args) {
+    for (CommandArguments[] ca : methodArgs) {
+      if (ca.length == args.length) {
+        boolean valid = true;
+        for (int index = 0; index < ca.length; index++) {
+          CommandArguments inputType = getArgumentType(sender, args[index]);
+          if (SERegistry.globalConfig.debug) {
+            ServerEssentialsServer.logger.debug(
+                Arrays.toString(ca) + " => " + ca[index] + " " + inputType + " ("
+                    + args[index] + ")");
+          }
+          if (!ca[index].equals(inputType)) {
+            valid = false;
+          }
+        }
+        if (valid) {
+          return ca;
+        }
+      }
+    }
+    return null;
+  }
+
+  private CommandArguments[] findStringArray(Set<CommandArguments[]> methodArgs,
+      String[] args) {
+    for (CommandArguments[] ca : methodArgs) {
+      if (ca.length == 1 && ca[0].equals(CommandArguments.STRING_ARR)) {
+        return ca;
+      }
+    }
+    return null;
+  }
+
+  private CommandArguments[] findFussyMatch(ICommandSender sender,
+      Set<CommandArguments[]> methodArgs,
+      String[] args) {
+    for (CommandArguments[] ca : methodArgs) {
+      if (ca.length == args.length) {
+        boolean valid = true;
+        for (int index = 0; index < ca.length; index++) {
+          CommandArguments inputType = getArgumentType(sender, args[index]);
+          if (ca[index].equals(CommandArguments.STRING) && inputType.stringable) {
+
+          } else {
+            valid = false;
+          }
+        }
+        if (valid) {
+          return ca;
+        }
+      }
+    }
+    return null;
   }
 
   @Override
@@ -284,25 +204,7 @@ public class SECommand extends CommandBase {
     return aliases;
   }
 
-  private Object[] hasHandler(CommandArguments[] args) {
-    for (CommandArguments[] a : cache.keySet()) {
-      if (Arrays.equals(a, args)) {
-        return new Object[]{true, cache.get(a)};
-      }
-    }
-    return new Object[]{false, null};
-  }
-
-  public CommandArguments[] inputToArguments(MinecraftServer server,
-      String[] line) {
-    CommandArguments[] arguments = new CommandArguments[line.length];
-    for (int i = 0; i < line.length; i++) {
-      arguments[i] = getArgumentType(line[i]);
-    }
-    return arguments;
-  }
-
-  private CommandArguments getArgumentType(String line) {
+  private CommandArguments getArgumentType(ICommandSender sender, String line) {
     if (argumentCache.containsKey(line.toUpperCase())) {
       return argumentCache.get(line.toUpperCase());
     }
@@ -314,6 +216,11 @@ public class SECommand extends CommandBase {
       return CommandArguments.PLAYER;
     } else if (isPerk(line)) {
       return CommandArguments.PERK;
+    } else if (isRank(line)) {
+      return CommandArguments.RANK;
+    } else if (sender.getCommandSenderEntity() instanceof EntityPlayer && isHome(
+        (EntityPlayer) sender.getCommandSenderEntity(), line)) {
+      return CommandArguments.HOME;
     } else {
       return CommandArguments.STRING;
     }
@@ -359,6 +266,26 @@ public class SECommand extends CommandBase {
     return false;
   }
 
+  private boolean isRank(String line) {
+    for (Rank rank : SECore.dataHandler.getDataFromKey(DataKey.RANK, new Rank())
+        .values()) {
+      if (rank.getName().equalsIgnoreCase(line)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isHome(EntityPlayer player, String line) {
+    Home[] homes = PlayerUtils.getPlayer(player).server.homes;
+    for (Home home : homes) {
+      if (home.name.equalsIgnoreCase(line)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
     if (SERegistry.isModuleLoaded("Rank")) {
@@ -372,29 +299,65 @@ public class SECommand extends CommandBase {
   @Override
   public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
       String[] args, @Nullable BlockPos targetPos) {
-    int pos = args.length - 1;
-    for (CommandArguments[] a : cache.keySet()) {
-      if (a.length == args.length || a.length == args.length + 1) {
-        CommandArguments arg = a[pos];
-        if (arg == CommandArguments.PLAYER) {
-          return PlayerUtils.predictUsernames(args, pos);
-        } else if (arg == CommandArguments.PERK) {
-          List<String> perks = new ArrayList<>();
-          for (Perk p : Perk.values()) {
-            perks.add(p.name());
-          }
-          return perks;
-        } else if (arg == CommandArguments.STRING) {
-          Command cmd = cache.get(a).getAnnotation(Command.class);
-          if (cmd.inputNames().length > pos) {
-            String inputNames = cmd.inputNames()[pos];
-            return Arrays.asList(inputNames.split(","));
-          }
-        }
-      }
+    if (args.length < 1) {
+      return getAllPossible(sender, 0);
+    } else {
+      return getAllPossible(sender, args.length - 1);
     }
-    return super.getTabCompletions(server, sender, args, targetPos);
+
   }
 
+  private List<String> getAllPossible(ICommandSender sender, int index) {
+    List<String> fill = new LinkedList<>();
+    for (CommandArguments[] commandArg : cache.keySet()) {
+      if (index < commandArg.length) {
+        fill.addAll(autoFill(sender, commandArg[index], "",
+            cache.get(commandArg).getDeclaredAnnotation(Command.class), index));
+      }
+    }
+    return deduplicateList(fill);
+  }
 
+  private List<String> autoFill(ICommandSender sender, CommandArguments type, String line,
+      Command cmd, int pos) {
+    if (type.equals(CommandArguments.PLAYER)) {
+      if (line != null && !line.isEmpty()) {
+        return PlayerUtils.predictUsernames(line);
+      } else {
+        return Arrays.asList(
+            FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+                .getOnlinePlayerNames());
+      }
+    } else if (type.equals(CommandArguments.HOME) && sender
+        .getCommandSenderEntity() instanceof EntityPlayer) {
+      Home[] homes = PlayerUtils
+          .getPlayer((EntityPlayer) sender.getCommandSenderEntity()).server.homes;
+      if (homes != null && homes.length > 0) {
+        return PlayerUtils.predictHome(line, homes);
+      }
+    } else if (type.equals(CommandArguments.RANK)) {
+      return RankUtils.predictRank(line,
+          SECore.dataHandler.getDataFromKey(DataKey.RANK, new Rank()).values()
+              .toArray(new Rank[0]));
+    } else if (type.equals(CommandArguments.PERK)) {
+      List<String> perks = new ArrayList<>();
+      for (Perk p : Perk.values()) {
+        perks.add(p.name());
+      }
+      return perks;
+    } else if (type.equals(CommandArguments.STRING) && cmd != null) {
+      if (cmd.inputNames().length > pos) {
+        String inputNames = cmd.inputNames()[pos];
+        return Arrays.asList(inputNames.split(","));
+      }
+    }
+    return new ArrayList<>();
+  }
+
+  private List<String> deduplicateList(List<String> values) {
+    Set<String> noDuplicates = new LinkedHashSet<>(values);
+    values.clear();
+    values.addAll(noDuplicates);
+    return values;
+  }
 }

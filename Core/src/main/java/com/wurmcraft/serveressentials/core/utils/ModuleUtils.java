@@ -45,7 +45,6 @@ public class ModuleUtils extends SERegistry {
 
   /** Load all the modules waiting between each phase for them to finish loading. */
   public static void loadAndSetupModules() {
-    SECore.logger.info("Loading Modules ...");
     String[] modules = loadModules().keySet().toArray(new String[0]);
     if (modules.length > 0) {
       runAndWaitTillFinished(modules, "init");
@@ -163,11 +162,9 @@ public class ModuleUtils extends SERegistry {
 
   /** Loads the module configs / creates them with defaults if they dont exist */
   public static NonBlockingHashMap<String, StoredDataType> loadModuleConfigs() {
-    SECore.logger.info("Loading Module Configs ...");
     NonBlockingHashMap<String, StoredDataType> loadedConfigs =
         AnnotationLoader.searchForModuleConfigs();
     for (String m : loadedConfigs.keySet()) {
-      SECore.logger.info("Loading '" + m + "'s config");
       ConfigModule module = loadedConfigs.get(m).getClass().getAnnotation(ConfigModule.class);
       File moduleConfig = writeConfigFile(module, loadedConfigs.get(m));
       try {

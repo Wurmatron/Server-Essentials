@@ -20,7 +20,7 @@ import net.minecraft.util.text.TextComponentString;
 @ModuleCommand(moduleName = "General", name = "Home", aliases = {"H"})
 public class HomeCommand {
 
-  @Command(inputArguments = {CommandArguments.STRING}, inputNames = {"Home"})
+  @Command(inputArguments = {CommandArguments.STRING}, inputNames = {"home"})
   public void homeSpecific(ICommandSender sender, String name) {
     if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
@@ -43,6 +43,17 @@ public class HomeCommand {
             PlayerUtils.getUserLanguage(player).GENERAL_HOME_NOT_FOUND
                 .replaceAll("%HOM%", COMMAND_INFO_COLOR + name + COMMAND_COLOR)));
       }
+    }
+  }
+
+  @Command(inputArguments = {CommandArguments.HOME}, inputNames = {"Home"})
+  public void homeExact(ICommandSender sender, Home home) {
+    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+      TeleportUtils.teleportTo(player, home);
+      sender.sendMessage(new TextComponentString(COMMAND_COLOR +
+          PlayerUtils.getUserLanguage(player).GENERAL_HOME_TELEPORT
+              .replaceAll("%HOME%", COMMAND_INFO_COLOR + home.name + COMMAND_COLOR)));
     }
   }
 

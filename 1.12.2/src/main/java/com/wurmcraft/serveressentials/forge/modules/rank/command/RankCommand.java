@@ -24,22 +24,15 @@ import net.minecraft.util.text.TextComponentString;
 public class RankCommand {
 
   @Command(inputArguments = {CommandArguments.PLAYER,
-      CommandArguments.STRING}, inputNames = {"Player", "Rank"})
-  public void changeRank(ICommandSender sender, EntityPlayer player, String rank) {
-    try {
-      Rank selectedRank = (Rank) SERegistry.getStoredData(DataKey.RANK, rank);
-      RankUtils.setRank(player, selectedRank);
-      sender.sendMessage(new TextComponentString(COMMAND_COLOR +
-          PlayerUtils.getUserLanguage(sender).RANK_RANK_SET
-              .replaceAll("%PLAYER%",
-                  COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)
-              .replaceAll("%RANK%",
-                  COMMAND_COLOR + selectedRank.getName() + COMMAND_COLOR)));
-    } catch (NoSuchElementException e) {
-      sender.sendMessage(new TextComponentString(ERROR_COLOR +
-          PlayerUtils.getUserLanguage(sender).ERROR_RANK_NOT_FOUND
-              .replaceAll("%RANK%", rank)));
-    }
+      CommandArguments.RANK}, inputNames = {"Player", "Rank"})
+  public void changeRank(ICommandSender sender, EntityPlayer player, Rank selectedRank) {
+    RankUtils.setRank(player, selectedRank);
+    sender.sendMessage(new TextComponentString(COMMAND_COLOR +
+        PlayerUtils.getUserLanguage(sender).RANK_RANK_SET
+            .replaceAll("%PLAYER%",
+                COMMAND_INFO_COLOR + player.getDisplayNameString() + COMMAND_COLOR)
+            .replaceAll("%RANK%",
+                COMMAND_COLOR + selectedRank.getName() + COMMAND_COLOR)));
   }
 
   @Command(inputArguments = {CommandArguments.STRING,

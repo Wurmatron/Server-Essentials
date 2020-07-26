@@ -197,15 +197,17 @@ public class EcoUtils {
   }
 
   public static boolean handleCommandCost(ICommandSender sender, CommandCost cost) {
-    if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      double currentCash = getCurrency(PlayerUtils.getPlayer(player).global.wallet);
-      if ((currentCash - cost.cost) > 0) {
-        consumeCurrency(player, cost.cost);
-        return true;
+    if(cost != null) {
+      if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
+        EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+        double currentCash = getCurrency(PlayerUtils.getPlayer(player).global.wallet);
+        if ((currentCash - cost.cost) > 0) {
+          consumeCurrency(player, cost.cost);
+          return true;
+        }
+        return false;
       }
-      return false;
     }
-    return true;
+      return true;
   }
 }
