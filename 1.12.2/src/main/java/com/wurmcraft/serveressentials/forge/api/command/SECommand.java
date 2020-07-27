@@ -192,6 +192,7 @@ public class SECommand extends CommandBase {
   @Override
   public List<String> getAliases() {
     List<String> aliases = new ArrayList<>();
+    aliases.add(command.name());
     aliases.add(command.name().toLowerCase());
     aliases.add(command.name().toUpperCase());
     if (command.aliases().length > 0) {
@@ -299,12 +300,10 @@ public class SECommand extends CommandBase {
   @Override
   public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,
       String[] args, @Nullable BlockPos targetPos) {
-    if (args.length < 1) {
-      return getAllPossible(sender, 0);
-    } else {
-      return getAllPossible(sender, args.length - 1);
+    if(args.length >= 1) {
+      return CommandBase.getListOfStringsMatchingLastWord(args,getAllPossible(sender,args.length - 1));
     }
-
+    return super.getTabCompletions(server, sender, args, targetPos);
   }
 
   private List<String> getAllPossible(ICommandSender sender, int index) {
@@ -357,7 +356,9 @@ public class SECommand extends CommandBase {
   private List<String> deduplicateList(List<String> values) {
     Set<String> noDuplicates = new LinkedHashSet<>(values);
     values.clear();
-    values.addAll(noDuplicates);
+    for(String nonDup : noDuplicates) {
+      values.add(TextFormatting.GOLD + nonDup.replaceAll(" ", ""));
+    }
     return values;
   }
 }

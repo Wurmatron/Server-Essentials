@@ -21,11 +21,10 @@ import net.minecraft.util.text.TextComponentString;
 @ModuleCommand(moduleName = "General", name = "SetSpawn")
 public class SetSpawnCommand {
 
-  @Command(inputArguments = {CommandArguments.STRING}, inputNames = {"set"})
+  @Command(inputArguments = {})
   public void setSpawn(ICommandSender sender, String arg) {
     if (sender != null && sender.getCommandSenderEntity() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-      if (arg.equalsIgnoreCase("set")) {
         GeneralConfig config = (GeneralConfig) SERegistry
             .getStoredData(DataKey.MODULE_CONFIG, "General");
         config.spawn = new LocationWrapper(player.posX, player.posY, player.posZ,
@@ -38,7 +37,6 @@ public class SetSpawnCommand {
         sender.sendMessage(
             TextComponentUtils.addPosition(new TextComponentString(COMMAND_COLOR +
             PlayerUtils.getUserLanguage(sender).GENERAL_SPAWN_SET), config.spawn));
-      }
     }
   }
 

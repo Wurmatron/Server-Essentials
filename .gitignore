@@ -25,3 +25,6 @@ Server_Essentials/
 gradle/
 Rest/pkg
 Rest/src
+
+Bot/config.json
+Bot/target
